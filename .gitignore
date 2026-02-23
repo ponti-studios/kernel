@@ -26,6 +26,9 @@ Thumbs.db
 *.log
 npm-debug.log*
 
+# Temporary files
+.tmp/
+
 # Lock files (use bun.lockb instead)
 package-lock.json
 yarn.lock

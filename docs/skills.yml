@@ -5,7 +5,7 @@ description: Canonical skill metadata for Ghostwire. Each skill entry provides a
 metadata:
   generated: "2026-02-23"
   commit: ""
-  branch: "dev"
+  branch: "main"
   notes:
     - Align descriptions with the SKILL.md source files under src/execution/features/builtin-skills/
     - Mention any skill that is packaged alongside the agent-browser provider or core toolchain

@@ -8,11 +8,9 @@
 
 ## **IMPORTANT: PULL REQUEST TARGET BRANCH**
 
-> **ALL PULL REQUESTS MUST TARGET THE `dev` BRANCH.**
+> **ALL PULL REQUESTS MUST TARGET THE `main` BRANCH.**
 >
-> **DO NOT CREATE PULL REQUESTS TARGETING `master` BRANCH.**
->
-> PRs to `master` will be automatically rejected by CI.
+> Use feature branches and submit PRs against `main` for review.
 
 ---
 
