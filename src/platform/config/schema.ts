@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { AnyMcpNameSchema, McpNameSchema } from "../../integration/mcp/types";
+import { ModelsConfigSchema } from "./model-config";
 
 const PermissionValue = z.enum(["ask", "allow", "deny"]);
 
@@ -609,9 +610,12 @@ export const GhostwireConfigSchema = z.object({
   default_model: z.string().optional(),
   /** Whether to inject Ghostwire builtin agents into global OpenCode config (default: true) */
   inject_agents_globally: z.boolean().optional(),
+  /** Model configuration for agents and categories */
+  models: ModelsConfigSchema.optional(),
 });
 
 export type GhostwireConfig = z.infer<typeof GhostwireConfigSchema>;
+export type ModelsConfig = z.infer<typeof ModelsConfigSchema>;
 export type AgentOverrideConfig = z.infer<typeof AgentOverrideConfigSchema>;
 export type AgentOverrides = z.infer<typeof AgentOverridesSchema>;
 export type BackgroundTaskConfig = z.infer<typeof BackgroundTaskConfigSchema>;
