@@ -1,5 +1,5 @@
 version: 1
-source: src/execution/features/builtin-skills/
+source: src/execution/features/skills/
 description: Canonical skill metadata for Ghostwire. Each skill entry provides a name, a short description, and (where applicable) the originating agent or context so future docs can link back to the same authoritative definitions.
 
 metadata:
@@ -7,7 +7,7 @@ metadata:
   commit: ""
   branch: "main"
   notes:
-    - Align descriptions with the SKILL.md source files under src/execution/features/builtin-skills/
+    - Align descriptions with the SKILL.md source files under src/execution/features/skills/
     - Mention any skill that is packaged alongside the agent-browser provider or core toolchain
     - Keep count synchronized with docs/AGENTS-COMMANDS-SKILLS.md
 

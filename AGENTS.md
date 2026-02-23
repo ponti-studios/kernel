@@ -71,8 +71,8 @@ ghostwire/
 | Add hook | `src/orchestration/hooks/` | Create dir with `createXXXHook()`, register in index.ts |
 | Add tool | `src/execution/tools/` | Dir with index/types/constants/tools.ts |
 | Add MCP | `src/integration/mcp/` | Create config, add to index.ts |
-| Add skill | `src/execution/features/builtin-skills/` | Create dir with SKILL.md |
-| Add command | `src/execution/features/builtin-commands/` | Add template + register in commands.ts |
+| Add skill | `src/execution/features/skills/` | Create dir with SKILL.md |
+| Add command | `src/execution/features/commands/` | Add template + register in commands.ts |
 | Config schema | `src/platform/config/schema.ts` | Zod schema, run `bun run build:schema` |
 | Background agents | `src/execution/features/background-agent/manager.ts` | Task lifecycle, concurrency (1419 lines) |
 | Orchestrator | `src/orchestration/hooks/grid-sync/index.ts` | Main orchestration hook (757 lines) |
@@ -143,7 +143,7 @@ bun test               # 594 test files
 
 | File | Lines | Description |
 |------|-------|-------------|
-| `src/execution/features/builtin-skills/skills.ts` | 1729 | Skill definitions |
+| `src/execution/features/skills/skills.ts` | 1729 | Skill definitions |
 | `src/execution/features/background-agent/manager.ts` | 1419 | Task lifecycle, concurrency |
 | `src/execution/tools/delegate-task/tools.ts` | 1414 | Category-based delegation |
 | `src/orchestration/agents/planner.ts` | 1283 | Planning agent (planner) |

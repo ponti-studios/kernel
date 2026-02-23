@@ -43,8 +43,8 @@ features:
 
   # === Built-in Components ===
 
-  - id: builtin-commands
-    path: src/execution/features/builtin-commands
+  - id: commands
+    path: src/execution/features/commands
     description: |
       Provides built-in slash commands that wrap prompt templates for common development workflows.
       Defines 34+ built-in commands organized by category:
@@ -59,8 +59,8 @@ features:
       Includes argument hints for user guidance.
       Can be selectively disabled via configuration.
 
-  - id: builtin-skills
-    path: src/execution/features/builtin-skills
+  - id: skills
+    path: src/execution/features/skills
     description: |
       Provides pre-configured skills with MCP server integrations for common tasks.
       Exports built-in skills with domain-specific instructions:
@@ -97,7 +97,7 @@ features:
       Supports hierarchical command namespacing via subdirectories (e.g., git:commit).
       Parses frontmatter for command metadata (description, argument hints).
       Wraps markdown body in standard template with command-instruction and user-request tags.
-      Loads from multiple scopes: user, project, builtin.
+      Loads from multiple scopes: user, project, ghostwire.
 
   - id: claude-code-mcp-loader
     path: src/execution/features/claude-code-mcp-loader

@@ -1,5 +1,5 @@
 version: 1
-source: src/execution/features/builtin-commands/commands.ts
+source: src/execution/features/commands/commands.ts
 description: Canonical command metadata for Ghostwire, synchronized from source code.
 metadata:
   generated: '2026-02-22'
@@ -8,25 +8,25 @@ metadata:
     - Keep in sync with docs/AGENTS-COMMANDS-SKILLS.md
 commands:
   - name: ghostwire:init-deep
-    description: (builtin) Initialize hierarchical AGENTS.md knowledge base
+    description: Initialize hierarchical AGENTS.md knowledge base
     category: init-deep
   - name: ghostwire:ultrawork-loop
-    description: (builtin) Start self-referential development loop until completion
+    description: Start self-referential development loop until completion
     category: ultrawork-loop
   - name: ghostwire:ulw-ultrawork
-    description: (builtin) Start ultrawork loop - continues until completion with ultrawork mode
+    description: Start ultrawork loop - continues until completion with ultrawork mode
     category: ulw-ultrawork
   - name: ghostwire:cancel-ultrawork
-    description: (builtin) Cancel active Ralph Loop
+    description: Cancel active Ralph Loop
     category: cancel-ultrawork
   - name: ghostwire:refactor
-    description: (builtin) Intelligent refactoring command with LSP, AST-grep, architecture analysis, codemap, and TDD verification.
+    description: Intelligent refactoring command with LSP, AST-grep, architecture analysis, codemap, and TDD verification.
     category: refactor
   - name: ghostwire:jack-in-work
-    description: (builtin) Start operator work session from planner plan
+    description: Start operator work session from planner plan
     category: jack-in-work
   - name: ghostwire:stop-continuation
-    description: (builtin) Stop all continuation mechanisms (ultrawork loop, todo continuation, ultrawork) for this session
+    description: Stop all continuation mechanisms (ultrawork loop, todo continuation, ultrawork) for this session
     category: stop-continuation
   - name: ghostwire:workflows:plan
     description: Transform feature descriptions into implementation plans

@@ -1,8 +1,8 @@
 {
   "active_plan": "/Users/charlesponti/Developer/ghostwire/.ghostwire/plans/remove-builtin-terminology.md",
   "started_at": "2026-02-23T18:13:12.993Z",
-  "session_ids": ["ses_3745c7948ffegM0M1sng5Ln2jf", "ses_3744a4e6affew0Zo0v2rW6VpMf", "ses_374497b43ffeqt0jsQr8VDvnLM", "ses_374433c24ffelOpzn0k3iP6u7D", "ses_3743d9b82ffe8YNms7Esbqw8qw", "ses_3743a9d39ffeoRRIk8g6XA6amb", "ses_374361d11ffecSRDUlAheSx17r"],
+  "session_ids": ["ses_3745c7948ffegM0M1sng5Ln2jf", "ses_3744a4e6affew0Zo0v2rW6VpMf", "ses_374497b43ffeqt0jsQr8VDvnLM", "ses_374433c24ffelOpzn0k3iP6u7D", "ses_3743d9b82ffe8YNms7Esbqw8qw", "ses_3743a9d39ffeoRRIk8g6XA6amb", "ses_374361d11ffecSRDUlAheSx17r", "ses_374338189ffeXAwM4kb2sIRMsc"],
   "plan_name": "remove-builtin-terminology",
-  "current_phase": 7,
-  "completed_phases": [1, 2, 3, 4, 5, 6]
+  "current_phase": 8,
+  "completed_phases": [1, 2, 3, 4, 5, 6, 7]
 }

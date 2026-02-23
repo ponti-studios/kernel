@@ -144,8 +144,8 @@ Ghostwire is an OpenCode plugin with a CLI wrapper providing orchestration (zen-
 - Agents: `src/agents/` + registry wiring in `src/index.ts`
 - Tools: `src/tools/`
 - Hooks: `src/hooks/`
-- Skills: `src/features/builtin-skills/`
-- Commands: `src/features/builtin-commands/`
+- Skills: `src/features/skills/`
+- Commands: `src/features/commands/`
 - MCP: `src/mcp/`
 
 **Unified Plugin Import (Claude):**
@@ -198,7 +198,7 @@ bun run build:schema
 
 1. Create a new `.ts` file in `src/agents/`
 2. Define the agent configuration following existing patterns
-3. Add to `builtinAgents` in `src/agents/index.ts`
+3. Add to `agents` in `src/agents/index.ts`
 4. Update `src/agents/types.ts` if needed
 5. Run `bun run build:schema` to update the JSON schema
 
@@ -243,7 +243,7 @@ export function createMyHook(input: PluginInput) {
    - `constants.ts` - Constants and tool descriptions
    - `tools.ts` - Tool implementations
    - `utils.ts` - Helper functions
-2. Add to `builtinTools` in `src/tools/index.ts`
+2. Add to `tools` in `src/tools/index.ts`
 
 ### Adding a New MCP Server
 

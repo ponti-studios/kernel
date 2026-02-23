@@ -136,13 +136,13 @@ tools:
     purpose: Execute slash commands and load skills as commands
     description: |
       Discovers slash commands from multiple sources:
-      - Built-in commands (from builtin-commands)
+      - Built-in commands (from commands feature)
       - OpenCode global commands (~/.config/opencode/command/)
       - OpenCode project commands (.opencode/command/)
       - Claude Code user commands (~/.claude/commands/)
       - Claude Code project commands (.claude/commands/)
       Also includes skills as executable commands.
-      Supports command scopes: builtin, user, project, opencode, opencode-project.
+      Supports command scopes: user, project, opencode, opencode-project.
 
   # === Terminal & File Operations ===
 

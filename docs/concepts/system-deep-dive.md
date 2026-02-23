@@ -78,7 +78,7 @@ This forms a deterministic startup graph: configuration first, then runtime capa
   - Planner/executor behavioral constraints
 
 ## Tools
-- Static tool set (`builtinTools`) + dynamic factories:
+- Static tool set (`tools`) + dynamic factories:
   - `delegate_task`, `call_grid_agent`, background tools, skill tools, slashcommand tool
 - LSP, grep/glob, session-manager, AST-grep, and interactive bash are first-class operational tools
 
