@@ -69,7 +69,7 @@ Approach:
 </Category_Context>
 
 <Caller_Warning>
-THIS CATEGORY USES A LESS CAPABLE MODEL (claude-haiku-4-5).
+THIS CATEGORY USES A LESS CAPABLE MODEL (kimi-k2.5).
 
 The model executing this task has LIMITED reasoning capacity. Your prompt MUST be:
 
@@ -120,7 +120,7 @@ This is NOT a default choice - it's for genuinely unclassifiable moderate-effort
 </Category_Context>
 
 <Caller_Warning>
-THIS CATEGORY USES A MID-TIER MODEL (claude-sonnet-4-5).
+THIS CATEGORY USES A MID-TIER MODEL (kimi-k2.5).
 
 **PROVIDE CLEAR STRUCTURE:**
 1. MUST DO: Enumerate required actions explicitly
@@ -191,14 +191,14 @@ You are NOT an interactive assistant. You are an autonomous problem-solver.
 </Category_Context>`;
 
 export const DEFAULT_CATEGORIES: Record<string, CategoryConfig> = {
-  "visual-engineering": { model: "google/gemini-3-pro" },
-  ultrabrain: { model: "openai/gpt-5.2-codex", variant: "xhigh" },
-  deep: { model: "openai/gpt-5.2-codex", variant: "medium" },
-  artistry: { model: "google/gemini-3-pro", variant: "max" },
-  quick: { model: "anthropic/claude-haiku-4-5" },
-  "unspecified-low": { model: "anthropic/claude-sonnet-4-5" },
-  "unspecified-high": { model: "anthropic/claude-opus-4-5", variant: "max" },
-  writing: { model: "google/gemini-3-flash" },
+  "visual-engineering": { model: "opencode/kimi-k2.5" },
+  ultrabrain: { model: "opencode/kimi-k2.5", variant: "max" },
+  deep: { model: "opencode/kimi-k2.5", variant: "medium" },
+  artistry: { model: "opencode/kimi-k2.5" },
+  quick: { model: "opencode/kimi-k2.5" },
+  "unspecified-low": { model: "opencode/kimi-k2.5" },
+  "unspecified-high": { model: "opencode/kimi-k2.5", variant: "max" },
+  writing: { model: "opencode/kimi-k2.5" },
 };
 
 export const CATEGORY_PROMPT_APPENDS: Record<string, string> = {
