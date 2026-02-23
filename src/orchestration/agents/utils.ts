@@ -40,7 +40,7 @@ import {
   CATEGORY_DESCRIPTIONS,
 } from "../../execution/tools/delegate-task/constants";
 import { resolveMultipleSkills } from "../../execution/features/opencode-skill-loader/skill-content";
-import { createBuiltinSkills } from "../../execution/features/builtin-skills";
+import { createBuiltinSkills } from "../../execution/features/skills";
 import type {
   LoadedSkill,
   SkillScope,

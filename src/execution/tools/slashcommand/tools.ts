@@ -12,7 +12,7 @@ import type { CommandFrontmatter } from "../../features/claude-code-command-load
 import { isMarkdownFile } from "../../../integration/shared/file-utils";
 import { getClaudeConfigDir } from "../../../platform/claude/config-dir";
 import { discoverAllSkills, type LoadedSkill } from "../../features/opencode-skill-loader";
-import { loadBuiltinCommands } from "../../features/builtin-commands";
+import { loadBuiltinCommands } from "../../features/commands";
 import type { CommandScope, CommandMetadata, CommandInfo, SlashcommandToolOptions } from "./types";
 
 function discoverCommandsFromDir(commandsDir: string, scope: CommandScope): CommandInfo[] {

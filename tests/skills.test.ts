@@ -1,5 +1,5 @@
 import { describe, test, expect } from "bun:test";
-import { createBuiltinSkills } from "../src/execution/features/builtin-skills/skills";
+import { createBuiltinSkills } from "../src/execution/features/skills/skills";
 
 describe("Learnings Skill", () => {
   test("learnings skill is defined in builtin skills", () => {

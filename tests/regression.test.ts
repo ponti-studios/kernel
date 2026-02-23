@@ -83,7 +83,7 @@ describe("Regression Tests", () => {
     
     test("learnings skill exists", () => {
       //#given & #when
-      const { createBuiltinSkills } = require('../src/execution/features/builtin-skills/skills');
+      const { createBuiltinSkills } = require('../src/execution/features/skills/skills');
       const skills = createBuiltinSkills();
       
       //#then

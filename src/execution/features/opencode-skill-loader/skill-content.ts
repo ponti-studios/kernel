@@ -1,4 +1,4 @@
-import { createBuiltinSkills } from "../builtin-skills/skills";
+import { createBuiltinSkills } from "../skills/skills";
 import { discoverSkills } from "./loader";
 import type { LoadedSkill } from "./types";
 import { parseFrontmatter } from "../../../integration/shared/frontmatter";

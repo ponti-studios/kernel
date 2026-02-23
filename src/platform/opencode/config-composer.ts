@@ -6,7 +6,7 @@ import {
   loadOpencodeGlobalCommands,
   loadOpencodeProjectCommands,
 } from "../../execution/features/claude-code-command-loader";
-import { loadBuiltinCommands } from "../../execution/features/builtin-commands";
+import { loadBuiltinCommands } from "../../execution/features/commands";
 import {
   loadUserSkills,
   loadProjectSkills,

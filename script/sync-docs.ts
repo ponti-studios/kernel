@@ -3,7 +3,7 @@ import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseFrontmatter } from "../src/integration/shared/frontmatter";
 import { AGENT_MODEL_REQUIREMENTS, CATEGORY_MODEL_REQUIREMENTS } from "../src/orchestration/agents/model-requirements";
-import { BUILTIN_COMMAND_DEFINITIONS } from "../src/execution/features/builtin-commands/commands";
+import { BUILTIN_COMMAND_DEFINITIONS } from "../src/execution/features/commands/commands";
 import YAML from "js-yaml";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));

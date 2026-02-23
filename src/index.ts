@@ -52,7 +52,7 @@ import {
   discoverOpencodeProjectSkills,
   mergeSkills,
 } from "./execution/features/opencode-skill-loader";
-import { createBuiltinSkills } from "./execution/features/builtin-skills";
+import { createBuiltinSkills } from "./execution/features/skills";
 import { createBuiltinAgents } from "./orchestration/agents";
 import { getSystemMcpServerNames } from "./execution/features/claude-code-mcp-loader";
 import {

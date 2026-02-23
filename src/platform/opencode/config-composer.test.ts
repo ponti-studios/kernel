@@ -5,7 +5,7 @@ import type { GhostwireConfig } from "../../platform/config";
 
 import * as agents from "../../orchestration/agents";
 import * as commandLoader from "../../execution/features/claude-code-command-loader";
-import * as builtinCommands from "../../execution/features/builtin-commands";
+import * as builtinCommands from "../../execution/features/commands";
 import * as skillLoader from "../../execution/features/opencode-skill-loader";
 import * as agentLoader from "../../execution/features/claude-code-agent-loader";
 import * as mcpLoader from "../../execution/features/claude-code-mcp-loader";

@@ -2,7 +2,7 @@ import { readFileSync, readdirSync, existsSync } from "fs";
 import path from "path";
 import { parseFrontmatter } from "../../integration/shared/frontmatter";
 import { safeValidateAgentMetadata, AgentMetadata } from "./agent-schema";
-import { BUILTIN_AGENTS_MANIFEST } from "../../execution/features/builtin-agents-manifest";
+import { BUILTIN_AGENTS_MANIFEST } from "../../execution/features/agents-manifest";
 
 /**
  * Agent loaded from markdown file with parsed content

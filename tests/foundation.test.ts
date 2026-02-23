@@ -22,7 +22,7 @@ describe('Learnings System - Foundation Tests', () => {
     });
     
     test('learnings skill has valid frontmatter', () => {
-      const { createBuiltinSkills } = require('../src/execution/features/builtin-skills/skills');
+      const { createBuiltinSkills } = require('../src/execution/features/skills/skills');
       
       const skills = createBuiltinSkills();
       const learningsSkill = skills.find(s => s.name === 'learnings');

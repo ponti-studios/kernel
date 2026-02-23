@@ -208,7 +208,7 @@ Lists all available skills`,
       const loadedSkills = await discoverSkills({ includeClaudeCodePaths: true });
 
       // Also get builtin skills
-      const { createBuiltinSkills } = await import("../../features/builtin-skills/skills");
+      const { createBuiltinSkills } = await import("../../features/skills/skills");
       const builtinDefs = createBuiltinSkills({});
       const builtinSkills: SkillInfo[] = builtinDefs.map((s) => ({
         name: s.name,

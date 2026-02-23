@@ -92,7 +92,7 @@ export const AGENT_MODEL_REQUIREMENTS: Record<string, ModelRequirement> = {
       { providers: ["openai", "github-copilot", "opencode"], model: "gpt-5.2" },
       { providers: ["zai-coding-plan"], model: "glm-4.6v" },
       { providers: ["kimi-for-coding"], model: "k2p5" },
-      { providers: ["opencode"], model: "kimi-k2.5-free" },
+      { providers: ["opencode"], model: "kimi-k2.5" },
       {
         providers: ["anthropic", "github-copilot", "opencode"],
         model: "claude-haiku-4-5",
@@ -108,7 +108,7 @@ export const AGENT_MODEL_REQUIREMENTS: Record<string, ModelRequirement> = {
         variant: "max",
       },
       { providers: ["kimi-for-coding"], model: "k2p5" },
-      { providers: ["opencode"], model: "kimi-k2.5-free" },
+      { providers: ["opencode"], model: "kimi-k2.5" },
       {
         providers: ["openai", "github-copilot", "opencode"],
         model: "gpt-5.2",
@@ -128,7 +128,7 @@ export const AGENT_MODEL_REQUIREMENTS: Record<string, ModelRequirement> = {
         variant: "max",
       },
       { providers: ["kimi-for-coding"], model: "k2p5" },
-      { providers: ["opencode"], model: "kimi-k2.5-free" },
+      { providers: ["opencode"], model: "kimi-k2.5" },
       {
         providers: ["openai", "github-copilot", "opencode"],
         model: "gpt-5.2",
@@ -163,7 +163,7 @@ export const AGENT_MODEL_REQUIREMENTS: Record<string, ModelRequirement> = {
   orchestrator: {
     fallbackChain: [
       { providers: ["kimi-for-coding"], model: "k2p5" },
-      { providers: ["opencode"], model: "kimi-k2.5-free" },
+      { providers: ["opencode"], model: "kimi-k2.5" },
       {
         providers: ["anthropic", "github-copilot", "opencode"],
         model: "claude-sonnet-4-5",
