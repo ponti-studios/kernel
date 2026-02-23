@@ -1,13 +1,13 @@
 import { describe, expect, test } from "bun:test";
-import { createBuiltinMcps } from "./index";
+import { createMcps } from "./index";
 
-describe("createBuiltinMcps", () => {
+describe("createMcps", () => {
   test("should return all MCPs when disabled_mcps is empty", () => {
     //#given
     const disabledMcps: string[] = [];
 
     //#when
-    const result = createBuiltinMcps(disabledMcps);
+    const result = createMcps(disabledMcps);
 
     //#then
     expect(result).toHaveProperty("websearch");
@@ -21,7 +21,7 @@ describe("createBuiltinMcps", () => {
     const disabledMcps = ["context7"];
 
     //#when
-    const result = createBuiltinMcps(disabledMcps);
+    const result = createMcps(disabledMcps);
 
     //#then
     expect(result).toHaveProperty("websearch");
@@ -35,7 +35,7 @@ describe("createBuiltinMcps", () => {
     const disabledMcps = ["websearch", "context7", "grep_app"];
 
     //#when
-    const result = createBuiltinMcps(disabledMcps);
+    const result = createMcps(disabledMcps);
 
     //#then
     expect(result).not.toHaveProperty("websearch");
@@ -49,7 +49,7 @@ describe("createBuiltinMcps", () => {
     const disabledMcps = ["context7", "playwright", "custom"];
 
     //#when
-    const result = createBuiltinMcps(disabledMcps);
+    const result = createMcps(disabledMcps);
 
     //#then
     expect(result).toHaveProperty("websearch");
@@ -61,7 +61,7 @@ describe("createBuiltinMcps", () => {
   test("should handle empty disabled_mcps by default", () => {
     //#given
     //#when
-    const result = createBuiltinMcps();
+    const result = createMcps();
 
     //#then
     expect(result).toHaveProperty("websearch");
@@ -75,7 +75,7 @@ describe("createBuiltinMcps", () => {
     const disabledMcps = ["playwright", "sqlite", "unknown-mcp"];
 
     //#when
-    const result = createBuiltinMcps(disabledMcps);
+    const result = createMcps(disabledMcps);
 
     //#then
     expect(result).toHaveProperty("websearch");

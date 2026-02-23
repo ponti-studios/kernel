@@ -2,7 +2,7 @@ import { readFileSync, readdirSync, existsSync } from "fs";
 import path from "path";
 import { parseFrontmatter } from "../../integration/shared/frontmatter";
 import { safeValidateAgentMetadata, AgentMetadata } from "./agent-schema";
-import { BUILTIN_AGENTS_MANIFEST } from "../../execution/features/agents-manifest";
+import { AGENTS_MANIFEST } from "../../execution/features/agents-manifest";
 
 /**
  * Agent loaded from markdown file with parsed content
@@ -21,10 +21,10 @@ export interface LoadedAgent extends AgentMetadata {
 export async function loadAgentsFromManifest(): Promise<LoadedAgent[]> {
   try {
     // Use static import of the manifest generated at build time
-    if (!BUILTIN_AGENTS_MANIFEST || BUILTIN_AGENTS_MANIFEST.length === 0) {
+    if (!AGENTS_MANIFEST || AGENTS_MANIFEST.length === 0) {
       throw new Error("Manifest is empty");
     }
-    return BUILTIN_AGENTS_MANIFEST.slice(); // Convert readonly to mutable array
+    return AGENTS_MANIFEST.slice(); // Convert readonly to mutable array
   } catch (error) {
     const errorMsg = error instanceof Error ? error.message : String(error);
     throw new Error(`Cannot load agents manifest: ${errorMsg}`);

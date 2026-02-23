@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from "fs";
 import { join } from "path";
-import { BUILTIN_SERVERS, EXT_TO_LANG, LSP_INSTALL_HINTS } from "./constants";
+import { LSP_SERVERS, EXT_TO_LANG, LSP_INSTALL_HINTS } from "./constants";
 import type { ResolvedServer, ServerLookupResult } from "./types";
 import { getDataDir, parseJsonc } from "../../../integration/shared";
 import { getOpenCodeConfigDir } from "../../../platform/opencode/config-dir";
@@ -106,7 +106,7 @@ function getMergedServers(): ServerWithSource[] {
     }
   }
 
-  for (const [id, config] of Object.entries(BUILTIN_SERVERS)) {
+  for (const [id, config] of Object.entries(LSP_SERVERS)) {
     if (disabled.has(id) || seen.has(id)) continue;
 
     servers.push({
@@ -285,7 +285,7 @@ export function getAllServers(): Array<{
 
   for (const id of disabled) {
     if (seen.has(id)) continue;
-    const builtin = BUILTIN_SERVERS[id];
+    const builtin = LSP_SERVERS[id];
     result.push({
       id,
       installed: builtin ? isServerInstalled(builtin.command) : false,

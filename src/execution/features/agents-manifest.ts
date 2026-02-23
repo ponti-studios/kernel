@@ -5,7 +5,7 @@
 
 import type { LoadedAgent } from "../../orchestration/agents/load-markdown-agents";
 
-export const BUILTIN_AGENTS_MANIFEST: ReadonlyArray<LoadedAgent> = [
+export const AGENTS_MANIFEST: ReadonlyArray<LoadedAgent> = [
   {
     "id": "orchestrator",
     "name": "orchestrator",
@@ -1481,5 +1481,5 @@ export const BUILTIN_AGENTS_MANIFEST: ReadonlyArray<LoadedAgent> = [
 ] as const;
 
 export function loadBuiltinAgents(): Promise<LoadedAgent[]> {
-  return Promise.resolve(BUILTIN_AGENTS_MANIFEST as LoadedAgent[]);
+  return Promise.resolve(AGENTS_MANIFEST as LoadedAgent[]);
 }

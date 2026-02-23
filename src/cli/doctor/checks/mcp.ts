@@ -5,7 +5,7 @@ import type { CheckResult, CheckDefinition, McpServerInfo } from "../types";
 import { CHECK_IDS, CHECK_NAMES } from "../constants";
 import { parseJsonc } from "../../../integration/shared";
 
-const BUILTIN_MCP_SERVERS = ["context7", "grep_app"];
+const MCP_SERVERS = ["context7", "grep_app"];
 
 const MCP_CONFIG_PATHS = [
   join(homedir(), ".claude", ".mcp.json"),
@@ -37,8 +37,8 @@ function loadUserMcpConfig(): Record<string, unknown> {
   return servers;
 }
 
-export function getBuiltinMcpInfo(): McpServerInfo[] {
-  return BUILTIN_MCP_SERVERS.map((id) => ({
+export function getMcpInfo(): McpServerInfo[] {
+  return MCP_SERVERS.map((id) => ({
     id,
     type: "plugin" as const,
     enabled: true,
@@ -64,8 +64,8 @@ export function getUserMcpInfo(): McpServerInfo[] {
   return servers;
 }
 
-export async function checkBuiltinMcpServers(): Promise<CheckResult> {
-  const servers = getBuiltinMcpInfo();
+export async function checkMcpServers(): Promise<CheckResult> {
+  const servers = getMcpInfo();
 
   return {
     name: CHECK_NAMES[CHECK_IDS.MCP_BUILTIN],
@@ -114,7 +114,7 @@ export function getMcpCheckDefinitions(): CheckDefinition[] {
       id: CHECK_IDS.MCP_BUILTIN,
       name: CHECK_NAMES[CHECK_IDS.MCP_BUILTIN],
       category: "tools",
-      check: checkBuiltinMcpServers,
+      check: checkMcpServers,
       critical: false,
     },
     {

@@ -13,16 +13,16 @@ type RemoteMcpConfig = {
   oauth?: false;
 };
 
-const allBuiltinMcps: Record<McpName, RemoteMcpConfig> = {
+const allMcps: Record<McpName, RemoteMcpConfig> = {
   websearch,
   context7,
   grep_app,
 };
 
-export function createBuiltinMcps(disabledMcps: string[] = []) {
+export function createMcps(disabledMcps: string[] = []) {
   const mcps: Record<string, RemoteMcpConfig> = {};
 
-  for (const [name, config] of Object.entries(allBuiltinMcps)) {
+  for (const [name, config] of Object.entries(allMcps)) {
     if (!disabledMcps.includes(name)) {
       mcps[name] = config;
     }

@@ -66,7 +66,7 @@ export function createBackgroundTools(
   };
 }
 
-export const builtinTools: Record<string, ToolDefinition> = {
+export const tools: Record<string, ToolDefinition> = {
   lsp_goto_definition,
   lsp_find_references,
   lsp_symbols,

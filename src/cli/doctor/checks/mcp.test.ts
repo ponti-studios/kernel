@@ -2,18 +2,18 @@ import { describe, it, expect, spyOn, afterEach } from "bun:test";
 import * as mcp from "./mcp";
 
 describe("mcp check", () => {
-  describe("getBuiltinMcpInfo", () => {
+  describe("getMcpInfo", () => {
     it("returns builtin servers", () => {
       // #given
       // #when getting builtin info
-      const servers = mcp.getBuiltinMcpInfo();
+      const servers = mcp.getMcpInfo();
 
       // #then should include expected servers
       expect(servers.length).toBe(2);
-      expect(servers.every((s) => s.type === "plugin")).toBe(true);
-      expect(servers.every((s) => s.enabled === true)).toBe(true);
-      expect(servers.map((s) => s.id)).toContain("context7");
-      expect(servers.map((s) => s.id)).toContain("grep_app");
+      expect(servers.every((s: any) => s.type === "plugin")).toBe(true);
+      expect(servers.every((s: any) => s.enabled === true)).toBe(true);
+      expect(servers.map((s: any) => s.id)).toContain("context7");
+      expect(servers.map((s: any) => s.id)).toContain("grep_app");
     });
   });
 
@@ -28,11 +28,11 @@ describe("mcp check", () => {
     });
   });
 
-  describe("checkBuiltinMcpServers", () => {
+  describe("checkMcpServers", () => {
     it("returns pass with server count", async () => {
       // #given
       // #when checking builtin servers
-      const result = await mcp.checkBuiltinMcpServers();
+      const result = await mcp.checkMcpServers();
 
       // #then should pass
       expect(result.status).toBe("pass");
@@ -43,11 +43,11 @@ describe("mcp check", () => {
     it("lists enabled servers in details", async () => {
       // #given
       // #when checking builtin servers
-      const result = await mcp.checkBuiltinMcpServers();
+      const result = await mcp.checkMcpServers();
 
       // #then should list servers
-      expect(result.details?.some((d) => d.includes("context7"))).toBe(true);
-      expect(result.details?.some((d) => d.includes("grep_app"))).toBe(true);
+      expect(result.details?.some((d: any) => d.includes("context7"))).toBe(true);
+      expect(result.details?.some((d: any) => d.includes("grep_app"))).toBe(true);
     });
   });
 

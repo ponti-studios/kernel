@@ -71,7 +71,7 @@ beforeEach(() => {
     errors: [],
   });
 
-  spyOn(mcpModule, "createBuiltinMcps" as any).mockReturnValue({});
+  spyOn(mcpModule, "createMcps" as any).mockReturnValue({});
 
   spyOn(logger, "log" as any).mockImplementation(() => {});
   spyOn(modelAvailability, "fetchAvailableModels" as any).mockResolvedValue(
@@ -117,7 +117,7 @@ afterEach(() => {
   (agentLoader.loadProjectAgents as any)?.mockRestore?.();
   (mcpLoader.loadMcpConfigs as any)?.mockRestore?.();
   (pluginLoader.loadAllPluginComponents as any)?.mockRestore?.();
-  (mcpModule.createBuiltinMcps as any)?.mockRestore?.();
+  (mcpModule.createMcps as any)?.mockRestore?.();
   (logger.log as any)?.mockRestore?.();
   (modelAvailability.fetchAvailableModels as any)?.mockRestore?.();
   (providersCache.readConnectedProvidersCache as any)?.mockRestore?.();

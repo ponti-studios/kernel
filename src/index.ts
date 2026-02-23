@@ -63,7 +63,7 @@ import {
   clearSessionAgent,
 } from "./execution/features/claude-code-session-state";
 import {
-  builtinTools,
+  tools,
   createCallOmoAgent,
   createBackgroundTools,
   createLookAt,
@@ -455,7 +455,7 @@ const GhostwirePlugin: Plugin = async (ctx) => {
     ),
 
     tool: {
-      ...builtinTools,
+      ...tools,
       ...backgroundTools,
       call_grid_agent: callOmoAgent,
       ...(lookAt ? { look_at: lookAt } : {}),

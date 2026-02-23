@@ -49,7 +49,7 @@ export const CHECK_NAMES: Record<string, string> = {
   [CHECK_IDS.DEP_COMMENT_CHECKER]: "Comment Checker",
   [CHECK_IDS.GH_CLI]: "GitHub CLI",
   [CHECK_IDS.LSP_SERVERS]: "LSP Servers",
-  [CHECK_IDS.MCP_BUILTIN]: "Built-in MCP Servers",
+  [CHECK_IDS.MCP_BUILTIN]: "Plugin MCP Servers",
   [CHECK_IDS.MCP_USER]: "User MCP Configuration",
   [CHECK_IDS.MCP_OAUTH_TOKENS]: "MCP OAuth Tokens",
   [CHECK_IDS.VERSION_STATUS]: "Version Status",

@@ -23,7 +23,7 @@ import {
 } from "../../execution/features/claude-code-agent-loader";
 import { loadMcpConfigs } from "../../execution/features/claude-code-mcp-loader";
 import { loadAllPluginComponents } from "../../execution/features/claude-code-plugin-loader";
-import { createBuiltinMcps } from "../../integration/mcp";
+import { createMcps } from "../../integration/mcp";
 import type { GhostwireConfig } from "../../platform/config";
 import { log } from "../../integration/shared";
 import { resolveModelWithFallback } from "../../orchestration/agents/model-resolver";
@@ -407,7 +407,7 @@ export function createConfigHandler(deps: ConfigHandlerDeps) {
       (pluginConfig.claude_code?.mcp ?? true) ? await loadMcpConfigs() : { servers: {} };
 
     config.mcp = {
-      ...createBuiltinMcps(pluginConfig.disabled_mcps),
+      ...createMcps(pluginConfig.disabled_mcps),
       ...(config.mcp as Record<string, unknown>),
       ...mcpResult.servers,
       ...pluginComponents.mcpServers,
