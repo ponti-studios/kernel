@@ -20,7 +20,6 @@ export const AGENT_MODEL_REQUIREMENTS: Record<string, ModelRequirement> = {
       },
       { providers: ["kimi-for-coding"], model: "k2p5" },
       { providers: ["opencode"], model: "gpt-5.2-codex" },
-      { providers: ["zai-coding-plan"], model: "glm-4.7" },
       {
         providers: ["openai", "github-copilot", "opencode"],
         model: "gpt-5.2-codex",
@@ -29,6 +28,22 @@ export const AGENT_MODEL_REQUIREMENTS: Record<string, ModelRequirement> = {
       {
         providers: ["google", "github-copilot", "opencode"],
         model: "gemini-3-pro",
+      },
+    ],
+  },
+  executor: {
+    fallbackChain: [
+      {
+        providers: ["anthropic", "github-copilot", "opencode"],
+        model: "claude-sonnet-4-5",
+      },
+      {
+        providers: ["openai", "github-copilot", "opencode"],
+        model: "gpt-5.2",
+      },
+      {
+        providers: ["google", "github-copilot", "opencode"],
+        model: "gemini-3-flash",
       },
     ],
   },

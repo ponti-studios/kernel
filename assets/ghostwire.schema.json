@@ -50,7 +50,6 @@
           "docs.write-gem",
           "grid:brainstorm",
           "grid:skill-make",
-          "grid:doc-compound",
           "grid:todo-file",
           "grid:agent-browser",
           "grid:rclone-sync",
@@ -170,7 +169,7 @@
           "non-interactive-env",
           "interactive-bash-session",
           "thinking-block-validator",
-          "ralph-loop",
+          "ultrawork-loop",
           "category-skill-reminder",
           "compaction-context-injector",
           "claude-code-hooks",
@@ -192,9 +191,9 @@
         "enum": [
           "ghostwire:init-deep",
           "ghostwire:jack-in-work",
-          "ghostwire:overclock-loop",
-          "ghostwire:cancel-overclock",
-          "ghostwire:ulw-overclock",
+          "ghostwire:ultrawork-loop",
+          "ghostwire:cancel-ultrawork",
+          "ghostwire:ulw-ultrawork",
           "ghostwire:refactor",
           "ghostwire:stop-continuation",
           "ghostwire:workflows:plan",
@@ -244,7 +243,7 @@
           "ghostwire:triage",
           "ghostwire:xcode-test",
           "ghostwire:workflows:brainstorm",
-          "ghostwire:workflows:compound",
+          "ghostwire:workflows:learnings",
           "ghostwire:workflows:review",
           "ghostwire:workflows:work"
         ]
@@ -2647,28 +2646,7 @@
     },
     "features": {
       "type": "object",
-      "properties": {
-        "compound_engineering": {
-          "type": "object",
-          "properties": {
-            "enabled": {
-              "type": "boolean"
-            },
-            "source": {
-              "type": "string",
-              "enum": [
-                "local"
-              ]
-            },
-            "path": {
-              "type": "string"
-            },
-            "plugin_name": {
-              "type": "string"
-            }
-          }
-        }
-      }
+      "properties": {}
     },
     "operator": {
       "type": "object",
@@ -2960,7 +2938,7 @@
         }
       ]
     },
-    "ralph_loop": {
+    "ultrawork_loop": {
       "type": "object",
       "properties": {
         "enabled": {
@@ -3081,6 +3059,12 @@
           "minimum": 20
         }
       }
+    },
+    "default_model": {
+      "type": "string"
+    },
+    "inject_agents_globally": {
+      "type": "boolean"
     }
   }
 }

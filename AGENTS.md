@@ -18,6 +18,19 @@
 
 OpenCode plugin: multi-model agent orchestration (Claude Opus 4.5, GPT-5.2, Gemini 3 Flash, Grok Code). 39 lifecycle hooks, 14 tools (LSP, AST-Grep, delegation), 10 specialized agents, full Claude Code compatibility. "oh-my-zsh" for OpenCode.
 
+## PROJECT CONSTITUTION
+
+> **Project principles and governance are defined in `.ghostwire/constitution.md`**
+>
+> All development work must comply with the core principles outlined in the constitution:
+> - Library-First Architecture
+> - CLI Interface
+> - Test-First Development (NON-NEGOTIABLE)
+> - Integration Testing
+> - Observability
+>
+> See the constitution file for detailed guidelines and amendment process.
+
 ## METADATA
 
 - `docs/agents.yml`: Agent metadata (names, models, purposes, fallbacks)

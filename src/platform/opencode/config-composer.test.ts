@@ -19,7 +19,17 @@ import * as fs from "node:fs";
 import * as permissionCompat from "../../platform/config/permission-compat";
 import * as modelResolver from "../../orchestration/agents/model-resolver";
 
+let existsSyncSpy: ReturnType<typeof spyOn> | null = null;
+
 beforeEach(() => {
+  // Default: simulate project-level OpenCode config present
+  existsSyncSpy = spyOn(fs, "existsSync" as any).mockImplementation((p: unknown) => {
+    const s = String(p);
+    // detectConfigFile checks .jsonc first, then .json
+    if (s === "/tmp/.opencode/opencode.json") return true;
+    return false;
+  });
+
   spyOn(agents, "createBuiltinAgents" as any).mockResolvedValue({
     "operator": {
       name: "operator",
@@ -86,6 +96,9 @@ beforeEach(() => {
 });
 
 afterEach(() => {
+  existsSyncSpy?.mockRestore?.();
+  existsSyncSpy = null;
+
   (agents.createBuiltinAgents as any)?.mockRestore?.();
   (commandLoader.loadUserCommands as any)?.mockRestore?.();
   (commandLoader.loadProjectCommands as any)?.mockRestore?.();
@@ -112,6 +125,79 @@ afterEach(() => {
   (fs.readFileSync as any)?.mockRestore?.();
   (permissionCompat.migrateAgentConfig as any)?.mockRestore?.();
   (modelResolver.resolveModelWithFallback as any)?.mockRestore?.();
+});
+
+describe("Ghostwire builtin agent injection scope", () => {
+  test("injects builtin agents by default (inject_agents_globally not set)", async () => {
+    // #given
+    const pluginConfig: GhostwireConfig = {
+      operator: {
+        planner_enabled: true,
+      },
+    };
+    const config: Record<string, unknown> = {
+      model: "anthropic/claude-opus-4-5",
+      agent: {},
+    };
+    const handler = createConfigHandler({
+      ctx: { directory: "/tmp" },
+      pluginConfig,
+      modelCacheState: {
+        anthropicContext1MEnabled: false,
+        modelContextLimitsCache: new Map(),
+      },
+    });
+
+    // #when
+    await handler(config);
+
+    // #then
+    const agentConfig = config.agent as Record<string, unknown>;
+    expect(agentConfig["operator"]).toBeDefined();
+    expect(agentConfig["planner"]).toBeDefined();
+    expect((config as { default_agent?: string }).default_agent).toBe("operator");
+
+    const permission = config.permission as Record<string, unknown>;
+    expect(permission.delegate_task).toBe("deny");
+
+    expect(agents.createBuiltinAgents).toHaveBeenCalled();
+  });
+
+  test("does not inject builtin agents when inject_agents_globally is false", async () => {
+    // #given
+    const pluginConfig: GhostwireConfig = {
+      operator: {
+        planner_enabled: true,
+      },
+      inject_agents_globally: false,
+    };
+    const config: Record<string, unknown> = {
+      model: "anthropic/claude-opus-4-5",
+      agent: {},
+    };
+    const handler = createConfigHandler({
+      ctx: { directory: "/tmp" },
+      pluginConfig,
+      modelCacheState: {
+        anthropicContext1MEnabled: false,
+        modelContextLimitsCache: new Map(),
+      },
+    });
+
+    // #when
+    await handler(config);
+
+    // #then
+    const agentConfig = config.agent as Record<string, unknown>;
+    expect(agentConfig["operator"]).toBeUndefined();
+    expect(agentConfig["planner"]).toBeUndefined();
+    expect((config as { default_agent?: string }).default_agent).toBeUndefined();
+
+    const permission = config.permission as Record<string, unknown>;
+    expect(permission.delegate_task).toBeUndefined();
+
+    expect(agents.createBuiltinAgents).not.toHaveBeenCalled();
+  });
 });
 
 describe("Plan agent demote behavior", () => {

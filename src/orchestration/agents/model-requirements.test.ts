@@ -156,10 +156,11 @@ describe("AGENT_MODEL_REQUIREMENTS", () => {
     expect(primary.providers[0]).toBe("kimi-for-coding");
   });
 
-  test("all 9 builtin agents have valid fallbackChain arrays", () => {
-    // #given - list of 9 agent names
+  test("all 10 builtin agents have valid fallbackChain arrays", () => {
+    // #given - list of 10 agent names
     const expectedAgents = [
       "operator",
+      "executor",
       "advisor-plan",
       "researcher-data",
       "researcher-codebase",
@@ -174,7 +175,7 @@ describe("AGENT_MODEL_REQUIREMENTS", () => {
     const definedAgents = Object.keys(AGENT_MODEL_REQUIREMENTS);
 
     // #then - all agents present with valid fallbackChain
-    expect(definedAgents).toHaveLength(9);
+    expect(definedAgents).toHaveLength(10);
     for (const agent of expectedAgents) {
       const requirement = AGENT_MODEL_REQUIREMENTS[agent];
       expect(requirement).toBeDefined();

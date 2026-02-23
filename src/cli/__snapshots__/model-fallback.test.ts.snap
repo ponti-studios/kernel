@@ -2,7 +2,7 @@
 
 exports[`generateModelConfig no providers available returns ULTIMATE_FALLBACK for all agents and categories when no providers 1`] = `
 {
-  "$schema": "https://raw.githubusercontent.com/pontistudios/ghostwire/master/assets/ghostwire.schema.json",
+  "$schema": "https://raw.githubusercontent.com/hackefeller/ghostwire/master/assets/ghostwire.schema.json",
   "agents": {
     "advisor-plan": {
       "model": "opencode/glm-4.7-free",
@@ -11,6 +11,9 @@ exports[`generateModelConfig no providers available returns ULTIMATE_FALLBACK fo
       "model": "opencode/glm-4.7-free",
     },
     "analyzer-media": {
+      "model": "opencode/glm-4.7-free",
+    },
+    "executor": {
       "model": "opencode/glm-4.7-free",
     },
     "operator": {
@@ -63,7 +66,7 @@ exports[`generateModelConfig no providers available returns ULTIMATE_FALLBACK fo
 
 exports[`generateModelConfig single native provider uses OpenAI models when only OpenAI is available 1`] = `
 {
-  "$schema": "https://raw.githubusercontent.com/pontistudios/ghostwire/master/assets/ghostwire.schema.json",
+  "$schema": "https://raw.githubusercontent.com/hackefeller/ghostwire/master/assets/ghostwire.schema.json",
   "agents": {
     "advisor-plan": {
       "model": "openai/gpt-5.2",
@@ -74,6 +77,9 @@ exports[`generateModelConfig single native provider uses OpenAI models when only
       "variant": "high",
     },
     "analyzer-media": {
+      "model": "openai/gpt-5.2",
+    },
+    "executor": {
       "model": "openai/gpt-5.2",
     },
     "operator": {
@@ -133,7 +139,7 @@ exports[`generateModelConfig single native provider uses OpenAI models when only
 
 exports[`generateModelConfig single native provider uses Gemini models when only Gemini is available 1`] = `
 {
-  "$schema": "https://raw.githubusercontent.com/pontistudios/ghostwire/master/assets/ghostwire.schema.json",
+  "$schema": "https://raw.githubusercontent.com/hackefeller/ghostwire/master/assets/ghostwire.schema.json",
   "agents": {
     "advisor-plan": {
       "model": "google/gemini-3-pro",
@@ -144,6 +150,9 @@ exports[`generateModelConfig single native provider uses Gemini models when only
       "variant": "max",
     },
     "analyzer-media": {
+      "model": "google/gemini-3-flash",
+    },
+    "executor": {
       "model": "google/gemini-3-flash",
     },
     "operator": {
@@ -200,7 +209,7 @@ exports[`generateModelConfig single native provider uses Gemini models when only
 
 exports[`generateModelConfig all native providers uses preferred models from fallback chains when all natives available 1`] = `
 {
-  "$schema": "https://raw.githubusercontent.com/pontistudios/ghostwire/master/assets/ghostwire.schema.json",
+  "$schema": "https://raw.githubusercontent.com/hackefeller/ghostwire/master/assets/ghostwire.schema.json",
   "agents": {
     "advisor-plan": {
       "model": "openai/gpt-5.2",
@@ -212,6 +221,9 @@ exports[`generateModelConfig all native providers uses preferred models from fal
     },
     "analyzer-media": {
       "model": "google/gemini-3-flash",
+    },
+    "executor": {
+      "model": "openai/gpt-5.2",
     },
     "operator": {
       "model": "openai/gpt-5.2-codex",
@@ -271,7 +283,7 @@ exports[`generateModelConfig all native providers uses preferred models from fal
 
 exports[`generateModelConfig fallback providers uses OpenCode Zen models when only OpenCode Zen is available 1`] = `
 {
-  "$schema": "https://raw.githubusercontent.com/pontistudios/ghostwire/master/assets/ghostwire.schema.json",
+  "$schema": "https://raw.githubusercontent.com/hackefeller/ghostwire/master/assets/ghostwire.schema.json",
   "agents": {
     "advisor-plan": {
       "model": "opencode/gpt-5.2",
@@ -283,6 +295,9 @@ exports[`generateModelConfig fallback providers uses OpenCode Zen models when on
     },
     "analyzer-media": {
       "model": "opencode/gemini-3-flash",
+    },
+    "executor": {
+      "model": "opencode/claude-sonnet-4-5",
     },
     "operator": {
       "model": "opencode/claude-opus-4-5",
@@ -341,7 +356,7 @@ exports[`generateModelConfig fallback providers uses OpenCode Zen models when on
 
 exports[`generateModelConfig fallback providers uses GitHub Copilot models when only Copilot is available 1`] = `
 {
-  "$schema": "https://raw.githubusercontent.com/pontistudios/ghostwire/master/assets/ghostwire.schema.json",
+  "$schema": "https://raw.githubusercontent.com/hackefeller/ghostwire/master/assets/ghostwire.schema.json",
   "agents": {
     "advisor-plan": {
       "model": "github-copilot/gpt-5.2",
@@ -353,6 +368,9 @@ exports[`generateModelConfig fallback providers uses GitHub Copilot models when 
     },
     "analyzer-media": {
       "model": "github-copilot/gemini-3-flash",
+    },
+    "executor": {
+      "model": "github-copilot/claude-sonnet-4.5",
     },
     "operator": {
       "model": "github-copilot/claude-opus-4.5",
@@ -411,7 +429,7 @@ exports[`generateModelConfig fallback providers uses GitHub Copilot models when 
 
 exports[`generateModelConfig fallback providers uses ZAI model for archiveResearcher when only ZAI is available 1`] = `
 {
-  "$schema": "https://raw.githubusercontent.com/pontistudios/ghostwire/master/assets/ghostwire.schema.json",
+  "$schema": "https://raw.githubusercontent.com/hackefeller/ghostwire/master/assets/ghostwire.schema.json",
   "agents": {
     "advisor-plan": {
       "model": "opencode/glm-4.7-free",
@@ -422,8 +440,11 @@ exports[`generateModelConfig fallback providers uses ZAI model for archiveResear
     "analyzer-media": {
       "model": "zai-coding-plan/glm-4.6v",
     },
+    "executor": {
+      "model": "opencode/glm-4.7-free",
+    },
     "operator": {
-      "model": "zai-coding-plan/glm-4.7",
+      "model": "opencode/glm-4.7-free",
     },
     "orchestrator": {
       "model": "opencode/glm-4.7-free",
@@ -472,7 +493,7 @@ exports[`generateModelConfig fallback providers uses ZAI model for archiveResear
 
 exports[`generateModelConfig mixed provider scenarios uses OpenAI + Copilot combination 1`] = `
 {
-  "$schema": "https://raw.githubusercontent.com/pontistudios/ghostwire/master/assets/ghostwire.schema.json",
+  "$schema": "https://raw.githubusercontent.com/hackefeller/ghostwire/master/assets/ghostwire.schema.json",
   "agents": {
     "advisor-plan": {
       "model": "openai/gpt-5.2",
@@ -484,6 +505,9 @@ exports[`generateModelConfig mixed provider scenarios uses OpenAI + Copilot comb
     },
     "analyzer-media": {
       "model": "github-copilot/gemini-3-flash",
+    },
+    "executor": {
+      "model": "github-copilot/claude-sonnet-4.5",
     },
     "operator": {
       "model": "github-copilot/claude-opus-4.5",
@@ -542,7 +566,7 @@ exports[`generateModelConfig mixed provider scenarios uses OpenAI + Copilot comb
 
 exports[`generateModelConfig mixed provider scenarios uses ZAI combination (archiveResearcher uses ZAI) 1`] = `
 {
-  "$schema": "https://raw.githubusercontent.com/pontistudios/ghostwire/master/assets/ghostwire.schema.json",
+  "$schema": "https://raw.githubusercontent.com/hackefeller/ghostwire/master/assets/ghostwire.schema.json",
   "agents": {
     "advisor-plan": {
       "model": "openai/gpt-5.2",
@@ -555,8 +579,12 @@ exports[`generateModelConfig mixed provider scenarios uses ZAI combination (arch
     "analyzer-media": {
       "model": "openai/gpt-5.2",
     },
+    "executor": {
+      "model": "openai/gpt-5.2",
+    },
     "operator": {
-      "model": "zai-coding-plan/glm-4.7",
+      "model": "openai/gpt-5.2-codex",
+      "variant": "medium",
     },
     "orchestrator": {
       "model": "openai/gpt-5.2",
@@ -611,7 +639,7 @@ exports[`generateModelConfig mixed provider scenarios uses ZAI combination (arch
 
 exports[`generateModelConfig mixed provider scenarios uses all fallback providers together 1`] = `
 {
-  "$schema": "https://raw.githubusercontent.com/pontistudios/ghostwire/master/assets/ghostwire.schema.json",
+  "$schema": "https://raw.githubusercontent.com/hackefeller/ghostwire/master/assets/ghostwire.schema.json",
   "agents": {
     "advisor-plan": {
       "model": "github-copilot/gpt-5.2",
@@ -623,6 +651,9 @@ exports[`generateModelConfig mixed provider scenarios uses all fallback provider
     },
     "analyzer-media": {
       "model": "github-copilot/gemini-3-flash",
+    },
+    "executor": {
+      "model": "github-copilot/claude-sonnet-4.5",
     },
     "operator": {
       "model": "github-copilot/claude-opus-4.5",
@@ -681,7 +712,7 @@ exports[`generateModelConfig mixed provider scenarios uses all fallback provider
 
 exports[`generateModelConfig mixed provider scenarios uses all providers together 1`] = `
 {
-  "$schema": "https://raw.githubusercontent.com/pontistudios/ghostwire/master/assets/ghostwire.schema.json",
+  "$schema": "https://raw.githubusercontent.com/hackefeller/ghostwire/master/assets/ghostwire.schema.json",
   "agents": {
     "advisor-plan": {
       "model": "openai/gpt-5.2",
@@ -693,6 +724,9 @@ exports[`generateModelConfig mixed provider scenarios uses all providers togethe
     },
     "analyzer-media": {
       "model": "google/gemini-3-flash",
+    },
+    "executor": {
+      "model": "github-copilot/claude-sonnet-4.5",
     },
     "operator": {
       "model": "github-copilot/claude-opus-4.5",

@@ -2,9 +2,9 @@ import type { CommandDefinition } from "../claude-code-command-loader";
 
 export type BuiltinCommandName =
   | "ghostwire:init-deep"
-  | "ghostwire:overclock-loop"
-  | "ghostwire:cancel-overclock"
-  | "ghostwire:ulw-overclock"
+  | "ghostwire:ultrawork-loop"
+  | "ghostwire:cancel-ultrawork"
+  | "ghostwire:ulw-ultrawork"
   | "ghostwire:refactor"
   | "ghostwire:jack-in-work"
   | "ghostwire:stop-continuation"
@@ -59,7 +59,18 @@ export type BuiltinCommandName =
   | "ghostwire:workflows:brainstorm"
   | "ghostwire:workflows:learnings"
   | "ghostwire:workflows:review"
-  | "ghostwire:workflows:work";
+  | "ghostwire:workflows:work"
+  // Spec commands (from specify integration)
+  | "ghostwire:spec:create"
+  | "ghostwire:spec:plan"
+  | "ghostwire:spec:tasks"
+  | "ghostwire:spec:implement"
+  | "ghostwire:spec:clarify"
+  | "ghostwire:spec:analyze"
+  | "ghostwire:spec:checklist"
+  | "ghostwire:spec:to-issues"
+  // Project commands
+  | "ghostwire:project:constitution";
 
 export interface BuiltinCommandConfig {
   disabled_commands?: BuiltinCommandName[];

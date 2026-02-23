@@ -33,7 +33,7 @@ export { createInteractiveBashSessionHook } from "./interactive-bash-session";
 
 export { createThinkingBlockValidatorHook } from "./thinking-block-validator";
 export { createCategorySkillReminderHook } from "./category-skill-reminder";
-export { createRalphLoopHook, type RalphLoopHook } from "./ralph-loop";
+export { createUltraworkLoopHook, type UltraworkLoopHook } from "./ultrawork-loop";
 export { createAutoSlashCommandHook } from "./auto-slash-command";
 export { createEditErrorRecoveryHook } from "./edit-error-recovery";
 export { createPlannerMdOnlyHook } from "./planner-md-only";

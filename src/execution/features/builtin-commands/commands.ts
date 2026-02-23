@@ -2,9 +2,9 @@ import type { CommandDefinition } from "../claude-code-command-loader";
 import type { BuiltinCommandName, BuiltinCommands } from "./types";
 import { INIT_DEEP_TEMPLATE } from "./templates/init-deep";
 import {
-  RALPH_LOOP_TEMPLATE,
-  CANCEL_RALPH_TEMPLATE,
-} from "./templates/ralph-loop";
+  ULTRAWORK_LOOP_TEMPLATE,
+  CANCEL_ULTRAWORK_TEMPLATE,
+} from "./templates/ultrawork-loop";
 import { STOP_CONTINUATION_TEMPLATE } from "./templates/stop-continuation";
 import { REFACTOR_TEMPLATE } from "./templates/refactor";
 import { START_WORK_TEMPLATE } from "./templates/start-work";
@@ -73,6 +73,19 @@ import { WORKFLOWS_LEARNINGS_TEMPLATE } from "./templates/workflows/learnings";
 import { WORKFLOWS_PLAN_TEMPLATE as WORKFLOWS_PLAN_V2_TEMPLATE } from "./templates/workflows/plan";
 import { WORKFLOWS_REVIEW_TEMPLATE } from "./templates/workflows/review";
 import { WORKFLOWS_WORK_TEMPLATE } from "./templates/workflows/work";
+// Spec command templates (from specify integration)
+import {
+  SPEC_CREATE_TEMPLATE,
+  SPEC_PLAN_TEMPLATE,
+  SPEC_TASKS_TEMPLATE,
+  SPEC_IMPLEMENT_TEMPLATE,
+  SPEC_CLARIFY_TEMPLATE,
+  SPEC_ANALYZE_TEMPLATE,
+  SPEC_CHECKLIST_TEMPLATE,
+  SPEC_TO_ISSUES_TEMPLATE,
+} from "./templates/spec";
+// Project command templates
+import { PROJECT_CONSTITUTION_TEMPLATE } from "./templates/project/constitution";
 
 export const BUILTIN_COMMAND_DEFINITIONS: Record<
   BuiltinCommandName,
@@ -89,11 +102,11 @@ $ARGUMENTS
 </user-request>`,
     argumentHint: "[--create-new] [--max-depth=N]",
   },
-  "ghostwire:overclock-loop": {
+  "ghostwire:ultrawork-loop": {
     description:
       "(builtin) Start self-referential development loop until completion",
     template: `<command-instruction>
-${RALPH_LOOP_TEMPLATE}
+${ULTRAWORK_LOOP_TEMPLATE}
 </command-instruction>
 
 <user-task>
@@ -102,11 +115,11 @@ $ARGUMENTS
     argumentHint:
       '"task description" [--completion-promise=TEXT] [--max-iterations=N]',
   },
-  "ghostwire:ulw-overclock": {
+  "ghostwire:ulw-ultrawork": {
     description:
       "(builtin) Start ultrawork loop - continues until completion with ultrawork mode",
     template: `<command-instruction>
-${RALPH_LOOP_TEMPLATE}
+${ULTRAWORK_LOOP_TEMPLATE}
 </command-instruction>
 
 <user-task>
@@ -115,10 +128,10 @@ $ARGUMENTS
     argumentHint:
       '"task description" [--completion-promise=TEXT] [--max-iterations=N]',
   },
-  "ghostwire:cancel-overclock": {
-    description: "(builtin) Cancel active Ralph Loop",
+  "ghostwire:cancel-ultrawork": {
+    description: "(builtin) Cancel active Ultrawork Loop",
     template: `<command-instruction>
-${CANCEL_RALPH_TEMPLATE}
+${CANCEL_ULTRAWORK_TEMPLATE}
 </command-instruction>`,
   },
   "ghostwire:refactor": {
@@ -149,7 +162,7 @@ $ARGUMENTS
   },
   "ghostwire:stop-continuation": {
     description:
-      "(builtin) Stop all continuation mechanisms (ralph loop, todo continuation, boulder) for this session",
+      "(builtin) Stop all continuation mechanisms (ultrawork loop, todo continuation, ultrawork state) for this session",
     template: `<command-instruction>
 ${STOP_CONTINUATION_TEMPLATE}
 </command-instruction>`,
@@ -713,6 +726,107 @@ ${WORKFLOWS_WORK_TEMPLATE}
 $ARGUMENTS
 </work-context>`,
     argumentHint: "[plan file, specification, or todo file path]",
+  },
+  // Spec commands (from specify integration)
+  "ghostwire:spec:create": {
+    description: "Create feature specification from natural language description",
+    template: `<command-instruction>
+${SPEC_CREATE_TEMPLATE}
+</command-instruction>
+
+<feature-description>
+$ARGUMENTS
+</feature-description>`,
+    argumentHint: '"feature description in natural language"',
+  },
+  "ghostwire:spec:plan": {
+    description: "Create implementation plan from feature specification",
+    template: `<command-instruction>
+${SPEC_PLAN_TEMPLATE}
+</command-instruction>
+
+<specification-path>
+$ARGUMENTS
+</specification-path>`,
+    argumentHint: "[path to spec.md or auto-detect from branch]",
+  },
+  "ghostwire:spec:tasks": {
+    description: "Generate actionable tasks from implementation plan",
+    template: `<command-instruction>
+${SPEC_TASKS_TEMPLATE}
+</command-instruction>
+
+<plan-path>
+$ARGUMENTS
+</plan-path>`,
+    argumentHint: "[path to plan.md or auto-detect from branch]",
+  },
+  "ghostwire:spec:implement": {
+    description: "Execute all tasks from task breakdown",
+    template: `<command-instruction>
+${SPEC_IMPLEMENT_TEMPLATE}
+</command-instruction>
+
+<tasks-path>
+$ARGUMENTS
+</tasks-path>`,
+    argumentHint: "[path to tasks.md or auto-detect from branch]",
+  },
+  "ghostwire:spec:clarify": {
+    description: "Interactive Q&A to resolve specification ambiguities",
+    template: `<command-instruction>
+${SPEC_CLARIFY_TEMPLATE}
+</command-instruction>
+
+<specification-path>
+$ARGUMENTS
+</specification-path>`,
+    argumentHint: "[path to spec.md or auto-detect from branch]",
+  },
+  "ghostwire:spec:analyze": {
+    description: "Cross-artifact consistency validation",
+    template: `<command-instruction>
+${SPEC_ANALYZE_TEMPLATE}
+</command-instruction>
+
+<feature-directory>
+$ARGUMENTS
+</feature-directory>`,
+    argumentHint: "[path to feature directory or auto-detect from branch]",
+  },
+  "ghostwire:spec:checklist": {
+    description: "Generate domain-specific checklists",
+    template: `<command-instruction>
+${SPEC_CHECKLIST_TEMPLATE}
+</command-instruction>
+
+<domain-and-feature>
+$ARGUMENTS
+</domain-and-feature>`,
+    argumentHint: "[domain] [feature name] (e.g., 'security user-auth')",
+  },
+  "ghostwire:spec:to-issues": {
+    description: "Convert tasks to GitHub issues",
+    template: `<command-instruction>
+${SPEC_TO_ISSUES_TEMPLATE}
+</command-instruction>
+
+<tasks-path>
+$ARGUMENTS
+</tasks-path>`,
+    argumentHint: "[path to tasks.md or auto-detect from branch]",
+  },
+  // Project commands
+  "ghostwire:project:constitution": {
+    description: "Create or update project constitution with core principles",
+    template: `<command-instruction>
+${PROJECT_CONSTITUTION_TEMPLATE}
+</command-instruction>
+
+<project-name>
+$ARGUMENTS
+</project-name>`,
+    argumentHint: "[project name] (optional, defaults to repo name)",
   },
 };
 

@@ -47,7 +47,7 @@ hooks:
       description: Detects delegate_task tool errors and appends guidance with fix hints and correct parameter examples. Enables self-healing delegation.
 
     - id: orchestrator
-      description: Main orchestration hook for boulder continuation. Injects verification reminders after subagent work completes. Prevents direct file edits by orchestrator to maintain workflow integrity.
+      description: Main orchestration hook for ultrawork continuation. Injects verification reminders after subagent work completes. Prevents direct file edits by orchestrator to maintain workflow integrity.
 
     - id: subagent-question-blocker
       description: Blocks question/askuserquestion tool calls in subagent sessions. Prevents subagents from prompting users for input directly.
@@ -93,11 +93,11 @@ hooks:
 
     # === Task & Boulder Management ===
 
-    - id: ralph-loop
+    - id: ultrawork-loop
       description: Implements iterative task execution loop. Continues prompting until a completion promise is detected or max iterations reached. Self-driving task completion.
 
     - id: start-work
-      description: Handles /jack-in-work command. Loads/creates boulder state, selects planner plans, injects context for work continuation.
+      description: Handles /jack-in-work command. Loads/creates ultrawork state, selects planner plans, injects context for work continuation.
 
     - id: task-resume-info
       description: Appends resume instructions to task/delegate_task outputs that launch new sessions. Enables cross-session task continuation.

@@ -49,7 +49,7 @@ features:
       Provides built-in slash commands that wrap prompt templates for common development workflows.
       Defines 34+ built-in commands organized by category:
       - Initialization: init-deep
-      - Loops: overclock-loop, ulw-overclock, cancel-overclock
+      - Loops: ultrawork-loop, ulw-ultrawork, cancel-ultrawork
       - Refactoring: refactor, ghostwire:code:*
       - Git operations: ghostwire:git:*
       - Project management: ghostwire:project:*
@@ -69,11 +69,11 @@ features:
       Each skill defines: name, description, instruction template, allowed tools, MCP server config.
       Designed to work with skill loader and MCP manager features.
 
-  - id: boulder-state
-    path: src/execution/features/boulder-state
+  - id: ultrawork-state
+    path: src/execution/features/ultrawork-state
     description: |
-      Tracks active work plan state from boulder.json for the Cipher Operator orchestrator.
-      Manages reading and writing boulder.json file.
+      Tracks active work plan state from ultrawork.json for the Cipher Operator orchestrator.
+      Manages reading and writing ultrawork.json file.
       Tracks: active plan file path, start timestamp, session IDs that worked on plan, plan name.
       Provides utilities to find planner plan files in .ghostwire/plans directory.
       Enables persistence of multi-session planning workflows.

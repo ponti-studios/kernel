@@ -1,6 +1,6 @@
 export const LFG_TEMPLATE = `Run these slash commands in order. Do not do anything else.
 
-1. \`/ghostwire:overclock-loop "finish all slash commands" --completion-promise "DONE"\`
+1. \`/ghostwire:ultrawork-loop "finish all slash commands" --completion-promise "DONE"\`
 2. \`/ghostwire:workflows:plan $ARGUMENTS\`
 3. \`/ghostwire:deepen-plan\`
 4. \`/ghostwire:workflows:work\`

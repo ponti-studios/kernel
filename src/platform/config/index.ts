@@ -8,7 +8,7 @@ export {
   BuiltinCommandNameSchema,
   OperatorConfigSchema,
   ExperimentalConfigSchema,
-  RalphLoopConfigSchema,
+  UltraworkLoopConfigSchema,
   TmuxConfigSchema,
   TmuxLayoutSchema,
 } from "./schema";
@@ -24,7 +24,7 @@ export type {
   OperatorConfig,
   ExperimentalConfig,
   DynamicContextPruningConfig,
-  RalphLoopConfig,
+  UltraworkLoopConfig,
   TmuxConfig,
   TmuxLayout,
 } from "./schema";

@@ -4,11 +4,11 @@ import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { createOrchestratorHook } from "./index";
 import {
-  writeBoulderState,
-  clearBoulderState,
-  readBoulderState,
-} from "../../../execution/features/boulder-state";
-import type { BoulderState } from "../../../execution/features/boulder-state";
+  writeUltraworkState,
+  clearUltraworkState,
+  readUltraworkState,
+} from "../../../execution/features/ultrawork-state";
+import type { UltraworkState } from "../../../execution/features/ultrawork-state";
 
 import { MESSAGE_STORAGE } from "../../../execution/features/hook-message-injector";
 
@@ -57,11 +57,11 @@ describe("orchestrator hook", () => {
     if (!existsSync(SISYPHUS_DIR)) {
       mkdirSync(SISYPHUS_DIR, { recursive: true });
     }
-    clearBoulderState(TEST_DIR);
+    clearUltraworkState(TEST_DIR);
   });
 
   afterEach(() => {
-    clearBoulderState(TEST_DIR);
+    clearUltraworkState(TEST_DIR);
     if (existsSync(TEST_DIR)) {
       rmSync(TEST_DIR, { recursive: true, force: true });
     }
@@ -103,20 +103,20 @@ describe("orchestrator hook", () => {
     });
 
     test("should not transform when caller is not orchestrator", async () => {
-      // #given - boulder state exists but caller agent in message storage is not orchestrator
+      // #given - ultrawork state exists but caller agent in message storage is not orchestrator
       const sessionID = "session-non-orchestrator-test";
       setupMessageStorage(sessionID, "other-agent");
 
       const planPath = join(TEST_DIR, "test-plan.md");
       writeFileSync(planPath, "# Plan\n- [ ] Task 1");
 
-      const state: BoulderState = {
+      const state: UltraworkState = {
         active_plan: planPath,
         started_at: "2026-01-02T10:00:00Z",
         session_ids: ["session-1"],
         plan_name: "test-plan",
       };
-      writeBoulderState(TEST_DIR, state);
+      writeUltraworkState(TEST_DIR, state);
 
       const hook = createOrchestratorHook(createMockPluginInput());
       const output = {
@@ -134,9 +134,9 @@ describe("orchestrator hook", () => {
       cleanupMessageStorage(sessionID);
     });
 
-    test("should append standalone verification when no boulder state but caller is orchestrator", async () => {
-      // #given - no boulder state, but caller is orchestrator
-      const sessionID = "session-no-boulder-test";
+    test("should append standalone verification when no ultrawork state but caller is orchestrator", async () => {
+      // #given - no ultrawork state, but caller is orchestrator
+      const sessionID = "session-no-ultrawork-test";
       setupMessageStorage(sessionID, "orchestrator");
 
       const hook = createOrchestratorHook(createMockPluginInput());
@@ -157,21 +157,21 @@ describe("orchestrator hook", () => {
       cleanupMessageStorage(sessionID);
     });
 
-    test("should transform output when caller is orchestrator with boulder state", async () => {
-      // #given - orchestrator caller with boulder state
+    test("should transform output when caller is orchestrator with ultrawork state", async () => {
+      // #given - orchestrator caller with ultrawork state
       const sessionID = "session-transform-test";
       setupMessageStorage(sessionID, "orchestrator");
 
       const planPath = join(TEST_DIR, "test-plan.md");
       writeFileSync(planPath, "# Plan\n- [ ] Task 1\n- [x] Task 2");
 
-      const state: BoulderState = {
+      const state: UltraworkState = {
         active_plan: planPath,
         started_at: "2026-01-02T10:00:00Z",
         session_ids: ["session-1"],
         plan_name: "test-plan",
       };
-      writeBoulderState(TEST_DIR, state);
+      writeUltraworkState(TEST_DIR, state);
 
       const hook = createOrchestratorHook(createMockPluginInput());
       const output = {
@@ -194,20 +194,20 @@ describe("orchestrator hook", () => {
     });
 
     test("should still transform when plan is complete (shows progress)", async () => {
-      // #given - boulder state with complete plan, orchestrator caller
+      // #given - ultrawork state with complete plan, orchestrator caller
       const sessionID = "session-complete-plan-test";
       setupMessageStorage(sessionID, "orchestrator");
 
       const planPath = join(TEST_DIR, "complete-plan.md");
       writeFileSync(planPath, "# Plan\n- [x] Task 1\n- [x] Task 2");
 
-      const state: BoulderState = {
+      const state: UltraworkState = {
         active_plan: planPath,
         started_at: "2026-01-02T10:00:00Z",
         session_ids: ["session-1"],
         plan_name: "complete-plan",
       };
-      writeBoulderState(TEST_DIR, state);
+      writeUltraworkState(TEST_DIR, state);
 
       const hook = createOrchestratorHook(createMockPluginInput());
       const output = {
@@ -227,21 +227,21 @@ describe("orchestrator hook", () => {
       cleanupMessageStorage(sessionID);
     });
 
-    test("should append session ID to boulder state if not present", async () => {
-      // #given - boulder state without session-append-test, orchestrator caller
+    test("should append session ID to ultrawork state if not present", async () => {
+      // #given - ultrawork state without session-append-test, orchestrator caller
       const sessionID = "session-append-test";
       setupMessageStorage(sessionID, "orchestrator");
 
       const planPath = join(TEST_DIR, "test-plan.md");
       writeFileSync(planPath, "# Plan\n- [ ] Task 1");
 
-      const state: BoulderState = {
+      const state: UltraworkState = {
         active_plan: planPath,
         started_at: "2026-01-02T10:00:00Z",
         session_ids: ["session-1"],
         plan_name: "test-plan",
       };
-      writeBoulderState(TEST_DIR, state);
+      writeUltraworkState(TEST_DIR, state);
 
       const hook = createOrchestratorHook(createMockPluginInput());
       const output = {
@@ -254,27 +254,27 @@ describe("orchestrator hook", () => {
       await hook["tool.execute.after"]({ tool: "delegate_task", sessionID }, output);
 
       // #then - sessionID should be appended
-      const updatedState = readBoulderState(TEST_DIR);
+      const updatedState = readUltraworkState(TEST_DIR);
       expect(updatedState?.session_ids).toContain(sessionID);
 
       cleanupMessageStorage(sessionID);
     });
 
     test("should not duplicate existing session ID", async () => {
-      // #given - boulder state already has session-dup-test, orchestrator caller
+      // #given - ultrawork state already has session-dup-test, orchestrator caller
       const sessionID = "session-dup-test";
       setupMessageStorage(sessionID, "orchestrator");
 
       const planPath = join(TEST_DIR, "test-plan.md");
       writeFileSync(planPath, "# Plan\n- [ ] Task 1");
 
-      const state: BoulderState = {
+      const state: UltraworkState = {
         active_plan: planPath,
         started_at: "2026-01-02T10:00:00Z",
         session_ids: [sessionID],
         plan_name: "test-plan",
       };
-      writeBoulderState(TEST_DIR, state);
+      writeUltraworkState(TEST_DIR, state);
 
       const hook = createOrchestratorHook(createMockPluginInput());
       const output = {
@@ -287,28 +287,28 @@ describe("orchestrator hook", () => {
       await hook["tool.execute.after"]({ tool: "delegate_task", sessionID }, output);
 
       // #then - should still have only one sessionID
-      const updatedState = readBoulderState(TEST_DIR);
+      const updatedState = readUltraworkState(TEST_DIR);
       const count = updatedState?.session_ids.filter((id) => id === sessionID).length;
       expect(count).toBe(1);
 
       cleanupMessageStorage(sessionID);
     });
 
-    test("should include boulder.json path and notepad path in transformed output", async () => {
-      // #given - boulder state, orchestrator caller
+    test("should include ultrawork.json path and notepad path in transformed output", async () => {
+      // #given - ultrawork state, orchestrator caller
       const sessionID = "session-path-test";
       setupMessageStorage(sessionID, "orchestrator");
 
       const planPath = join(TEST_DIR, "my-feature.md");
       writeFileSync(planPath, "# Plan\n- [ ] Task 1\n- [ ] Task 2\n- [x] Task 3");
 
-      const state: BoulderState = {
+      const state: UltraworkState = {
         active_plan: planPath,
         started_at: "2026-01-02T10:00:00Z",
         session_ids: ["session-1"],
         plan_name: "my-feature",
       };
-      writeBoulderState(TEST_DIR, state);
+      writeUltraworkState(TEST_DIR, state);
 
       const hook = createOrchestratorHook(createMockPluginInput());
       const output = {
@@ -329,20 +329,20 @@ describe("orchestrator hook", () => {
     });
 
     test("should include session_id and checkbox instructions in reminder", async () => {
-      // #given - boulder state, orchestrator caller
+      // #given - ultrawork state, orchestrator caller
       const sessionID = "session-resume-test";
       setupMessageStorage(sessionID, "orchestrator");
 
       const planPath = join(TEST_DIR, "test-plan.md");
       writeFileSync(planPath, "# Plan\n- [ ] Task 1");
 
-      const state: BoulderState = {
+      const state: UltraworkState = {
         active_plan: planPath,
         started_at: "2026-01-02T10:00:00Z",
         session_ids: ["session-1"],
         plan_name: "test-plan",
       };
-      writeBoulderState(TEST_DIR, state);
+      writeUltraworkState(TEST_DIR, state);
 
       const hook = createOrchestratorHook(createMockPluginInput());
       const output = {
@@ -580,7 +580,7 @@ describe("orchestrator hook", () => {
     });
   });
 
-  describe("session.idle handler (boulder continuation)", () => {
+  describe("session.idle handler (ultrawork continuation)", () => {
     const MAIN_SESSION_ID = "main-session-123";
 
     beforeEach(() => {
@@ -595,18 +595,18 @@ describe("orchestrator hook", () => {
       cleanupMessageStorage(MAIN_SESSION_ID);
     });
 
-    test("should inject continuation when boulder has incomplete tasks", async () => {
-      // #given - boulder state with incomplete plan
+    test("should inject continuation when ultrawork has incomplete tasks", async () => {
+      // #given - ultrawork state with incomplete plan
       const planPath = join(TEST_DIR, "test-plan.md");
       writeFileSync(planPath, "# Plan\n- [ ] Task 1\n- [x] Task 2\n- [ ] Task 3");
 
-      const state: BoulderState = {
+      const state: UltraworkState = {
         active_plan: planPath,
         started_at: "2026-01-02T10:00:00Z",
         session_ids: [MAIN_SESSION_ID],
         plan_name: "test-plan",
       };
-      writeBoulderState(TEST_DIR, state);
+      writeUltraworkState(TEST_DIR, state);
 
       const mockInput = createMockPluginInput();
       const hook = createOrchestratorHook(mockInput);
@@ -627,8 +627,8 @@ describe("orchestrator hook", () => {
       expect(callArgs.body.parts[0].text).toContain("2 remaining");
     });
 
-    test("should not inject when no boulder state exists", async () => {
-      // #given - no boulder state
+    test("should not inject when no ultrawork state exists", async () => {
+      // #given - no ultrawork state
       const mockInput = createMockPluginInput();
       const hook = createOrchestratorHook(mockInput);
 
@@ -644,18 +644,18 @@ describe("orchestrator hook", () => {
       expect(mockInput._promptMock).not.toHaveBeenCalled();
     });
 
-    test("should not inject when boulder plan is complete", async () => {
-      // #given - boulder state with complete plan
+    test("should not inject when ultrawork plan is complete", async () => {
+      // #given - ultrawork state with complete plan
       const planPath = join(TEST_DIR, "complete-plan.md");
       writeFileSync(planPath, "# Plan\n- [x] Task 1\n- [x] Task 2");
 
-      const state: BoulderState = {
+      const state: UltraworkState = {
         active_plan: planPath,
         started_at: "2026-01-02T10:00:00Z",
         session_ids: [MAIN_SESSION_ID],
         plan_name: "complete-plan",
       };
-      writeBoulderState(TEST_DIR, state);
+      writeUltraworkState(TEST_DIR, state);
 
       const mockInput = createMockPluginInput();
       const hook = createOrchestratorHook(mockInput);
@@ -673,17 +673,17 @@ describe("orchestrator hook", () => {
     });
 
     test("should skip when abort error occurred before idle", async () => {
-      // #given - boulder state with incomplete plan
+      // #given - ultrawork state with incomplete plan
       const planPath = join(TEST_DIR, "test-plan.md");
       writeFileSync(planPath, "# Plan\n- [ ] Task 1");
 
-      const state: BoulderState = {
+      const state: UltraworkState = {
         active_plan: planPath,
         started_at: "2026-01-02T10:00:00Z",
         session_ids: [MAIN_SESSION_ID],
         plan_name: "test-plan",
       };
-      writeBoulderState(TEST_DIR, state);
+      writeUltraworkState(TEST_DIR, state);
 
       const mockInput = createMockPluginInput();
       const hook = createOrchestratorHook(mockInput);
@@ -710,17 +710,17 @@ describe("orchestrator hook", () => {
     });
 
     test("should skip when background tasks are running", async () => {
-      // #given - boulder state with incomplete plan
+      // #given - ultrawork state with incomplete plan
       const planPath = join(TEST_DIR, "test-plan.md");
       writeFileSync(planPath, "# Plan\n- [ ] Task 1");
 
-      const state: BoulderState = {
+      const state: UltraworkState = {
         active_plan: planPath,
         started_at: "2026-01-02T10:00:00Z",
         session_ids: [MAIN_SESSION_ID],
         plan_name: "test-plan",
       };
-      writeBoulderState(TEST_DIR, state);
+      writeUltraworkState(TEST_DIR, state);
 
       const mockBackgroundManager = {
         getTasksByParentSession: () => [{ status: "running" }],
@@ -745,17 +745,17 @@ describe("orchestrator hook", () => {
     });
 
     test("should clear abort state on message.updated", async () => {
-      // #given - boulder with incomplete plan
+      // #given - ultrawork with incomplete plan
       const planPath = join(TEST_DIR, "test-plan.md");
       writeFileSync(planPath, "# Plan\n- [ ] Task 1");
 
-      const state: BoulderState = {
+      const state: UltraworkState = {
         active_plan: planPath,
         started_at: "2026-01-02T10:00:00Z",
         session_ids: [MAIN_SESSION_ID],
         plan_name: "test-plan",
       };
-      writeBoulderState(TEST_DIR, state);
+      writeUltraworkState(TEST_DIR, state);
 
       const mockInput = createMockPluginInput();
       const hook = createOrchestratorHook(mockInput);
@@ -788,17 +788,17 @@ describe("orchestrator hook", () => {
     });
 
     test("should include plan progress in continuation prompt", async () => {
-      // #given - boulder state with specific progress
+      // #given - ultrawork state with specific progress
       const planPath = join(TEST_DIR, "progress-plan.md");
       writeFileSync(planPath, "# Plan\n- [x] Task 1\n- [x] Task 2\n- [ ] Task 3\n- [ ] Task 4");
 
-      const state: BoulderState = {
+      const state: UltraworkState = {
         active_plan: planPath,
         started_at: "2026-01-02T10:00:00Z",
         session_ids: [MAIN_SESSION_ID],
         plan_name: "progress-plan",
       };
-      writeBoulderState(TEST_DIR, state);
+      writeUltraworkState(TEST_DIR, state);
 
       const mockInput = createMockPluginInput();
       const hook = createOrchestratorHook(mockInput);
@@ -818,17 +818,17 @@ describe("orchestrator hook", () => {
     });
 
     test("should not inject when last agent is not orchestrator", async () => {
-      // #given - boulder state with incomplete plan, but last agent is NOT orchestrator
+      // #given - ultrawork state with incomplete plan, but last agent is NOT orchestrator
       const planPath = join(TEST_DIR, "test-plan.md");
       writeFileSync(planPath, "# Plan\n- [ ] Task 1\n- [ ] Task 2");
 
-      const state: BoulderState = {
+      const state: UltraworkState = {
         active_plan: planPath,
         started_at: "2026-01-02T10:00:00Z",
         session_ids: [MAIN_SESSION_ID],
         plan_name: "test-plan",
       };
-      writeBoulderState(TEST_DIR, state);
+      writeUltraworkState(TEST_DIR, state);
 
       // #given - last agent is NOT orchestrator
       cleanupMessageStorage(MAIN_SESSION_ID);
@@ -850,17 +850,17 @@ describe("orchestrator hook", () => {
     });
 
     test("should debounce rapid continuation injections (prevent infinite loop)", async () => {
-      // #given - boulder state with incomplete plan
+      // #given - ultrawork state with incomplete plan
       const planPath = join(TEST_DIR, "test-plan.md");
       writeFileSync(planPath, "# Plan\n- [ ] Task 1\n- [ ] Task 2");
 
-      const state: BoulderState = {
+      const state: UltraworkState = {
         active_plan: planPath,
         started_at: "2026-01-02T10:00:00Z",
         session_ids: [MAIN_SESSION_ID],
         plan_name: "test-plan",
       };
-      writeBoulderState(TEST_DIR, state);
+      writeUltraworkState(TEST_DIR, state);
 
       const mockInput = createMockPluginInput();
       const hook = createOrchestratorHook(mockInput);
@@ -890,17 +890,17 @@ describe("orchestrator hook", () => {
     });
 
     test("should cleanup on session.deleted", async () => {
-      // #given - boulder state
+      // #given - ultrawork state
       const planPath = join(TEST_DIR, "test-plan.md");
       writeFileSync(planPath, "# Plan\n- [ ] Task 1");
 
-      const state: BoulderState = {
+      const state: UltraworkState = {
         active_plan: planPath,
         started_at: "2026-01-02T10:00:00Z",
         session_ids: [MAIN_SESSION_ID],
         plan_name: "test-plan",
       };
-      writeBoulderState(TEST_DIR, state);
+      writeUltraworkState(TEST_DIR, state);
 
       const mockInput = createMockPluginInput();
       const hook = createOrchestratorHook(mockInput);
@@ -922,8 +922,8 @@ describe("orchestrator hook", () => {
         },
       });
 
-      // Re-create boulder after deletion
-      writeBoulderState(TEST_DIR, state);
+      // Re-create ultrawork after deletion
+      writeUltraworkState(TEST_DIR, state);
 
       // Trigger idle - should inject because state was cleaned up
       await hook.handler({

@@ -184,7 +184,7 @@ export const HookNameSchema = z.enum([
   "interactive-bash-session",
 
   "thinking-block-validator",
-  "ralph-loop",
+  "ultrawork-loop",
   "category-skill-reminder",
 
   "compaction-context-injector",
@@ -202,9 +202,9 @@ export const HookNameSchema = z.enum([
 export const BuiltinCommandNameSchema = z.enum([
   "ghostwire:init-deep",
   "ghostwire:jack-in-work",
-  "ghostwire:overclock-loop",
-  "ghostwire:cancel-overclock",
-  "ghostwire:ulw-overclock",
+  "ghostwire:ultrawork-loop",
+  "ghostwire:cancel-ultrawork",
+  "ghostwire:ulw-ultrawork",
   "ghostwire:refactor",
   "ghostwire:stop-continuation",
   // Ghostwire workflows commands
@@ -497,8 +497,8 @@ export const SkillsConfigSchema = z.union([
   ),
 ]);
 
-export const RalphLoopConfigSchema = z.object({
-  /** Enable ralph loop functionality (default: false - opt-in feature) */
+export const UltraworkLoopConfigSchema = z.object({
+  /** Enable ultrawork loop functionality (default: false - opt-in feature) */
   enabled: z.boolean().default(false),
   /** Default max iterations if not specified in command (default: 100) */
   default_max_iterations: z.number().min(1).max(1000).default(100),
@@ -601,12 +601,16 @@ export const GhostwireConfigSchema = z.object({
   experimental: ExperimentalConfigSchema.optional(),
   auto_update: z.boolean().optional(),
   skills: SkillsConfigSchema.optional(),
-  ralph_loop: RalphLoopConfigSchema.optional(),
+  ultrawork_loop: UltraworkLoopConfigSchema.optional(),
   background_task: BackgroundTaskConfigSchema.optional(),
   notification: NotificationConfigSchema.optional(),
   git_master: GitMasterConfigSchema.optional(),
   browser_automation_engine: BrowserAutomationConfigSchema.optional(),
   tmux: TmuxConfigSchema.optional(),
+  /** Default model for agents when no specific model is configured (e.g., "anthropic/claude-sonnet-4-5") */
+  default_model: z.string().optional(),
+  /** Whether to inject Ghostwire builtin agents into global OpenCode config (default: true) */
+  inject_agents_globally: z.boolean().optional(),
 });
 
 export type GhostwireConfig = z.infer<typeof GhostwireConfigSchema>;
@@ -623,7 +627,7 @@ export type ExperimentalConfig = z.infer<typeof ExperimentalConfigSchema>;
 export type DynamicContextPruningConfig = z.infer<typeof DynamicContextPruningConfigSchema>;
 export type SkillsConfig = z.infer<typeof SkillsConfigSchema>;
 export type SkillDefinition = z.infer<typeof SkillDefinitionSchema>;
-export type RalphLoopConfig = z.infer<typeof RalphLoopConfigSchema>;
+export type UltraworkLoopConfig = z.infer<typeof UltraworkLoopConfigSchema>;
 export type NotificationConfig = z.infer<typeof NotificationConfigSchema>;
 export type CategoryConfig = z.infer<typeof CategoryConfigSchema>;
 export type CategoriesConfig = z.infer<typeof CategoriesConfigSchema>;

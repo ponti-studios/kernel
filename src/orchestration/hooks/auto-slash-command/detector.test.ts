@@ -160,26 +160,26 @@ After`;
   });
 
   describe("isExcludedCommand", () => {
-    it("should exclude ghostwire:overclock-loop", () => {
-      // #given ghostwire:overclock-loop command
+    it("should exclude ghostwire:ultrawork-loop", () => {
+      // #given ghostwire:ultrawork-loop command
       // #when checking exclusion
       // #then should be excluded
-      expect(isExcludedCommand("ghostwire:overclock-loop")).toBe(true);
+      expect(isExcludedCommand("ghostwire:ultrawork-loop")).toBe(true);
     });
 
-    it("should exclude ghostwire:cancel-overclock", () => {
-      // #given ghostwire:cancel-overclock command
+    it("should exclude ghostwire:cancel-ultrawork", () => {
+      // #given ghostwire:cancel-ultrawork command
       // #when checking exclusion
       // #then should be excluded
-      expect(isExcludedCommand("ghostwire:cancel-overclock")).toBe(true);
+      expect(isExcludedCommand("ghostwire:cancel-ultrawork")).toBe(true);
     });
 
     it("should be case-insensitive for exclusion", () => {
       // #given uppercase variants
       // #when checking exclusion
       // #then should still be excluded
-      expect(isExcludedCommand("GHOSTWIRE:OVERCLOCK-LOOP")).toBe(true);
-      expect(isExcludedCommand("GHOSTWIRE:CANCEL-OVERCLOCK")).toBe(true);
+      expect(isExcludedCommand("GHOSTWIRE:ULTRAWORK-LOOP")).toBe(true);
+      expect(isExcludedCommand("GHOSTWIRE:CANCEL-ULTRAWORK")).toBe(true);
     });
 
     it("should not exclude regular commands", () => {
@@ -231,7 +231,7 @@ After`;
 
     it("should NOT detect excluded commands (with ghostwire: prefix)", () => {
       // #given excluded command with ghostwire: prefix
-      const text = "/ghostwire:overclock-loop do something";
+      const text = "/ghostwire:ultrawork-loop do something";
 
       // #when detecting
       const result = detectSlashCommand(text);

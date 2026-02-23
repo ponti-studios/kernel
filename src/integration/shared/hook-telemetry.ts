@@ -19,7 +19,7 @@ const HOOK_BUDGET_OVERRIDES_MS: Record<string, number> = {
   "tool.execute.before:orchestrator": 200,
   "tool.execute.after:orchestrator": 250,
   "event:orchestrator": 200,
-  "event:overclock-loop": 150,
+  "event:ultrawork-loop": 150,
 };
 
 type Logger = (message: string, data?: unknown) => void;

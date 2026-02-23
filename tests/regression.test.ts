@@ -28,7 +28,7 @@ describe("Regression Tests", () => {
   describe("No Breaking Changes to Existing Commands", () => {
     test("builtin commands remain unchanged", () => {
       //#given
-      const builtinCommands = ["init-deep", "overclock-loop", "ulw-overclock", "cancel-overclock", "refactor", "jack-in-work", "stop-continuation"]
+      const builtinCommands = ["init-deep", "ultrawork-loop", "ulw-ultrawork", "cancel-ultrawork", "refactor", "jack-in-work", "stop-continuation"]
 
       //#when & #then
       builtinCommands.forEach((cmd) => {
@@ -39,7 +39,7 @@ describe("Regression Tests", () => {
 
     test("builtin command names use consistent pattern", () => {
       //#given
-      const builtinCommands = ["init-deep", "overclock-loop", "ulw-overclock", "cancel-overclock", "refactor", "jack-in-work", "stop-continuation"]
+      const builtinCommands = ["init-deep", "ultrawork-loop", "ulw-ultrawork", "cancel-ultrawork", "refactor", "jack-in-work", "stop-continuation"]
 
       //#when
       const invalidCommands = builtinCommands.filter((cmd) => !cmd.match(/^[a-z]+(-[a-z]+)*$/))

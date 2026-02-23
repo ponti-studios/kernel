@@ -53,7 +53,7 @@ function loadSkillDirectories(): BuiltinSkill[] {
     "frontend-design",
     "gemini-imagegen",
     "git-worktree",
-    "ralph-loop",
+    "ultrawork-loop",
     "rclone",
     "skill-creator",
   ];

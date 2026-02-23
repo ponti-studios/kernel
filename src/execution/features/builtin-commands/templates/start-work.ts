@@ -4,10 +4,10 @@ export const START_WORK_TEMPLATE = `You are starting a operator work session.
 
 1. **Find available plans**: Search for operator-generated plan files at \`.ghostwire/plans/\`
 
-2. **Check for active boulder state**: Read \`.ghostwire/boulder.json\` if it exists
+2. **Check for active ultrawork state**: Read \`.ghostwire/ultrawork.json\` if it exists
 
 3. **Decision logic**:
-   - If \`.ghostwire/boulder.json\` exists AND plan is NOT complete (has unchecked boxes):
+   - If \`.ghostwire/ultrawork.json\` exists AND plan is NOT complete (has unchecked boxes):
      - **APPEND** current session to session_ids
      - Continue work on existing plan
    - If no active plan OR plan is complete:
@@ -15,7 +15,7 @@ export const START_WORK_TEMPLATE = `You are starting a operator work session.
      - If ONE plan: auto-select it
      - If MULTIPLE plans: show list with timestamps, ask user to select
 
-4. **Create/Update boulder.json**:
+4. **Create/Update ultrawork.json**:
    \`\`\`json
    {
      "active_plan": "/absolute/path/to/plan.md",
@@ -67,6 +67,6 @@ Reading plan and beginning execution...
 ## CRITICAL
 
 - The session_id is injected by the hook - use it directly
-- Always update boulder.json BEFORE starting work
+- Always update ultrawork.json BEFORE starting work
 - Read the FULL plan file before delegating any tasks
 - Follow operator delegation protocols and orchestrator handoff checklist (7-section format with safety checks)`;

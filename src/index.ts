@@ -22,7 +22,7 @@ import {
   createInteractiveBashSessionHook,
   createThinkingBlockValidatorHook,
   createCategorySkillReminderHook,
-  createRalphLoopHook,
+  createUltraworkLoopHook,
   createAutoSlashCommandHook,
   createEditErrorRecoveryHook,
   createDelegateTaskRetryHook,
@@ -81,7 +81,7 @@ import { BackgroundManager } from "./execution/features/background-agent";
 import { SkillMcpManager } from "./execution/features/skill-mcp-manager";
 import { initTaskToastManager } from "./execution/features/task-toast-manager";
 import { TmuxSessionManager } from "./execution/features/tmux-subagent";
-import { clearBoulderState } from "./execution/features/boulder-state";
+import { clearUltraworkState } from "./execution/features/ultrawork-state";
 import { type HookName } from "./platform/config";
 import {
   log,
@@ -245,9 +245,9 @@ const GhostwirePlugin: Plugin = async (ctx) => {
     ? createCategorySkillReminderHook(ctx)
     : null;
 
-  const ralphLoop = isHookEnabled("ralph-loop")
-    ? createRalphLoopHook(ctx, {
-        config: pluginConfig.ralph_loop,
+  const ultraworkLoop = isHookEnabled("ultrawork-loop")
+    ? createUltraworkLoopHook(ctx, {
+        config: pluginConfig.ultrawork_loop,
         checkSessionExists: async (sessionId) => sessionExists(sessionId),
       })
     : null;
@@ -409,16 +409,16 @@ const GhostwirePlugin: Plugin = async (ctx) => {
   // Create builtin agents with configuration
   // Don't pass ctx.directory - let it use PLUGIN_ROOT to load from embedded manifest
   // This ensures agents are always available regardless of what directory is being worked on
-  const builtinAgents = await createBuiltinAgents(
-    pluginConfig.disabled_agents ?? [],
-    pluginConfig.agents,
-    undefined, // Use PLUGIN_ROOT + embedded manifest, not ctx.directory
-    undefined,
-    pluginConfig.categories,
-    pluginConfig.git_master,
-    mergedSkills,
-    ctx.client,
-  );
+  const builtinAgents = await createBuiltinAgents({
+    disabledAgents: pluginConfig.disabled_agents ?? [],
+    agentOverrides: pluginConfig.agents,
+    // Use PLUGIN_ROOT + embedded manifest, not ctx.directory
+    systemDefaultModel: pluginConfig.default_model,
+    categories: pluginConfig.categories,
+    gitMasterConfig: pluginConfig.git_master,
+    discoveredSkills: mergedSkills,
+    client: ctx.client,
+  });
 
   const slashcommandTool = createSlashcommandTool({
     commands,
@@ -521,7 +521,7 @@ const GhostwirePlugin: Plugin = async (ctx) => {
           .catch(() => {});
       }
 
-      if (ralphLoop) {
+      if (ultraworkLoop) {
         const parts = (output as { parts?: Array<{ type: string; text?: string }> }).parts;
         const promptText =
           parts
@@ -548,19 +548,19 @@ const GhostwirePlugin: Plugin = async (ctx) => {
           const maxIterMatch = rawTask.match(/--max-iterations=(\d+)/i);
           const promiseMatch = rawTask.match(/--completion-promise=["']?([^"'\s]+)["']?/i);
 
-          log("[ralph-loop] Starting loop from chat.message", {
+          log("[ultrawork-loop] Starting loop from chat.message", {
             sessionID: input.sessionID,
             prompt,
           });
-          ralphLoop.startLoop(input.sessionID, prompt, {
+          ultraworkLoop.startLoop(input.sessionID, prompt, {
             maxIterations: maxIterMatch ? parseInt(maxIterMatch[1], 10) : undefined,
             completionPromise: promiseMatch?.[1],
           });
         } else if (isCancelRalphTemplate) {
-          log("[ralph-loop] Cancelling loop from chat.message", {
+          log("[ultrawork-loop] Cancelling loop from chat.message", {
             sessionID: input.sessionID,
           });
-          ralphLoop.cancelLoop(input.sessionID);
+          ultraworkLoop.cancelLoop(input.sessionID);
         }
       }
     },
@@ -616,7 +616,7 @@ const GhostwirePlugin: Plugin = async (ctx) => {
       await runHook("event", "interactive-bash-session", () =>
         interactiveBashSession?.event(input),
       );
-      await runHook("event", "ralph-loop", () => ralphLoop?.event(input));
+      await runHook("event", "ultrawork-loop", () => ultraworkLoop?.event(input));
       await runHook("event", "stop-continuation-guard", () =>
         stopContinuationGuard?.event(input),
       );
@@ -752,13 +752,13 @@ const GhostwirePlugin: Plugin = async (ctx) => {
         };
       }
 
-      if (ralphLoop && input.tool === "slashcommand") {
+      if (ultraworkLoop && input.tool === "slashcommand") {
         const args = output.args as { command?: string } | undefined;
         const command = args?.command?.replace(/^\//, "").toLowerCase();
         const sessionID = input.sessionID || getMainSessionID();
 
-        if ((command === "ralph-loop" || command === "ghostwire:overclock-loop") && sessionID) {
-          const rawArgs = args?.command?.replace(/^\/?(ralph-loop)\s*/i, "") || "";
+        if ((command === "ultrawork-loop" || command === "ghostwire:ultrawork-loop") && sessionID) {
+          const rawArgs = args?.command?.replace(/^\/?(ultrawork-loop)\s*/i, "") || "";
           const taskMatch = rawArgs.match(/^["'](.+?)["']/);
           const prompt =
             taskMatch?.[1] ||
@@ -768,14 +768,14 @@ const GhostwirePlugin: Plugin = async (ctx) => {
           const maxIterMatch = rawArgs.match(/--max-iterations=(\d+)/i);
           const promiseMatch = rawArgs.match(/--completion-promise=["']?([^"'\s]+)["']?/i);
 
-          ralphLoop.startLoop(sessionID, prompt, {
+          ultraworkLoop.startLoop(sessionID, prompt, {
             maxIterations: maxIterMatch ? parseInt(maxIterMatch[1], 10) : undefined,
             completionPromise: promiseMatch?.[1],
           });
-        } else if (command === "ghostwire:cancel-overclock" && sessionID) {
-          ralphLoop.cancelLoop(sessionID);
-        } else if (command === "ghostwire:ulw-overclock" && sessionID) {
-          const rawArgs = args?.command?.replace(/^\/?(ghostwire:ulw-overclock)\s*/i, "") || "";
+        } else if (command === "ghostwire:cancel-ultrawork" && sessionID) {
+          ultraworkLoop.cancelLoop(sessionID);
+        } else if (command === "ghostwire:ulw-ultrawork" && sessionID) {
+          const rawArgs = args?.command?.replace(/^\/?(ghostwire:ulw-ultrawork)\s*/i, "") || "";
           const taskMatch = rawArgs.match(/^["'](.+?)["']/);
           const prompt =
             taskMatch?.[1] ||
@@ -785,7 +785,7 @@ const GhostwirePlugin: Plugin = async (ctx) => {
           const maxIterMatch = rawArgs.match(/--max-iterations=(\d+)/i);
           const promiseMatch = rawArgs.match(/--completion-promise=["']?([^"'\s]+)["']?/i);
 
-          ralphLoop.startLoop(sessionID, prompt, {
+          ultraworkLoop.startLoop(sessionID, prompt, {
             ultrawork: true,
             maxIterations: maxIterMatch ? parseInt(maxIterMatch[1], 10) : undefined,
             completionPromise: promiseMatch?.[1],
@@ -801,8 +801,8 @@ const GhostwirePlugin: Plugin = async (ctx) => {
         if (command === "ghostwire:stop-continuation" && sessionID) {
           stopContinuationGuard?.stop(sessionID);
           todoContinuationEnforcer?.cancelAllCountdowns();
-          ralphLoop?.cancelLoop(sessionID);
-          clearBoulderState(ctx.directory);
+          ultraworkLoop?.cancelLoop(sessionID);
+          clearUltraworkState(ctx.directory);
           log("[stop-continuation] All continuation mechanisms stopped", {
             sessionID,
           });

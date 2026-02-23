@@ -3,10 +3,10 @@ import { execSync } from "node:child_process";
 import { existsSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import {
-  readBoulderState,
+  readUltraworkState,
   appendSessionId,
   getPlanProgress,
-} from "../../../execution/features/boulder-state";
+} from "../../../execution/features/ultrawork-state";
 import {
   getMainSessionID,
   subagentSessions,
@@ -237,7 +237,7 @@ Update the plan file \`.ghostwire/tasks/${planName}.yaml\`:
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-**${remaining} tasks remain. Keep bouldering.**`;
+**${remaining} tasks remain. Keep ultraworking.**`;
 }
 
 function buildStandaloneVerificationReminder(sessionId: string): string {
@@ -469,7 +469,7 @@ export function createOrchestratorHook(ctx: PluginInput, options?: OrchestratorH
       `\n\n[Status: ${total - remaining}/${total} completed, ${remaining} remaining]`;
 
     try {
-      log(`[${HOOK_NAME}] Injecting boulder continuation`, { sessionID, planName, remaining });
+      log(`[${HOOK_NAME}] Injecting ultrawork continuation`, { sessionID, planName, remaining });
 
       let model: { providerID: string; modelID: string } | undefined;
       try {
@@ -544,17 +544,17 @@ export function createOrchestratorHook(ctx: PluginInput, options?: OrchestratorH
 
         log(`[${HOOK_NAME}] session.idle`, { sessionID });
 
-        // Read boulder state FIRST to check if this session is part of an active boulder
-        const boulderState = readBoulderState(ctx.directory);
-        const isBoulderSession = boulderState?.session_ids.includes(sessionID) ?? false;
+        // Read ultrawork state FIRST to check if this session is part of an active ultrawork
+        const ultraworkState = readUltraworkState(ctx.directory);
+        const isBoulderSession = ultraworkState?.session_ids.includes(sessionID) ?? false;
 
         const mainSessionID = getMainSessionID();
         const isMainSession = sessionID === mainSessionID;
         const isBackgroundTaskSession = subagentSessions.has(sessionID);
 
-        // Allow continuation if: main session OR background task OR boulder session
+        // Allow continuation if: main session OR background task OR ultrawork session
         if (mainSessionID && !isMainSession && !isBackgroundTaskSession && !isBoulderSession) {
-          log(`[${HOOK_NAME}] Skipped: not main, background task, or boulder session`, {
+          log(`[${HOOK_NAME}] Skipped: not main, background task, or ultrawork session`, {
             sessionID,
           });
           return;
@@ -577,8 +577,8 @@ export function createOrchestratorHook(ctx: PluginInput, options?: OrchestratorH
           return;
         }
 
-        if (!boulderState) {
-          log(`[${HOOK_NAME}] No active boulder`, { sessionID });
+        if (!ultraworkState) {
+          log(`[${HOOK_NAME}] No active ultrawork`, { sessionID });
           return;
         }
 
@@ -587,9 +587,9 @@ export function createOrchestratorHook(ctx: PluginInput, options?: OrchestratorH
           return;
         }
 
-        const progress = getPlanProgress(boulderState.active_plan);
+        const progress = getPlanProgress(ultraworkState.active_plan);
         if (progress.isComplete) {
-          log(`[${HOOK_NAME}] Boulder complete`, { sessionID, plan: boulderState.plan_name });
+          log(`[${HOOK_NAME}] Boulder complete`, { sessionID, plan: ultraworkState.plan_name });
           return;
         }
 
@@ -607,7 +607,7 @@ export function createOrchestratorHook(ctx: PluginInput, options?: OrchestratorH
 
         state.lastContinuationInjectedAt = now;
         const remaining = progress.total - progress.completed;
-        injectContinuation(sessionID, boulderState.plan_name, remaining, progress.total);
+        injectContinuation(sessionID, ultraworkState.plan_name, remaining, progress.total);
         return;
       }
 
@@ -751,16 +751,16 @@ export function createOrchestratorHook(ctx: PluginInput, options?: OrchestratorH
         const fileChanges = formatFileChanges(gitStats);
         const subagentSessionId = extractSessionIdFromOutput(output.output);
 
-        const boulderState = readBoulderState(ctx.directory);
+        const ultraworkState = readUltraworkState(ctx.directory);
 
-        if (boulderState) {
-          const progress = getPlanProgress(boulderState.active_plan);
+        if (ultraworkState) {
+          const progress = getPlanProgress(ultraworkState.active_plan);
 
-          if (input.sessionID && !boulderState.session_ids.includes(input.sessionID)) {
+          if (input.sessionID && !ultraworkState.session_ids.includes(input.sessionID)) {
             appendSessionId(ctx.directory, input.sessionID);
-            log(`[${HOOK_NAME}] Appended session to boulder`, {
+            log(`[${HOOK_NAME}] Appended session to ultrawork`, {
               sessionID: input.sessionID,
-              plan: boulderState.plan_name,
+              plan: ultraworkState.plan_name,
             });
           }
 
@@ -779,11 +779,11 @@ ${fileChanges}
 ${originalResponse}
 
 <system-reminder>
-${buildOrchestratorReminder(boulderState.plan_name, progress, subagentSessionId)}
+${buildOrchestratorReminder(ultraworkState.plan_name, progress, subagentSessionId)}
 </system-reminder>`;
 
-          log(`[${HOOK_NAME}] Output transformed for orchestrator mode (boulder)`, {
-            plan: boulderState.plan_name,
+          log(`[${HOOK_NAME}] Output transformed for orchestrator mode (ultrawork)`, {
+            plan: ultraworkState.plan_name,
             progress: `${progress.completed}/${progress.total}`,
             fileCount: gitStats.length,
           });

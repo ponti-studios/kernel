@@ -25,13 +25,9 @@ import { loadMcpConfigs } from "../../execution/features/claude-code-mcp-loader"
 import { loadAllPluginComponents } from "../../execution/features/claude-code-plugin-loader";
 import { createBuiltinMcps } from "../../integration/mcp";
 import type { GhostwireConfig } from "../../platform/config";
-import {
-  log,
-} from "../../integration/shared";
+import { log } from "../../integration/shared";
 import { resolveModelWithFallback } from "../../orchestration/agents/model-resolver";
 import { AGENT_MODEL_REQUIREMENTS } from "../../orchestration/agents/model-requirements";
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
 import { DEFAULT_CATEGORIES } from "../../execution/tools/delegate-task/constants";
 import type { ModelCacheState } from "../../plugin-state";
 import type { CategoryConfig } from "../../platform/config/schema";
@@ -130,18 +126,25 @@ export function createConfigHandler(deps: ConfigHandlerDeps) {
     // config.model represents the currently active model in OpenCode (including UI selection)
     // Pass it as uiSelectedModel so it takes highest priority in model resolution
     const currentModel = config.model as string | undefined;
-     const builtinAgents = await createBuiltinAgents(
-       disabledAgents,
-       pluginConfig.agents,
-       ctx.directory,
-       currentModel, // systemDefaultModel - use active model when fallback yields none
-       pluginConfig.categories,
-       pluginConfig.git_master,
-       allDiscoveredSkills,
-       ctx.client,
-       browserProvider,
-       currentModel, // uiSelectedModel - takes highest priority
-     );
+
+    // Determine whether to inject builtin agents into OpenCode config
+    // Default: true (inject globally). Can be disabled via inject_agents_globally: false
+    const shouldInjectAgents = pluginConfig.inject_agents_globally !== false;
+
+    const builtinAgents = shouldInjectAgents
+      ? await createBuiltinAgents({
+          disabledAgents,
+          agentOverrides: pluginConfig.agents,
+          directory: ctx.directory,
+          systemDefaultModel: currentModel, // use active model when fallback yields none
+          categories: pluginConfig.categories,
+          gitMasterConfig: pluginConfig.git_master,
+          discoveredSkills: allDiscoveredSkills,
+          client: ctx.client,
+          browserProvider,
+          uiSelectedModel: currentModel, // takes highest priority
+        })
+      : {};
 
     // Claude Code agents: Do NOT apply permission migration
     // Claude Code uses whitelist-based tools format which is semantically different
@@ -158,7 +161,7 @@ export function createConfigHandler(deps: ConfigHandlerDeps) {
       ]),
     );
 
-    const isOperatorEnabled = pluginConfig.operator?.disabled !== true;
+    const isOperatorEnabled = shouldInjectAgents && pluginConfig.operator?.disabled !== true;
     const builderEnabled = pluginConfig.operator?.default_builder_enabled ?? false;
     const plannerEnabled = pluginConfig.operator?.planner_enabled ?? true;
     const replacePlan = pluginConfig.operator?.replace_plan ?? true;
@@ -397,7 +400,7 @@ export function createConfigHandler(deps: ConfigHandlerDeps) {
       ...(config.permission as Record<string, unknown>),
       webfetch: "allow",
       external_directory: "allow",
-      delegate_task: "deny",
+      ...(shouldInjectAgents ? { delegate_task: "deny" } : {}),
     };
 
     const mcpResult =

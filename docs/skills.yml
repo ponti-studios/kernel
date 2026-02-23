@@ -60,8 +60,8 @@ skills:
   - name: git-worktree
     description: Git worktree management skill for isolating parallel streams of work.
     category: additional
-  - name: ralph-loop
-    description: Ralph Loop skill that orchestrates self-reminders and continuation logic.
+  - name: ultrawork-loop
+    description: Ultrawork Loop skill that orchestrates self-reminders and continuation logic.
     category: additional
   - name: rclone
     description: Rclone sync skill for cloud storage operations.

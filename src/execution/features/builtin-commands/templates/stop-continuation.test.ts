@@ -19,7 +19,7 @@ describe("stop-continuation template", () => {
 
     // #then - it should mention key behaviors
     expect(STOP_CONTINUATION_TEMPLATE).toContain("grid-todo-continuation-enforcer");
-    expect(STOP_CONTINUATION_TEMPLATE).toContain("Ralph Loop");
-    expect(STOP_CONTINUATION_TEMPLATE).toContain("boulder state");
+    expect(STOP_CONTINUATION_TEMPLATE).toContain("Ultrawork Loop");
+    expect(STOP_CONTINUATION_TEMPLATE).toContain("ultrawork state");
   });
 });

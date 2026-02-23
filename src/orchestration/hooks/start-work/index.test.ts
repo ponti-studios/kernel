@@ -3,8 +3,8 @@ import { existsSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir, homedir } from "node:os";
 import { createStartWorkHook } from "./index";
-import { writeBoulderState, clearBoulderState } from "../../../execution/features/boulder-state";
-import type { BoulderState } from "../../../execution/features/boulder-state";
+import { writeUltraworkState, clearUltraworkState } from "../../../execution/features/ultrawork-state";
+import type { UltraworkState } from "../../../execution/features/ultrawork-state";
 import * as sessionState from "../../../execution/features/claude-code-session-state";
 
 describe("jack-in-work hook", () => {
@@ -25,11 +25,11 @@ describe("jack-in-work hook", () => {
     if (!existsSync(GHOSTWIRE_DIR)) {
       mkdirSync(GHOSTWIRE_DIR, { recursive: true });
     }
-    clearBoulderState(TEST_DIR);
+    clearUltraworkState(TEST_DIR);
   });
 
   afterEach(() => {
-    clearBoulderState(TEST_DIR);
+    clearUltraworkState(TEST_DIR);
     if (existsSync(TEST_DIR)) {
       rmSync(TEST_DIR, { recursive: true, force: true });
     }
@@ -69,18 +69,18 @@ describe("jack-in-work hook", () => {
       expect(output.parts[0].text).toContain("---");
     });
 
-    test("should inject resume info when existing boulder state found", async () => {
-      // #given - existing boulder state with incomplete plan
+    test("should inject resume info when existing ultrawork state found", async () => {
+      // #given - existing ultrawork state with incomplete plan
       const planPath = join(TEST_DIR, "test-plan.md");
       writeFileSync(planPath, "# Plan\n- [ ] Task 1\n- [x] Task 2");
 
-      const state: BoulderState = {
+      const state: UltraworkState = {
         active_plan: planPath,
         started_at: "2026-01-02T10:00:00Z",
         session_ids: ["session-1"],
         plan_name: "test-plan",
       };
-      writeBoulderState(TEST_DIR, state);
+      writeUltraworkState(TEST_DIR, state);
 
       const hook = createStartWorkHook(createMockPluginInput());
       const output = {
@@ -211,12 +211,12 @@ describe("jack-in-work hook", () => {
       expect(output.parts[0].text).not.toContain("Which plan would you like to work on?");
     });
 
-    test("should select explicitly specified plan name from user-request, ignoring existing boulder state", async () => {
-      // #given - existing boulder state pointing to old plan
+    test("should select explicitly specified plan name from user-request, ignoring existing ultrawork state", async () => {
+      // #given - existing ultrawork state pointing to old plan
       const plansDir = join(TEST_DIR, ".ghostwire", "plans");
       mkdirSync(plansDir, { recursive: true });
 
-      // Old plan (in boulder state)
+      // Old plan (in ultrawork state)
       const oldPlanPath = join(plansDir, "old-plan.md");
       writeFileSync(oldPlanPath, "# Old Plan\n- [ ] Old Task 1");
 
@@ -224,14 +224,14 @@ describe("jack-in-work hook", () => {
       const newPlanPath = join(plansDir, "new-plan.md");
       writeFileSync(newPlanPath, "# New Plan\n- [ ] New Task 1");
 
-      // Set up stale boulder state pointing to old plan
-      const staleState: BoulderState = {
+      // Set up stale ultrawork state pointing to old plan
+      const staleState: UltraworkState = {
         active_plan: oldPlanPath,
         started_at: "2026-01-01T10:00:00Z",
         session_ids: ["old-session"],
         plan_name: "old-plan",
       };
-      writeBoulderState(TEST_DIR, staleState);
+      writeUltraworkState(TEST_DIR, staleState);
 
       const hook = createStartWorkHook(createMockPluginInput());
       const output = {

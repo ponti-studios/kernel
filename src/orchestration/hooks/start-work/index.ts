@@ -1,14 +1,14 @@
 import type { PluginInput } from "@opencode-ai/plugin";
 import {
-  readBoulderState,
-  writeBoulderState,
+  readUltraworkState,
+  writeUltraworkState,
   appendSessionId,
   findPlannerPlans,
   getPlanProgress,
-  createBoulderState,
+  createUltraworkState,
   getPlanName,
-  clearBoulderState,
-} from "../../../execution/features/boulder-state";
+  clearUltraworkState,
+} from "../../../execution/features/ultrawork-state";
 import { log } from "../../../integration/shared/logger";
 import {
   getSessionAgent,
@@ -77,7 +77,7 @@ export function createStartWorkHook(ctx: PluginInput) {
 
       updateSessionAgent(input.sessionID, "orchestrator"); // Always switch: fixes #1298
 
-      const existingState = readBoulderState(ctx.directory);
+      const existingState = readUltraworkState(ctx.directory);
       const sessionId = input.sessionID;
       const timestamp = new Date().toISOString();
 
@@ -104,10 +104,10 @@ The requested plan "${getPlanName(matchedPlan)}" has been completed.
 All ${progress.total} tasks are done. Create a new plan with: /plan "your task"`;
           } else {
             if (existingState) {
-              clearBoulderState(ctx.directory);
+              clearUltraworkState(ctx.directory);
             }
-            const newState = createBoulderState(matchedPlan, sessionId);
-            writeBoulderState(ctx.directory, newState);
+            const newState = createUltraworkState(matchedPlan, sessionId);
+            writeUltraworkState(ctx.directory, newState);
 
             contextInfo = `
 ## Auto-Selected Plan
@@ -118,7 +118,7 @@ All ${progress.total} tasks are done. Create a new plan with: /plan "your task"`
 **Session ID**: ${sessionId}
 **Started**: ${timestamp}
 
-boulder.json has been created. Read the plan and begin execution.`;
+ultrawork.json has been created. Read the plan and begin execution.`;
           }
         } else {
           const incompletePlans = allPlans.filter((p) => !getPlanProgress(p).isComplete);
@@ -198,8 +198,8 @@ All ${plans.length} plan(s) are complete. Create a new plan with: /plan "your ta
         } else if (incompletePlans.length === 1) {
           const planPath = incompletePlans[0];
           const progress = getPlanProgress(planPath);
-          const newState = createBoulderState(planPath, sessionId);
-          writeBoulderState(ctx.directory, newState);
+          const newState = createUltraworkState(planPath, sessionId);
+          writeUltraworkState(ctx.directory, newState);
 
           contextInfo += `
 
@@ -211,7 +211,7 @@ All ${plans.length} plan(s) are complete. Create a new plan with: /plan "your ta
 **Session ID**: ${sessionId}
 **Started**: ${timestamp}
 
-boulder.json has been created. Read the plan and begin execution.`;
+ultrawork.json has been created. Read the plan and begin execution.`;
         } else {
           const planList = incompletePlans
             .map((p, i) => {

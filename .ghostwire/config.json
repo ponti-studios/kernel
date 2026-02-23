@@ -1,0 +1,4 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hackefeller/ghostwire/main/assets/ghostwire.schema.json",
+  "default_model": "anthropic/claude-sonnet-4-5"
+}
