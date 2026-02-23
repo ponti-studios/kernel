@@ -8,12 +8,13 @@ $ bunx ghostwire install --no-tui --claude=max20 --openai=yes --gemini=yes --cop
 $ bunx ghostwire install --no-tui --claude=no --gemini=no --copilot=yes --ghostwire-zen=yes
 ```
 
-## Model Providers (Priority: Native > Copilot > Ghostwire Zen > Z.ai > Kimi)
+## Model Providers (Priority: OpenCode standardized)
 
-- **Claude** — Native anthropic/ models (Opus, Sonnet, Haiku)
-- **OpenAI** — Native openai/ models (GPT-5.2 for Seer Advisor)
-- **Gemini** — Native google/ models (Gemini 3 Pro, Flash)
-- **Copilot** — github-copilot/ models (fallback)
-- **Ghostwire Zen** — ghostwire/ models (ghostwire/claude-opus-4-5, etc.)
-- **Z.ai** — zai-coding-plan/glm-4.7 (Archive Researcher priority)
-- **Kimi** — kimi-for-coding/k2p5 (operator/planner fallback)
+- **OpenCode** — Standardized `opencode/kimi-k2.5` model for all agents
+- **Claude** — Native anthropic/ models (legacy, being phased out)
+- **OpenAI** — Native openai/ models (legacy, being phased out)
+- **Gemini** — Native google/ models (legacy, being phased out)
+- **Copilot** — github-copilot/ models (legacy fallback)
+- **Ghostwire Zen** — ghostwire/ models (legacy)
+- **Z.ai** — zai-coding-plan/ models (legacy)
+- **Kimi** — kimi-for-coding/ models (legacy)

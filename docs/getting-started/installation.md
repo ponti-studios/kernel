@@ -191,38 +191,38 @@ When GitHub Copilot is the best available provider, ghostwire uses these model a
 
 | Agent         | Model                            |
 | ------------- | -------------------------------- |
-| **Cipher Operator**  | `github-copilot/claude-opus-4.5` |
-| **Seer Advisor**    | `github-copilot/gpt-5.2`         |
-| **Scout Recon**   | `opencode/gpt-5-nano`              |
-| **Archive Researcher** | `zai-coding-plan/glm-4.7` (if Z.ai available) or fallback |
+| **Cipher Operator**  | `opencode/kimi-k2.5` |
+| **Seer Advisor**    | `opencode/kimi-k2.5`         |
+| **Scout Recon**   | `opencode/kimi-k2.5`              |
+| **Archive Researcher** | `opencode/kimi-k2.5` |
 
 GitHub Copilot acts as a proxy provider, routing requests to underlying models based on your subscription.
 
 #### Z.ai Coding Plan
 
-Z.ai Coding Plan provides access to GLM-4.7 models. When enabled, the **Archive Researcher agent always uses `zai-coding-plan/glm-4.7`** regardless of other available providers.
+Z.ai Coding Plan provides access to models. When enabled, the **Archive Researcher agent uses `opencode/kimi-k2.5`** for consistency.
 
-If Z.ai is the only provider available, all agents will use GLM models:
+If Z.ai is the only provider available, all agents will use the standardized model:
 
 | Agent         | Model                            |
 | ------------- | -------------------------------- |
-| **Cipher Operator**  | `zai-coding-plan/glm-4.7`        |
-| **Seer Advisor**    | `zai-coding-plan/glm-4.7`        |
-| **Scout Recon**   | `zai-coding-plan/glm-4.7-flash`  |
-| **Archive Researcher** | `zai-coding-plan/glm-4.7`        |
+| **Cipher Operator**  | `opencode/kimi-k2.5`        |
+| **Seer Advisor**    | `opencode/kimi-k2.5`        |
+| **Scout Recon**   | `opencode/kimi-k2.5`  |
+| **Archive Researcher** | `opencode/kimi-k2.5`        |
 
 #### OpenCode Zen
 
-OpenCode Zen provides access to `opencode/` prefixed models including `opencode/claude-opus-4-5`, `opencode/gpt-5.2`, `opencode/gpt-5-nano`, and `opencode/glm-4.7-free`.
+OpenCode Zen provides access to `opencode/` prefixed models including the standardized `opencode/kimi-k2.5`.
 
 When OpenCode Zen is the best available provider (no native or Copilot), these models are used:
 
 | Agent         | Model                            |
 | ------------- | -------------------------------- |
-| **Cipher Operator**  | `opencode/claude-opus-4-5`       |
-| **Seer Advisor**    | `opencode/gpt-5.2`               |
-| **Scout Recon**   | `opencode/gpt-5-nano`             |
-| **Archive Researcher** | `opencode/glm-4.7-free`          |
+| **Cipher Operator**  | `opencode/kimi-k2.5`       |
+| **Seer Advisor**    | `opencode/kimi-k2.5`               |
+| **Scout Recon**   | `opencode/kimi-k2.5`             |
+| **Archive Researcher** | `opencode/kimi-k2.5`          |
 
 ##### Setup
 

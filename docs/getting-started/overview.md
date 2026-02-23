@@ -112,12 +112,12 @@ Each agent has a **provider priority chain**. The system tries providers in orde
 
 ```
 Example: analyzer-media
-google → openai → zai-coding-plan → anthropic → opencode
-   ↓        ↓           ↓              ↓           ↓
-gemini   gpt-5.2     glm-4.6v       haiku     gpt-5-nano
+opencode
+   ↓
+kimi-k2.5
 ```
 
-If you have Gemini, it uses `google/gemini-3-flash`. No Gemini but have Claude? Uses `anthropic/claude-haiku-4-5`. And so on.
+If you have OpenCode configured, it uses `opencode/kimi-k2.5`.
 
 ### Example Configuration
 
@@ -128,15 +128,15 @@ Here's a real-world config for a user with **Claude, OpenAI, Gemini, and Z.ai** 
   "$schema": "https://raw.githubusercontent.com/hackefeller/ghostwire/master/assets/ghostwire.schema.json",
   "agents": {
     // Override specific agents only - rest use fallback chain
-    "orchestrator": { "model": "anthropic/claude-sonnet-4-5", "variant": "max" },
-    "researcher-data": { "model": "zai-coding-plan/glm-4.7" },
-    "researcher-codebase": { "model": "opencode/gpt-5-nano" },
-    "analyzer-media": { "model": "zai-coding-plan/glm-4.6v" }
+    "orchestrator": { "model": "opencode/kimi-k2.5" },
+    "researcher-data": { "model": "opencode/kimi-k2.5" },
+    "researcher-codebase": { "model": "opencode/kimi-k2.5" },
+    "analyzer-media": { "model": "opencode/kimi-k2.5" }
   },
   "categories": {
-    // Override categories for cost optimization
-    "quick": { "model": "opencode/gpt-5-nano" },
-    "unspecified-low": { "model": "zai-coding-plan/glm-4.7" }
+    // Override categories for optimization
+    "quick": { "model": "opencode/kimi-k2.5" },
+    "unspecified-low": { "model": "opencode/kimi-k2.5" }
   },
   "experimental": {
     "aggressive_truncation": true

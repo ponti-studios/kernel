@@ -20,15 +20,15 @@ It asks about your providers (Claude, OpenAI, Gemini, etc.) and generates optima
   
   // Override specific agent models
   "agents": {
-    "advisor-plan": { "model": "openai/gpt-5.2" },           // Use GPT for debugging
-    "researcher-data": { "model": "zai-coding-plan/glm-4.7" }, // Cheap model for research
-    "researcher-codebase": { "model": "opencode/gpt-5-nano" }        // Free model for grep
+    "advisor-plan": { "model": "opencode/kimi-k2.5" },           // Use kimi-k2.5 for debugging
+    "researcher-data": { "model": "opencode/kimi-k2.5" }, // Standardized model for research
+    "researcher-codebase": { "model": "opencode/kimi-k2.5" }        // Standardized model for grep
   },
   
   // Override category models (used by delegate_task)
   "categories": {
-    "quick": { "model": "opencode/gpt-5-nano" },         // Fast/cheap for trivial tasks
-    "visual-engineering": { "model": "google/gemini-3-pro" } // Gemini for UI
+    "quick": { "model": "opencode/kimi-k2.5" },         // Fast/cheap for trivial tasks
+    "visual-engineering": { "model": "opencode/kimi-k2.5" } // kimi-k2.5 for UI
   }
 }
 ```
@@ -73,10 +73,10 @@ When both `ghostwire.jsonc` and `ghostwire.json` files exist, `.jsonc` takes pri
   /* Agent overrides - customize models for specific tasks */
   "agents": {
     "advisor-plan": {
-      "model": "openai/gpt-5.2"  // GPT for strategic reasoning
+      "model": "opencode/kimi-k2.5"  // kimi-k2.5 for strategic reasoning
     },
     "researcher-codebase": {
-      "model": "opencode/gpt-5-nano"  // Free & fast for exploration
+      "model": "opencode/kimi-k2.5"  // Standardized model for exploration
     },
   },
 }
@@ -154,7 +154,7 @@ Override built-in agent settings:
 {
   "agents": {
     "researcher-codebase": {
-      "model": "anthropic/claude-haiku-4-5",
+      "model": "opencode/kimi-k2.5",
       "temperature": 0.5
     },
     "analyzer-media": {
@@ -357,7 +357,7 @@ Define custom skills directly in your config:
     "data-analyst": {
       "description": "Specialized for data analysis tasks",
       "template": "You are a data analyst. Focus on statistical analysis, visualization, and data interpretation.",
-      "model": "openai/gpt-5.2",
+      "model": "opencode/kimi-k2.5",
       "allowed-tools": ["read", "bash", "lsp_diagnostics"]
     }
   }
@@ -656,17 +656,17 @@ You can also customize Cipher Operator agents like other agents:
 {
   "agents": {
     "Cipher Operator": {
-      "model": "anthropic/claude-sonnet-4",
+      "model": "opencode/kimi-k2.5",
       "temperature": 0.3
     },
     "OpenCode-Builder": {
-      "model": "anthropic/claude-opus-4"
+      "model": "opencode/kimi-k2.5"
     },
     "planner": {
-      "model": "openai/gpt-5.2"
+      "model": "opencode/kimi-k2.5"
     },
     "advisor-strategy": {
-      "model": "anthropic/claude-sonnet-4-5"
+      "model": "opencode/kimi-k2.5"
     }
   }
 }
@@ -689,13 +689,10 @@ Configure concurrency limits for background agent tasks. This controls how many 
     "defaultConcurrency": 5,
     "staleTimeoutMs": 180000,
     "providerConcurrency": {
-      "anthropic": 3,
-      "openai": 5,
-      "google": 10
+      "opencode": 10
     },
     "modelConcurrency": {
-      "anthropic/claude-opus-4-5": 2,
-      "google/gemini-3-flash": 10
+      "opencode/kimi-k2.5": 10
     }
   }
 }
@@ -705,8 +702,8 @@ Configure concurrency limits for background agent tasks. This controls how many 
 | --------------------- | ------- | ----------------------------------------------------------------------------------------------------------------------- |
 | `defaultConcurrency`  | -       | Default maximum concurrent background tasks for all providers/models                                                    |
 | `staleTimeoutMs`      | `180000` | Stale timeout in milliseconds - interrupt tasks with no activity for this duration (minimum: 60000 = 1 minute)             |
-| `providerConcurrency` | -       | Per-provider concurrency limits. Keys are provider names (e.g., `anthropic`, `openai`, `google`)                        |
-| `modelConcurrency`    | -       | Per-model concurrency limits. Keys are full model names (e.g., `anthropic/claude-opus-4-5`). Overrides provider limits. |
+| `providerConcurrency` | -       | Per-provider concurrency limits. Keys are provider names (e.g., `opencode`)                        |
+| `modelConcurrency`    | -       | Per-model concurrency limits. Keys are full model names (e.g., `opencode/kimi-k2.5`). Overrides provider limits. |
 
 **Priority Order**: `modelConcurrency` > `providerConcurrency` > `defaultConcurrency`
 
@@ -725,13 +722,13 @@ All 7 categories come with optimal model defaults, but **you must configure them
 
 | Category             | Built-in Default Model             | Description                                                          |
 | -------------------- | ---------------------------------- | -------------------------------------------------------------------- |
-| `visual-engineering` | `google/gemini-3-pro-preview`      | Frontend, UI/UX, design, styling, animation                          |
-| `ultrabrain`         | `openai/gpt-5.2-codex` (xhigh)     | Deep logical reasoning, complex architecture decisions               |
-| `artistry`           | `google/gemini-3-pro-preview` (max)| Highly creative/artistic tasks, novel ideas                          |
-| `quick`              | `anthropic/claude-haiku-4-5`       | Trivial tasks - single file changes, typo fixes, simple modifications|
-| `unspecified-low`    | `anthropic/claude-sonnet-4-5`      | Tasks that don't fit other categories, low effort required           |
-| `unspecified-high`   | `anthropic/claude-opus-4-5` (max)  | Tasks that don't fit other categories, high effort required          |
-| `writing`            | `google/gemini-3-flash-preview`    | Documentation, prose, technical writing                              |
+| `visual-engineering` | `opencode/kimi-k2.5`      | Frontend, UI/UX, design, styling, animation                          |
+| `ultrabrain`         | `opencode/kimi-k2.5`     | Deep logical reasoning, complex architecture decisions               |
+| `artistry`           | `opencode/kimi-k2.5`| Highly creative/artistic tasks, novel ideas                          |
+| `quick`              | `opencode/kimi-k2.5`       | Trivial tasks - single file changes, typo fixes, simple modifications|
+| `unspecified-low`    | `opencode/kimi-k2.5`      | Tasks that don't fit other categories, low effort required           |
+| `unspecified-high`   | `opencode/kimi-k2.5`  | Tasks that don't fit other categories, high effort required          |
+| `writing`            | `opencode/kimi-k2.5`    | Documentation, prose, technical writing                              |
 
 ### ⚠️ Critical: Model Resolution Priority
 
@@ -747,15 +744,12 @@ All 7 categories come with optimal model defaults, but **you must configure them
 
 ```json
 // opencode.json
-{ "model": "anthropic/claude-sonnet-4-5" }
+{ "model": "opencode/kimi-k2.5" }
 
 // ghostwire.json (empty categories section)
 {}
 
-// Result: ALL categories use claude-sonnet-4-5 (wasteful!)
-// - quick tasks use Sonnet instead of Haiku (expensive)
-// - ultrabrain uses Sonnet instead of GPT-5.2 (inferior reasoning)
-// - visual tasks use Sonnet instead of Gemini (suboptimal for UI)
+// Result: ALL categories use kimi-k2.5 (standardized!)
 ```
 
 ### Recommended Configuration
@@ -766,28 +760,25 @@ All 7 categories come with optimal model defaults, but **you must configure them
 {
   "categories": {
     "visual-engineering": { 
-      "model": "google/gemini-3-pro-preview"
+      "model": "opencode/kimi-k2.5"
     },
     "ultrabrain": { 
-      "model": "openai/gpt-5.2-codex",
-      "variant": "xhigh"
+      "model": "opencode/kimi-k2.5"
     },
     "artistry": { 
-      "model": "google/gemini-3-pro-preview",
-      "variant": "max"
+      "model": "opencode/kimi-k2.5"
     },
     "quick": { 
-      "model": "anthropic/claude-haiku-4-5"  // Fast + cheap for trivial tasks
+      "model": "opencode/kimi-k2.5"  // Fast for trivial tasks
     },
     "unspecified-low": { 
-      "model": "anthropic/claude-sonnet-4-5"
+      "model": "opencode/kimi-k2.5"
     },
     "unspecified-high": { 
-      "model": "anthropic/claude-opus-4-5",
-      "variant": "max"
+      "model": "opencode/kimi-k2.5"
     },
     "writing": { 
-      "model": "google/gemini-3-flash-preview"
+      "model": "opencode/kimi-k2.5"
     }
   }
 }
@@ -814,12 +805,12 @@ Add your own categories or override built-in ones:
 {
   "categories": {
     "data-science": {
-      "model": "anthropic/claude-sonnet-4-5",
+      "model": "opencode/kimi-k2.5",
       "temperature": 0.2,
       "prompt_append": "Focus on data analysis, ML pipelines, and statistical methods."
     },
     "visual-engineering": {
-      "model": "google/gemini-3-pro-preview",
+      "model": "opencode/kimi-k2.5",
       "prompt_append": "Use shadcn/ui components and Tailwind CSS."
     }
   }
@@ -871,9 +862,7 @@ At runtime, Ghostwire uses a 3-step resolution process to determine which model 
 │   │ anthropic → github-copilot → opencode → antigravity     │   │
 │   │     │            │              │            │          │   │
 │   │     ▼            ▼              ▼            ▼          │   │
-│   │ Try: anthropic/claude-opus-4-5                          │   │
-│   │ Try: github-copilot/claude-opus-4-5                     │   │
-│   │ Try: opencode/claude-opus-4-5                           │   │
+│   │ Try: opencode/kimi-k2.5                                 │   │
 │   │ ...                                                     │   │
 │   │                                                         │   │
 │   │ Found in available models? → Return matched model       │   │
@@ -895,15 +884,15 @@ Each agent has a defined provider priority chain. The system tries providers in 
 
 | Agent | Model (no prefix) | Provider Priority Chain |
 |-------|-------------------|-------------------------|
-| **operator** | `claude-opus-4-5` | anthropic → kimi-for-coding → zai-coding-plan → openai → google |
-| **advisor-plan** | `gpt-5.2` | openai → google → anthropic |
-| **researcher-data** | `glm-4.7` | zai-coding-plan → opencode → anthropic |
-| **researcher-codebase** | `claude-haiku-4-5` | anthropic → github-copilot → opencode |
-| **analyzer-media** | `gemini-3-flash` | google → openai → zai-coding-plan → kimi-for-coding → anthropic → opencode |
-| **planner** | `claude-opus-4-5` | anthropic → kimi-for-coding → openai → google |
-| **advisor-strategy** | `claude-opus-4-5` | anthropic → kimi-for-coding → openai → google |
-| **validator-audit** | `gpt-5.2` | openai → anthropic → google |
-| **orchestrator** | `claude-sonnet-4-5` | anthropic → kimi-for-coding → openai → google |
+| **operator** | `kimi-k2.5` | opencode |
+| **advisor-plan** | `kimi-k2.5` | opencode |
+| **researcher-data** | `kimi-k2.5` | opencode |
+| **researcher-codebase** | `kimi-k2.5` | opencode |
+| **analyzer-media** | `kimi-k2.5` | opencode |
+| **planner** | `kimi-k2.5` | opencode |
+| **advisor-strategy** | `kimi-k2.5` | opencode |
+| **validator-audit** | `kimi-k2.5` | opencode |
+| **orchestrator** | `kimi-k2.5` | opencode |
 
 ### Category Provider Chains
 
@@ -911,14 +900,14 @@ Categories follow the same resolution logic:
 
 | Category | Model (no prefix) | Provider Priority Chain |
 |----------|-------------------|-------------------------|
-| **visual-engineering** | `gemini-3-pro` | google → anthropic → zai-coding-plan |
-| **ultrabrain** | `gpt-5.2-codex` | openai → google → anthropic |
-| **deep** | `gpt-5.2-codex` | openai → anthropic → google |
-| **artistry** | `gemini-3-pro` | google → anthropic → openai |
-| **quick** | `claude-haiku-4-5` | anthropic → google → opencode |
-| **unspecified-low** | `claude-sonnet-4-5` | anthropic → openai → google |
-| **unspecified-high** | `claude-opus-4-5` | anthropic → openai → google |
-| **writing** | `gemini-3-flash` | google → anthropic → zai-coding-plan → openai |
+| **visual-engineering** | `kimi-k2.5` | opencode |
+| **ultrabrain** | `kimi-k2.5` | opencode |
+| **deep** | `kimi-k2.5` | opencode |
+| **artistry** | `kimi-k2.5` | opencode |
+| **quick** | `kimi-k2.5` | opencode |
+| **unspecified-low** | `kimi-k2.5` | opencode |
+| **unspecified-high** | `kimi-k2.5` | opencode |
+| **writing** | `kimi-k2.5` | opencode |
 
 ### Checking Your Configuration
 
@@ -942,15 +931,15 @@ Override any agent or category model in `ghostwire.json`:
 {
   "agents": {
     "operator": {
-      "model": "anthropic/claude-sonnet-4-5"
+      "model": "opencode/kimi-k2.5"
     },
     "advisor-plan": {
-      "model": "openai/o3"
+      "model": "opencode/kimi-k2.5"
     }
   },
   "categories": {
     "visual-engineering": {
-      "model": "anthropic/claude-opus-4-5"
+      "model": "opencode/kimi-k2.5"
     }
   }
 }

@@ -59,11 +59,11 @@ Done. Coffee break. Your work is complete.
 
 | Agent | Superpower | Model |
 |-------|-----------|-------|
-| **Cipher Operator** | Main orchestrator, deep analysis | Claude Opus 4.5 |
-| **Seer Advisor** | Architecture decisions, debugging | GPT 5.2 |
-| **Frontend UI/UX** | React, styling, animations | Gemini 3 Pro |
-| **Archive Researcher** | Docs, open-source patterns, history | Claude Sonnet 4.5 |
-| **Scout Recon** | Lightning-fast codebase exploration | Claude Haiku 4.5 |
+| **Cipher Operator** | Main orchestrator, deep analysis | opencode/kimi-k2.5 |
+| **Seer Advisor** | Architecture decisions, debugging | opencode/kimi-k2.5 |
+| **Frontend UI/UX** | React, styling, animations | opencode/kimi-k2.5 |
+| **Archive Researcher** | Docs, open-source patterns, history | opencode/kimi-k2.5 |
+| **Scout Recon** | Lightning-fast codebase exploration | opencode/kimi-k2.5 |
 | **Security Reviewer** | Vulnerability assessment | Specialized agent |
 | **Planner** | Feature planning, task breakdown | Specialized agent |
 | **Context Analyzer** | Token management, context recovery | Specialized agent |
@@ -152,12 +152,12 @@ Ghostwire works out of the box. Customize as needed:
 {
   "agents": {
     "cipher-operator": {
-      "model": "claude-opus-4-20250514",
+      "model": "opencode/kimi-k2.5",
       "temperature": 0.1
     },
     "seer-advisor": {
       "enabled": true,
-      "model": "gpt-5-2-mini"
+      "model": "opencode/kimi-k2.5"
     }
   },
   "hooks": {

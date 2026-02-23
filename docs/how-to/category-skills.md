@@ -21,14 +21,14 @@ A Category is an agent configuration preset optimized for specific domains.
 
 | Category | Default Model | Use Cases |
 |----------|---------------|-----------|
-| `visual-engineering` | `google/gemini-3-pro` | Frontend, UI/UX, design, styling, animation |
-| `ultrabrain` | `openai/gpt-5.2-codex` (xhigh) | Deep logical reasoning, complex architecture decisions requiring extensive analysis |
-| `deep` | `openai/gpt-5.2-codex` (medium) | Goal-oriented autonomous problem-solving. Thorough research before action. For hairy problems requiring deep understanding. |
-| `artistry` | `google/gemini-3-pro` (max) | Highly creative/artistic tasks, novel ideas |
-| `quick` | `anthropic/claude-haiku-4-5` | Trivial tasks - single file changes, typo fixes, simple modifications |
-| `unspecified-low` | `anthropic/claude-sonnet-4-5` | Tasks that don't fit other categories, low effort required |
-| `unspecified-high` | `anthropic/claude-opus-4-5` (max) | Tasks that don't fit other categories, high effort required |
-| `writing` | `google/gemini-3-flash` | Documentation, prose, technical writing |
+| `visual-engineering` | `opencode/kimi-k2.5` | Frontend, UI/UX, design, styling, animation |
+| `ultrabrain` | `opencode/kimi-k2.5` | Deep logical reasoning, complex architecture decisions requiring extensive analysis |
+| `deep` | `opencode/kimi-k2.5` | Goal-oriented autonomous problem-solving. Thorough research before action. For hairy problems requiring deep understanding. |
+| `artistry` | `opencode/kimi-k2.5` | Highly creative/artistic tasks, novel ideas |
+| `quick` | `opencode/kimi-k2.5` | Trivial tasks - single file changes, typo fixes, simple modifications |
+| `unspecified-low` | `opencode/kimi-k2.5` | Tasks that don't fit other categories, low effort required |
+| `unspecified-high` | `opencode/kimi-k2.5` | Tasks that don't fit other categories, high effort required |
+| `writing` | `opencode/kimi-k2.5` | Documentation, prose, technical writing |
 
 ### Usage
 
@@ -159,7 +159,7 @@ You can fine-tune categories in `ghostwire.json`.
 | Field | Type | Description |
 |-------|------|-------------|
 | `description` | string | Human-readable description of the category's purpose. Shown in delegate_task prompt. |
-| `model` | string | AI model ID to use (e.g., `anthropic/claude-opus-4-5`) |
+| `model` | string | AI model ID to use (e.g., `opencode/kimi-k2.5`) |
 | `variant` | string | Model variant (e.g., `max`, `xhigh`) |
 | `temperature` | number | Creativity level (0.0 ~ 2.0). Lower is more deterministic. |
 | `top_p` | number | Nucleus sampling parameter (0.0 ~ 1.0) |
@@ -178,20 +178,20 @@ You can fine-tune categories in `ghostwire.json`.
   "categories": {
     // 1. Define new custom category
     "korean-writer": {
-      "model": "google/gemini-3-flash",
+      "model": "opencode/kimi-k2.5",
       "temperature": 0.5,
       "prompt_append": "You are a Korean technical writer. Maintain a friendly and clear tone."
     },
     
     // 2. Override existing category (change model)
     "visual-engineering": {
-      "model": "openai/gpt-5.2", // Can change model
+      "model": "opencode/kimi-k2.5", // Can change model
       "temperature": 0.8
     },
 
     // 3. Configure thinking model and restrict tools
     "deep-reasoning": {
-      "model": "anthropic/claude-opus-4-5",
+      "model": "opencode/kimi-k2.5",
       "thinking": {
         "type": "enabled",
         "budgetTokens": 32000

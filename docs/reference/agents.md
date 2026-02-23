@@ -47,11 +47,11 @@ Override agent settings in your `ghostwire.json`:
 {
   "agents": {
     "advisor-plan": {
-      "model": "openai/gpt-5.2",
+      "model": "opencode/kimi-k2.5",
       "temperature": 0.1
     },
     "researcher-codebase": {
-      "model": "opencode/gpt-5-nano"
+      "model": "opencode/kimi-k2.5"
     },
     "analyzer-media": {
       "disable": true

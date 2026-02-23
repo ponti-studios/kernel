@@ -81,8 +81,7 @@ I need to migrate from REST to GraphQL
 {
   "agents": {
     "planner": {
-      "model": "anthropic/claude-opus-4-5",
-      "variant": "max"
+      "model": "opencode/kimi-k2.5"
     }
   }
 }
@@ -295,12 +294,12 @@ Task-specific modes activated via `delegate_task` categories:
 ### Quick Mode
 - **Category**: `quick`
 - **Purpose**: Fast, cheap tasks
-- **Default Model**: `opencode/gpt-5-nano`
+- **Default Model**: `opencode/kimi-k2.5`
 
 ### Visual Mode
 - **Category**: `visual`
 - **Purpose**: UI/frontend implementation
-- **Default Model**: `google/gemini-3-pro`
+- **Default Model**: `opencode/kimi-k2.5`
 
 ### Business Logic Mode
 - **Category**: `business-logic`
@@ -310,7 +309,7 @@ Task-specific modes activated via `delegate_task` categories:
 ### Exploration Mode
 - **Category**: `exploration`
 - **Purpose**: Codebase exploration
-- **Default Model**: `anthropic/claude-haiku-4-5`
+- **Default Model**: `opencode/kimi-k2.5`
 
 ### Documentation Mode
 - **Category**: `documentation`
