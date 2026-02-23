@@ -1,12 +1,15 @@
 version: 1
-source: src/orchestration/agents/
-description: Canonical source of truth for agent metadata, synchronized from source code.
+source: docs/agents.yml
+description: Documentation reference for agent metadata. For configuration, use ghostwire.json config files.
 metadata:
-  generated: '2026-02-22'
+  generated: '2026-02-23'
+  status: documentation-only
   notes:
-    - All agents organized by functional category
-    - Display names match agent IDs for consistency
-    - Fallback chains synchronized from src/orchestration/agents/model-requirements.ts
+    - This file is now DOCUMENTATION ONLY
+    - Agent models are configured via ghostwire.json (global or project level)
+    - See: ~/.config/opencode/ghostwire.json (global) or .opencode/ghostwire.json (project)
+    - Run: ghostwire sync-models to update global config with defaults
+    - Default model: opencode/kimi-k2.5 (unless customized in config)
 agents:
   - id: advisor-architecture
     display_name: advisor-architecture
@@ -409,5 +412,6 @@ categories:
           - github-copilot
         model: kimi-k2.5
 notes:
-  - Keep synchronized with src/integration/shared/agent-display-names.ts
+  - This file is now DOCUMENTATION ONLY - for configuration, use ghostwire.json
+  - See metadata.status for more information
   - Command and skill catalogs are stored in docs/commands.yml and docs/skills.yml

@@ -1,3 +1,23 @@
+/**
+ * @deprecated This file is DEPRECATED.
+ * 
+ * Model configuration has moved to ghostwire.json config files:
+ * - Global: ~/.config/opencode/ghostwire.json
+ * - Project: .opencode/ghostwire.json
+ * 
+ * This file is kept for backward compatibility but will be removed in a future version.
+ * 
+ * To update models:
+ * 1. Edit ghostwire.json with your model preferences
+ * 2. Or run: ghostwire sync-models to update global config with defaults
+ * 
+ * The new configuration system supports:
+ * - Agent-specific model overrides
+ * - Category-specific model overrides with variants
+ * - Hierarchical config (project overrides global)
+ * - Sensible defaults (opencode/kimi-k2.5)
+ */
+
 export type FallbackEntry = {
   providers: string[];
   model: string;
