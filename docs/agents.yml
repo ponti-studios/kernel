@@ -10,64 +10,42 @@ metadata:
 agents:
   - id: advisor-architecture
     display_name: advisor-architecture
-    model: undefined/undefined
+    model: opencode/kimi-k2.5
     purpose: Review code to ensure features are agent-native - that any action a user can take, an agent can also take, and anything a user can see, an agent can see. Enforces agent-user capability parity.
+    fallback_chain:
+      - providers:
+          - opencode
+          - github-copilot
+        model: kimi-k2.5
   - id: advisor-plan
     display_name: advisor-plan
-    model: openai/gpt-5.2
+    model: opencode/kimi-k2.5
     purpose: Read-only consultation agent. High-IQ reasoning specialist for debugging hard problems and high-difficulty architecture design.
     fallback_chain:
       - providers:
-          - openai
-          - github-copilot
           - opencode
-        model: gpt-5.2
-        variant: high
-      - providers:
-          - google
           - github-copilot
-          - opencode
-        model: gemini-3-pro
-        variant: max
-      - providers:
-          - anthropic
-          - github-copilot
-          - opencode
-        model: claude-opus-4-5
+        model: kimi-k2.5
         variant: max
   - id: advisor-strategy
     display_name: advisor-strategy
-    model: anthropic/claude-opus-4-5
+    model: opencode/kimi-k2.5
     purpose: Pre-planning consultant that analyzes user intent, surfaces hidden requirements, and prepares directives for the planner agent to prevent AI failures.
     fallback_chain:
       - providers:
-          - anthropic
+          - opencode
           - github-copilot
-          - opencode
-        model: claude-opus-4-5
-        variant: max
-      - providers:
-          - kimi-for-coding
-        model: k2p5
-      - providers:
-          - opencode
-        model: kimi-k2.5-free
-      - providers:
-          - openai
-          - github-copilot
-          - opencode
-        model: gpt-5.2
-        variant: high
-      - providers:
-          - google
-          - github-copilot
-          - opencode
-        model: gemini-3-pro
+        model: kimi-k2.5
         variant: max
   - id: analyzer-design
     display_name: analyzer-design
-    model: undefined/undefined
+    model: opencode/kimi-k2.5
     purpose: Verify that UI implementation matches Figma design specifications. Visually compare live implementation against Figma design and provide detailed feedback on discrepancies for high-quality design execution.
+    fallback_chain:
+      - providers:
+          - opencode
+          - github-copilot
+        model: kimi-k2.5
   - id: analyzer-media
     display_name: analyzer-media
     model: google/gemini-3-flash
@@ -78,425 +56,358 @@ agents:
           - github-copilot
           - opencode
         model: gemini-3-flash
-      - providers:
-          - openai
-          - github-copilot
-          - opencode
-        model: gpt-5.2
-      - providers:
-          - zai-coding-plan
-        model: glm-4.6v
-      - providers:
-          - kimi-for-coding
-        model: k2p5
-      - providers:
-          - opencode
-        model: kimi-k2.5-free
-      - providers:
-          - anthropic
-          - github-copilot
-          - opencode
-        model: claude-haiku-4-5
-      - providers:
-          - opencode
-        model: gpt-5-nano
   - id: analyzer-patterns
     display_name: analyzer-patterns
-    model: undefined/undefined
+    model: opencode/kimi-k2.5
     purpose: Design pattern recognition and code organization specialist. Identifies architectural patterns, anti-patterns, and ensures consistency across the codebase.
+    fallback_chain:
+      - providers:
+          - opencode
+          - github-copilot
+        model: kimi-k2.5
   - id: designer-builder
     display_name: designer-builder
-    model: undefined/undefined
+    model: opencode/kimi-k2.5
     purpose: Create distinctive, production-grade frontend interfaces with high design quality. Generate creative, polished code that avoids generic AI aesthetics and delivers exceptional user experiences.
+    fallback_chain:
+      - providers:
+          - opencode
+          - github-copilot
+        model: kimi-k2.5
   - id: designer-flow
     display_name: designer-flow
-    model: undefined/undefined
+    model: opencode/kimi-k2.5
     purpose: Analyze specifications, plans, feature descriptions, or technical documents for user flow analysis and gap identification. Map all possible user journeys, edge cases, and interaction patterns to ensure comprehensive requirements coverage.
+    fallback_chain:
+      - providers:
+          - opencode
+          - github-copilot
+        model: kimi-k2.5
   - id: designer-iterator
     display_name: designer-iterator
-    model: undefined/undefined
+    model: opencode/kimi-k2.5
     purpose: Systematic design refinement through iterative improvement cycles. Takes screenshots, analyzes design issues, implements improvements, and repeats N times to fix color harmony, layout balance, typography, and overall aesthetic quality.
+    fallback_chain:
+      - providers:
+          - opencode
+          - github-copilot
+        model: kimi-k2.5
   - id: designer-sync
     display_name: designer-sync
-    model: undefined/undefined
+    model: opencode/kimi-k2.5
     purpose: Synchronize web implementation with Figma design by automatically detecting and fixing visual differences. Use iteratively until implementation matches design pixel-perfectly.
+    fallback_chain:
+      - providers:
+          - opencode
+          - github-copilot
+        model: kimi-k2.5
   - id: editor-style
     display_name: editor-style
-    model: undefined/undefined
+    model: opencode/kimi-k2.5
     purpose: Review and edit text content to conform to Every's style guide with systematic line-by-line review.
+    fallback_chain:
+      - providers:
+          - opencode
+          - github-copilot
+        model: kimi-k2.5
   - id: executor
     display_name: executor
-    model: undefined/undefined
+    model: opencode/kimi-k2.5
     purpose: Focused task executor. Executes tasks directly with strict todo discipline and verification. Never delegates implementation to other agents.
+    fallback_chain:
+      - providers:
+          - opencode
+          - github-copilot
+        model: kimi-k2.5
   - id: expert-migrations
     display_name: expert-migrations
-    model: undefined/undefined
+    model: opencode/kimi-k2.5
     purpose: Data migration and backfill expert. Validates ID mappings against production reality, checks for swapped values, verifies rollback safety, and ensures data integrity during schema changes and data transformations.
+    fallback_chain:
+      - providers:
+          - opencode
+          - github-copilot
+        model: kimi-k2.5
   - id: guardian-data
     display_name: guardian-data
-    model: undefined/undefined
+    model: opencode/kimi-k2.5
     purpose: Database migration and data integrity expert. Reviews database migrations, validates data constraints, ensures transaction boundaries are correct, and verifies referential integrity and privacy requirements are maintained.
+    fallback_chain:
+      - providers:
+          - opencode
+          - github-copilot
+        model: kimi-k2.5
   - id: operator
     display_name: operator
-    model: anthropic/claude-opus-4-5
+    model: opencode/kimi-k2.5
     purpose: Primary operator agent that parses intent, delegates tasks, and executes work directly when appropriate. Coordinates specialized agents and tools for implementation.
     fallback_chain:
       - providers:
-          - anthropic
-          - github-copilot
           - opencode
-        model: claude-opus-4-5
+          - github-copilot
+        model: kimi-k2.5
         variant: max
-      - providers:
-          - kimi-for-coding
-        model: k2p5
-      - providers:
-          - opencode
-        model: gpt-5.2-codex
-      - providers:
-          - zai-coding-plan
-        model: glm-4.7
-      - providers:
-          - openai
-          - github-copilot
-          - opencode
-        model: gpt-5.2-codex
-        variant: medium
-      - providers:
-          - google
-          - github-copilot
-          - opencode
-        model: gemini-3-pro
   - id: oracle-performance
     display_name: oracle-performance
-    model: undefined/undefined
+    model: opencode/kimi-k2.5
     purpose: Performance analysis and optimization specialist. Analyzes code for performance issues, identifies bottlenecks, optimizes algorithms, and ensures scalability.
+    fallback_chain:
+      - providers:
+          - opencode
+          - github-copilot
+        model: kimi-k2.5
   - id: orchestrator
     display_name: orchestrator
-    model: kimi-for-coding/k2p5
+    model: opencode/kimi-k2.5
     purpose: Orchestrates work via delegate_task() to complete ALL tasks in a todo list until fully done. Coordinates agents, verifies, and enforces QA gates.
     fallback_chain:
       - providers:
-          - kimi-for-coding
-        model: k2p5
-      - providers:
           - opencode
-        model: kimi-k2.5-free
-      - providers:
-          - anthropic
           - github-copilot
-          - opencode
-        model: claude-sonnet-4-5
-      - providers:
-          - openai
-          - github-copilot
-          - opencode
-        model: gpt-5.2
-      - providers:
-          - google
-          - github-copilot
-          - opencode
-        model: gemini-3-pro
+        model: kimi-k2.5
   - id: planner
     display_name: planner
-    model: anthropic/claude-opus-4-5
+    model: opencode/kimi-k2.5
     purpose: Strategic planning consultant that interviews users, gathers context, and produces comprehensive work plans in markdown. Never implements code directly.
     fallback_chain:
       - providers:
-          - anthropic
-          - github-copilot
           - opencode
-        model: claude-opus-4-5
+          - github-copilot
+        model: kimi-k2.5
         variant: max
-      - providers:
-          - kimi-for-coding
-        model: k2p5
-      - providers:
-          - opencode
-        model: kimi-k2.5-free
-      - providers:
-          - openai
-          - github-copilot
-          - opencode
-        model: gpt-5.2
-        variant: high
-      - providers:
-          - google
-          - github-copilot
-          - opencode
-        model: gemini-3-pro
   - id: researcher-codebase
     display_name: researcher-codebase
-    model: anthropic/claude-haiku-4-5
+    model: opencode/kimi-k2.5
     purpose: Contextual codebase search agent. Answers "Where is X?", "Which file has Y?", "Find the code that does Z" by running broad searches and returning actionable results.
     fallback_chain:
       - providers:
-          - anthropic
           - opencode
-        model: claude-haiku-4-5
-      - providers:
           - github-copilot
-        model: gpt-5-mini
-      - providers:
-          - opencode
-        model: gpt-5-nano
+        model: kimi-k2.5
   - id: researcher-data
     display_name: researcher-data
-    model: zai-coding-plan/glm-4.7
+    model: opencode/kimi-k2.5
     purpose: Specialized codebase understanding agent for multi-repository analysis, searching remote codebases, retrieving official documentation, and finding implementation examples using GitHub CLI, Context7, and web search.
     fallback_chain:
       - providers:
-          - zai-coding-plan
-        model: glm-4.7
-      - providers:
           - opencode
-        model: glm-4.7-free
-      - providers:
-          - anthropic
           - github-copilot
-          - opencode
-        model: claude-sonnet-4-5
+        model: kimi-k2.5
   - id: researcher-docs
     display_name: researcher-docs
-    model: undefined/undefined
+    model: opencode/kimi-k2.5
     purpose: Gather comprehensive documentation and best practices for frameworks, libraries, or dependencies. Fetches official documentation, explores source code, identifies version-specific constraints, and understands implementation patterns.
+    fallback_chain:
+      - providers:
+          - opencode
+          - github-copilot
+        model: kimi-k2.5
   - id: researcher-git
     display_name: researcher-git
-    model: undefined/undefined
+    model: opencode/kimi-k2.5
     purpose: Understand historical context and evolution of code changes, trace origins of specific code patterns, identify key contributors and their expertise areas, and analyze patterns in commit history for insights about code evolution.
+    fallback_chain:
+      - providers:
+          - opencode
+          - github-copilot
+        model: kimi-k2.5
   - id: researcher-learnings
     display_name: researcher-learnings
-    model: undefined/undefined
+    model: opencode/kimi-k2.5
     purpose: Search institutional learnings in docs/solutions/ for relevant past solutions before implementing features or fixing problems. Efficiently filters documented solutions to find applicable patterns, gotchas, and lessons learned.
+    fallback_chain:
+      - providers:
+          - opencode
+          - github-copilot
+        model: kimi-k2.5
   - id: researcher-practices
     display_name: researcher-practices
-    model: undefined/undefined
+    model: opencode/kimi-k2.5
     purpose: Research and gather external best practices, documentation, and examples for any technology, framework, or development practice. Find official documentation, community standards, and well-regarded examples from open source projects.
+    fallback_chain:
+      - providers:
+          - opencode
+          - github-copilot
+        model: kimi-k2.5
   - id: researcher-repo
     display_name: researcher-repo
-    model: undefined/undefined
+    model: opencode/kimi-k2.5
     purpose: Repository structure and convention researcher. Explores codebases to understand architecture, find files, identify patterns, and surface relevant context for tasks.
+    fallback_chain:
+      - providers:
+          - opencode
+          - github-copilot
+        model: kimi-k2.5
   - id: resolver-pr
     display_name: resolver-pr
-    model: undefined/undefined
+    model: opencode/kimi-k2.5
     purpose: PR comment resolution specialist. Addresses code review feedback by understanding comments, implementing requested changes, and ensuring code meets reviewer standards.
+    fallback_chain:
+      - providers:
+          - opencode
+          - github-copilot
+        model: kimi-k2.5
   - id: reviewer-python
     display_name: reviewer-python
-    model: undefined/undefined
+    model: opencode/kimi-k2.5
     purpose: Python code review with Kieran's strict conventions and taste preferences. Use after implementing features, modifying existing code, or creating new Python modules to ensure exceptional code quality.
+    fallback_chain:
+      - providers:
+          - opencode
+          - github-copilot
+        model: kimi-k2.5
   - id: reviewer-races
     display_name: reviewer-races
-    model: undefined/undefined
+    model: opencode/kimi-k2.5
     purpose: JavaScript and Stimulus race condition reviewer. Specializes in identifying timing issues, state synchronization problems, and DOM manipulation race conditions in frontend code.
+    fallback_chain:
+      - providers:
+          - opencode
+          - github-copilot
+        model: kimi-k2.5
   - id: reviewer-rails
     display_name: reviewer-rails
-    model: undefined/undefined
+    model: opencode/kimi-k2.5
     purpose: Rails code review with Kieran's strict conventions and taste preferences. Use after implementing features, modifying existing code, or creating new Rails components to ensure exceptional code quality.
+    fallback_chain:
+      - providers:
+          - opencode
+          - github-copilot
+        model: kimi-k2.5
   - id: reviewer-rails-dh
     display_name: reviewer-rails-dh
-    model: undefined/undefined
+    model: opencode/kimi-k2.5
     purpose: Brutally honest Rails code review from DHH's perspective. Identifies anti-patterns, JavaScript framework contamination, and violations of Rails conventions.
+    fallback_chain:
+      - providers:
+          - opencode
+          - github-copilot
+        model: kimi-k2.5
   - id: reviewer-security
     display_name: reviewer-security
-    model: undefined/undefined
+    model: opencode/kimi-k2.5
     purpose: Security audits, vulnerability assessments, and security reviews of code. Checks for common security vulnerabilities, validates input handling, reviews authentication and authorization implementations, scans for hardcoded secrets, and ensures OWASP compliance.
+    fallback_chain:
+      - providers:
+          - opencode
+          - github-copilot
+        model: kimi-k2.5
   - id: reviewer-simplicity
     display_name: reviewer-simplicity
-    model: undefined/undefined
+    model: opencode/kimi-k2.5
     purpose: Final review pass to ensure code changes are as simple and minimal as possible. Identifies opportunities for simplification and enforces YAGNI principles.
+    fallback_chain:
+      - providers:
+          - opencode
+          - github-copilot
+        model: kimi-k2.5
   - id: reviewer-typescript
     display_name: reviewer-typescript
-    model: undefined/undefined
+    model: opencode/kimi-k2.5
     purpose: TypeScript code review with Kieran's strict conventions and taste preferences. Use after implementing features, modifying existing code, or creating new TypeScript modules to ensure exceptional code quality.
+    fallback_chain:
+      - providers:
+          - opencode
+          - github-copilot
+        model: kimi-k2.5
   - id: validator-audit
     display_name: validator-audit
-    model: openai/gpt-5.2
+    model: opencode/kimi-k2.5
     purpose: Expert reviewer for evaluating work plans against rigorous clarity, verifiability, and completeness standards. Ensures plans are executable and references are valid.
     fallback_chain:
       - providers:
-          - openai
-          - github-copilot
           - opencode
-        model: gpt-5.2
+          - github-copilot
+        model: kimi-k2.5
         variant: medium
-      - providers:
-          - anthropic
-          - github-copilot
-          - opencode
-        model: claude-opus-4-5
-        variant: max
-      - providers:
-          - google
-          - github-copilot
-          - opencode
-        model: gemini-3-pro
-        variant: max
   - id: validator-bugs
     display_name: validator-bugs
-    model: undefined/undefined
+    model: opencode/kimi-k2.5
     purpose: Bug reproduction and validation specialist. Systematically attempts to reproduce reported issues, validates whether the behavior is actually a bug, and provides clear reproduction steps for developers.
+    fallback_chain:
+      - providers:
+          - opencode
+          - github-copilot
+        model: kimi-k2.5
   - id: validator-deployment
     display_name: validator-deployment
-    model: undefined/undefined
+    model: opencode/kimi-k2.5
     purpose: Create comprehensive pre/post-deploy checklists for changes that touch production data, migrations, or behavior that could silently discard or duplicate records. Essential for risky data changes requiring Go or No-Go decisions.
+    fallback_chain:
+      - providers:
+          - opencode
+          - github-copilot
+        model: kimi-k2.5
   - id: writer-gem
     display_name: writer-gem
-    model: undefined/undefined
+    model: opencode/kimi-k2.5
     purpose: Write Ruby gems following Andrew Kane's patterns with simple APIs, clear docs, and sensible defaults.
+    fallback_chain:
+      - providers:
+          - opencode
+          - github-copilot
+        model: kimi-k2.5
   - id: writer-readme
     display_name: writer-readme
-    model: undefined/undefined
+    model: opencode/kimi-k2.5
     purpose: Create or update README files following Ankane-style template for Ruby gems. Write concise documentation with imperative voice, short sentences, single-purpose code fences, and minimal prose.
+    fallback_chain:
+      - providers:
+          - opencode
+          - github-copilot
+        model: kimi-k2.5
 categories:
   - id: visual-engineering
     fallback_chain:
       - providers:
-          - google
-          - github-copilot
           - opencode
-        model: gemini-3-pro
-      - providers:
-          - anthropic
           - github-copilot
-          - opencode
-        model: claude-opus-4-5
-        variant: max
-      - providers:
-          - zai-coding-plan
-        model: glm-4.7
+        model: kimi-k2.5
   - id: ultrabrain
     fallback_chain:
       - providers:
-          - openai
-          - github-copilot
           - opencode
-        model: gpt-5.2-codex
-        variant: xhigh
-      - providers:
-          - google
           - github-copilot
-          - opencode
-        model: gemini-3-pro
-        variant: max
-      - providers:
-          - anthropic
-          - github-copilot
-          - opencode
-        model: claude-opus-4-5
+        model: kimi-k2.5
         variant: max
   - id: deep
-    requires_model: gpt-5.2-codex
     fallback_chain:
       - providers:
-          - openai
-          - github-copilot
           - opencode
-        model: gpt-5.2-codex
+          - github-copilot
+        model: kimi-k2.5
         variant: medium
-      - providers:
-          - anthropic
-          - github-copilot
-          - opencode
-        model: claude-opus-4-5
-        variant: max
-      - providers:
-          - google
-          - github-copilot
-          - opencode
-        model: gemini-3-pro
-        variant: max
   - id: artistry
-    requires_model: gemini-3-pro
     fallback_chain:
       - providers:
-          - google
-          - github-copilot
           - opencode
-        model: gemini-3-pro
-        variant: max
-      - providers:
-          - anthropic
           - github-copilot
-          - opencode
-        model: claude-opus-4-5
-        variant: max
-      - providers:
-          - openai
-          - github-copilot
-          - opencode
-        model: gpt-5.2
+        model: kimi-k2.5
   - id: quick
     fallback_chain:
       - providers:
-          - anthropic
+          - opencode
           - github-copilot
-          - opencode
-        model: claude-haiku-4-5
-      - providers:
-          - google
-          - github-copilot
-          - opencode
-        model: gemini-3-flash
-      - providers:
-          - opencode
-        model: gpt-5-nano
+        model: kimi-k2.5
   - id: unspecified-low
     fallback_chain:
       - providers:
-          - anthropic
-          - github-copilot
           - opencode
-        model: claude-sonnet-4-5
-      - providers:
-          - openai
           - github-copilot
-          - opencode
-        model: gpt-5.2-codex
-        variant: medium
-      - providers:
-          - google
-          - github-copilot
-          - opencode
-        model: gemini-3-flash
+        model: kimi-k2.5
   - id: unspecified-high
     fallback_chain:
       - providers:
-          - anthropic
-          - github-copilot
           - opencode
-        model: claude-opus-4-5
+          - github-copilot
+        model: kimi-k2.5
         variant: max
-      - providers:
-          - openai
-          - github-copilot
-          - opencode
-        model: gpt-5.2
-        variant: high
-      - providers:
-          - google
-          - github-copilot
-          - opencode
-        model: gemini-3-pro
   - id: writing
     fallback_chain:
       - providers:
-          - google
-          - github-copilot
           - opencode
-        model: gemini-3-flash
-      - providers:
-          - anthropic
           - github-copilot
-          - opencode
-        model: claude-sonnet-4-5
-      - providers:
-          - zai-coding-plan
-        model: glm-4.7
-      - providers:
-          - openai
-          - github-copilot
-          - opencode
-        model: gpt-5.2
+        model: kimi-k2.5
 notes:
   - Keep synchronized with src/integration/shared/agent-display-names.ts
   - Command and skill catalogs are stored in docs/commands.yml and docs/skills.yml
