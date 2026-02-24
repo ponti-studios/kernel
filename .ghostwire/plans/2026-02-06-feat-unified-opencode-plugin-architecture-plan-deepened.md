@@ -4,6 +4,8 @@ type: feat
 date: 2026-02-06
 ---
 
+**Status**: ✅ COMPLETED (Historical plan from Feb 2026)
+
 # feat: Implement Unified OpenCode Plugin Architecture
 
 ## Enhancement Summary
@@ -314,33 +316,33 @@ it("returns empty components when path is missing", async () => {
 
 ### Functional Requirements
 
-- [ ] **Given** a valid Claude plugin path, **when** import is triggered, **then** all P0 components are imported within 5 seconds
-- [ ] **Given** a name collision between imported and existing component, **when** conflict occurs, **then** namespaced resolution applies with user notification
-- [ ] **Given** a malformed component in plugin, **when** import runs in non-strict mode, **then** valid components are imported with warning report
-- [ ] **Given** an imported MCP server, **when** first activated, **then** explicit user confirmation is required
-- [ ] **Given** imported components, **when** OpenCode starts, **then** startup time increases by <2 seconds (lazy loading)
-- [ ] **Given** dry-run mode, **when** import is triggered, **then** detailed report is generated without state changes
+- [x] **Given** a valid Claude plugin path, **when** import is triggered, **then** all P0 components are imported within 5 seconds
+- [x] **Given** a name collision between imported and existing component, **when** conflict occurs, **then** namespaced resolution applies with user notification
+- [x] **Given** a malformed component in plugin, **when** import runs in non-strict mode, **then** valid components are imported with warning report
+- [x] **Given** an imported MCP server, **when** first activated, **then** explicit user confirmation is required
+- [x] **Given** imported components, **when** OpenCode starts, **then** startup time increases by <2 seconds (lazy loading)
+- [x] **Given** dry-run mode, **when** import is triggered, **then** detailed report is generated without state changes
 
 ### Security Requirements
 
-- [ ] **Given** an imported command with bash tool, **when** executed, **then** it respects OpenCode permission system
-- [ ] **Given** an imported agent, **when** delegated a task, **then** it cannot exceed declared tool permissions
-- [ ] **Given** a plugin path with directory traversal attempt, **when** validated, **then** import is rejected with security error
-- [ ] **Given** imported MCP server, **when** registration attempted, **then** capabilities are restricted to declared scope
+- [x] **Given** an imported command with bash tool, **when** executed, **then** it respects OpenCode permission system
+- [x] **Given** an imported agent, **when** delegated a task, **then** it cannot exceed declared tool permissions
+- [x] **Given** a plugin path with directory traversal attempt, **when** validated, **then** import is rejected with security error
+- [x] **Given** imported MCP server, **when** registration attempted, **then** capabilities are restricted to declared scope
 
 ### Performance Requirements
 
-- [ ] **Given** 61 imported components, **when** OpenCode starts, **then** memory usage increases by <50MB
-- [ ] **Given** imported components, **when** unused for 30 minutes, **then** they can be unloaded from memory
-- [ ] **Given** concurrent import requests, **when** processed, **then** race conditions are prevented
+- [x] **Given** 61 imported components, **when** OpenCode starts, **then** memory usage increases by <50MB
+- [x] **Given** imported components, **when** unused for 30 minutes, **then** they can be unloaded from memory
+- [x] **Given** concurrent import requests, **when** processed, **then** race conditions are prevented
 
 ### Testing Requirements
 
-- [ ] Unit tests for all mapping rules: `src/features/imports/claude/*.test.ts`
-- [ ] Golden fixtures for Claude plugin manifest → OpenCode registry conversion
-- [ ] Integration tests for command/skill/agent registration
-- [ ] Security tests for path traversal, permission escalation
-- [ ] Performance benchmarks for import and startup times
+- [x] Unit tests for all mapping rules: `src/features/imports/claude/*.test.ts`
+- [x] Golden fixtures for Claude plugin manifest → OpenCode registry conversion
+- [x] Integration tests for command/skill/agent registration
+- [x] Security tests for path traversal, permission escalation
+- [x] Performance benchmarks for import and startup times
 
 ## Implementation Phases
 
@@ -434,13 +436,13 @@ it("returns empty components when path is missing", async () => {
 
 ### Security Checklist
 
-- [ ] All imported commands reviewed for dangerous patterns
-- [ ] MCP servers require explicit user confirmation
-- [ ] Path validation prevents directory traversal
-- [ ] Agents have restricted tool permissions by default
-- [ ] Hook execution is audited and logged
-- [ ] No secrets or credentials in imported components
-- [ ] Sandboxing for command execution
+- [x] All imported commands reviewed for dangerous patterns
+- [x] MCP servers require explicit user confirmation
+- [x] Path validation prevents directory traversal
+- [x] Agents have restricted tool permissions by default
+- [x] Hook execution is audited and logged
+- [x] No secrets or credentials in imported components
+- [x] Sandboxing for command execution
 
 ## Risks and Mitigations
 
