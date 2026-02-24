@@ -1500,17 +1500,17 @@ ghostwire sync-models --dry-run
 
 ## TODOs
 
-- [ ] Task 1.1: Create model-config.ts
-- [ ] Task 1.2: Create model-config-resolver.ts
-- [ ] Task 1.3: Update schema.ts
-- [ ] Task 2.1: Update installer
-- [ ] Task 2.2: Create sync-models CLI
-- [ ] Task 3.1: Refactor model-resolver.ts
-- [ ] Task 3.2: Update delegate-task constants
-- [ ] Task 3.3: Update delegate-task tools.ts
-- [ ] Task 4.1: Update agents.yml
-- [ ] Task 4.2: Deprecate model-requirements.ts
-- [ ] Task 4.3: Create migration guide
-- [ ] Task 5.1: Configuration resolution tests
-- [ ] Task 5.2: Integration tests
-- [ ] Task 5.3: Installer tests
+- [x] Task 1.1: Create model-config.ts
+- [x] Task 1.2: Create model-config-resolver.ts
+- [x] Task 1.3: Update schema.ts
+- [x] Task 2.1: Update installer
+- [x] Task 2.2: Create sync-models CLI
+- [x] Task 3.1: Refactor model-resolver.ts
+- [x] Task 3.2: Update delegate-task constants
+- [x] Task 3.3: Update delegate-task tools.ts
+- [x] Task 4.1: Update agents.yml
+- [x] Task 4.2: Deprecate model-requirements.ts
+- [x] Task 4.3: Create migration guide
+- [x] Task 5.1: Configuration resolution tests
+- [x] Task 5.2: Integration tests
+- [x] Task 5.3: Installer tests
