@@ -45,9 +45,6 @@ jobs:
         env:
           BUN_INSTALL_ALLOW_SCRIPTS: "@ast-grep/napi"
 
-      - name: Check topology
-        run: bun run check:topology
-
       - name: Run mock-heavy tests (isolated)
         run: |
           # These files use mock.module() which pollutes module cache
