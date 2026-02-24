@@ -21,14 +21,22 @@
     "./schema.json": "./dist/ghostwire.schema.json"
   },
   "scripts": {
-    "build": "make build",
-    "dev": "make dev",
-    "test": "make test",
-    "clean": "make clean",
-    "typecheck": "make typecheck",
-    "sync": "make sync",
+    "build": "bun run task.ts build",
+    "build-fast": "bun run task.ts build-fast",
+    "dev": "bun run task.ts dev",
+    "test": "bun run task.ts test",
+    "clean": "bun run task.ts clean",
+    "typecheck": "bun run task.ts typecheck",
+    "sync": "bun run task.ts sync",
+    "schema": "bun run task.ts schema",
+    "agents": "bun run task.ts agents",
+    "binaries": "bun run task.ts binaries",
+    "docs": "bun run task.ts docs",
+    "topology": "bun run task.ts topology",
+    "dev-setup": "bun run task.ts dev-setup",
+    "help": "bun run task.ts help",
     "postinstall": "node postinstall.mjs",
-    "prepublishOnly": "make prepublish"
+    "prepublishOnly": "bun run task.ts build"
   },
   "keywords": [
     "opencode",
@@ -71,6 +79,7 @@
     "@types/js-yaml": "^4.0.9",
     "@types/picomatch": "^3.0.2",
     "bun-types": "latest",
+    "nanospinner": "^1.2.2",
     "typescript": "^5.7.3"
   },
   "optionalDependencies": {

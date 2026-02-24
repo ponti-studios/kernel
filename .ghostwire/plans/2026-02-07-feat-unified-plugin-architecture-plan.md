@@ -2,11 +2,12 @@
 title: "feat: unified OpenCode plugin architecture"
 type: feature
 date: 2026-02-07
-status: complete
+status: ✅ COMPLETED
 ---
 
 # Feature: Unified OpenCode Plugin Architecture
 
+**Status**: ✅ COMPLETED (Historical plan from Feb 2026)
 **Completed**: v3.2.0  
 **Status**: ✅ COMPLETE (All 125 components integrated, native to ghostwire)  
 **Related Commits**: cce662a (Phase 1), 105375e (Cleanup), 342be97 (v3.2.0 Release)

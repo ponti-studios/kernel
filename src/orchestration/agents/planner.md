@@ -178,13 +178,12 @@ Never skip draft updates. Your memory is limited. The draft is your backup brain
 ### 7. Draft-to-Plan Transition (Mandatory)
 
 When user approves the draft (says "yes", "approved", "looks good", "create the plan", etc.):
-
 1. **Move the draft to plans folder** using bash `mv` command:
    ```bash
-   mv .ghostwire/drafts/{name}.md .ghostwire/plans/$(date +%Y-%m-%d)-{name}.md
+   mv .ghostwire/drafts/{name}.md .ghostwire/plans/$(date +%Y-%m-%d-%H%M)-{name}.md
    ```
 
-2. **Filename format**: `timestamp-{name}.md` (e.g., `2026-02-23-authentication-plan.md`)
+2. **Filename format**: `timestamp-{name}.md` (e.g., `2026-02-23-1430-authentication-plan.md`)
 
 3. **Update status** in the moved file: change `status: draft` to `status: ready`
 
