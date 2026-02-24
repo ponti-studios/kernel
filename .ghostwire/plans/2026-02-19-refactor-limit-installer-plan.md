@@ -4,6 +4,8 @@ type: refactor
 date: 2026-02-19
 ---
 
+**Status**: ✅ COMPLETED (Historical plan from Feb 2026)
+
 # Limit Installer to OpenCode and Copilot Only
 
 ## Overview
@@ -138,13 +140,13 @@ These files support OpenCode users importing Claude Code configurations:
 
 ## Acceptance Criteria
 
-- [ ] OpenCode installation works
-- [ ] Copilot installation works
-- [ ] No Claude Code installation code remains in installer
-- [ ] Tests pass (update test files first)
-- [ ] TypeScript compilation succeeds
-- [ ] Existing OpenCode users with Claude Code configs still work (backward compat)
-- [ ] `grid-claude-code-hooks` hook remains functional for OpenCode users
+- [x] OpenCode installation works
+- [x] Copilot installation works
+- [x] No Claude Code installation code remains in installer
+- [x] Tests pass (update test files first)
+- [x] TypeScript compilation succeeds
+- [x] Existing OpenCode users with Claude Code configs still work (backward compat)
+- [x] `grid-claude-code-hooks` hook remains functional for OpenCode users
 
 ## References
 
