@@ -86,7 +86,7 @@ When both `ghostwire.jsonc` and `ghostwire.json` files exist, `.jsonc` takes pri
 
 ## Google Auth
 
-**Recommended**: For Google Gemini authentication, install the [`opencode-antigravity-auth`](https://github.com/NoeFabris/opencode-antigravity-auth) plugin (`@latest`). It provides multi-account load balancing, variant-based thinking levels, dual quota system (Antigravity + Gemini CLI), and active maintenance. See [Installation > Google Gemini](../getting-started/installation.md#google-gemini-antigravity-oauth).
+**Recommended**: For Google Gemini authentication, install the [`opencode-antigravity-auth`](https://github.com/NoeFabris/opencode-antigravity-auth) plugin (`@latest`). It provides multi-account load balancing, variant-based thinking levels, dual quota system (Antigravity + Gemini CLI), and active maintenance.
 
 ## Ollama Provider
 
@@ -141,7 +141,7 @@ If you encounter `JSON Parse error: Unexpected EOF`:
    curl -s http://localhost:11434/api/chat \
      -d '{"model": "qwen3-coder", "messages": [{"role": "user", "content": "Hello"}], "stream": false}'
    ```
-4. **See detailed troubleshooting**: [Ollama streaming issue](../troubleshooting/ollama-streaming-issue.md)
+4. **Inspect transport shape**: confirm response is a single JSON object (not NDJSON chunks)
 
 ### Future SDK Fix
 

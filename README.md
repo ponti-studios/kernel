@@ -1,270 +1,100 @@
 # Ghostwire
 
-> **The best AI agent harness.** Batteries-included OpenCode plugin with multi-model orchestration, parallel background agents, and crafted LSP/AST tools.
+Ghostwire is an agent orchestration system for software production, not a prompt wrapper. 
 
-Ghostwire transforms your AI coding assistant into a powerful team of specialized agents that work together—background agents explore in parallel, semantic refactoring happens via LSP, frontend experts handle UI, and if you get stuck, specialists jump in automatically.
+The objective is deterministic throughput under bounded context: decompose work, route subtasks to specialized agents, validate outputs against code reality, and converge on completed artifacts. 
 
-## ✨ What Makes Ghostwire Different
+We optimize for measurable completion probability, low entropy execution, and strict interface contracts between planning, delegation, tooling, and verification.
 
-| Feature                        | Why It Matters                                                                                             |
-| ------------------------------ | ---------------------------------------------------------------------------------------------------------- |
-| **Multi-model orchestration**  | Claude, GPT, Gemini, Grok—each excels at different tasks. Ghostwire routes work to the best tool.          |
-| **Parallel background agents** | While main agent develops, cheaper models explore codebase, docs, and GitHub in the background.            |
-| **LSP + AST-Grep refactoring** | No hallucinations. Surgical, deterministic code transformations validated by TypeScript.                   |
-| **Todo continuation**          | Agent gets stuck? System auto-resumes it. Work doesn't stop until complete.                                |
-| **Comment intelligence**       | AI-generated code stays clean. Comments only when necessary, indistinguishable from human code.            |
-| **39 lifecycle hooks**         | Automate workflows at every stage—pre-execution, post-tool, context recovery, keyword detection, and more. |
+Our design philosophy:
+- *Kanso (simplicity)* - removes rhetorical clutter; only operationally relevant information remains. 
+- *Ma (negative space)* is intentional structure: spacing separates concerns and highlights high-value signal. 
+- *Shibui (understated)* rejects adjective-driven persuasion in favor of factual authority and logical traceability. 
+- *Wabi-sabi (imperfection)* prioritizes brutalist truth over polished ambiguity, so functional clarity consistently outranks stylistic performance.
 
-## 🚀 Get Started in 30 Seconds
+## Product Surface
 
-### Option 1: Let an Agent Do It (Recommended)
+- Type: OpenCode plugin + CLI
+- Role: Multi-agent orchestration, workflow execution, deterministic code operations
+- Runtime focus: Bun + TypeScript
+- Core execution style: task graph + category delegation + validation loop
 
-Copy this into Claude Code, Cursor, or your LLM agent:
-
-```
-Install and configure ghostwire by following:
-https://raw.githubusercontent.com/hackefeller/ghostwire/refs/heads/main/docs/getting-started/installation.md
-```
-
-We recommend agents handle setup—they're better at it than humans.
-
-### Option 2: Manual Setup
+## Quick Start
 
 ```bash
-npm install -g ghostwire
-opencode --init  # Then select ghostwire in config
+bunx ghostwire install
 ```
 
-See [Installation Guide](docs/getting-started/installation.md) for detailed instructions.
+Then use:
 
-## 🪄 The Magic: `ultrawork`
-
-Don't want to read the docs? Just add **`ultrawork`** (or `ulw`) to your prompt.
-
-That's it. Ghostwire detects it and:
-
-- Spawns parallel background agents to map the territory
-- Routes complex tasks to domain experts automatically
-- Continues execution until your task is 100% done
-- Manages context across multiple agents seamlessly
-
-```
-"ultrawork: implement dark mode in the React app"
+```text
+ultrawork: <task>
 ```
 
-Done. Coffee break. Your work is complete.
-
-## 🛠️ What You Get Out of the Box
-
-### 10 Specialized Agents
-
-| Agent                  | Superpower                          | Model              |
-| ---------------------- | ----------------------------------- | ------------------ |
-| **Cipher Operator**    | Main orchestrator, deep analysis    | opencode/kimi-k2.5 |
-| **Seer Advisor**       | Architecture decisions, debugging   | opencode/kimi-k2.5 |
-| **Frontend UI/UX**     | React, styling, animations          | opencode/kimi-k2.5 |
-| **Archive Researcher** | Docs, open-source patterns, history | opencode/kimi-k2.5 |
-| **Scout Recon**        | Lightning-fast codebase exploration | opencode/kimi-k2.5 |
-| **Security Reviewer**  | Vulnerability assessment            | Specialized agent  |
-| **Planner**            | Feature planning, task breakdown    | Specialized agent  |
-| **Context Analyzer**   | Token management, context recovery  | Specialized agent  |
-| **LSP Refactorer**     | Type-safe transformations           | Specialized agent  |
-| **Git Master**         | Atomic commits, history search      | Specialized agent  |
-
-### 39 Lifecycle Hooks
-
-Wire into every stage of development:
-
-```yaml
-PreToolUse: Validate input before execution
-PostToolUse: Process results intelligently
-UserPromptSubmit: Intercept and enhance prompts
-PreAgent: Setup before agent runs
-PostAgent: Cleanup after agent completes
-ContextRecovery: Handle token limit overflow
-KeywordDetector: Trigger agents by keywords
-TodoContinuation: Force completion of incomplete work
-```
-
-...and 31 more. See [Hook Reference](docs/reference/lifecycle-hooks.md).
-
-### 50+ Built-in Commands
+or explicit commands:
 
 ```bash
-/ghostwire:workflows:plan          # Feature → actionable plan
-/ghostwire:code:refactor           # Safe refactoring with LSP
-/ghostwire:git:smart-commit        # Atomic commits following conventions
-/ghostwire:project:test            # Run tests with coverage
-/ghostwire:code:review             # Multi-agent code review
-/ghostwire:code:optimize           # Performance and quality optimization
-/ghostwire:docs:deploy-docs        # Build and deploy docs
+/ghostwire:workflows:create
+/ghostwire:workflows:execute
+/ghostwire:workflows:status
+/ghostwire:workflows:complete
+/ghostwire:work:loop
+/ghostwire:work:cancel
 ```
 
-Full list in [Commands Reference](docs/reference/commands.md).
+## Canonical Workflow
 
-### 3 Built-in MCPs
+1. `workflows:create`: transform objective into structured task graph.
+2. Delegation engine: map task categories to specialist agents.
+3. `workflows:execute` or `work:loop`: execute by dependency wave.
+4. `workflows:status`: track completion state and blockers.
+5. `workflows:complete`: finalize artifacts and close workflow.
 
-```
-Exa (Web Search)           → Current information, research
-Context7 (Live Docs)       → Official documentation, tutorials
-Grep.app (GitHub Search)   → Real-world code patterns
-```
+## Architecture (Compressed)
 
-Configure or add your own in `.opencode/mcp.json`.
+- Orchestration: `src/orchestration/` (agents + lifecycle hooks)
+- Execution: `src/execution/` (features + tools + task queue)
+- Integration: `src/integration/` (shared infra + MCP)
+- Platform: `src/platform/` (config, schemas, compatibility)
+- CLI: `src/cli/`
 
-## 📋 How It Works
+## Deterministic Guarantees
 
-### The Team Structure
+- Structured plans with dependency metadata (`blocks`, `blockedBy`, `wave`)
+- Category-driven delegation (`visual-engineering`, `ultrabrain`, `quick`, `deep`, `artistry`, `writing`)
+- Validation gates for agent/command references and config schema
+- Tool-mediated code operations over ad-hoc text edits where possible
 
-```
-You (Human)
-  ↓
-Cipher Operator (Main Agent)
-  ├─→ Background Task 1: Scout explores codebase
-  ├─→ Background Task 2: Archive digs into docs
-  ├─→ When stuck: Seer Advisor (GPT 5.2) joins
-  ├─→ For frontend: UI Expert (Gemini 3 Pro) takes over
-  ├─→ Code changes via LSP (type-safe, no hallucinations)
-  └─→ Todo enforcement: Forces completion
-```
+## Configuration
 
-### Real Example: "Ultrawork: Add authentication to the API"
+Primary configuration reference:
 
-1. **Second 0-2**: Cipher Operator parses the prompt, detects `ultrawork`
-2. **Second 2-5**: Background agents spawn in parallel:
-   - Scout scans `src/` for existing auth patterns
-   - Archive fetches OAuth2 best practices
-   - Researcher checks npm for auth libraries
-3. **Second 5-10**: Cipher Operator designs the solution with full context
-4. **Second 10-60**: Implementation:
-   - Core logic via Cipher Operator
-   - Type checking via LSP validation
-   - Frontend UI via Gemini 3 Pro expert
-   - Git commit via Git Master (atomic, well-written)
-5. **Second 60+**: Tests run, todos enforced, work continues until 100% complete
+- [docs/reference/configurations.md](docs/reference/configurations.md)
 
-**Key difference**: Traditional agents hunt for files themselves, wasting context. Ghostwire has cheaper models explore in parallel, then feeds Cipher Operator the treasure map.
+Command naming reference:
 
-## ⚙️ Configuration
+- [docs/reference/commands.md](docs/reference/commands.md)
 
-Ghostwire works out of the box. Customize as needed:
+## Documentation (Canonical)
 
-```json
-{
-  "agents": {
-    "cipher-operator": {
-      "model": "opencode/kimi-k2.5",
-      "temperature": 0.1
-    },
-    "advisor-plan": {
-      "enabled": true,
-      "model": "opencode/kimi-k2.5"
-    }
-  },
-  "hooks": {
-    "todo-continuation": {
-      "enabled": true,
-      "max-retries": 3
-    },
-    "context-recovery": {
-      "enabled": true,
-      "threshold": 0.9
-    }
-  },
-  "features": {
-    "comment-checker": { "enabled": true },
-    "lsp-refactoring": { "enabled": true },
-    "background-agents": {
-      "enabled": true,
-      "max-parallel": 4
-    }
-  }
-}
-```
+- [docs/README.md](docs/README.md)
+- [docs/agents.yml](docs/agents.yml)
+- [docs/hooks.yml](docs/hooks.yml)
+- [docs/tools.yml](docs/tools.yml)
+- [docs/features.yml](docs/features.yml)
+- [docs/commands.yml](docs/commands.yml)
+- [docs/skills.yml](docs/skills.yml)
+- [docs/reference/services-models.yaml](docs/reference/services-models.yaml)
 
-See [Configuration Reference](docs/reference/configurations.md) for all options.
-
-## 📚 Documentation
-
-- **[Installation Guide](docs/getting-started/installation.md)** — Setup for different systems
-- **[Agent Reference](docs/reference/agents.md)** — What each agent does, when to use it
-- **[Hook Reference](docs/reference/lifecycle-hooks.md)** — 39 hooks explained
-- **[Configuration Guide](docs/reference/configurations.md)** — All config options
-- **[Troubleshooting](docs/troubleshooting/)** — Common issues and fixes
-- **[Architecture Guide](docs/architecture.md)** — How Ghostwire works internally
-
-## 💻 Development
-
-Built with Bun, using TypeScript and full LSP support.
+## Development
 
 ```bash
-# Install dependencies
 bun install
-
-# Run tests (594 test files)
 bun test
-
-# Type check
 bun run typecheck
-
-# Build
 bun run build
-
-# Dev mode with hot reload
-bun run dev
 ```
 
-## 🏗️ Project Structure
+## License
 
-```
-ghostwire/
-├── src/
-│   ├── orchestration/        # Agents & Hooks
-│   │   ├── agents/          # Agent definitions + prompts
-│   │   └── hooks/           # Lifecycle hooks (39 total)
-│   ├── execution/           # Features & Tools
-│   │   ├── features/        # Skills, commands, background agents
-│   │   └── tools/           # LSP, AST-Grep, delegation, etc.
-│   ├── integration/         # MCPs & Utilities
-│   │   ├── mcp/            # Built-in MCPs (Exa, Context7, Grep.app)
-│   │   └── shared/         # Logger, parser, comment checker
-│   ├── platform/           # Config & Compatibility
-│   │   ├── opencode/       # OpenCode-specific
-│   │   └── claude/         # Claude Code compatibility
-│   └── cli/               # CLI commands
-├── docs/                   # Documentation
-├── script/                # Build scripts
-├── packages/              # Platform-specific binaries (9)
-└── tests/                 # Test files (594)
-```
-
-## 🎯 Key Design Principles
-
-1. **Battery-included, nothing required** — Works perfectly out of the box
-2. **Deterministic over creative** — LSP/AST for code changes, not hallucinations
-3. **Parallel over sequential** — Background agents explore while main agent builds
-4. **Reliable over smart** — Todo enforcement ensures work completes
-5. **Clean over verbose** — AI-generated code shouldn't look AI-generated
-6. **Delegated over centralized** — Each agent excels at one thing
-
-## 🔗 Quick Links
-
-- **Issues?** [GitHub Issues](https://github.com/hackefeller/ghostwire/issues)
-- **Contributing?** [CONTRIBUTING.md](CONTRIBUTING.md)
-- **Want to contribute?** We'd love your help. See [CONTRIBUTING.md](CONTRIBUTING.md)
-
-## 📄 License
-
-SUL-1.0 (Sustainable Use License)
-
-## 👤 Author
-
-Built by the Hackefeller team. Originally created by [@pontistudios](https://github.com/pontistudios).
-
----
-
-**Have 5 minutes?** Read [Getting Started](docs/getting-started/overview.md) for a guided tour.
-
-**Have 30 seconds?** Add `ultrawork` to your prompt and let Ghostwire do the rest.
-
-**Have zero minutes?** Copy the installation link above into Claude Code and let it set up for you.
+SUL-1.0

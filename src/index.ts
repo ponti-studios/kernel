@@ -5,6 +5,7 @@ import {
   createSessionRecoveryHook,
   createSessionNotification,
   createCommentCheckerHooks,
+  createDeterministicEditGuardHook,
   createToolOutputTruncatorHook,
   createDirectoryAgentsInjectorHook,
   createDirectoryReadmeInjectorHook,
@@ -167,6 +168,9 @@ const GhostwirePlugin: Plugin = async (ctx) => {
 
   const commentChecker = isHookEnabled("comment-checker")
     ? createCommentCheckerHooks(pluginConfig.comment_checker)
+    : null;
+  const deterministicEditGuard = isHookEnabled("deterministic-edit-guard")
+    ? createDeterministicEditGuardHook(ctx)
     : null;
   const toolOutputTruncator = isHookEnabled("tool-output-truncator")
     ? createToolOutputTruncatorHook(ctx, {
@@ -593,6 +597,9 @@ const GhostwirePlugin: Plugin = async (ctx) => {
       await runHook("event", "todo-continuation-enforcer", () =>
         todoContinuationEnforcer?.handler(input),
       );
+      await runHook("event", "deterministic-edit-guard", () =>
+        deterministicEditGuard?.event?.(input as { event: { type: string; properties?: Record<string, unknown> } }),
+      );
       await runHook("event", "context-window-monitor", () => contextWindowMonitor?.event(input));
       await runHook("event", "directory-agents-injector", () =>
         directoryAgentsInjector?.event(input),
@@ -707,6 +714,9 @@ const GhostwirePlugin: Plugin = async (ctx) => {
       await runHook("tool.execute.before", "non-interactive-env", () =>
         nonInteractiveEnv?.["tool.execute.before"](input, output),
       );
+      await runHook("tool.execute.before", "deterministic-edit-guard", () =>
+        deterministicEditGuard?.["tool.execute.before"]?.(input, output),
+      );
       await runHook("tool.execute.before", "comment-checker", () =>
         commentChecker?.["tool.execute.before"](input, output),
       );
@@ -799,6 +809,9 @@ const GhostwirePlugin: Plugin = async (ctx) => {
       );
       await runHook("tool.execute.after", "context-window-monitor", () =>
         contextWindowMonitor?.["tool.execute.after"](input, output),
+      );
+      await runHook("tool.execute.after", "deterministic-edit-guard", () =>
+        deterministicEditGuard?.["tool.execute.after"]?.(input, output),
       );
       await runHook("tool.execute.after", "comment-checker", () =>
         commentChecker?.["tool.execute.after"](input, output),
