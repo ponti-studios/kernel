@@ -4,6 +4,8 @@ type: refactor
 date: 2026-02-22
 ---
 
+**Status**: ✅ COMPLETED (Historical plan from Feb 2026)
+
 # Compound to Learnings Rebranding Plan
 
 ## Overview
@@ -158,9 +160,9 @@ These are unrelated uses:
 
 ## Acceptance Criteria
 
-- [ ] `/workflows:learnings` command works
-- [ ] `learnings` skill available
-- [ ] `docs/learnings/` directory exists
-- [ ] No "compound" references in source code
-- [ ] All tests pass
-- [ ] TypeScript compiles without errors
+- [x] `/workflows:learnings` command works
+- [x] `learnings` skill available
+- [x] `docs/learnings/` directory exists
+- [x] No "compound" references in source code
+- [x] All tests pass
+- [x] TypeScript compiles without errors

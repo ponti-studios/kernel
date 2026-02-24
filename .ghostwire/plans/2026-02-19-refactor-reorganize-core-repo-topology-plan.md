@@ -4,6 +4,8 @@ type: refactor
 date: 2026-02-19
 ---
 
+**Status**: ✅ COMPLETED (Historical plan from Feb 2026)
+
 # Refactor: Reorganize Core Repo Topology
 
 ## Overview
@@ -52,8 +54,8 @@ src/
 - [x] Map dependencies between directories
 - [x] Understand build/test expectations
 - [x] Domain mapping decided: orchestration, execution, integration, cli, platform
-- [ ] Create import-mapping tool/script (to automate grep+replace per phase)
-- [ ] Verify git history preservation with `git mv`
+- [x] Create import-mapping tool/script (to automate grep+replace per phase)
+- [x] Verify git history preservation with `git mv`
 
 **Deliverable:** Ready-to-use import-update scripts and clean git state
 
@@ -190,10 +192,10 @@ src/
 ---
 
 ### Phase 6 – Verification & Sign-Off
-- [ ] Create PR targeting `dev` branch
-- [ ] Ensure CI passes (GitHub Actions)
-- [ ] Code review confirms structure clarity
-- [ ] Validate that new structure improves code navigation
+- [x] Create PR targeting `dev` branch
+- [x] Ensure CI passes (GitHub Actions)
+- [x] Code review confirms structure clarity
+- [x] Validate that new structure improves code navigation
 
 ## Import-Mapping Helper Tool (Phase 0)
 
@@ -215,14 +217,14 @@ This tool ensures consistent, auditable import updates per phase.
 
 ## Acceptance Criteria
 - [x] Domain mapping decided and documented
-- [ ] Phase 0: Import-mapping tool created and tested
-- [ ] Phase 1: Orchestration domain reorganized + tests pass
-- [ ] Phase 2: Execution domain reorganized + tests pass
-- [ ] Phase 3: Integration domain reorganized + tests pass
-- [ ] Phase 4: Platform domain reorganized + tests pass
-- [ ] Phase 5: Root-level cleanup + all tests pass
-- [ ] Phase 6: PR merged to `dev` branch
-- [ ] AGENTS.md and YAML maps reflect new structure
+- [x] Phase 0: Import-mapping tool created and tested
+- [x] Phase 1: Orchestration domain reorganized + tests pass
+- [x] Phase 2: Execution domain reorganized + tests pass
+- [x] Phase 3: Integration domain reorganized + tests pass
+- [x] Phase 4: Platform domain reorganized + tests pass
+- [x] Phase 5: Root-level cleanup + all tests pass
+- [x] Phase 6: PR merged to `dev` branch
+- [x] AGENTS.md and YAML maps reflect new structure
 
 ## Success Metrics
 1. Each phase is independently testable and doesn't break the build
