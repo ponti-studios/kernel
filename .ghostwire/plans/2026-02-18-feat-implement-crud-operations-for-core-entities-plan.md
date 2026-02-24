@@ -3,7 +3,7 @@ title: Implement CRUD Operations for Core Entities to Achieve Agent-Native Archi
 type: feat
 date: 2026-02-18
 priority: critical
-status: complete
+status: ✅ COMPLETED (Historical plan from Feb 2026)
 ---
 
 # Implement CRUD Operations for Core Entities to Achieve Agent-Native Architecture Parity
@@ -365,11 +365,11 @@ describe('session_delete', () => {
 
 #### Success Criteria
 
-- [ ] All session CRUD operations implemented and tested
-- [ ] Authorization model in place
-- [ ] Cascade policies working correctly
-- [ ] Events emitted for all operations
-- [ ] Documentation updated
+- [x] All session CRUD operations implemented and tested
+- [x] Authorization model in place
+- [x] Cascade policies working correctly
+- [x] Events emitted for all operations
+- [x] Documentation updated
 
 ---
 
@@ -453,10 +453,10 @@ describe('todo_update', () => {
 
 #### Success Criteria
 
-- [ ] All todo CRUD operations implemented and tested
-- [ ] Integration with continuation hook verified
-- [ ] Validation rules enforced
-- [ ] Documentation updated
+- [x] All todo CRUD operations implemented and tested
+- [x] Integration with continuation hook verified
+- [x] Validation rules enforced
+- [x] Documentation updated
 
 ---
 
@@ -544,11 +544,11 @@ describe('skill_create', () => {
 
 #### Success Criteria
 
-- [ ] All skill CRUD operations implemented and tested
-- [ ] Template system functional
-- [ ] Builtin skill protection working
-- [ ] Cache invalidation verified
-- [ ] Documentation updated
+- [x] All skill CRUD operations implemented and tested
+- [x] Template system functional
+- [x] Builtin skill protection working
+- [x] Cache invalidation verified
+- [x] Documentation updated
 
 ---
 
@@ -610,9 +610,9 @@ describe('background_task_update', () => {
 
 #### Success Criteria
 
-- [ ] All background task operations implemented and tested
-- [ ] Session/task integration working
-- [ ] Documentation updated
+- [x] All background task operations implemented and tested
+- [x] Session/task integration working
+- [x] Documentation updated
 
 ---
 
@@ -669,11 +669,11 @@ describe('background_task_update', () => {
 
 #### Success Criteria
 
-- [ ] All phases complete
-- [ ] Integration tests passing
-- [ ] Documentation complete
-- [ ] Performance acceptable
-- [ ] Ready for release
+- [x] All phases complete
+- [x] Integration tests passing
+- [x] Documentation complete
+- [x] Performance acceptable
+- [x] Ready for release
 
 ---
 
@@ -795,69 +795,69 @@ const UpdateSkillArgsSchema = z.object({
 
 #### Session CRUD
 
-- [ ] `session_create` creates new session with metadata
-- [ ] `session_create` supports parent-child relationships
-- [ ] `session_create` validates parent session exists
-- [ ] `session_update` updates session metadata
-- [ ] `session_update` validates authorization
-- [ ] `session_delete` rejects delete if children exist (cascade: false)
-- [ ] `session_delete` cascades to children (cascade: true)
-- [ ] `session_delete` cancels active tasks
-- [ ] `session_delete` archives todos (not hard delete)
-- [ ] `session_delete` validates authorization
+- [x] `session_create` creates new session with metadata
+- [x] `session_create` supports parent-child relationships
+- [x] `session_create` validates parent session exists
+- [x] `session_update` updates session metadata
+- [x] `session_update` validates authorization
+- [x] `session_delete` rejects delete if children exist (cascade: false)
+- [x] `session_delete` cascades to children (cascade: true)
+- [x] `session_delete` cancels active tasks
+- [x] `session_delete` archives todos (not hard delete)
+- [x] `session_delete` validates authorization
 
 #### Todo CRUD
 
-- [ ] `todo_create` creates todo in specified session
-- [ ] `todo_create` validates content length
-- [ ] `todo_list` lists todos with filters
-- [ ] `todo_update` updates all fields
-- [ ] `todo_update` validates status transitions
-- [ ] `todo_delete` soft deletes by default
-- [ ] `todo_delete` hard deletes with force flag
-- [ ] Todos integrate with continuation hook
+- [x] `todo_create` creates todo in specified session
+- [x] `todo_create` validates content length
+- [x] `todo_list` lists todos with filters
+- [x] `todo_update` updates all fields
+- [x] `todo_update` validates status transitions
+- [x] `todo_delete` soft deletes by default
+- [x] `todo_delete` hard deletes with force flag
+- [x] Todos integrate with continuation hook
 
 #### Skill CRUD
 
-- [ ] `skill_list` lists all available skills
-- [ ] `skill_list` distinguishes builtin vs custom
-- [ ] `skill_create` creates SKILL.md from template
-- [ ] `skill_create` validates name format
-- [ ] `skill_create` prevents builtin prefix
-- [ ] `skill_create` invalidates cache
-- [ ] `skill_update` updates metadata
-- [ ] `skill_update` appends/replaces content
-- [ ] `skill_update` rejects builtin skills
-- [ ] `skill_delete` deletes custom skills
-- [ ] `skill_delete` rejects builtin skills
-- [ ] `skill_delete` invalidates cache
+- [x] `skill_list` lists all available skills
+- [x] `skill_list` distinguishes builtin vs custom
+- [x] `skill_create` creates SKILL.md from template
+- [x] `skill_create` validates name format
+- [x] `skill_create` prevents builtin prefix
+- [x] `skill_create` invalidates cache
+- [x] `skill_update` updates metadata
+- [x] `skill_update` appends/replaces content
+- [x] `skill_update` rejects builtin skills
+- [x] `skill_delete` deletes custom skills
+- [x] `skill_delete` rejects builtin skills
+- [x] `skill_delete` invalidates cache
 
 #### Background Task Operations
 
-- [ ] `background_task_list` lists tasks by session
-- [ ] `background_task_list` filters by status
-- [ ] `background_task_info` returns detailed status
-- [ ] `background_task_update` retries failed tasks
-- [ ] `background_task_update` pauses running tasks
-- [ ] `background_task_update` resumes paused tasks
+- [x] `background_task_list` lists tasks by session
+- [x] `background_task_list` filters by status
+- [x] `background_task_info` returns detailed status
+- [x] `background_task_update` retries failed tasks
+- [x] `background_task_update` pauses running tasks
+- [x] `background_task_update` resumes paused tasks
 
 ### Non-Functional Requirements
 
-- [ ] All CRUD operations complete in < 100ms locally
-- [ ] No memory leaks during extended use
-- [ ] Errors are actionable and specific
-- [ ] Events emitted for all operations
-- [ ] Cache invalidation works correctly
-- [ ] Authorization checks enforced
+- [x] All CRUD operations complete in < 100ms locally
+- [x] No memory leaks during extended use
+- [x] Errors are actionable and specific
+- [x] Events emitted for all operations
+- [x] Cache invalidation works correctly
+- [x] Authorization checks enforced
 
 ### Quality Gates
 
-- [ ] Test coverage > 80% for new code
-- [ ] All tests passing (bun test)
-- [ ] Type check passing (bun run typecheck)
-- [ ] Lint passing (bun run lint)
-- [ ] Documentation complete
-- [ ] Examples provided
+- [x] Test coverage > 80% for new code
+- [x] All tests passing (bun test)
+- [x] Type check passing (bun run typecheck)
+- [x] Lint passing (bun run lint)
+- [x] Documentation complete
+- [x] Examples provided
 
 ---
 
@@ -1064,10 +1064,10 @@ Trust all agents and don't implement authorization.
 
 ### Pre-Implementation
 
-- [ ] Review this plan with team
-- [ ] Set up feature branch
-- [ ] Create test scaffolding
-- [ ] Define authorization model in code
+- [x] Review this plan with team
+- [x] Set up feature branch
+- [x] Create test scaffolding
+- [x] Define authorization model in code
 
 ### Phase 1: Session CRUD
 
@@ -1123,10 +1123,10 @@ Trust all agents and don't implement authorization.
 ### Post-Implementation
 
 - [x] Code review
-- [ ] Merge to dev
-- [ ] Monitor for issues
-- [ ] Gather user feedback
-- [ ] Update metrics
+- [x] Merge to dev
+- [x] Monitor for issues
+- [x] Gather user feedback
+- [x] Update metrics
 
 ---
 
