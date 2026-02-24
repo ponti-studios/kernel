@@ -1,7 +1,7 @@
 # Specify → Ghostwire Integration Plan
 
 **Created**: 2026-02-23  
-**Status**: In Progress  
+**Status**: ✅ COMPLETED (Historical plan from Feb 2026)
 **Branch**: `045-specify-integration`  
 **Related**: `.specify/` (to be deleted), `.opencode/command/speckit.*` (to be deleted)
 
@@ -104,25 +104,25 @@ The constitution concept is implemented as a **hybrid approach**:
 **Goal**: Create TypeScript template infrastructure without adding commands yet.
 
 **Tasks:**
-- [ ] T001 Create `src/execution/features/builtin-commands/templates/spec/` directory
-- [ ] T002 [P] Create `spec/create.ts` template (from spec-template.md)
-- [ ] T003 [P] Create `spec/plan.ts` template (from plan-template.md)
-- [ ] T004 [P] Create `spec/tasks.ts` template (from tasks-template.md)
-- [ ] T005 [P] Create `spec/implement.ts` template (from speckit.implement.md)
-- [ ] T006 [P] Create `spec/clarify.ts` template (from speckit.clarify.md)
-- [ ] T007 [P] Create `spec/analyze.ts` template (from speckit.analyze.md)
-- [ ] T008 [P] Create `spec/checklist.ts` template (from checklist-template.md)
-- [ ] T009 [P] Create `spec/to-issues.ts` template (from speckit.taskstoissues.md)
-- [ ] T010 Create `spec/index.ts` barrel export
-- [ ] T011 Create `src/execution/features/builtin-commands/templates/project/` directory
-- [ ] T012 [P] Create `project/constitution.ts` template (from constitution-template.md)
-- [ ] T013 Create `project/index.ts` barrel export
-- [ ] T014-T018 [P] Create unit tests for each template
+- [x] T001 Create `src/execution/features/builtin-commands/templates/spec/` directory
+- [x] T002 [P] Create `spec/create.ts` template (from spec-template.md)
+- [x] T003 [P] Create `spec/plan.ts` template (from plan-template.md)
+- [x] T004 [P] Create `spec/tasks.ts` template (from tasks-template.md)
+- [x] T005 [P] Create `spec/implement.ts` template (from speckit.implement.md)
+- [x] T006 [P] Create `spec/clarify.ts` template (from speckit.clarify.md)
+- [x] T007 [P] Create `spec/analyze.ts` template (from speckit.analyze.md)
+- [x] T008 [P] Create `spec/checklist.ts` template (from checklist-template.md)
+- [x] T009 [P] Create `spec/to-issues.ts` template (from speckit.taskstoissues.md)
+- [x] T010 Create `spec/index.ts` barrel export
+- [x] T011 Create `src/execution/features/builtin-commands/templates/project/` directory
+- [x] T012 [P] Create `project/constitution.ts` template (from constitution-template.md)
+- [x] T013 Create `project/index.ts` barrel export
+- [x] T014-T018 [P] Create unit tests for each template
 
 **Verification:**
-- [ ] V001 All template files compile without errors
-- [ ] V002 Unit tests pass
-- [ ] V003 Templates can be imported from index.ts
+- [x] V001 All template files compile without errors
+- [x] V002 Unit tests pass
+- [x] V003 Templates can be imported from index.ts
 
 ---
 
@@ -131,22 +131,22 @@ The constitution concept is implemented as a **hybrid approach**:
 **Goal**: Add the 4 core specification commands (create, plan, tasks, implement).
 
 **Tasks:**
-- [ ] T019 Add `ghostwire:spec:create` type to `types.ts`
-- [ ] T020 Add `ghostwire:spec:plan` type to `types.ts`
-- [ ] T021 Add `ghostwire:spec:tasks` type to `types.ts`
-- [ ] T022 Add `ghostwire:spec:implement` type to `types.ts`
-- [ ] T023 Add `ghostwire:spec:create` command definition to `commands.ts`
-- [ ] T024 Add `ghostwire:spec:plan` command definition to `commands.ts`
-- [ ] T025 Add `ghostwire:spec:tasks` command definition to `commands.ts`
-- [ ] T026 Add `ghostwire:spec:implement` command definition to `commands.ts`
-- [ ] T027 Update `src/execution/features/builtin-commands/index.ts` exports
-- [ ] T028-T031 [P] Create integration tests for each command
+- [x] T019 Add `ghostwire:spec:create` type to `types.ts`
+- [x] T020 Add `ghostwire:spec:plan` type to `types.ts`
+- [x] T021 Add `ghostwire:spec:tasks` type to `types.ts`
+- [x] T022 Add `ghostwire:spec:implement` type to `types.ts`
+- [x] T023 Add `ghostwire:spec:create` command definition to `commands.ts`
+- [x] T024 Add `ghostwire:spec:plan` command definition to `commands.ts`
+- [x] T025 Add `ghostwire:spec:tasks` command definition to `commands.ts`
+- [x] T026 Add `ghostwire:spec:implement` command definition to `commands.ts`
+- [x] T027 Update `src/execution/features/builtin-commands/index.ts` exports
+- [x] T028-T031 [P] Create integration tests for each command
 
 **Verification:**
-- [ ] V004 Type check passes
-- [ ] V005 Build succeeds
-- [ ] V006 Integration tests pass
-- [ ] V007 Commands appear in help output
+- [x] V004 Type check passes
+- [x] V005 Build succeeds
+- [x] V006 Integration tests pass
+- [x] V007 Commands appear in help output
 
 ---
 
@@ -155,20 +155,20 @@ The constitution concept is implemented as a **hybrid approach**:
 **Goal**: Add the 4 support commands (clarify, analyze, checklist, to-issues).
 
 **Tasks:**
-- [ ] T032 Add `ghostwire:spec:clarify` type to `types.ts`
-- [ ] T033 Add `ghostwire:spec:analyze` type to `types.ts`
-- [ ] T034 Add `ghostwire:spec:checklist` type to `types.ts`
-- [ ] T035 Add `ghostwire:spec:to-issues` type to `types.ts`
-- [ ] T036 Add `ghostwire:spec:clarify` command definition to `commands.ts`
-- [ ] T037 Add `ghostwire:spec:analyze` command definition to `commands.ts`
-- [ ] T038 Add `ghostwire:spec:checklist` command definition to `commands.ts`
-- [ ] T039 Add `ghostwire:spec:to-issues` command definition to `commands.ts`
-- [ ] T040-T043 [P] Create integration tests for each command
+- [x] T032 Add `ghostwire:spec:clarify` type to `types.ts`
+- [x] T033 Add `ghostwire:spec:analyze` type to `types.ts`
+- [x] T034 Add `ghostwire:spec:checklist` type to `types.ts`
+- [x] T035 Add `ghostwire:spec:to-issues` type to `types.ts`
+- [x] T036 Add `ghostwire:spec:clarify` command definition to `commands.ts`
+- [x] T037 Add `ghostwire:spec:analyze` command definition to `commands.ts`
+- [x] T038 Add `ghostwire:spec:checklist` command definition to `commands.ts`
+- [x] T039 Add `ghostwire:spec:to-issues` command definition to `commands.ts`
+- [x] T040-T043 [P] Create integration tests for each command
 
 **Verification:**
-- [ ] V008 Type check passes
-- [ ] V009 Build succeeds
-- [ ] V010 All 8 spec commands functional
+- [x] V008 Type check passes
+- [x] V009 Build succeeds
+- [x] V010 All 8 spec commands functional
 
 ---
 
@@ -177,16 +177,16 @@ The constitution concept is implemented as a **hybrid approach**:
 **Goal**: Add the project-level constitution command and default constitution file.
 
 **Tasks:**
-- [ ] T044 Add `ghostwire:project:constitution` type to `types.ts`
-- [ ] T045 Add `ghostwire:project:constitution` command definition to `commands.ts`
-- [ ] T046 Create default `.ghostwire/constitution.md` template
-- [ ] T047 Update `AGENTS.md` with constitution reference
-- [ ] T048 Create integration test for constitution command
+- [x] T044 Add `ghostwire:project:constitution` type to `types.ts`
+- [x] T045 Add `ghostwire:project:constitution` command definition to `commands.ts`
+- [x] T046 Create default `.ghostwire/constitution.md` template
+- [x] T047 Update `AGENTS.md` with constitution reference
+- [x] T048 Create integration test for constitution command
 
 **Verification:**
-- [ ] V011 Constitution command creates file correctly
-- [ ] V012 AGENTS.md references constitution
-- [ ] V013 All 9 commands functional
+- [x] V011 Constitution command creates file correctly
+- [x] V012 AGENTS.md references constitution
+- [x] V013 All 9 commands functional
 
 ---
 
@@ -195,26 +195,26 @@ The constitution concept is implemented as a **hybrid approach**:
 **Goal**: Delete specify files and verify clean state.
 
 **Tasks:**
-- [ ] T050 Delete `.specify/` directory entirely
-- [ ] T051 Delete `.opencode/command/speckit.specify.md`
-- [ ] T052 Delete `.opencode/command/speckit.plan.md`
-- [ ] T053 Delete `.opencode/command/speckit.tasks.md`
-- [ ] T054 Delete `.opencode/command/speckit.implement.md`
-- [ ] T055 Delete `.opencode/command/speckit.clarify.md`
-- [ ] T056 Delete `.opencode/command/speckit.analyze.md`
-- [ ] T057 Delete `.opencode/command/speckit.checklist.md`
-- [ ] T058 Delete `.opencode/command/speckit.taskstoissues.md`
-- [ ] T059 Delete `.opencode/command/speckit.constitution.md`
-- [ ] T060 Run full test suite
-- [ ] T061 Verify no speckit references remain
+- [x] T050 Delete `.specify/` directory entirely
+- [x] T051 Delete `.opencode/command/speckit.specify.md`
+- [x] T052 Delete `.opencode/command/speckit.plan.md`
+- [x] T053 Delete `.opencode/command/speckit.tasks.md`
+- [x] T054 Delete `.opencode/command/speckit.implement.md`
+- [x] T055 Delete `.opencode/command/speckit.clarify.md`
+- [x] T056 Delete `.opencode/command/speckit.analyze.md`
+- [x] T057 Delete `.opencode/command/speckit.checklist.md`
+- [x] T058 Delete `.opencode/command/speckit.taskstoissues.md`
+- [x] T059 Delete `.opencode/command/speckit.constitution.md`
+- [x] T060 Run full test suite
+- [x] T061 Verify no speckit references remain
 
 **Verification:**
-- [ ] V014 All tests pass (1,869)
-- [ ] V015 Type check passes
-- [ ] V016 Build succeeds
-- [ ] V017 No references to speckit in codebase
-- [ ] V018 `.specify/` directory removed
-- [ ] V019 All 9 speckit command files removed
+- [x] V014 All tests pass (1,869)
+- [x] V015 Type check passes
+- [x] V016 Build succeeds
+- [x] V017 No references to speckit in codebase
+- [x] V018 `.specify/` directory removed
+- [x] V019 All 9 speckit command files removed
 
 ---
 
@@ -301,15 +301,15 @@ Each command should have integration tests:
 
 ## Success Criteria
 
-- [ ] All 9 new commands registered and functional
-- [ ] Command workflow works end-to-end (create → plan → tasks → implement)
-- [ ] All 1,869 tests pass
-- [ ] Type checking passes (`bun run typecheck`)
-- [ ] Build succeeds (`bun run build`)
-- [ ] `.specify/` directory deleted
-- [ ] All 9 speckit command files deleted
-- [ ] No references to speckit remain in codebase
-- [ ] Constitution file created and referenced
+- [x] All 9 new commands registered and functional
+- [x] Command workflow works end-to-end (create → plan → tasks → implement)
+- [x] All 1,869 tests pass
+- [x] Type checking passes (`bun run typecheck`)
+- [x] Build succeeds (`bun run build`)
+- [x] `.specify/` directory deleted
+- [x] All 9 speckit command files deleted
+- [x] No references to speckit remain in codebase
+- [x] Constitution file created and referenced
 
 ---
 
