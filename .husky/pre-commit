@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Validate agent/category/command/skill references before committing
+echo "🔍 Validating agent references..."
+bun run validate:agent-references
+
+if [ $? -ne 0 ]; then
+  echo "❌ Validation failed. Fix errors above or use --no-verify to bypass."
+  exit 1
+fi
+
+echo "✅ References validated successfully"

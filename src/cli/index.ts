@@ -12,24 +12,38 @@ import type { GetLocalVersionOptions } from "./get-local-version/types";
 import type { DoctorOptions } from "./doctor";
 import packageJson from "../../package.json" with { type: "json" };
 import fs from "fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 const VERSION = packageJson.version;
-const INSTALL_HELP = fs.readFileSync(
-  new URL("../../docs/cli/install-help.md", import.meta.url),
-  "utf8",
-);
-const RUN_HELP = fs.readFileSync(new URL("../../docs/cli/run-help.md", import.meta.url), "utf8");
-const GET_LOCAL_VERSION_HELP = fs.readFileSync(
-  new URL("../../docs/cli/get-local-version-help.md", import.meta.url),
-  "utf8",
-);
-const DOCTOR_HELP = fs.readFileSync(
-  new URL("../../docs/cli/doctor-help.md", import.meta.url),
-  "utf8",
-);
-const EXPORT_HELP = fs.readFileSync(
-  new URL("../../docs/cli/export-help.md", import.meta.url),
-  "utf8",
+const CLI_DIR = path.dirname(fileURLToPath(import.meta.url));
+
+function readHelpFile(relativePath: string, fallback = ""): string {
+  const candidatePaths = [
+    path.resolve(CLI_DIR, relativePath),
+    path.resolve(CLI_DIR, relativePath.replace("docs/cli/", "docs/reference/")),
+  ];
+
+  for (const filePath of candidatePaths) {
+    if (fs.existsSync(filePath)) {
+      return fs.readFileSync(filePath, "utf8");
+    }
+  }
+
+  return fallback;
+}
+
+const INSTALL_HELP = readHelpFile("../../docs/cli/install-help.md");
+const RUN_HELP = readHelpFile("../../docs/cli/run-help.md");
+const GET_LOCAL_VERSION_HELP = readHelpFile("../../docs/cli/get-local-version-help.md");
+const DOCTOR_HELP = readHelpFile("../../docs/cli/doctor-help.md");
+const EXPORT_HELP = readHelpFile(
+  "../../docs/cli/export-help.md",
+  [
+    "$ ghostwire export --target all",
+    "$ ghostwire export --target copilot --directory /path/to/repo",
+    "$ ghostwire export --target codex --force",
+  ].join("\n"),
 );
 
 const program = new Command();
@@ -125,12 +139,21 @@ program
   .description("Export Ghostwire orchestration intelligence for external agent runtimes")
   .option("--target <value>", "Export target: copilot, codex, all (default: all)")
   .option("-d, --directory <path>", "Output directory (default: current working directory)")
+  .option(
+    "--groups <csv>",
+    "Copilot artifact groups: instructions,prompts,skills,agents,hooks (default: all)",
+  )
+  .option("--strict", "Fail export if strict validation detects invalid artifacts")
+  .option("--manifest", "Also write .ghostwire/export-manifest.json (opt-in)")
   .option("--force", "Overwrite existing output files")
   .addHelpText("after", EXPORT_HELP)
   .action(async (options) => {
     const exitCode = await exportGenius({
       target: options.target,
       directory: options.directory,
+      groups: options.groups,
+      strict: options.strict ?? false,
+      manifest: options.manifest ?? false,
       force: options.force ?? false,
     });
     process.exit(exitCode);

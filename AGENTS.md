@@ -1,270 +1,55 @@
-# PROJECT KNOWLEDGE BASE
+# Ghostwire Codex Instructions
 
-**Generated:** 2026-02-23T20:32:38+00:00
-**Commit:** Task-driven workflow architecture complete (Phases 1-6, 15-16)
-**Branch:** Task-driven development
+Generated: 2026-02-24
 
----
+Use technical and scientific language and point of view.
+Apply RED -> GREEN -> REFACTOR for non-trivial implementation.
+Quantify uncertainty and state assumptions explicitly.
+Prefer deterministic validation evidence over narrative claims.
 
-## **IMPORTANT: PULL REQUEST TARGET BRANCH**
+## Full Agent Catalog
+- `advisor-architecture`: Review code to ensure features are agent-native - that any action a user can take, an agent can also take, and anything a user can see, an agent can see. Enforces agent-user capability parity.
+- `advisor-plan`: Read-only consultation agent. High-IQ reasoning specialist for debugging hard problems and high-difficulty architecture design.
+- `advisor-strategy`: Pre-planning consultant that analyzes user intent, surfaces hidden requirements, and prepares directives for the planner agent to prevent AI failures.
+- `analyzer-design`: Verify that UI implementation matches Figma design specifications. Visually compare live implementation against Figma design and provide detailed feedback on discrepancies for high-quality design execution.
+- `analyzer-media`: Analyze media files (PDFs, images, diagrams) that require interpretation beyond raw text. Extracts specific information or summaries from documents and describes visual content.
+- `analyzer-patterns`: Design pattern recognition and code organization specialist. Identifies architectural patterns, anti-patterns, and ensures consistency across the codebase.
+- `designer-builder`: Create distinctive, production-grade frontend interfaces with high design quality. Generate creative, polished code that avoids generic AI aesthetics and delivers exceptional user experiences.
+- `designer-flow`: Analyze specifications, plans, feature descriptions, or technical documents for user flow analysis and gap identification. Map all possible user journeys, edge cases, and interaction patterns to ensure comprehensive requirements coverage.
+- `designer-iterator`: Systematic design refinement through iterative improvement cycles. Takes screenshots, analyzes design issues, implements improvements, and repeats N times to fix color harmony, layout balance, typography, and overall aesthetic quality.
+- `designer-sync`: Synchronize web implementation with Figma design by automatically detecting and fixing visual differences. Use iteratively until implementation matches design pixel-perfectly.
+- `editor-style`: Review and edit text content to conform to a style guide with systematic line-by-line review.
+- `executor`: Focused task executor. Executes tasks directly with strict todo discipline and verification. Never delegates implementation to other agents.
+- `expert-migrations`: Data migration and backfill expert. Validates ID mappings against production reality, checks for swapped values, verifies rollback safety, and ensures data integrity during schema changes and data transformations.
+- `guardian-data`: Database migration and data integrity expert. Reviews database migrations, validates data constraints, ensures transaction boundaries are correct, and verifies referential integrity and privacy requirements are maintained.
+- `operator`: Primary operator agent that parses intent, delegates tasks, and executes work directly when appropriate. Coordinates specialized agents and tools for implementation.
+- `oracle-performance`: Performance analysis and optimization specialist. Analyzes code for performance issues, identifies bottlenecks, optimizes algorithms, and ensures scalability.
+- `orchestrator`: Orchestrates work via delegate_task() to complete ALL tasks in a todo list until fully done. Coordinates agents, verifies, and enforces QA gates.
+- `planner`: Strategic planning consultant that interviews users, gathers context, and produces comprehensive work plans in markdown. Never implements code directly.
+- `researcher-codebase`: Contextual codebase search agent. Answers "Where is X?", "Which file has Y?", "Find the code that does Z" by running broad searches and returning actionable results.
+- `researcher-data`: Specialized codebase understanding agent for multi-repository analysis, searching remote codebases, retrieving official documentation, and finding implementation examples using GitHub CLI, Context7, and web search.
+- `researcher-docs`: Gather comprehensive documentation and best practices for frameworks, libraries, or dependencies. Fetches official documentation, explores source code, identifies version-specific constraints, and understands implementation patterns.
+- `researcher-git`: Understand historical context and evolution of code changes, trace origins of specific code patterns, identify key contributors and their expertise areas, and analyze patterns in commit history for insights about code evolution.
+- `researcher-learnings`: Search institutional learnings in docs/solutions/ for relevant past solutions before implementing features or fixing problems. Efficiently filters documented solutions to find applicable patterns, gotchas, and lessons learned.
+- `researcher-practices`: Research and gather external best practices, documentation, and examples for any technology, framework, or development practice. Find official documentation, community standards, and well-regarded examples from open source projects.
+- `researcher-repo`: Repository structure and convention researcher. Explores codebases to understand architecture, find files, identify patterns, and surface relevant context for tasks.
+- `resolver-pr`: PR comment resolution specialist. Addresses code review feedback by understanding comments, implementing requested changes, and ensuring code meets reviewer standards.
+- `reviewer-python`: Python code review with Kieran's strict conventions and taste preferences. Use after implementing features, modifying existing code, or creating new Python modules to ensure exceptional code quality.
+- `reviewer-races`: JavaScript and Stimulus race condition reviewer. Specializes in identifying timing issues, state synchronization problems, and DOM manipulation race conditions in frontend code.
+- `reviewer-rails`: Rails code review with Kieran's strict conventions and taste preferences. Use after implementing features, modifying existing code, or creating new Rails components to ensure exceptional code quality.
+- `reviewer-rails-dh`: Brutally honest Rails code review from DHH's perspective. Identifies anti-patterns, JavaScript framework contamination, and violations of Rails conventions.
+- `reviewer-security`: Security audits, vulnerability assessments, and security reviews of code. Checks for common security vulnerabilities, validates input handling, reviews authentication and authorization implementations, scans for hardcoded secrets, and ensures OWASP compliance.
+- `reviewer-simplicity`: Final review pass to ensure code changes are as simple and minimal as possible. Identifies opportunities for simplification and enforces YAGNI principles.
+- `reviewer-typescript`: TypeScript code review with Kieran's strict conventions and taste preferences. Use after implementing features, modifying existing code, or creating new TypeScript modules to ensure exceptional code quality.
+- `validator-audit`: Expert reviewer for evaluating work plans against rigorous clarity, verifiability, and completeness standards. Ensures plans are executable and references are valid.
+- `validator-bugs`: Bug reproduction and validation specialist. Systematically attempts to reproduce reported issues, validates whether the behavior is actually a bug, and provides clear reproduction steps for developers.
+- `validator-deployment`: Create comprehensive pre/post-deploy checklists for changes that touch production data, migrations, or behavior that could silently discard or duplicate records. Essential for risky data changes requiring Go or No-Go decisions.
+- `writer-gem`: Write Ruby gems following Andrew Kane's patterns with simple APIs, clear docs, and sensible defaults.
+- `writer-readme`: Create or update README files following Ankane-style template for Ruby gems. Write concise documentation with imperative voice, short sentences, single-purpose code fences, and minimal prose.
 
-> **ALL PULL REQUESTS MUST TARGET THE `main` BRANCH.**
->
-> Use feature branches and submit PRs against `main` for review.
-
----
-
-## OVERVIEW
-
-OpenCode plugin: multi-model agent orchestration (Claude Opus 4.5, GPT-5.2, Gemini 3 Flash, Grok Code). 39 lifecycle hooks, 14 tools (LSP, AST-Grep, delegation), 10 specialized agents, full Claude Code compatibility. "oh-my-zsh" for OpenCode.
-
-**NEW**: Task-driven workflow architecture with structured task breakdown, automatic parallelization, and intelligent agent delegation.
-
-## TASK-DRIVEN WORKFLOW ARCHITECTURE
-
-> **See `.ghostwire/TASK_DRIVEN_ARCHITECTURE_GUIDE.md` for complete migration guide.**
-
-### Key Features
-
-1. **Structured Task Breakdown** - Plans decomposed into JSON-specified tasks with dependencies
-2. **Automatic Parallelization** - Tasks grouped into execution waves based on dependencies using topological sort
-3. **Intelligent Delegation** - Tasks routed to appropriate agents by category (8 categories)
-4. **Execution Orchestration** - Workflow state tracked through completion with progress reports
-
-### New Commands
-
-| Command               | Old Name            | Purpose                                      |
-| --------------------- | ------------------- | -------------------------------------------- |
-| `/workflows:create`   | N/A                 | Break feature into tasks with JSON structure |
-| `/workflows:execute`  | `jack-in-work`      | Execute plan with task delegation            |
-| `/workflows:status`   | N/A                 | Check workflow progress                      |
-| `/workflows:complete` | N/A                 | Finalize completed workflow                  |
-| `/work:loop`          | `ultrawork-loop`    | Continuous execution with retry              |
-| `/work:cancel`        | `cancel-ultrawork`  | Cancel active loop                           |
-| `/workflows:stop`     | `stop-continuation` | Stop all continuation                        |
-
-**Backward Compatibility**: Old command names still work and route to same handlers.
-
-### Task Structure
-
-```json
-{
-  "id": "task-1",
-  "subject": "Task title",
-  "description": "Detailed description",
-  "category": "visual-engineering | ultrabrain | quick | deep | artistry | writing",
-  "skills": ["skill1", "skill2"],
-  "estimatedEffort": "30m" | "2h",
-  "status": "pending | in_progress | completed",
-  "blocks": ["task-2"],
-  "blockedBy": ["task-1"],
-  "wave": 1
-}
-```
-
-### Delegation Categories
-
-| Category             | Agent Type          | Skills                   |
-| -------------------- | ------------------- | ------------------------ |
-| `visual-engineering` | Frontend specialist | `frontend-ui-ux`, custom |
-| `ultrabrain`         | Seer Advisor        | Architecture, logic      |
-| `quick`              | Main agent          | Trivial fixes            |
-| `deep`               | Archive Researcher  | Analysis, research       |
-| `artistry`           | Creative specialist | Unconventional solutions |
-| `writing`            | Documentation       | Prose, technical writing |
-| `unspecified-low`    | Main agent          | Fallback simple work     |
-| `unspecified-high`   | Seer Advisor        | Fallback complex work    |
-
-### Implementation Status
-
-**Foundation Phases (1-6):**
-
-- ✅ Phase 1: Command definitions
-- ✅ Phase 2: Command routing
-- ✅ Phase 3: Task structure types + Parallelization engine (topological sort)
-- ✅ Phase 4: Delegation engine (category → agent mapping) + Execution orchestrator (state machine)
-- ✅ Phase 5: workflows:create hook (feature → tasks)
-- ✅ Phase 6: Testing infrastructure (89 tests, 265 assertions)
-
-**Execution Phases (15-16):**
-
-- ✅ Phase 15: workflows:execute hook (task execution with delegation)
-- ✅ Phase 16: workflows:status hook (progress tracking and reporting)
-
-_Phases 7-14 reserved for future enhancements (recovery, retries, history, completion, etc.)_
-
-**Status**: ✅ **COMPLETE - Foundation + Execution phases implemented (1-6, 15-16)**
-
-## PROJECT CONSTITUTION
-
-> **Project principles and governance are defined in `.ghostwire/constitution.md`**
->
-> All development work must comply with the core principles outlined in the constitution:
->
-> - Library-First Architecture
-> - CLI Interface
-> - Test-First Development (NON-NEGOTIABLE)
-> - Integration Testing
-> - Observability
->
-> See the constitution file for detailed guidelines and amendment process.
-
-## METADATA
-
-- `docs/agents.yml`: Agent metadata (names, models, purposes, fallbacks)
-- `docs/hooks.yml`: Hook metadata (names, triggers, descriptions)
-- `docs/tools.yml`: Tool metadata (names, categories, descriptions)
-- `docs/features.yml`: Feature metadata (names, capabilities, descriptions)
-
-## STRUCTURE
-
-```
-ghostwire/
-├── src/
-│   ├── orchestration/  # Agents + Hooks (what orchestrates)
-│   │   ├── agents/        (what agents exist)
-│   │   ├── hooks/         (when to call agents)
-│   │   └── hooks/workflows-create/  # NEW: workflows:create handler
-│   ├── execution/      # Features + Tools (what does work)
-│   │   ├── features/      (what capabilities)
-│   │   ├── features/task-queue/  # NEW: Task queue system
-│   │   └── tools/         (what actions can be taken)
-│   ├── integration/    # Shared utilities + MCPs (what integrates)
-│   │   ├── shared/        # Cross-cutting utilities (logger, parser, etc.)
-│   │   └── mcp/           # Built-in MCPs (websearch, context7, grep_app)
-│   ├── platform/       # Config + Platform-specific (what configures)
-│   │   ├── config/        # Zod schema, migrations, permission compat
-│   │   ├── opencode/      # OpenCode-specific config
-│   │   └── claude/        # Claude-specific config
-│   ├── cli/            # CLI installer, doctor
-│   └── index.ts        # Main plugin entry
-├── .ghostwire/
-│   ├── TASK_DRIVEN_ARCHITECTURE_GUIDE.md  # NEW: Migration guide
-│   └── plans/          # Plan files with embedded tasks
-├── script/             # build-schema.ts, build-binaries.ts
-├── packages/           # 7 platform-specific binaries
-└── dist/               # Build output (ESM + .d.ts)
-```
-
-## WHERE TO LOOK
-
-| Task               | Location                                             | Notes                                                                           |
-| ------------------ | ---------------------------------------------------- | ------------------------------------------------------------------------------- |
-| Add agent          | `src/orchestration/agents/`                          | Create .md with YAML frontmatter and prompt                                     |
-| Add hook           | `src/orchestration/hooks/`                           | Create dir with `createXXXHook()`, register in index.ts                         |
-| Add tool           | `src/execution/tools/`                               | Dir with index/types/constants/tools.ts                                         |
-| Add MCP            | `src/integration/mcp/`                               | Create config, add to index.ts                                                  |
-| Add skill          | `src/execution/features/skills/`                     | Create dir with SKILL.md                                                        |
-| Add command        | `src/execution/features/commands/commands/`          | One command per file: `workflows.plan.ts`, `code.refactor.ts`, etc.             |
-| Config schema      | `src/platform/config/schema.ts`                      | Zod schema, run `bun run build:schema`                                          |
-| **Task queue**     | `src/execution/features/task-queue/`                 | **NEW**: Types, parser, parallelization, delegation, orchestrator               |
-| **Workflow hooks** | `src/orchestration/hooks/workflows-*`                | **NEW**: workflows:create, workflows:execute, workflows:status command handlers |
-| Background agents  | `src/execution/features/background-agent/manager.ts` | Task lifecycle, concurrency (1419 lines)                                        |
-| Orchestrator       | `src/orchestration/hooks/grid-sync/index.ts`         | Main orchestration hook (757 lines)                                             |
-
-## TDD (Test-Driven Development)
-
-**MANDATORY.** RED-GREEN-REFACTOR:
-
-1. **RED**: Write test → `bun test` → FAIL
-2. **GREEN**: Implement minimum → PASS
-3. **REFACTOR**: Clean up → stay GREEN
-
-**Rules:**
-
-- NEVER write implementation before test
-- NEVER delete failing tests - fix the code
-- Test file: `*.test.ts` alongside source (603 test files after task-driven work)
-- BDD comments: `//#given`, `//#when`, `//#then`
-
-**Test Coverage**:
-
-- Task queue: 82 unit tests
-- Workflows-create: 12 hook tests
-- Workflows-execute: 7 hook tests
-- Workflows-status: 9 hook tests
-- Integration: 10 end-to-end tests
-- **Total: 120 new tests** ✅
-
-## CONVENTIONS
-
-- **Package manager**: Bun only (`bun run`, `bun build`, `bunx`)
-- **Types**: bun-types (NEVER @types/node)
-- **Build**: `bun build` (ESM) + `tsc --emitDeclarationOnly`
-- **Exports**: Barrel pattern via index.ts
-- **Naming**: kebab-case dirs, `createXXXHook`/`createXXXTool` factories
-- **Testing**: BDD comments, 603 test files
-- **Temperature**: 0.1 for code agents, max 0.3
-- **Tasks**: Use `blocks`/`blockedBy` arrays, assign category, validate before delegation
-
-## ANTI-PATTERNS
-
-| Category        | Forbidden                                    |
-| --------------- | -------------------------------------------- |
-| Package Manager | npm, yarn - Bun exclusively                  |
-| Types           | @types/node - use bun-types                  |
-| File Ops        | mkdir/touch/rm/cp/mv in code - use bash tool |
-| Publishing      | Direct `bun publish` - GitHub Actions only   |
-| Versioning      | Local version bump - CI manages              |
-| Type Safety     | `as any`, `@ts-ignore`, `@ts-expect-error`   |
-| Error Handling  | Empty catch blocks                           |
-| Testing         | Deleting failing tests                       |
-| Agent Calls     | Sequential - use `delegate_task` parallel    |
-| Hook Logic      | Heavy PreToolUse - slows every call          |
-| Commits         | Giant (3+ files), separate test from impl    |
-| Temperature     | >0.3 for code agents                         |
-| Trust           | Agent self-reports - ALWAYS verify           |
-
-## AGENT MODELS
-
-**Source of truth:** `agents.yml`  
-This table is intentionally maintained in `agents.yml` to avoid drift. Please refer there for current agent names, models, purposes, and fallbacks.
-
-## COMMANDS
-
-```bash
-bun run typecheck      # Type check
-bun run build          # ESM + declarations + schema
-bun run rebuild        # Clean + Build
-bun test               # 594 test files
-```
-
-## DEPLOYMENT
-
-**GitHub Actions workflow_dispatch ONLY**
-
-1. Commit & push changes
-2. Trigger: `gh workflow run publish -f bump=patch`
-3. Never `bun publish` directly, never bump version locally
-
-## COMPLEXITY HOTSPOTS
-
-| File                                                 | Lines | Description                            |
-| ---------------------------------------------------- | ----- | -------------------------------------- |
-| `src/execution/features/skills/skills.ts`            | 1729  | Skill definitions                      |
-| `src/execution/features/background-agent/manager.ts` | 1419  | Task lifecycle, concurrency            |
-| `src/execution/tools/delegate-task/tools.ts`         | 1414  | Category-based delegation              |
-| `src/orchestration/agents/planner.ts`                | 1283  | Planning agent (planner)               |
-| `src/index.ts`                                       | 940   | Main plugin entry                      |
-| `src/orchestration/hooks/grid-sync/index.ts`         | 757   | Main orchestration hook (orchestrator) |
-| `src/cli/config-manager.ts`                          | 741   | JSONC config parsing                   |
-
-## MCP ARCHITECTURE
-
-Three-tier system:
-
-1. **Built-in**: websearch (Exa), context7 (docs), grep_app (GitHub)
-2. **Claude Code compat**: .mcp.json with `${VAR}` expansion
-3. **Skill-embedded**: YAML frontmatter in skills
-
-## CONFIG SYSTEM
-
-- **Zod validation**: `src/platform/config/schema.ts`
-- **JSONC support**: Comments, trailing commas
-- **Multi-level**: Project (`.opencode/`) → User (`~/.config/opencode/`)
-
-## NOTES
-
-- **OpenCode**: Requires >= 1.0.150
-- **Flaky tests**: overclock-loop (CI timeout), session-state (parallel pollution)
-- **Trusted deps**: @ast-grep/cli, @ast-grep/napi, @code-yeongyu/comment-checker
+## Companion Artifacts
+- .github/copilot-instructions.md
+- .github/instructions/
+- .github/prompts/
+- .github/skills/
+- .github/hooks/

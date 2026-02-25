@@ -33,6 +33,18 @@
 | `/ghostwire:work:cancel` | loop termination |
 | `/ghostwire:project:map` | project topology artifact |
 
+## CLI Export
+
+Use `ghostwire export` to generate host-native artifacts for Copilot and Codex.
+
+Examples:
+
+- `ghostwire export --target copilot`
+- `ghostwire export --target codex`
+- `ghostwire export --target all --groups instructions,prompts --strict --manifest`
+
+See [Export Reference](./export.md) for artifact topology and validation rules.
+
 ## Deprecation Policy
 
 Legacy aliases (`init-deep`, `jack-in-work`, `ultrawork-loop`, `cancel-ultrawork`, `stop-continuation`) are non-canonical and excluded from active usage guidance.

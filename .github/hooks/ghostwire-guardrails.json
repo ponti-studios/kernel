@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      {
+        "command": "echo ghostwire-session-start"
+      }
+    ],
+    "preToolUse": [
+      {
+        "command": "echo ghostwire-pre-tool"
+      }
+    ],
+    "postToolUse": [
+      {
+        "command": "echo ghostwire-post-tool"
+      }
+    ]
+  }
+}
