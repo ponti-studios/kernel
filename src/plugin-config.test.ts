@@ -81,22 +81,22 @@ describe("mergeConfigs", () => {
     it("should deep merge agents", () => {
       const base: GhostwireConfig = {
         agents: {
-          "advisor-plan": { model: "openai/gpt-5.2" },
+          do: { model: "openai/gpt-5.2" },
         },
       };
 
       const override: GhostwireConfig = {
         agents: {
-          "advisor-plan": { temperature: 0.5 },
-          "researcher-codebase": { model: "anthropic/claude-haiku-4-5" },
+          do: { temperature: 0.5 },
+          research: { model: "anthropic/claude-haiku-4-5" },
         },
       };
 
       const result = mergeConfigs(base, override);
 
-      expect(result.agents?.["advisor-plan"]?.model).toBe("openai/gpt-5.2");
-      expect(result.agents?.["advisor-plan"]?.temperature).toBe(0.5);
-      expect(result.agents?.["researcher-codebase"]?.model).toBe("anthropic/claude-haiku-4-5");
+      expect(result.agents?.do?.model).toBe("openai/gpt-5.2");
+      expect(result.agents?.do?.temperature).toBe(0.5);
+      expect(result.agents?.research?.model).toBe("anthropic/claude-haiku-4-5");
     });
 
     it("should merge disabled arrays without duplicates", () => {

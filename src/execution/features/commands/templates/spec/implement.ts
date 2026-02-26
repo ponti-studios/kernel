@@ -1,5 +1,5 @@
 /**
- * Template for ghostwire:spec:implement command
+ * Template for ghostwire:workflows:work command
  *
  * Executes the implementation plan by processing all tasks from tasks.md.
  * Replaces: speckit.implement.md logic
@@ -69,7 +69,7 @@ $PROGRESS_TABLE
 
 ---
 
-**Next**: Run \`/ghostwire:spec:analyze\` to validate consistency across all artifacts
+**Next**: Run \`/ghostwire:workflows:create\` to validate consistency across all artifacts
 </command-instruction>
 `;
 

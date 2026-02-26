@@ -107,7 +107,7 @@ describe("look-at tool", () => {
 
       expect(result).toContain("Error: Failed to analyze file");
       expect(result).toContain("malformed response");
-      expect(result).toContain("analyzer-media");
+      expect(result).toContain("research");
       expect(result).toContain("image/png");
     });
 
@@ -149,10 +149,10 @@ describe("look-at tool", () => {
   });
 
   describe("createLookAt model passthrough", () => {
-    // #given analyzer-media agent has resolved model info
+    // #given research agent has resolved model info
     // #when LookAt 도구 실행
     // #then session.prompt에 model 정보가 전달되어야 함
-    test("passes analyzer-media model to session.prompt when available", async () => {
+    test("passes research model to session.prompt when available", async () => {
       let promptBody: any;
 
       const mockClient = {
@@ -160,7 +160,7 @@ describe("look-at tool", () => {
           agents: async () => ({
             data: [
               {
-                name: "analyzer-media",
+                name: "research",
                 mode: "subagent",
                 model: { providerID: "google", modelID: "gemini-3-flash" },
               },

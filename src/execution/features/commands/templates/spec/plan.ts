@@ -1,5 +1,5 @@
 /**
- * Template for ghostwire:spec:plan command
+ * Template for ghostwire:workflows:plan command
  *
  * Creates an implementation plan from a feature specification.
  * Replaces: .specify/templates/plan-template.md + speckit.plan.md logic
@@ -41,12 +41,12 @@ $CONSTITUTION_GATES
 
 \`\`\`text
 .ghostwire/specs/$BRANCH_NAME/
-├── plan.md              # This file (/ghostwire:spec:plan output)
+├── plan.md              # This file (/ghostwire:workflows:plan output)
 ├── research.md          # Phase 0 output
 ├── data-model.md        # Phase 1 output
 ├── quickstart.md        # Phase 1 output
 ├── contracts/           # Phase 1 output
-└── tasks.md             # Phase 2 output (/ghostwire:spec:tasks)
+└── tasks.md             # Phase 2 output (/ghostwire:workflows:create)
 \`\`\`
 
 ### Source Code (repository root)
@@ -93,13 +93,13 @@ $SOURCE_STRUCTURE
 **Prerequisites**: All design artifacts complete
 
 **Tasks**:
-- [ ] Run \`/ghostwire:spec:tasks\` to generate tasks.md
+- [ ] Run \`/ghostwire:workflows:create\` to generate tasks.md
 
 **Output**: tasks.md with executable task breakdown
 
 ---
 
-**Next**: Run \`/ghostwire:spec:tasks\` to create executable task list
+**Next**: Run \`/ghostwire:workflows:create\` to create executable task list
 </command-instruction>
 `;
 

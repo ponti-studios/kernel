@@ -13,8 +13,6 @@ import {
   DEFAULT_CATEGORIES,
   CATEGORY_PROMPT_APPENDS,
   CATEGORY_DESCRIPTIONS,
-  PLAN_AGENT_SYSTEM_PREPEND,
-  isPlanAgent,
 } from "./constants";
 import { getTimingConfig } from "./timing";
 import {
@@ -29,8 +27,6 @@ import type { ModelFallbackInfo } from "../../features/task-toast-manager/types"
 import { subagentSessions, getSessionAgent } from "../../features/claude-code-session-state";
 import {
   log,
-  findByNameCaseInsensitive,
-  equalsIgnoreCase,
   promptWithModelSuggestionRetry,
 } from "../../../integration/shared";
 import { getAgentToolRestrictions } from "../../../orchestration/agents/agent-tool-restrictions";
@@ -46,7 +42,9 @@ import { CATEGORY_MODEL_REQUIREMENTS } from "../../../orchestration/agents/model
 
 type OpencodeClient = PluginInput["client"];
 
-const SISYPHUS_JUNIOR_AGENT = "executor";
+const DO_AGENT = "do";
+const RESEARCH_AGENT = "research";
+const VALID_SUBAGENT_TYPES = [DO_AGENT, RESEARCH_AGENT] as const;
 
 function parseModelString(model: string): { providerID: string; modelID: string } | undefined {
   const parts = model.split("/");
@@ -215,19 +213,13 @@ export interface BuildSystemContentInput {
 }
 
 export function buildSystemContent(input: BuildSystemContentInput): string | undefined {
-  const { skillContent, categoryPromptAppend, agentName } = input;
+  const { skillContent, categoryPromptAppend } = input;
 
-  const planAgentPrepend = isPlanAgent(agentName) ? PLAN_AGENT_SYSTEM_PREPEND : "";
-
-  if (!skillContent && !categoryPromptAppend && !planAgentPrepend) {
+  if (!skillContent && !categoryPromptAppend) {
     return undefined;
   }
 
   const parts: string[] = [];
-
-  if (planAgentPrepend) {
-    parts.push(planAgentPrepend);
-  }
 
   if (skillContent) {
     parts.push(skillContent);
@@ -270,10 +262,10 @@ export function createDelegateTask(options: DelegateTaskToolOptions): ToolDefini
 MUTUALLY EXCLUSIVE: Provide EITHER category OR subagent_type, not both (unless continuing a session).
 
 - load_skills: ALWAYS REQUIRED. Pass at least one skill name (e.g., ["playwright"], ["git-master", "frontend-ui-ux"]).
-- category: Use predefined category → Spawns Dark Runner with category config
+- category: Use predefined category → routes to "do" with category model/prompt config
   Available categories:
 ${categoryList}
-- subagent_type: Use specific agent directly (e.g., "advisor-plan", "researcher-codebase")
+- subagent_type: Use specific runtime agent directly ("do" or "research")
 - run_in_background: true=async (returns task_id), false=sync (waits for result). Default: false. Use background=true ONLY for parallel exploration with 5+ independent queries.
 - session_id: Existing Task session to continue (from previous task output). Continues agent with FULL CONTEXT PRESERVED - saves tokens, maintains continuity.
 - command: The command that triggered this task (optional, for slash command tracking).
@@ -305,9 +297,7 @@ Prompts MUST be in English.`;
       subagent_type: tool.schema
         .string()
         .optional()
-        .describe(
-          "Agent name (e.g., 'advisor-plan', 'researcher-codebase'). Mutually exclusive with category.",
-        ),
+        .describe('Runtime agent name ("do" or "research"). Mutually exclusive with category.'),
       session_id: tool.schema.string().optional().describe("Existing Task session to continue"),
       command: tool.schema.string().optional().describe("The command that triggered this task"),
     },
@@ -492,7 +482,7 @@ Use \`background_output\` with task_id="${task.id}" to check progress.`;
                 ...(resumeAgent ? getAgentToolRestrictions(resumeAgent) : {}),
                 task: false,
                 delegate_task: false,
-                call_grid_agent: true,
+                call_grid_agent: false,
                 question: false,
               },
               parts: [{ type: "text", text: args.prompt }],
@@ -691,7 +681,7 @@ To continue this session: session_id="${args.session_id}"`;
           }
         }
 
-        agentToUse = SISYPHUS_JUNIOR_AGENT;
+        agentToUse = DO_AGENT;
         if (!categoryModel && actualModel) {
           const parsedModel = parseModelString(actualModel);
           categoryModel = parsedModel ?? undefined;
@@ -903,66 +893,15 @@ To continue this session: session_id="${sessionID}"`;
         if (!args.subagent_type?.trim()) {
           return `Agent name cannot be empty.`;
         }
-        const agentName = args.subagent_type.trim();
-
-        if (equalsIgnoreCase(agentName, SISYPHUS_JUNIOR_AGENT)) {
-          return `Cannot use subagent_type="${SISYPHUS_JUNIOR_AGENT}" directly. Use category parameter instead (e.g., ${categoryExamples}).
-
-  Dark Runner is spawned automatically when you specify a category. Pick the appropriate category for your task domain.`;
+        const normalizedAgent = args.subagent_type.trim().toLowerCase();
+        if (
+          !VALID_SUBAGENT_TYPES.includes(
+            normalizedAgent as (typeof VALID_SUBAGENT_TYPES)[number],
+          )
+        ) {
+          return `Invalid subagent_type "${args.subagent_type}". Valid values: ${VALID_SUBAGENT_TYPES.join(", ")}.`;
         }
-
-        if (isPlanAgent(agentName) && isPlanAgent(parentAgent)) {
-          return `You are planner. You cannot delegate to planner via delegate_task.
-
-Create the work plan directly - that's your job as the planning agent.`;
-        }
-
-        agentToUse = agentName;
-
-        // Validate agent exists and is callable (not a primary agent)
-        // Uses case-insensitive matching to allow "Seer Advisor", "advisor-plan", "ORACLE" etc.
-        try {
-          const agentsResult = await client.app.agents();
-          type AgentInfo = {
-            name: string;
-            mode?: "subagent" | "primary" | "all";
-            model?: { providerID: string; modelID: string };
-          };
-          const agents =
-            (agentsResult as { data?: AgentInfo[] }).data ??
-            (agentsResult as unknown as AgentInfo[]);
-
-          const callableAgents = agents.filter((a) => a.mode !== "primary");
-
-          const matchedAgent = findByNameCaseInsensitive(callableAgents, agentToUse);
-          if (!matchedAgent) {
-            const isPrimaryAgent = findByNameCaseInsensitive(
-              agents.filter((a) => a.mode === "primary"),
-              agentToUse,
-            );
-            if (isPrimaryAgent) {
-              return `Cannot call primary agent "${isPrimaryAgent.name}" via delegate_task. Primary agents are top-level orchestrators.`;
-            }
-
-            const availableAgents = callableAgents
-              .map((a) => a.name)
-              .sort()
-              .join(", ");
-            return `Unknown agent: "${agentToUse}". Available agents: ${availableAgents}`;
-          }
-          // Use the canonical agent name from registration
-          agentToUse = matchedAgent.name;
-
-          // Extract registered agent's model to pass explicitly to session.prompt.
-          // This ensures the model is always in the correct object format ({providerID, modelID})
-          // regardless of how OpenCode handles string→object conversion for plugin-registered agents.
-          // See: https://github.com/hackefeller/ghostwire/issues/1225
-          if (matchedAgent.model) {
-            categoryModel = matchedAgent.model;
-          }
-        } catch {
-          // If we can't fetch agents, proceed anyway - the session.prompt will fail with a clearer error
-        }
+        agentToUse = normalizedAgent;
       }
 
       const systemContent = buildSystemContent({
@@ -1097,7 +1036,6 @@ To continue this session: session_id="${task.sessionID}"`;
         });
 
         try {
-          const allowDelegateTask = isPlanAgent(agentToUse);
           await promptWithModelSuggestionRetry(client, {
             path: { id: sessionID },
             body: {
@@ -1105,8 +1043,8 @@ To continue this session: session_id="${task.sessionID}"`;
               system: systemContent,
               tools: {
                 task: false,
-                delegate_task: allowDelegateTask,
-                call_grid_agent: true,
+                delegate_task: false,
+                call_grid_agent: false,
                 question: false,
               },
               parts: [{ type: "text", text: args.prompt }],

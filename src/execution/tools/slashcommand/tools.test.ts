@@ -73,4 +73,5 @@ describe("slashcommand tool - synchronous description", () => {
     // #then - even with no items, description should be built synchronously (not just prefix)
     expect(tool.description).toContain("Load a skill");
   });
+
 });

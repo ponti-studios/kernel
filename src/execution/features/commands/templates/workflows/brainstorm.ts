@@ -38,7 +38,7 @@ Use **AskUserQuestion tool** to suggest: "Your requirements seem detailed enough
 
 Run a quick repo scan to understand existing patterns:
 
-- Task researcher-repo("Understand existing patterns related to: <feature_description>")
+- Task profile.researcher_repo("Understand existing patterns related to: <feature_description>")
 
 Focus on: similar features, established patterns, CLAUDE.md guidance.
 

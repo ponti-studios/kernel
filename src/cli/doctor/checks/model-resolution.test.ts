@@ -12,13 +12,13 @@ describe("model-resolution check", () => {
       const info = getModelResolutionInfo();
 
       // #then: Should have agent entries
-      const cipherOperator = info.agents.find((a) => a.name === "operator");
-      expect(cipherOperator).toBeDefined();
+      const doAgent = info.agents.find((a) => a.name === "do");
+      expect(doAgent).toBeDefined();
       // Model is flexible - just verify structure is correct
-      expect(cipherOperator!.requirement.fallbackChain[0]?.model).toBeDefined();
-      expect(typeof cipherOperator!.requirement.fallbackChain[0]?.model).toBe("string");
-      expect(cipherOperator!.requirement.fallbackChain[0]?.providers).toBeDefined();
-      expect(Array.isArray(cipherOperator!.requirement.fallbackChain[0]?.providers)).toBe(true);
+      expect(doAgent!.requirement.fallbackChain[0]?.model).toBeDefined();
+      expect(typeof doAgent!.requirement.fallbackChain[0]?.model).toBe("string");
+      expect(doAgent!.requirement.fallbackChain[0]?.providers).toBeDefined();
+      expect(Array.isArray(doAgent!.requirement.fallbackChain[0]?.providers)).toBe(true);
     });
 
     it("returns category requirements with provider chains", async () => {
@@ -45,20 +45,20 @@ describe("model-resolution check", () => {
     it("shows user override for agent when configured", async () => {
       const { getModelResolutionInfoWithOverrides } = await import("./model-resolution");
 
-      // #given: User has override for seerAdvisor agent
+      // #given: User has override for do agent
       const mockConfig = {
         agents: {
-          "advisor-plan": { model: "anthropic/claude-opus-4-5" },
+          do: { model: "anthropic/claude-opus-4-5" },
         },
       };
 
       const info = getModelResolutionInfoWithOverrides(mockConfig);
 
-      // #then: Seer Advisor should show the override
-      const seerAdvisor = info.agents.find((a) => a.name === "advisor-plan");
-      expect(seerAdvisor).toBeDefined();
-      expect(seerAdvisor!.userOverride).toBe("anthropic/claude-opus-4-5");
-      expect(seerAdvisor!.effectiveResolution).toBe("User override: anthropic/claude-opus-4-5");
+      // #then: do should show the override
+      const doAgent = info.agents.find((a) => a.name === "do");
+      expect(doAgent).toBeDefined();
+      expect(doAgent!.userOverride).toBe("anthropic/claude-opus-4-5");
+      expect(doAgent!.effectiveResolution).toBe("User override: anthropic/claude-opus-4-5");
     });
 
     it("shows user override for category when configured", async () => {
@@ -89,12 +89,12 @@ describe("model-resolution check", () => {
       const info = getModelResolutionInfoWithOverrides(mockConfig);
 
       // #then: Should show provider fallback chain (model is flexible)
-      const cipherOperator = info.agents.find((a) => a.name === "operator");
-      expect(cipherOperator).toBeDefined();
-      expect(cipherOperator!.userOverride).toBeUndefined();
-      expect(cipherOperator!.effectiveResolution).toContain("Provider fallback:");
+      const doAgent = info.agents.find((a) => a.name === "do");
+      expect(doAgent).toBeDefined();
+      expect(doAgent!.userOverride).toBeUndefined();
+      expect(doAgent!.effectiveResolution).toContain("Provider fallback:");
       // Model is flexible - just verify it contains some provider
-      expect(typeof cipherOperator!.effectiveResolution).toBe("string");
+      expect(typeof doAgent!.effectiveResolution).toBe("string");
     });
   });
 

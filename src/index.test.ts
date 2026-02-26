@@ -13,8 +13,8 @@ describe("look_at tool conditional registration", () => {
     // #when checking if agent is enabled
     // #then should return false (disabled)
     it("returns false when opticAnalyst is disabled (exact case)", () => {
-      const disabledAgents = ["analyzer-media"];
-      const isEnabled = !includesCaseInsensitive(disabledAgents, "analyzer-media");
+      const disabledAgents = ["research"];
+      const isEnabled = !includesCaseInsensitive(disabledAgents, "research");
       expect(isEnabled).toBe(false);
     });
 
@@ -22,8 +22,8 @@ describe("look_at tool conditional registration", () => {
     // #when checking if agent is enabled
     // #then should return false (case-insensitive match)
     it("returns false when opticAnalyst is disabled (case-insensitive)", () => {
-      const disabledAgents = ["ANALYZER-MEDIA"];
-      const isEnabled = !includesCaseInsensitive(disabledAgents, "analyzer-media");
+      const disabledAgents = ["RESEARCH"];
+      const isEnabled = !includesCaseInsensitive(disabledAgents, "research");
       expect(isEnabled).toBe(false);
     });
 
@@ -31,8 +31,8 @@ describe("look_at tool conditional registration", () => {
     // #when checking if agent is enabled
     // #then should return true (enabled)
     it("returns true when opticAnalyst is not disabled", () => {
-      const disabledAgents = ["advisor-plan", "researcher-data"];
-      const isEnabled = !includesCaseInsensitive(disabledAgents, "analyzer-media");
+      const disabledAgents = ["do"];
+      const isEnabled = !includesCaseInsensitive(disabledAgents, "research");
       expect(isEnabled).toBe(true);
     });
 
@@ -41,7 +41,7 @@ describe("look_at tool conditional registration", () => {
     // #then should return true (enabled by default)
     it("returns true when disabled_agents is empty", () => {
       const disabledAgents: string[] = [];
-      const isEnabled = !includesCaseInsensitive(disabledAgents, "analyzer-media");
+      const isEnabled = !includesCaseInsensitive(disabledAgents, "research");
       expect(isEnabled).toBe(true);
     });
 
@@ -50,7 +50,7 @@ describe("look_at tool conditional registration", () => {
     // #then should return true (enabled by default)
     it("returns true when disabled_agents is undefined (fallback to empty)", () => {
       const disabledAgents = undefined;
-      const isEnabled = !includesCaseInsensitive(disabledAgents ?? [], "analyzer-media");
+      const isEnabled = !includesCaseInsensitive(disabledAgents ?? [], "research");
       expect(isEnabled).toBe(true);
     });
   });

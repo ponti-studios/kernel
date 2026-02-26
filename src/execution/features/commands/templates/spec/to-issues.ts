@@ -1,5 +1,5 @@
 /**
- * Template for ghostwire:spec:to-issues command
+ * Template for ghostwire:workflows:create command
  *
  * Converts tasks to GitHub issues.
  * Replaces: speckit.taskstoissues.md

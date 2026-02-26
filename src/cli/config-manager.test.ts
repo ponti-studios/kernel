@@ -259,8 +259,7 @@ describe("config-manager ANTIGRAVITY_PROVIDER_CONFIG", () => {
 });
 
 describe("generateOmoConfig - model fallback system", () => {
-  test("generates valid config structure when OpenCode Zen available", () => {
-    // #given user has OpenCode Zen access
+  test("generates valid schema and two-agent config", () => {
     const config: InstallConfig = {
       hasOpenAI: false,
       hasGemini: false,
@@ -270,46 +269,16 @@ describe("generateOmoConfig - model fallback system", () => {
       hasKimiForCoding: false,
     };
 
-    // #when generating config
     const result = generateOmoConfig(config);
 
-    // #then should have valid schema
     expect(result.$schema).toBe(
       "https://raw.githubusercontent.com/hackefeller/ghostwire/master/assets/ghostwire.schema.json",
     );
-    // #then should have agents with valid model strings
     expect(result.agents).toBeDefined();
-    expect(typeof (result.agents as Record<string, { model: string }>)["operator"].model).toBe(
-      "string",
-    );
-    expect(
-      (result.agents as Record<string, { model: string }>)["operator"].model.length,
-    ).toBeGreaterThan(0);
+    expect(Object.keys(result.agents ?? {}).sort()).toEqual(["do", "research"]);
   });
 
-  test("generates valid config structure when OpenCode Zen subscription", () => {
-    // #given user has OpenCode Zen access
-    const config: InstallConfig = {
-      hasOpenAI: false,
-      hasGemini: false,
-      hasCopilot: false,
-      hasOpencodeZen: true,
-      hasZaiCodingPlan: false,
-      hasKimiForCoding: false,
-    };
-
-    // #when generating config
-    const result = generateOmoConfig(config);
-
-    // #then should have valid model string
-    const model = (result.agents as Record<string, { model: string }>)["operator"].model;
-    expect(typeof model).toBe("string");
-    expect(model.length).toBeGreaterThan(0);
-    expect(model).toContain("/"); // model format: provider/model
-  });
-
-  test("uses fallback providers when only copilot available", () => {
-    // #given user has only copilot
+  test("uses fallback providers when only copilot is available", () => {
     const config: InstallConfig = {
       hasOpenAI: false,
       hasGemini: false,
@@ -319,17 +288,17 @@ describe("generateOmoConfig - model fallback system", () => {
       hasKimiForCoding: false,
     };
 
-    // #when generating config
     const result = generateOmoConfig(config);
+    const doModel = (result.agents as Record<string, { model: string }>).do.model;
+    const researchModel = (result.agents as Record<string, { model: string }>).research.model;
 
-    // #then should have valid model string
-    const model = (result.agents as Record<string, { model: string }>)["operator"].model;
-    expect(typeof model).toBe("string");
-    expect(model.length).toBeGreaterThan(0);
+    expect(typeof doModel).toBe("string");
+    expect(doModel.length).toBeGreaterThan(0);
+    expect(typeof researchModel).toBe("string");
+    expect(researchModel.length).toBeGreaterThan(0);
   });
 
-  test("uses ultimate fallback when no providers configured", () => {
-    // #given user has no providers
+  test("uses ultimate fallback when no providers are configured", () => {
     const config: InstallConfig = {
       hasOpenAI: false,
       hasGemini: false,
@@ -339,21 +308,17 @@ describe("generateOmoConfig - model fallback system", () => {
       hasKimiForCoding: false,
     };
 
-    // #when generating config
     const result = generateOmoConfig(config);
+    const doModel = (result.agents as Record<string, { model: string }>).do.model;
+    const researchModel = (result.agents as Record<string, { model: string }>).research.model;
 
-    // #then should have valid schema
-    expect(result.$schema).toBe(
-      "https://raw.githubusercontent.com/hackefeller/ghostwire/master/assets/ghostwire.schema.json",
-    );
-    // #then should have valid model string
-    const model = (result.agents as Record<string, { model: string }>)["operator"].model;
-    expect(typeof model).toBe("string");
-    expect(model.length).toBeGreaterThan(0);
+    expect(typeof doModel).toBe("string");
+    expect(doModel.length).toBeGreaterThan(0);
+    expect(typeof researchModel).toBe("string");
+    expect(researchModel.length).toBeGreaterThan(0);
   });
 
-  test("generates config for researcher-data when Z.ai available", () => {
-    // #given user has Z.ai and OpenCode Zen
+  test("research honors zai availability", () => {
     const config: InstallConfig = {
       hasOpenAI: false,
       hasGemini: false,
@@ -363,22 +328,17 @@ describe("generateOmoConfig - model fallback system", () => {
       hasKimiForCoding: false,
     };
 
-    // #when generating config
     const result = generateOmoConfig(config);
+    const researchModel = (result.agents as Record<string, { model: string }>).research.model;
+    const doModel = (result.agents as Record<string, { model: string }>).do.model;
 
-    // #then researcher-data should have valid model
-    const researcherModel = (result.agents as Record<string, { model: string }>)["researcher-data"]
-      .model;
-    expect(typeof researcherModel).toBe("string");
-    expect(researcherModel.length).toBeGreaterThan(0);
-    // #then operator should have valid model
-    const operatorModel = (result.agents as Record<string, { model: string }>)["operator"].model;
-    expect(typeof operatorModel).toBe("string");
-    expect(operatorModel.length).toBeGreaterThan(0);
+    expect(typeof researchModel).toBe("string");
+    expect(researchModel.length).toBeGreaterThan(0);
+    expect(typeof doModel).toBe("string");
+    expect(doModel.length).toBeGreaterThan(0);
   });
 
-  test("generates config with native providers when available", () => {
-    // #given user has only ChatGPT subscription
+  test("generates valid models with native OpenAI provider", () => {
     const config: InstallConfig = {
       hasOpenAI: true,
       hasGemini: false,
@@ -388,61 +348,13 @@ describe("generateOmoConfig - model fallback system", () => {
       hasKimiForCoding: false,
     };
 
-    // #when generating config
     const result = generateOmoConfig(config);
+    const doModel = (result.agents as Record<string, { model: string }>).do.model;
+    const researchModel = (result.agents as Record<string, { model: string }>).research.model;
 
-    // #then should have valid model strings for all agents
-    const operatorModel = (result.agents as Record<string, { model: string }>)["operator"].model;
-    expect(typeof operatorModel).toBe("string");
-    expect(operatorModel.length).toBeGreaterThan(0);
-
-    const advisorModel = (result.agents as Record<string, { model: string }>)["advisor-plan"].model;
-    expect(typeof advisorModel).toBe("string");
-    expect(advisorModel.length).toBeGreaterThan(0);
-
-    const analyzerModel = (result.agents as Record<string, { model: string }>)["analyzer-media"]
-      .model;
-    expect(typeof analyzerModel).toBe("string");
-    expect(analyzerModel.length).toBeGreaterThan(0);
-  });
-
-  test("generates valid config for researcher-codebase", () => {
-    // #given user has OpenCode Zen
-    const config: InstallConfig = {
-      hasOpenAI: false,
-      hasGemini: false,
-      hasCopilot: false,
-      hasOpencodeZen: true,
-      hasZaiCodingPlan: false,
-      hasKimiForCoding: false,
-    };
-
-    // #when generating config
-    const result = generateOmoConfig(config);
-
-    // #then researcher-codebase should have valid model
-    const model = (result.agents as Record<string, { model: string }>)["researcher-codebase"].model;
-    expect(typeof model).toBe("string");
-    expect(model.length).toBeGreaterThan(0);
-  });
-
-  test("generates valid config for researcher-codebase with OpenCode Zen", () => {
-    // #given user has OpenCode Zen
-    const config: InstallConfig = {
-      hasOpenAI: false,
-      hasGemini: false,
-      hasCopilot: false,
-      hasOpencodeZen: true,
-      hasZaiCodingPlan: false,
-      hasKimiForCoding: false,
-    };
-
-    // #when generating config
-    const result = generateOmoConfig(config);
-
-    // #then researcher-codebase should have valid model
-    const model = (result.agents as Record<string, { model: string }>)["researcher-codebase"].model;
-    expect(typeof model).toBe("string");
-    expect(model.length).toBeGreaterThan(0);
+    expect(typeof doModel).toBe("string");
+    expect(doModel.length).toBeGreaterThan(0);
+    expect(typeof researchModel).toBe("string");
+    expect(researchModel.length).toBeGreaterThan(0);
   });
 });

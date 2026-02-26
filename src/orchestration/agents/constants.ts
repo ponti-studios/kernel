@@ -1,63 +1,52 @@
-/**
- * Agent IDs - Valid agent identifiers from docs/agents.yml
- * Use these constants to prevent drift in agent references
- */
+export const AGENT_DO = "do";
+export const AGENT_RESEARCH = "research";
 
-// Planning Agents
-export const AGENT_PLANNER = "planner";
-export const AGENT_ADVISOR_PLAN = "advisor-plan";
-export const AGENT_ADVISOR_STRATEGY = "advisor-strategy";
-export const AGENT_ADVISOR_ARCHITECTURE = "advisor-architecture";
+export const AGENT_PLANNER = AGENT_DO;
+export const AGENT_ADVISOR_PLAN = AGENT_DO;
+export const AGENT_ADVISOR_STRATEGY = AGENT_DO;
+export const AGENT_ADVISOR_ARCHITECTURE = AGENT_DO;
 
-// Research Agents
-export const AGENT_RESEARCHER_CODEBASE = "researcher-codebase";
-export const AGENT_RESEARCHER_DATA = "researcher-data";
-export const AGENT_RESEARCHER_DOCS = "researcher-docs";
-export const AGENT_RESEARCHER_GIT = "researcher-git";
-export const AGENT_RESEARCHER_LEARNINGS = "researcher-learnings";
-export const AGENT_RESEARCHER_PRACTICES = "researcher-practices";
-export const AGENT_RESEARCHER_REPO = "researcher-repo";
+export const AGENT_RESEARCHER_CODEBASE = AGENT_RESEARCH;
+export const AGENT_RESEARCHER_DATA = AGENT_RESEARCH;
+export const AGENT_RESEARCHER_DOCS = AGENT_RESEARCH;
+export const AGENT_RESEARCHER_GIT = AGENT_RESEARCH;
+export const AGENT_RESEARCHER_LEARNINGS = AGENT_RESEARCH;
+export const AGENT_RESEARCHER_PRACTICES = AGENT_RESEARCH;
+export const AGENT_RESEARCHER_REPO = AGENT_RESEARCH;
 
-// Review Agents
-export const AGENT_REVIEWER_RAILS = "reviewer-rails";
-export const AGENT_REVIEWER_PYTHON = "reviewer-python";
-export const AGENT_REVIEWER_TYPESCRIPT = "reviewer-typescript";
-export const AGENT_REVIEWER_RAILS_DH = "reviewer-rails-dh";
-export const AGENT_REVIEWER_SECURITY = "reviewer-security";
-export const AGENT_REVIEWER_SIMPLICITY = "reviewer-simplicity";
-export const AGENT_REVIEWER_RACES = "reviewer-races";
+export const AGENT_REVIEWER_RAILS = AGENT_DO;
+export const AGENT_REVIEWER_PYTHON = AGENT_DO;
+export const AGENT_REVIEWER_TYPESCRIPT = AGENT_DO;
+export const AGENT_REVIEWER_RAILS_DH = AGENT_DO;
+export const AGENT_REVIEWER_SECURITY = AGENT_DO;
+export const AGENT_REVIEWER_SIMPLICITY = AGENT_DO;
+export const AGENT_REVIEWER_RACES = AGENT_DO;
 
-// Design Agents
-export const AGENT_DESIGNER_BUILDER = "designer-builder";
-export const AGENT_DESIGNER_FLOW = "designer-flow";
-export const AGENT_DESIGNER_ITERATOR = "designer-iterator";
-export const AGENT_DESIGNER_SYNC = "designer-sync";
+export const AGENT_DESIGNER_BUILDER = AGENT_DO;
+export const AGENT_DESIGNER_FLOW = AGENT_DO;
+export const AGENT_DESIGNER_ITERATOR = AGENT_DO;
+export const AGENT_DESIGNER_SYNC = AGENT_DO;
 
-// Validation Agents
-export const AGENT_VALIDATOR_AUDIT = "validator-audit";
-export const AGENT_VALIDATOR_BUGS = "validator-bugs";
-export const AGENT_VALIDATOR_DEPLOYMENT = "validator-deployment";
+export const AGENT_VALIDATOR_AUDIT = AGENT_DO;
+export const AGENT_VALIDATOR_BUGS = AGENT_DO;
+export const AGENT_VALIDATOR_DEPLOYMENT = AGENT_DO;
 
-// Writing Agents
-export const AGENT_WRITER_README = "writer-readme";
-export const AGENT_WRITER_GEM = "writer-gem";
-export const AGENT_EDITOR_STYLE = "editor-style";
+export const AGENT_WRITER_README = AGENT_DO;
+export const AGENT_WRITER_GEM = AGENT_DO;
+export const AGENT_EDITOR_STYLE = AGENT_DO;
 
-// Execution Agents
-export const AGENT_OPERATOR = "operator";
-export const AGENT_EXECUTOR = "executor";
-export const AGENT_ORCHESTRATOR = "orchestrator";
+export const AGENT_OPERATOR = AGENT_DO;
+export const AGENT_EXECUTOR = AGENT_DO;
+export const AGENT_ORCHESTRATOR = AGENT_DO;
 
-// Analysis Agents
-export const AGENT_ANALYZER_DESIGN = "analyzer-design";
-export const AGENT_ANALYZER_MEDIA = "analyzer-media";
-export const AGENT_ANALYZER_PATTERNS = "analyzer-patterns";
-export const AGENT_ORACLE_PERFORMANCE = "oracle-performance";
+export const AGENT_ANALYZER_DESIGN = AGENT_RESEARCH;
+export const AGENT_ANALYZER_MEDIA = AGENT_RESEARCH;
+export const AGENT_ANALYZER_PATTERNS = AGENT_DO;
+export const AGENT_ORACLE_PERFORMANCE = AGENT_DO;
 
-// Other Agents
-export const AGENT_GUARDIAN_DATA = "guardian-data";
-export const AGENT_EXPERT_MIGRATIONS = "expert-migrations";
-export const AGENT_RESOLVER_PR = "resolver-pr";
+export const AGENT_GUARDIAN_DATA = AGENT_DO;
+export const AGENT_EXPERT_MIGRATIONS = AGENT_DO;
+export const AGENT_RESOLVER_PR = AGENT_DO;
 
 // Categories (for delegate_task)
 export const CATEGORY_VISUAL_ENGINEERING = "visual-engineering";
@@ -91,46 +80,7 @@ export function isValidCategory(category: string): category is ValidCategory {
 }
 
 // Valid agent IDs for validation
-export const VALID_AGENT_IDS = [
-  AGENT_PLANNER,
-  AGENT_ADVISOR_PLAN,
-  AGENT_ADVISOR_STRATEGY,
-  AGENT_ADVISOR_ARCHITECTURE,
-  AGENT_RESEARCHER_CODEBASE,
-  AGENT_RESEARCHER_DATA,
-  AGENT_RESEARCHER_DOCS,
-  AGENT_RESEARCHER_GIT,
-  AGENT_RESEARCHER_LEARNINGS,
-  AGENT_RESEARCHER_PRACTICES,
-  AGENT_RESEARCHER_REPO,
-  AGENT_REVIEWER_RAILS,
-  AGENT_REVIEWER_PYTHON,
-  AGENT_REVIEWER_TYPESCRIPT,
-  AGENT_REVIEWER_RAILS_DH,
-  AGENT_REVIEWER_SECURITY,
-  AGENT_REVIEWER_SIMPLICITY,
-  AGENT_REVIEWER_RACES,
-  AGENT_DESIGNER_BUILDER,
-  AGENT_DESIGNER_FLOW,
-  AGENT_DESIGNER_ITERATOR,
-  AGENT_DESIGNER_SYNC,
-  AGENT_VALIDATOR_AUDIT,
-  AGENT_VALIDATOR_BUGS,
-  AGENT_VALIDATOR_DEPLOYMENT,
-  AGENT_WRITER_README,
-  AGENT_WRITER_GEM,
-  AGENT_EDITOR_STYLE,
-  AGENT_OPERATOR,
-  AGENT_EXECUTOR,
-  AGENT_ORCHESTRATOR,
-  AGENT_ANALYZER_DESIGN,
-  AGENT_ANALYZER_MEDIA,
-  AGENT_ANALYZER_PATTERNS,
-  AGENT_ORACLE_PERFORMANCE,
-  AGENT_GUARDIAN_DATA,
-  AGENT_EXPERT_MIGRATIONS,
-  AGENT_RESOLVER_PR,
-] as const;
+export const VALID_AGENT_IDS = [AGENT_DO, AGENT_RESEARCH] as const;
 
 export type ValidAgentId = (typeof VALID_AGENT_IDS)[number];
 
@@ -210,16 +160,6 @@ export const COMMAND_TEST_BROWSER = "ghostwire:test-browser";
 export const COMMAND_TRIAGE = "ghostwire:triage";
 export const COMMAND_XCODE_TEST = "ghostwire:xcode-test";
 
-// Spec commands
-export const COMMAND_SPEC_CREATE = "ghostwire:spec:create";
-export const COMMAND_SPEC_PLAN = "ghostwire:spec:plan";
-export const COMMAND_SPEC_TASKS = "ghostwire:spec:tasks";
-export const COMMAND_SPEC_IMPLEMENT = "ghostwire:spec:implement";
-export const COMMAND_SPEC_CLARIFY = "ghostwire:spec:clarify";
-export const COMMAND_SPEC_ANALYZE = "ghostwire:spec:analyze";
-export const COMMAND_SPEC_CHECKLIST = "ghostwire:spec:checklist";
-export const COMMAND_SPEC_TO_ISSUES = "ghostwire:spec:to-issues";
-
 // Project extended commands
 export const COMMAND_PROJECT_MAP = "ghostwire:project:map";
 export const COMMAND_PROJECT_CONSTITUTION = "ghostwire:project:constitution";
@@ -286,15 +226,6 @@ export const VALID_COMMAND_NAMES = [
   COMMAND_TEST_BROWSER,
   COMMAND_TRIAGE,
   COMMAND_XCODE_TEST,
-  // Spec commands
-  COMMAND_SPEC_CREATE,
-  COMMAND_SPEC_PLAN,
-  COMMAND_SPEC_TASKS,
-  COMMAND_SPEC_IMPLEMENT,
-  COMMAND_SPEC_CLARIFY,
-  COMMAND_SPEC_ANALYZE,
-  COMMAND_SPEC_CHECKLIST,
-  COMMAND_SPEC_TO_ISSUES,
   // Project extended
   COMMAND_PROJECT_MAP,
   COMMAND_PROJECT_CONSTITUTION,

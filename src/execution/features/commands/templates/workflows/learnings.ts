@@ -66,11 +66,11 @@ This command launches multiple specialized subagents IN PARALLEL to maximize eff
 
 Based on problem type detected, automatically invoke applicable agents:
 
-- **performance_issue** → \`oracle-performance\`
-- **security_issue** → \`security-sentinel\`
+- **performance_issue** → \`profile.oracle_performance\`
+- **security_issue** → \`profile.reviewer_security\`
 - **database_issue** → \`data-integrity-guardian\`
 - **test_failure** → \`cora-test-reviewer\`
-- Any code-heavy issue → \`reviewer-rails\` + \`reviewer-simplicity\`
+- Any code-heavy issue → \`profile.reviewer_rails\` + \`profile.reviewer_simplicity\`
 
 ## What It Captures
 
@@ -127,9 +127,9 @@ Primary Subagent Results:
   ✓ Documentation Writer: Created complete markdown
 
 Specialized Agent Reviews (Auto-Triggered):
-  ✓ oracle-performance: Validated query optimization approach
-  ✓ reviewer-rails: Code examples meet Rails standards
-  ✓ reviewer-simplicity: Solution is appropriately minimal
+  ✓ profile.oracle_performance: Validated query optimization approach
+  ✓ profile.reviewer_rails: Code examples meet Rails standards
+  ✓ profile.reviewer_simplicity: Solution is appropriately minimal
   ✓ every-style-editor: Documentation style verified
 
 File created:
@@ -181,22 +181,22 @@ Based on problem type, these agents can enhance documentation:
 
 ### Code Quality & Review
 
-- **reviewer-rails**: Reviews code examples for Rails best practices
-- **reviewer-simplicity**: Ensures solution code is minimal and clear
-- **analyzer-patterns**: Identifies anti-patterns or repeating issues
+- **profile.reviewer_rails**: Reviews code examples for Rails best practices
+- **profile.reviewer_simplicity**: Ensures solution code is minimal and clear
+- **profile.analyzer_patterns**: Identifies anti-patterns or repeating issues
 
 ### Specific Domain Experts
 
-- **oracle-performance**: Analyzes performance_issue category solutions
-- **security-sentinel**: Reviews security_issue solutions for vulnerabilities
+- **profile.oracle_performance**: Analyzes performance_issue category solutions
+- **profile.reviewer_security**: Reviews security_issue solutions for vulnerabilities
 - **cora-test-reviewer**: (skill, not agent) Creates test cases for prevention strategies
-- **guardian-data**: Reviews database_issue migrations and queries
+- **profile.guardian_data**: Reviews database_issue migrations and queries
 
 ### Enhancement & Documentation
 
-- **researcher-practices**: Enriches solution with industry best practices
+- **profile.researcher_practices**: Enriches solution with industry best practices
 - **every-style-editor**: Reviews documentation style and clarity
-- **researcher-docs**: Links to Rails/gem documentation references
+- **profile.researcher_docs**: Links to Rails/gem documentation references
 
 ### When to Invoke
 

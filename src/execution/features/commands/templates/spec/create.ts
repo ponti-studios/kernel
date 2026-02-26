@@ -1,5 +1,5 @@
 /**
- * Template for ghostwire:spec:create command
+ * Template for ghostwire:workflows:plan command
  *
  * Creates a feature specification from a natural language description.
  * Replaces: .specify/templates/spec-template.md + speckit.specify.md logic
@@ -87,7 +87,7 @@ $ASSUMPTIONS
 
 ---
 
-**Next**: Run \`/ghostwire:spec:plan\` to create implementation plan
+**Next**: Run \`/ghostwire:workflows:plan\` to create implementation plan
 </command-instruction>
 `;
 

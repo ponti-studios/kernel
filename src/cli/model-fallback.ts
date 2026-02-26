@@ -119,25 +119,25 @@ export function generateModelConfig(config: InstallConfig): GeneratedOmoConfig {
   const categories: Record<string, CategoryConfig> = {};
 
   for (const [role, req] of Object.entries(AGENT_MODEL_REQUIREMENTS)) {
-    // Special case: archiveResearcher always uses ZAI first if available
-    if (role === "researcher-data" && avail.zai) {
-      agents[role] = { model: ZAI_MODEL };
-      continue;
-    }
-
-    // Special case: scoutRecon uses OpenCode claude-haiku → GitHub Copilot gpt-5-mini → OpenCode gpt-5-nano
-    if (role === "researcher-codebase") {
+    if (role === "research") {
+      if (avail.zai) {
+        agents[role] = { model: ZAI_MODEL };
+        continue;
+      }
       if (avail.opencodeZen) {
         agents[role] = { model: "opencode/claude-haiku-4-5" };
-      } else if (avail.copilot) {
-        agents[role] = { model: "github-copilot/gpt-5-mini" };
-      } else {
-        agents[role] = { model: "opencode/gpt-5-nano" };
+        continue;
       }
-      continue;
+      if (avail.copilot) {
+        agents[role] = { model: "github-copilot/gpt-5-mini" };
+        continue;
+      }
+      if (avail.native.openai || avail.native.gemini) {
+        agents[role] = { model: "opencode/gpt-5-nano" };
+        continue;
+      }
     }
 
-    // Special case: operator uses the standard fallback chain
     const fallbackChain = req.fallbackChain;
 
     const resolved = resolveModelFromChain(fallbackChain, avail);

@@ -31,7 +31,7 @@ export type ModelRequirement = {
 };
 
 export const AGENT_MODEL_REQUIREMENTS: Record<string, ModelRequirement> = {
-  operator: {
+  do: {
     fallbackChain: [
       {
         providers: ["opencode", "github-copilot"],
@@ -39,72 +39,7 @@ export const AGENT_MODEL_REQUIREMENTS: Record<string, ModelRequirement> = {
       },
     ],
   },
-  executor: {
-    fallbackChain: [
-      {
-        providers: ["opencode", "github-copilot"],
-        model: "kimi-k2.5",
-      },
-    ],
-  },
-  "advisor-plan": {
-    fallbackChain: [
-      {
-        providers: ["opencode", "github-copilot"],
-        model: "kimi-k2.5",
-      },
-    ],
-  },
-  "researcher-data": {
-    fallbackChain: [
-      {
-        providers: ["opencode", "github-copilot"],
-        model: "kimi-k2.5",
-      },
-    ],
-  },
-  "researcher-codebase": {
-    fallbackChain: [
-      {
-        providers: ["opencode", "github-copilot"],
-        model: "kimi-k2.5",
-      },
-    ],
-  },
-  "analyzer-media": {
-    // EXCEPTION: Keep gemini-3-flash for vision capabilities
-    fallbackChain: [
-      {
-        providers: ["google", "github-copilot", "opencode"],
-        model: "gemini-3-flash",
-      },
-    ],
-  },
-  planner: {
-    fallbackChain: [
-      {
-        providers: ["opencode", "github-copilot"],
-        model: "kimi-k2.5",
-      },
-    ],
-  },
-  "advisor-strategy": {
-    fallbackChain: [
-      {
-        providers: ["opencode", "github-copilot"],
-        model: "kimi-k2.5",
-      },
-    ],
-  },
-  "validator-audit": {
-    fallbackChain: [
-      {
-        providers: ["opencode", "github-copilot"],
-        model: "kimi-k2.5",
-      },
-    ],
-  },
-  orchestrator: {
+  research: {
     fallbackChain: [
       {
         providers: ["opencode", "github-copilot"],

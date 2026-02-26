@@ -73,7 +73,7 @@ describe("export CLI", () => {
     expect(existsSync(scopedPath)).toBe(true);
     expect(existsSync(hookPath)).toBe(true);
     expect(existsSync(manifestPath)).toBe(false);
-    expect(countFilesRecursive(agentsDir)).toBeGreaterThan(30);
+    expect(countFilesRecursive(agentsDir)).toBe(2);
     expect(countFilesRecursive(promptsDir)).toBeGreaterThan(30);
     expect(countFilesRecursive(skillsDir)).toBeGreaterThan(10);
 

@@ -4,6 +4,7 @@ import { log } from "../../../integration/shared/logger";
 import { parsePlanFile } from "../../../execution/features/task-queue/plan-parser";
 import { getTasksByWave } from "../../../execution/features/task-queue/parallelization";
 import type { Task } from "../../../execution/features/task-queue";
+import { resolvePlanArtifactRef } from "../../../execution/features/workflow-artifacts/store";
 
 export const HOOK_NAME = "workflows-status";
 
@@ -221,20 +222,23 @@ export function createWorkflowsStatusHook(ctx: PluginInput) {
         return;
       }
 
-      log(`[${HOOK_NAME}] Plan file path extracted: ${planPath}`, {
+      const resolvedPlan = resolvePlanArtifactRef(ctx.directory, planPath);
+      const effectivePlanPath = resolvedPlan.path;
+
+      log(`[${HOOK_NAME}] Plan file path extracted: ${effectivePlanPath}`, {
         sessionID: input.sessionID,
       });
 
       // Check if plan file exists
-      if (!existsSync(planPath)) {
-        log(`[${HOOK_NAME}] Plan file not found: ${planPath}`, {
+      if (!existsSync(effectivePlanPath)) {
+        log(`[${HOOK_NAME}] Plan file not found: ${effectivePlanPath}`, {
           sessionID: input.sessionID,
         });
 
         if (parts) {
           parts.push({
             type: "text",
-            text: `❌ Plan file not found: ${planPath}`,
+            text: `❌ Plan file not found: ${effectivePlanPath}`,
           });
         }
         return;
@@ -242,7 +246,7 @@ export function createWorkflowsStatusHook(ctx: PluginInput) {
 
       try {
         // Parse plan file
-        const plan = await parsePlanFile(planPath);
+        const plan = await parsePlanFile(effectivePlanPath);
 
         log(`[${HOOK_NAME}] Plan file parsed successfully`, {
           taskCount: plan.tasks.length,
@@ -261,7 +265,7 @@ export function createWorkflowsStatusHook(ctx: PluginInput) {
         });
 
         // Format status report
-        const report = formatStatusReport(planPath, metrics, plan.tasks);
+        const report = formatStatusReport(effectivePlanPath, metrics, plan.tasks);
 
         // Inject status report to output
         if (parts) {

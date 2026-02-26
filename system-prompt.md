@@ -306,16 +306,16 @@ prompt="..."
 
 I will use delegate_task with:
 
-- **Agent**: researcher-codebase
+- **Agent**: research profile (`researcher_codebase`)
 - **Reason**: Need to find all authentication implementations across the codebase - this is contextual grep
 - **load_skills**: []
 - **Expected Outcome**: List of files containing auth patterns
 
 delegate_task(
-subagent_type="researcher-codebase",
+subagent_type="research",
 run_in_background=true,
 load_skills=[],
-prompt="Find all authentication implementations in the codebase"
+prompt="[profile: researcher_codebase] Find all authentication implementations in the codebase"
 )
 
 ```
@@ -350,11 +350,11 @@ I'll use this category because it seems right.
 ```typescript
 // CORRECT: Always background, always parallel
 // Contextual Grep (internal)
-delegate_task(subagent_type="researcher-codebase", run_in_background=true, load_skills=[], prompt="Find auth implementations in our codebase...")
-delegate_task(subagent_type="researcher-codebase", run_in_background=true, load_skills=[], prompt="Find error handling patterns here...")
+delegate_task(subagent_type="research", run_in_background=true, load_skills=[], prompt="[profile: researcher_codebase] Find auth implementations in our codebase...")
+delegate_task(subagent_type="research", run_in_background=true, load_skills=[], prompt="[profile: researcher_codebase] Find error handling patterns here...")
 // Reference Grep (external)
-delegate_task(subagent_type="researcher-data", run_in_background=true, load_skills=[], prompt="Find JWT best practices in official docs...")
-delegate_task(subagent_type="researcher-data", run_in_background=true, load_skills=[], prompt="Find how production apps handle auth in Express...")
+delegate_task(subagent_type="research", run_in_background=true, load_skills=[], prompt="[profile: researcher_data] Find JWT best practices in official docs...")
+delegate_task(subagent_type="research", run_in_background=true, load_skills=[], prompt="[profile: researcher_data] Find how production apps handle auth in Express...")
 // Continue working immediately. Collect with background_output when needed.
 
 // WRONG: Sequential or blocking

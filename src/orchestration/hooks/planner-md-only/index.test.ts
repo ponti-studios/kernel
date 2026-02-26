@@ -229,7 +229,7 @@ describe("planner-md-only", () => {
       expect(output.args.prompt).toContain(SYSTEM_DIRECTIVE_PREFIX);
     });
 
-    test("should inject read-only warning when planner calls call_grid_agent", async () => {
+    test("should not inject warning for unsupported delegation tools", async () => {
       // #given
       const hook = createPlannerMdOnlyHook(createMockPluginInput());
       const input = {
@@ -245,7 +245,7 @@ describe("planner-md-only", () => {
       await hook["tool.execute.before"](input, output);
 
       // #then
-      expect(output.args.prompt).toContain(SYSTEM_DIRECTIVE_PREFIX);
+      expect(output.args.prompt).not.toContain(SYSTEM_DIRECTIVE_PREFIX);
     });
 
     test("should not double-inject warning if already present", async () => {

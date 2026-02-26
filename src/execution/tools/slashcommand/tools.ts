@@ -138,6 +138,7 @@ async function formatLoadedCommand(cmd: CommandInfo): Promise<string> {
   }
 
   sections.push(`**Scope**: ${cmd.scope}\n`);
+
   sections.push("---\n");
   sections.push("## Command Instructions\n");
 

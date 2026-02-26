@@ -190,6 +190,9 @@ ${green("dev-setup")}   Ensure plugin wrapper + agents manifest
 
   sync: async () => {
     await tasks["build"]();
+    await run(["bun", "run", "script/sync-ghostwire-config.ts"], {
+      spinnerText: "Syncing ghostwire config",
+    });
     await run(
       ["cp", "dist/index.js", `${process.env.HOME}/.config/opencode/plugins/ghostwire.mjs`],
       { spinnerText: "Syncing plugin" },

@@ -14,9 +14,9 @@ Transform feature descriptions, bug reports, or improvement ideas into well-stru
 
 ## Key Agents & Tasks
 
-- Use \`researcher-repo\` for codebase patterns and conventions
-- Use \`researcher-learnings\` for institutional knowledge and gotchas
-- Use \`researcher-practices\` and \`researcher-docs\` for external guidance
+- Use \`profile.researcher_repo\` for codebase patterns and conventions
+- Use \`profile.researcher_learnings\` for institutional knowledge and gotchas
+- Use \`profile.researcher_practices\` and \`profile.researcher_docs\` for external guidance
 - Use \`spec-flow-analyzer\` to validate the specification
 - Use AskUserQuestion for refinement and decision points
 
@@ -69,11 +69,11 @@ $ARGUMENTS
 `;
 
 export const WORKFLOWS_EXECUTE_TEMPLATE = `<command-instruction>
-You are starting a operator work session.
+You are starting a workflow coordinator work session.
 
 ## WHAT TO DO
 
-1. **Find available plans**: Search for operator-generated plan files at \`.ghostwire/plans/\`
+1. **Find available plans**: Search for workflow coordinator-generated plan files at \`.ghostwire/plans/\`
 
 2. **Check for active ultrawork state**: Read \`.ghostwire/ultrawork.json\` if it exists
 
@@ -96,7 +96,7 @@ You are starting a operator work session.
    }
    \`\`\`
 
-5. **Read the plan file** and start executing tasks according to operator/orchestrator workflow
+5. **Read the plan file** and start executing tasks according to do/research workflow
 
 ## OUTPUT FORMAT
 
@@ -140,7 +140,7 @@ Reading plan and beginning execution...
 - The session_id is injected by the hook - use it directly
 - Always update ultrawork.json BEFORE starting work
 - Read the FULL plan file before delegating any tasks
-- Follow operator delegation protocols and orchestrator handoff checklist (7-section format with safety checks)
+- Follow workflow coordinator delegation protocols and workflow coordinator handoff checklist (7-section format with safety checks)
 </command-instruction>
 
 <session-context>

@@ -1,4 +1,5 @@
 import type { CommandDefinition } from "../../claude-code-command-loader";
+import { renderProfileUsage } from "../profiles";
 
 export const NAME = "ghostwire:code:review";
 export const DESCRIPTION = "Conduct comprehensive code reviews with specialist agents";
@@ -16,15 +17,17 @@ Conduct comprehensive code reviews leveraging multiple specialist agents.
 - **Complexity Review** - Simplification opportunities
 - **Test Coverage Review** - Testing strategy adequacy
 
-## Key Agents & Tasks
+## Key Profiles & Tasks
 
-- Use \`reviewer-rails\` for Ruby/Rails code
-- Use \`reviewer-python\` for Python code
-- Use \`reviewer-typescript\` for TypeScript/JavaScript
-- Use \`reviewer-rails-dh\` for architectural opinions
-- Use \`security-sentinel\` for security issues
-- Use \`performance-advisor-plan\` for optimization
-- Use \`reviewer-simplicity\` for YAGNI violations
+${renderProfileUsage([
+  "reviewer_rails",
+  "reviewer_python",
+  "reviewer_typescript",
+  "reviewer_rails_dh",
+  "reviewer_security",
+  "oracle_performance",
+  "reviewer_simplicity",
+])}
 
 ## Output
 

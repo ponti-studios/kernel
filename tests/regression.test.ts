@@ -171,6 +171,26 @@ describe("Regression Tests", () => {
       expect(CommandNameSchema.safeParse("ghostwire:work:cancel").success).toBe(true);
       expect(CommandNameSchema.safeParse("ghostwire:workflows:stop").success).toBe(true);
     });
+
+    test("spec aliases have been removed", () => {
+      //#given
+      const { CommandNameSchema } = require("../src/platform/config/schema");
+      const removedSpecAliases = [
+        "ghostwire:spec:create",
+        "ghostwire:spec:plan",
+        "ghostwire:spec:tasks",
+        "ghostwire:spec:implement",
+        "ghostwire:spec:clarify",
+        "ghostwire:spec:analyze",
+        "ghostwire:spec:checklist",
+        "ghostwire:spec:to-issues",
+      ];
+
+      //#when & #then
+      removedSpecAliases.forEach((name) => {
+        expect(CommandNameSchema.safeParse(name).success).toBe(false);
+      });
+    });
   });
 
   describe("New Task-Driven Command Names", () => {

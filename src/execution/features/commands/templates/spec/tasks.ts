@@ -1,5 +1,5 @@
 /**
- * Template for ghostwire:spec:tasks command
+ * Template for ghostwire:workflows:create command
  *
  * Generates an actionable, dependency-ordered tasks.md from design artifacts.
  * Replaces: .specify/templates/tasks-template.md + speckit.tasks.md logic
@@ -143,7 +143,7 @@ With multiple developers:
 
 ---
 
-**Next**: Run \`/ghostwire:spec:implement\` to execute all tasks
+**Next**: Run \`/ghostwire:workflows:work\` to execute all tasks
 </command-instruction>
 `;
 

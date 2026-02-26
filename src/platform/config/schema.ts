@@ -14,47 +14,8 @@ const AgentPermissionSchema = z.object({
 });
 
 export const AgentNameSchema = z.enum([
-  "operator",
-  "planner",
-  "advisor-plan",
-  "researcher-data",
-  "researcher-codebase",
-  "analyzer-media",
-  "advisor-strategy",
-  "validator-audit",
-  "orchestrator",
-  // Compound Agents (28 total)
-  // Review Agents (5) - Phase 11
-  "void.review-rails",
-  "void.review-python",
-  "void.review-ts",
-  "zen.review-rails",
-  "mono.review",
-  // Research Agents (4) - Phase 12
-  "docs.scan",
-  "learnings.scan",
-  "best-practices.scan",
-  "git.scan",
-  // Design Agents (4) - Phase 13
-  "figma.sync",
-  "design.check",
-  "design.loop",
-  "ui.build",
-  // Workflow Agents (3) - Phase 14
-  "flow.check",
-  "agent.arch",
-  "deploy.check",
-  // Documentation Agents (12) - Phase 15
-  "docs.write-readme",
-  "docs.edit-style",
-  "docs.write-gem",
-  "grid:brainstorm",
-  "grid:skill-make",
-  "grid:todo-file",
-  "grid:agent-browser",
-  "grid:rclone-sync",
-  "grid:git-work",
-  "grid:agent-audit",
+  "do",
+  "research",
 ]);
 
 export const SkillNameSchema = z.enum([
@@ -145,18 +106,8 @@ export const SkillNameSchema = z.enum([
 
 export const OverridableAgentNameSchema = z.enum([
   "build",
-  "plan",
-  "operator",
-  "executor",
-  "OpenCode-Builder",
-  "planner",
-  "advisor-strategy",
-  "validator-audit",
-  "advisor-plan",
-  "researcher-data",
-  "researcher-codebase",
-  "analyzer-media",
-  "orchestrator",
+  "do",
+  "research",
 ]);
 
 export const HookNameSchema = z.enum([
@@ -261,15 +212,6 @@ export const CommandNameSchema = z.enum([
   "ghostwire:workflows:learnings",
   "ghostwire:workflows:review",
   "ghostwire:workflows:work",
-  // Spec commands (from specify integration)
-  "ghostwire:spec:create",
-  "ghostwire:spec:plan",
-  "ghostwire:spec:tasks",
-  "ghostwire:spec:implement",
-  "ghostwire:spec:clarify",
-  "ghostwire:spec:analyze",
-  "ghostwire:spec:checklist",
-  "ghostwire:spec:to-issues",
   // Project commands
   "ghostwire:project:constitution",
 ]);
@@ -314,19 +256,9 @@ export const AgentOverrideConfigSchema = z.object({
 
 export const AgentOverridesSchema = z.object({
   build: AgentOverrideConfigSchema.optional(),
-  plan: AgentOverrideConfigSchema.optional(),
-  operator: AgentOverrideConfigSchema.optional(),
-  executor: AgentOverrideConfigSchema.optional(),
-  "OpenCode-Builder": AgentOverrideConfigSchema.optional(),
-  planner: AgentOverrideConfigSchema.optional(),
-  "advisor-strategy": AgentOverrideConfigSchema.optional(),
-  "validator-audit": AgentOverrideConfigSchema.optional(),
-  "advisor-plan": AgentOverrideConfigSchema.optional(),
-  "researcher-data": AgentOverrideConfigSchema.optional(),
-  "researcher-codebase": AgentOverrideConfigSchema.optional(),
-  "analyzer-media": AgentOverrideConfigSchema.optional(),
-  orchestrator: AgentOverrideConfigSchema.optional(),
-});
+  do: AgentOverrideConfigSchema.optional(),
+  research: AgentOverrideConfigSchema.optional(),
+}).strict();
 
 export const ClaudeCodeConfigSchema = z.object({
   mcp: z.boolean().optional(),

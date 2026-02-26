@@ -18,7 +18,7 @@ export const TARGET_TOOLS = new Set([
   "grep_app_searchgithub",
 ]);
 
-export const AGENT_TOOLS = new Set(["task", "call_grid_agent", "delegate_task"]);
+export const AGENT_TOOLS = new Set(["task", "delegate_task"]);
 
 export const REMINDER_MESSAGE = `
 [Agent Usage Reminder]
@@ -29,9 +29,9 @@ RECOMMENDED: Use delegate_task with scoutRecon/archiveResearcher agents for bett
 
 \`\`\`
 // Parallel exploration - fire multiple agents simultaneously
-delegate_task(agent="researcher-codebase", prompt="Find all files matching pattern X")
-delegate_task(agent="researcher-codebase", prompt="Search for implementation of Y") 
-delegate_task(agent="researcher-data", prompt="Lookup documentation for Z")
+delegate_task(subagent_type="research", prompt="[profile: researcher_codebase] Find all files matching pattern X")
+delegate_task(subagent_type="research", prompt="[profile: researcher_codebase] Search for implementation of Y")
+delegate_task(subagent_type="research", prompt="[profile: researcher_data] Lookup documentation for Z")
 
 // Then continue your work while they run in background
 // System will notify you when each completes

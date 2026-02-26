@@ -1,5 +1,5 @@
 /**
- * Template for ghostwire:spec:analyze command
+ * Template for ghostwire:workflows:create command
  *
  * Cross-artifact consistency check.
  * Replaces: speckit.analyze.md logic
@@ -64,7 +64,7 @@ $RECOMMENDATIONS
 
 ---
 
-**Next**: Address critical issues, then run \`/ghostwire:spec:implement\` if ready
+**Next**: Address critical issues, then run \`/ghostwire:workflows:work\` if ready
 </command-instruction>
 `;
 

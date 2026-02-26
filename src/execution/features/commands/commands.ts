@@ -95,16 +95,12 @@ import {
   NAME as DOCS_TEST_BROWSER_NAME,
 } from "./commands/docs.test-browser";
 
-// spec commands
-import { COMMAND as SPEC_CREATE_COMMAND, NAME as SPEC_CREATE_NAME } from "./commands/spec.create";
-import { COMMAND as SPEC_PLAN_COMMAND, NAME as SPEC_PLAN_NAME } from "./commands/spec.plan";
-
 // other commands
 import { COMMAND as REFACTOR_COMMAND, NAME as REFACTOR_NAME } from "./commands/refactor";
 import { COMMAND as LINT_RUBY_COMMAND, NAME as LINT_RUBY_NAME } from "./commands/lint.ruby";
 
 // Map of command modules
-const COMMAND_MODULES: Record<
+const CORE_COMMAND_MODULES: Record<
   string,
   { name: CommandName; command: Omit<CommandDefinition, "name"> }
 > = {
@@ -142,11 +138,11 @@ const COMMAND_MODULES: Record<
   [DOCS_RELEASE_DOCS_NAME]: { name: DOCS_RELEASE_DOCS_NAME, command: DOCS_RELEASE_DOCS_COMMAND },
   [DOCS_FEATURE_VIDEO_NAME]: { name: DOCS_FEATURE_VIDEO_NAME, command: DOCS_FEATURE_VIDEO_COMMAND },
   [DOCS_TEST_BROWSER_NAME]: { name: DOCS_TEST_BROWSER_NAME, command: DOCS_TEST_BROWSER_COMMAND },
-  [SPEC_CREATE_NAME]: { name: SPEC_CREATE_NAME, command: SPEC_CREATE_COMMAND },
-  [SPEC_PLAN_NAME]: { name: SPEC_PLAN_NAME, command: SPEC_PLAN_COMMAND },
   [REFACTOR_NAME]: { name: REFACTOR_NAME, command: REFACTOR_COMMAND },
   [LINT_RUBY_NAME]: { name: LINT_RUBY_NAME, command: LINT_RUBY_COMMAND },
 };
+
+const COMMAND_MODULES = CORE_COMMAND_MODULES;
 
 export const COMMAND_DEFINITIONS: Record<
   CommandName,

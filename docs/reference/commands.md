@@ -18,20 +18,23 @@
 | Project | `ghostwire:project:*` | init/map/build/deploy/test |
 | Docs | `ghostwire:docs:*` | documentation workflows |
 | Util | `ghostwire:util:*` | maintenance utilities |
-| Spec | `ghostwire:spec:*` | specification workflows |
 
 ## High-Use Commands
 
 | Command | Output Class |
 | --- | --- |
 | `/ghostwire:workflows:plan` | plan document |
-| `/ghostwire:workflows:create` | task graph |
+| `/ghostwire:workflows:create` | multi-mode artifact generation (`tasks|analyze|checklist|issues`) |
 | `/ghostwire:workflows:execute` | execution state transitions |
 | `/ghostwire:workflows:status` | progress snapshot |
 | `/ghostwire:workflows:complete` | completion artifact |
 | `/ghostwire:work:loop` | loop session start |
 | `/ghostwire:work:cancel` | loop termination |
 | `/ghostwire:project:map` | project topology artifact |
+
+## Removed Commands
+
+`ghostwire:spec:*` aliases have been removed. Use `ghostwire:workflows:*` directly.
 
 ## CLI Export
 

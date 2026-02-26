@@ -1,3 +1,5 @@
+import { renderProfileUsage } from "../profiles";
+
 export const CODE_REFACTOR_TEMPLATE = `<command-instruction>
 # Code:Refactor Command
 
@@ -12,11 +14,14 @@ Systematically refactor code while maintaining functionality and improving clari
 5. **Verification** - Run tests and validate functionality
 6. **Documentation** - Update comments and related documentation
 
-## Key Agents & Tasks
+## Key Profiles & Tasks
 
-- Use \`reviewer-typescript\` or \`reviewer-python\` for language-specific reviews
-- Use \`reviewer-simplicity\` to ensure simplifications don't over-engineer
-- Use \`analyzer-patterns\` to identify and apply consistent patterns
+${renderProfileUsage([
+  "reviewer_typescript",
+  "reviewer_python",
+  "reviewer_simplicity",
+  "analyzer_patterns",
+])}
 - Run comprehensive test suites before/after refactoring
 
 ## Refactoring Types
@@ -48,15 +53,17 @@ Conduct comprehensive code reviews leveraging multiple specialist agents.
 - **Complexity Review** - Simplification opportunities
 - **Test Coverage Review** - Testing strategy adequacy
 
-## Key Agents & Tasks
+## Key Profiles & Tasks
 
-- Use \`reviewer-rails\` for Ruby/Rails code
-- Use \`reviewer-python\` for Python code
-- Use \`reviewer-typescript\` for TypeScript/JavaScript
-- Use \`reviewer-rails-dh\` for architectural opinions
-- Use \`security-sentinel\` for security issues
-- Use \`performance-advisor-plan\` for optimization
-- Use \`reviewer-simplicity\` for YAGNI violations
+${renderProfileUsage([
+  "reviewer_rails",
+  "reviewer_python",
+  "reviewer_typescript",
+  "reviewer_rails_dh",
+  "reviewer_security",
+  "oracle_performance",
+  "reviewer_simplicity",
+])}
 
 ## Output
 
@@ -85,9 +92,9 @@ Improve performance, reduce bundle size, or enhance runtime efficiency.
 - **Build** - Faster compilation and bundling
 - **Runtime** - Lazy loading, code splitting
 
-## Key Agents & Tasks
+## Key Profiles & Tasks
 
-- Use \`performance-advisor-plan\` for systematic optimization
+${renderProfileUsage(["oracle_performance"])}
 - Measure performance before and after optimizations
 - Profile code to identify actual bottlenecks
 - Prioritize high-impact optimizations

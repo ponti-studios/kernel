@@ -8,6 +8,7 @@ import {
   validateTaskDependencies,
   hasCircularDependency,
 } from "../../../execution/features/task-queue/plan-parser";
+import { resolvePlanArtifactRef } from "../../../execution/features/workflow-artifacts/store";
 import {
   calculateExecutionWaves,
   applyAutoWaves,
@@ -177,20 +178,23 @@ export function createWorkflowsExecuteHook(ctx: PluginInput) {
         return;
       }
 
-      log(`[${HOOK_NAME}] Plan file path extracted: ${planPath}`, {
+      const resolvedPlan = resolvePlanArtifactRef(ctx.directory, planPath);
+      const effectivePlanPath = resolvedPlan.path;
+
+      log(`[${HOOK_NAME}] Plan file path extracted: ${effectivePlanPath}`, {
         sessionID: input.sessionID,
       });
 
       // Check if plan file exists
-      if (!existsSync(planPath)) {
-        log(`[${HOOK_NAME}] Plan file not found: ${planPath}`, {
+      if (!existsSync(effectivePlanPath)) {
+        log(`[${HOOK_NAME}] Plan file not found: ${effectivePlanPath}`, {
           sessionID: input.sessionID,
         });
 
         if (parts) {
           parts.push({
             type: "text",
-            text: `❌ Plan file not found: ${planPath}`,
+            text: `❌ Plan file not found: ${effectivePlanPath}`,
           });
         }
         return;
@@ -198,7 +202,7 @@ export function createWorkflowsExecuteHook(ctx: PluginInput) {
 
       try {
         // Parse plan file
-        const plan = await parsePlanFile(planPath);
+        const plan = await parsePlanFile(effectivePlanPath);
 
         log(`[${HOOK_NAME}] Plan file parsed successfully`, {
           taskCount: plan.tasks.length,
@@ -255,7 +259,7 @@ export function createWorkflowsExecuteHook(ctx: PluginInput) {
         };
 
         // Save updated plan with wave information
-        await updatePlanFile(planPath, updatedPlan);
+        await updatePlanFile(effectivePlanPath, updatedPlan);
         log(`[${HOOK_NAME}] Plan file updated with wave assignments`, {
           sessionID: input.sessionID,
         });
@@ -314,12 +318,12 @@ For each task in the current wave:
    - Check remaining pending tasks for executable status
 
 5. **Final completion**:
-   - When all waves complete, run: \`/workflows:complete ${planPath}\`
+   - When all waves complete, run: \`/workflows:complete ${effectivePlanPath}\`
 
 ---
 
 **Session ID**: ${input.sessionID}  
-**Plan**: ${planPath}  
+**Plan**: ${effectivePlanPath}  
 **Started**: ${new Date().toISOString()}  
 `,
           });

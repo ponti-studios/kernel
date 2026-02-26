@@ -74,7 +74,7 @@ function getMessageDir(sessionID: string): string | null {
   return null;
 }
 
-const TASK_TOOLS = ["delegate_task", "task", "call_grid_agent"];
+const TASK_TOOLS = ["delegate_task", "task"];
 
 function getAgentFromMessageFiles(sessionID: string): string | undefined {
   const messageDir = getMessageDir(sessionID);

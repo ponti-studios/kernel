@@ -171,17 +171,17 @@ This command takes a work document (plan, specification, or todo file) and execu
 2. **Consider Reviewer Agents** (Optional)
 
    Use for complex, risky, or large changes:
-   - **reviewer-simplicity**: Check for unnecessary complexity
-   - **reviewer-rails**: Verify Rails conventions (Rails projects)
-   - **oracle-performance**: Check for performance issues
-   - **security-sentinel**: Scan for security vulnerabilities
+   - **profile.reviewer_simplicity**: Check for unnecessary complexity
+   - **profile.reviewer_rails**: Verify Rails conventions (Rails projects)
+   - **profile.oracle_performance**: Check for performance issues
+   - **profile.reviewer_security**: Scan for security vulnerabilities
    - **cora-test-reviewer**: Review test quality (Rails projects with comprehensive test coverage)
 
    Run reviewers in parallel with Task tool:
 
    \`\`\`
-   Task(reviewer-simplicity): "Review changes for simplicity"
-   Task(reviewer-rails): "Check Rails conventions"
+   Task(profile.reviewer_simplicity): "Review changes for simplicity"
+   Task(profile.reviewer_rails): "Check Rails conventions"
    \`\`\`
 
    Present findings to user and address critical issues.

@@ -65,7 +65,6 @@ import {
 } from "./execution/features/claude-code-session-state";
 import {
   tools,
-  createCallOmoAgent,
   createBackgroundTools,
   createLookAt,
   createSkillTool,
@@ -333,10 +332,9 @@ const GhostwirePlugin: Plugin = async (ctx) => {
     : null;
   const backgroundTools = createBackgroundTools(backgroundManager, ctx.client);
 
-  const callOmoAgent = createCallOmoAgent(ctx, backgroundManager);
   const isMultimodalLookerEnabled = !includesCaseInsensitive(
     pluginConfig.disabled_agents ?? [],
-    "analyzer-media",
+    "research",
   );
   const lookAt = isMultimodalLookerEnabled ? createLookAt(ctx) : null;
   const browserProvider = pluginConfig.browser_automation_engine?.provider ?? "playwright";
@@ -346,7 +344,7 @@ const GhostwirePlugin: Plugin = async (ctx) => {
     directory: ctx.directory,
     userCategories: pluginConfig.categories,
     gitMasterConfig: pluginConfig.git_master,
-    cipherJuniorModel: pluginConfig.agents?.["executor"]?.model,
+    cipherJuniorModel: pluginConfig.agents?.do?.model,
     browserProvider,
     onSyncSessionCreated: async (event) => {
       log("[index] onSyncSessionCreated callback", {
@@ -459,7 +457,6 @@ const GhostwirePlugin: Plugin = async (ctx) => {
     tool: {
       ...tools,
       ...backgroundTools,
-      call_grid_agent: callOmoAgent,
       ...(lookAt ? { look_at: lookAt } : {}),
       delegate_task: delegateTask,
       skill: skillTool,
@@ -742,15 +739,12 @@ const GhostwirePlugin: Plugin = async (ctx) => {
       if (input.tool === "task") {
         const args = output.args as Record<string, unknown>;
         const subagentType = args.subagent_type as string;
-        const isExploreOrLibrarian = includesCaseInsensitive(
-          ["researcher-codebase", "researcher-data"],
-          subagentType ?? "",
-        );
+        const isExploreOrLibrarian = includesCaseInsensitive(["research"], subagentType ?? "");
 
         args.tools = {
           ...(args.tools as Record<string, boolean> | undefined),
           delegate_task: false,
-          ...(isExploreOrLibrarian ? { call_grid_agent: false } : {}),
+          ...(isExploreOrLibrarian ? { look_at: false } : {}),
         };
       }
 

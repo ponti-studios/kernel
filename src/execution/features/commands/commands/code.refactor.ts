@@ -1,4 +1,5 @@
 import type { CommandDefinition } from "../../claude-code-command-loader";
+import { renderProfileUsage } from "../profiles";
 
 export const NAME = "ghostwire:code:refactor";
 export const DESCRIPTION = "Systematically refactor code while maintaining functionality";
@@ -16,11 +17,14 @@ Systematically refactor code while maintaining functionality and improving clari
 5. **Verification** - Run tests and validate functionality
 6. **Documentation** - Update comments and related documentation
 
-## Key Agents & Tasks
+## Key Profiles & Tasks
 
-- Use \`reviewer-typescript\` or \`reviewer-python\` for language-specific reviews
-- Use \`reviewer-simplicity\` to ensure simplifications don't over-engineer
-- Use \`analyzer-patterns\` to identify and apply consistent patterns
+${renderProfileUsage([
+  "reviewer_typescript",
+  "reviewer_python",
+  "reviewer_simplicity",
+  "analyzer_patterns",
+])}
 - Run comprehensive test suites before/after refactoring
 
 ## Refactoring Types

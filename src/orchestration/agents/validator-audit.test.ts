@@ -2,55 +2,17 @@ import { describe, test, expect } from "bun:test";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
-function escapeRegExp(value: string) {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
+describe("research agent prompt", () => {
+  test("defines read/search behavior", () => {
+    const prompt = readFileSync(join(__dirname, "research.md"), "utf-8");
 
-describe("GLITCH_AUDITOR_SYSTEM_PROMPT policy requirements", () => {
-  test("should treat SYSTEM DIRECTIVE as ignorable/stripped", () => {
-    // #given
-    const prompt = readFileSync(join(__dirname, "validator-audit.md"), "utf-8");
-
-    // #when / #then
-    // Should mention that system directives are ignored
-    expect(prompt.toLowerCase()).toMatch(/system directive.*ignore|ignore.*system directive/);
-    // Should give examples of system directive patterns
-    expect(prompt).toMatch(/<system-reminder>|system-reminder/);
+    expect(prompt.toLowerCase()).toMatch(/research|search|analy/);
+    expect(prompt.toLowerCase()).toMatch(/read/);
   });
 
-  test("should extract paths containing .ghostwire/plans/ and ending in .md", () => {
-    // #given
-    const prompt = readFileSync(join(__dirname, "validator-audit.md"), "utf-8");
+  test("disallows direct file writes", () => {
+    const prompt = readFileSync(join(__dirname, "research.md"), "utf-8");
 
-    // #when / #then
-    expect(prompt).toContain(".ghostwire/plans/");
-    expect(prompt).toContain(".md");
-    // New extraction policy should be mentioned
-    expect(prompt.toLowerCase()).toMatch(/extract|search|find path/);
-  });
-
-  test("should NOT teach that 'Please review' is INVALID (conversational wrapper allowed)", () => {
-    // #given
-    const prompt = readFileSync(join(__dirname, "validator-audit.md"), "utf-8");
-
-    // #when / #then
-    // In RED phase, this will FAIL because current prompt explicitly lists this as INVALID
-    const invalidExample = "Please review .ghostwire/plans/plan.md";
-    const rejectionTeaching = new RegExp(`reject.*${escapeRegExp(invalidExample)}`, "i");
-
-    // We want the prompt to NOT reject this anymore.
-    // If it's still in the "INVALID" list, this test should fail.
-    expect(prompt).not.toMatch(rejectionTeaching);
-  });
-
-  test("should handle ambiguity (2+ paths) and 'no path found' rejection", () => {
-    // #given
-    const prompt = readFileSync(join(__dirname, "validator-audit.md"), "utf-8");
-
-    // #when / #then
-    // Should mention what happens when multiple paths are found
-    expect(prompt.toLowerCase()).toMatch(/multiple|ambiguous|2\+|two/);
-    // Should mention rejection if no path found
-    expect(prompt.toLowerCase()).toMatch(/no.*path.*found|reject.*no.*path/);
+    expect(prompt.toLowerCase()).toMatch(/do not write|no write|read-only/);
   });
 });

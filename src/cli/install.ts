@@ -419,7 +419,7 @@ async function runNonTuiInstall(args: InstallArgs): Promise<number> {
   }
 
   printStep(step++, totalSteps, "Writing ghostwire configuration...");
-  const omoResult = writeOmoConfig(config);
+  const omoResult = writeOmoConfig(config, { overwrite: true });
   if (!omoResult.success) {
     printError(`Failed: ${omoResult.error}`);
     return 1;
@@ -545,7 +545,7 @@ export async function install(args: InstallArgs): Promise<number> {
   }
 
   s.start("Writing ghostwire configuration");
-  const omoResult = writeOmoConfig(config);
+  const omoResult = writeOmoConfig(config, { overwrite: true });
   if (!omoResult.success) {
     s.stop(`Failed to write config: ${omoResult.error}`);
     p.outro(color.red("Installation failed."));

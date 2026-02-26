@@ -88,7 +88,7 @@ Should I proceed with [recommendation], or would you prefer differently?
 
 \`\`\`
 TodoWrite([
-  {"id": "phase-1", "content": "PHASE 1: Codebase Analysis - launch parallel researcher-codebase agents", "status": "pending", "priority": "high"},
+  {"id": "phase-1", "content": "PHASE 1: Codebase Analysis - launch parallel profile.researcher_codebase agents", "status": "pending", "priority": "high"},
   {"id": "phase-2", "content": "PHASE 2: Build Codemap - map dependencies and impact zones", "status": "pending", "priority": "high"},
   {"id": "phase-3", "content": "PHASE 3: Test Assessment - analyze test coverage and verification strategy", "status": "pending", "priority": "high"},
   {"id": "phase-4", "content": "PHASE 4: Plan Generation - invoke Plan agent for detailed refactoring plan", "status": "pending", "priority": "high"},
@@ -105,11 +105,11 @@ TodoWrite([
 
 ## 1.1: Launch Parallel Scout Recon Agents (BACKGROUND)
 
-Fire ALL of these simultaneously using \`call_grid_agent\`:
+Fire ALL of these simultaneously using \`delegate_task\`:
 
 \`\`\`
 // Agent 1: Find the refactoring target
-call_grid_agent(
+delegate_task(
   subagent_type="${AGENT_RESEARCHER_CODEBASE}",
   run_in_background=true,
   prompt="Find all occurrences and definitions of [TARGET]. 
@@ -117,7 +117,7 @@ call_grid_agent(
 )
 
 // Agent 2: Find related code
-call_grid_agent(
+delegate_task(
   subagent_type="${AGENT_RESEARCHER_CODEBASE}", 
   run_in_background=true,
   prompt="Find all code that imports, uses, or depends on [TARGET].
@@ -125,7 +125,7 @@ call_grid_agent(
 )
 
 // Agent 3: Find similar patterns
-call_grid_agent(
+delegate_task(
   subagent_type="${AGENT_RESEARCHER_CODEBASE}",
   run_in_background=true,
   prompt="Find similar code patterns to [TARGET] in the codebase.
@@ -133,7 +133,7 @@ call_grid_agent(
 )
 
 // Agent 4: Find tests
-call_grid_agent(
+delegate_task(
   subagent_type="${AGENT_RESEARCHER_CODEBASE}",
   run_in_background=true,
   prompt="Find all test files related to [TARGET].
@@ -141,7 +141,7 @@ call_grid_agent(
 )
 
 // Agent 5: Architecture context
-call_grid_agent(
+delegate_task(
   subagent_type="${AGENT_RESEARCHER_CODEBASE}",
   run_in_background=true,
   prompt="Find architectural patterns and module organization around [TARGET].
@@ -282,7 +282,7 @@ ls -la *_test.go
 
 \`\`\`
 // Find all tests related to target
-call_grid_agent(
+delegate_task(
   subagent_type="${AGENT_RESEARCHER_CODEBASE}",
   run_in_background=false,  // Need this synchronously
   prompt="Analyze test coverage for [TARGET]:
@@ -473,7 +473,7 @@ If ANY verification fails:
 4. **OPTIONS**:
    - Fix the issue and retry
    - Skip this step (if optional)
-   - Consult advisor-plan agent for help
+   - Consult profile.advisor_plan agent for help
    - Ask user for guidance
 
 **NEVER proceed to next step with broken tests.**
@@ -606,16 +606,16 @@ Use \`ast_grep_search\` and \`ast_grep_replace\` for structural transformations.
 **Critical**: Always \`dryRun=true\` first, review, then execute.
 
 ## Agents
-- \`researcher-codebase\`: Parallel codebase pattern discovery
+- \`profile.researcher_codebase\`: Parallel codebase pattern discovery
 - \`plan\`: Detailed refactoring plan generation
-- \`advisor-plan\`: Read-only consultation for complex architectural decisions and debugging
-- \`researcher-data\`: **Use proactively** when encountering deprecated methods or library migration tasks. Query official docs and OSS examples for modern replacements.
+- \`profile.advisor_plan\`: Read-only consultation for complex architectural decisions and debugging
+- \`profile.researcher_data\`: **Use proactively** when encountering deprecated methods or library migration tasks. Query official docs and OSS examples for modern replacements.
 
 ## Deprecated Code & Library Migration
 When you encounter deprecated methods/APIs during refactoring:
-1. Fire \`researcher-data\` to find the recommended modern alternative
+1. Fire \`profile.researcher_data\` to find the recommended modern alternative
 2. **DO NOT auto-upgrade to latest version** unless user explicitly requests migration
-3. If user requests library migration, use \`researcher-data\` to fetch latest API docs before making changes
+3. If user requests library migration, use \`profile.researcher_data\` to fetch latest API docs before making changes
 
 ---
 

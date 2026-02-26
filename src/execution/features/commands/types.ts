@@ -58,16 +58,7 @@ export type CommandName =
   | "ghostwire:workflows:brainstorm"
   | "ghostwire:workflows:learnings"
   | "ghostwire:workflows:review"
-  | "ghostwire:workflows:work"
-  // Spec commands (from specify integration)
-  | "ghostwire:spec:create"
-  | "ghostwire:spec:plan"
-  | "ghostwire:spec:tasks"
-  | "ghostwire:spec:implement"
-  | "ghostwire:spec:clarify"
-  | "ghostwire:spec:analyze"
-  | "ghostwire:spec:checklist"
-  | "ghostwire:spec:to-issues";
+  | "ghostwire:workflows:work";
 
 export interface CommandConfig {
   disabled_commands?: CommandName[];

@@ -143,11 +143,11 @@ Text I/O ensures debuggability.
 
 ## Development Workflow
 
-1. Create feature spec with /ghostwire:spec:create
-2. Plan implementation with /ghostwire:spec:plan
-3. Generate tasks with /ghostwire:spec:tasks
-4. Implement with /ghostwire:spec:implement
-5. Validate with /ghostwire:spec:analyze
+1. Plan implementation with /ghostwire:workflows:plan
+2. Generate tasks with /ghostwire:workflows:create --mode tasks
+3. Validate consistency with /ghostwire:workflows:create --mode analyze
+4. Generate checklists with /ghostwire:workflows:create --mode checklist
+5. Implement with /ghostwire:workflows:work
 
 ---
 

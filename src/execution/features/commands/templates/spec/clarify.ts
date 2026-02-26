@@ -1,5 +1,5 @@
 /**
- * Template for ghostwire:spec:clarify command
+ * Template for ghostwire:workflows:plan command
  *
  * Interactive Q&A to reduce ambiguity in specifications.
  * Replaces: speckit.clarify.md logic
@@ -44,11 +44,11 @@ Once you provide answers:
 1. I will update the spec.md file
 2. Replace [NEEDS CLARIFICATION] markers with your answers
 3. Re-run validation
-4. If all resolved, proceed to \`/ghostwire:spec:plan\`
+4. If all resolved, proceed to \`/ghostwire:workflows:plan\`
 
 ---
 
-**Next**: Answer the questions above, then run \`/ghostwire:spec:clarify\` again to apply changes
+**Next**: Answer the questions above, then run \`/ghostwire:workflows:plan\` again to apply changes
 </command-instruction>
 `;
 

@@ -20,41 +20,8 @@
       "items": {
         "type": "string",
         "enum": [
-          "operator",
-          "planner",
-          "advisor-plan",
-          "researcher-data",
-          "researcher-codebase",
-          "analyzer-media",
-          "advisor-strategy",
-          "validator-audit",
-          "orchestrator",
-          "void.review-rails",
-          "void.review-python",
-          "void.review-ts",
-          "zen.review-rails",
-          "mono.review",
-          "docs.scan",
-          "learnings.scan",
-          "best-practices.scan",
-          "git.scan",
-          "figma.sync",
-          "design.check",
-          "design.loop",
-          "ui.build",
-          "flow.check",
-          "agent.arch",
-          "deploy.check",
-          "docs.write-readme",
-          "docs.edit-style",
-          "docs.write-gem",
-          "grid:brainstorm",
-          "grid:skill-make",
-          "grid:todo-file",
-          "grid:agent-browser",
-          "grid:rclone-sync",
-          "grid:git-work",
-          "grid:agent-audit"
+          "do",
+          "research"
         ]
       }
     },
@@ -2138,7 +2105,7 @@
             }
           }
         },
-        "analyzer-media": {
+        "do": {
           "type": "object",
           "properties": {
             "model": {
@@ -2309,7 +2276,7 @@
             }
           }
         },
-        "orchestrator": {
+        "research": {
           "type": "object",
           "properties": {
             "model": {
@@ -2480,7 +2447,8 @@
             }
           }
         }
-      }
+      },
+      "additionalProperties": false
     },
     "categories": {
       "type": "object",

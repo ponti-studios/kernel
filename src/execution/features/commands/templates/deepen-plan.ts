@@ -335,7 +335,7 @@ Task [agent-name]: "Review this plan using your expertise. Apply all your checks
 
 **Step 4: Also discover and run research agents**
 
-Research agents (like \`researcher-practices\`, \`researcher-docs\`, \`researcher-git\`, \`researcher-repo\`) should also be run for relevant plan sections.
+Research agents (like \`profile.researcher_practices\`, \`profile.researcher_docs\`, \`profile.researcher_git\`, \`profile.researcher_repo\`) should also be run for relevant plan sections.
 
 ### 6. Wait for ALL Agents and Synthesize Everything
 

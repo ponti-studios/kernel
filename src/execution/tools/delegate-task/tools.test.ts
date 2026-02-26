@@ -3,8 +3,6 @@ import {
   DEFAULT_CATEGORIES,
   CATEGORY_PROMPT_APPENDS,
   CATEGORY_DESCRIPTIONS,
-  isPlanAgent,
-  PLAN_AGENT_NAMES,
 } from "./constants";
 import { resolveCategoryConfig } from "./tools";
 import type { CategoryConfig } from "../../../platform/config/schema";
@@ -122,87 +120,6 @@ describe("operator-task", () => {
       // #then
       expect(description).toBeDefined();
       expect(description).toContain("high effort");
-    });
-  });
-
-  describe("isPlanAgent", () => {
-    test("returns true for 'plan'", () => {
-      // #given / #when
-      const result = isPlanAgent("plan");
-
-      // #then
-      expect(result).toBe(true);
-    });
-
-    test("returns true for 'planner'", () => {
-      // #given / #when
-      const result = isPlanAgent("planner");
-
-      // #then
-      expect(result).toBe(true);
-    });
-
-    test("returns true for 'planner'", () => {
-      // #given / #when
-      const result = isPlanAgent("planner");
-
-      // #then
-      expect(result).toBe(true);
-    });
-
-    test("returns true for case-insensitive match 'PLAN'", () => {
-      // #given / #when
-      const result = isPlanAgent("PLAN");
-
-      // #then
-      expect(result).toBe(true);
-    });
-
-    test("returns true for case-insensitive match 'planner'", () => {
-      // #given / #when
-      const result = isPlanAgent("planner");
-
-      // #then
-      expect(result).toBe(true);
-    });
-
-    test("returns false for 'advisor-plan'", () => {
-      // #given / #when
-      const result = isPlanAgent("advisor-plan");
-
-      // #then
-      expect(result).toBe(false);
-    });
-
-    test("returns false for 'researcher-codebase'", () => {
-      // #given / #when
-      const result = isPlanAgent("researcher-codebase");
-
-      // #then
-      expect(result).toBe(false);
-    });
-
-    test("returns false for undefined", () => {
-      // #given / #when
-      const result = isPlanAgent(undefined);
-
-      // #then
-      expect(result).toBe(false);
-    });
-
-    test("returns false for empty string", () => {
-      // #given / #when
-      const result = isPlanAgent("");
-
-      // #then
-      expect(result).toBe(false);
-    });
-
-    test("PLAN_AGENT_NAMES contains expected values", () => {
-      // #given / #when / #then
-      expect(PLAN_AGENT_NAMES).toContain("plan");
-      expect(PLAN_AGENT_NAMES).toContain("planner");
-      expect(PLAN_AGENT_NAMES).toContain("planner");
     });
   });
 
@@ -1889,77 +1806,19 @@ describe("operator-task", () => {
       expect(result).toContain("\n\n");
     });
 
-    test("prepends plan agent system prompt when agentName is 'plan'", () => {
-      // #given
-      const { buildSystemContent } = require("./tools");
-      const { PLAN_AGENT_SYSTEM_PREPEND } = require("./constants");
-
-      // #when
-      const result = buildSystemContent({ agentName: "plan" });
-
-      // #then
-      expect(result).toContain("<system>");
-      expect(result).toContain("MANDATORY CONTEXT GATHERING PROTOCOL");
-      expect(result).toBe(PLAN_AGENT_SYSTEM_PREPEND);
-    });
-
-    test("prepends plan agent system prompt when agentName is 'planner'", () => {
-      // #given
-      const { buildSystemContent } = require("./tools");
-      const { PLAN_AGENT_SYSTEM_PREPEND } = require("./constants");
-
-      // #when
-      const result = buildSystemContent({ agentName: "planner" });
-
-      // #then
-      expect(result).toContain("<system>");
-      expect(result).toBe(PLAN_AGENT_SYSTEM_PREPEND);
-    });
-
-    test("prepends plan agent system prompt when agentName is 'planner' (case insensitive)", () => {
-      // #given
-      const { buildSystemContent } = require("./tools");
-      const { PLAN_AGENT_SYSTEM_PREPEND } = require("./constants");
-
-      // #when
-      const result = buildSystemContent({ agentName: "planner" });
-
-      // #then
-      expect(result).toContain("<system>");
-      expect(result).toBe(PLAN_AGENT_SYSTEM_PREPEND);
-    });
-
-    test("combines plan agent prepend with skill content", () => {
-      // #given
-      const { buildSystemContent } = require("./tools");
-      const { PLAN_AGENT_SYSTEM_PREPEND } = require("./constants");
-      const skillContent = "You are a planning expert";
-
-      // #when
-      const result = buildSystemContent({ skillContent, agentName: "plan" });
-
-      // #then
-      expect(result).toContain(PLAN_AGENT_SYSTEM_PREPEND);
-      expect(result).toContain(skillContent);
-      expect(result!.indexOf(PLAN_AGENT_SYSTEM_PREPEND)).toBeLessThan(
-        result!.indexOf(skillContent),
-      );
-    });
-
-    test("does not prepend plan agent prompt for non-plan agents", () => {
+    test("agentName does not affect system content composition", () => {
       // #given
       const { buildSystemContent } = require("./tools");
       const skillContent = "You are an expert";
 
       // #when
-      const result = buildSystemContent({ skillContent, agentName: "advisor-plan" });
+      const result = buildSystemContent({ skillContent, agentName: "research" });
 
       // #then
       expect(result).toBe(skillContent);
-      expect(result).not.toContain("<system>");
     });
 
-    test("does not prepend plan agent prompt when agentName is undefined", () => {
+    test("agentName undefined keeps existing behavior", () => {
       // #given
       const { buildSystemContent } = require("./tools");
       const skillContent = "You are an expert";
@@ -1969,7 +1828,6 @@ describe("operator-task", () => {
 
       // #then
       expect(result).toBe(skillContent);
-      expect(result).not.toContain("<system>");
     });
   });
 
@@ -2189,478 +2047,141 @@ describe("operator-task", () => {
     });
   });
 
-  describe("planner self-delegation block", () => {
-    test("planner cannot delegate to planner - returns error with guidance", async () => {
-      // #given - current agent is planner
+  describe("subagent_type validation", () => {
+    test("rejects retired agent IDs", async () => {
       const { createDelegateTask } = require("./tools");
-
-      const mockManager = { launch: async () => ({}) };
-      const mockClient = {
-        app: { agents: async () => ({ data: [{ name: "planner", mode: "subagent" }] }) },
-        config: { get: async () => ({ data: { model: SYSTEM_DEFAULT_MODEL } }) },
-        session: {
-          get: async () => ({ data: { directory: "/project" } }),
-          create: async () => ({ data: { id: "test-session" } }),
-          prompt: async () => ({ data: {} }),
-          messages: async () => ({ data: [] }),
-          status: async () => ({ data: {} }),
-        },
-      };
-
       const tool = createDelegateTask({
-        manager: mockManager,
-        client: mockClient,
-      });
-
-      const toolContext = {
-        sessionID: "parent-session",
-        messageID: "parent-message",
-        agent: "planner",
-        abort: new AbortController().signal,
-      };
-
-      // #when - planner tries to delegate to planner
-      const result = await tool.execute(
-        {
-          description: "Test self-delegation block",
-          prompt: "Create a plan",
-          subagent_type: "planner",
-          run_in_background: false,
-          load_skills: [],
-        },
-        toolContext,
-      );
-
-      // #then - should return error telling planner to create plan directly
-      expect(result).toContain("planner");
-      expect(result).toContain("directly");
-    });
-
-    test(
-      "non-planner agent CAN delegate to planner - proceeds normally",
-      async () => {
-        // #given - current agent is cipherOperator
-        const { createDelegateTask } = require("./tools");
-
-        const mockManager = { launch: async () => ({}) };
-        const mockClient = {
-          app: { agents: async () => ({ data: [{ name: "planner", mode: "subagent" }] }) },
+        manager: { launch: async () => ({}) },
+        client: {
           config: { get: async () => ({ data: { model: SYSTEM_DEFAULT_MODEL } }) },
           session: {
-            get: async () => ({ data: { directory: "/project" } }),
-            create: async () => ({ data: { id: "ses_augur_allowed" } }),
+            create: async () => ({ data: { id: "test-session" } }),
             prompt: async () => ({ data: {} }),
-            messages: async () => ({
-              data: [
-                {
-                  info: { role: "assistant" },
-                  parts: [{ type: "text", text: "Plan created successfully" }],
-                },
-              ],
-            }),
-            status: async () => ({ data: { ses_augur_allowed: { type: "idle" } } }),
+            messages: async () => ({ data: [] }),
+            status: async () => ({ data: {} }),
           },
-        };
-
-        const tool = createDelegateTask({
-          manager: mockManager,
-          client: mockClient,
-        });
-
-        const toolContext = {
-          sessionID: "parent-session",
-          messageID: "parent-message",
-          agent: "operator",
-          abort: new AbortController().signal,
-        };
-
-        // #when - cipherOperator delegates to planner
-        const result = await tool.execute(
-          {
-            description: "Test planner delegation from non-planner agent",
-            prompt: "Create a plan",
-            subagent_type: "planner",
-            run_in_background: false,
-            load_skills: [],
-          },
-          toolContext,
-        );
-
-        // #then - should proceed normally
-        expect(result).not.toContain("Cannot delegate");
-        expect(result).toContain("Plan created successfully");
-      },
-      { timeout: 20000 },
-    );
-
-    test("case-insensitive: planner (capitalized) cannot delegate to planner", async () => {
-      // #given - current agent is planner (capitalized)
-      const { createDelegateTask } = require("./tools");
-
-      const mockManager = { launch: async () => ({}) };
-      const mockClient = {
-        app: { agents: async () => ({ data: [{ name: "planner", mode: "subagent" }] }) },
-        config: { get: async () => ({ data: { model: SYSTEM_DEFAULT_MODEL } }) },
-        session: {
-          get: async () => ({ data: { directory: "/project" } }),
-          create: async () => ({ data: { id: "test-session" } }),
-          prompt: async () => ({ data: {} }),
-          messages: async () => ({ data: [] }),
-          status: async () => ({ data: {} }),
         },
-      };
-
-      const tool = createDelegateTask({
-        manager: mockManager,
-        client: mockClient,
       });
 
-      const toolContext = {
-        sessionID: "parent-session",
-        messageID: "parent-message",
-        agent: "planner",
-        abort: new AbortController().signal,
-      };
-
-      // #when - planner tries to delegate to planner
       const result = await tool.execute(
         {
-          description: "Test case-insensitive block",
-          prompt: "Create a plan",
+          description: "Reject legacy ID",
+          prompt: "no-op",
           subagent_type: "planner",
           run_in_background: false,
           load_skills: [],
         },
-        toolContext,
+        {
+          sessionID: "parent-session",
+          messageID: "parent-message",
+          agent: "do",
+          abort: new AbortController().signal,
+        },
       );
 
-      // #then - should still return error
-      expect(result).toContain("planner");
-      expect(result).toContain("directly");
+      expect(result).toContain("Invalid subagent_type");
+      expect(result).toContain("do");
+      expect(result).toContain("research");
     });
-  });
 
-  describe("subagent_type model extraction (issue #1225)", () => {
-    test("background mode passes matched agent model to manager.launch", async () => {
-      // #given - agent with model registered, using subagent_type with run_in_background=true
+    test("accepts case-insensitive research and normalizes to canonical runtime ID", async () => {
       const { createDelegateTask } = require("./tools");
       let launchInput: any;
 
-      const mockManager = {
-        launch: async (input: any) => {
-          launchInput = input;
-          return {
-            id: "task-researcher-codebase",
-            sessionID: "ses_explore_model",
-            description: "Scout Recon task",
-            agent: "researcher-codebase",
-            status: "running",
-          };
-        },
-      };
-
-      const mockClient = {
-        app: {
-          agents: async () => ({
-            data: [
-              {
-                name: "researcher-codebase",
-                mode: "subagent",
-                model: { providerID: "anthropic", modelID: "claude-haiku-4-5" },
-              },
-            ],
-          }),
-        },
-        config: { get: async () => ({ data: { model: SYSTEM_DEFAULT_MODEL } }) },
-        session: {
-          create: async () => ({ data: { id: "ses_explore_model" } }),
-          prompt: async () => ({ data: {} }),
-          messages: async () => ({ data: [] }),
-        },
-      };
-
       const tool = createDelegateTask({
-        manager: mockManager,
-        client: mockClient,
+        manager: {
+          launch: async (input: any) => {
+            launchInput = input;
+            return {
+              id: "task-research",
+              sessionID: "ses_research",
+              description: "Research task",
+              agent: "research",
+              status: "running",
+            };
+          },
+        },
+        client: {
+          config: { get: async () => ({ data: { model: SYSTEM_DEFAULT_MODEL } }) },
+          session: {
+            create: async () => ({ data: { id: "ses_research" } }),
+            prompt: async () => ({ data: {} }),
+            messages: async () => ({ data: [] }),
+          },
+        },
       });
 
-      const toolContext = {
-        sessionID: "parent-session",
-        messageID: "parent-message",
-        agent: "operator",
-        abort: new AbortController().signal,
-      };
-
-      // #when - delegating to scoutRecon agent via subagent_type
       await tool.execute(
         {
-          description: "Scout Recon codebase",
-          prompt: "Find auth patterns",
-          subagent_type: "researcher-codebase",
+          description: "Research codebase",
+          prompt: "Find usage",
+          subagent_type: "ReSeArCh",
           run_in_background: true,
           load_skills: [],
         },
-        toolContext,
+        {
+          sessionID: "parent-session",
+          messageID: "parent-message",
+          agent: "do",
+          abort: new AbortController().signal,
+        },
       );
 
-      // #then - matched agent's model should be passed to manager.launch
-      expect(launchInput.model).toEqual({
-        providerID: "anthropic",
-        modelID: "claude-haiku-4-5",
-      });
+      expect(launchInput.agent).toBe("research");
+      expect(launchInput.model).toBeUndefined();
     });
-
-    test(
-      "sync mode passes matched agent model to session.prompt",
-      async () => {
-        // #given - agent with model registered, using subagent_type with run_in_background=false
-        const { createDelegateTask } = require("./tools");
-        let promptBody: any;
-
-        const mockManager = { launch: async () => ({}) };
-
-        const mockClient = {
-          app: {
-            agents: async () => ({
-              data: [
-                {
-                  name: "advisor-plan",
-                  mode: "subagent",
-                  model: { providerID: "anthropic", modelID: "claude-opus-4-5" },
-                },
-              ],
-            }),
-          },
-          config: { get: async () => ({ data: { model: SYSTEM_DEFAULT_MODEL } }) },
-          session: {
-            get: async () => ({ data: { directory: "/project" } }),
-            create: async () => ({ data: { id: "ses_seer_model" } }),
-            prompt: async (input: any) => {
-              promptBody = input.body;
-              return { data: {} };
-            },
-            messages: async () => ({
-              data: [
-                {
-                  info: { role: "assistant" },
-                  parts: [{ type: "text", text: "Consultation done" }],
-                },
-              ],
-            }),
-            status: async () => ({ data: { ses_seer_model: { type: "idle" } } }),
-          },
-        };
-
-        const tool = createDelegateTask({
-          manager: mockManager,
-          client: mockClient,
-        });
-
-        const toolContext = {
-          sessionID: "parent-session",
-          messageID: "parent-message",
-          agent: "operator",
-          abort: new AbortController().signal,
-        };
-
-        // #when - delegating to seerAdvisor agent via subagent_type in sync mode
-        await tool.execute(
-          {
-            description: "Consult advisor-plan",
-            prompt: "Review architecture",
-            subagent_type: "advisor-plan",
-            run_in_background: false,
-            load_skills: [],
-          },
-          toolContext,
-        );
-
-        // #then - matched agent's model should be passed to session.prompt
-        expect(promptBody.model).toEqual({
-          providerID: "anthropic",
-          modelID: "claude-opus-4-5",
-        });
-      },
-      { timeout: 20000 },
-    );
-
-    test(
-      "agent without model does not override categoryModel",
-      async () => {
-        // #given - agent registered without model field
-        const { createDelegateTask } = require("./tools");
-        let promptBody: any;
-
-        const mockManager = { launch: async () => ({}) };
-
-        const mockClient = {
-          app: {
-            agents: async () => ({
-              data: [
-                { name: "researcher-codebase", mode: "subagent" }, // no model field
-              ],
-            }),
-          },
-          config: { get: async () => ({ data: { model: SYSTEM_DEFAULT_MODEL } }) },
-          session: {
-            get: async () => ({ data: { directory: "/project" } }),
-            create: async () => ({ data: { id: "ses_no_model_agent" } }),
-            prompt: async (input: any) => {
-              promptBody = input.body;
-              return { data: {} };
-            },
-            messages: async () => ({
-              data: [{ info: { role: "assistant" }, parts: [{ type: "text", text: "Done" }] }],
-            }),
-            status: async () => ({ data: { ses_no_model_agent: { type: "idle" } } }),
-          },
-        };
-
-        const tool = createDelegateTask({
-          manager: mockManager,
-          client: mockClient,
-        });
-
-        const toolContext = {
-          sessionID: "parent-session",
-          messageID: "parent-message",
-          agent: "operator",
-          abort: new AbortController().signal,
-        };
-
-        // #when - delegating to agent without model
-        await tool.execute(
-          {
-            description: "Scout Recon without model",
-            prompt: "Find something",
-            subagent_type: "researcher-codebase",
-            run_in_background: false,
-            load_skills: [],
-          },
-          toolContext,
-        );
-
-        // #then - no model should be passed to session.prompt
-        expect(promptBody.model).toBeUndefined();
-      },
-      { timeout: 20000 },
-    );
   });
 
-  describe("planner subagent delegate_task permission", () => {
+  describe("subagent_type runtime behavior", () => {
     test(
-      "planner subagent should have delegate_task permission enabled",
+      "sync mode sends canonical do agent and blocks recursive delegation tools",
       async () => {
-        // #given - cipherOperator delegates to planner
         const { createDelegateTask } = require("./tools");
         let promptBody: any;
 
-        const mockManager = { launch: async () => ({}) };
-        const mockClient = {
-          app: { agents: async () => ({ data: [{ name: "planner", mode: "subagent" }] }) },
-          config: { get: async () => ({ data: { model: SYSTEM_DEFAULT_MODEL } }) },
-          session: {
-            get: async () => ({ data: { directory: "/project" } }),
-            create: async () => ({ data: { id: "ses_augur_delegate" } }),
-            prompt: async (input: any) => {
-              promptBody = input.body;
-              return { data: {} };
-            },
-            messages: async () => ({
-              data: [
-                { info: { role: "assistant" }, parts: [{ type: "text", text: "Plan created" }] },
-              ],
-            }),
-            status: async () => ({ data: { ses_augur_delegate: { type: "idle" } } }),
-          },
-        };
-
         const tool = createDelegateTask({
-          manager: mockManager,
-          client: mockClient,
+          manager: { launch: async () => ({}) },
+          client: {
+            config: { get: async () => ({ data: { model: SYSTEM_DEFAULT_MODEL } }) },
+            session: {
+              get: async () => ({ data: { directory: "/project" } }),
+              create: async () => ({ data: { id: "ses_do_sync" } }),
+              prompt: async (input: any) => {
+                promptBody = input.body;
+                return { data: {} };
+              },
+              messages: async () => ({
+                data: [
+                  {
+                    info: { role: "assistant" },
+                    parts: [{ type: "text", text: "Done" }],
+                  },
+                ],
+              }),
+              status: async () => ({ data: { ses_do_sync: { type: "idle" } } }),
+            },
+          },
         });
 
-        const toolContext = {
-          sessionID: "parent-session",
-          messageID: "parent-message",
-          agent: "operator",
-          abort: new AbortController().signal,
-        };
-
-        // #when - cipherOperator delegates to planner
         await tool.execute(
           {
-            description: "Test planner delegate_task permission",
-            prompt: "Create a plan",
-            subagent_type: "planner",
+            description: "Implement task",
+            prompt: "Do implementation",
+            subagent_type: "DO",
             run_in_background: false,
             load_skills: [],
           },
-          toolContext,
-        );
-
-        // #then - planner should have delegate_task permission
-        expect(promptBody.tools.delegate_task).toBe(true);
-      },
-      { timeout: 20000 },
-    );
-
-    test(
-      "non-planner subagent should NOT have delegate_task permission",
-      async () => {
-        // #given - cipherOperator delegates to seerAdvisor (non-planner)
-        const { createDelegateTask } = require("./tools");
-        let promptBody: any;
-
-        const mockManager = { launch: async () => ({}) };
-        const mockClient = {
-          app: { agents: async () => ({ data: [{ name: "advisor-plan", mode: "subagent" }] }) },
-          config: { get: async () => ({ data: { model: SYSTEM_DEFAULT_MODEL } }) },
-          session: {
-            get: async () => ({ data: { directory: "/project" } }),
-            create: async () => ({ data: { id: "ses_seer_no_delegate" } }),
-            prompt: async (input: any) => {
-              promptBody = input.body;
-              return { data: {} };
-            },
-            messages: async () => ({
-              data: [
-                {
-                  info: { role: "assistant" },
-                  parts: [{ type: "text", text: "Consultation done" }],
-                },
-              ],
-            }),
-            status: async () => ({ data: { ses_seer_no_delegate: { type: "idle" } } }),
-          },
-        };
-
-        const tool = createDelegateTask({
-          manager: mockManager,
-          client: mockClient,
-        });
-
-        const toolContext = {
-          sessionID: "parent-session",
-          messageID: "parent-message",
-          agent: "operator",
-          abort: new AbortController().signal,
-        };
-
-        // #when - cipherOperator delegates to seerAdvisor
-        await tool.execute(
           {
-            description: "Test seerAdvisor no delegate_task permission",
-            prompt: "Consult on architecture",
-            subagent_type: "advisor-plan",
-            run_in_background: false,
-            load_skills: [],
+            sessionID: "parent-session",
+            messageID: "parent-message",
+            agent: "do",
+            abort: new AbortController().signal,
           },
-          toolContext,
         );
 
-        // #then - seerAdvisor should NOT have delegate_task permission
+        expect(promptBody.agent).toBe("do");
         expect(promptBody.tools.delegate_task).toBe(false);
+        expect(promptBody.tools.call_grid_agent).toBe(false);
       },
       { timeout: 20000 },
     );

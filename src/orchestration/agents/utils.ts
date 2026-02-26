@@ -321,6 +321,7 @@ export async function createAgents(
           description: agent.purpose,
           prompt: agent.prompt,
           temperature: agent.temperature,
+          mode: agent.id === "do" ? "primary" : "subagent",
         };
         return [agent.id, config] as [string, AgentSource];
       }),

@@ -1,5 +1,4 @@
 import { createAgents } from "../../orchestration/agents";
-import type { AgentConfig as SDKAgentConfig } from "@opencode-ai/sdk";
 import {
   loadUserCommands,
   loadProjectCommands,
@@ -26,14 +25,10 @@ import { loadAllPluginComponents } from "../../execution/features/claude-code-pl
 import { createMcps } from "../../integration/mcp";
 import type { GhostwireConfig } from "../../platform/config";
 import { log } from "../../integration/shared";
-import { resolveModelWithFallback } from "../../orchestration/agents/model-resolver";
-import { AGENT_MODEL_REQUIREMENTS } from "../../orchestration/agents/model-requirements";
 import { DEFAULT_CATEGORIES } from "../../execution/tools/delegate-task/constants";
 import type { ModelCacheState } from "../../plugin-state";
 import type { CategoryConfig } from "../../platform/config/schema";
 import { migrateAgentConfig } from "../../platform/config/permission-compat";
-import { fetchAvailableModels } from "./model-availability";
-import { readConnectedProvidersCache } from "./connected-providers-cache";
 
 export interface ConfigHandlerDeps {
   ctx: { directory: string; client?: any };
@@ -161,188 +156,45 @@ export function createConfigHandler(deps: ConfigHandlerDeps) {
       ]),
     );
 
-    const isOperatorEnabled = shouldInjectAgents && pluginConfig.operator?.disabled !== true;
+    const isPrimaryDoEnabled = shouldInjectAgents && pluginConfig.operator?.disabled !== true;
     const builderEnabled = pluginConfig.operator?.default_builder_enabled ?? false;
-    const plannerEnabled = pluginConfig.operator?.planner_enabled ?? true;
-    const replacePlan = pluginConfig.operator?.replace_plan ?? true;
 
     type AgentConfig = Record<string, Record<string, unknown> | undefined> & {
       build?: Record<string, unknown>;
-      plan?: Record<string, unknown>;
-      scoutRecon?: { tools?: Record<string, unknown> };
-      archiveResearcher?: { tools?: Record<string, unknown> };
-      "analyzer-media"?: { tools?: Record<string, unknown> };
-      nexusOrchestrator?: { tools?: Record<string, unknown> };
-      cipherOperator?: { tools?: Record<string, unknown> };
+      do?: { permission?: Record<string, unknown> };
+      research?: { permission?: Record<string, unknown> };
     };
-    const configAgent = config.agent as AgentConfig | undefined;
+    const configAgent = (config.agent as AgentConfig | undefined) ?? {};
+    const { build: rawBuild, ...rawConfigAgents } = configAgent;
 
-    if (isOperatorEnabled && builtinAgents["operator"]) {
-      (config as { default_agent?: string }).default_agent = "operator";
+    const migratedConfigAgents = Object.fromEntries(
+      Object.entries(rawConfigAgents).map(([key, value]) => [
+        key,
+        value ? migrateAgentConfig(value as Record<string, unknown>) : value,
+      ]),
+    );
 
-      const agentConfig: Record<string, unknown> = {
-        operator: builtinAgents["operator"],
-      };
+    const migratedBuild = rawBuild
+      ? migrateAgentConfig(rawBuild as Record<string, unknown>)
+      : undefined;
 
-      const executorBase = builtinAgents["executor"] as SDKAgentConfig | undefined;
-      const executorOverride = pluginConfig.agents?.["executor"] as
-        | Record<string, unknown>
-        | undefined;
-      if (executorBase) {
-        agentConfig["executor"] = executorOverride
-          ? { ...executorBase, ...executorOverride }
-          : executorBase;
-      }
-
-      if (builderEnabled) {
-        const { name: _buildName, ...buildConfigWithoutName } = configAgent?.build ?? {};
-        const migratedBuildConfig = migrateAgentConfig(
-          buildConfigWithoutName as Record<string, unknown>,
-        );
-        const openCodeBuilderOverride = pluginConfig.agents?.["OpenCode-Builder"];
-        const openCodeBuilderBase = {
-          ...migratedBuildConfig,
-          description: `${configAgent?.build?.description ?? "Build agent"} (OpenCode default)`,
-        };
-
-        agentConfig["OpenCode-Builder"] = openCodeBuilderOverride
-          ? { ...openCodeBuilderBase, ...openCodeBuilderOverride }
-          : openCodeBuilderBase;
-      }
-
-      if (plannerEnabled) {
-        const {
-          name: _planName,
-          mode: _planMode,
-          ...planConfigWithoutName
-        } = configAgent?.plan ?? {};
-        const migratedPlanConfig = migrateAgentConfig(
-          planConfigWithoutName as Record<string, unknown>,
-        );
-        const augurOverride = pluginConfig.agents?.["planner"] as
-          | (Record<string, unknown> & {
-              category?: string;
-              model?: string;
-              variant?: string;
-              reasoningEffort?: string;
-              textVerbosity?: string;
-              thinking?: { type: string; budgetTokens?: number };
-              temperature?: number;
-              top_p?: number;
-              maxTokens?: number;
-            })
-          | undefined;
-
-        const categoryConfig = augurOverride?.category
-          ? resolveCategoryConfig(augurOverride.category, pluginConfig.categories)
-          : undefined;
-
-        const augurRequirement = AGENT_MODEL_REQUIREMENTS["planner"];
-        const connectedProviders = readConnectedProvidersCache();
-        // IMPORTANT: Do NOT pass ctx.client to fetchAvailableModels during plugin initialization.
-        // Calling client API (e.g., client.provider.list()) from config handler causes deadlock:
-        // - Plugin init waits for server response
-        // - Server waits for plugin init to complete before handling requests
-        // Use cache-only mode instead. If cache is unavailable, fallback chain uses first model.
-        // See: https://github.com/hackefeller/ghostwire/issues/1301
-        const availableModels = await fetchAvailableModels(undefined, {
-          connectedProviders: connectedProviders ?? undefined,
-        });
-
-        const modelResolution = resolveModelWithFallback({
-          uiSelectedModel: currentModel,
-          userModel: augurOverride?.model ?? categoryConfig?.model,
-          fallbackChain: augurRequirement?.fallbackChain,
-          availableModels,
-          systemDefaultModel: undefined,
-        });
-        const resolvedModel = modelResolution?.model;
-        const resolvedVariant = modelResolution?.variant;
-
-        const variantToUse = augurOverride?.variant ?? resolvedVariant;
-        const reasoningEffortToUse =
-          augurOverride?.reasoningEffort ?? categoryConfig?.reasoningEffort;
-        const textVerbosityToUse = augurOverride?.textVerbosity ?? categoryConfig?.textVerbosity;
-        const thinkingToUse = augurOverride?.thinking ?? categoryConfig?.thinking;
-        const temperatureToUse = augurOverride?.temperature ?? categoryConfig?.temperature;
-        const topPToUse = augurOverride?.top_p ?? categoryConfig?.top_p;
-        const maxTokensToUse = augurOverride?.maxTokens ?? categoryConfig?.maxTokens;
-        // Get planner prompt from builtin agents instead of reading from file
-        // This ensures it works regardless of what directory is being used
-        const plannerAgent = builtinAgents["planner"];
-        const plannerMarkdown = plannerAgent?.prompt || "";
-        const augurBase = {
-          name: "planner",
-          ...(resolvedModel ? { model: resolvedModel } : {}),
-          ...(variantToUse ? { variant: variantToUse } : {}),
-          mode: "all" as const,
-          prompt: plannerMarkdown,
-          permission: { question: "allow", call_grid_agent: "deny", delegate_task: "allow" },
-          description: `${configAgent?.plan?.description ?? "Plan agent"} (planner - Ghostwire)`,
-          color: (configAgent?.plan?.color as string) ?? "#FF6347",
-          ...(temperatureToUse !== undefined ? { temperature: temperatureToUse } : {}),
-          ...(topPToUse !== undefined ? { top_p: topPToUse } : {}),
-          ...(maxTokensToUse !== undefined ? { maxTokens: maxTokensToUse } : {}),
-          ...(categoryConfig?.tools ? { tools: categoryConfig.tools } : {}),
-          ...(thinkingToUse ? { thinking: thinkingToUse } : {}),
-          ...(reasoningEffortToUse !== undefined ? { reasoningEffort: reasoningEffortToUse } : {}),
-          ...(textVerbosityToUse !== undefined ? { textVerbosity: textVerbosityToUse } : {}),
-        };
-
-        agentConfig["planner"] = augurOverride ? { ...augurBase, ...augurOverride } : augurBase;
-      }
-
-      const filteredConfigAgents = configAgent
-        ? Object.fromEntries(
-            Object.entries(configAgent)
-              .filter(([key]) => {
-                if (key === "build") return false;
-                if (key === "plan" && replacePlan) return false;
-                // Filter out agents that ghostwire provides to prevent
-                // OpenCode defaults from overwriting user config in ghostwire.json
-                // See: https://github.com/hackefeller/ghostwire/issues/472
-                if (key in builtinAgents) return false;
-                return true;
-              })
-              .map(([key, value]) => [
-                key,
-                value ? migrateAgentConfig(value as Record<string, unknown>) : value,
-              ]),
-          )
-        : {};
-
-      const migratedBuild = configAgent?.build
-        ? migrateAgentConfig(configAgent.build as Record<string, unknown>)
-        : {};
-
-      const planDemoteConfig =
-        replacePlan && agentConfig["planner"]
-          ? {
-              ...agentConfig["planner"],
-              name: "plan",
-              mode: "subagent" as const,
-            }
-          : undefined;
-
-      config.agent = {
-        ...agentConfig,
-        ...Object.fromEntries(Object.entries(builtinAgents).filter(([k]) => k !== "operator")),
-        ...userAgents,
-        ...projectAgents,
-        ...pluginAgents,
-        ...filteredConfigAgents,
-        build: { ...migratedBuild, mode: "subagent", hidden: true },
-        ...(planDemoteConfig ? { plan: planDemoteConfig } : {}),
-      };
-    } else {
-      config.agent = {
-        ...builtinAgents,
-        ...userAgents,
-        ...projectAgents,
-        ...pluginAgents,
-        ...configAgent,
-      };
+    if (isPrimaryDoEnabled && builtinAgents["do"]) {
+      (config as { default_agent?: string }).default_agent = "do";
     }
+
+    const mergedAgents: Record<string, unknown> = {
+      ...(shouldInjectAgents ? builtinAgents : {}),
+      ...userAgents,
+      ...projectAgents,
+      ...pluginAgents,
+      ...migratedConfigAgents,
+    };
+
+    if (builderEnabled || migratedBuild) {
+      mergedAgents.build = { ...(migratedBuild ?? {}), mode: "subagent", hidden: true };
+    }
+
+    config.agent = mergedAgents;
 
     const agentResult = config.agent as AgentConfig;
 
@@ -356,25 +208,8 @@ export function createConfigHandler(deps: ConfigHandlerDeps) {
 
     type AgentWithPermission = { permission?: Record<string, unknown> };
 
-    if (agentResult.archiveResearcher) {
-      const agent = agentResult.archiveResearcher as AgentWithPermission;
-      agent.permission = { ...agent.permission, "grep_app_*": "allow" };
-    }
-    if (agentResult["analyzer-media"]) {
-      const agent = agentResult["analyzer-media"] as AgentWithPermission;
-      agent.permission = { ...agent.permission, task: "deny", look_at: "deny" };
-    }
-    if (agentResult["orchestrator"]) {
-      const agent = agentResult["orchestrator"] as AgentWithPermission;
-      agent.permission = {
-        ...agent.permission,
-        task: "deny",
-        call_grid_agent: "deny",
-        delegate_task: "allow",
-      };
-    }
-    if (agentResult["operator"]) {
-      const agent = agentResult["operator"] as AgentWithPermission;
+    if (agentResult.do) {
+      const agent = agentResult.do as AgentWithPermission;
       agent.permission = {
         ...agent.permission,
         call_grid_agent: "deny",
@@ -382,18 +217,14 @@ export function createConfigHandler(deps: ConfigHandlerDeps) {
         question: "allow",
       };
     }
-    if (agentResult["planner"]) {
-      const agent = agentResult["planner"] as AgentWithPermission;
+    if (agentResult.research) {
+      const agent = agentResult.research as AgentWithPermission;
       agent.permission = {
         ...agent.permission,
         call_grid_agent: "deny",
-        delegate_task: "allow",
+        delegate_task: "deny",
         question: "allow",
       };
-    }
-    if (agentResult["executor"]) {
-      const agent = agentResult["executor"] as AgentWithPermission;
-      agent.permission = { ...agent.permission, delegate_task: "allow" };
     }
 
     config.permission = {

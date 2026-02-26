@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import {
+  AgentNameSchema,
   AgentOverrideConfigSchema,
   BrowserAutomationConfigSchema,
   BrowserAutomationProviderSchema,
@@ -378,6 +379,27 @@ describe("CategoryConfigSchema", () => {
   });
 });
 
+describe("two-agent runtime schema", () => {
+  test("accepts only do and research in disabled_agents", () => {
+    const result = GhostwireConfigSchema.safeParse({
+      disabled_agents: ["do", "research"],
+    });
+    expect(result.success).toBe(true);
+  });
+
+  test("rejects retired agent names in disabled_agents", () => {
+    const result = GhostwireConfigSchema.safeParse({
+      disabled_agents: ["planner"],
+    });
+    expect(result.success).toBe(false);
+  });
+
+  test("AgentNameSchema accepts do and research", () => {
+    expect(AgentNameSchema.safeParse("do").success).toBe(true);
+    expect(AgentNameSchema.safeParse("research").success).toBe(true);
+  });
+});
+
 describe("CategoryNameSchema", () => {
   test("accepts all plugin category names", () => {
     // #given
@@ -399,12 +421,12 @@ describe("CategoryNameSchema", () => {
   });
 });
 
-describe("Dark Runner agent override", () => {
-  test("schema accepts agents['executor'] and retains the key after parsing", () => {
+describe("Two-agent override schema", () => {
+  test("schema accepts agents['do'] and retains the key after parsing", () => {
     // #given
     const config = {
       agents: {
-        executor: {
+        do: {
           model: "openai/gpt-5.2",
           temperature: 0.2,
         },
@@ -417,18 +439,18 @@ describe("Dark Runner agent override", () => {
     // #then
     expect(result.success).toBe(true);
     if (result.success) {
-      expect(result.data.agents?.["executor"]).toBeDefined();
-      expect(result.data.agents?.["executor"]?.model).toBe("openai/gpt-5.2");
-      expect(result.data.agents?.["executor"]?.temperature).toBe(0.2);
+      expect(result.data.agents?.do).toBeDefined();
+      expect(result.data.agents?.do?.model).toBe("openai/gpt-5.2");
+      expect(result.data.agents?.do?.temperature).toBe(0.2);
     }
   });
 
-  test("schema accepts cipherRunner with prompt_append", () => {
+  test("schema accepts do with prompt_append", () => {
     // #given
     const config = {
       agents: {
-        executor: {
-          prompt_append: "Additional instructions for executor",
+        do: {
+          prompt_append: "Additional instructions for do",
         },
       },
     };
@@ -439,17 +461,15 @@ describe("Dark Runner agent override", () => {
     // #then
     expect(result.success).toBe(true);
     if (result.success) {
-      expect(result.data.agents?.["executor"]?.prompt_append).toBe(
-        "Additional instructions for executor",
-      );
+      expect(result.data.agents?.do?.prompt_append).toBe("Additional instructions for do");
     }
   });
 
-  test("schema accepts cipherRunner with tools override", () => {
+  test("schema accepts do with tools override", () => {
     // #given
     const config = {
       agents: {
-        executor: {
+        do: {
           tools: {
             read: true,
             write: false,
@@ -464,23 +484,41 @@ describe("Dark Runner agent override", () => {
     // #then
     expect(result.success).toBe(true);
     if (result.success) {
-      expect(result.data.agents?.["executor"]?.tools).toEqual({
+      expect(result.data.agents?.do?.tools).toEqual({
         read: true,
         write: false,
       });
     }
   });
 
-  test("schema accepts lowercase agent names (cipherOperator, nexusOrchestrator, augurPlanner)", () => {
+  test("schema accepts do and research override keys", () => {
     // #given
     const config = {
       agents: {
-        operator: {
+        do: {
           temperature: 0.1,
         },
-        orchestrator: {
+        research: {
           temperature: 0.2,
         },
+      },
+    };
+
+    // #when
+    const result = GhostwireConfigSchema.safeParse(config);
+
+    // #then
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.agents?.do?.temperature).toBe(0.1);
+      expect(result.data.agents?.research?.temperature).toBe(0.2);
+    }
+  });
+
+  test("schema rejects retired override keys", () => {
+    // #given
+    const config = {
+      agents: {
         planner: {
           temperature: 0.3,
         },
@@ -491,36 +529,7 @@ describe("Dark Runner agent override", () => {
     const result = GhostwireConfigSchema.safeParse(config);
 
     // #then
-    expect(result.success).toBe(true);
-    if (result.success) {
-      expect(result.data.agents?.["operator"]?.temperature).toBe(0.1);
-      expect(result.data.agents?.["orchestrator"]?.temperature).toBe(0.2);
-      expect(result.data.agents?.["planner"]?.temperature).toBe(0.3);
-    }
-  });
-
-  test("schema accepts lowercase tacticianStrategist and glitchAuditor agent names", () => {
-    // #given
-    const config = {
-      agents: {
-        "advisor-strategy": {
-          category: "ultrabrain",
-        },
-        "validator-audit": {
-          category: "quick",
-        },
-      },
-    };
-
-    // #when
-    const result = GhostwireConfigSchema.safeParse(config);
-
-    // #then
-    expect(result.success).toBe(true);
-    if (result.success) {
-      expect(result.data.agents?.["advisor-strategy"]?.category).toBe("ultrabrain");
-      expect(result.data.agents?.["validator-audit"]?.category).toBe("quick");
-    }
+    expect(result.success).toBe(false);
   });
 });
 

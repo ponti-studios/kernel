@@ -2,38 +2,98 @@ import type { CommandDefinition } from "../../claude-code-command-loader";
 
 export const NAME = "ghostwire:workflows:create";
 export const DESCRIPTION =
-  "Break down workflow plan into atomic tasks with delegation metadata [Phase: BREAKDOWN]";
+  "Generate lifecycle artifacts in strict submodes: tasks|analyze|checklist|issues [Phase: BREAKDOWN]";
 export const TEMPLATE = `<command-instruction>
-# Workflows:Create Command
+# Workflows:Create Command (Canonical Multi-Mode)
 
-Execute a plan by breaking it into concrete development tasks and coordinating implementation.
+Create deterministic lifecycle artifacts from an approved plan.
 
-## Process
+## Invocation
 
-1. **Load Plan** - Read the implementation plan
-2. **Task Breakdown** - Decompose into specific, implementable tasks
-3. **Dependency Analysis** - Identify task dependencies and parallelizable work
-4. **Assign Agents** - Route tasks to appropriate specialist agents
-5. **Coordinate Execution** - Monitor progress and handle blockers
+- Default: /ghostwire:workflows:create <plan-reference> => tasks
+- Explicit: /ghostwire:workflows:create --mode <tasks|analyze|checklist|issues> <plan-reference>
 
-## Key Agents & Tasks
+## Input
 
-- Use \`delegate_task\` with appropriate specialized agents
-- Track task completion and dependencies
-- Surface blockers and ask for user guidance when needed
-- Provide progress feedback
+<plan-reference>
+$ARGUMENTS
+</plan-reference>
 
-## Integration
+## Mode Resolution Rules
 
-- Can be invoked manually after \`workflows:plan\`
-- Can be chained automatically from \`workflows:plan\` with user approval
-- Integrates with background task system for long-running work
+1. If --mode is provided, use it.
+2. If no mode is provided, default to \`tasks\`.
+
+## Shared Preconditions (All Modes)
+
+- Plan file must be readable and located under .ghostwire/plans/*.md
+- Plan must include acceptance criteria and implementation steps
+- If required data is missing, fail-fast and report exact missing fields
+
+## --mode tasks (default)
+
+### Output Contract
+- Phases: Setup (1), Foundational (2, blocking), User Story phases (3+), Polish (final)
+- Format each task as: \`[ID] [P?] [Story?] Description\`
+- [P] indicates parallelizable tasks
+- Include exact repository file paths in each task description
+- Enforce dependencies: Foundational blocks stories; tests-before-implementation where applicable; models -> services -> endpoints -> integration
+- Output phase dependencies, story dependencies, and parallel opportunities
+
+## --mode analyze
+
+### Output Contract
+- Artifact inventory matrix (plan, tasks, research, data model, contracts, quickstart, checklists)
+- Plan-to-task alignment checks
+- Requirement coverage checks (FR/SC traceability)
+- Severity-tagged findings (critical/high/medium/low)
+- Deterministic remediation checklist
+
+- Every finding must include evidence location
+- Every critical finding must include a concrete remediation step
+- If no issues, explicitly state "No critical inconsistencies detected"
+
+## --mode checklist
+
+### Output Contract
+- Generate a checklist for one domain: security, performance, data-integrity, accessibility, deployment, or testing
+- Checkboxes only (\`- [ ]\`)
+- Each item includes pass/fail criterion
+- Include completion rule set
+
+- Do not include implementation prose beyond checklist items and criteria
+- Must be directly actionable by executor without interpretation
+
+## --mode issues
+
+### Output Contract
+- Mapping table: task ID -> issue title -> dependencies -> labels
+- Ready-to-run GH CLI command set
+- Batch sequencing strategy for dependency-safe issue creation
+
+- Commands must reference deterministic titles
+- Include dependency notes for blocked tasks
+- Include total counts by phase
+
+## Integration and Handoff
+
+- tasks mode feeds /ghostwire:workflows:work
+- analyze/checklist modes gate execution readiness
+- issues mode prepares tracker synchronization
+
+## Final Validation (All Modes)
+
+Before finalizing output:
+- Confirm selected mode explicitly in output header
+- Confirm plan reference path
+- Confirm deterministic format constraints were met
+- If constraints fail, regenerate
 </command-instruction>
 
 <plan-reference>
 $ARGUMENTS
 </plan-reference>`;
-export const ARGUMENT_HINT = "[plan-name]";
+export const ARGUMENT_HINT = "[--mode tasks|analyze|checklist|issues] [plan-name-or-path]";
 
 export const COMMAND: CommandDefinition = {
   name: NAME,

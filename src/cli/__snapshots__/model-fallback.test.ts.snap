@@ -4,34 +4,10 @@ exports[`generateModelConfig no providers available returns ULTIMATE_FALLBACK fo
 {
   "$schema": "https://raw.githubusercontent.com/hackefeller/ghostwire/master/assets/ghostwire.schema.json",
   "agents": {
-    "advisor-plan": {
+    "do": {
       "model": "opencode/glm-4.7-free",
     },
-    "advisor-strategy": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "analyzer-media": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "executor": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "operator": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "orchestrator": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "planner": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "researcher-codebase": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "researcher-data": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "validator-audit": {
+    "research": {
       "model": "opencode/glm-4.7-free",
     },
   },
@@ -68,35 +44,11 @@ exports[`generateModelConfig single native provider uses OpenAI models when only
 {
   "$schema": "https://raw.githubusercontent.com/hackefeller/ghostwire/master/assets/ghostwire.schema.json",
   "agents": {
-    "advisor-plan": {
+    "do": {
       "model": "opencode/glm-4.7-free",
     },
-    "advisor-strategy": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "analyzer-media": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "executor": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "operator": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "orchestrator": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "planner": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "researcher-codebase": {
+    "research": {
       "model": "opencode/gpt-5-nano",
-    },
-    "researcher-data": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "validator-audit": {
-      "model": "opencode/glm-4.7-free",
     },
   },
   "categories": {
@@ -132,35 +84,11 @@ exports[`generateModelConfig single native provider uses Gemini models when only
 {
   "$schema": "https://raw.githubusercontent.com/hackefeller/ghostwire/master/assets/ghostwire.schema.json",
   "agents": {
-    "advisor-plan": {
+    "do": {
       "model": "opencode/glm-4.7-free",
     },
-    "advisor-strategy": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "analyzer-media": {
-      "model": "google/gemini-3-flash",
-    },
-    "executor": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "operator": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "orchestrator": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "planner": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "researcher-codebase": {
+    "research": {
       "model": "opencode/gpt-5-nano",
-    },
-    "researcher-data": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "validator-audit": {
-      "model": "opencode/glm-4.7-free",
     },
   },
   "categories": {
@@ -196,35 +124,11 @@ exports[`generateModelConfig all native providers uses preferred models from fal
 {
   "$schema": "https://raw.githubusercontent.com/hackefeller/ghostwire/master/assets/ghostwire.schema.json",
   "agents": {
-    "advisor-plan": {
+    "do": {
       "model": "opencode/glm-4.7-free",
     },
-    "advisor-strategy": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "analyzer-media": {
-      "model": "google/gemini-3-flash",
-    },
-    "executor": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "operator": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "orchestrator": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "planner": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "researcher-codebase": {
+    "research": {
       "model": "opencode/gpt-5-nano",
-    },
-    "researcher-data": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "validator-audit": {
-      "model": "opencode/glm-4.7-free",
     },
   },
   "categories": {
@@ -260,35 +164,11 @@ exports[`generateModelConfig fallback providers uses OpenCode Zen models when on
 {
   "$schema": "https://raw.githubusercontent.com/hackefeller/ghostwire/master/assets/ghostwire.schema.json",
   "agents": {
-    "advisor-plan": {
+    "do": {
       "model": "opencode/kimi-k2.5",
     },
-    "advisor-strategy": {
-      "model": "opencode/kimi-k2.5",
-    },
-    "analyzer-media": {
-      "model": "opencode/gemini-3-flash",
-    },
-    "executor": {
-      "model": "opencode/kimi-k2.5",
-    },
-    "operator": {
-      "model": "opencode/kimi-k2.5",
-    },
-    "orchestrator": {
-      "model": "opencode/kimi-k2.5",
-    },
-    "planner": {
-      "model": "opencode/kimi-k2.5",
-    },
-    "researcher-codebase": {
+    "research": {
       "model": "opencode/claude-haiku-4-5",
-    },
-    "researcher-data": {
-      "model": "opencode/kimi-k2.5",
-    },
-    "validator-audit": {
-      "model": "opencode/kimi-k2.5",
     },
   },
   "categories": {
@@ -327,35 +207,11 @@ exports[`generateModelConfig fallback providers uses GitHub Copilot models when 
 {
   "$schema": "https://raw.githubusercontent.com/hackefeller/ghostwire/master/assets/ghostwire.schema.json",
   "agents": {
-    "advisor-plan": {
+    "do": {
       "model": "github-copilot/kimi-k2.5",
     },
-    "advisor-strategy": {
-      "model": "github-copilot/kimi-k2.5",
-    },
-    "analyzer-media": {
-      "model": "github-copilot/gemini-3-flash",
-    },
-    "executor": {
-      "model": "github-copilot/kimi-k2.5",
-    },
-    "operator": {
-      "model": "github-copilot/kimi-k2.5",
-    },
-    "orchestrator": {
-      "model": "github-copilot/kimi-k2.5",
-    },
-    "planner": {
-      "model": "github-copilot/kimi-k2.5",
-    },
-    "researcher-codebase": {
+    "research": {
       "model": "github-copilot/gpt-5-mini",
-    },
-    "researcher-data": {
-      "model": "github-copilot/kimi-k2.5",
-    },
-    "validator-audit": {
-      "model": "github-copilot/kimi-k2.5",
     },
   },
   "categories": {
@@ -390,39 +246,15 @@ exports[`generateModelConfig fallback providers uses GitHub Copilot models when 
 }
 `;
 
-exports[`generateModelConfig fallback providers uses ZAI model for archiveResearcher when only ZAI is available 1`] = `
+exports[`generateModelConfig fallback providers uses ZAI model for research when only ZAI is available 1`] = `
 {
   "$schema": "https://raw.githubusercontent.com/hackefeller/ghostwire/master/assets/ghostwire.schema.json",
   "agents": {
-    "advisor-plan": {
+    "do": {
       "model": "opencode/glm-4.7-free",
     },
-    "advisor-strategy": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "analyzer-media": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "executor": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "operator": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "orchestrator": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "planner": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "researcher-codebase": {
-      "model": "opencode/gpt-5-nano",
-    },
-    "researcher-data": {
+    "research": {
       "model": "zai-coding-plan/glm-4.7",
-    },
-    "validator-audit": {
-      "model": "opencode/glm-4.7-free",
     },
   },
   "categories": {
@@ -458,35 +290,11 @@ exports[`generateModelConfig mixed provider scenarios uses OpenAI + Copilot comb
 {
   "$schema": "https://raw.githubusercontent.com/hackefeller/ghostwire/master/assets/ghostwire.schema.json",
   "agents": {
-    "advisor-plan": {
+    "do": {
       "model": "github-copilot/kimi-k2.5",
     },
-    "advisor-strategy": {
-      "model": "github-copilot/kimi-k2.5",
-    },
-    "analyzer-media": {
-      "model": "github-copilot/gemini-3-flash",
-    },
-    "executor": {
-      "model": "github-copilot/kimi-k2.5",
-    },
-    "operator": {
-      "model": "github-copilot/kimi-k2.5",
-    },
-    "orchestrator": {
-      "model": "github-copilot/kimi-k2.5",
-    },
-    "planner": {
-      "model": "github-copilot/kimi-k2.5",
-    },
-    "researcher-codebase": {
+    "research": {
       "model": "github-copilot/gpt-5-mini",
-    },
-    "researcher-data": {
-      "model": "github-copilot/kimi-k2.5",
-    },
-    "validator-audit": {
-      "model": "github-copilot/kimi-k2.5",
     },
   },
   "categories": {
@@ -521,39 +329,15 @@ exports[`generateModelConfig mixed provider scenarios uses OpenAI + Copilot comb
 }
 `;
 
-exports[`generateModelConfig mixed provider scenarios uses ZAI combination (archiveResearcher uses ZAI) 1`] = `
+exports[`generateModelConfig mixed provider scenarios uses ZAI combination (research uses ZAI) 1`] = `
 {
   "$schema": "https://raw.githubusercontent.com/hackefeller/ghostwire/master/assets/ghostwire.schema.json",
   "agents": {
-    "advisor-plan": {
+    "do": {
       "model": "opencode/glm-4.7-free",
     },
-    "advisor-strategy": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "analyzer-media": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "executor": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "operator": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "orchestrator": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "planner": {
-      "model": "opencode/glm-4.7-free",
-    },
-    "researcher-codebase": {
-      "model": "opencode/gpt-5-nano",
-    },
-    "researcher-data": {
+    "research": {
       "model": "zai-coding-plan/glm-4.7",
-    },
-    "validator-audit": {
-      "model": "opencode/glm-4.7-free",
     },
   },
   "categories": {
@@ -589,35 +373,11 @@ exports[`generateModelConfig mixed provider scenarios uses all fallback provider
 {
   "$schema": "https://raw.githubusercontent.com/hackefeller/ghostwire/master/assets/ghostwire.schema.json",
   "agents": {
-    "advisor-plan": {
+    "do": {
       "model": "opencode/kimi-k2.5",
     },
-    "advisor-strategy": {
-      "model": "opencode/kimi-k2.5",
-    },
-    "analyzer-media": {
-      "model": "github-copilot/gemini-3-flash",
-    },
-    "executor": {
-      "model": "opencode/kimi-k2.5",
-    },
-    "operator": {
-      "model": "opencode/kimi-k2.5",
-    },
-    "orchestrator": {
-      "model": "opencode/kimi-k2.5",
-    },
-    "planner": {
-      "model": "opencode/kimi-k2.5",
-    },
-    "researcher-codebase": {
-      "model": "opencode/claude-haiku-4-5",
-    },
-    "researcher-data": {
+    "research": {
       "model": "zai-coding-plan/glm-4.7",
-    },
-    "validator-audit": {
-      "model": "opencode/kimi-k2.5",
     },
   },
   "categories": {
@@ -656,35 +416,11 @@ exports[`generateModelConfig mixed provider scenarios uses all providers togethe
 {
   "$schema": "https://raw.githubusercontent.com/hackefeller/ghostwire/master/assets/ghostwire.schema.json",
   "agents": {
-    "advisor-plan": {
+    "do": {
       "model": "opencode/kimi-k2.5",
     },
-    "advisor-strategy": {
-      "model": "opencode/kimi-k2.5",
-    },
-    "analyzer-media": {
-      "model": "google/gemini-3-flash",
-    },
-    "executor": {
-      "model": "opencode/kimi-k2.5",
-    },
-    "operator": {
-      "model": "opencode/kimi-k2.5",
-    },
-    "orchestrator": {
-      "model": "opencode/kimi-k2.5",
-    },
-    "planner": {
-      "model": "opencode/kimi-k2.5",
-    },
-    "researcher-codebase": {
-      "model": "opencode/claude-haiku-4-5",
-    },
-    "researcher-data": {
+    "research": {
       "model": "zai-coding-plan/glm-4.7",
-    },
-    "validator-audit": {
-      "model": "opencode/kimi-k2.5",
     },
   },
   "categories": {

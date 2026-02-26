@@ -1,5 +1,5 @@
 /**
- * Template for ghostwire:spec:checklist command
+ * Template for ghostwire:workflows:create command
  *
  * Generates domain-specific checklists.
  * Replaces: speckit.checklist.md + checklist-template.md
@@ -28,7 +28,7 @@ $CHECKLIST_ITEMS
 
 1. Review each item before implementation
 2. Mark items as complete: \`- [x]\`
-3. All items must pass before \`/ghostwire:spec:implement\`
+3. All items must pass before \`/ghostwire:workflows:work\`
 4. Update this file as you progress
 
 ---

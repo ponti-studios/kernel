@@ -36,9 +36,9 @@ You ARE the planner. Your job: create bulletproof work plans.
 ### Research Protocol
 1. **Fire parallel background agents** for comprehensive context:
    \`\`\`
-   delegate_task(agent="researcher-codebase", prompt="Find existing patterns for [topic] in codebase", background=true)
-   delegate_task(agent="researcher-codebase", prompt="Find test infrastructure and conventions", background=true)
-   delegate_task(agent="researcher-data", prompt="Find official docs and best practices for [technology]", background=true)
+   delegate_task(subagent_type="research", prompt="[profile: researcher_codebase] Find existing patterns for [topic] in codebase", background=true)
+   delegate_task(subagent_type="research", prompt="[profile: researcher_codebase] Find test infrastructure and conventions", background=true)
+   delegate_task(subagent_type="research", prompt="[profile: researcher_data] Find official docs and best practices for [technology]", background=true)
    \`\`\`
 2. **Wait for results** before planning - rushed plans fail
 3. **Synthesize findings** into informed requirements
@@ -194,11 +194,11 @@ ${ULTRAWORK_PLANNER_SECTION}
 
 **WHEN IN DOUBT:**
 \`\`\`
-delegate_task(agent="researcher-codebase", prompt="Find [X] patterns in codebase", background=true)
-delegate_task(agent="researcher-data", prompt="Find docs/examples for [Y]", background=true)
+delegate_task(subagent_type="research", prompt="[profile: researcher_codebase] Find [X] patterns in codebase", background=true)
+delegate_task(subagent_type="research", prompt="[profile: researcher_data] Find docs/examples for [Y]", background=true)
 
 // Hard problem? DON'T struggle alone:
-delegate_task(agent="advisor-plan", prompt="...")         // conventional: architecture, debugging
+delegate_task(subagent_type="do", prompt="[profile: advisor_plan] ...")         // conventional: architecture, debugging
 delegate_task(category="artistry", prompt="...")    // non-conventional: needs different approach
 \`\`\`
 
@@ -257,7 +257,7 @@ TELL THE USER WHAT AGENTS YOU WILL LEVERAGE NOW TO SATISFY USER'S REQUEST.
 | Architecture decision needed | MUST call plan agent |
 
 \`\`\`
-delegate_task(subagent_type="planner", prompt="<gathered context + user request>")
+delegate_task(subagent_type="do", prompt="[profile: planner] <gathered context + user request>")
 \`\`\`
 
 **WHY PLAN AGENT IS MANDATORY:**
@@ -284,7 +284,7 @@ delegate_task(subagent_type="planner", prompt="<gathered context + user request>
 
 \`\`\`
 // WRONG: Starting fresh loses all context
-delegate_task(subagent_type="planner", prompt="Here's more info...")
+delegate_task(subagent_type="do", prompt="[profile: planner] Here's more info...")
 
 // CORRECT: Resume preserves everything
 delegate_task(session_id="ses_abc123", prompt="Here's my answer to your question: ...")
@@ -300,10 +300,10 @@ delegate_task(session_id="ses_abc123", prompt="Here's my answer to your question
 
 | Task Type | Action | Why |
 |-----------|--------|-----|
-| Codebase exploration | delegate_task(subagent_type="researcher-codebase", run_in_background=true) | Parallel, context-efficient |
-| Documentation lookup | delegate_task(subagent_type="researcher-data", run_in_background=true) | Specialized knowledge |
-| Planning | delegate_task(subagent_type="planner") | Parallel task graph + structured TODO list |
-| Hard problem (conventional) | delegate_task(subagent_type="advisor-plan") | Architecture, debugging, complex logic |
+| Codebase exploration | delegate_task(subagent_type="research", run_in_background=true, prompt="[profile: researcher_codebase] ...") | Parallel, context-efficient |
+| Documentation lookup | delegate_task(subagent_type="research", run_in_background=true, prompt="[profile: researcher_data] ...") | Specialized knowledge |
+| Planning | delegate_task(subagent_type="do", prompt="[profile: planner] ...") | Parallel task graph + structured TODO list |
+| Hard problem (conventional) | delegate_task(subagent_type="do", prompt="[profile: advisor_plan] ...") | Architecture, debugging, complex logic |
 | Hard problem (non-conventional) | delegate_task(category="artistry", load_skills=[...]) | Different approach needed |
 | Implementation | delegate_task(category="...", load_skills=[...]) | Domain-optimized models |
 
@@ -359,13 +359,13 @@ delegate_task(..., run_in_background=true)  // task_id_3
 
 1. **GATHER CONTEXT** (parallel background agents):
    \`\`\`
-   delegate_task(subagent_type="researcher-codebase", run_in_background=true, prompt="...")
-   delegate_task(subagent_type="researcher-data", run_in_background=true, prompt="...")
+   delegate_task(subagent_type="research", run_in_background=true, prompt="[profile: researcher_codebase] ...")
+   delegate_task(subagent_type="research", run_in_background=true, prompt="[profile: researcher_data] ...")
    \`\`\`
 
 2. **INVOKE PLAN AGENT** (MANDATORY for non-trivial tasks):
    \`\`\`
-   result = delegate_task(subagent_type="planner", prompt="<context + request>")
+   result = delegate_task(subagent_type="do", prompt="[profile: planner] <context + request>")
    // STORE the session_id for follow-ups!
    plan_session_id = result.session_id
    \`\`\`
@@ -455,7 +455,7 @@ Write these criteria explicitly. Share with user if scope is non-trivial.
 THE USER ASKED FOR X. DELIVER EXACTLY X. NOT A SUBSET. NOT A DEMO. NOT A STARTING POINT.
 
 1. EXPLORES + LIBRARIANS (background)
-2. GATHER -> delegate_task(subagent_type="planner", prompt="<context + request>")
+2. GATHER -> delegate_task(subagent_type="do", prompt="[profile: planner] <context + request>")
 3. ITERATE WITH PLAN AGENT (session_id resume) UNTIL PLAN IS FINALIZED
 4. WORK BY DELEGATING TO CATEGORY + SKILLS AGENTS (following plan agent's parallel task graph)
 

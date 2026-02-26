@@ -1,4 +1,5 @@
 import type { CommandDefinition } from "../../claude-code-command-loader";
+import { renderProfileUsage } from "../profiles";
 
 export const NAME = "ghostwire:code:optimize";
 export const DESCRIPTION = "Improve performance, reduce bundle size, or enhance efficiency";
@@ -16,9 +17,9 @@ Improve performance, reduce bundle size, or enhance runtime efficiency.
 - **Build** - Faster compilation and bundling
 - **Runtime** - Lazy loading, code splitting
 
-## Key Agents & Tasks
+## Key Profiles & Tasks
 
-- Use \`performance-advisor-plan\` for systematic optimization
+${renderProfileUsage(["oracle_performance"])}
 - Measure performance before and after optimizations
 - Profile code to identify actual bottlenecks
 - Prioritize high-impact optimizations

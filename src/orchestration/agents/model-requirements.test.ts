@@ -7,26 +7,14 @@ import {
 } from "./model-requirements";
 
 describe("AGENT_MODEL_REQUIREMENTS", () => {
-  test("all 10 plugin agents have valid fallbackChain arrays", () => {
-    // #given - list of 10 agent names
-    const expectedAgents = [
-      "operator",
-      "executor",
-      "advisor-plan",
-      "researcher-data",
-      "researcher-codebase",
-      "analyzer-media",
-      "planner",
-      "advisor-strategy",
-      "validator-audit",
-      "orchestrator",
-    ];
+  test("all runtime agents have valid fallbackChain arrays", () => {
+    const expectedAgents = ["do", "research"];
 
     // #when - checking AGENT_MODEL_REQUIREMENTS
     const definedAgents = Object.keys(AGENT_MODEL_REQUIREMENTS);
 
     // #then - all agents present with valid fallbackChain
-    expect(definedAgents).toHaveLength(10);
+    expect(definedAgents).toHaveLength(2);
     for (const agent of expectedAgents) {
       const requirement = AGENT_MODEL_REQUIREMENTS[agent];
       expect(requirement).toBeDefined();

@@ -14,16 +14,8 @@ const OPENCODE_BINARIES = ["opencode", "opencode-desktop"] as const;
 
 /** Default agent model configuration for installation */
 const DEFAULT_AGENT_MODEL_OVERRIDES: Record<string, { model: string }> = {
-  operator: { model: "opencode/kimi-k2.5" },
-  executor: { model: "opencode/kimi-k2.5" },
-  planner: { model: "opencode/kimi-k2.5" },
-  orchestrator: { model: "opencode/kimi-k2.5" },
-  "advisor-plan": { model: "opencode/kimi-k2.5" },
-  "advisor-strategy": { model: "opencode/kimi-k2.5" },
-  "validator-audit": { model: "opencode/kimi-k2.5" },
-  "researcher-codebase": { model: "opencode/kimi-k2.5" },
-  "researcher-data": { model: "opencode/kimi-k2.5" },
-  "analyzer-media": { model: "google/gemini-3-flash" },
+  do: { model: "opencode/kimi-k2.5" },
+  research: { model: "opencode/kimi-k2.5" },
 };
 
 /** Default category model configuration for installation */
@@ -448,7 +440,10 @@ export function generateOmoConfig(installConfig: InstallConfig): Record<string, 
   return generateModelConfig(installConfig);
 }
 
-export function writeOmoConfig(installConfig: InstallConfig): ConfigMergeResult {
+export function writeOmoConfig(
+  installConfig: InstallConfig,
+  options?: { overwrite?: boolean },
+): ConfigMergeResult {
   try {
     ensureConfigDir();
   } catch (err) {
@@ -463,6 +458,12 @@ export function writeOmoConfig(installConfig: InstallConfig): ConfigMergeResult 
 
   try {
     const newConfig = generateOmoConfig(installConfig);
+    const overwrite = options?.overwrite === true;
+
+    if (overwrite) {
+      writeFileSync(omoConfigPath, JSON.stringify(newConfig, null, 2) + "\n");
+      return { success: true, configPath: omoConfigPath };
+    }
 
     if (existsSync(omoConfigPath)) {
       try {
