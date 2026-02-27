@@ -84,7 +84,7 @@ Command naming reference:
 - [docs/features.yml](docs/features.yml)
 - [docs/commands.yml](docs/commands.yml)
 - [docs/skills.yml](docs/skills.yml)
-- [docs/reference/services-models.yaml](docs/services-models.yaml)
+- [docs/reference/services-models.yaml](docs/reference/services-models.yaml)
 
 ## Development
 

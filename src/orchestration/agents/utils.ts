@@ -466,45 +466,48 @@ export async function createAgents(
 
   if (!disabledAgents.includes("operator")) {
     const operatorMarkdown = markdownAgentMap.get("operator");
-    const cipherOverride = agentOverrides["operator"];
-    const cipherRequirement = AGENT_MODEL_REQUIREMENTS["operator"];
+    const operatorOverride = agentOverrides["operator"];
+    const operatorRequirement = AGENT_MODEL_REQUIREMENTS["operator"];
 
-    const cipherResolution = resolveModelWithFallback({
+    const operatorResolution = resolveModelWithFallback({
       uiSelectedModel,
-      userModel: cipherOverride?.model,
-      fallbackChain: cipherRequirement?.fallbackChain,
+      userModel: operatorOverride?.model,
+      fallbackChain: operatorRequirement?.fallbackChain,
       availableModels,
       systemDefaultModel,
     });
 
-    if (cipherResolution && operatorMarkdown) {
-      const { model: cipherModel, variant: cipherResolvedVariant } = cipherResolution;
+    if (operatorResolution && operatorMarkdown) {
+      const { model: operatorModel, variant: operatorResolvedVariant } = operatorResolution;
 
-      let cipherConfig = buildOperatorAgentConfig(operatorMarkdown, cipherModel);
+      let operatorConfig = buildOperatorAgentConfig(operatorMarkdown, operatorModel);
 
-      if (cipherResolvedVariant) {
-        cipherConfig = { ...cipherConfig, variant: cipherResolvedVariant };
+      if (operatorResolvedVariant) {
+        operatorConfig = { ...operatorConfig, variant: operatorResolvedVariant };
       }
 
-      const sisOverrideCategory = (cipherOverride as Record<string, unknown> | undefined)
-        ?.category as string | undefined;
+      const sisOverrideCategory = operatorOverride?.category;
       if (sisOverrideCategory) {
-        cipherConfig = applyCategoryOverride(cipherConfig, sisOverrideCategory, mergedCategories);
+        operatorConfig = applyCategoryOverride(
+          operatorConfig,
+          sisOverrideCategory,
+          mergedCategories,
+        );
       }
 
-      if (directory && cipherConfig.prompt) {
+      if (directory && operatorConfig.prompt) {
         const envContext = createEnvContext();
-        cipherConfig = {
-          ...cipherConfig,
-          prompt: cipherConfig.prompt + envContext,
+        operatorConfig = {
+          ...operatorConfig,
+          prompt: operatorConfig.prompt + envContext,
         };
       }
 
-      if (cipherOverride) {
-        cipherConfig = mergeAgentConfig(cipherConfig, cipherOverride);
+      if (operatorOverride) {
+        operatorConfig = mergeAgentConfig(operatorConfig, operatorOverride);
       }
 
-      result["operator"] = cipherConfig;
+      result["operator"] = operatorConfig;
     }
   }
 
