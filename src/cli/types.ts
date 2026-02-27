@@ -11,6 +11,7 @@ export interface InstallArgs {
   skipAuth?: boolean;
   installPath?: string;
   localOnly?: boolean;
+  localSync?: boolean;
 }
 
 export interface InstallConfig {

@@ -5,8 +5,15 @@ import {
   getPluginNameWithVersion,
   fetchNpmDistTags,
   generateOmoConfig,
+  initConfigContext,
+  resetConfigContext,
+  writeModelConfig,
+  writeGhostConfig,
 } from "./config-manager";
 import type { InstallConfig } from "./types";
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
+import { tmpdir } from "node:os";
 
 describe("getPluginNameWithVersion", () => {
   const originalFetch = globalThis.fetch;
@@ -356,5 +363,112 @@ describe("generateOmoConfig - model fallback system", () => {
     expect(doModel.length).toBeGreaterThan(0);
     expect(typeof researchModel).toBe("string");
     expect(researchModel.length).toBeGreaterThan(0);
+  });
+});
+
+describe("non-destructive ghostwire config writes", () => {
+  let tempDir: string;
+  let originalConfigDir: string | undefined;
+
+  beforeEach(() => {
+    tempDir = join(
+      tmpdir(),
+      `ghostwire-config-test-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+    );
+    mkdirSync(tempDir, { recursive: true });
+    originalConfigDir = process.env.OPENCODE_CONFIG_DIR;
+    process.env.OPENCODE_CONFIG_DIR = tempDir;
+    resetConfigContext();
+    initConfigContext("opencode", null);
+  });
+
+  afterEach(() => {
+    if (originalConfigDir === undefined) {
+      delete process.env.OPENCODE_CONFIG_DIR;
+    } else {
+      process.env.OPENCODE_CONFIG_DIR = originalConfigDir;
+    }
+
+    resetConfigContext();
+
+    if (existsSync(tempDir)) {
+      rmSync(tempDir, { recursive: true, force: true });
+    }
+  });
+
+  test("writeGhostConfig preserves existing model overrides", () => {
+    const configPath = join(tempDir, "ghostwire.json");
+    writeFileSync(
+      configPath,
+      JSON.stringify(
+        {
+          agents: {
+            do: { model: "custom/do-model" },
+          },
+          categories: {
+            deep: { model: "custom/deep-model" },
+          },
+        },
+        null,
+        2,
+      ) + "\n",
+    );
+
+    const installConfig: InstallConfig = {
+      hasOpenAI: false,
+      hasGemini: false,
+      hasCopilot: false,
+      hasOpencodeZen: true,
+      hasZaiCodingPlan: false,
+      hasKimiForCoding: false,
+    };
+
+    const result = writeGhostConfig(installConfig);
+    expect(result.success).toBe(true);
+
+    const written = JSON.parse(readFileSync(configPath, "utf-8")) as {
+      agents?: { do?: { model?: string } };
+      categories?: { deep?: { model?: string } };
+    };
+
+    expect(written.agents?.do?.model).toBe("custom/do-model");
+    expect(written.categories?.deep?.model).toBe("custom/deep-model");
+  });
+
+  test("writeModelConfig preserves existing agent/category model overrides", () => {
+    const configPath = join(tempDir, "ghostwire.json");
+    writeFileSync(
+      configPath,
+      JSON.stringify(
+        {
+          agents: {
+            do: { model: "custom/do-model" },
+            research: { model: "custom/research-model" },
+          },
+          categories: {
+            ultrabrain: { model: "custom/ultrabrain-model" },
+          },
+        },
+        null,
+        2,
+      ) + "\n",
+    );
+
+    const result = writeModelConfig();
+    expect(result.success).toBe(true);
+
+    const written = JSON.parse(readFileSync(configPath, "utf-8")) as {
+      agents?: {
+        do?: { model?: string };
+        research?: { model?: string };
+      };
+      categories?: {
+        ultrabrain?: { model?: string };
+      };
+    };
+
+    expect(written.agents?.do?.model).toBe("custom/do-model");
+    expect(written.agents?.research?.model).toBe("custom/research-model");
+    expect(written.categories?.ultrabrain?.model).toBe("custom/ultrabrain-model");
   });
 });

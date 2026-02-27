@@ -46,7 +46,6 @@
     "test": "bun run task.ts test",
     "clean": "bun run task.ts clean",
     "typecheck": "bun run task.ts typecheck",
-    "sync": "bun run task.ts sync",
     "schema": "bun run task.ts schema",
     "agents": "bun run task.ts agents",
     "commands": "bun run task.ts commands",

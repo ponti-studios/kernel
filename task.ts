@@ -41,7 +41,6 @@ ${green("dev")}         Watch mode for ${cyan("bun build src/index.ts --watch")}
 ${green("test")}        Run ${bold("bun test")} (includes type checking automatically)
 ${green("typecheck")}   Run ${bold("bunx tsc --noEmit")}
 ${green("clean")}       Remove ${italic("dist")} artifacts
-${green("sync")}        Build + copy plugin to OpenCode path
 ${green("schema")}      Regenerate JSON schema
 ${green("agents")}      Regenerate agents manifest
 ${green("commands")}    Regenerate commands manifest
@@ -200,18 +199,6 @@ ${green("dev-setup")}   Ensure plugin wrapper + agents manifest
       spinnerText: "Cleaning dist output",
     });
     console.log(green("✓ Clean complete"));
-  },
-
-  sync: async () => {
-    await tasks["build"]();
-    await run(["bun", "run", "src/script/sync-ghostwire-config.ts"], {
-      spinnerText: "Syncing ghostwire config",
-    });
-    await run(
-      ["cp", "dist/index.js", `${process.env.HOME}/.config/opencode/plugins/ghostwire.mjs`],
-      { spinnerText: "Syncing plugin" },
-    );
-    console.log(green("✓ Sync complete"));
   },
 
   schema: async () => {

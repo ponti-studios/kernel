@@ -4,15 +4,15 @@ import type { InstallArgs, InstallConfig, BooleanArg, DetectedConfig } from "./t
 import {
   addPluginToOpenCodeConfig,
   addToInstalledPlugins,
-  writeOmoConfig,
+  writeGhostConfig,
   isOpenCodeInstalled,
   getOpenCodeVersion,
   addAuthPlugins,
   addProviderConfig,
   detectCurrentConfig,
   writeModelConfig,
+  syncLocalPlugin,
 } from "./config-manager";
-import { shouldShowChatGPTOnlyWarning } from "./model-fallback";
 import packageJson from "../../package.json" with { type: "json" };
 
 const VERSION = packageJson.version;
@@ -351,7 +351,7 @@ async function runNonTuiInstall(args: InstallArgs): Promise<number> {
 
   printHeader(isUpdate);
 
-  const totalSteps = 8;
+  const totalSteps = 8 + (args.localSync ? 1 : 0);
   let step = 1;
 
   printStep(step++, totalSteps, "Checking OpenCode installation...");
@@ -419,7 +419,7 @@ async function runNonTuiInstall(args: InstallArgs): Promise<number> {
   }
 
   printStep(step++, totalSteps, "Writing ghostwire configuration...");
-  const omoResult = writeOmoConfig(config, { overwrite: true });
+  const omoResult = writeGhostConfig(config);
   if (!omoResult.success) {
     printError(`Failed: ${omoResult.error}`);
     return 1;
@@ -433,6 +433,16 @@ async function runNonTuiInstall(args: InstallArgs): Promise<number> {
     return 1;
   }
   printSuccess(`Model config written ${SYMBOLS.arrow} ${color.dim(modelResult.configPath)}`);
+
+  if (args.localSync) {
+    printStep(step++, totalSteps, "Syncing local plugin artifact...");
+    const localSyncResult = syncLocalPlugin(args.installPath);
+    if (!localSyncResult.success) {
+      printError(`Failed: ${localSyncResult.error}`);
+      return 1;
+    }
+    printSuccess(`Local plugin synced ${SYMBOLS.arrow} ${color.dim(localSyncResult.configPath)}`);
+  }
 
   printBox(
     formatConfigSummary(config),
@@ -545,7 +555,7 @@ export async function install(args: InstallArgs): Promise<number> {
   }
 
   s.start("Writing ghostwire configuration");
-  const omoResult = writeOmoConfig(config, { overwrite: true });
+  const omoResult = writeGhostConfig(config);
   if (!omoResult.success) {
     s.stop(`Failed to write config: ${omoResult.error}`);
     p.outro(color.red("Installation failed."));
@@ -561,6 +571,17 @@ export async function install(args: InstallArgs): Promise<number> {
     return 1;
   }
   s.stop(`Model config written to ${color.cyan(modelResult.configPath)}`);
+
+  if (args.localSync) {
+    s.start("Syncing local plugin artifact");
+    const localSyncResult = syncLocalPlugin(args.installPath);
+    if (!localSyncResult.success) {
+      s.stop(`Failed to sync local plugin: ${localSyncResult.error}`);
+      p.outro(color.red("Installation failed."));
+      return 1;
+    }
+    s.stop(`Local plugin synced to ${color.cyan(localSyncResult.configPath)}`);
+  }
 
   if (!config.hasOpenAI && !config.hasGemini && !config.hasCopilot && !config.hasOpencodeZen) {
     p.log.warn("No model providers configured. Using opencode/glm-4.7-free as fallback.");

@@ -1,6 +1,14 @@
-import { existsSync, mkdirSync, readFileSync, writeFileSync, statSync } from "node:fs";
+import {
+  copyFileSync,
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  writeFileSync,
+  statSync,
+} from "node:fs";
 import { homedir } from "node:os";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { parseJsonc } from "../integration/shared";
 import {
   getOpenCodeConfigPaths,
@@ -73,6 +81,26 @@ function getPackageJson(): string {
 
 function getOmoConfig(): string {
   return getConfigContext().paths.omoConfig;
+}
+
+function getPluginInstallPath(): string {
+  return join(getConfigDir(), "plugins", "ghostwire.mjs");
+}
+
+function resolveLocalPluginSourcePath(explicitPath?: string): string | null {
+  const candidates = [
+    explicitPath,
+    join(process.cwd(), "dist", "index.js"),
+    join(dirname(fileURLToPath(import.meta.url)), "..", "index.js"),
+  ].filter((value): value is string => typeof value === "string" && value.length > 0);
+
+  for (const candidate of candidates) {
+    if (existsSync(candidate)) {
+      return candidate;
+    }
+  }
+
+  return null;
 }
 
 const BUN_INSTALL_TIMEOUT_SECONDS = 60;
@@ -440,7 +468,7 @@ export function generateOmoConfig(installConfig: InstallConfig): Record<string, 
   return generateModelConfig(installConfig);
 }
 
-export function writeOmoConfig(
+export function writeGhostConfig(
   installConfig: InstallConfig,
   options?: { overwrite?: boolean },
 ): ConfigMergeResult {
@@ -481,7 +509,7 @@ export function writeOmoConfig(
           return { success: true, configPath: omoConfigPath };
         }
 
-        const merged = deepMerge(existing, newConfig);
+        const merged = deepMerge(newConfig, existing);
         writeFileSync(omoConfigPath, JSON.stringify(merged, null, 2) + "\n");
       } catch (parseErr) {
         if (parseErr instanceof SyntaxError) {
@@ -791,11 +819,12 @@ export function writeModelConfig(): ConfigMergeResult {
 
     // For fresh installs, use our defaults.
     // For existing configs, users can manually update if they want different models.
-    const newConfig: Record<string, unknown> = {
-      ...existingConfig,
+    const defaultConfig: Record<string, unknown> = {
       agents: DEFAULT_AGENT_MODEL_OVERRIDES,
       categories: DEFAULT_CATEGORY_MODEL_OVERRIDES,
     };
+
+    const newConfig = deepMerge(defaultConfig, existingConfig);
 
     writeFileSync(omoConfigPath, JSON.stringify(newConfig, null, 2) + "\n");
     return { success: true, configPath: omoConfigPath };
@@ -804,6 +833,42 @@ export function writeModelConfig(): ConfigMergeResult {
       success: false,
       configPath: omoConfigPath,
       error: formatErrorWithSuggestion(err, "write model config"),
+    };
+  }
+}
+
+export function syncLocalPlugin(explicitSourcePath?: string): ConfigMergeResult {
+  try {
+    ensureConfigDir();
+  } catch (err) {
+    return {
+      success: false,
+      configPath: getConfigDir(),
+      error: formatErrorWithSuggestion(err, "create config directory"),
+    };
+  }
+
+  const destinationPath = getPluginInstallPath();
+  const sourcePath = resolveLocalPluginSourcePath(explicitSourcePath);
+
+  if (!sourcePath) {
+    return {
+      success: false,
+      configPath: destinationPath,
+      error:
+        "Local plugin artifact not found. Expected dist/index.js in current workspace. Run `bun run build` first.",
+    };
+  }
+
+  try {
+    mkdirSync(join(getConfigDir(), "plugins"), { recursive: true });
+    copyFileSync(sourcePath, destinationPath);
+    return { success: true, configPath: destinationPath };
+  } catch (err) {
+    return {
+      success: false,
+      configPath: destinationPath,
+      error: formatErrorWithSuggestion(err, "sync local plugin"),
     };
   }
 }

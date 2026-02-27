@@ -12,7 +12,9 @@ const mockConsoleError = mock(() => {});
 
 describe("install CLI - binary check behavior", () => {
   let tempDir: string;
+  let workspaceDir: string;
   let originalEnv: string | undefined;
+  let originalCwd: string;
   let isOpenCodeInstalledSpy: ReturnType<typeof spyOn>;
   let getOpenCodeVersionSpy: ReturnType<typeof spyOn>;
 
@@ -20,6 +22,12 @@ describe("install CLI - binary check behavior", () => {
     // #given temporary config directory
     tempDir = join(tmpdir(), `grid-test-${Date.now()}-${Math.random().toString(36).slice(2)}`);
     mkdirSync(tempDir, { recursive: true });
+    workspaceDir = join(tempDir, "workspace");
+    mkdirSync(join(workspaceDir, "dist"), { recursive: true });
+    writeFileSync(join(workspaceDir, "dist", "index.js"), "export default {};\n", "utf-8");
+
+    originalCwd = process.cwd();
+    process.chdir(workspaceDir);
 
     originalEnv = process.env.OPENCODE_CONFIG_DIR;
     process.env.OPENCODE_CONFIG_DIR = tempDir;
@@ -43,6 +51,8 @@ describe("install CLI - binary check behavior", () => {
     if (existsSync(tempDir)) {
       rmSync(tempDir, { recursive: true, force: true });
     }
+
+    process.chdir(originalCwd);
 
     isOpenCodeInstalledSpy?.mockRestore();
     getOpenCodeVersionSpy?.mockRestore();
@@ -144,5 +154,34 @@ describe("install CLI - binary check behavior", () => {
     const allCalls = mockConsoleLog.mock.calls.flat().join("\n");
     expect(allCalls).toContain("[OK]");
     expect(allCalls).toContain("OpenCode 1.0.200");
+  });
+
+  test("non-TUI mode: local-sync copies local dist plugin into OpenCode plugins path", async () => {
+    isOpenCodeInstalledSpy = spyOn(configManager, "isOpenCodeInstalled").mockResolvedValue(true);
+    getOpenCodeVersionSpy = spyOn(configManager, "getOpenCodeVersion").mockResolvedValue("1.0.200");
+
+    globalThis.fetch = mock(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({ latest: "3.0.0" }),
+      } as Response),
+    ) as unknown as typeof fetch;
+
+    const args: InstallArgs = {
+      tui: false,
+      openai: "no",
+      gemini: "no",
+      copilot: "no",
+      opencodeZen: "no",
+      zaiCodingPlan: "no",
+      localSync: true,
+    };
+
+    const exitCode = await install(args);
+
+    const syncedPluginPath = join(tempDir, "plugins", "ghostwire.mjs");
+    expect(exitCode).toBe(0);
+    expect(existsSync(syncedPluginPath)).toBe(true);
+    expect(readFileSync(syncedPluginPath, "utf-8")).toContain("export default {}");
   });
 });
