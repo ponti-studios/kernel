@@ -14,9 +14,9 @@
 
 <!-- If applicable, add screenshots or GIFs showing before/after. Delete this section if not needed. -->
 
-| Before | After |
+<!-- | Before | After |
 | :----: | :---: |
-|        |       |
+|        |       | -->
 
 ## Testing
 
