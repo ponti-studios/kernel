@@ -486,7 +486,7 @@ export async function createAgents(
         operatorConfig = { ...operatorConfig, variant: operatorResolvedVariant };
       }
 
-      const sisOverrideCategory = operatorOverride?.category;
+      const sisOverrideCategory = operatorOverride?.category as string | undefined;
       if (sisOverrideCategory) {
         operatorConfig = applyCategoryOverride(
           operatorConfig,
