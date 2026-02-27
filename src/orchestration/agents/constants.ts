@@ -94,88 +94,6 @@ export function isValidAgentId(agentId: string): agentId is ValidAgentId {
   return VALID_AGENT_IDS.includes(agentId as ValidAgentId);
 }
 
-// ============================================================================
-// Command Names (from docs/commands.yml)
-// ============================================================================
-
-// Workflows commands
-export const COMMAND_WORKFLOWS_PLAN = "ghostwire:workflows:plan";
-export const COMMAND_WORKFLOWS_CREATE = "ghostwire:workflows:create";
-export const COMMAND_WORKFLOWS_STATUS = "ghostwire:workflows:status";
-export const COMMAND_WORKFLOWS_COMPLETE = "ghostwire:workflows:complete";
-export const COMMAND_WORKFLOWS_BRAINSTORM = "ghostwire:workflows:brainstorm";
-export const COMMAND_WORKFLOWS_COMPOUND = "ghostwire:workflows:compound";
-export const COMMAND_WORKFLOWS_REVIEW = "ghostwire:workflows:review";
-export const COMMAND_WORKFLOWS_WORK = "ghostwire:workflows:work";
-
-// Code commands
-export const COMMAND_CODE_REFACTOR = "ghostwire:code:refactor";
-export const COMMAND_CODE_REVIEW = "ghostwire:code:review";
-export const COMMAND_CODE_OPTIMIZE = "ghostwire:code:optimize";
-export const COMMAND_CODE_FORMAT = "ghostwire:code:format";
-
-// Git commands
-export const COMMAND_GIT_SMART_COMMIT = "ghostwire:git:smart-commit";
-export const COMMAND_GIT_BRANCH = "ghostwire:git:branch";
-export const COMMAND_GIT_MERGE = "ghostwire:git:merge";
-export const COMMAND_GIT_CLEANUP = "ghostwire:git:cleanup";
-
-// Project commands
-export const COMMAND_PROJECT_INIT = "ghostwire:project:init";
-export const COMMAND_PROJECT_BUILD = "ghostwire:project:build";
-export const COMMAND_PROJECT_DEPLOY = "ghostwire:project:deploy";
-export const COMMAND_PROJECT_TEST = "ghostwire:project:test";
-
-// Util commands
-export const COMMAND_UTIL_CLEAN = "ghostwire:util:clean";
-export const COMMAND_UTIL_BACKUP = "ghostwire:util:backup";
-export const COMMAND_UTIL_RESTORE = "ghostwire:util:restore";
-export const COMMAND_UTIL_DOCTOR = "ghostwire:util:doctor";
-
-// Docs commands
-export const COMMAND_DOCS_DEPLOY_DOCS = "ghostwire:docs:deploy-docs";
-export const COMMAND_DOCS_RELEASE_DOCS = "ghostwire:docs:release-docs";
-export const COMMAND_DOCS_FEATURE_VIDEO = "ghostwire:docs:feature-video";
-export const COMMAND_DOCS_TEST_BROWSER = "ghostwire:docs:test-browser";
-
-// Other commands
-export const COMMAND_REFACTOR = "ghostwire:refactor";
-export const COMMAND_LINT_RUBY = "ghostwire:lint:ruby";
-export const COMMAND_PLAN_REVIEW = "ghostwire:plan-review";
-export const COMMAND_CHANGELOG = "ghostwire:changelog";
-export const COMMAND_CREATE_AGENT_SKILL = "ghostwire:create-agent-skill";
-export const COMMAND_DEEPEN_PLAN = "ghostwire:deepen-plan";
-export const COMMAND_DEPLOY_DOCS = "ghostwire:deploy-docs";
-export const COMMAND_FEATURE_VIDEO = "ghostwire:feature-video";
-export const COMMAND_GENERATE_COMMAND = "ghostwire:generate-command";
-export const COMMAND_HEAL_SKILL = "ghostwire:heal-skill";
-export const COMMAND_LFG = "ghostwire:lfg";
-export const COMMAND_QUIZ_ME = "ghostwire:quiz-me";
-export const COMMAND_RELEASE_DOCS = "ghostwire:release-docs";
-export const COMMAND_REPORT_BUG = "ghostwire:report-bug";
-export const COMMAND_REPRODUCE_BUG = "ghostwire:reproduce-bug";
-export const COMMAND_RESOLVE_PARALLEL = "ghostwire:resolve-parallel";
-export const COMMAND_RESOLVE_PR_PARALLEL = "ghostwire:resolve-pr-parallel";
-export const COMMAND_RESOLVE_TODO_PARALLEL = "ghostwire:resolve-todo-parallel";
-export const COMMAND_SYNC_TUTORIALS = "ghostwire:sync-tutorials";
-export const COMMAND_TEACH_ME = "ghostwire:teach-me";
-export const COMMAND_TEST_BROWSER = "ghostwire:test-browser";
-export const COMMAND_TRIAGE = "ghostwire:triage";
-export const COMMAND_XCODE_TEST = "ghostwire:xcode-test";
-
-// Project extended commands
-export const COMMAND_PROJECT_MAP = "ghostwire:project:map";
-export const COMMAND_PROJECT_CONSTITUTION = "ghostwire:project:constitution";
-
-// Workflows extended commands
-export const COMMAND_WORKFLOWS_EXECUTE = "ghostwire:workflows:execute";
-export const COMMAND_WORKFLOWS_STOP = "ghostwire:workflows:stop";
-export const COMMAND_WORKFLOWS_LEARNINGS = "ghostwire:workflows:learnings";
-
-// Work commands
-export const COMMAND_WORK_LOOP = "ghostwire:work:loop";
-export const COMMAND_WORK_CANCEL = "ghostwire:work:cancel";
-
 // Valid command names for validation
 export const VALID_COMMAND_NAMES = COMMAND_NAME_VALUES;
 
@@ -187,33 +105,6 @@ export type ValidCommandName = (typeof VALID_COMMAND_NAMES)[number];
 export function isValidCommandName(commandName: string): commandName is ValidCommandName {
   return VALID_COMMAND_NAMES.includes(commandName as ValidCommandName);
 }
-
-// ============================================================================
-// Skill Names (from docs/skills.yml)
-// ============================================================================
-
-// Core skills
-export const SKILL_AGENT_BROWSER = "agent-browser";
-export const SKILL_FRONTEND_UI_UX = "frontend-ui-ux";
-export const SKILL_GIT_MASTER = "git-master";
-export const SKILL_DEV_BROWSER = "dev-browser";
-
-// Additional skills
-export const SKILL_ANDREW_KANE_GEM_WRITER = "andrew-kane-gem-writer";
-export const SKILL_BRAINSTORMING = "brainstorming";
-export const SKILL_CODING_TUTOR = "coding-tutor";
-export const SKILL_COMPOUND_DOCS = "compound-docs";
-export const SKILL_CREATE_AGENT_SKILLS = "create-agent-skills";
-export const SKILL_DHH_RAILS_STYLE = "dhh-rails-style";
-export const SKILL_DSPY_RUBY = "dspy-ruby";
-export const SKILL_EVERY_STYLE_EDITOR = "every-style-editor";
-export const SKILL_FILE_TODOS = "file-todos";
-export const SKILL_FRONTEND_DESIGN = "frontend-design";
-export const SKILL_GEMINI_IMAGEN = "gemini-imagegen";
-export const SKILL_GIT_WORKTREE = "git-worktree";
-export const SKILL_ULTRAWORK_LOOP = "ultrawork-loop";
-export const SKILL_RCLONE = "rclone";
-export const SKILL_SKILL_CREATOR = "skill-creator";
 
 // Valid skill names for validation
 export const VALID_SKILL_NAMES = SKILL_NAME_VALUES;
