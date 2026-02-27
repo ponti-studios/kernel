@@ -4,39 +4,26 @@
  * Generates domain-specific checklists.
  * Replaces: speckit.checklist.md + checklist-template.md
  */
-
-export const SPEC_CHECKLIST_TEMPLATE = `<command-instruction>
+export const SPEC_CHECKLIST_TEMPLATE = `
 ---
 description: "Checklist for $DOMAIN: $FEATURE_NAME"
 ---
-
 # Checklist: $FEATURE_NAME ($DOMAIN)
-
 **Created**: $TIMESTAMP  
 **Domain**: $DOMAIN  
 **Feature**: [.ghostwire/specs/$BRANCH_NAME/spec.md](../spec.md)
-
 ---
-
 ## $DOMAIN Checklist
-
 $CHECKLIST_ITEMS
-
 ---
-
 ## Usage
-
 1. Review each item before implementation
 2. Mark items as complete: \`- [x]\`
 3. All items must pass before \`/ghostwire:workflows:work\`
 4. Update this file as you progress
-
 ---
-
 **Status**: $COMPLETED_COUNT/$TOTAL_COUNT complete
-</command-instruction>
 `;
-
 /**
  * Domain-specific checklist items
  */
@@ -51,7 +38,6 @@ export const DOMAIN_CHECKLISTS: Record<string, string[]> = {
     "Scope is clearly bounded",
     "Dependencies and assumptions identified",
   ],
-
   ux: [
     "User flows are intuitive and well-defined",
     "Error states are handled gracefully",
@@ -61,7 +47,6 @@ export const DOMAIN_CHECKLISTS: Record<string, string[]> = {
     "Consistent with existing UI patterns",
     "User feedback mechanisms in place",
   ],
-
   security: [
     "Input validation on all user inputs",
     "Authentication required where appropriate",
@@ -72,7 +57,6 @@ export const DOMAIN_CHECKLISTS: Record<string, string[]> = {
     "Rate limiting for API endpoints",
     "Audit logging for sensitive operations",
   ],
-
   performance: [
     "Response time < 200ms for critical paths",
     "Database queries are optimized",
@@ -82,7 +66,6 @@ export const DOMAIN_CHECKLISTS: Record<string, string[]> = {
     "Load testing completed",
     "Graceful degradation under load",
   ],
-
   testing: [
     "Unit tests for all business logic",
     "Integration tests for API contracts",
@@ -92,7 +75,6 @@ export const DOMAIN_CHECKLISTS: Record<string, string[]> = {
     "Contract tests for external APIs",
     "Performance benchmarks established",
   ],
-
   documentation: [
     "API documentation complete",
     "User-facing documentation updated",
@@ -101,7 +83,6 @@ export const DOMAIN_CHECKLISTS: Record<string, string[]> = {
     "Code comments for complex logic",
     "Architecture Decision Records (ADRs) for major decisions",
   ],
-
   deployment: [
     "Environment variables documented",
     "Database migrations prepared",
@@ -112,23 +93,19 @@ export const DOMAIN_CHECKLISTS: Record<string, string[]> = {
     "Staging environment validated",
   ],
 };
-
 /**
  * Generate checklist items for domain
  */
 export function generateChecklistItems(domain: string): string {
   const items = DOMAIN_CHECKLISTS[domain] || DOMAIN_CHECKLISTS.requirements;
-
   return items.map((item) => `- [ ] ${item}`).join("\n");
 }
-
 /**
  * Get available domains
  */
 export function getAvailableDomains(): string[] {
   return Object.keys(DOMAIN_CHECKLISTS);
 }
-
 /**
  * Validate checklist completion
  */
@@ -141,7 +118,6 @@ export function validateChecklist(checklistContent: string): {
   const total = (checklistContent.match(/- \[.\]/g) || []).length;
   const completed = (checklistContent.match(/- \[[xX]\]/g) || []).length;
   const incomplete = total - completed;
-
   return {
     total,
     completed,

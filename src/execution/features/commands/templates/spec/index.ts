@@ -1,7 +1,6 @@
 /**
  * Barrel export for spec templates
  */
-
 export {
   SPEC_CREATE_TEMPLATE,
   generateShortName,
@@ -10,14 +9,12 @@ export {
   getFeatureDir,
   getSpecFilePath,
 } from "./create";
-
 export {
   SPEC_PLAN_TEMPLATE,
   extractResearchTopics,
   validateConstitutionGates,
   PROJECT_STRUCTURE_TEMPLATES,
 } from "./plan";
-
 export {
   SPEC_TASKS_TEMPLATE,
   formatTask,
@@ -25,7 +22,6 @@ export {
   extractUserStories,
   type UserStory,
 } from "./tasks";
-
 export {
   SPEC_IMPLEMENT_TEMPLATE,
   generateChecklistStatusTable,
@@ -35,7 +31,6 @@ export {
   IGNORE_PATTERNS,
   detectTechnology,
 } from "./implement";
-
 export {
   SPEC_CLARIFY_TEMPLATE,
   generateClarificationQuestion,
@@ -44,7 +39,6 @@ export {
   applyClarifications,
   type ClarificationQuestion,
 } from "./clarify";
-
 export {
   SPEC_ANALYZE_TEMPLATE,
   generateIssuesList,
@@ -54,7 +48,6 @@ export {
   type IssueSeverity,
   type AnalysisIssue,
 } from "./analyze";
-
 export {
   SPEC_CHECKLIST_TEMPLATE,
   DOMAIN_CHECKLISTS,
@@ -62,7 +55,6 @@ export {
   getAvailableDomains,
   validateChecklist,
 } from "./checklist";
-
 export {
   SPEC_TO_ISSUES_TEMPLATE,
   generateGhCommand,

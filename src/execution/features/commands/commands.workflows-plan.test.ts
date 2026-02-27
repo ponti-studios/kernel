@@ -11,9 +11,10 @@ describe("workflows:plan command template selection", () => {
     //#when
     const template = command.template;
 
-    //#then
-    expect(template).toBe(CANONICAL_WORKFLOWS_PLAN_TEMPLATE);
-    expect(template).not.toBe(LEGACY_WORKFLOWS_PLAN_TEMPLATE);
+    //#then - templates are now auto-wrapped with command-instruction tags
+    expect(template).toContain(CANONICAL_WORKFLOWS_PLAN_TEMPLATE);
+    expect(template).toContain("<command-instruction>");
+    expect(template).toContain("</command-instruction>");
   });
 });
 

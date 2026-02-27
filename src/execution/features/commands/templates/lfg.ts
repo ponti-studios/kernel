@@ -1,7 +1,5 @@
-export const LFG_TEMPLATE = `<command-instruction>
+export const LFG_TEMPLATE = `
 Run these slash commands in order. Do not do anything else.
-</command-instruction>
-
 <lfg-commands>
 1. \`/ghostwire:work:loop "finish all slash commands" --completion-promise "DONE"\`
 2. \`/ghostwire:workflows:plan $ARGUMENTS\`
@@ -13,5 +11,4 @@ Run these slash commands in order. Do not do anything else.
 8. \`/ghostwire:feature-video\`
 9. Output \`<promise>DONE</promise>\` when video is in PR
 </lfg-commands>
-
 Start with step 1 now.`;

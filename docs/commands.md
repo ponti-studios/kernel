@@ -1,6 +1,4 @@
-# Commands Reference (Canonical)
-
-**Primary metadata source:** [`docs/commands.yml`](../commands.yml)
+# Commands Reference
 
 ## Identifier Format
 

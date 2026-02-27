@@ -144,12 +144,28 @@ const CORE_COMMAND_MODULES: Record<
 
 const COMMAND_MODULES = CORE_COMMAND_MODULES;
 
+/**
+ * Wrap template content with command-instruction tags
+ */
+function wrapTemplate(template: string): string {
+  // Already wrapped - skip
+  if (template.includes("<command-instruction>")) {
+    return template;
+  }
+  return `<command-instruction>
+${template}
+</command-instruction>`;
+}
+
 export const COMMAND_DEFINITIONS: Record<
   CommandName,
   Omit<CommandDefinition, "name">
 > = Object.values(COMMAND_MODULES).reduce(
   (acc, mod) => {
-    acc[mod.name as CommandName] = mod.command;
+    acc[mod.name as CommandName] = {
+      ...mod.command,
+      template: wrapTemplate(mod.command.template),
+    };
     return acc;
   },
   {} as Record<CommandName, Omit<CommandDefinition, "name">>,
