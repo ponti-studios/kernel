@@ -141,10 +141,7 @@ export function createPlannerMdOnlyHook(ctx: PluginInput) {
       }
 
       const normalizedPath = filePath.toLowerCase().replace(/\\/g, "/");
-      if (
-        normalizedPath.includes("docs/plans/") ||
-        normalizedPath.includes("docs\\plans\\")
-      ) {
+      if (normalizedPath.includes("docs/plans/") || normalizedPath.includes("docs\\plans\\")) {
         log(`[${HOOK_NAME}] Injecting workflow reminder for plan write`, {
           sessionID: input.sessionID,
           tool: toolName,
