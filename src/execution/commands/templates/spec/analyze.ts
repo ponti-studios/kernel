@@ -6,7 +6,7 @@
  */
 export const SPEC_ANALYZE_TEMPLATE = `
 ## Analysis: $FEATURE_NAME
-**Branch**: \`$BRANCH_NAME\` | **Artifacts**: .ghostwire/specs/$BRANCH_NAME/
+**Branch**: \`$BRANCH_NAME\` | **Artifacts**: docs/specs/$BRANCH_NAME/
 ---
 ## Artifact Inventory
 | Artifact | Status | Issues |

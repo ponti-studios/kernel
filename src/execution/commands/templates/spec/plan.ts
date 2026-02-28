@@ -6,7 +6,7 @@
  */
 export const SPEC_PLAN_TEMPLATE = `
 # Implementation Plan: $FEATURE_NAME
-**Branch**: \`[$FEATURE_NUM-$FEATURE_SHORT_NAME]\` | **Date**: $TIMESTAMP | **Spec**: [.ghostwire/specs/$BRANCH_NAME/spec.md](../spec.md)
+**Branch**: \`[$FEATURE_NUM-$FEATURE_SHORT_NAME]\` | **Date**: $TIMESTAMP | **Spec**: [docs/specs/$BRANCH_NAME/spec.md](../spec.md)
 **Input**: Feature specification from \`/ghostwire/specs/$BRANCH_NAME/spec.md\`
 ---
 ## Summary
@@ -27,7 +27,7 @@ $CONSTITUTION_GATES
 ## Project Structure
 ### Documentation (this feature)
 \`\`\`text
-.ghostwire/specs/$BRANCH_NAME/
+docs/specs/$BRANCH_NAME/
 ├── plan.md              # This file (/ghostwire:workflows:plan output)
 ├── research.md          # Phase 0 output
 ├── data-model.md        # Phase 1 output

@@ -11,7 +11,7 @@ export function getTaskDir(listId: string, config: Partial<GhostwireConfig>): st
     return join(homedir(), ".cache", "claude-code", "tasks", listId);
   }
 
-  const storagePath = tasksConfig?.storage_path ?? ".ghostwire/tasks";
+  const storagePath = tasksConfig?.storage_path ?? "docs/tasks";
   return join(process.cwd(), storagePath, listId);
 }
 
@@ -30,7 +30,7 @@ export function getTeamDir(teamName: string, config: Partial<GhostwireConfig>): 
     return join(homedir(), ".claude", "teams", teamName);
   }
 
-  const storagePath = swarmConfig?.storage_path ?? ".ghostwire/teams";
+  const storagePath = swarmConfig?.storage_path ?? "docs/teams";
   return join(process.cwd(), storagePath, teamName);
 }
 

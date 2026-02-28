@@ -65,7 +65,7 @@ describe("ultrawork-state", () => {
   });
 
   describe("writeUltraworkState", () => {
-    test("should write state and create .ghostwire directory if needed", () => {
+    test("should write state and create .operator directory if needed", () => {
       // #given - state to write
       const state: UltraworkState = {
         active_plan: "/test/plan.md",
@@ -229,7 +229,7 @@ describe("ultrawork-state", () => {
   describe("getPlanName", () => {
     test("should extract plan name from path", () => {
       // #given
-      const path = "/home/user/.ghostwire/plans/project/my-feature.md";
+      const path = "/home/user/docs/plans/project/my-feature.md";
       // #when
       const name = getPlanName(path);
       // #then

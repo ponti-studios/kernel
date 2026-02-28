@@ -15,7 +15,7 @@ import * as AGENT_CONSTANTS from "../../orchestration/agents/constants";
 const COMMANDS_DIR = join(import.meta.dir, "commands");
 const TEMPLATES_DIR = join(import.meta.dir, "templates");
 const TASK_QUEUE_DIR = join(import.meta.dir, "..", "task-queue");
-const SRC_ROOT = join(import.meta.dir, "..", "..", "..");
+const SRC_ROOT = join(import.meta.dir, "..", "..");
 const HOOKS_DIR = join(SRC_ROOT, "orchestration", "hooks");
 const REPO_ROOT = join(SRC_ROOT, "..");
 const DOC_FILES = [

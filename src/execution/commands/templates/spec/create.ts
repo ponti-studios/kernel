@@ -151,7 +151,7 @@ export function generateBranchName(featureNum: number, shortName: string): strin
  * Feature directory path
  */
 export function getFeatureDir(baseDir: string, branchName: string): string {
-  return `${baseDir}/.ghostwire/specs/${branchName}`;
+  return `${baseDir}/docs/specs/${branchName}`;
 }
 /**
  * Spec file path

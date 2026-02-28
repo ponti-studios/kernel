@@ -11,7 +11,7 @@ Execute an approved work plan with deterministic gates and phased progression.
 </input_document>
 ## Phase 0: Pre-Implementation Checklist Gate (Fail-Fast)
 Do not start implementation until all checks pass:
-- [ ] Plan path resolved under .ghostwire/plans/*.md
+- [ ] Plan path resolved under docs/plans/*.md
 - [ ] Tasks are present (either embedded or generated via /ghostwire:workflows:create --mode tasks)
 - [ ] Acceptance criteria are explicit and testable
 - [ ] Required checklists (security/performance/data/etc.) are reviewed when applicable

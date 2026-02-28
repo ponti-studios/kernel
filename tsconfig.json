@@ -14,8 +14,9 @@
     "resolveJsonModule": true,
     "lib": ["ESNext"],
     "types": ["bun-types"],
-    "allowImportingTsExtensions": true
+    "allowImportingTsExtensions": true,
+    "emitDeclarationOnly": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "src/cli/task.ts"],
   "exclude": ["node_modules", "dist"]
 }

@@ -7,8 +7,8 @@ import { resolvePlanArtifactRef } from "./store";
 describe("resolvePlanArtifactRef", () => {
   test("maps legacy spec plan path to canonical plan path when available", () => {
     const baseDir = mkdtempSync(join(tmpdir(), "gw-artifacts-"));
-    const plansDir = join(baseDir, ".ghostwire", "plans");
-    const specsDir = join(baseDir, ".ghostwire", "specs", "feature-auth");
+    const plansDir = join(baseDir, "docs", "plans");
+    const specsDir = join(baseDir, "docs", "specs", "feature-auth");
     mkdirSync(plansDir, { recursive: true });
     mkdirSync(specsDir, { recursive: true });
 
@@ -24,7 +24,7 @@ describe("resolvePlanArtifactRef", () => {
 
   test("returns original path when no canonical mapping exists", () => {
     const baseDir = mkdtempSync(join(tmpdir(), "gw-artifacts-"));
-    const specsDir = join(baseDir, ".ghostwire", "specs", "feature-auth");
+    const specsDir = join(baseDir, "docs", "specs", "feature-auth");
     mkdirSync(specsDir, { recursive: true });
 
     const legacyPath = join(specsDir, "plan.md");

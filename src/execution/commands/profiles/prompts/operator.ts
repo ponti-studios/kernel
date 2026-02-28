@@ -223,7 +223,7 @@ When delegating, your prompt must include:
 
 ### Notepad Paths
 
-- READ: .ghostwire/notepads/{plan-name}/*.md
+- READ: docs/notepads/{plan-name}/*.md
 - WRITE: Append to appropriate category
 
 ### Inherited Wisdom

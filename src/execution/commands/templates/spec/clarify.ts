@@ -6,7 +6,7 @@
  */
 export const SPEC_CLARIFY_TEMPLATE = `
 ## Clarification: $FEATURE_NAME
-**Branch**: \`$BRANCH_NAME\` | **Spec**: [.ghostwire/specs/$BRANCH_NAME/spec.md](../spec.md)  
+**Branch**: \`$BRANCH_NAME\` | **Spec**: [docs/specs/$BRANCH_NAME/spec.md](../spec.md)  
 **Status**: $CLARIFICATION_STATUS
 ---
 ## Current State

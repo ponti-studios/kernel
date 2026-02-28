@@ -431,7 +431,7 @@ function createManifestArtifact(
 
   return {
     target: "shared",
-    path: join(baseDirectory, ".ghostwire", "export-manifest.json"),
+    path: join(baseDirectory, "docs", "export-manifest.json"),
     content: JSON.stringify(
       {
         generator: "ghostwire-export/v3-full",

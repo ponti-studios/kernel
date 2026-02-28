@@ -65,7 +65,7 @@ describe("planner-md-only", () => {
       );
     });
 
-    test("should allow planner to write .md files inside .ghostwire/", async () => {
+    test("should allow planner to write .md files inside docs/", async () => {
       // #given
       const hook = createPlannerMdOnlyHook(createMockPluginInput());
       const input = {
@@ -74,14 +74,14 @@ describe("planner-md-only", () => {
         callID: "call-1",
       };
       const output = {
-        args: { filePath: "/tmp/test/.ghostwire/plans/work-plan.md" },
+        args: { filePath: "/tmp/test/docs/plans/work-plan.md" },
       };
 
       // #when / #then
       await expect(hook["tool.execute.before"](input, output)).resolves.toBeUndefined();
     });
 
-    test("should inject workflow reminder when planner writes to .ghostwire/plans/", async () => {
+    test("should inject workflow reminder when planner writes to docs/plans/", async () => {
       // #given
       const hook = createPlannerMdOnlyHook(createMockPluginInput());
       const input = {
@@ -90,7 +90,7 @@ describe("planner-md-only", () => {
         callID: "call-1",
       };
       const output: { args: Record<string, unknown>; message?: string } = {
-        args: { filePath: "/tmp/test/.ghostwire/plans/work-plan.md" },
+        args: { filePath: "/tmp/test/docs/plans/work-plan.md" },
       };
 
       // #when
@@ -103,7 +103,7 @@ describe("planner-md-only", () => {
       expect(output.message).toContain("MOMUS REVIEW");
     });
 
-    test("should NOT inject workflow reminder for .ghostwire/drafts/", async () => {
+    test("should NOT inject workflow reminder for docs/drafts/", async () => {
       // #given
       const hook = createPlannerMdOnlyHook(createMockPluginInput());
       const input = {
@@ -112,7 +112,7 @@ describe("planner-md-only", () => {
         callID: "call-1",
       };
       const output: { args: Record<string, unknown>; message?: string } = {
-        args: { filePath: "/tmp/test/.ghostwire/drafts/notes.md" },
+        args: { filePath: "/tmp/test/docs/drafts/notes.md" },
       };
 
       // #when
@@ -122,7 +122,7 @@ describe("planner-md-only", () => {
       expect(output.message).toBeUndefined();
     });
 
-    test("should block planner from writing .md files outside .ghostwire/", async () => {
+    test("should block planner from writing .md files outside docs/", async () => {
       // #given
       const hook = createPlannerMdOnlyHook(createMockPluginInput());
       const input = {
@@ -136,7 +136,7 @@ describe("planner-md-only", () => {
 
       // #when / #then
       await expect(hook["tool.execute.before"](input, output)).rejects.toThrow(
-        "can only write/edit .md files inside .ghostwire/",
+        "can only write/edit .md files inside docs/",
       );
     });
 
@@ -336,7 +336,7 @@ describe("planner-md-only", () => {
       setupMessageStorage(TEST_SESSION_ID, "planner (Planner)");
     });
 
-    test("should allow Windows-style backslash paths under .ghostwire/", async () => {
+    test("should allow Windows-style backslash paths under docs/", async () => {
       // #given
       setupMessageStorage(TEST_SESSION_ID, "planner");
       const hook = createPlannerMdOnlyHook(createMockPluginInput());
@@ -346,14 +346,14 @@ describe("planner-md-only", () => {
         callID: "call-1",
       };
       const output = {
-        args: { filePath: ".ghostwire\\plans\\work-plan.md" },
+        args: { filePath: "docs\\plans\\work-plan.md" },
       };
 
       // #when / #then
       await expect(hook["tool.execute.before"](input, output)).resolves.toBeUndefined();
     });
 
-    test("should allow mixed separator paths under .ghostwire/", async () => {
+    test("should allow mixed separator paths under docs/", async () => {
       // #given
       setupMessageStorage(TEST_SESSION_ID, "planner");
       const hook = createPlannerMdOnlyHook(createMockPluginInput());
@@ -363,7 +363,7 @@ describe("planner-md-only", () => {
         callID: "call-1",
       };
       const output = {
-        args: { filePath: ".ghostwire\\plans/work-plan.MD" },
+        args: { filePath: "docs\\plans/work-plan.MD" },
       };
 
       // #when / #then
@@ -380,7 +380,7 @@ describe("planner-md-only", () => {
         callID: "call-1",
       };
       const output = {
-        args: { filePath: ".ghostwire/plans/work-plan.MD" },
+        args: { filePath: "docs/plans/work-plan.MD" },
       };
 
       // #when / #then
@@ -397,16 +397,16 @@ describe("planner-md-only", () => {
         callID: "call-1",
       };
       const output = {
-        args: { filePath: "/other/project/.ghostwire/plans/x.md" },
+        args: { filePath: "/other/project/docs/plans/x.md" },
       };
 
       // #when / #then
       await expect(hook["tool.execute.before"](input, output)).rejects.toThrow(
-        "can only write/edit .md files inside .ghostwire/",
+        "can only write/edit .md files inside docs/",
       );
     });
 
-    test("should allow nested .ghostwire directories (ctx.directory may be parent)", async () => {
+    test("should allow nested docs directories (ctx.directory may be parent)", async () => {
       // #given - when ctx.directory is parent of actual project, path includes project name
       setupMessageStorage(TEST_SESSION_ID, "planner");
       const hook = createPlannerMdOnlyHook(createMockPluginInput());
@@ -416,10 +416,10 @@ describe("planner-md-only", () => {
         callID: "call-1",
       };
       const output = {
-        args: { filePath: "src/.ghostwire/plans/x.md" },
+        args: { filePath: "src/docs/plans/x.md" },
       };
 
-      // #when / #then - should allow because .ghostwire is in path
+      // #when / #then - should allow because docs is in path
       await expect(hook["tool.execute.before"](input, output)).resolves.toBeUndefined();
     });
 
@@ -433,16 +433,16 @@ describe("planner-md-only", () => {
         callID: "call-1",
       };
       const output = {
-        args: { filePath: ".ghostwire/../secrets.md" },
+        args: { filePath: "docs/../secrets.md" },
       };
 
       // #when / #then
       await expect(hook["tool.execute.before"](input, output)).rejects.toThrow(
-        "can only write/edit .md files inside .ghostwire/",
+        "can only write/edit .md files inside docs/",
       );
     });
 
-    test("should allow case-insensitive .GHOSTWIRE directory", async () => {
+    test("should allow case-insensitive docs directory", async () => {
       // #given
       setupMessageStorage(TEST_SESSION_ID, "planner");
       const hook = createPlannerMdOnlyHook(createMockPluginInput());
@@ -452,16 +452,16 @@ describe("planner-md-only", () => {
         callID: "call-1",
       };
       const output = {
-        args: { filePath: ".GHOSTWIRE/plans/work-plan.md" },
+        args: { filePath: "DOCS/plans/work-plan.md" },
       };
 
       // #when / #then
       await expect(hook["tool.execute.before"](input, output)).resolves.toBeUndefined();
     });
 
-    test("should allow nested project path with .ghostwire (Windows real-world case)", async () => {
+    test("should allow nested project path with docs (Windows real-world case)", async () => {
       // #given - simulates when ctx.directory is parent of actual project
-      // User reported: xauusd-dxy-plan\.ghostwire\drafts\supabase-email-templates.md
+      // User reported: xauusd-dxy-plan\docs\drafts\supabase-email-templates.md
       setupMessageStorage(TEST_SESSION_ID, "planner");
       const hook = createPlannerMdOnlyHook(createMockPluginInput());
       const input = {
@@ -470,7 +470,7 @@ describe("planner-md-only", () => {
         callID: "call-1",
       };
       const output = {
-        args: { filePath: "xauusd-dxy-plan\\.ghostwire\\drafts\\supabase-email-templates.md" },
+        args: { filePath: "xauusd-dxy-plan\\docs\\drafts\\supabase-email-templates.md" },
       };
 
       // #when / #then
@@ -487,7 +487,7 @@ describe("planner-md-only", () => {
         callID: "call-1",
       };
       const output = {
-        args: { filePath: "my-project/.ghostwire\\plans/task.md" },
+        args: { filePath: "my-project/docs\\plans/task.md" },
       };
 
       // #when / #then

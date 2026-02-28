@@ -26,15 +26,15 @@ Implement and validate a canonical `.agents/skills` discovery model with single-
 2. Run targeted tests:
 
 ```bash
-bun run task.ts test tests/skills.test.ts
-bun run task.ts test tests/workflows-integration.test.ts
+bun run src/cli/task.ts test tests/skills.test.ts
+bun run src/cli/task.ts test tests/workflows-integration.test.ts
 ```
 
 3. Run static and full checks:
 
 ```bash
-bun run task.ts typecheck
-bun run task.ts test
+bun run src/cli/task.ts typecheck
+bun run src/cli/task.ts test
 ```
 
 ## Migration Verification

@@ -24,11 +24,11 @@ import type { BackgroundManager } from "../../../execution/background-agent";
 export const HOOK_NAME = "orchestrator";
 
 /**
- * Cross-platform check if a path is inside .ghostwire/ directory.
+ * Cross-platform check if a path is inside the workflow docs directory.
  * Handles both forward slashes (Unix) and backslashes (Windows).
  */
-function isGhostwirePath(filePath: string): boolean {
-  return /\.ghostwire[/\\]/.test(filePath);
+function isDocsPath(filePath: string): boolean {
+  return /\bdocs[/\\]/.test(filePath);
 }
 
 const WRITE_EDIT_TOOLS = ["Write", "Edit", "write", "edit"];
@@ -39,7 +39,7 @@ const DIRECT_WORK_REMINDER = `
 
 ${createSystemDirective(SystemDirectiveTypes.DELEGATION_REQUIRED)}
 
-You just performed direct file modifications outside \`.ghostwire/\`.
+You just performed direct file modifications outside \`docs/\`.
 
 **You are an ORCHESTRATOR, not an IMPLEMENTER.**
 
@@ -49,8 +49,8 @@ As an orchestrator, you should:
 - **COORDINATE** multiple tasks and ensure completion
 
 You should NOT:
-- Write code directly (except for \`.ghostwire/\` files like plans and notepads)
-- Make direct file edits outside \`.ghostwire/\`
+- Write code directly (except for \`docs/\` files like plans and notepads)
+- Make direct file edits outside \`docs/\`
 - Implement features yourself
 
 **If you need to make changes:**
@@ -68,7 +68,7 @@ You have an active work plan with incomplete tasks. Continue working.
 RULES:
 - Proceed without asking for permission
 - Mark each checkbox [x] in the plan file when done
-- Use the notepad at .ghostwire/notepads/{PLAN_NAME}/ to record learnings
+- Use the notepad at docs/notepads/{PLAN_NAME}/ to record learnings
 - Do not stop until all tasks are complete
 - If blocked, document the blocker and move to the next task`;
 
@@ -119,7 +119,7 @@ ${createSystemDirective(SystemDirectiveTypes.DELEGATION_REQUIRED)}
 
 **STOP. YOU ARE VIOLATING ORCHESTRATOR PROTOCOL.**
 
-You (orchestrator) are attempting to directly modify a file outside \`.ghostwire/\`.
+You (orchestrator) are attempting to directly modify a file outside \`docs/\`.
 
 **Path attempted:** $FILE_PATH
 
@@ -133,13 +133,13 @@ As an ORCHESTRATOR, you MUST:
 3. **COORDINATE** - you orchestrate, you don't implement
 
 **ALLOWED direct file operations:**
-- Files inside \`.ghostwire/\` (plans, notepads, drafts)
+- Files inside \`docs/\` (plans, notepads, drafts)
 - Reading files for verification
 - Running diagnostics/tests
 
 **FORBIDDEN direct file operations:**
 - Writing/editing source code
-- Creating new files outside \`.ghostwire/\`
+- Creating new files outside \`docs/\`
 - Any implementation work
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -216,7 +216,7 @@ ${buildVerificationReminder(sessionId)}
 
 RIGHT NOW - Do not delay. Verification passed → Mark IMMEDIATELY.
 
-Update the plan file \`.ghostwire/tasks/${planName}.yaml\`:
+Update the plan file \`docs/tasks/${planName}.yaml\`:
 - Change \`[ ]\` to \`[x]\` for the completed task
 - Use \`Edit\` tool to modify the checkbox
 
@@ -669,7 +669,7 @@ export function createOrchestratorHook(ctx: PluginInput, options?: OrchestratorH
         const filePath = (output.args.filePath ?? output.args.path ?? output.args.file) as
           | string
           | undefined;
-        if (filePath && !isGhostwirePath(filePath)) {
+        if (filePath && !isDocsPath(filePath)) {
           // Store filePath for use in tool.execute.after
           if (input.callID) {
             pendingFilePaths.set(input.callID, filePath);
@@ -719,7 +719,7 @@ export function createOrchestratorHook(ctx: PluginInput, options?: OrchestratorH
         if (!filePath) {
           filePath = output.metadata?.filePath as string | undefined;
         }
-        if (filePath && !isGhostwirePath(filePath)) {
+        if (filePath && !isDocsPath(filePath)) {
           output.output = (output.output || "") + DIRECT_WORK_REMINDER;
           log(`[${HOOK_NAME}] Direct work reminder appended`, {
             sessionID: input.sessionID,

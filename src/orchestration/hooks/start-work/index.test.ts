@@ -9,7 +9,7 @@ import * as sessionState from "../../../execution/claude-code-session-state";
 
 describe("jack-in-work hook", () => {
   const TEST_DIR = join(tmpdir(), "jack-in-work-test-" + Date.now());
-  const GHOSTWIRE_DIR = join(TEST_DIR, ".ghostwire");
+  const DOCS_DIR = join(TEST_DIR, "docs");
 
   function createMockPluginInput() {
     return {
@@ -22,8 +22,8 @@ describe("jack-in-work hook", () => {
     if (!existsSync(TEST_DIR)) {
       mkdirSync(TEST_DIR, { recursive: true });
     }
-    if (!existsSync(GHOSTWIRE_DIR)) {
-      mkdirSync(GHOSTWIRE_DIR, { recursive: true });
+    if (!existsSync(DOCS_DIR)) {
+      mkdirSync(DOCS_DIR, { recursive: true });
     }
     clearUltraworkState(TEST_DIR);
   });
@@ -137,7 +137,7 @@ describe("jack-in-work hook", () => {
 
     test("should auto-select when only one incomplete plan among multiple plans", async () => {
       // #given - multiple plans but only one incomplete
-      const plansDir = join(TEST_DIR, ".ghostwire", "plans");
+      const plansDir = join(TEST_DIR, "docs", "plans");
       mkdirSync(plansDir, { recursive: true });
 
       // Plan 1: complete (all checked)
@@ -164,7 +164,7 @@ describe("jack-in-work hook", () => {
 
     test("should wrap multiple plans message in system-reminder tag", async () => {
       // #given - multiple incomplete plans
-      const plansDir = join(TEST_DIR, ".ghostwire", "plans");
+      const plansDir = join(TEST_DIR, "docs", "plans");
       mkdirSync(plansDir, { recursive: true });
 
       const plan1Path = join(plansDir, "plan-a.md");
@@ -189,7 +189,7 @@ describe("jack-in-work hook", () => {
 
     test("should use 'ask user' prompt style for multiple plans", async () => {
       // #given - multiple incomplete plans
-      const plansDir = join(TEST_DIR, ".ghostwire", "plans");
+      const plansDir = join(TEST_DIR, "docs", "plans");
       mkdirSync(plansDir, { recursive: true });
 
       const plan1Path = join(plansDir, "plan-x.md");
@@ -213,7 +213,7 @@ describe("jack-in-work hook", () => {
 
     test("should select explicitly specified plan name from user-request, ignoring existing ultrawork state", async () => {
       // #given - existing ultrawork state pointing to old plan
-      const plansDir = join(TEST_DIR, ".ghostwire", "plans");
+      const plansDir = join(TEST_DIR, "docs", "plans");
       mkdirSync(plansDir, { recursive: true });
 
       // Old plan (in ultrawork state)
@@ -256,7 +256,7 @@ describe("jack-in-work hook", () => {
 
     test("should strip ultrawork/ulw keywords from plan name argument", async () => {
       // #given - plan with ultrawork keyword in user-request
-      const plansDir = join(TEST_DIR, ".ghostwire", "plans");
+      const plansDir = join(TEST_DIR, "docs", "plans");
       mkdirSync(plansDir, { recursive: true });
 
       const planPath = join(plansDir, "my-feature-plan.md");
@@ -284,7 +284,7 @@ describe("jack-in-work hook", () => {
 
     test("should strip ulw keyword from plan name argument", async () => {
       // #given - plan with ulw keyword in user-request
-      const plansDir = join(TEST_DIR, ".ghostwire", "plans");
+      const plansDir = join(TEST_DIR, "docs", "plans");
       mkdirSync(plansDir, { recursive: true });
 
       const planPath = join(plansDir, "api-refactor.md");
@@ -312,7 +312,7 @@ describe("jack-in-work hook", () => {
 
     test("should match plan by partial name", async () => {
       // #given - user specifies partial plan name
-      const plansDir = join(TEST_DIR, ".ghostwire", "plans");
+      const plansDir = join(TEST_DIR, "docs", "plans");
       mkdirSync(plansDir, { recursive: true });
 
       const planPath = join(plansDir, "2026-01-15-feature-implementation.md");

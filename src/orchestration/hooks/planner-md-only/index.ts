@@ -25,11 +25,11 @@ export * from "./constants";
 /**
  * Cross-platform path validator for planner file writes.
  * Uses path.resolve/relative instead of string matching to handle:
- * - Windows backslashes (e.g., .ghostwire\\plans\\x.md)
- * - Mixed separators (e.g., .ghostwire\\plans/x.md)
+ * - Windows backslashes (e.g., docs\\plans\\x.md)
+ * - Mixed separators (e.g., docs\\plans/x.md)
  * - Case-insensitive directory/extension matching
  * - Workspace confinement (blocks paths outside root or via traversal)
- * - Nested project paths (e.g., parent/.ghostwire/... when ctx.directory is parent)
+ * - Nested project paths (e.g., parent/docs/... when ctx.directory is parent)
  */
 function isAllowedFile(filePath: string, workspaceRoot: string): boolean {
   // 1. Resolve to absolute path
@@ -43,9 +43,9 @@ function isAllowedFile(filePath: string, workspaceRoot: string): boolean {
     return false;
   }
 
-  // 4. Check if .ghostwire/ or .ghostwire\ exists anywhere in the path (case-insensitive)
-  // This handles both direct paths (.ghostwire/x.md) and nested paths (project/.ghostwire/x.md)
-  if (!/\.ghostwire[/\\]/i.test(rel)) {
+  // 4. Check if docs/ or docs\ exists anywhere in the path (case-insensitive)
+  // This handles both direct paths (docs/x.md) and nested paths (project/docs/x.md)
+  if (!/\bdocs[/\\]/i.test(rel)) {
     return false;
   }
 
@@ -126,14 +126,14 @@ export function createPlannerMdOnlyHook(ctx: PluginInput) {
       }
 
       if (!isAllowedFile(filePath, ctx.directory)) {
-        log(`[${HOOK_NAME}] Blocked: planner can only write to .ghostwire/*.md`, {
+        log(`[${HOOK_NAME}] Blocked: planner can only write to docs/*.md`, {
           sessionID: input.sessionID,
           tool: toolName,
           filePath,
           agent: agentName,
         });
         throw new Error(
-          `[${HOOK_NAME}] ${getAgentDisplayName("planner")} can only write/edit .md files inside .ghostwire/ directory. ` +
+          `[${HOOK_NAME}] ${getAgentDisplayName("planner")} can only write/edit .md files inside docs/ directory. ` +
             `Attempted to modify: ${filePath}. ` +
             `${getAgentDisplayName("planner")} is a READ-ONLY planner. Use /ghostwire:workflows:execute to execute the plan. ` +
             `APOLOGIZE TO THE USER, REMIND OF YOUR PLAN WRITING PROCESSES, TELL USER WHAT YOU WILL GOING TO DO AS THE PROCESS, WRITE THE PLAN`,
@@ -142,8 +142,8 @@ export function createPlannerMdOnlyHook(ctx: PluginInput) {
 
       const normalizedPath = filePath.toLowerCase().replace(/\\/g, "/");
       if (
-        normalizedPath.includes(".ghostwire/plans/") ||
-        normalizedPath.includes(".ghostwire\\plans\\")
+        normalizedPath.includes("docs/plans/") ||
+        normalizedPath.includes("docs\\plans\\")
       ) {
         log(`[${HOOK_NAME}] Injecting workflow reminder for plan write`, {
           sessionID: input.sessionID,
@@ -154,7 +154,7 @@ export function createPlannerMdOnlyHook(ctx: PluginInput) {
         output.message = (output.message || "") + PLANNER_WORKFLOW_REMINDER;
       }
 
-      log(`[${HOOK_NAME}] Allowed: .ghostwire/*.md write permitted`, {
+      log(`[${HOOK_NAME}] Allowed: docs/*.md write permitted`, {
         sessionID: input.sessionID,
         tool: toolName,
         filePath,

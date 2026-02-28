@@ -6,7 +6,7 @@
  */
 export const SPEC_TO_ISSUES_TEMPLATE = `
 ## Convert Tasks to GitHub Issues: $FEATURE_NAME
-**Branch**: \`$BRANCH_NAME\` | **Tasks**: [.ghostwire/specs/$BRANCH_NAME/tasks.md](../tasks.md)
+**Branch**: \`$BRANCH_NAME\` | **Tasks**: [docs/specs/$BRANCH_NAME/tasks.md](../tasks.md)
 ---
 ## Task Summary
 | Phase | Tasks | Converted |

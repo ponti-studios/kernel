@@ -148,5 +148,5 @@ export function validateAgainstConstitution(
  * Get constitution file path
  */
 export function getConstitutionPath(projectRoot: string): string {
-  return `${projectRoot}/.ghostwire/constitution.md`;
+  return `${projectRoot}/docs/constitution.md`;
 }

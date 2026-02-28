@@ -12,7 +12,7 @@ Converge skill discovery and composition onto one canonical scoped model centere
 **Language/Version**: TypeScript 5.7.x on Bun runtime (`type: module`)  
 **Primary Dependencies**: `@opencode-ai/plugin`, `@opencode-ai/sdk`, `zod`, `citty`, `commander`, `js-yaml`  
 **Storage**: File-system-based configuration and skill metadata (`SKILL.md`)  
-**Testing**: Bun test harness (`bun run task.ts test`) with unit/integration tests under `src/**/*.test.ts` and `tests/**/*.test.ts`  
+**Testing**: Bun test harness (`bun run src/cli/task.ts test`) with unit/integration tests under `src/**/*.test.ts` and `tests/**/*.test.ts`  
 **Target Platform**: Cross-platform CLI/plugin runtime (macOS, Linux, Windows package targets)
 **Project Type**: CLI + plugin framework  
 **Performance Goals**: Skill discovery and merge adds no more than 10% cold-start overhead versus current baseline  

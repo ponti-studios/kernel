@@ -27,11 +27,11 @@ describe("Storage Utilities", () => {
   describe("getTaskDir", () => {
     //#given default config (no claude_code_compat)
     //#when getting task directory
-    //#then it should return .ghostwire/tasks/{listId}
+    //#then it should return docs/tasks/{listId}
     it("returns cipherOperator path by default", () => {
-      const config = { operator: { tasks: { storage_path: ".ghostwire/tasks" } } };
+      const config = { operator: { tasks: { storage_path: "docs/tasks" } } };
       const result = getTaskDir("list-123", config as any);
-      expect(result).toContain(".ghostwire/tasks/list-123");
+      expect(result).toContain("docs/tasks/list-123");
     });
 
     //#given claude_code_compat enabled
@@ -41,7 +41,7 @@ describe("Storage Utilities", () => {
       const config = {
         operator: {
           tasks: {
-            storage_path: ".ghostwire/tasks",
+            storage_path: "docs/tasks",
             claude_code_compat: true,
           },
         },
@@ -56,7 +56,7 @@ describe("Storage Utilities", () => {
     //#when getting task path
     //#then it should return path to task JSON file
     it("returns path to task JSON", () => {
-      const config = { operator: { tasks: { storage_path: ".ghostwire/tasks" } } };
+      const config = { operator: { tasks: { storage_path: "docs/tasks" } } };
       const result = getTaskPath("list-123", "1", config as any);
       expect(result).toContain("list-123/1.json");
     });
@@ -65,11 +65,11 @@ describe("Storage Utilities", () => {
   describe("getTeamDir", () => {
     //#given team name and default config
     //#when getting team directory
-    //#then it should return .ghostwire/teams/{teamName}
+    //#then it should return docs/teams/{teamName}
     it("returns cipherOperator team path", () => {
-      const config = { operator: { swarm: { storage_path: ".ghostwire/teams" } } };
+      const config = { operator: { swarm: { storage_path: "docs/teams" } } };
       const result = getTeamDir("my-team", config as any);
-      expect(result).toContain(".ghostwire/teams/my-team");
+      expect(result).toContain("docs/teams/my-team");
     });
   });
 
@@ -78,7 +78,7 @@ describe("Storage Utilities", () => {
     //#when getting inbox path
     //#then it should return path to inbox JSON file
     it("returns path to inbox JSON", () => {
-      const config = { operator: { swarm: { storage_path: ".ghostwire/teams" } } };
+      const config = { operator: { swarm: { storage_path: "docs/teams" } } };
       const result = getInboxPath("my-team", "agent-001", config as any);
       expect(result).toContain("my-team/inboxes/agent-001.json");
     });

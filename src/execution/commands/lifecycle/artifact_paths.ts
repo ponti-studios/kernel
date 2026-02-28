@@ -1,6 +1,6 @@
 import { basename, dirname, join } from "node:path";
 
-export const PLAN_ROOT_DIR = ".ghostwire/plans";
+export const PLAN_ROOT_DIR = "docs/plans";
 
 export function planRootPath(baseDir: string): string {
   return join(baseDir, PLAN_ROOT_DIR);

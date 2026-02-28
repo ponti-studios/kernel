@@ -11,7 +11,7 @@ description: "Checklist for $DOMAIN: $FEATURE_NAME"
 # Checklist: $FEATURE_NAME ($DOMAIN)
 **Created**: $TIMESTAMP  
 **Domain**: $DOMAIN  
-**Feature**: [.ghostwire/specs/$BRANCH_NAME/spec.md](../spec.md)
+**Feature**: [docs/specs/$BRANCH_NAME/spec.md](../spec.md)
 ---
 ## $DOMAIN Checklist
 $CHECKLIST_ITEMS

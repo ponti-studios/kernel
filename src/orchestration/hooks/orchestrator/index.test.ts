@@ -373,7 +373,7 @@ describe("orchestrator hook", () => {
         cleanupMessageStorage(ORCHESTRATOR_SESSION);
       });
 
-      test("should append delegation reminder when orchestrator writes outside .ghostwire/", async () => {
+      test("should append delegation reminder when orchestrator writes outside docs/", async () => {
         // #given
         const hook = createOrchestratorHook(createMockPluginInput());
         const output = {
@@ -394,7 +394,7 @@ describe("orchestrator hook", () => {
         expect(output.output).toContain("delegate_task");
       });
 
-      test("should append delegation reminder when orchestrator edits outside .ghostwire/", async () => {
+      test("should append delegation reminder when orchestrator edits outside docs/", async () => {
         // #given
         const hook = createOrchestratorHook(createMockPluginInput());
         const output = {
@@ -410,14 +410,14 @@ describe("orchestrator hook", () => {
         expect(output.output).toContain("ORCHESTRATOR, not an IMPLEMENTER");
       });
 
-      test("should NOT append reminder when orchestrator writes inside .ghostwire/", async () => {
+      test("should NOT append reminder when orchestrator writes inside docs/", async () => {
         // #given
         const hook = createOrchestratorHook(createMockPluginInput());
         const originalOutput = "File written successfully";
         const output = {
           title: "Write",
           output: originalOutput,
-          metadata: { filePath: "/project/.ghostwire/plans/work-plan.md" },
+          metadata: { filePath: "/project/docs/plans/work-plan.md" },
         };
 
         // #when
@@ -431,7 +431,7 @@ describe("orchestrator hook", () => {
         expect(output.output).not.toContain("ORCHESTRATOR, not an IMPLEMENTER");
       });
 
-      test("should NOT append reminder when non-orchestrator writes outside .ghostwire/", async () => {
+      test("should NOT append reminder when non-orchestrator writes outside docs/", async () => {
         // #given
         const nonOrchestratorSession = "non-orchestrator-session";
         setupMessageStorage(nonOrchestratorSession, "executor");
@@ -495,14 +495,14 @@ describe("orchestrator hook", () => {
       });
 
       describe("cross-platform path validation (Windows support)", () => {
-        test("should NOT append reminder when orchestrator writes inside .ghostwire\\ (Windows backslash)", async () => {
+        test("should NOT append reminder when orchestrator writes inside docs\\ (Windows backslash)", async () => {
           // #given
           const hook = createOrchestratorHook(createMockPluginInput());
           const originalOutput = "File written successfully";
           const output = {
             title: "Write",
             output: originalOutput,
-            metadata: { filePath: ".ghostwire\\plans\\work-plan.md" },
+            metadata: { filePath: "docs\\plans\\work-plan.md" },
           };
 
           // #when
@@ -516,14 +516,14 @@ describe("orchestrator hook", () => {
           expect(output.output).not.toContain("ORCHESTRATOR, not an IMPLEMENTER");
         });
 
-        test("should NOT append reminder when orchestrator writes inside .ghostwire with mixed separators", async () => {
+        test("should NOT append reminder when orchestrator writes inside docs with mixed separators", async () => {
           // #given
           const hook = createOrchestratorHook(createMockPluginInput());
           const originalOutput = "File written successfully";
           const output = {
             title: "Write",
             output: originalOutput,
-            metadata: { filePath: ".ghostwire\\plans/work-plan.md" },
+            metadata: { filePath: "docs\\plans/work-plan.md" },
           };
 
           // #when
@@ -537,14 +537,14 @@ describe("orchestrator hook", () => {
           expect(output.output).not.toContain("ORCHESTRATOR, not an IMPLEMENTER");
         });
 
-        test("should NOT append reminder for absolute Windows path inside .ghostwire\\", async () => {
+        test("should NOT append reminder for absolute Windows path inside docs\\", async () => {
           // #given
           const hook = createOrchestratorHook(createMockPluginInput());
           const originalOutput = "File written successfully";
           const output = {
             title: "Write",
             output: originalOutput,
-            metadata: { filePath: "C:\\Users\\test\\project\\.ghostwire\\plans\\x.md" },
+            metadata: { filePath: "C:\\Users\\test\\project\\docs\\plans\\x.md" },
           };
 
           // #when
@@ -558,7 +558,7 @@ describe("orchestrator hook", () => {
           expect(output.output).not.toContain("ORCHESTRATOR, not an IMPLEMENTER");
         });
 
-        test("should append reminder for Windows path outside .ghostwire\\", async () => {
+        test("should append reminder for Windows path outside docs\\", async () => {
           // #given
           const hook = createOrchestratorHook(createMockPluginInput());
           const output = {

@@ -16,7 +16,7 @@ $ARGUMENTS
 1. If --mode is provided, use it.
 2. If no mode is provided, default to \`tasks\`.
 ## Shared Preconditions (All Modes)
-- Plan file must be readable and located under .ghostwire/plans/*.md
+- Plan file must be readable and located under docs/plans/*.md
 - Plan must include acceptance criteria and implementation steps
 - If required data is missing, fail-fast and report exact missing fields
 ## --mode tasks (default)

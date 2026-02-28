@@ -73,7 +73,7 @@ describe("export CLI", () => {
     const outputPath = join(tempDir, ".github", "copilot-instructions.md");
     const scopedPath = join(tempDir, ".github", "instructions", "typescript.instructions.md");
     const hookPath = join(tempDir, ".github", "hooks", "ghostwire-guardrails.json");
-    const manifestPath = join(tempDir, ".ghostwire", "export-manifest.json");
+    const manifestPath = join(tempDir, "docs", "export-manifest.json");
     const agentsDir = join(tempDir, ".github", "agents");
     const promptsDir = join(tempDir, ".github", "prompts");
     const skillsDir = join(tempDir, ".github", "skills");
@@ -101,7 +101,7 @@ describe("export CLI", () => {
 
     //#then
     const outputPath = join(tempDir, "AGENTS.md");
-    const manifestPath = join(tempDir, ".ghostwire", "export-manifest.json");
+    const manifestPath = join(tempDir, "docs", "export-manifest.json");
     expect(exitCode).toBe(0);
     expect(existsSync(outputPath)).toBe(true);
     expect(existsSync(manifestPath)).toBe(false);
@@ -206,7 +206,7 @@ describe("export CLI", () => {
     });
 
     //#then
-    const manifestPath = join(tempDir, ".ghostwire", "export-manifest.json");
+    const manifestPath = join(tempDir, "docs", "export-manifest.json");
     expect(exitCode).toBe(0);
     expect(existsSync(manifestPath)).toBe(true);
     const manifest = JSON.parse(readFileSync(manifestPath, "utf-8"));
@@ -255,7 +255,7 @@ Scoped export parity template body.
 
     //#then
     expect(exitCode).toBe(0);
-    const manifestPath = join(tempDir, ".ghostwire", "export-manifest.json");
+    const manifestPath = join(tempDir, "docs", "export-manifest.json");
     const manifest = JSON.parse(readFileSync(manifestPath, "utf-8"));
     expect(manifest.coverage.skills.source_count).toBeGreaterThanOrEqual(createSkills().length + 1);
     expect(

@@ -9,7 +9,7 @@ export const SPEC_TASKS_TEMPLATE = `
 description: "Task list for $FEATURE_NAME implementation"
 ---
 # Tasks: $FEATURE_NAME
-**Input**: Design documents from \`.ghostwire/specs/$BRANCH_NAME/\`
+**Input**: Design documents from \`docs/specs/$BRANCH_NAME/\`
 **Prerequisites**: plan.md (required), spec.md (required for user stories)
 ---
 ## Format: \`[ID] [P?] [Story?] Description\`

@@ -262,7 +262,7 @@ export function createWorkflowsCreateHook() {
         }
 
         const planName = planNameMatch[1].trim();
-        const planPath = join(input.sessionID, ".ghostwire", "plans", `${planName}.md`);
+        const planPath = join(input.sessionID, "docs", "plans", `${planName}.md`);
 
         const result = await processTasksForPlan(
           planPath,

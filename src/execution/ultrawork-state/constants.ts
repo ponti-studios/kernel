@@ -10,4 +10,8 @@ export const NOTEPAD_DIR = "notepads";
 export const NOTEPAD_BASE_PATH = `${ULTRAWORK_DIR}/${NOTEPAD_DIR}`;
 
 /** planner plan directory pattern */
-export const PLANNER_PLANS_DIR = ".ghostwire/plans";
+// root directory used for workflow documents (plans, notepads, drafts)
+export const WORKFLOW_DOCS_DIR = "docs";
+
+/** planner plan directory pattern */
+export const PLANNER_PLANS_DIR = `${WORKFLOW_DOCS_DIR}/plans`;

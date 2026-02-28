@@ -74,9 +74,10 @@ export function clearUltraworkState(directory: string): boolean {
 
 /**
  * Find planner plan files for this project.
- * planner stores plans at: {project}/.ghostwire/plans/{name}.md
+ * planner stores plans at: {project}/docs/plans/{name}.md
  */
 export function findPlannerPlans(directory: string): string[] {
+  // PLANNER_PLANS_DIR now points to docs/plans
   const plansDir = join(directory, PLANNER_PLANS_DIR);
 
   if (!existsSync(plansDir)) {

@@ -334,7 +334,7 @@ describe("Task List Creation and Formatting", () => {
     ];
 
     // Create test plan file
-    const plansDir = join(TEST_DIR, ".ghostwire", "plans");
+    const plansDir = join(TEST_DIR, "docs", "plans");
     mkdirSync(plansDir, { recursive: true });
     const planPath = join(plansDir, "test-plan.md");
     writeFileSync(planPath, `# Test Plan\n\nInitial content\n\n\`\`\`json\n{}\n\`\`\``);
@@ -365,7 +365,7 @@ describe("Task List Creation and Formatting", () => {
       },
     ];
 
-    const plansDir = join(TEST_DIR, ".ghostwire", "plans");
+    const plansDir = join(TEST_DIR, "docs", "plans");
     mkdirSync(plansDir, { recursive: true });
     const planPath = join(plansDir, "test-plan.md");
     writeFileSync(planPath, `# Test\n\n\`\`\`json\n{}\n\`\`\``);
@@ -441,7 +441,7 @@ describe("Task List Creation and Formatting", () => {
       },
     ];
 
-    const plansDir = join(TEST_DIR, ".ghostwire", "plans");
+    const plansDir = join(TEST_DIR, "docs", "plans");
     mkdirSync(plansDir, { recursive: true });
     const planPath = join(plansDir, "complex-plan.md");
     writeFileSync(planPath, `# Complex\n\n\`\`\`json\n{}\n\`\`\``);
@@ -474,7 +474,7 @@ Here's our approach...
 ## Conclusion
 Final notes here.`;
 
-    const plansDir = join(TEST_DIR, ".ghostwire", "plans");
+    const plansDir = join(TEST_DIR, "docs", "plans");
     mkdirSync(plansDir, { recursive: true });
     const planPath = join(plansDir, "preserve-plan.md");
     writeFileSync(planPath, originalContent);
@@ -541,7 +541,7 @@ Final notes here.`;
       },
     ];
 
-    const plansDir = join(TEST_DIR, ".ghostwire", "plans");
+    const plansDir = join(TEST_DIR, "docs", "plans");
     mkdirSync(plansDir, { recursive: true });
     const planPath = join(plansDir, "priority-plan.md");
     writeFileSync(planPath, `# Plan\n\n\`\`\`json\n{}\n\`\`\``);
@@ -571,7 +571,7 @@ Final notes here.`;
       },
     ];
 
-    const plansDir = join(TEST_DIR, ".ghostwire", "plans");
+    const plansDir = join(TEST_DIR, "docs", "plans");
     mkdirSync(plansDir, { recursive: true });
     const planPath = join(plansDir, "effort-plan.md");
     writeFileSync(planPath, `# Plan\n\n\`\`\`json\n{}\n\`\`\``);
@@ -586,7 +586,7 @@ Final notes here.`;
   //#when processing for plan
   //#then still creates valid structure
   it("should handle empty task list", async () => {
-    const plansDir = join(TEST_DIR, ".ghostwire", "plans");
+    const plansDir = join(TEST_DIR, "docs", "plans");
     mkdirSync(plansDir, { recursive: true });
     const planPath = join(plansDir, "empty-plan.md");
     writeFileSync(planPath, `# Empty Plan\n\n\`\`\`json\n{}\n\`\`\``);

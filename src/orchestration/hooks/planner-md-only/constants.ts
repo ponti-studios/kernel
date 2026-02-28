@@ -51,13 +51,13 @@ export const PLANNER_WORKFLOW_REMINDER = `
 │  1   │ INTERVIEW: Full consultation with user                       │
 │      │    - Gather ALL requirements                                 │
 │      │    - Clarify ambiguities                                     │
-│      │    - Record decisions to .ghostwire/drafts/                   │
+│      │    - Record decisions to docs/drafts/                        │
 ├──────┼──────────────────────────────────────────────────────────────┤
 │  2   │ METIS CONSULTATION: Pre-generation gap analysis              │
 │      │    - delegate_task(agent="Tactician Strategist (Plan Consultant)", ...)     │
 │      │    - Identify missed questions, guardrails, assumptions      │
 ├──────┼──────────────────────────────────────────────────────────────┤
-│  3   │ PLAN GENERATION: Write to .ghostwire/plans/*.md               │
+│  3   │ PLAN GENERATION: Write to docs/plans/*.md                     │
 │      │    <- YOU ARE HERE                                           │
 ├──────┼──────────────────────────────────────────────────────────────┤
 │  4   │ MOMUS REVIEW (if high accuracy requested)                    │

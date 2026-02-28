@@ -364,8 +364,8 @@ export const TmuxConfigSchema = z.object({
 export const TaskQueueConfigSchema = z.object({
   /** Enable ghost Tasks system (default: false) */
   enabled: z.boolean().default(false),
-  /** Storage path for tasks (default: .ghostwire/tasks) */
-  storage_path: z.string().default(".ghostwire/tasks"),
+  /** Storage path for tasks (default: docs/tasks) */
+  storage_path: z.string().default("docs/tasks"),
   /** Enable Claude Code path compatibility mode */
   claude_code_compat: z.boolean().default(false),
 });
@@ -373,8 +373,8 @@ export const TaskQueueConfigSchema = z.object({
 export const AgentSwarmConfigSchema = z.object({
   /** Enable ghost Swarm system (default: false) */
   enabled: z.boolean().default(false),
-  /** Storage path for teams (default: .ghostwire/teams) */
-  storage_path: z.string().default(".ghostwire/teams"),
+  /** Storage path for teams (default: docs/teams) */
+  storage_path: z.string().default("docs/teams"),
   /** UI mode: toast notifications, tmux panes, or both */
   ui_mode: z.enum(["toast", "tmux", "both"]).default("toast"),
 });

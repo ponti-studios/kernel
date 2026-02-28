@@ -5,10 +5,10 @@ export const DESCRIPTION =
 export const TEMPLATE = `
 You are starting a workflow coordinator work session.
 ## WHAT TO DO
-1. **Find available plans**: Search for workflow coordinator-generated plan files at \`.ghostwire/plans/\`
-2. **Check for active ultrawork state**: Read \`.ghostwire/ultrawork.json\` if it exists
+1. **Find available plans**: Search for workflow coordinator-generated plan files at \`docs/plans/\`
+2. **Check for active ultrawork state**: Read \`docs/ultrawork.json\` if it exists
 3. **Decision logic**:
-   - If \`.ghostwire/ultrawork.json\` exists AND plan is NOT complete (has unchecked boxes):
+   - If \`docs/ultrawork.json\` exists AND plan is NOT complete (has unchecked boxes):
      - **APPEND** current session to session_ids
      - Continue work on existing plan
    - If no active plan OR plan is complete:

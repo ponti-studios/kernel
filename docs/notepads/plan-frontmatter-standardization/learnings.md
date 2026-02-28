@@ -29,11 +29,11 @@
 - **Scope**: Migrated 227-line Makefile to 280-line task.ts
 - **Changes**:
   - Created task.ts with 13 tasks (build, dev, test, schema, agents, etc.)
-  - Updated package.json to use `bun run task.ts` instead of `make`
+  - Updated package.json to use `bun run src/cli/task.ts` instead of `make`
   - Added nanospinner dependency for visual feedback
   - Removed Makefile completely
 - **Benefit**: Better bun integration, more maintainable TypeScript vs shell
-- **Tested**: `bun run task.ts help` works correctly
+- **Tested**: `bun run src/cli/task.ts help` works correctly
 - **Commit**: 052fe74
 
 ### Task 4: Cleanup Duplicates & Reorganize (COMPLETED)
@@ -67,7 +67,7 @@
 ### Build System
 
 - **Status**: ✅ Working
-- **Command**: `bun run task.ts <command>`
+- **Command**: `bun run src/cli/task.ts <command>`
 - **Available tasks**: 13 (build, dev, test, schema, agents, binaries, docs, topology, clean, typecheck, sync, dev-setup, help)
 - **Tested**: ✅ All scripts working
 

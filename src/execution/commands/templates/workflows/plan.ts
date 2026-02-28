@@ -33,11 +33,11 @@ Do not continue until scope is explicit.
 - Detect tracker preference from CLAUDE.md (\`github\` or \`linear\`), else ask user.
 - Set frontmatter \`issue_tracker\` and \`issue_url\` (\`pending\` if not created).
 7. Write plan file
-- Write to: .ghostwire/plans/YYYY-MM-DD-descriptive-name-plan.md
+- Write to: docs/plans/YYYY-MM-DD-descriptive-name-plan.md
 - type must be one of: feat, fix, refactor
 - Use kebab-case; filename starts with date prefix.
-- Never write plan files outside .ghostwire/plans/.
-- If additional artifacts are needed, declare intent under .ghostwire/plans/<plan-id>/ (spec.md, research.md, data-model.md, contracts/, quickstart.md, tasks.md, analysis.md, checklists/).
+- Never write plan files outside docs/plans/.
+- If additional artifacts are needed, declare intent under docs/plans/<plan-id>/ (spec.md, research.md, data-model.md, contracts/, quickstart.md, tasks.md, analysis.md, checklists/).
 ## Output Contract
 Use exactly this output format.
 ~~~markdown
@@ -128,7 +128,7 @@ feature_description: "<original user request, normalized>"
 - Sequencing:
 - Rollback:
 ## Artifact Plan (Optional Detail Directory)
-- Detail root: .ghostwire/plans/<plan-id>/
+- Detail root: docs/plans/<plan-id>/
 - Optional artifacts: spec.md, research.md, data-model.md, contracts/, quickstart.md, tasks.md, analysis.md, checklists/
 ## References
 - Internal: [path/to/file.ts:line]
@@ -147,7 +147,7 @@ Before finalizing, verify all conditions:
 - NEEDS CLARIFICATION scan found no unresolved items.
 - Implementation Steps uses checkbox tasks (\`- [ ]\`) and no numbered list.
 - Metadata fields belong in frontmatter; do not duplicate status/date/author/priority block lines in the body preamble.
-- File path matches \`.ghostwire/plans/YYYY-MM-DD-*.md\`.
+- File path matches \`docs/plans/YYYY-MM-DD-*.md\`.
 - title, type, date, status are valid and coherent.
 ## Post-Generation Tracking Step
 After writing the plan:

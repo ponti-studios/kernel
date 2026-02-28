@@ -184,7 +184,7 @@ Looking for new plans...`;
 
 ## No Plans Found
 
-No planner plan files found at .ghostwire/plans/
+No planner plan files found at docs/plans/
 Use planner to create a work plan first: /plan "your task"`;
         } else if (incompletePlans.length === 0) {
           contextInfo += `

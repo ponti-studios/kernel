@@ -13,7 +13,7 @@ triggers:
   - domain: Multi-agent coordination
     trigger: Parallel task execution across specialized agents
 useWhen:
-  - User provides a todo list path (.ghostwire/plans/{name}.md)
+  - User provides a todo list path (docs/plans/{name}.md)
   - Multiple tasks need to be completed in sequence or parallel
   - Work requires coordination across multiple specialized agents
 avoidWhen:
@@ -100,7 +100,7 @@ Every \`delegate_task()\` prompt must include all 6 sections:
 
 ### Notepad Paths
 
-- READ: .ghostwire/notepads/{plan-name}/*.md
+- READ: docs/notepads/{plan-name}/*.md
 - WRITE: Append to appropriate category
 
 ### Inherited Wisdom
@@ -149,13 +149,13 @@ TASK ANALYSIS:
 ## Step 2: Initialize Notepad
 
 \`\`\`bash
-mkdir -p .ghostwire/notepads/{plan-name}
+mkdir -p docs/notepads/{plan-name}
 \`\`\`
 
 Structure:
 
 \`\`\`
-.ghostwire/notepads/{plan-name}/
+docs/notepads/{plan-name}/
   learnings.md    # Conventions, patterns
   decisions.md    # Architectural choices
   issues.md       # Problems, gotchas
@@ -182,9 +182,9 @@ If sequential:
 **Mandatory: Read notepad first**
 
 \`\`\`
-glob(".ghostwire/notepads/{plan-name}/*.md")
-Read(".ghostwire/notepads/{plan-name}/learnings.md")
-Read(".ghostwire/notepads/{plan-name}/issues.md")
+glob("docs/notepads/{plan-name}/*.md")
+Read("docs/notepads/{plan-name}/learnings.md")
+Read("docs/notepads/{plan-name}/issues.md")
 \`\`\`
 
 Extract wisdom and include in prompt.
@@ -304,8 +304,8 @@ delegate_task(category="...", run_in_background=false, ...)
 
 **Path convention**:
 
-- Plan: \`.ghostwire/plans/{name}.md\` (read only)
-- Notepad: \`.ghostwire/notepads/{name}/\` (read or append)
+- Plan: \`docs/plans/{name}.md\` (read only)
+- Notepad: \`docs/notepads/{name}/\` (read or append)
   </notepad_protocol>
 
 <verification_rules>
