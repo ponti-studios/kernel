@@ -5,7 +5,7 @@ import {
   loadOpencodeGlobalCommands,
   loadOpencodeProjectCommands,
 } from "../../execution/claude-code-command-loader";
-import { loadCommands } from "../../execution/commands";
+import { loadCommands } from "../../commands";
 import {
   loadUserSkills,
   loadProjectSkills,

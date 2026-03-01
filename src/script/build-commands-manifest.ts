@@ -4,8 +4,8 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import type { CommandDefinition } from "../execution/claude-code-command-loader";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const COMMANDS_DIR = join(__dirname, "../execution/commands/commands");
-const OUTPUT_FILE = join(__dirname, "../execution/commands/commands-manifest.ts");
+const COMMANDS_DIR = join(__dirname, "../commands/commands");
+const OUTPUT_FILE = join(__dirname, "../commands/commands-manifest.ts");
 
 type CommandModule = {
   NAME?: unknown;

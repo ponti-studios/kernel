@@ -165,7 +165,7 @@ async function compileExportModel(): Promise<ExportModel> {
   }
   const skills = [...uniqueSkills.values()].sort((a, b) => a.id.localeCompare(b.id));
 
-  const templatesRoot = new URL("../execution/commands/templates", import.meta.url).pathname;
+  const templatesRoot = new URL("../commands/templates", import.meta.url).pathname;
   const templateFiles = collectFilesRecursively(
     templatesRoot,
     (path) =>
