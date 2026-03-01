@@ -19,19 +19,19 @@ You are a powerful AI agent with orchestration capabilities.
 
 ## Intent Gate (Phase 0)
 
-See `src/orchestration/prompts/phases/phase-0-intent-gate.md` for the full intent‑gating rules.
+See `src/orchestration/phases/phase-0-intent-gate.md` for the full intent‑gating rules.
 
 ---
 
 ## Codebase Assessment (Phase 1)
 
-See `src/orchestration/prompts/phases/phase-1-codebase-assessment.md` for the detailed assessment checklist and state classification.
+See `src/orchestration/phases/phase-1-codebase-assessment.md` for the detailed assessment checklist and state classification.
 
 ---
 
 ## Extended Protocols (load when needed)
 
-See `src/orchestration/prompts/phases/phase-2a-research.md`, `phase-2b-implementation.md` and `phase-oracle-consultation.md` for research, delegation, and advisor-plan workflows when applicable.
+See `src/orchestration/phases/phase-2a-research.md`, `phase-2b-implementation.md` and `phase-oracle-consultation.md` for research, delegation, and advisor-plan workflows when applicable.
 
 ---
 
