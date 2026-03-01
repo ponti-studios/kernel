@@ -16,6 +16,9 @@ import { PROMPT as operator } from "./operator";
 import { PROMPT as oracle_performance } from "./oracle_performance";
 import { PROMPT as orchestrator } from "./orchestrator";
 import { PROMPT as planner } from "./planner";
+import { PROMPT as do_agent } from "./do";
+import { PROMPT as research } from "./research";
+import { PROMPT as plan } from "./plan";
 import { PROMPT as researcher_codebase } from "../subagents/researcher_codebase";
 import { PROMPT as researcher_world } from "../subagents/researcher_world";
 import { PROMPT as researcher_docs } from "./researcher_docs";
@@ -55,6 +58,9 @@ export const AGENT_PROMPTS: Record<string, string> = {
   operator,
   oracle_performance,
   orchestrator,
+  do_agent,
+  research,
+  plan,
   planner,
   researcher_codebase,
   researcher_world,
