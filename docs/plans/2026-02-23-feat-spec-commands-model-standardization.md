@@ -283,7 +283,7 @@ Estimated Parallel Speedup: 30% faster than sequential
 | `operator`            | `claude-opus-4-5`   | `kimi-k2.5`             | `opencode → github-copilot`                   |
 | `executor`            | `claude-sonnet-4-5` | `kimi-k2.5`             | `opencode → github-copilot`                   |
 | `advisor-plan`        | `gpt-5.2`           | `kimi-k2.5`             | `opencode → github-copilot`                   |
-| `researcher-data`     | `glm-4.7`           | `kimi-k2.5`             | `opencode → github-copilot`                   |
+| `researcher-world`     | `glm-4.7`           | `kimi-k2.5`             | `opencode → github-copilot`                   |
 | `researcher-codebase` | `claude-haiku-4-5`  | `kimi-k2.5`             | `opencode → github-copilot`                   |
 | `analyzer-media`      | `gemini-3-flash`    | **KEEP gemini-3-flash** | `google → github-copilot → opencode` (vision) |
 | `planner`             | `claude-opus-4-5`   | `kimi-k2.5`             | `opencode → github-copilot`                   |

@@ -210,7 +210,7 @@ export const CategoryConfigSchema = z.object({
   export const CONFIGURABLE_AGENTS = [
     "operator", "executor", "planner", "orchestrator",
     "advisor-plan", "advisor-strategy", "validator-audit",
-    "researcher-codebase", "researcher-data", "analyzer-media"
+    "researcher-codebase", "researcher-world", "analyzer-media"
   ] as const;
   
   export const CONFIGURABLE_CATEGORIES = [
@@ -230,7 +230,7 @@ export const CategoryConfigSchema = z.object({
     "advisor-strategy": "opencode/kimi-k2.5",
     "validator-audit": "opencode/kimi-k2.5",
     "researcher-codebase": "opencode/kimi-k2.5",
-    "researcher-data": "opencode/kimi-k2.5",
+    "researcher-world": "opencode/kimi-k2.5",
     "analyzer-media": "google/gemini-3-flash",
   };
   ```

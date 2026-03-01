@@ -129,7 +129,7 @@ export const VALID_AGENT_IDS = [
   "advisor-strategy",
   "planner",
   "researcher-codebase",
-  "researcher-data",
+  "researcher-world",
   "validator-audit",
   "analyzer-media",
   "orchestrator",

@@ -23,7 +23,7 @@ Runtime supports only `do` and `research`. Specialist behavior is implemented th
 | orchestrator | ghostwire:workflows:execute | orchestrator | do | orchestration | active |
 | planner | ghostwire:workflows:plan | planner | do | planning | active |
 | researcher-codebase | ghostwire:project:map | researcher_codebase | research | research | active |
-| researcher-data | ghostwire:workflows:plan | researcher_data | research | research | active |
+| researcher-world | ghostwire:workflows:plan | researcher_data | research | research | active |
 | researcher-docs | ghostwire:workflows:plan | researcher_docs | research | research | active |
 | researcher-git | ghostwire:workflows:review | researcher_git | research | research | active |
 | researcher-learnings | ghostwire:workflows:learnings | researcher_learnings | research | research | active |

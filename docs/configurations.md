@@ -21,7 +21,7 @@ It asks about your providers (Claude, OpenAI, Gemini, etc.) and generates optima
   // Override specific agent models
   "agents": {
     "advisor-plan": { "model": "opencode/kimi-k2.5" }, // Use kimi-k2.5 for debugging
-    "researcher-data": { "model": "opencode/kimi-k2.5" }, // Standardized model for research
+    "researcher-world": { "model": "opencode/kimi-k2.5" }, // Standardized model for research
     "researcher-codebase": { "model": "opencode/kimi-k2.5" }, // Standardized model for grep
   },
 
@@ -206,7 +206,7 @@ Use `prompt_append` to add extra instructions without replacing the default syst
 ```json
 {
   "agents": {
-    "researcher-data": {
+    "researcher-world": {
       "prompt_append": "Always use the elisp-dev-mcp for Emacs Lisp documentation lookups."
     }
   }
@@ -249,7 +249,7 @@ Or disable via `disabled_agents` in `~/.config/opencode/ghostwire.json` or `.ope
 }
 ```
 
-Available agents: `operator`, `planner`, `advisor-plan`, `researcher-data`, `researcher-codebase`, `analyzer-media`, `advisor-strategy`, `validator-audit`, `orchestrator`
+Available agents: `operator`, `planner`, `advisor-plan`, `researcher-world`, `researcher-codebase`, `analyzer-media`, `advisor-strategy`, `validator-audit`, `orchestrator`
 
 ## Built-in Skills
 
@@ -917,7 +917,7 @@ Each agent has a defined provider priority chain. The system tries providers in 
 | ----------------------- | ----------------- | ----------------------- |
 | **operator**            | `kimi-k2.5`       | opencode                |
 | **advisor-plan**        | `kimi-k2.5`       | opencode                |
-| **researcher-data**     | `kimi-k2.5`       | opencode                |
+| **researcher-world**     | `kimi-k2.5`       | opencode                |
 | **researcher-codebase** | `kimi-k2.5`       | opencode                |
 | **analyzer-media**      | `kimi-k2.5`       | opencode                |
 | **planner**             | `kimi-k2.5`       | opencode                |

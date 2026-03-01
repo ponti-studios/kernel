@@ -153,7 +153,7 @@ All 6 phases executed successfully with full verification:
 | Old Name    | New Name              | Role                                 |
 | ----------- | --------------------- | ------------------------------------ |
 | `scan-ops`  | `researcher-codebase` | Codebase search specialist           |
-| `data-dive` | `researcher-data`     | External library and docs researcher |
+| `data-dive` | `researcher-world`     | External library and docs researcher |
 
 **Implementation Details**:
 

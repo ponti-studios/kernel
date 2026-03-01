@@ -34,7 +34,7 @@ objective: Cleanup stale references, prevent future drift, and refactor command 
 **Examples**:
 - `seer-advisor` → renamed to `advisor-plan`
 - `scout-recon` → renamed to `researcher-codebase`
-- `archive-researcher` → renamed to `researcher-data`
+- `archive-researcher` → renamed to `researcher-world`
 - `zen-planner` → renamed to `planner`
 - Old references scattered in templates, docs, delegation code
 
@@ -130,7 +130,7 @@ export const TEMPLATE = WORKFLOW_PLAN_TEMPLATE;
 | --- | --- |
 | `seer-advisor` | `advisor-plan` |
 | `scout-recon` | `researcher-codebase` |
-| `archive-researcher` | `researcher-data` |
+| `archive-researcher` | `researcher-world` |
 | `performance-seer-advisor` | `oracle-performance` |
 | `tactician-strategist` | `advisor-strategy` |
 | `glitch-auditor` | `validator-bugs` |

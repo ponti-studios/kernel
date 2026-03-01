@@ -111,7 +111,7 @@ Before unification, users faced:
 
 **Code Review (5)**: reviewer-rails, reviewer-python, reviewer-typescript, reviewer-rails-dh, reviewer-simplicity
 
-**Research (6)**: researcher-docs, researcher-learnings, researcher-practices, researcher-git, analyzer-media, researcher-codebase, researcher-data
+**Research (6)**: researcher-docs, researcher-learnings, researcher-practices, researcher-git, analyzer-media, researcher-codebase, researcher-world
 
 **Design (5)**: designer-flow, designer-sync, designer-iterator, analyzer-design, designer-builder
 
