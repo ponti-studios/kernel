@@ -3,7 +3,7 @@ import { resolveCategoryConfig, createConfigHandler } from "./config-composer";
 import type { CategoryConfig } from "../../platform/config/schema";
 import type { GhostwireConfig } from "../../platform/config";
 
-import * as agents from "../../orchestration/agents";
+import * as agents from "../../agents/orchestration";
 import * as commandLoader from "../../execution/claude-code-command-loader";
 import * as commands from "../../execution/commands";
 import * as skillLoader from "../../execution/opencode-skill-loader";

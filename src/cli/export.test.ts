@@ -11,8 +11,8 @@ import {
 import { dirname, join } from "node:path";
 import { tmpdir } from "node:os";
 import { exportGenius } from "./export";
-import { AGENTS_MANIFEST } from "../execution/agents-manifest";
-import { createSkills } from "../execution/skills";
+import { AGENTS_MANIFEST } from "../agents/agents-manifest";
+import { createSkills } from "../skills";
 
 function countFilesRecursive(root: string): number {
   if (!existsSync(root)) return 0;

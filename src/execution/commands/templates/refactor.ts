@@ -3,7 +3,7 @@ import {
   AGENT_RESEARCHER_CODEBASE,
   AGENT_ADVISOR_PLAN,
   AGENT_RESEARCHER_DATA,
-} from "../../../orchestration/agents/constants";
+} from "../../../agents/runtime/constants";
 export const REFACTOR_TEMPLATE = `
 # Intelligent Refactor Command
 ## Usage

@@ -1,5 +1,5 @@
 import type { CommandName } from "./types";
-import { AGENT_PROMPTS } from "../../orchestration/agents/prompts";
+import { AGENT_PROMPTS } from "../../agents/prompts";
 
 export type RuntimeRoute = "do" | "research";
 

@@ -2,12 +2,12 @@ import { dirname, join } from "node:path";
 import { readdirSync, readFileSync, writeFileSync, existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { parseFrontmatter } from "../integration/shared/frontmatter";
-import type { Skill } from "../execution/skills/types";
+import type { Skill } from "../skills/types";
 import type { SkillMcpConfig } from "../execution/skill-mcp-manager/types";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const SKILLS_DIR = join(__dirname, "../execution/skills");
-const OUTPUT_FILE = join(__dirname, "../execution/skills/skills-manifest.ts");
+const SKILLS_DIR = join(__dirname, "../skills");
+const OUTPUT_FILE = join(__dirname, "../skills/skills-manifest.ts");
 
 interface SkillFrontmatter {
   name: string;
@@ -15,6 +15,8 @@ interface SkillFrontmatter {
   allowedTools?: string[];
   mcpConfig?: SkillMcpConfig;
 }
+
+import { skillSchema } from "../skills/schema";
 
 function loadSkillFromDir(dirName: string): Skill | null {
   const skillDir = join(SKILLS_DIR, dirName);
@@ -28,13 +30,24 @@ function loadSkillFromDir(dirName: string): Skill | null {
   const name = frontmatter.name ?? dirName;
   const description = frontmatter.description ?? "";
 
-  return {
+  const skill: Skill = {
     name,
     description,
     template: body.trim(),
     ...(frontmatter.allowedTools ? { allowedTools: frontmatter.allowedTools } : {}),
     ...(frontmatter.mcpConfig ? { mcpConfig: frontmatter.mcpConfig } : {}),
   };
+
+  // validate to catch malformed skills early
+  const validation = skillSchema.safeParse(skill);
+  if (!validation.success) {
+    const errs = validation.error.issues
+      .map((i) => `${i.path.join(".")}: ${i.message}`)
+      .join("; ");
+    throw new Error(`Skill at \"${dirName}\" failed validation: ${errs}`);
+  }
+
+  return skill;
 }
 
 function discoverSkills(): Skill[] {

@@ -1,6 +1,6 @@
 import type { Task } from "./types";
 import { DelegationCategorySchema, type DelegationCategory } from "./types";
-import { AGENT_ADVISOR_PLAN } from "../../orchestration/agents/constants";
+import { AGENT_ADVISOR_PLAN } from "../../agents/runtime/constants";
 
 /**
  * Delegation engine configuration

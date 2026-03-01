@@ -1,0 +1,61 @@
+version: 1
+name: command-intent-contract
+summary: Canonical `/` command intent schema and generation invariants.
+
+schema:
+  CommandIntentSpec:
+    required:
+      - id
+      - description
+      - argsSchema
+      - acceptanceChecks
+      - defaultRoute
+    fields:
+      id:
+        type: string
+        pattern: "^[a-z0-9][a-z0-9:-]*$"
+      description:
+        type: string
+        minLength: 1
+      argsSchema:
+        type: object
+        deterministicSerialization: required
+      acceptanceChecks:
+        type: array
+        minItems: 1
+        itemType: string
+      defaultRoute:
+        type: string
+        minLength: 1
+      lifecycleHints:
+        type: object
+        required: false
+
+interfaces:
+  validateCommandIntent:
+    input:
+      spec: CommandIntentSpec
+    output:
+      valid: boolean
+      diagnostics:
+        - code: string
+          message: string
+
+  generateCommandCatalog:
+    input:
+      intents:
+        - CommandIntentSpec
+    output:
+      commands:
+        - CommandIntentSpec
+      digest: string
+
+invariants:
+  - Command IDs are globally unique.
+  - Generation output order is stable for identical input sets.
+  - Invalid argsSchema blocks generation.
+  - Catalog digest is reproducible across runs.
+
+nonGoals:
+  - Host-specific transport metadata in canonical command schemas.
+  - Runtime mutation of generated command catalog.

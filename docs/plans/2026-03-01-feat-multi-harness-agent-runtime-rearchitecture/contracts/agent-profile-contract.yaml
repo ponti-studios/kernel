@@ -1,0 +1,67 @@
+version: 1
+name: agent-profile-contract
+summary: Canonical `@` agent profile schema, policy translation boundaries, and resolver invariants.
+
+schema:
+  AgentProfileSpec:
+    required:
+      - id
+      - role
+      - runtimeRoute
+      - toolPolicy
+      - acceptanceChecks
+    fields:
+      id:
+        type: string
+        pattern: "^[a-z0-9][a-z0-9_:-]*$"
+      role:
+        type: string
+        minLength: 1
+      runtimeRoute:
+        type: string
+        minLength: 1
+      toolPolicy:
+        type: object
+        explicitDefault: required
+      modelPolicyHint:
+        type: string
+        required: false
+      acceptanceChecks:
+        type: array
+        minItems: 1
+        itemType: string
+
+interfaces:
+  resolveAgentTarget:
+    input:
+      target: string
+      profiles:
+        - AgentProfileSpec
+      context:
+        harness: string
+    output:
+      profileId: string
+      route: string
+      policy: object
+      fallback:
+        used: boolean
+        reason: string
+
+  generateAgentCatalog:
+    input:
+      profiles:
+        - AgentProfileSpec
+    output:
+      profiles:
+        - AgentProfileSpec
+      digest: string
+
+invariants:
+  - Profile IDs are globally unique.
+  - Tool policy translation is deterministic for identical inputs.
+  - Unsupported host capabilities must emit explicit fallback metadata.
+  - Generated profile catalogs are immutable at runtime.
+
+nonGoals:
+  - Embedding host-specific UX instructions in canonical profiles.
+  - Implicit fallback behavior without diagnostics.

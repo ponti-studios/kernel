@@ -22,16 +22,15 @@ import { getTaskToastManager } from "../../task-toast-manager";
 import type { ModelFallbackInfo } from "../../task-toast-manager/types";
 import { subagentSessions, getSessionAgent } from "../../claude-code-session-state";
 import { log, promptWithModelSuggestionRetry } from "../../../integration/shared";
-import { getAgentToolRestrictions } from "../../../orchestration/agents/agent-tool-restrictions";
-import { resolveModel } from "../../../orchestration/agents/model-resolver";
-import { getOpenCodeConfigPaths } from "../../../platform/opencode/config-dir";
+import { getAgentToolRestrictions } from "../../../agents/runtime/agent-tool-restrictions";
+import { resolveModel } from "../../../agents/runtime/model-resolver";
 import {
   fetchAvailableModels,
   isModelAvailable,
 } from "../../../platform/opencode/model-availability";
 import { readConnectedProvidersCache } from "../../../platform/opencode/connected-providers-cache";
-import { resolveModelWithFallback } from "../../../orchestration/agents/model-resolver";
-import { CATEGORY_MODEL_REQUIREMENTS } from "../../../orchestration/agents/model-requirements";
+import { resolveModelWithFallback } from "../../../agents/runtime/model-resolver";
+import { CATEGORY_MODEL_REQUIREMENTS } from "../../../agents/model-requirements";
 
 type OpencodeClient = PluginInput["client"];
 

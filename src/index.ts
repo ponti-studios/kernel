@@ -46,8 +46,8 @@ import {
 } from "./integration/shared/agent-variant";
 import { createFirstMessageVariantGate } from "./integration/shared/first-message-variant";
 import { discoverSharedPipelineSkills, mergeSkills } from "./execution/opencode-skill-loader";
-import { createSkills } from "./execution/skills";
-import { createAgents } from "./orchestration/agents";
+import { createSkills } from "./skills";
+import { createAgents } from "./agents/orchestration";
 import { getSystemMcpServerNames } from "./execution/claude-code-mcp-loader";
 import {
   setMainSession,

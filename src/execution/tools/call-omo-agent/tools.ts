@@ -5,7 +5,7 @@ import { ALLOWED_AGENTS, CALL_OMO_AGENT_DESCRIPTION } from "./constants";
 import type { CallOmoAgentArgs } from "./types";
 import type { BackgroundManager } from "../../background-agent";
 import { log, includesCaseInsensitive } from "../../../integration/shared";
-import { getAgentToolRestrictions } from "../../../orchestration/agents/agent-tool-restrictions";
+import { getAgentToolRestrictions } from "../../../agents/runtime/agent-tool-restrictions";
 import { consumeNewMessages } from "../../../integration/shared/session-cursor";
 import {
   findFirstMessageWithAgent,

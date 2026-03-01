@@ -3,7 +3,7 @@ import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { tmpdir } from "node:os";
 import { includesCaseInsensitive } from "./integration/shared";
-import { createSkills } from "./execution/skills";
+import { createSkills } from "./skills";
 import { discoverSharedPipelineSkills, mergeSkills } from "./execution/opencode-skill-loader";
 import type { LoadedSkill } from "./execution/opencode-skill-loader";
 

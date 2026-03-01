@@ -1,4 +1,4 @@
-import { createAgents } from "../../orchestration/agents";
+import { createAgents } from "../../agents/orchestration";
 import {
   loadUserCommands,
   loadProjectCommands,

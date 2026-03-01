@@ -6,7 +6,7 @@ import {
   AGENT_MODEL_REQUIREMENTS,
   CATEGORY_MODEL_REQUIREMENTS,
   type ModelRequirement,
-} from "../../../orchestration/agents/model-requirements";
+} from "../../../agents/runtime/model-requirements";
 import { homedir } from "node:os";
 import { join } from "node:path";
 
