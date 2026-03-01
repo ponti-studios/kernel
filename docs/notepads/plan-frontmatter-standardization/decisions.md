@@ -19,7 +19,7 @@ Audited 12 plans with unchecked boxes. Verified 12/12 are actually complete base
    - Decision: CHECK ALL BOXES ✓
 
 3. ✅ **2026-02-23-specify-integration-plan.md** (78→0 unchecked)
-   - Verified: Spec commands in `src/execution/commands/`
+   - Verified: Spec commands in `src/commands/`
    - Commit: 88b3f85 "Specify Integration - Ghostwire builtin commands"
    - Decision: CHECK ALL BOXES ✓
 
@@ -67,7 +67,7 @@ Audited 12 plans with unchecked boxes. Verified 12/12 are actually complete base
 11. ✅ **2026-02-22-compound-removal-plan.md** (6→0 unchecked)
     - Status: COMPLETED (Historical plan from Feb 2026)
     - Verified: Compound to learnings rebranding complete
-      - ✅ `/workflows:learnings` command exists in src/execution/commands/
+      - ✅ `/workflows:learnings` command exists in src/commands/
       - ✅ src/execution/skills/learnings/ directory exists
       - ✅ WORKFLOWS_LEARNINGS_TEMPLATE in place
       - ✅ docs/learnings/ references verified in deepen-plan.ts

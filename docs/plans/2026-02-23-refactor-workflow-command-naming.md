@@ -374,12 +374,12 @@ Result: Cross-session resumption = efficient continuation of long workflows
 
 #### Files to Update
 
-1. `src/execution/commands/commands.ts` - Add/rename command definitions
-2. `src/execution/commands/types.ts` - Update CommandName type
+1. `src/commands/commands.ts` - Add/rename command definitions
+2. `src/commands/types.ts` - Update CommandName type
 3. `src/platform/config/schema.ts` - Update CommandNameSchema
 4. `src/index.ts` - Update command handlers and routing
 5. `src/orchestration/hooks/auto-slash-command/constants.ts` - Update EXCLUDED_COMMANDS
-6. `src/execution/commands/templates/*.ts` - Update template references
+6. `src/commands/templates/*.ts` - Update template references
 7. `tests/regression.test.ts` - Add tests for old/new command names
 8. `docs/commands.yml` - Update command registry
 9. `docs/features.yml` - Update feature descriptions
@@ -612,12 +612,12 @@ System says: "⚠️ Deprecated: Use /ghostwire:workflows:execute instead"
 
 | File | Type | Changes |
 | --- | --- | --- |
-| `src/execution/commands/commands.ts` | Core | Add/rename commands |
-| `src/execution/commands/types.ts` | Core | Update CommandName type |
+| `src/commands/commands.ts` | Core | Add/rename commands |
+| `src/commands/types.ts` | Core | Update CommandName type |
 | `src/platform/config/schema.ts` | Core | Update CommandNameSchema |
 | `src/index.ts` | Core | Update command handlers |
 | `src/orchestration/hooks/auto-slash-command/constants.ts` | Core | Update EXCLUDED_COMMANDS |
-| `src/execution/commands/templates/*.ts` | Template | Update template references |
+| `src/commands/templates/*.ts` | Template | Update template references |
 | `tests/regression.test.ts` | Test | Add command name tests |
 | `docs/commands.yml` | Doc | Update command registry |
 | `docs/features.yml` | Doc | Update feature descriptions |

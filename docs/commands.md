@@ -54,4 +54,4 @@ Legacy aliases (`init-deep`, `jack-in-work`, `ultrawork-loop`, `cancel-ultrawork
 
 - [`src/orchestration/agents/constants.ts`](../../src/orchestration/agents/constants.ts)
 - [`src/platform/config/schema.ts`](../../src/platform/config/schema.ts)
-- `bun test src/execution/commands/agent-validation.test.ts`
+- `bun test src/commands/agent-validation.test.ts`

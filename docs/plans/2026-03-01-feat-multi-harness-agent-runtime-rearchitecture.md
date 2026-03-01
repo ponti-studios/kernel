@@ -121,9 +121,9 @@ Ghostwire currently mixes command intent, prompt assets, profile metadata, runti
 ## Research Summary
 
 ### Local Findings
-- [src/execution/commands/commands.ts](src/execution/commands/commands.ts) currently builds runtime definitions from generated manifest.
+- [src/commands/commands.ts](src/commands/commands.ts) currently builds runtime definitions from generated manifest.
 - [src/script/build-commands-manifest.ts](src/script/build-commands-manifest.ts) generates catalog from `commands/commands/*.ts`.
-- [src/execution/commands/profiles.ts](src/execution/commands/profiles.ts) currently overlays prompt data and usage rendering in one module.
+- [src/commands/profiles.ts](src/commands/profiles.ts) currently overlays prompt data and usage rendering in one module.
 - [src/cli/export.ts](src/cli/export.ts) separately reads templates for export prompt generation.
 - [docs/engineering/002-command-system-first-principles.md](docs/engineering/002-command-system-first-principles.md) already identifies first-principles separation requirement.
 
@@ -345,9 +345,9 @@ Assumptions:
 
 ## References
 - Internal:
-  - [src/execution/commands/commands.ts](src/execution/commands/commands.ts)
+  - [src/commands/commands.ts](src/commands/commands.ts)
   - [src/script/build-commands-manifest.ts](src/script/build-commands-manifest.ts)
-  - [src/execution/commands/profiles.ts](src/execution/commands/profiles.ts)
+  - [src/commands/profiles.ts](src/commands/profiles.ts)
   - [src/cli/export.ts](src/cli/export.ts)
   - [docs/engineering/002-command-system-first-principles.md](docs/engineering/002-command-system-first-principles.md)
 - Related issue/PR:

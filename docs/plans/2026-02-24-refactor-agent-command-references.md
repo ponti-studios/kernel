@@ -157,7 +157,7 @@ Systematically replace legacy agent IDs with canonical names.
 
 #### Task 3: Remove Legacy Command Aliases
 
-**File**: `src/execution/commands/commands.ts`
+**File**: `src/commands/commands.ts`
 
 Hard-remove deprecated command aliases from exported constants and valid-command arrays.
 
@@ -210,8 +210,8 @@ Update keyword metadata to current canonical terminology.
 ```
 src/orchestration/agents/constants.ts  ← SOURCE OF TRUTH
        ↓ (imports)
-src/execution/commands/templates/*.ts  ← Use constants
-src/execution/commands/commands.ts  ← Validate references
+src/commands/templates/*.ts  ← Use constants
+src/commands/commands.ts  ← Validate references
        ↓ (validated by)
 script/validate-agent-references.ts  ← Build-time validation
        ↓
@@ -252,7 +252,7 @@ export const VALID_SKILL_NAMES = [SKILL_FRONTEND_DESIGN, ...];
 
 #### 2. Template Helper with Validation
 
-**File**: `src/execution/commands/utils/template-helper.ts`
+**File**: `src/commands/utils/template-helper.ts`
 
 ```typescript
 // Tagged template function that validates at build time
@@ -482,7 +482,7 @@ Build-Time Checks:        ✅ Automatic on bun run build
 | File | Changes |
 | --- | --- |
 | `src/execution/task-queue/delegation-engine.ts` | Replace hardcoded agent IDs with constants |
-| `src/execution/commands/commands.ts` | Remove deprecated aliases, normalize subagent references |
+| `src/commands/commands.ts` | Remove deprecated aliases, normalize subagent references |
 | Command templates (multiple) | Update references to canonical names |
 | `tests/regression.test.ts` | Update fixture arrays with canonical names |
 | `README.md` | Update documented agent names |
@@ -495,7 +495,7 @@ Build-Time Checks:        ✅ Automatic on bun run build
 | File | Changes |
 | --- | --- |
 | `src/orchestration/agents/constants.ts` | Add command and skill constants, create validation arrays |
-| `src/execution/commands/utils/template-helper.ts` | Create tagged template helper with validation |
+| `src/commands/utils/template-helper.ts` | Create tagged template helper with validation |
 | `script/validate-agent-references.ts` | Extend coverage to include task-queue, hooks, docs |
 | `tests/regression.test.ts` | Update agent-validation test to import from constants |
 | `.husky/pre-commit` | Add pre-commit hook (if using husky) |

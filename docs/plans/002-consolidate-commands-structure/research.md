@@ -16,17 +16,17 @@
 
 | File | Import Statement | Line(s) | Update Strategy |
 |------|------------------|---------|-----------------|
-| `src/execution/commands/profiles.ts` | `import { PROFILE_PROMPTS } from "./profiles/prompts"` | ~15 | Change to `import { AGENT_PROMPTS } from "../../orchestration/agents/prompts"` |
-| `src/execution/commands/index.ts` | Re-exports `PROFILE_PROMPTS` | ~20 | Update re-export source |
-| `src/execution/commands/prompts/index.ts` | Re-exports `PROFILE_PROMPTS` | ~5 | Update re-export source |
+| `src/commands/profiles.ts` | `import { PROFILE_PROMPTS } from "./profiles/prompts"` | ~15 | Change to `import { AGENT_PROMPTS } from "../../orchestration/agents/prompts"` |
+| `src/commands/index.ts` | Re-exports `PROFILE_PROMPTS` | ~20 | Update re-export source |
+| `src/commands/prompts/index.ts` | Re-exports `PROFILE_PROMPTS` | ~5 | Update re-export source |
 
 #### References to `PROFILE_PROMPTS` Symbol
 
 | File | Context | Count | Update Strategy |
 |------|---------|-------|-----------------|
-| `src/execution/commands/profiles.ts` | Variable assignment and usage | 3 | Rename to `AGENT_PROMPTS` |
-| `src/execution/commands/index.ts` | Re-export | 1 | Rename to `AGENT_PROMPTS` |
-| `src/execution/commands/prompts/index.ts` | Re-export | 1 | Rename to `AGENT_PROMPTS` |
+| `src/commands/profiles.ts` | Variable assignment and usage | 3 | Rename to `AGENT_PROMPTS` |
+| `src/commands/index.ts` | Re-export | 1 | Rename to `AGENT_PROMPTS` |
+| `src/commands/prompts/index.ts` | Re-export | 1 | Rename to `AGENT_PROMPTS` |
 | `src/execution/background-agent/manager.ts` | Import and usage | 2 | Update import path and rename |
 | `src/execution/tools/delegate-task/tools.ts` | Import and usage | 1 | Update import path and rename |
 | `src/platform/opencode/config-composer.ts` | Import and usage | 1 | Update import path and rename |
@@ -36,8 +36,8 @@
 
 #### Indirect References (via re-exports)
 
-Files that import from `src/execution/commands/` and use `PROFILE_PROMPTS`:
-- Any file importing from `src/execution/commands/index.ts` will need to update if they use `PROFILE_PROMPTS`
+Files that import from `src/commands/` and use `PROFILE_PROMPTS`:
+- Any file importing from `src/commands/index.ts` will need to update if they use `PROFILE_PROMPTS`
 - Search results show ~5-7 additional files may be affected
 
 **Decision**: Rename `PROFILE_PROMPTS` → `AGENT_PROMPTS` throughout to clarify that these are agent-specific prompts, not generic profile prompts.
@@ -53,8 +53,8 @@ Files that import from `src/execution/commands/` and use `PROFILE_PROMPTS`:
 #### Export Pipeline (`src/cli/export.ts`)
 
 **Current Behavior**:
-- Reads command templates from `src/execution/commands/templates/`
-- Reads command prompts from `src/execution/commands/prompts/`
+- Reads command templates from `src/commands/templates/`
+- Reads command prompts from `src/commands/prompts/`
 - Generates `.github/prompts/*.prompt.md` files
 
 **Impact of Reorganization**: NONE - Export pipeline doesn't reference `profiles/prompts/`, so no changes needed.
@@ -74,7 +74,7 @@ Files that import from `src/execution/commands/` and use `PROFILE_PROMPTS`:
 #### Template Copy Script (`src/script/copy-templates.ts`)
 
 **Current Behavior**:
-- Copies templates from `src/execution/commands/templates/` to `dist/`
+- Copies templates from `src/commands/templates/` to `dist/`
 
 **Impact of Reorganization**: NONE - Doesn't reference `profiles/prompts/`, so no changes needed.
 
@@ -103,7 +103,7 @@ Files that import from `src/execution/commands/` and use `PROFILE_PROMPTS`:
 // Prompts are loaded separately via PROFILE_PROMPTS import
 ```
 
-**File**: `src/execution/commands/profiles.ts`
+**File**: `src/commands/profiles.ts`
 
 ```typescript
 // Current: Imports PROFILE_PROMPTS from profiles/prompts/
@@ -127,7 +127,7 @@ Files that import from `src/execution/commands/` and use `PROFILE_PROMPTS`:
 
 **Changes Required**:
 
-- Update import path in `src/execution/commands/profiles.ts` to import from `src/orchestration/agents/prompts/`
+- Update import path in `src/commands/profiles.ts` to import from `src/orchestration/agents/prompts/`
 - Rename `PROFILE_PROMPTS` → `AGENT_PROMPTS` in all files
 - Update `src/orchestration/agents/prompts/index.ts` to export `AGENT_PROMPTS`
 
@@ -142,7 +142,7 @@ Files that import from `src/execution/commands/` and use `PROFILE_PROMPTS`:
 **Current Export Pipeline**:
 
 ```
-src/execution/commands/templates/*.ts
+src/commands/templates/*.ts
     ↓ (read by export.ts)
 src/cli/export.ts
     ↓ (generates)
@@ -152,7 +152,7 @@ src/cli/export.ts
 **Export Process**:
 
 1. `ghostwire export --target copilot` is run
-2. `src/cli/export.ts` reads command templates from `src/execution/commands/templates/`
+2. `src/cli/export.ts` reads command templates from `src/commands/templates/`
 3. For each template, it extracts the prompt and generates a `.prompt.md` file
 4. Files are written to `.github/prompts/`
 
@@ -282,8 +282,8 @@ src/cli/export.ts
 
 ## Verification Checklist
 
-- [ ] All files copied from `src/execution/commands/profiles/prompts/` to `src/orchestration/agents/prompts/`
-- [ ] `src/execution/commands/profiles/` directory deleted
+- [ ] All files copied from `src/commands/profiles/prompts/` to `src/orchestration/agents/prompts/`
+- [ ] `src/commands/profiles/` directory deleted
 - [ ] All imports from `profiles/prompts/` updated to `orchestration/agents/prompts/`
 - [ ] All `PROFILE_PROMPTS` references renamed to `AGENT_PROMPTS`
 - [ ] `src/orchestration/agents/prompts/index.ts` exports `AGENT_PROMPTS`

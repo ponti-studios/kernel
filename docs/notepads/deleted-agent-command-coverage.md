@@ -47,8 +47,8 @@ Runtime supports only `do` and `research`. Specialist behavior is implemented th
 
 Deleted-agent prompt content is now command-owned at:
 
-- `src/execution/commands/profiles/prompts/<profile_id>.ts`
-- `src/execution/commands/profiles/prompts/index.ts`
+- `src/commands/profiles/prompts/<profile_id>.ts`
+- `src/commands/profiles/prompts/index.ts`
 
 `profiles.ts` imports this prompt index and applies full markdown prompt text to `prompt_append`.
 

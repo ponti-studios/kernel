@@ -17,9 +17,9 @@ This creates semantic ambiguity and weakens maintainability. The same term (`com
 
 ## Deterministic Findings (Current State)
 
-1. Manifest generation compiles from `src/execution/commands/commands/*.ts`.
-2. Several runtime commands import templates from `src/execution/commands/templates/**`.
-3. Export pipeline also reads `src/execution/commands/templates/**` directly for docs export.
+1. Manifest generation compiles from `src/commands/commands/*.ts`.
+2. Several runtime commands import templates from `src/commands/templates/**`.
+3. Export pipeline also reads `src/commands/templates/**` directly for docs export.
 4. `profiles.ts` overlays `AGENT_PROMPTS` and injects profile usage strings into command templates.
 5. Effective behavior is a mixed graph of direct literals + imported templates + generated manifest.
 
@@ -162,7 +162,7 @@ This removes dual ingestion paths and eliminates current drift risk.
 
 ### Phase D — Remove legacy topology
 
-- Delete `src/execution/commands/commands/*` and `src/execution/commands/templates/*`.
+- Delete `src/commands/commands/*` and `src/commands/templates/*`.
 - Keep compatibility shim for one release cycle.
 
 ## Verification Strategy

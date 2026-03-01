@@ -58,7 +58,7 @@ Build a **multi-layered prevention system** with:
 All 10 tasks completed successfully across all 6 execution waves. The agent drift prevention system is now fully operational with:
 
 - Constants system: ✅ All 67 commands, 18 skills, 10 agents, 8 categories defined in `src/orchestration/agents/constants.ts`
-- Template helper: ✅ Build-time validation utility in place at `src/execution/commands/utils/template-helper.ts`
+- Template helper: ✅ Build-time validation utility in place at `src/commands/utils/template-helper.ts`
 - Validation script: ✅ Running successfully via `bun run validate:agent-references` with 100% pass rate
 - Test coverage: ✅ 9 validation tests passing across agent/category/command/skill validation
 - Pre-commit protection: ✅ Git hook installed at `.husky/pre-commit` prevents drift at commit time
@@ -174,7 +174,7 @@ export type ValidSkillName = typeof VALID_SKILL_NAMES[number];
 
 #### Layer 2: Template Helper Utility
 
-**File**: `src/execution/commands/utils/template-helper.ts`
+**File**: `src/commands/utils/template-helper.ts`
 
 Tagged template function for type-safe command templates:
 
@@ -258,7 +258,7 @@ Runs validation on staged files before commit, preventing drift from entering th
 **Blocks**: Tasks 3, 7, 8  
 **Depends On**: Task 1
 
-**Description**: Template helper utility with validation located at `src/execution/commands/utils/template-helper.ts`. Validates agent/category/skill references against constants.ts at build time.
+**Description**: Template helper utility with validation located at `src/commands/utils/template-helper.ts`. Validates agent/category/skill references against constants.ts at build time.
 
 **Acceptance Criteria**:
 - ✅ `commandTemplate` function exported and typed
@@ -293,7 +293,7 @@ Runs validation on staged files before commit, preventing drift from entering th
 **Actual**: Inherited from existing codebase  
 **Depends On**: Task 1
 
-**Description**: Test file at `src/execution/commands/agent-validation.test.ts` imports constants from constants.ts. Comprehensive test coverage for validation.
+**Description**: Test file at `src/commands/agent-validation.test.ts` imports constants from constants.ts. Comprehensive test coverage for validation.
 
 **Acceptance Criteria**:
 - ✅ Tests import constants from constants.ts
@@ -341,7 +341,7 @@ Runs validation on staged files before commit, preventing drift from entering th
 **Actual**: Not required (validation passing)  
 **Depends On**: Tasks 1, 2
 
-**Description**: Templates in `src/execution/commands/templates/` validated. All references are valid against constants.ts.
+**Description**: Templates in `src/commands/templates/` validated. All references are valid against constants.ts.
 
 **Files Validated**:
 - project.ts ✅
@@ -425,7 +425,7 @@ Runs validation on staged files before commit, preventing drift from entering th
 **Actual**: Not required (validation passing)  
 **Depends On**: Task 1
 
-**Description**: All 44+ command files in `src/execution/commands/commands/` validated. All references are valid against constants.ts.
+**Description**: All 44+ command files in `src/commands/commands/` validated. All references are valid against constants.ts.
 
 **Validation Results**:
 - Commands scanned: 44+
@@ -613,7 +613,7 @@ WAVE 6 (After all others):
    - Prevents invalid references from entering repository
    - Can be bypassed with `git commit --no-verify` if needed
 
-4. **Test coverage** (src/execution/commands/agent-validation.test.ts)
+4. **Test coverage** (src/commands/agent-validation.test.ts)
    - 9 comprehensive test cases
    - 100% passing rate
    - Covers all entity types and validation functions

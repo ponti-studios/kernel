@@ -208,7 +208,7 @@ Target all instances of "builtin" terminology while preserving semantic meaning:
 | Before | After | Status |
 | --- | --- | --- |
 | `src/execution/builtin-skills/` | `src/execution/skills/` | ✅ Renamed |
-| `src/execution/builtin-commands/` | `src/execution/commands/` | ✅ Renamed |
+| `src/execution/builtin-commands/` | `src/commands/` | ✅ Renamed |
 
 #### File Renames
 
@@ -357,7 +357,7 @@ Replace all "compound" references with "learnings" and "solutions" with "learnin
 | Before | After | Status |
 | --- | --- | --- |
 | `src/execution/builtin-skills/compound-docs/` | `src/execution/skills/learnings/` | ✅ Renamed |
-| `src/execution/builtin-commands/templates/workflows/compound.ts` | `src/execution/commands/templates/workflows/learnings.ts` | ✅ Renamed |
+| `src/execution/builtin-commands/templates/workflows/compound.ts` | `src/commands/templates/workflows/learnings.ts` | ✅ Renamed |
 | `docs/solutions/` | `docs/learnings/` | ✅ Renamed |
 
 #### Configuration Schema
@@ -377,11 +377,11 @@ Replace all "compound" references with "learnings" and "solutions" with "learnin
 | --- | --- |
 | `src/platform/config/schema.ts` | Remove compound schema, migration logic, enum entries |
 | `src/execution/skills/skills.ts` | Rename skill definition, update description |
-| `src/execution/commands/commands.ts` | Rename command, update template import |
-| `src/execution/commands/types.ts` | Rename command type reference |
+| `src/commands/commands.ts` | Rename command, update template import |
+| `src/commands/types.ts` | Rename command type reference |
 | `src/execution/imports/claude/migration.ts` | Remove compound_engineering migration |
-| `src/execution/commands/templates/workflows/learnings.ts` | Update content, rename constant |
-| `src/execution/commands/templates/deepen-plan.ts` | Update compound→learnings references |
+| `src/commands/templates/workflows/learnings.ts` | Update content, rename constant |
+| `src/commands/templates/deepen-plan.ts` | Update compound→learnings references |
 
 #### Template Updates
 

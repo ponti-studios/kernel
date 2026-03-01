@@ -11,15 +11,15 @@
 
 As a maintainer, I can reason about the commands directory structure without confusion about mixed purposes, so I can quickly locate command templates, prompts, and related artifacts.
 
-**Why this priority**: Current structure has prompts and templates scattered across `src/execution/commands/prompts/`, `src/execution/commands/templates/`, and `src/execution/commands/profiles/prompts/`, creating ambiguity about what belongs where.
+**Why this priority**: Current structure has prompts and templates scattered across `src/commands/prompts/`, `src/commands/templates/`, and `src/commands/profiles/prompts/`, creating ambiguity about what belongs where.
 
-**Independent Test**: Can be fully tested by verifying directory structure is clean with only `templates/` and `prompts/` subdirectories under `src/execution/commands/`, and no `profiles/` directory remains.
+**Independent Test**: Can be fully tested by verifying directory structure is clean with only `templates/` and `prompts/` subdirectories under `src/commands/`, and no `profiles/` directory remains.
 
 **Acceptance Scenarios**:
 
 1. **Given** the commands directory, **When** a developer navigates it, **Then** they find only `templates/` and `prompts/` subdirectories with clear purpose.
-2. **Given** a command template file, **When** searching for its associated prompt, **Then** they find it in `src/execution/commands/prompts/` with consistent naming.
-3. **Given** the export pipeline, **When** it generates `.github/prompts/`, **Then** the source structure is clearly traceable to `src/execution/commands/`.
+2. **Given** a command template file, **When** searching for its associated prompt, **Then** they find it in `src/commands/prompts/` with consistent naming.
+3. **Given** the export pipeline, **When** it generates `.github/prompts/`, **Then** the source structure is clearly traceable to `src/commands/`.
 
 ---
 
@@ -27,7 +27,7 @@ As a maintainer, I can reason about the commands directory structure without con
 
 As a maintainer, I can locate profile-specific prompts alongside their agent definitions, so agent customization logic is co-located with agent orchestration.
 
-**Why this priority**: Profile prompts are currently in `src/execution/commands/profiles/prompts/`, separated from agent definitions in `src/orchestration/agents/`, creating a split mental model.
+**Why this priority**: Profile prompts are currently in `src/commands/profiles/prompts/`, separated from agent definitions in `src/orchestration/agents/`, creating a split mental model.
 
 **Independent Test**: Can be fully tested by verifying all profile prompts are migrated to `src/orchestration/agents/prompts/` and agent loading logic correctly resolves agent-specific prompts.
 
@@ -74,8 +74,8 @@ As a user, I can run `ghostwire export --target copilot` and the `.github/prompt
 ## Scope & Constraints
 
 **In Scope**:
-- Move `src/execution/commands/profiles/prompts/` → `src/orchestration/agents/prompts/`
-- Delete `src/execution/commands/profiles/` directory
+- Move `src/commands/profiles/prompts/` → `src/orchestration/agents/prompts/`
+- Delete `src/commands/profiles/` directory
 - Update all imports throughout codebase (~40+ files)
 - Update build scripts: `export.ts`, `build-agents-manifest.ts`, `copy-templates.ts`
 - Update documentation: `.github/copilot-instructions.md`, `docs/export.md`, `AGENTS.md`
@@ -102,8 +102,8 @@ As a user, I can run `ghostwire export --target copilot` and the `.github/prompt
 
 ## Success Criteria
 
-1. ✅ Directory structure is clean: `src/execution/commands/` contains only `templates/` and `prompts/` subdirectories
-2. ✅ No `src/execution/commands/profiles/` directory exists
+1. ✅ Directory structure is clean: `src/commands/` contains only `templates/` and `prompts/` subdirectories
+2. ✅ No `src/commands/profiles/` directory exists
 3. ✅ All profile prompts are in `src/orchestration/agents/prompts/`
 4. ✅ Zero matches for `profiles/prompts` imports in codebase
 5. ✅ All `PROFILE_PROMPTS` references renamed to `AGENT_PROMPTS`

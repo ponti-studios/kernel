@@ -47,10 +47,10 @@ Establish evidence-backed constraints and opportunities for rearchitecting Ghost
 ### Finding 3: Current Ghostwire Has Source-of-Truth Duplication
 
 **Evidence**
-- [src/execution/commands/commands.ts](../../../src/execution/commands/commands.ts) builds runtime definitions from generated manifest.
+- [src/commands/commands.ts](../../../src/commands/commands.ts) builds runtime definitions from generated manifest.
 - [src/script/build-commands-manifest.ts](../../../src/script/build-commands-manifest.ts) generates command catalog from `commands/commands/*.ts`.
 - [src/cli/export.ts](../../../src/cli/export.ts) independently reads templates from `commands/templates/*` for export.
-- [src/execution/commands/profiles.ts](../../../src/execution/commands/profiles.ts) overlays prompt data and usage text in runtime module.
+- [src/commands/profiles.ts](../../../src/commands/profiles.ts) overlays prompt data and usage text in runtime module.
 
 **Implication**
 - Runtime and export paths should consume the same generated catalogs.

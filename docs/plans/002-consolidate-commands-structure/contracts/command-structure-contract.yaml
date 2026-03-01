@@ -6,7 +6,7 @@ date: "2026-02-28"
 
 # Directory Structure Contract
 structure:
-  src/execution/commands/:
+  src/commands/:
     description: "Command execution layer"
     subdirectories:
       - name: "templates/"
@@ -76,27 +76,27 @@ exports:
       }
 
   - name: "COMMAND_TEMPLATES"
-    from: "src/execution/commands/templates"
+    from: "src/commands/templates"
     type: "Record<string, CommandTemplate>"
     description: "Command template definitions"
     usage: "Used by export pipeline to generate prompts"
 
   - name: "COMMAND_PROMPTS"
-    from: "src/execution/commands/prompts"
+    from: "src/commands/prompts"
     type: "Record<string, string>"
     description: "Command-specific prompts"
     usage: "Used by command execution system"
 
 # Import Contracts
 imports:
-  - from: "src/execution/commands/profiles.ts"
+  - from: "src/commands/profiles.ts"
     to: "src/orchestration/agents/prompts"
     symbol: "AGENT_PROMPTS"
     reason: "Load agent-specific prompts for profile customization"
     old_import: "import { PROFILE_PROMPTS } from './profiles/prompts'"
     new_import: "import { AGENT_PROMPTS } from '../../orchestration/agents/prompts'"
 
-  - from: "src/execution/commands/index.ts"
+  - from: "src/commands/index.ts"
     to: "src/orchestration/agents/prompts"
     symbol: "AGENT_PROMPTS"
     reason: "Re-export for public API"
@@ -120,12 +120,12 @@ imports:
 
 # Build Pipeline Contract
 build_pipeline:
-  - step: "Load command templates from src/execution/commands/templates/"
+  - step: "Load command templates from src/commands/templates/"
     input: "*.ts files"
     output: "CommandTemplate records"
     verification: "All templates loaded without errors"
 
-  - step: "Load command prompts from src/execution/commands/prompts/"
+  - step: "Load command prompts from src/commands/prompts/"
     input: "*.ts files"
     output: "CommandPrompt records"
     verification: "All prompts loaded without errors"
@@ -147,7 +147,7 @@ build_pipeline:
 
 # Directory Deletion Contract
 deletions:
-  - path: "src/execution/commands/profiles/"
+  - path: "src/commands/profiles/"
     reason: "Consolidated into src/orchestration/agents/prompts/"
     verification: "Directory does not exist after migration"
 
@@ -162,11 +162,11 @@ naming:
 # Verification Contract
 verification:
   - check: "Directory structure"
-    command: "ls -la src/execution/commands/"
+    command: "ls -la src/commands/"
     expected: "Only templates/ and prompts/ subdirectories"
 
   - check: "Old directory deleted"
-    command: "ls src/execution/commands/profiles/ 2>&1"
+    command: "ls src/commands/profiles/ 2>&1"
     expected: "No such file or directory"
 
   - check: "New directory exists"
@@ -204,7 +204,7 @@ rollback:
     verification: "Commits reverted successfully"
 
   - step: "Restore directory"
-    command: "git checkout src/execution/commands/profiles/"
+    command: "git checkout src/commands/profiles/"
     verification: "Directory restored"
 
   - step: "Restore imports"
@@ -218,7 +218,7 @@ rollback:
 # Success Criteria
 success_criteria:
   - "Directory structure is clean (only templates/ and prompts/ in commands)"
-  - "No src/execution/commands/profiles/ directory exists"
+  - "No src/commands/profiles/ directory exists"
   - "All profile prompts are in src/orchestration/agents/prompts/"
   - "Zero matches for profiles/prompts imports in codebase"
   - "All PROFILE_PROMPTS references renamed to AGENT_PROMPTS"

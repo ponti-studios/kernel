@@ -240,7 +240,7 @@ All 29 agents follow this pattern with atomic factory functions and metadata.
 #### Command Template Pattern
 
 ```typescript
-// src/execution/commands/compound/workflows/learnings.ts
+// src/commands/compound/workflows/learnings.ts
 export const WORKFLOWS_LEARNINGS_TEMPLATE = `You are a master learning aggregation agent...
 
 ## Learning Process

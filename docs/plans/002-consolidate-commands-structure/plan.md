@@ -9,7 +9,7 @@
 **Timeline**: 4 hours actual (6.5-10 hours estimated)  
 **Completion**: 2026-02-28 (Phase 5 Verification Complete)
 
-Consolidate the mixed-purpose `src/execution/commands/` directory by eliminating the `profiles/` subdirectory and migrating profile-specific prompts to `src/orchestration/agents/prompts/`. Update all imports, build scripts, and documentation to maintain functional equivalence while improving code organization and maintainability.
+Consolidate the mixed-purpose `src/commands/` directory by eliminating the `profiles/` subdirectory and migrating profile-specific prompts to `src/orchestration/agents/prompts/`. Update all imports, build scripts, and documentation to maintain functional equivalence while improving code organization and maintainability.
 
 **Verification Results**:
 - ✅ TypeScript compilation: 0 errors
@@ -63,7 +63,7 @@ specs/002-consolidate-commands-structure/
 
 **Before Reorganization**:
 ```text
-src/execution/commands/
+src/commands/
 ├── index.ts
 ├── profiles.ts
 ├── templates/
@@ -94,7 +94,7 @@ src/orchestration/agents/
 
 **After Reorganization**:
 ```text
-src/execution/commands/
+src/commands/
 ├── index.ts
 ├── profiles.ts (updated to import from orchestration/agents/prompts)
 ├── templates/
@@ -174,11 +174,11 @@ src/orchestration/agents/
 
 **Entities**:
 
-- **CommandTemplate**: Represents a command template file in `src/execution/commands/templates/`
+- **CommandTemplate**: Represents a command template file in `src/commands/templates/`
   - Fields: `name`, `path`, `description`, `exports`
   - Relationships: 1:1 with optional AgentPrompt
 
-- **CommandPrompt**: Represents a command prompt in `src/execution/commands/prompts/`
+- **CommandPrompt**: Represents a command prompt in `src/commands/prompts/`
   - Fields: `name`, `path`, `agentId`, `content`
   - Relationships: 1:1 with CommandTemplate (optional)
 
@@ -208,7 +208,7 @@ version: "1.0"
 description: "Contract for command directory structure"
 
 structure:
-  src/execution/commands/:
+  src/commands/:
     - templates/: "Command template implementations"
     - prompts/: "Command-specific prompts"
     - index.ts: "Main export file"
@@ -226,29 +226,29 @@ exports:
     description: "Agent-specific prompt customizations"
 
   - name: "COMMAND_TEMPLATES"
-    from: "src/execution/commands/templates"
+    from: "src/commands/templates"
     type: "Record<string, CommandTemplate>"
     description: "Command template definitions"
 
   - name: "COMMAND_PROMPTS"
-    from: "src/execution/commands/prompts"
+    from: "src/commands/prompts"
     type: "Record<string, string>"
     description: "Command-specific prompts"
 
 imports:
-  - from: "src/execution/commands/profiles.ts"
+  - from: "src/commands/profiles.ts"
     to: "src/orchestration/agents/prompts"
     symbol: "AGENT_PROMPTS"
     reason: "Load agent-specific prompts"
 
-  - from: "src/execution/commands/index.ts"
+  - from: "src/commands/index.ts"
     to: "src/orchestration/agents/prompts"
     symbol: "AGENT_PROMPTS"
     reason: "Re-export for public API"
 
 build_pipeline:
-  - step: "Load command templates from src/execution/commands/templates/"
-  - step: "Load command prompts from src/execution/commands/prompts/"
+  - step: "Load command templates from src/commands/templates/"
+  - step: "Load command prompts from src/commands/prompts/"
   - step: "Load agent prompts from src/orchestration/agents/prompts/"
   - step: "Generate .github/prompts/ artifacts"
   - step: "Generate agents manifest with agent prompts"
@@ -258,8 +258,8 @@ build_pipeline:
 
 **For Developers**:
 
-1. **Locate a command template**: `src/execution/commands/templates/<command-name>.ts`
-2. **Find its prompt**: `src/execution/commands/prompts/<agent-id>.ts`
+1. **Locate a command template**: `src/commands/templates/<command-name>.ts`
+2. **Find its prompt**: `src/commands/prompts/<agent-id>.ts`
 3. **Find agent customization**: `src/orchestration/agents/prompts/<agent-id>.ts`
 4. **Update imports**: If moving files, update all import paths in dependent files
 5. **Verify build**: Run `bun run src/cli/export.ts --target copilot` to verify export pipeline
@@ -285,15 +285,15 @@ Run `.specify/scripts/bash/update-agent-context.sh copilot` to update Copilot co
 ### Task Group 1: Directory Migration
 
 1. **Create new directory**: `src/orchestration/agents/prompts/`
-2. **Copy files**: Move all files from `src/execution/commands/profiles/prompts/` to `src/orchestration/agents/prompts/`
+2. **Copy files**: Move all files from `src/commands/profiles/prompts/` to `src/orchestration/agents/prompts/`
 3. **Update index.ts**: Create/update `src/orchestration/agents/prompts/index.ts` to export `AGENT_PROMPTS`
-4. **Delete old directory**: Remove `src/execution/commands/profiles/` directory
+4. **Delete old directory**: Remove `src/commands/profiles/` directory
 
 ### Task Group 2: Import Updates
 
-1. **Update `src/execution/commands/profiles.ts`**: Import `AGENT_PROMPTS` from `src/orchestration/agents/prompts`
-2. **Update `src/execution/commands/index.ts`**: Update re-exports to use new location
-3. **Update `src/execution/commands/prompts/index.ts`**: Update re-exports if needed
+1. **Update `src/commands/profiles.ts`**: Import `AGENT_PROMPTS` from `src/orchestration/agents/prompts`
+2. **Update `src/commands/index.ts`**: Update re-exports to use new location
+3. **Update `src/commands/prompts/index.ts`**: Update re-exports if needed
 4. **Search and update all other files**: Use grep to find all remaining references and update them
 
 ### Task Group 3: Build Script Updates
@@ -312,7 +312,7 @@ Run `.specify/scripts/bash/update-agent-context.sh copilot` to update Copilot co
 
 ### Task Group 5: Verification & Testing
 
-1. **Verify directory structure**: Confirm `src/execution/commands/` is clean
+1. **Verify directory structure**: Confirm `src/commands/` is clean
 2. **Verify imports**: Run `grep -r "profiles/prompts" src/` for zero matches
 3. **Verify naming**: Run `grep -r "PROFILE_PROMPTS" src/` for zero matches
 4. **Run tests**: `bun test` to verify no import errors
@@ -327,7 +327,7 @@ Run `.specify/scripts/bash/update-agent-context.sh copilot` to update Copilot co
 If issues arise during implementation:
 
 1. **Revert commits**: `git revert <commit-hash>` in reverse order
-2. **Restore directory**: `git checkout src/execution/commands/profiles/`
+2. **Restore directory**: `git checkout src/commands/profiles/`
 3. **Restore imports**: `git checkout src/` to restore all import statements
 4. **Verify restoration**: Run `bun test` to confirm system is functional
 
@@ -337,7 +337,7 @@ If issues arise during implementation:
 
 | Metric | Target | Verification |
 |--------|--------|--------------|
-| Directory structure | Clean (only `templates/` and `prompts/` in commands) | `ls -la src/execution/commands/` shows no `profiles/` |
+| Directory structure | Clean (only `templates/` and `prompts/` in commands) | `ls -la src/commands/` shows no `profiles/` |
 | Import consistency | Zero old import paths | `grep -r "profiles/prompts" src/` returns 0 matches |
 | Naming consistency | All `PROFILE_PROMPTS` renamed | `grep -r "PROFILE_PROMPTS" src/` returns 0 matches |
 | Test success | 100% pass rate | `bun test` completes with all tests passing |

@@ -11,7 +11,7 @@
 
 **Fields**:
 - `id: string` - Unique identifier (e.g., `code.review`, `workflows.plan`)
-- `path: string` - File path relative to `src/execution/commands/templates/`
+- `path: string` - File path relative to `src/commands/templates/`
 - `name: string` - Human-readable name
 - `description: string` - What the command does
 - `category: string` - Category (e.g., `spec`, `project`, `workflows`)
@@ -23,7 +23,7 @@
 
 **Validation Rules**:
 - `id` must be unique within templates
-- `path` must exist in `src/execution/commands/templates/`
+- `path` must exist in `src/commands/templates/`
 - `name` must be non-empty
 - `category` must be one of: `spec`, `project`, `workflows`, or other defined categories
 
@@ -47,7 +47,7 @@
 
 **Fields**:
 - `id: string` - Unique identifier (e.g., `advisor_architecture`, `reviewer_python`)
-- `path: string` - File path relative to `src/execution/commands/prompts/`
+- `path: string` - File path relative to `src/commands/prompts/`
 - `agentId: string` - Associated agent ID (e.g., `AGENT_ADVISOR_ARCHITECTURE`)
 - `content: string` - Prompt content
 - `exportedAs: string` - Symbol name in index.ts (e.g., `ADVISOR_ARCHITECTURE_PROMPT`)
@@ -58,7 +58,7 @@
 
 **Validation Rules**:
 - `id` must be unique within command prompts
-- `path` must exist in `src/execution/commands/prompts/`
+- `path` must exist in `src/commands/prompts/`
 - `agentId` must match an agent ID in `src/orchestration/agents/constants.ts`
 - `content` must be non-empty
 - `exportedAs` must be a valid TypeScript identifier
@@ -133,7 +133,7 @@
 **Example**:
 ```typescript
 {
-  filePath: "src/execution/commands/profiles.ts",
+  filePath: "src/commands/profiles.ts",
   importPath: "./profiles/prompts",
   importedSymbol: "PROFILE_PROMPTS",
   updateStrategy: "Change to import { AGENT_PROMPTS } from '../../orchestration/agents/prompts'",
@@ -171,7 +171,7 @@
   id: "task-001",
   type: "directory_move",
   description: "Move profiles/prompts/ to orchestration/agents/prompts/",
-  files: ["src/execution/commands/profiles/prompts/*"],
+  files: ["src/commands/profiles/prompts/*"],
   status: "pending",
   verification: "ls -la src/orchestration/agents/prompts/ shows all files"
 }
@@ -186,7 +186,7 @@
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │ INITIAL STATE                                               │
-│ - src/execution/commands/profiles/prompts/ EXISTS           │
+│ - src/commands/profiles/prompts/ EXISTS           │
 │ - src/orchestration/agents/prompts/ DOES NOT EXIST          │
 └─────────────────────────────────────────────────────────────┘
                             ↓
@@ -194,7 +194,7 @@
                             ↓
 ┌─────────────────────────────────────────────────────────────┐
 │ DIRECTORY CREATED STATE                                     │
-│ - src/execution/commands/profiles/prompts/ EXISTS           │
+│ - src/commands/profiles/prompts/ EXISTS           │
 │ - src/orchestration/agents/prompts/ EXISTS (empty)          │
 └─────────────────────────────────────────────────────────────┘
                             ↓
@@ -202,7 +202,7 @@
                             ↓
 ┌─────────────────────────────────────────────────────────────┐
 │ FILES COPIED STATE                                          │
-│ - src/execution/commands/profiles/prompts/ EXISTS (original)│
+│ - src/commands/profiles/prompts/ EXISTS (original)│
 │ - src/orchestration/agents/prompts/ EXISTS (with files)     │
 └─────────────────────────────────────────────────────────────┘
                             ↓
@@ -218,7 +218,7 @@
                             ↓
 ┌─────────────────────────────────────────────────────────────┐
 │ FINAL STATE                                                 │
-│ - src/execution/commands/profiles/prompts/ DELETED          │
+│ - src/commands/profiles/prompts/ DELETED          │
 │ - src/orchestration/agents/prompts/ EXISTS (with files)     │
 │ - All imports point to new location                         │
 └─────────────────────────────────────────────────────────────┘
@@ -260,7 +260,7 @@
 ### Directory Structure Relationships
 
 ```
-src/execution/commands/
+src/commands/
 ├── templates/
 │   ├── *.ts (CommandTemplate files)
 │   └── index.ts (exports CommandTemplate records)
@@ -280,27 +280,27 @@ src/orchestration/agents/
 ### Import Dependency Graph
 
 ```
-src/execution/commands/profiles.ts
+src/commands/profiles.ts
     ↓ imports
 src/orchestration/agents/prompts/index.ts
     ↓ exports
 AGENT_PROMPTS (Record<string, string>)
 
-src/execution/commands/index.ts
+src/commands/index.ts
     ↓ re-exports
 AGENT_PROMPTS
 
 src/execution/background-agent/manager.ts
     ↓ imports
-AGENT_PROMPTS from src/execution/commands/
+AGENT_PROMPTS from src/commands/
 
 src/execution/tools/delegate-task/tools.ts
     ↓ imports
-AGENT_PROMPTS from src/execution/commands/
+AGENT_PROMPTS from src/commands/
 
 src/platform/opencode/config-composer.ts
     ↓ imports
-AGENT_PROMPTS from src/execution/commands/
+AGENT_PROMPTS from src/commands/
 ```
 
 ---
@@ -309,8 +309,8 @@ AGENT_PROMPTS from src/execution/commands/
 
 ### Directory Validation
 
-1. **No duplicate directories**: `src/execution/commands/profiles/` must not exist after migration
-2. **All files migrated**: All `.ts` files from `src/execution/commands/profiles/prompts/` must exist in `src/orchestration/agents/prompts/`
+1. **No duplicate directories**: `src/commands/profiles/` must not exist after migration
+2. **All files migrated**: All `.ts` files from `src/commands/profiles/prompts/` must exist in `src/orchestration/agents/prompts/`
 3. **Index file exists**: `src/orchestration/agents/prompts/index.ts` must export `AGENT_PROMPTS`
 
 ### Import Validation
@@ -352,14 +352,14 @@ AGENT_PROMPTS from src/execution/commands/
 ## Migration Checklist
 
 - [ ] Create `src/orchestration/agents/prompts/` directory
-- [ ] Copy all files from `src/execution/commands/profiles/prompts/` to `src/orchestration/agents/prompts/`
+- [ ] Copy all files from `src/commands/profiles/prompts/` to `src/orchestration/agents/prompts/`
 - [ ] Create/update `src/orchestration/agents/prompts/index.ts` to export `AGENT_PROMPTS`
-- [ ] Update `src/execution/commands/profiles.ts` to import from new location
-- [ ] Update `src/execution/commands/index.ts` to import from new location
-- [ ] Update `src/execution/commands/prompts/index.ts` if needed
+- [ ] Update `src/commands/profiles.ts` to import from new location
+- [ ] Update `src/commands/index.ts` to import from new location
+- [ ] Update `src/commands/prompts/index.ts` if needed
 - [ ] Update all other files that import `PROFILE_PROMPTS`
 - [ ] Rename all `PROFILE_PROMPTS` references to `AGENT_PROMPTS`
-- [ ] Delete `src/execution/commands/profiles/` directory
+- [ ] Delete `src/commands/profiles/` directory
 - [ ] Run `bun run typecheck` and verify no errors
 - [ ] Run `bun test` and verify all tests pass
 - [ ] Run `ghostwire export --target copilot` and verify output

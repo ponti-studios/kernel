@@ -8,7 +8,7 @@
 ### Before Reorganization
 
 ```
-src/execution/commands/
+src/commands/
 ├── templates/          ← Command templates
 ├── prompts/            ← Command prompts
 └── profiles/
@@ -22,7 +22,7 @@ src/orchestration/agents/
 ### After Reorganization
 
 ```
-src/execution/commands/
+src/commands/
 ├── templates/          ← Command templates
 └── prompts/            ← Command prompts
 
@@ -40,15 +40,15 @@ src/orchestration/agents/
 **Goal**: Find the implementation of a command
 
 **Steps**:
-1. Open `src/execution/commands/templates/`
+1. Open `src/commands/templates/`
 2. Find the file matching the command name (e.g., `code.review.ts`)
 3. Open the file to see the command implementation
 
 **Example**:
 ```bash
 # Find code review command
-ls src/execution/commands/templates/code.review.ts
-cat src/execution/commands/templates/code.review.ts
+ls src/commands/templates/code.review.ts
+cat src/commands/templates/code.review.ts
 ```
 
 ---
@@ -58,15 +58,15 @@ cat src/execution/commands/templates/code.review.ts
 **Goal**: Find the prompt used by a command
 
 **Steps**:
-1. Open `src/execution/commands/prompts/`
+1. Open `src/commands/prompts/`
 2. Find the file matching the agent ID (e.g., `reviewer_python.ts`)
 3. Open the file to see the prompt content
 
 **Example**:
 ```bash
 # Find Python reviewer prompt
-ls src/execution/commands/prompts/reviewer_python.ts
-cat src/execution/commands/prompts/reviewer_python.ts
+ls src/commands/prompts/reviewer_python.ts
+cat src/commands/prompts/reviewer_python.ts
 ```
 
 ---
@@ -138,8 +138,8 @@ cat .github/prompts/code.review.prompt.md
 ### Pre-Migration Verification
 
 - [ ] Backup current state: `git stash` or create a backup branch
-- [ ] Verify current structure: `ls -la src/execution/commands/`
-- [ ] Count files: `find src/execution/commands/profiles/prompts -type f | wc -l`
+- [ ] Verify current structure: `ls -la src/commands/`
+- [ ] Count files: `find src/commands/profiles/prompts -type f | wc -l`
 - [ ] Verify imports: `grep -r "profiles/prompts" src/ | wc -l`
 
 ### Post-Migration Verification
@@ -148,7 +148,7 @@ cat .github/prompts/code.review.prompt.md
 
 ```bash
 # Verify old directory is deleted
-ls src/execution/commands/profiles/ 2>&1 | grep "No such file"
+ls src/commands/profiles/ 2>&1 | grep "No such file"
 
 # Verify new directory exists
 ls -la src/orchestration/agents/prompts/
@@ -231,8 +231,8 @@ cat src/execution/agents-manifest.ts | head -20
 **Symptom**: `ghostwire export --target copilot` fails with error
 
 **Solution**:
-1. Check that `src/execution/commands/templates/` still exists
-2. Check that `src/execution/commands/prompts/` still exists
+1. Check that `src/commands/templates/` still exists
+2. Check that `src/commands/prompts/` still exists
 3. Run with verbose logging: `ghostwire export --target copilot --verbose`
 4. Check `src/cli/export.ts` for any hardcoded paths
 
@@ -262,11 +262,11 @@ cat src/execution/agents-manifest.ts | head -20
 
 | File | Purpose |
 |------|---------|
-| `src/execution/commands/templates/` | Command template implementations |
-| `src/execution/commands/prompts/` | Command-specific prompts |
+| `src/commands/templates/` | Command template implementations |
+| `src/commands/prompts/` | Command-specific prompts |
 | `src/orchestration/agents/prompts/` | Agent-specific prompts (NEW) |
 | `src/orchestration/agents/constants.ts` | Agent ID definitions |
-| `src/execution/commands/profiles.ts` | Profile definitions (updated) |
+| `src/commands/profiles.ts` | Profile definitions (updated) |
 | `src/cli/export.ts` | Export pipeline |
 | `src/script/build-agents-manifest.ts` | Manifest generation |
 | `.github/prompts/` | Exported prompt artifacts |

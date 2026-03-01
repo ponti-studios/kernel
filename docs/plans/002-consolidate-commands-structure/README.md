@@ -6,11 +6,11 @@
 
 ## Overview
 
-This specification defines the consolidation of the mixed-purpose `src/execution/commands/` directory and migration of profile-specific prompts to `src/orchestration/agents/prompts/`.
+This specification defines the consolidation of the mixed-purpose `src/commands/` directory and migration of profile-specific prompts to `src/orchestration/agents/prompts/`.
 
 **Problem**: Commands directory has multiple purposes (commands, prompts, templates, profiles), creating confusion about what belongs where.
 
-**Solution**: Consolidate into clean structure with `src/execution/commands/` containing only `templates/` and `prompts/`, and migrate profile prompts to `src/orchestration/agents/prompts/`.
+**Solution**: Consolidate into clean structure with `src/commands/` containing only `templates/` and `prompts/`, and migrate profile prompts to `src/orchestration/agents/prompts/`.
 
 ## Artifacts
 
@@ -40,7 +40,7 @@ This specification defines the consolidation of the mixed-purpose `src/execution
 
 ### Directory Changes
 - **Create**: `src/orchestration/agents/prompts/`
-- **Delete**: `src/execution/commands/profiles/`
+- **Delete**: `src/commands/profiles/`
 - **Result**: Clean structure with only `templates/` and `prompts/`
 
 ### Build Scripts
@@ -53,7 +53,7 @@ This specification defines the consolidation of the mixed-purpose `src/execution
 ✅ **10 Success Criteria Defined**:
 
 1. Directory structure is clean (only `templates/` and `prompts/`)
-2. No `src/execution/commands/profiles/` directory exists
+2. No `src/commands/profiles/` directory exists
 3. All profile prompts in `src/orchestration/agents/prompts/`
 4. Zero old import paths (`grep -r "profiles/prompts" src/` = 0)
 5. All symbols renamed to `AGENT_PROMPTS`

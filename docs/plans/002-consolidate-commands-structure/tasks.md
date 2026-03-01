@@ -108,7 +108,7 @@
 - **Dependencies**: None
 
 #### Task 2.2: Copy Files ✅
-- **Description**: Copy all files from `src/execution/commands/profiles/prompts/` to `src/orchestration/agents/prompts/`
+- **Description**: Copy all files from `src/commands/profiles/prompts/` to `src/orchestration/agents/prompts/`
 - **Acceptance Criteria**:
   - [x] All `.ts` files copied to new location
   - [x] All files have correct content
@@ -129,34 +129,34 @@
 - **Result**: Index file updated to export `AGENT_PROMPTS`
 - **Dependencies**: Task 2.2
 
-#### Task 2.4: Update src/execution/commands/profiles.ts ✅
+#### Task 2.4: Update src/commands/profiles.ts ✅
 - **Description**: Update import to use new location
 - **Acceptance Criteria**:
   - [x] Import changed from `./profiles/prompts` to `../../orchestration/agents/prompts`
   - [x] Symbol renamed from `PROFILE_PROMPTS` to `AGENT_PROMPTS`
   - [x] All usages of symbol updated
-  - [x] Verification: `grep "PROFILE_PROMPTS" src/execution/commands/profiles.ts` returns 0 matches
-  - [x] Verification: `grep "AGENT_PROMPTS" src/execution/commands/profiles.ts` returns matches
+  - [x] Verification: `grep "PROFILE_PROMPTS" src/commands/profiles.ts` returns 0 matches
+  - [x] Verification: `grep "AGENT_PROMPTS" src/commands/profiles.ts` returns matches
 - **Actual Effort**: 2 minutes
 - **Result**: File updated with correct imports and symbol names
 - **Dependencies**: Task 2.3
 
-#### Task 2.5: Update src/execution/commands/index.ts ✅
+#### Task 2.5: Update src/commands/index.ts ✅
 - **Description**: Update re-exports to use new location
 - **Acceptance Criteria**:
   - [x] Re-export checked for dependencies
   - [x] If re-exports exist, updated to use new location
-  - [x] Verification: `grep "PROFILE_PROMPTS" src/execution/commands/index.ts` returns 0 matches
+  - [x] Verification: `grep "PROFILE_PROMPTS" src/commands/index.ts` returns 0 matches
 - **Actual Effort**: 1 minute
 - **Result**: No changes needed; file only has basic exports
 - **Dependencies**: Task 2.4
 
-#### Task 2.6: Update src/execution/commands/prompts/index.ts ✅
+#### Task 2.6: Update src/commands/prompts/index.ts ✅
 - **Description**: Update re-exports if needed
 - **Acceptance Criteria**:
   - [x] File reviewed for any re-exports of `PROFILE_PROMPTS`
   - [x] If re-exports exist, updated to use new location
-  - [x] Verification: `grep "PROFILE_PROMPTS" src/execution/commands/prompts/index.ts` returns 0 matches
+  - [x] Verification: `grep "PROFILE_PROMPTS" src/commands/prompts/index.ts` returns 0 matches
 - **Actual Effort**: 3 minutes
 - **Result**: File updated to re-export from new location
 - **Dependencies**: Task 2.5
@@ -204,14 +204,14 @@
 - **Dependencies**: Task 2.9
 
 #### Task 2.11: Delete Old Directory ✅
-- **Description**: Remove `src/execution/commands/profiles/` directory
+- **Description**: Remove `src/commands/profiles/` directory
 - **Acceptance Criteria**:
   - [x] Directory deleted
-  - [x] Verification: `ls src/execution/commands/profiles/ 2>&1` returns "No such file or directory"
+  - [x] Verification: `ls src/commands/profiles/ 2>&1` returns "No such file or directory"
 - **Actual Effort**: 1 minute
 - **Result**: Directory successfully deleted
 - **Dependencies**: Task 2.10
-  - [ ] Verification: `diff -r src/execution/commands/profiles/prompts/ src/orchestration/agents/prompts/` shows no differences
+  - [ ] Verification: `diff -r src/commands/profiles/prompts/ src/orchestration/agents/prompts/` shows no differences
 - **Estimated Effort**: 10 minutes
 - **Dependencies**: Task 2.1
 
@@ -225,32 +225,32 @@
 - **Estimated Effort**: 15 minutes
 - **Dependencies**: Task 2.2
 
-#### Task 2.4: Update src/execution/commands/profiles.ts
+#### Task 2.4: Update src/commands/profiles.ts
 - **Description**: Update import to use new location
 - **Acceptance Criteria**:
   - [ ] Import changed from `./profiles/prompts` to `../../orchestration/agents/prompts`
   - [ ] Symbol renamed from `PROFILE_PROMPTS` to `AGENT_PROMPTS`
   - [ ] All usages of symbol updated
-  - [ ] Verification: `grep "PROFILE_PROMPTS" src/execution/commands/profiles.ts` returns 0 matches
-  - [ ] Verification: `grep "AGENT_PROMPTS" src/execution/commands/profiles.ts` returns matches
+  - [ ] Verification: `grep "PROFILE_PROMPTS" src/commands/profiles.ts` returns 0 matches
+  - [ ] Verification: `grep "AGENT_PROMPTS" src/commands/profiles.ts` returns matches
 - **Estimated Effort**: 10 minutes
 - **Dependencies**: Task 2.3
 
-#### Task 2.5: Update src/execution/commands/index.ts
+#### Task 2.5: Update src/commands/index.ts
 - **Description**: Update re-exports to use new location
 - **Acceptance Criteria**:
   - [ ] Re-export changed to import from `../orchestration/agents/prompts`
   - [ ] Symbol renamed from `PROFILE_PROMPTS` to `AGENT_PROMPTS`
-  - [ ] Verification: `grep "AGENT_PROMPTS" src/execution/commands/index.ts` returns matches
+  - [ ] Verification: `grep "AGENT_PROMPTS" src/commands/index.ts` returns matches
 - **Estimated Effort**: 10 minutes
 - **Dependencies**: Task 2.4
 
-#### Task 2.6: Update src/execution/commands/prompts/index.ts
+#### Task 2.6: Update src/commands/prompts/index.ts
 - **Description**: Update re-exports if needed
 - **Acceptance Criteria**:
   - [ ] File reviewed for any re-exports of `PROFILE_PROMPTS`
   - [ ] If re-exports exist, updated to use new location
-  - [ ] Verification: `grep "PROFILE_PROMPTS" src/execution/commands/prompts/index.ts` returns 0 matches
+  - [ ] Verification: `grep "PROFILE_PROMPTS" src/commands/prompts/index.ts` returns 0 matches
 - **Estimated Effort**: 5 minutes
 - **Dependencies**: Task 2.5
 
@@ -296,10 +296,10 @@
 - **Dependencies**: Task 2.9
 
 #### Task 2.11: Delete Old Directory
-- **Description**: Remove `src/execution/commands/profiles/` directory
+- **Description**: Remove `src/commands/profiles/` directory
 - **Acceptance Criteria**:
   - [ ] Directory deleted
-  - [ ] Verification: `ls src/execution/commands/profiles/ 2>&1` returns "No such file or directory"
+  - [ ] Verification: `ls src/commands/profiles/ 2>&1` returns "No such file or directory"
 - **Estimated Effort**: 5 minutes
 - **Dependencies**: Task 2.10
 
@@ -388,11 +388,11 @@
 ### Phase 5: Verification & Testing
 
 #### Task 5.1: Verify Directory Structure
-- ✅ **Description**: Confirm `src/execution/commands/` is clean
+- ✅ **Description**: Confirm `src/commands/` is clean
 - **Acceptance Criteria**:
-  - ✅ `ls -la src/execution/commands/` shows only `templates/`, `prompts/`, and other expected files
+  - ✅ `ls -la src/commands/` shows only `templates/`, `prompts/`, and other expected files
   - ✅ No `profiles/` directory exists
-  - ✅ Verification: `find src/execution/commands -type d -name profiles` returns 0 matches
+  - ✅ Verification: `find src/commands -type d -name profiles` returns 0 matches
 - **Actual Effort**: 2 minutes
 - **Result**: ✅ PASS - Directory verification confirmed, `profiles/` directory successfully removed
 - **Dependencies**: Task 2.11

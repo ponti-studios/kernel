@@ -2,7 +2,7 @@
 
 **Date**: 2026-03-01  
 **Task**: Phase 0.1 - Capture Current Baseline  
-**Generated From**: src/execution/commands/ and src/orchestration/agents/prompts/
+**Generated From**: src/commands/ and src/orchestration/agents/prompts/
 
 ## Executive Summary
 
@@ -144,22 +144,22 @@ These 6 commands represent ~80% of typical usage patterns per telemetry.
 ### Runtime Path (commands.ts → commands-manifest.ts)
 
 ```
-src/execution/commands/commands-manifest.ts (generated)
+src/commands/commands-manifest.ts (generated)
   ↓ consumed by
-src/execution/commands/commands.ts (COMMAND_DEFINITIONS proxy)
+src/commands/commands.ts (COMMAND_DEFINITIONS proxy)
   ↓ consumed by
 src/execution/claude-code-command-loader.ts (runtime)
 ```
 
 **Key Facts**:
-- Manifest is auto-generated from `src/execution/commands/commands/*.ts` files.
+- Manifest is auto-generated from `src/commands/commands/*.ts` files.
 - Proxy pattern lazily resolves command definitions on first access.
 - Template content is wrapped with `<command-instruction>` tags.
 
 ### Profile Path (profiles.ts)
 
 ```
-src/execution/commands/profiles.ts (COMMAND_PROFILE_REGISTRY)
+src/commands/profiles.ts (COMMAND_PROFILE_REGISTRY)
   ↑ overlays agent prompts from
 src/orchestration/agents/prompts/index.ts (AGENT_PROMPTS)
   ↑ aggregates individual profile prompts from
@@ -177,9 +177,9 @@ src/orchestration/agents/prompts/<profile-id>.ts (individual prompt files)
 ```
 src/cli/export.ts
   ↓ reads
-src/execution/commands/templates/* (direct filesystem)
+src/commands/templates/* (direct filesystem)
   ↓ + 
-src/execution/commands/profiles.ts (for overlay text)
+src/commands/profiles.ts (for overlay text)
   ↓ outputs
 docs/export/
 ```
