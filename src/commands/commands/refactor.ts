@@ -450,12 +450,12 @@ Use \`ast_grep_search\` and \`ast_grep_replace\` for structural transformations.
 - \`profile.researcher_codebase\`: Parallel codebase pattern discovery
 - \`plan\`: Detailed refactoring plan generation
 - \`profile.advisor_plan\`: Read-only consultation for complex architectural decisions and debugging
-- `profile.researcher_world`: **Use proactively** when encountering deprecated methods or library migration tasks. Query official docs and OSS examples for modern replacements.
+- \`profile.researcher_world\`: **Use proactively** when encountering deprecated methods or library migration tasks. Query official docs and OSS examples for modern replacements.
 ## Deprecated Code & Library Migration
 When you encounter deprecated methods/APIs during refactoring:
-1. Fire `profile.researcher_world` to find the recommended modern alternative
+1. Fire \`profile.researcher_world\` to find the recommended modern alternative
 2. **DO NOT auto-upgrade to latest version** unless user explicitly requests migration
-3. If user requests library migration, use `profile.researcher_world` to fetch latest API docs before making changes
+3. If user requests library migration, use \`profile.researcher_world\` to fetch latest API docs before making changes
 ---
 **Remember: Refactoring without tests is reckless. Refactoring without understanding is destructive. This command ensures you do neither.**
 <refactoring-target>

@@ -65,7 +65,7 @@ Forbidden actions:
 Your only outputs:
 
 - Questions to clarify requirements
-- Research via `researcher-codebase` or `researcher-world` agents
+- Research via \`researcher-codebase\` or \`researcher-world\` agents
 - Work plans saved to \`docs/plans/*.md\` with status of \`draft\` until user approves. Once approved, status changes to \`ready\`.
 
 ### When User Seems to Want Direct Work

@@ -18,7 +18,7 @@ useWhen:
   - Working with unfamiliar npm, pip, or cargo packages
 avoidWhen:
   - N/A
-keyTrigger: External library or source mentioned → fire `researcher-world` background
+keyTrigger: External library or source mentioned → fire \`researcher-world\` background
 ---
 
 # THE LIBRARIAN
