@@ -168,13 +168,18 @@ async function compileExportModel(): Promise<ExportModel> {
   const templatesRoot = new URL("../execution/commands/templates", import.meta.url).pathname;
   const templateFiles = collectFilesRecursively(
     templatesRoot,
-    (path) => path.endsWith(".ts") && !path.endsWith(".test.ts") && !path.endsWith("/index.ts"),
+    (path) =>
+      path.endsWith(".ts") &&
+      !path.endsWith(".test.ts") &&
+      !path.endsWith(".d.ts") &&
+      !path.endsWith("/index.ts"),
   );
 
   const prompts = templateFiles.map((filePath) => {
     const source = readFileSync(filePath, "utf-8");
     const rel = relative(templatesRoot, filePath).replace(/\\/g, "/");
-    const id = slugify(rel.replace(/\.ts$/, ""));
+    // Remove both .d.ts and .ts extensions to get clean prompt id
+    const id = slugify(rel.replace(/\.d\.ts$/, "").replace(/\.ts$/, ""));
     const extracted = extractTemplateLiteralsFromSource(source);
     const content =
       extracted.length > 0

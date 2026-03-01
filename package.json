@@ -49,7 +49,6 @@
     "agents": "bun run src/cli/task.ts agents",
     "commands": "bun run src/cli/task.ts commands",
     "skills": "bun run src/cli/task.ts skills",
-    "binaries": "bun run src/cli/task.ts binaries",
     "docs": "bun run src/cli/task.ts docs",
     "topology": "bun run src/cli/task.ts topology",
     "dev-setup": "bun run src/cli/task.ts dev-setup",
@@ -85,15 +84,6 @@
     "oxfmt": "^0.35.0",
     "oxlint": "^1.50.0",
     "typescript": "^5.7.3"
-  },
-  "optionalDependencies": {
-    "ghostwire-darwin-arm64": "3.1.10",
-    "ghostwire-darwin-x64": "3.1.10",
-    "ghostwire-linux-arm64": "3.1.10",
-    "ghostwire-linux-arm64-musl": "3.1.10",
-    "ghostwire-linux-x64": "3.1.10",
-    "ghostwire-linux-x64-musl": "3.1.10",
-    "ghostwire-windows-x64": "3.1.10"
   },
   "trustedDependencies": [
     "@ast-grep/cli",

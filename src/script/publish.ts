@@ -1,8 +1,6 @@
 #!/usr/bin/env bun
 
 import { $ } from "bun";
-import { existsSync } from "node:fs";
-import { join } from "node:path";
 
 const PACKAGE_NAME = "ghostwire";
 const bump = process.env.BUMP as "major" | "minor" | "patch" | undefined;
@@ -10,17 +8,7 @@ const versionOverride = process.env.VERSION;
 const republishMode = process.env.REPUBLISH === "true";
 const prepareOnly = process.argv.includes("--prepare-only");
 
-const PLATFORM_PACKAGES = [
-  "darwin-arm64",
-  "darwin-x64",
-  "linux-x64",
-  "linux-arm64",
-  "linux-x64-musl",
-  "linux-arm64-musl",
-  "windows-x64",
-];
-
-console.log("=== Publishing ghostwire (multi-package) ===\n");
+console.log("=== Publishing ghostwire ===\n");
 
 async function fetchPreviousVersion(): Promise<string> {
   try {
@@ -36,7 +24,6 @@ async function fetchPreviousVersion(): Promise<string> {
 }
 
 function bumpVersion(version: string, type: "major" | "minor" | "patch"): string {
-  // Handle prerelease versions (e.g., 3.0.0-beta.7)
   const baseVersion = version.split("-")[0];
   const [major, minor, patch] = baseVersion.split(".").map(Number);
   switch (type) {
@@ -57,33 +44,12 @@ async function updatePackageVersion(pkgPath: string, newVersion: string): Promis
 }
 
 async function updateAllPackageVersions(newVersion: string): Promise<void> {
-  console.log("\nSyncing version across all packages...");
-
-  // Update main package.json
+  console.log("\nUpdating version in package.json...");
   const mainPkgPath = new URL("../package.json", import.meta.url).pathname;
   await updatePackageVersion(mainPkgPath, newVersion);
-
-  // Update optionalDependencies versions in main package.json
-  let mainPkg = await Bun.file(mainPkgPath).text();
-  for (const platform of PLATFORM_PACKAGES) {
-    const pkgName = `ghostwire-${platform}`;
-    mainPkg = mainPkg.replace(new RegExp(`"${pkgName}": "[^"]+"`), `"${pkgName}": "${newVersion}"`);
-  }
-  await Bun.write(mainPkgPath, mainPkg);
-
-  // Update each platform package.json
-  for (const platform of PLATFORM_PACKAGES) {
-    const pkgPath = new URL(`../packages/${platform}/package.json`, import.meta.url).pathname;
-    if (existsSync(pkgPath)) {
-      await updatePackageVersion(pkgPath, newVersion);
-    } else {
-      console.warn(`Warning: ${pkgPath} not found`);
-    }
-  }
 }
 
 async function findPreviousTag(currentVersion: string): Promise<string | null> {
-  // For beta versions, find the previous beta tag (e.g., 3.0.0-beta.11 for 3.0.0-beta.12)
   const betaMatch = currentVersion.match(/^(\d+\.\d+\.\d+)-beta\.(\d+)$/);
   if (betaMatch) {
     const [, base, num] = betaMatch;
@@ -100,7 +66,6 @@ async function findPreviousTag(currentVersion: string): Promise<string | null> {
 async function generateChangelog(previous: string, currentVersion?: string): Promise<string[]> {
   const notes: string[] = [];
 
-  // Try to find the most accurate previous tag for comparison
   let compareTag = previous;
   if (currentVersion) {
     const prevBetaTag = await findPreviousTag(currentVersion);
@@ -206,13 +171,12 @@ async function publishPackage(
   pkgName?: string,
   version?: string,
 ): Promise<PublishResult> {
-  // In republish mode, skip if package already exists on npm
   if (republishMode && pkgName && version) {
     const exists = await checkPackageVersionExists(pkgName, version);
     if (exists) {
       return { success: true, alreadyPublished: true };
     }
-    console.log(`    ${pkgName}@${version} not found on npm, publishing...`);
+    console.log(`  ${pkgName}@${version} not found on npm, publishing...`);
   }
 
   const tagArgs = distTag ? ["--tag", distTag] : [];
@@ -227,8 +191,6 @@ async function publishPackage(
   } catch (error: any) {
     const stderr = error?.stderr?.toString() || error?.message || "";
 
-    // Only treat as "already published" if we're certain the package exists
-    // E409/EPUBLISHCONFLICT = definitive "version already exists"
     if (
       stderr.includes("EPUBLISHCONFLICT") ||
       stderr.includes("E409") ||
@@ -238,7 +200,6 @@ async function publishPackage(
       return { success: true, alreadyPublished: true };
     }
 
-    // E403 can mean "already exists" OR "no permission" - verify by checking npm registry
     if (stderr.includes("E403")) {
       if (pkgName && version) {
         const exists = await checkPackageVersionExists(pkgName, version);
@@ -246,97 +207,34 @@ async function publishPackage(
           return { success: true, alreadyPublished: true };
         }
       }
-      // If we can't verify or it doesn't exist, it's a real error
       return { success: false, error: stderr };
     }
 
-    // 404 errors are NEVER "already published" - they indicate the package doesn't exist
-    // or OIDC token issues. Always treat as failure.
     return { success: false, error: stderr };
   }
 }
 
-async function publishAllPackages(version: string): Promise<void> {
+async function publishMainPackage(version: string): Promise<void> {
   const distTag = getDistTag(version);
-  const skipPlatform = process.env.SKIP_PLATFORM_PACKAGES === "true";
 
-  if (skipPlatform) {
-    console.log("\n⏭️  Skipping platform packages (SKIP_PLATFORM_PACKAGES=true)");
-  } else {
-    console.log("\n📦 Publishing platform packages in batches (to avoid OIDC token expiration)...");
+  console.log(`\n📦 Publishing ${PACKAGE_NAME}...`);
+  const result = await publishPackage(process.cwd(), distTag, true, PACKAGE_NAME, version);
 
-    // Publish in batches of 2 to avoid OIDC token expiration
-    // npm processes requests sequentially even when sent in parallel,
-    // so too many parallel requests can cause token expiration
-    const BATCH_SIZE = 2;
-    const failures: string[] = [];
-
-    for (let i = 0; i < PLATFORM_PACKAGES.length; i += BATCH_SIZE) {
-      const batch = PLATFORM_PACKAGES.slice(i, i + BATCH_SIZE);
-      const batchNum = Math.floor(i / BATCH_SIZE) + 1;
-      const totalBatches = Math.ceil(PLATFORM_PACKAGES.length / BATCH_SIZE);
-
-      console.log(`\n  Batch ${batchNum}/${totalBatches}: ${batch.join(", ")}`);
-
-      const publishPromises = batch.map(async (platform) => {
-        const pkgDir = join(process.cwd(), "packages", platform);
-        const pkgName = `ghostwire-${platform}`;
-
-        console.log(`    Starting ${pkgName}...`);
-        const result = await publishPackage(pkgDir, distTag, false, pkgName, version);
-
-        return { platform, pkgName, result };
-      });
-
-      const results = await Promise.all(publishPromises);
-
-      for (const { pkgName, result } of results) {
-        if (result.success) {
-          if (result.alreadyPublished) {
-            console.log(`    ✓ ${pkgName}@${version} (already published)`);
-          } else {
-            console.log(`    ✓ ${pkgName}@${version}`);
-          }
-        } else {
-          console.error(`    ✗ ${pkgName} failed: ${result.error}`);
-          failures.push(pkgName);
-        }
-      }
-    }
-
-    if (failures.length > 0) {
-      throw new Error(`Failed to publish: ${failures.join(", ")}`);
-    }
-  }
-
-  // Publish main package last
-  console.log(`\n📦 Publishing main package...`);
-  const mainResult = await publishPackage(process.cwd(), distTag, true, PACKAGE_NAME, version);
-
-  if (mainResult.success) {
-    if (mainResult.alreadyPublished) {
+  if (result.success) {
+    if (result.alreadyPublished) {
       console.log(`  ✓ ${PACKAGE_NAME}@${version} (already published)`);
     } else {
       console.log(`  ✓ ${PACKAGE_NAME}@${version}`);
     }
   } else {
-    console.error(`  ✗ ${PACKAGE_NAME} failed: ${mainResult.error}`);
+    console.error(`  ✗ ${PACKAGE_NAME} failed: ${result.error}`);
     throw new Error(`Failed to publish ${PACKAGE_NAME}`);
   }
 }
 
 async function buildPackages(): Promise<void> {
-  const skipPlatform = process.env.SKIP_PLATFORM_PACKAGES === "true";
-
-  console.log("\nBuilding packages...");
+  console.log("\nBuilding package...");
   await $`bun run clean && bun run build`;
-
-  if (skipPlatform) {
-    console.log("⏭️  Skipping platform binaries (SKIP_PLATFORM_PACKAGES=true)");
-  } else {
-    console.log("Building platform binaries...");
-    await $`bun run build:binaries`;
-  }
 }
 
 async function gitTagAndRelease(newVersion: string, notes: string[]): Promise<void> {
@@ -346,11 +244,7 @@ async function gitTagAndRelease(newVersion: string, notes: string[]): Promise<vo
   await $`git config user.email "github-actions[bot]@users.noreply.github.com"`;
   await $`git config user.name "github-actions[bot]"`;
 
-  // Add all package.json files
   await $`git add package.json assets/ghostwire.schema.json`;
-  for (const platform of PLATFORM_PACKAGES) {
-    await $`git add packages/${platform}/package.json`.nothrow();
-  }
 
   const hasStagedChanges = await $`git diff --cached --quiet`.nothrow();
   if (hasStagedChanges.exitCode !== 0) {
@@ -366,7 +260,6 @@ async function gitTagAndRelease(newVersion: string, notes: string[]): Promise<vo
     console.log(`Tag v${newVersion} already exists`);
   }
 
-  // Push tags first (critical for release), then try branch push (non-critical)
   console.log("Pushing tags...");
   await $`git push origin --tags`;
 
@@ -413,12 +306,10 @@ async function main() {
 
   if (await checkVersionExists(newVersion)) {
     if (republishMode) {
-      console.log(
-        `Version ${newVersion} exists on npm. REPUBLISH mode: checking for missing platform packages...`,
-      );
+      console.log(`Version ${newVersion} exists on npm. REPUBLISH mode: republishing...`);
     } else {
       console.log(`Version ${newVersion} already exists on npm. Skipping publish.`);
-      console.log(`(Use REPUBLISH=true to publish missing platform packages)`);
+      console.log(`(Use REPUBLISH=true to republish)`);
       process.exit(0);
     }
   }
@@ -429,10 +320,10 @@ async function main() {
   const notes = [...changelog, ...contributors];
 
   await buildPackages();
-  await publishAllPackages(newVersion);
+  await publishMainPackage(newVersion);
   await gitTagAndRelease(newVersion, notes);
 
-  console.log(`\n=== Successfully published ${PACKAGE_NAME}@${newVersion} (8 packages) ===`);
+  console.log(`\n=== Successfully published ${PACKAGE_NAME}@${newVersion} ===`);
 }
 
 main();

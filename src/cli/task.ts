@@ -1,6 +1,9 @@
 import { defineCommand, runMain } from "citty";
 import { cyan, green, yellow, red, bold, dim, italic, isColorSupported } from "picocolors";
 import { createSpinner } from "nanospinner";
+import { homedir } from "os";
+import { existsSync, mkdirSync, symlinkSync, unlinkSync, lstatSync, readlinkSync } from "fs";
+import { join, resolve } from "path";
 
 type CommandFactory = () => Promise<void>;
 
@@ -30,6 +33,61 @@ const run = async (
   }
 };
 
+/**
+ * Ensures the dev symlink exists at ~/.config/opencode/plugins/ghostwire.mjs
+ * Points to the local dist/index.js for development
+ */
+async function ensureDevSymlink(): Promise<void> {
+  const pluginsDir = join(homedir(), ".config/opencode/plugins");
+  const symlinkPath = join(pluginsDir, "ghostwire.mjs");
+  const distPath = join(process.cwd(), "dist/index.js");
+
+  // Check if dist exists
+  if (!existsSync(distPath)) {
+    console.log(yellow("⚠ dist/index.js not found. Run 'bun run build' first."));
+    console.log(dim("  The symlink will be created when you build."));
+    return;
+  }
+
+  // Create plugins directory if needed
+  if (!existsSync(pluginsDir)) {
+    mkdirSync(pluginsDir, { recursive: true });
+  }
+
+  // Check if symlink exists and is valid
+  let needsRecreation = false;
+  if (existsSync(symlinkPath)) {
+    try {
+      const stats = lstatSync(symlinkPath);
+      if (stats.isSymbolicLink()) {
+        const target = readlinkSync(symlinkPath);
+        const resolvedTarget = resolve(pluginsDir, target);
+        if (resolvedTarget !== resolve(distPath)) {
+          needsRecreation = true;
+        }
+      } else {
+        // It's a file, not a symlink - need to replace it
+        needsRecreation = true;
+      }
+    } catch {
+      needsRecreation = true;
+    }
+  }
+
+  if (needsRecreation) {
+    try {
+      unlinkSync(symlinkPath);
+    } catch {
+      // File might not exist, that's fine
+    }
+    symlinkSync(distPath, symlinkPath);
+    console.log(green("✓ Created symlink: ") + dim(symlinkPath) + green(" → ") + dim(distPath));
+  } else if (!existsSync(symlinkPath)) {
+    symlinkSync(distPath, symlinkPath);
+    console.log(green("✓ Created symlink: ") + dim(symlinkPath) + green(" → ") + dim(distPath));
+  }
+}
+
 const tasks: Record<string, CommandFactory> = {
   help: async () => {
     console.log(
@@ -45,18 +103,14 @@ ${green("schema")}      Regenerate JSON schema
 ${green("agents")}      Regenerate agents manifest
 ${green("commands")}    Regenerate commands manifest
 ${green("skills")}      Regenerate skills manifest
-${green("binaries")}    Build platform-specific binaries
 ${green("docs")}        Sync documentation
 ${green("topology")}    Check repository topology
-${green("dev-setup")}   Ensure plugin wrapper + agents manifest
+${green("dev-setup")}   Ensure plugin symlink + agents manifest
 `,
     );
   },
 
   build: async () => {
-    await run(["bun", "run", "src/script/ensure-plugin-wrapper.ts"], {
-      spinnerText: "Ensuring plugin wrapper",
-    });
     await run(["bun", "run", "src/script/build-agents-manifest.ts"], {
       spinnerText: "Generating agents manifest",
     });
@@ -162,6 +216,9 @@ ${green("dev-setup")}   Ensure plugin wrapper + agents manifest
   },
 
   dev: async () => {
+    // Ensure symlink exists before starting watch
+    await ensureDevSymlink();
+    
     console.log(green("Starting development build (watch)..."));
     await run(
       [
@@ -225,12 +282,6 @@ ${green("dev-setup")}   Ensure plugin wrapper + agents manifest
     });
   },
 
-  binaries: async () => {
-    await run(["bun", "run", "src/script/build-binaries.ts"], {
-      spinnerText: "Building platform binaries",
-    });
-  },
-
   docs: async () => {
     await run(["bun", "run", "src/script/sync-docs.ts"], {
       spinnerText: "Syncing docs",
@@ -247,9 +298,7 @@ ${green("dev-setup")}   Ensure plugin wrapper + agents manifest
     await tasks["agents"]();
     await tasks["commands"]();
     await tasks["skills"]();
-    await run(["bun", "run", "src/script/ensure-plugin-wrapper.ts"], {
-      spinnerText: "Ensuring plugin wrapper exists",
-    });
+    await ensureDevSymlink();
     console.log(green("✓ Development setup ready"));
   },
 };

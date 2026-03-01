@@ -1,5 +1,5 @@
 import type { CommandName } from "./types";
-import { PROFILE_PROMPTS } from "./profiles/prompts";
+import { AGENT_PROMPTS } from "../../orchestration/agents/prompts";
 
 export type RuntimeRoute = "do" | "research";
 
@@ -360,7 +360,7 @@ export const COMMAND_PROFILE_REGISTRY: Record<string, CommandProfile> = {
 };
 
 for (const [profileId, profile] of Object.entries(COMMAND_PROFILE_REGISTRY)) {
-  const profilePrompt = PROFILE_PROMPTS[profileId];
+  const profilePrompt = AGENT_PROMPTS[profileId];
   if (profilePrompt) {
     profile.prompt_append = profilePrompt;
   }

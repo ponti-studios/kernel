@@ -66,10 +66,6 @@ program
   .option("--skip-auth", "Skip authentication setup hints")
   .option("--install-path <path>", "Path to plugin installation (for local development)")
   .option("--local-only", "Only register as local plugin (don't add to OpenCode plugin list)")
-  .option(
-    "--local-sync",
-    "Sync local plugin artifact to OpenCode plugins directory (replaces dev sync step)",
-  )
   .addHelpText("after", INSTALL_HELP)
   .action(async (options) => {
     const args: InstallArgs = {
@@ -83,7 +79,6 @@ program
       skipAuth: options.skipAuth ?? false,
       installPath: options.installPath,
       localOnly: options.localOnly ?? false,
-      localSync: options.localSync ?? false,
     };
     const exitCode = await install(args);
     process.exit(exitCode);

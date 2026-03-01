@@ -1,0 +1,229 @@
+---
+version: "1.0"
+title: "Command Structure Contract"
+description: "Contract for command directory structure and exports after reorganization"
+date: "2026-02-28"
+
+# Directory Structure Contract
+structure:
+  src/execution/commands/:
+    description: "Command execution layer"
+    subdirectories:
+      - name: "templates/"
+        description: "Command template implementations"
+        files: "*.ts (60+ command templates)"
+        examples:
+          - "code.review.ts"
+          - "workflows.plan.ts"
+          - "spec/index.ts"
+
+      - name: "prompts/"
+        description: "Command-specific prompts"
+        files: "*.ts (40+ command prompts)"
+        examples:
+          - "advisor_architecture.ts"
+          - "reviewer_python.ts"
+
+    files:
+      - name: "index.ts"
+        description: "Main export file"
+        exports:
+          - "COMMAND_TEMPLATES"
+          - "COMMAND_PROMPTS"
+          - "AGENT_PROMPTS (re-exported from orchestration/agents/prompts)"
+
+      - name: "profiles.ts"
+        description: "Profile definitions"
+        imports:
+          - "AGENT_PROMPTS from ../../orchestration/agents/prompts"
+        exports:
+          - "PROFILE_DEFINITIONS"
+
+  src/orchestration/agents/:
+    description: "Agent orchestration layer"
+    subdirectories:
+      - name: "prompts/"
+        description: "Agent-specific prompts (NEW)"
+        files: "*.ts (40+ agent prompts - MIGRATED)"
+        examples:
+          - "agent_planner.ts"
+          - "agent_researcher_codebase.ts"
+
+    files:
+      - name: "prompts/index.ts"
+        description: "Agent prompts export"
+        exports:
+          - "AGENT_PROMPTS: Record<string, string>"
+
+      - name: "constants.ts"
+        description: "Agent ID constants"
+        exports:
+          - "AGENT_PLANNER"
+          - "AGENT_RESEARCHER_CODEBASE"
+          - "... (all agent IDs)"
+
+# Export Contracts
+exports:
+  - name: "AGENT_PROMPTS"
+    from: "src/orchestration/agents/prompts"
+    type: "Record<string, string>"
+    description: "Agent-specific prompt customizations"
+    usage: "Used to customize agent behavior at runtime"
+    example: |
+      {
+        "AGENT_PLANNER": "You are a strategic planning consultant...",
+        "AGENT_RESEARCHER_CODEBASE": "You are a codebase researcher..."
+      }
+
+  - name: "COMMAND_TEMPLATES"
+    from: "src/execution/commands/templates"
+    type: "Record<string, CommandTemplate>"
+    description: "Command template definitions"
+    usage: "Used by export pipeline to generate prompts"
+
+  - name: "COMMAND_PROMPTS"
+    from: "src/execution/commands/prompts"
+    type: "Record<string, string>"
+    description: "Command-specific prompts"
+    usage: "Used by command execution system"
+
+# Import Contracts
+imports:
+  - from: "src/execution/commands/profiles.ts"
+    to: "src/orchestration/agents/prompts"
+    symbol: "AGENT_PROMPTS"
+    reason: "Load agent-specific prompts for profile customization"
+    old_import: "import { PROFILE_PROMPTS } from './profiles/prompts'"
+    new_import: "import { AGENT_PROMPTS } from '../../orchestration/agents/prompts'"
+
+  - from: "src/execution/commands/index.ts"
+    to: "src/orchestration/agents/prompts"
+    symbol: "AGENT_PROMPTS"
+    reason: "Re-export for public API"
+    old_import: "export { PROFILE_PROMPTS } from './profiles/prompts'"
+    new_import: "export { AGENT_PROMPTS } from '../orchestration/agents/prompts'"
+
+  - from: "src/execution/background-agent/manager.ts"
+    to: "src/orchestration/agents/prompts"
+    symbol: "AGENT_PROMPTS"
+    reason: "Load agent prompts for background agent management"
+
+  - from: "src/execution/tools/delegate-task/tools.ts"
+    to: "src/orchestration/agents/prompts"
+    symbol: "AGENT_PROMPTS"
+    reason: "Load agent prompts for task delegation"
+
+  - from: "src/platform/opencode/config-composer.ts"
+    to: "src/orchestration/agents/prompts"
+    symbol: "AGENT_PROMPTS"
+    reason: "Load agent prompts for OpenCode configuration"
+
+# Build Pipeline Contract
+build_pipeline:
+  - step: "Load command templates from src/execution/commands/templates/"
+    input: "*.ts files"
+    output: "CommandTemplate records"
+    verification: "All templates loaded without errors"
+
+  - step: "Load command prompts from src/execution/commands/prompts/"
+    input: "*.ts files"
+    output: "CommandPrompt records"
+    verification: "All prompts loaded without errors"
+
+  - step: "Load agent prompts from src/orchestration/agents/prompts/"
+    input: "*.ts files"
+    output: "AgentPrompt records"
+    verification: "All agent prompts loaded without errors"
+
+  - step: "Generate .github/prompts/ artifacts"
+    input: "CommandTemplate + CommandPrompt records"
+    output: ".github/prompts/*.prompt.md files"
+    verification: "All expected prompt files generated"
+
+  - step: "Generate agents manifest with agent prompts"
+    input: "Agent definitions + AgentPrompt records"
+    output: "src/execution/agents-manifest.ts"
+    verification: "Manifest includes all agent prompts"
+
+# Directory Deletion Contract
+deletions:
+  - path: "src/execution/commands/profiles/"
+    reason: "Consolidated into src/orchestration/agents/prompts/"
+    verification: "Directory does not exist after migration"
+
+# Naming Contract
+naming:
+  - old_name: "PROFILE_PROMPTS"
+    new_name: "AGENT_PROMPTS"
+    reason: "Clarifies that these are agent-specific prompts, not generic profiles"
+    files_affected: 6
+    references_affected: 13
+
+# Verification Contract
+verification:
+  - check: "Directory structure"
+    command: "ls -la src/execution/commands/"
+    expected: "Only templates/ and prompts/ subdirectories"
+
+  - check: "Old directory deleted"
+    command: "ls src/execution/commands/profiles/ 2>&1"
+    expected: "No such file or directory"
+
+  - check: "New directory exists"
+    command: "ls -la src/orchestration/agents/prompts/"
+    expected: "Directory exists with all files"
+
+  - check: "No old imports"
+    command: "grep -r 'profiles/prompts' src/"
+    expected: "0 matches"
+
+  - check: "No old symbol names"
+    command: "grep -r 'PROFILE_PROMPTS' src/"
+    expected: "0 matches (except in comments/docs)"
+
+  - check: "TypeScript compilation"
+    command: "bun run typecheck"
+    expected: "No errors"
+
+  - check: "Test suite"
+    command: "bun test"
+    expected: "All tests pass"
+
+  - check: "Export pipeline"
+    command: "ghostwire export --target copilot"
+    expected: ".github/prompts/ generated correctly"
+
+  - check: "Manifest generation"
+    command: "bun run src/script/build-agents-manifest.ts"
+    expected: "Manifest generated successfully"
+
+# Rollback Contract
+rollback:
+  - step: "Revert commits in reverse order"
+    command: "git revert <commit-hash>"
+    verification: "Commits reverted successfully"
+
+  - step: "Restore directory"
+    command: "git checkout src/execution/commands/profiles/"
+    verification: "Directory restored"
+
+  - step: "Restore imports"
+    command: "git checkout src/"
+    verification: "All imports restored"
+
+  - step: "Verify restoration"
+    command: "bun test"
+    verification: "System is functional"
+
+# Success Criteria
+success_criteria:
+  - "Directory structure is clean (only templates/ and prompts/ in commands)"
+  - "No src/execution/commands/profiles/ directory exists"
+  - "All profile prompts are in src/orchestration/agents/prompts/"
+  - "Zero matches for profiles/prompts imports in codebase"
+  - "All PROFILE_PROMPTS references renamed to AGENT_PROMPTS"
+  - "bun test passes with 100% success rate"
+  - "ghostwire export --target copilot generates correct output"
+  - "bun run src/script/build-agents-manifest.ts completes successfully"
+  - "Documentation updated to reflect new structure"
+  - "No TypeScript errors or lint violations"

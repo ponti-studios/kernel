@@ -155,33 +155,4 @@ describe("install CLI - binary check behavior", () => {
     expect(allCalls).toContain("[OK]");
     expect(allCalls).toContain("OpenCode 1.0.200");
   });
-
-  test("non-TUI mode: local-sync copies local dist plugin into OpenCode plugins path", async () => {
-    isOpenCodeInstalledSpy = spyOn(configManager, "isOpenCodeInstalled").mockResolvedValue(true);
-    getOpenCodeVersionSpy = spyOn(configManager, "getOpenCodeVersion").mockResolvedValue("1.0.200");
-
-    globalThis.fetch = mock(() =>
-      Promise.resolve({
-        ok: true,
-        json: () => Promise.resolve({ latest: "3.0.0" }),
-      } as Response),
-    ) as unknown as typeof fetch;
-
-    const args: InstallArgs = {
-      tui: false,
-      openai: "no",
-      gemini: "no",
-      copilot: "no",
-      opencodeZen: "no",
-      zaiCodingPlan: "no",
-      localSync: true,
-    };
-
-    const exitCode = await install(args);
-
-    const syncedPluginPath = join(tempDir, "plugins", "ghostwire.mjs");
-    expect(exitCode).toBe(0);
-    expect(existsSync(syncedPluginPath)).toBe(true);
-    expect(readFileSync(syncedPluginPath, "utf-8")).toContain("export default {}");
-  });
 });

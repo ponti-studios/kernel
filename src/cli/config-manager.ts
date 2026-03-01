@@ -83,26 +83,6 @@ function getOmoConfig(): string {
   return getConfigContext().paths.omoConfig;
 }
 
-function getPluginInstallPath(): string {
-  return join(getConfigDir(), "plugins", "ghostwire.mjs");
-}
-
-function resolveLocalPluginSourcePath(explicitPath?: string): string | null {
-  const candidates = [
-    explicitPath,
-    join(process.cwd(), "dist", "index.js"),
-    join(dirname(fileURLToPath(import.meta.url)), "..", "index.js"),
-  ].filter((value): value is string => typeof value === "string" && value.length > 0);
-
-  for (const candidate of candidates) {
-    if (existsSync(candidate)) {
-      return candidate;
-    }
-  }
-
-  return null;
-}
-
 const BUN_INSTALL_TIMEOUT_SECONDS = 60;
 const BUN_INSTALL_TIMEOUT_MS = BUN_INSTALL_TIMEOUT_SECONDS * 1000;
 
@@ -833,42 +813,6 @@ export function writeModelConfig(): ConfigMergeResult {
       success: false,
       configPath: omoConfigPath,
       error: formatErrorWithSuggestion(err, "write model config"),
-    };
-  }
-}
-
-export function syncLocalPlugin(explicitSourcePath?: string): ConfigMergeResult {
-  try {
-    ensureConfigDir();
-  } catch (err) {
-    return {
-      success: false,
-      configPath: getConfigDir(),
-      error: formatErrorWithSuggestion(err, "create config directory"),
-    };
-  }
-
-  const destinationPath = getPluginInstallPath();
-  const sourcePath = resolveLocalPluginSourcePath(explicitSourcePath);
-
-  if (!sourcePath) {
-    return {
-      success: false,
-      configPath: destinationPath,
-      error:
-        "Local plugin artifact not found. Expected dist/index.js in current workspace. Run `bun run build` first.",
-    };
-  }
-
-  try {
-    mkdirSync(join(getConfigDir(), "plugins"), { recursive: true });
-    copyFileSync(sourcePath, destinationPath);
-    return { success: true, configPath: destinationPath };
-  } catch (err) {
-    return {
-      success: false,
-      configPath: destinationPath,
-      error: formatErrorWithSuggestion(err, "sync local plugin"),
     };
   }
 }

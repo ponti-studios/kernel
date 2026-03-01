@@ -80,8 +80,6 @@ test_command "ghostwire --help" "$GHOSTWIRE_CLI --help"
 test_command "ghostwire install --help" "$GHOSTWIRE_CLI install --help"
 test_command "ghostwire install (non-TUI, no providers)" \
     "$GHOSTWIRE_CLI install --no-tui --openai=no --gemini=no --copilot=no --opencode-zen=no --zai-coding-plan=no --kimi-for-coding=no"
-test_command "ghostwire install with --local-sync" \
-    "$GHOSTWIRE_CLI install --no-tui --openai=no --gemini=no --copilot=no --opencode-zen=no --zai-coding-plan=no --kimi-for-coding=no --local-sync"
 test_command "ghostwire install with --local-only" \
     "$GHOSTWIRE_CLI install --no-tui --openai=no --gemini=no --copilot=no --opencode-zen=no --zai-coding-plan=no --kimi-for-coding=no --local-only"
 test_command "ghostwire install with --skip-auth" \
