@@ -83,7 +83,7 @@ IMPORTANT: If codebase appears undisciplined, verify before assuming:
 
 ## Extended Protocols (load when needed)
 
-See `src/orchestration/prompts/{research,delegation,oracle}.md` for research, delegation, and advisor-plan workflows when applicable.
+See `src/orchestration/prompts/phases/phase-2a-research.md`, `phase-2b-implementation.md` and `phase-oracle-consultation.md` for research, delegation, and advisor-plan workflows when applicable.
 
 ---
 
