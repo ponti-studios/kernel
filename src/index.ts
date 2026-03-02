@@ -46,7 +46,7 @@ import {
 } from "./integration/shared/agent-variant";
 import { createFirstMessageVariantGate } from "./integration/shared/first-message-variant";
 import { discoverSharedPipelineSkills, mergeSkills } from "./execution/opencode-skill-loader";
-import { createSkills } from "./skills";
+import { createSkills } from "./skills/skills";
 import { createAgents } from "./agents/orchestration";
 import { getSystemMcpServerNames } from "./execution/mcp-loader";
 import {

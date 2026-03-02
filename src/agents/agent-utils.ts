@@ -27,7 +27,7 @@ import {
   CATEGORY_DESCRIPTIONS,
 } from "../execution/tools/delegate-task/constants";
 import { resolveMultipleSkills } from "../execution/opencode-skill-loader/skill-content";
-import { createSkills } from "../skills";
+import { createSkills } from "../skills/skills";
 import type { LoadedSkill, SkillScope } from "../execution/opencode-skill-loader/types";
 import type { BrowserAutomationProvider } from "../platform/config/names.schema";
 export {

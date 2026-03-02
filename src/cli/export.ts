@@ -1,7 +1,7 @@
 import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
 import { AGENTS_MANIFEST } from "../agents/agents-manifest";
-import { createSkills, mergeScopedSkillsWithBuiltins } from "../skills";
+import { createSkills, mergeScopedSkillsWithBuiltins } from "../skills/skills";
 import { resolveScopedSkillsCanonical } from "../execution/opencode-skill-loader";
 import type { Skill } from "../skills/types";
 import type { LoadedSkill } from "../execution/opencode-skill-loader/types";
