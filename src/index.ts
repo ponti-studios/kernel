@@ -257,9 +257,7 @@ const GhostwirePlugin: Plugin = async (ctx) => {
 
   const plannerMdOnly = isHookEnabled("planner-md-only") ? createPlannerMdOnlyHook(ctx) : null;
 
-  const executorNotepad = isHookEnabled("executor-notepad")
-    ? createExecutorNotepadHook(ctx)
-    : null;
+  const executorNotepad = isHookEnabled("executor-notepad") ? createExecutorNotepadHook(ctx) : null;
 
   const questionLabelTruncator = createQuestionLabelTruncatorHook();
   const subagentQuestionBlocker = createSubagentQuestionBlockerHook();

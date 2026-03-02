@@ -73,7 +73,7 @@ Huge thanks to the community contributors who made this release possible! 🙌
 
 ### Fixed
 
-- **`dhh-rails-style` skill** - Fixed broken markdown table formatting (#96)
+- **`rails-style` skill** - Fixed broken markdown table formatting (#96)
 - **Documentation** - Updated hardcoded year references from 2025 to 2026 (#86, #91)
 
 ### Contributors
@@ -147,7 +147,7 @@ Huge thanks to the community contributors who made this release possible! 🙌
   - Phase 1: Discovers and reads relevant SKILL.md files from plugin, global, and project directories
   - Phase 2: Only goes online for additional best practices if skills don't provide enough coverage
   - Phase 3: Synthesizes all findings with clear source attribution (skill-based > official docs > community)
-  - Skill mappings: Rails → dhh-rails-style, Frontend → frontend-design, AI → agent-native-architecture, etc.
+  - Skill mappings: Rails → rails-style, Frontend → frontend-design, AI → agent-native-architecture, etc.
   - Prioritizes curated skill knowledge over external sources for trivial/common patterns
 
 ---
@@ -283,7 +283,7 @@ This release consolidates all recent work:
 - `/deepen-plan` command for enhanced planning
 - `create-agent-skills` skill rewrite (official spec compliance)
 - `agent-native-architecture` skill major expansion
-- `dhh-rails-style` skill consolidation (merged dhh-ruby-style)
+- `rails-style` skill consolidation (merged ruby-style)
 - 27 agents, 20 commands, 12 skills, 2 MCP servers
 
 ---
@@ -300,7 +300,7 @@ This release consolidates all recent work:
 
 ### Removed
 
-- **`dhh-ruby-style` skill** - Merged into `dhh-rails-style` skill
+- **`ruby-style` skill** - Merged into `rails-style` skill
 
 ---
 
@@ -377,7 +377,7 @@ These updates operationalize a key insight from building agent-native mobile app
 
 ### Enhanced
 
-- **`dhh-rails-style` skill** - Massively expanded reference documentation incorporating patterns from Marc Köhlbrugge's Unofficial 37signals Coding Style Guide:
+- **`rails-style` skill** - Massively expanded reference documentation incorporating patterns from Marc Köhlbrugge's Unofficial 37signals Coding Style Guide:
   - **controllers.md** - Added authorization patterns, rate limiting, Sec-Fetch-Site CSRF protection, request context concerns
   - **models.md** - Added validation philosophy, let it crash philosophy (bang methods), default values with lambdas, Rails 7.1+ patterns (normalizes, delegated types, store accessor), concern guidelines with touch chains
   - **frontend.md** - Added Turbo morphing best practices, Turbo frames patterns, 6 new Stimulus controllers (auto-submit, dialog, local-time, etc.), Stimulus best practices, view helpers, caching with personalization, broadcasting patterns
@@ -395,7 +395,7 @@ These updates operationalize a key insight from building agent-native mobile app
 - **All skills** - Fixed spec compliance issues across 12 skills:
   - Reference files now use proper markdown links (`[file.md](./references/file.md)`) instead of backtick text
   - Descriptions now use third person ("This skill should be used when...") per skill-creator spec
-  - Affected skills: agent-native-architecture, andrew-kane-gem-writer, learnings, create-agent-skills, dhh-rails-style, dspy-ruby, every-style-editor, file-todos, frontend-design, gemini-imagegen
+  - Affected skills: agent-native-architecture, andrew-kane-gem-writer, learnings, create-agent-skills, rails-style, dspy-ruby, every-style-editor, file-todos, frontend-design, gemini-imagegen
 
 ### Added
 

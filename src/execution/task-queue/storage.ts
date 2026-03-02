@@ -2,7 +2,7 @@ import { join, dirname } from "path";
 import { existsSync, mkdirSync, readFileSync, writeFileSync, renameSync, unlinkSync } from "fs";
 import { homedir } from "os";
 import type { z } from "zod";
-import type { GhostwireConfig } from "../../platform/config/schema";
+import type { GhostwireConfig } from "../../platform/config/schema"; // GhostwireConfig remains only in root schema
 
 export function getTaskDir(listId: string, config: Partial<GhostwireConfig>): string {
   const tasksConfig = config.operator?.tasks;

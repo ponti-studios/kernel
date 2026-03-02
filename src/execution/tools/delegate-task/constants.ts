@@ -1,4 +1,4 @@
-import type { CategoryConfig } from "../../../platform/config/schema";
+import type { CategoryConfig } from "../../../platform/config/category.schema";
 
 export const VISUAL_CATEGORY_PROMPT_APPEND = `<Category_Context>
 You are working on VISUAL/UI tasks.

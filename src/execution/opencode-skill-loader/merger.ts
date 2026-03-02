@@ -4,7 +4,7 @@ import type {
   SkillMetadata,
   DeterministicResolutionResult,
 } from "./types";
-import type { SkillsConfig, SkillDefinition } from "../../platform/config/schema";
+import type { SkillsConfig, SkillDefinition } from "../../platform/config/skill.schema";
 import type { Skill } from "../skills/types";
 import type { CommandDefinition } from "../command-loader/types";
 import { readFileSync, existsSync } from "fs";

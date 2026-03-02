@@ -71,7 +71,7 @@ interface SkillDefinition {
 | coding-tutor/           | builtin-skills/coding-tutor/           | None                 |
 | compound-docs/          | builtin-skills/compound-docs/          | references/, assets/ |
 | create-agent-skills/    | builtin-skills/create-agent-skills/    | None                 |
-| dhh-rails-style/        | builtin-skills/dhh-rails-style/        | None                 |
+| rails-style/        | builtin-skills/rails-style/        | None                 |
 | dspy-ruby/              | builtin-skills/dspy-ruby/              | None                 |
 | every-style-editor/     | builtin-skills/every-style-editor/     | None                 |
 | file-todos/             | builtin-skills/file-todos/             | assets/              |

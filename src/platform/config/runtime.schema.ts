@@ -36,21 +36,13 @@ export const BrowserAutomationConfigSchema = z.object({
    * - "agent-browser": Uses Vercel's agent-browser CLI (requires: bun add -g agent-browser)
    * - "dev-browser": Uses dev-browser skill with persistent browser state
    */
-  provider: z
-    .enum(["playwright", "agent-browser", "dev-browser"])
-    .default("playwright"),
+  provider: z.enum(["playwright", "agent-browser", "dev-browser"]).default("playwright"),
 });
 
 export const TmuxConfigSchema = z.object({
   enabled: z.boolean().default(false),
   layout: z
-    .enum([
-      "main-horizontal",
-      "main-vertical",
-      "tiled",
-      "even-horizontal",
-      "even-vertical",
-    ])
+    .enum(["main-horizontal", "main-vertical", "tiled", "even-horizontal", "even-vertical"])
     .default("main-vertical"),
   main_pane_size: z.number().min(20).max(80).default(60),
   main_pane_min_width: z.number().min(40).default(120),

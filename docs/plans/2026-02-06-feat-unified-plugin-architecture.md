@@ -135,7 +135,7 @@ Before unification, users faced:
 | Category | Skills | Status |
 | --- | --- | --- |
 | Core (P0) | frontend-design, skill-creator, create-agent-skills | ✅ |
-| Architecture & Patterns (P1) | agent-native-architecture, learnings, andrew-kane-gem-writer, dhh-rails-style, dspy-ruby | ✅ |
+| Architecture & Patterns (P1) | agent-native-architecture, learnings, andrew-kane-gem-writer, rails-style, dspy-ruby | ✅ |
 | Utilities & Tools (P1-P2) | every-style-editor, file-todos, git-worktree, rclone, agent-browser, gemini-imagegen | ✅ |
 
 **Total**: 14 skills, all natively available
@@ -167,9 +167,9 @@ Before unification, users faced:
 | **P0** | Agents | 7 | ✅ | agent-native-reviewer, architecture-strategist, security-sentinel, performance-seer-advisor, code-simplicity-reviewer, data-integrity-guardian, deployment-verification-agent |
 | **P0** | Commands | 4 | ✅ | /workflows:plan, /workflows:review, /workflows:work, /workflows:learnings |
 | **P0** | Skills | 3 | ✅ | frontend-design, skill-creator, create-agent-skills |
-| **P1** | Agents | 17 | ✅ | data-migration-expert, pattern-recognition-specialist, dhh-rails-reviewer, etc. |
+| **P1** | Agents | 17 | ✅ | data-migration-expert, pattern-recognition-specialist, rails-reviewer, etc. |
 | **P1** | Commands | 11 | ✅ | /workflows:brainstorm, /deepen-plan, /plan_review, etc. |
-| **P1** | Skills | 8 | ✅ | agent-native-architecture, learnings, dhh-rails-style, etc. |
+| **P1** | Skills | 8 | ✅ | agent-native-architecture, learnings, rails-style, etc. |
 | **P1** | MCP | 1 | ✅ | context7 |
 | **P2** | Agents | 3 | ✅ | git-history-analyzer, etc. |
 | **P2** | Commands | 5 | ✅ | /xcode-test, /feature-video, etc. |

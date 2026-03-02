@@ -3,7 +3,7 @@ import type { BackgroundTask, LaunchInput, ResumeInput } from "./types";
 import { log, promptWithModelSuggestionRetry } from "../../integration/shared";
 import { getAgentToolRestrictions } from "../../execution/agents/agent-tool-restrictions";
 import { ConcurrencyManager } from "./concurrency";
-import type { BackgroundTaskConfig, TmuxConfig } from "../../platform/config/schema";
+import type { BackgroundTaskConfig, TmuxConfig } from "../../platform/config/runtime.schema";
 import { isInsideTmux } from "../../integration/shared/tmux";
 
 import { subagentSessions } from "../session-state";

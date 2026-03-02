@@ -25,7 +25,7 @@ Agents are organized into categories for easier discovery.
 | `data-integrity-guardian`        | Database migrations and data integrity                          |
 | `data-migration-expert`          | Validate ID mappings match production, check for swapped values |
 | `deployment-verification-agent`  | Create Go/No-Go deployment checklists for risky data changes    |
-| `dhh-rails-reviewer`             | Rails review from DHH's perspective                             |
+| `rails-reviewer`             | Rails review from DHH's perspective                             |
 | `kieran-rails-reviewer`          | Rails code review with strict conventions                       |
 | `kieran-python-reviewer`         | Python code review with strict conventions                      |
 | `kieran-typescript-reviewer`     | TypeScript code review with strict conventions                  |
@@ -125,7 +125,7 @@ Core workflow commands use `workflows:` prefix to avoid collisions with built-in
 | `andrew-kane-gem-writer` | Write Ruby gems following Andrew Kane's patterns            |
 | `learnings`              | Capture solved problems as categorized documentation        |
 | `create-agent-skills`    | Expert guidance for creating Claude Code skills             |
-| `dhh-rails-style`        | Write Ruby/Rails code in DHH's 37signals style              |
+| `rails-style`        | Write Ruby/Rails code in DHH's 37signals style              |
 | `dspy-ruby`              | Build type-safe LLM applications with DSPy.rb               |
 | `frontend-design`        | Create production-grade frontend interfaces                 |
 | `coding-tutor`           | Personalized coding tutorials and spaced-repetition quizzes |

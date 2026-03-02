@@ -115,7 +115,7 @@
 ### Batch 2: Skills E-H (Parallelizable)
 
 - [ ] T040 [P] Move `src/plugin/skills/create-agent-skills/` to `src/execution/builtin-skills/create-agent-skills/` (includes SKILL.md and any assets)
-- [ ] T041 [P] Move `src/plugin/skills/dhh-rails-style/` to `src/execution/builtin-skills/dhh-rails-style/` (includes SKILL.md and any assets)
+- [ ] T041 [P] Move `src/plugin/skills/rails-style/` to `src/execution/builtin-skills/rails-style/` (includes SKILL.md and any assets)
 - [ ] T042 [P] Move `src/plugin/skills/dspy-ruby/` to `src/execution/builtin-skills/dspy-ruby/` (includes SKILL.md and any assets)
 - [ ] T043 [P] Move `src/plugin/skills/every-style-editor/` to `src/execution/builtin-skills/every-style-editor/` (includes SKILL.md and any assets)
 

@@ -1,6 +1,6 @@
 import { describe, test, expect, spyOn, beforeEach, afterEach } from "bun:test";
 import { resolveCategoryConfig, createConfigHandler } from "./config-composer";
-import type { CategoryConfig } from "../../platform/config/schema";
+import type { CategoryConfig } from "../../platform/config/category.schema";
 import type { GhostwireConfig } from "../../platform/config";
 
 import * as agents from "../../agents/orchestration";

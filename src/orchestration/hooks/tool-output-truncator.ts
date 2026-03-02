@@ -1,5 +1,5 @@
 import type { PluginInput } from "@opencode-ai/plugin";
-import type { ExperimentalConfig } from "../../platform/config/schema";
+import type { ExperimentalConfig } from "../../platform/config/pruning.schema";
 import { createDynamicTruncator } from "../../integration/shared/dynamic-truncator";
 
 const DEFAULT_MAX_TOKENS = 50_000; // ~200k chars
