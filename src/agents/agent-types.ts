@@ -7,14 +7,6 @@ import type {
   AgentPromptMetadata,
 } from "./schema/metadata";
 
-export type {
-  AgentMode,
-  AgentCategory,
-  AgentCost,
-  DelegationTrigger,
-  AgentPromptMetadata,
-};
-
 export type AgentConfig = SDKAgentConfig;
 
 /**
