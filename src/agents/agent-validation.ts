@@ -160,14 +160,5 @@ export async function validateMarkdownFiles(files: string[]): Promise<string[]> 
   return errors;
 }
 
-// Re-export validation helpers from their canonical module so callers (tests, templates, etc.)
-// can grab them from the same place without pulling in the entire constants object.
-export {
-  isValidAgentId,
-  isValidCategory,
-  isValidCommandName,
-  isValidSkillName,
-  VALID_AGENT_IDS,
-  VALID_COMMAND_NAMES,
-  VALID_SKILL_NAMES,
-} from "../execution/agents/constants";
+// (No exports for constants here – callers should import directly from the
+// modules where those values are defined.)
