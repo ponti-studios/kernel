@@ -1,4 +1,4 @@
-import type { TmuxConfig } from "../../platform/config/schema";
+import type { TmuxConfig } from "../../platform/config/runtime.schema";
 import type { PaneAction, WindowState } from "./types";
 import {
   spawnTmuxPane,

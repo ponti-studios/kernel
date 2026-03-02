@@ -21,7 +21,7 @@ import type { GhostwireConfig } from "../../platform/config";
 import { log } from "../../integration/shared";
 import { DEFAULT_CATEGORIES } from "../../execution/tools/delegate-task/constants";
 import type { ModelCacheState } from "../../plugin-state";
-import type { CategoryConfig } from "../../platform/config/schema";
+import type { CategoryConfig } from "../../platform/config/category.schema";
 import { migrateAgentConfig } from "../../platform/config/permission-compat";
 
 export interface ConfigHandlerDeps {

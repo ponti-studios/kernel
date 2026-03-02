@@ -1,4 +1,4 @@
-import type { BackgroundTaskConfig } from "../../platform/config/schema";
+import type { BackgroundTaskConfig } from "../../platform/config/runtime.schema";
 
 /**
  * Queue entry with settled-flag pattern to prevent double-resolution.

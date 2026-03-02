@@ -6,7 +6,8 @@ import type {
   AgentFactory,
   AgentPromptMetadata,
 } from "./types";
-import type { CategoriesConfig, CategoryConfig, GitMasterConfig } from "../platform/config/schema";
+import type { CategoriesConfig, CategoryConfig } from "../platform/config/category.schema";
+import type { GitMasterConfig } from "../platform/config/runtime.schema";
 import { createAgentToolRestrictions } from "../platform/config/permission-compat";
 import { loadMarkdownAgents } from "../../agents/loader/markdown-loader";
 import type {
@@ -30,7 +31,7 @@ import {
 import { resolveMultipleSkills } from "../execution/opencode-skill-loader/skill-content";
 import { createSkills } from "../skills";
 import type { LoadedSkill, SkillScope } from "../execution/opencode-skill-loader/types";
-import type { BrowserAutomationProvider } from "../platform/config/schema";
+import type { BrowserAutomationProvider } from "../platform/config/names.schema";
 export {
   createAgentToolAllowlist,
   createAgentToolRestrictions,

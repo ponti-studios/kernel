@@ -121,7 +121,7 @@ src/execution/
 3. `coding-tutor` → `src/execution/builtin-skills/coding-tutor/`
 4. `compound-docs` → `src/execution/builtin-skills/compound-docs/`
 5. `create-agent-skills` → `src/execution/builtin-skills/create-agent-skills/`
-6. `dhh-rails-style` → `src/execution/builtin-skills/dhh-rails-style/`
+6. `rails-style` → `src/execution/builtin-skills/rails-style/`
 7. `dspy-ruby` → `src/execution/builtin-skills/dspy-ruby/`
 8. `every-style-editor` → `src/execution/builtin-skills/every-style-editor/`
 9. `file-todos` → `src/execution/builtin-skills/file-todos/`
@@ -145,13 +145,13 @@ description: Have multiple specialized agents review a plan in parallel
 argument-hint: "[plan file path or plan content]"
 ---
 
-Have @agent-dhh-rails-reviewer @agent-kieran-rails-reviewer @agent-code-simplicity-reviewer review this plan in parallel.
+Have @agent-rails-reviewer @agent-kieran-rails-reviewer @agent-code-simplicity-reviewer review this plan in parallel.
 ```
 
 Becomes TypeScript:
 
 ```typescript
-export const PLAN_REVIEW_TEMPLATE = `Have @agent-dhh-rails-reviewer @agent-kieran-rails-reviewer @agent-code-simplicity-reviewer review this plan in parallel.`;
+export const PLAN_REVIEW_TEMPLATE = `Have @agent-rails-reviewer @agent-kieran-rails-reviewer @agent-code-simplicity-reviewer review this plan in parallel.`;
 ```
 
 With frontmatter fields mapped to command definition properties.

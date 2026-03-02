@@ -8,7 +8,7 @@ import type {
   CategoriesConfig,
   GitMasterConfig,
   BrowserAutomationProvider,
-} from "../../../platform/config/schema";
+} from "../../../platform/config/category.schema"; // earlier imports changed; ensure this is correct
 import { DEFAULT_CATEGORIES, CATEGORY_PROMPT_APPENDS, CATEGORY_DESCRIPTIONS } from "./constants";
 import { getTimingConfig } from "./timing";
 import {

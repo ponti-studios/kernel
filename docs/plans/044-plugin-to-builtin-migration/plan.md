@@ -116,7 +116,7 @@ specs/044-plugin-to-builtin-migration/
 - [ ] 29. Move `coding-tutor/` to builtin-skills/
 - [ ] 30. Move `compound-docs/` to builtin-skills/
 - [ ] 31. Move `create-agent-skills/` to builtin-skills/
-- [ ] 32. Move `dhh-rails-style/` to builtin-skills/
+- [ ] 32. Move `rails-style/` to builtin-skills/
 - [ ] 33. Move `dspy-ruby/` to builtin-skills/
 - [ ] 34. Move `every-style-editor/` to builtin-skills/
 - [ ] 35. Move `file-todos/` to builtin-skills/

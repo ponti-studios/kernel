@@ -1,11 +1,7 @@
 import { z } from "zod";
 import { AnyMcpNameSchema, McpNameSchema } from "../../integration/mcp/types";
 
-import {
-  PermissionValue,
-  BashPermission,
-  AgentPermissionSchema,
-} from "./permissions.schema";
+import { PermissionValue, BashPermission, AgentPermissionSchema } from "./permissions.schema";
 import {
   AgentNameSchema,
   SkillNameSchema,
@@ -17,28 +13,16 @@ import {
   BrowserAutomationProviderSchema,
   TmuxLayoutSchema,
 } from "./names.schema";
-import {
-  AgentOverrideConfigSchema,
-  AgentOverridesSchema,
-} from "./agent.schema";
-import {
-  CategoryConfigSchema,
-  CategoriesConfigSchema,
-} from "./category.schema";
-import {
-  OperatorConfigSchema,
-  OperatorConfigSchemaWrapper,
-} from "./operator.schema";
+import { AgentOverrideConfigSchema, AgentOverridesSchema } from "./agent.schema";
+import { CategoryConfigSchema, CategoriesConfigSchema } from "./category.schema";
+import { OperatorConfigSchema, OperatorConfigSchemaWrapper } from "./operator.schema";
 import {
   SkillSourceSchema,
   SkillDefinitionSchema,
   SkillEntrySchema,
   SkillsConfigSchema,
 } from "./skill.schema";
-import {
-  DynamicContextPruningConfigSchema,
-  ExperimentalConfigSchema,
-} from "./pruning.schema";
+import { DynamicContextPruningConfigSchema, ExperimentalConfigSchema } from "./pruning.schema";
 import {
   ClaudeCodeConfigSchema,
   ClaudeImportConfigSchema,
@@ -87,4 +71,3 @@ export const GhostwireConfigSchema = z.object({
 
 // export only the root config type; other types live in their modules
 export type GhostwireConfig = z.infer<typeof GhostwireConfigSchema>;
-

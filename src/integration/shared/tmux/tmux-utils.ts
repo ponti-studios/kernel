@@ -1,5 +1,5 @@
 import { spawn } from "bun";
-import type { TmuxConfig, TmuxLayout } from "../../../platform/config/schema";
+import type { TmuxConfig, TmuxLayout } from "../../../platform/config/runtime.schema";
 import type { SpawnPaneResult } from "./types";
 import { getTmuxPath } from "../../../execution/tools/interactive-bash/utils";
 

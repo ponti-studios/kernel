@@ -1,5 +1,5 @@
 import type { Skill } from "./types";
-import type { BrowserAutomationProvider } from "../../platform/config/schema";
+import type { BrowserAutomationProvider } from "../../platform/config/names.schema";
 import type { SkillMcpConfig } from "../skill-mcp-manager/types";
 import { SKILLS_MANIFEST, mergeBuiltinManifestAfterScoped } from "./skills-manifest";
 import { parseFrontmatter } from "../integration/shared/frontmatter";

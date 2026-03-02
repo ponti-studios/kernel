@@ -8,7 +8,7 @@ markdown agents in `src/orchestration/agents/`.
 - plugin: `review/kieran-rails-reviewer.md` -> builtin: `reviewer-rails.md`
 - plugin: `review/kieran-python-reviewer.md` -> builtin: `reviewer-python.md`
 - plugin: `review/kieran-typescript-reviewer.md` -> builtin: `reviewer-typescript.md`
-- plugin: `review/dhh-rails-reviewer.md` -> builtin: `reviewer-rails-dh.md`
+- plugin: `review/rails-reviewer.md` -> builtin: `reviewer-rails-dh.md`
 - plugin: `review/code-simplicity-reviewer.md` -> builtin: `reviewer-simplicity.md`
 - plugin: `review/security-sentinel.md` -> builtin: `reviewer-security.md`
 - plugin: `review/performance-oracle.md` -> builtin: `oracle-performance.md`

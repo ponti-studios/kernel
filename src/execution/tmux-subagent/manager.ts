@@ -1,5 +1,5 @@
 import type { PluginInput } from "@opencode-ai/plugin";
-import type { TmuxConfig } from "../../platform/config/schema";
+import type { TmuxConfig } from "../../platform/config/runtime.schema";
 import type { TrackedSession, CapacityConfig } from "./types";
 import {
   isInsideTmux as defaultIsInsideTmux,

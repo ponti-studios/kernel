@@ -44,7 +44,7 @@ Review Agents (5):
   - kieran-rails-reviewer
   - kieran-python-reviewer
   - kieran-typescript-reviewer
-  - dhh-rails-reviewer
+  - rails-reviewer
   - code-simplicity-reviewer
 
 Research Agents (4):
@@ -177,7 +177,7 @@ src/agents/compound/
 │   ├── kieran-rails-reviewer.ts
 │   ├── kieran-python-reviewer.ts
 │   ├── kieran-typescript-reviewer.ts
-│   ├── dhh-rails-reviewer.ts
+│   ├── rails-reviewer.ts
 │   └── code-simplicity-reviewer.ts
 ├── research/                  # 4 research agents
 │   ├── framework-docs-researcher.ts
@@ -420,7 +420,7 @@ export function migrateConfig(oldConfig: ImportConfig): CompoundConfig {
 export const agentSources: Record<BuiltinAgentName, AgentSource> = {
   // ... existing agents
   "grid:kieran-rails-reviewer": createKieranRailsReviewerAgent,
-  "grid:dhh-rails-reviewer": createDHHRailsReviewerAgent,
+  "grid:rails-reviewer": createDHHRailsReviewerAgent,
   // ... all 26 compound agents
 };
 

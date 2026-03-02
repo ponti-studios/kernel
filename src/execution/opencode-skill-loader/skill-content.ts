@@ -4,7 +4,8 @@ import type { LoadedSkill } from "./types";
 import { createHash } from "node:crypto";
 import { parseFrontmatter } from "../../integration/shared/frontmatter";
 import { readFileSync } from "node:fs";
-import type { GitMasterConfig, BrowserAutomationProvider } from "../../platform/config/schema";
+import type { GitMasterConfig } from "../../platform/config/runtime.schema";
+import type { BrowserAutomationProvider } from "../../platform/config/names.schema";
 
 export interface SkillResolutionOptions {
   gitMasterConfig?: GitMasterConfig;
