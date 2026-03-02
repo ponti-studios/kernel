@@ -22,9 +22,9 @@
 |----------|------|-------------|
 | `researcher-codebase` agent | FREE | Contextual grep for codebases |
 | `researcher-world` agent | CHEAP | Specialized codebase understanding agent for multi-repository analysis, searching remote codebases, retrieving official documentation, and finding implementation examples using GitHub CLI, Context7, and Web Search |
-| `advisor-plan` agent | EXPENSIVE | Read-only consultation agent |
+| `plan` agent | EXPENSIVE | Read-only consultation agent |
 
-**Default flow**: skill (if match) → researcher-codebase/researcher-world (background) + tools → advisor-plan (if required)
+**Default flow**: skill (if match) → researcher-codebase/researcher-world (background) + tools → plan (if required)
 
 ### Scout Recon Agent = Contextual Grep
 

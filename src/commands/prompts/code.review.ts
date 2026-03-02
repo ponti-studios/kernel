@@ -1,4 +1,4 @@
-import type { CommandDefinition } from "../../claude-code-command-loader";
+import type { CommandDefinition } from "../../command-loader";
 import { renderProfileUsage } from "../profiles";
 export const NAME = "ghostwire:code:review";
 export const DESCRIPTION = "Conduct comprehensive code reviews with specialist agents";

@@ -1,4 +1,4 @@
-import type { CommandDefinition } from "../../claude-code-command-loader";
+import type { CommandDefinition } from "../../command-loader";
 export const NAME = "ghostwire:work:cancel";
 export const DESCRIPTION = "Cancel active work loop";
 export const TEMPLATE = `

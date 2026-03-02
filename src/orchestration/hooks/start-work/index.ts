@@ -10,7 +10,7 @@ import {
   clearUltraworkState,
 } from "../../../execution/ultrawork-state";
 import { log } from "../../../integration/shared/logger";
-import { getSessionAgent, updateSessionAgent } from "../../../execution/claude-code-session-state";
+import { getSessionAgent, updateSessionAgent } from "../../../execution/session-state";
 
 const HOOK_NAME = "start-work";
 

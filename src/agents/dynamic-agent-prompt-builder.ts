@@ -264,7 +264,7 @@ delegate_task(category="...", load_skills=[], prompt="...")  // Empty load_skill
 }
 
 export function buildAdvisorPlanSection(agents: AvailableAgent[]): string {
-  const advisorAgent = agents.find((a) => a.name === "advisor-plan");
+  const advisorAgent = agents.find((a) => a.name === "plan");
   if (!advisorAgent) return "";
 
   const useWhen = advisorAgent.metadata.useWhen || [];
@@ -349,12 +349,7 @@ export function buildUltraworkSection(
   }
 
   if (agents.length > 0) {
-    const ultraworkAgentPriority = [
-      "researcher-codebase",
-      "researcher-world",
-      "plan",
-      "advisor-plan",
-    ];
+    const ultraworkAgentPriority = ["researcher-codebase", "researcher-world", "plan", "plan"];
     const sortedAgents = [...agents].sort((a, b) => {
       const aIdx = ultraworkAgentPriority.indexOf(a.name);
       const bIdx = ultraworkAgentPriority.indexOf(b.name);

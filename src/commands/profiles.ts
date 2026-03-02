@@ -24,15 +24,6 @@ export const COMMAND_PROFILE_REGISTRY: Record<string, CommandProfile> = {
     acceptance_checks: ["parity matrix complete", "architecture risks prioritized"],
     default_command: "ghostwire:workflows:review",
   },
-  advisor_plan: {
-    profile_id: "advisor_plan",
-    intent: "Provide high-rigor planning and debugging reasoning.",
-    required_tools: ["read", "search", "delegate_task"],
-    runtime_route: "do",
-    prompt_append: "Produce deterministic, verifiable reasoning with explicit assumptions.",
-    acceptance_checks: ["assumptions enumerated", "validation steps included"],
-    default_command: "ghostwire:workflows:plan",
-  },
   advisor_strategy: {
     profile_id: "advisor_strategy",
     intent: "Pre-plan strategy synthesis and hidden requirement extraction.",

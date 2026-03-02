@@ -1,4 +1,4 @@
-import type { CommandDefinition } from "../../claude-code-command-loader";
+import type { CommandDefinition } from "../../command-loader";
 export const NAME = "ghostwire:git:cleanup";
 export const DESCRIPTION = "Remove stale branches and optimize repository";
 export const TEMPLATE = `

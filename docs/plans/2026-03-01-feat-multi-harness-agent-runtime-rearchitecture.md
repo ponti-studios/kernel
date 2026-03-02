@@ -59,7 +59,7 @@ Ghostwire currently mixes command intent, prompt assets, profile metadata, runti
 
 ### Key Entities
 - **CommandIntentSpec**: declarative command contract (id, args, acceptance checks, lifecycle hints).
-- **AgentProfileSpec**: declarative agent contract (id, role, route, tool policy, model policy hints).
+- **AgentSpec**: declarative agent contract (id, role, route, tool policy, model policy hints).
 - **PromptAsset**: immutable textual template asset.
 - **ExecutionPlan**: runtime composition mapping intent + profile + prompt + policy.
 - **HarnessAdapter**: translation boundary for one host runtime.
@@ -200,7 +200,7 @@ src/execution/
 
 ### Wave 1 — Canonical Contracts and Schemas
 - `task-001`: Define `CommandIntentSpec` schema + validators.
-- `task-002`: Define `AgentProfileSpec` schema + validators.
+- `task-002`: Define `AgentSpec` schema + validators.
 - `task-003`: Define `PromptAsset` schema + static validation rules.
 - `task-004`: Define execution plan composition schema + compiler interfaces.
 
@@ -302,7 +302,7 @@ src/execution/
   "waves": 6,
   "tasks": [
     {"id": "task-001", "wave": 1, "subject": "Define CommandIntentSpec schema", "priority": "high"},
-    {"id": "task-002", "wave": 1, "subject": "Define AgentProfileSpec schema", "priority": "high"},
+    {"id": "task-002", "wave": 1, "subject": "Define AgentSpec schema", "priority": "high"},
     {"id": "task-003", "wave": 1, "subject": "Define PromptAsset schema", "priority": "high"},
     {"id": "task-004", "wave": 1, "subject": "Define execution composition contracts", "priority": "high"},
 

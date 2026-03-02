@@ -113,7 +113,7 @@ ghostwire/
    - `src/platform/opencode/config-composer.ts` - Agent merging logic (lines 317-334)
 
 3. **Plugin loader** (UPDATE/SIMPLIFY):
-   - `src/execution/claude-code-plugin-loader/loader.ts` - loadPluginAgents() function
+   - `src/execution/plugin-loader/loader.ts` - loadPluginAgents() function
    - May need to filter out duplicates vs code-defined agents
 
 ## Current State

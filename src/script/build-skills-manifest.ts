@@ -41,9 +41,7 @@ function loadSkillFromDir(dirName: string): Skill | null {
   // validate to catch malformed skills early
   const validation = skillSchema.safeParse(skill);
   if (!validation.success) {
-    const errs = validation.error.issues
-      .map((i) => `${i.path.join(".")}: ${i.message}`)
-      .join("; ");
+    const errs = validation.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join("; ");
     throw new Error(`Skill at \"${dirName}\" failed validation: ${errs}`);
   }
 

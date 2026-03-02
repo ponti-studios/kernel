@@ -10,13 +10,7 @@ import { join } from "node:path";
 async function main(): Promise<void> {
   const projectRoot = process.cwd();
   const sourceTemplatesDir = join(projectRoot, "src", "commands", "templates");
-  const destinationTemplatesDir = join(
-    projectRoot,
-    "dist",
-    "src",
-    "commands",
-    "templates",
-  );
+  const destinationTemplatesDir = join(projectRoot, "dist", "src", "commands", "templates");
 
   await mkdir(destinationTemplatesDir, { recursive: true });
 

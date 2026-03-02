@@ -1,4 +1,4 @@
-import type { CommandDefinition } from "../../claude-code-command-loader";
+import type { CommandDefinition } from "../../command-loader";
 export const NAME = "ghostwire:workflows:work";
 export const DESCRIPTION =
   "Execute work plans with strict preflight gates and evidence-based completion";

@@ -13,7 +13,7 @@ import {
   findFirstMessageWithAgent,
   MESSAGE_STORAGE,
 } from "../../hook-message-injector";
-import { getSessionAgent } from "../../claude-code-session-state";
+import { getSessionAgent } from "../../session-state";
 import { log } from "../../../integration/shared/logger";
 import { consumeNewMessages } from "../../../integration/shared/session-cursor";
 

@@ -1,4 +1,4 @@
-import type { CommandDefinition } from "../../claude-code-command-loader";
+import type { CommandDefinition } from "../../command-loader";
 export const NAME = "ghostwire:workflows:execute";
 export const DESCRIPTION =
   "Execute planned tasks from workflow plan (task-driven, with subagent delegation) [Phase: EXECUTE]";

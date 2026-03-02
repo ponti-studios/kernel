@@ -4,7 +4,7 @@ import {
   loadProjectCommands,
   loadOpencodeGlobalCommands,
   loadOpencodeProjectCommands,
-} from "../../execution/claude-code-command-loader";
+} from "../../execution/command-loader";
 import { loadCommands } from "../../commands";
 import {
   loadUserSkills,
@@ -13,9 +13,9 @@ import {
   loadOpencodeProjectSkills,
   discoverSharedPipelineSkills,
 } from "../../execution/opencode-skill-loader";
-import { loadUserAgents, loadProjectAgents } from "../../execution/claude-code-agent-loader";
-import { loadMcpConfigs } from "../../execution/claude-code-mcp-loader";
-import { loadAllPluginComponents } from "../../execution/claude-code-plugin-loader";
+import { loadUserAgents, loadProjectAgents } from "../../execution/agent-loader";
+import { loadMcpConfigs } from "../../execution/mcp-loader";
+import { loadAllPluginComponents } from "../../execution/plugin-loader";
 import { createMcps } from "../../integration/mcp";
 import type { GhostwireConfig } from "../../platform/config";
 import { log } from "../../integration/shared";

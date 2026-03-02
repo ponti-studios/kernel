@@ -1,4 +1,4 @@
-import type { CommandDefinition } from "../../claude-code-command-loader";
+import type { CommandDefinition } from "../../command-loader";
 export const NAME = "ghostwire:workflows:create";
 export const DESCRIPTION =
   "Generate lifecycle artifacts in strict submodes: tasks|analyze|checklist|issues [Phase: BREAKDOWN]";

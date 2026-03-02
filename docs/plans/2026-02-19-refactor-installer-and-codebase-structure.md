@@ -75,21 +75,21 @@ The following test files contain tests that reference Claude Code and will need 
 - **`src/platform/claude/config-dir.ts`** - Used by 12 files for `getClaudeConfigDir()`:
   - `src/hooks/auto-slash-command/executor.ts`
   - `src/hooks/claude-code-hooks/todo.ts`, `config.ts`, `transcript.ts`
-  - `src/features/claude-code-agent-loader/loader.ts`
-  - `src/features/claude-code-mcp-loader/loader.ts`
+  - `src/execution/agent-loader/loader.ts`
+  - `src/execution/mcp-loader/loader.ts`
   - `src/features/opencode-skill-loader/loader.ts`
-  - `src/features/claude-code-command-loader/loader.ts`
+  - `src/execution/command-loader/loader.ts`
   - `src/tools/todo-manager/constants.ts`
   - `src/tools/session-manager/constants.ts`
   - `src/tools/slashcommand/tools.ts`
 
 ##### Feature Modules (Keep - OpenCode Compatibility):
 
-- `src/features/claude-code-session-state/` - Session state management
-- `src/features/claude-code-agent-loader/` - Load Claude Code agents from `~/.claude/agents/`
-- `src/features/claude-code-mcp-loader/` - Load MCP servers from `.mcp.json`
-- `src/features/claude-code-command-loader/` - Load commands from `~/.claude/commands/`
-- `src/features/claude-code-plugin-loader/` - Load marketplace plugins
+- `src/execution/session-state/` - Session state management
+- `src/execution/agent-loader/` - Load agents from `~/.claude/agents/`
+- `src/execution/mcp-loader/` - Load MCP servers from `.mcp.json`
+- `src/execution/command-loader/` - Load commands from `~/.claude/commands/`
+- `src/execution/plugin-loader/` - Load marketplace plugins
 
 #### 3. Edge Cases and Risks
 
@@ -153,8 +153,8 @@ These files support OpenCode users importing Claude Code configurations:
 
 - `src/platform/claude/` directory (keep utility functions)
 - `src/hooks/claude-code-hooks/` (keep full hook)
-- `src/features/claude-code-*` (keep all loaders)
-- `src/features/claude-code-session-state/`
+- `src/execution/*-loader/` (keep all generic loaders)
+- `src/execution/session-state/`
 
 #### Installation Targets After Change
 

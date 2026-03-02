@@ -1,21 +1,21 @@
 # Oracle Usage Guide
 
-> Domain module for Ghostwire agents - loaded on-demand when consulting the oracle/Advisor Plan
+> Domain module for Ghostwire agents - loaded on-demand when consulting the oracle/Plan agent
 
-## Advisor Plan — Read-Only High-IQ Consultant
+## Plan Agent — Read-Only High-IQ Consultant
 
-Advisor Plan is a read-only, expensive, high-quality reasoning model for debugging and architecture. Consultation only.
+Plan agent is a read-only, expensive, high-quality reasoning model for debugging and architecture. Consultation only.
 
 ### WHEN to Consult:
 
 | Trigger                           | Action                             |
 | --------------------------------- | ---------------------------------- |
-| Complex architecture design       | Advisor Plan FIRST, then implement |
-| After completing significant work | Advisor Plan FIRST, then implement |
-| 2+ failed fix attempts            | Advisor Plan FIRST, then implement |
-| Unfamiliar code patterns          | Advisor Plan FIRST, then implement |
-| Security/performance concerns     | Advisor Plan FIRST, then implement |
-| Multi-system tradeoffs            | Advisor Plan FIRST, then implement |
+| Complex architecture design       | Plan FIRST, then implement |
+| After completing significant work | Plan FIRST, then implement |
+| 2+ failed fix attempts            | Plan FIRST, then implement |
+| Unfamiliar code patterns          | Plan FIRST, then implement |
+| Security/performance concerns     | Plan FIRST, then implement |
+| Multi-system tradeoffs            | Plan FIRST, then implement |
 
 ### WHEN NOT to Consult:
 

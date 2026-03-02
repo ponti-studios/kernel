@@ -1,4 +1,4 @@
-import type { CommandDefinition } from "../../claude-code-command-loader";
+import type { CommandDefinition } from "../../command-loader";
 export const NAME = "ghostwire:project:deploy";
 export const DESCRIPTION = "Deploy project to specified environment";
 export const TEMPLATE = `

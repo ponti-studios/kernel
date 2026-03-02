@@ -8,7 +8,7 @@ import {
   sanitizeModelField,
 } from "../../../integration/shared";
 import { getOpenCodeConfigDir } from "../../../platform/opencode/config-dir";
-import type { CommandFrontmatter } from "../../claude-code-command-loader/types";
+import type { CommandFrontmatter } from "../../command-loader/types";
 import { isMarkdownFile } from "../../../integration/shared/file-utils";
 import { getClaudeConfigDir } from "../../../platform/claude/config-dir";
 import { discoverAllSkills, type LoadedSkill } from "../../opencode-skill-loader";

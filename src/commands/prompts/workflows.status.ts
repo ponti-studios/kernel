@@ -1,4 +1,4 @@
-import type { CommandDefinition } from "../../claude-code-command-loader";
+import type { CommandDefinition } from "../../command-loader";
 export const NAME = "ghostwire:workflows:status";
 export const DESCRIPTION = "Check status of in-progress workflow or plan";
 export const TEMPLATE = `

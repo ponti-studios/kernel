@@ -1,4 +1,4 @@
-import type { CommandDefinition } from "../../claude-code-command-loader";
+import type { CommandDefinition } from "../../command-loader";
 export const NAME = "ghostwire:workflows:learnings";
 export const DESCRIPTION = "Document a recently solved problem to build team learnings";
 export const TEMPLATE = `

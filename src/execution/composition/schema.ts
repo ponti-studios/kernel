@@ -5,7 +5,7 @@ import { z } from "zod";
  *
  * Fully-resolved execution plan combining intent + profile + asset + tools.
  * Each plan:
- * - Binds a CommandIntentSpec to an AgentProfileSpec
+ * - Binds a CommandIntentSpec to an AgentSpec
  * - Resolves tool policies to concrete permissions
  * - Includes prompt asset for LLM context
  * - Carries metadata for adapter-specific behavior
@@ -41,13 +41,13 @@ export const executionPlanSchema = z.object({
   id: z
     .string()
     .regex(EXECUTION_PLAN_ID_PATTERN, {
-      message: "id must follow format: command-id::profile-id::asset-id",
+      message: "id must follow format: command-id::agent-id::asset-id",
     })
-    .describe("Canonical reference combining intent + profile + asset"),
+    .describe("Canonical reference combining intent + agent spec + asset"),
   commandId: z.string().min(1).describe("Referenced CommandIntentSpec id"),
-  profileId: z.string().min(1).describe("Referenced AgentProfileSpec id"),
+  agentId: z.string().min(1).describe("Referenced AgentSpec id"),
   assetId: z.string().min(1).describe("Referenced PromptAsset id (asset version not included)"),
-  route: z.enum(["do", "research"]).describe("Execution route from profile"),
+  route: z.enum(["do", "research"]).describe("Execution route from agent spec"),
   resolvedTools: z
     .record(
       z.enum(EXECUTION_TOOLS as readonly [ExecutionTool, ...ExecutionTool[]]),
@@ -150,7 +150,7 @@ export function serializeExecutionPlan(plan: ExecutionPlan): string {
     expiresAt: plan.expiresAt,
     id: plan.id,
     metadata: plan.metadata,
-    profileId: plan.profileId,
+    agentId: plan.agentId,
     promptContent: plan.promptContent,
     resolvedTools: plan.resolvedTools,
     route: plan.route,

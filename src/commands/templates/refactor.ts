@@ -1,7 +1,6 @@
 import {
   AGENT_PLANNER,
   AGENT_RESEARCHER_CODEBASE,
-  AGENT_ADVISOR_PLAN,
   AGENT_RESEARCHER_WORLD,
 } from "../../agents/runtime/constants";
 export const REFACTOR_TEMPLATE = `
@@ -352,7 +351,7 @@ If ANY verification fails:
 4. **OPTIONS**:
    - Fix the issue and retry
    - Skip this step (if optional)
-   - Consult profile.advisor_plan agent for help
+   - Consult profile.plan agent for help
    - Ask user for guidance
 **NEVER proceed to next step with broken tests.**
 ## 5.3: Commit Checkpoints
@@ -450,7 +449,7 @@ Use \`ast_grep_search\` and \`ast_grep_replace\` for structural transformations.
 ## Agents
 - \`profile.researcher_codebase\`: Parallel codebase pattern discovery
 - \`plan\`: Detailed refactoring plan generation
-- \`profile.advisor_plan\`: Read-only consultation for complex architectural decisions and debugging
+- `profile.plan`: Read-only consultation for complex architectural decisions and debugging
 - \`profile.researcher_world\`: **Use proactively** when encountering deprecated methods or library migration tasks. Query official docs and OSS examples for modern replacements.
 ## Deprecated Code & Library Migration
 When you encounter deprecated methods/APIs during refactoring:

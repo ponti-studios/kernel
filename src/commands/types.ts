@@ -1,4 +1,4 @@
-import type { CommandDefinition } from "../claude-code-command-loader";
+import type { CommandDefinition } from "../command-loader";
 import type { CommandName as UnifiedCommandName } from "./command-name-values";
 
 export type CommandName = UnifiedCommandName;

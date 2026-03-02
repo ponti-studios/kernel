@@ -5,7 +5,6 @@ export const AGENT_DO = "do";
 export const AGENT_RESEARCH = "research";
 
 export const AGENT_PLANNER = AGENT_DO;
-export const AGENT_ADVISOR_PLAN = AGENT_DO;
 export const AGENT_ADVISOR_STRATEGY = AGENT_DO;
 export const AGENT_ADVISOR_ARCHITECTURE = AGENT_DO;
 

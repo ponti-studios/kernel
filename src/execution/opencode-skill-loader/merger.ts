@@ -6,7 +6,7 @@ import type {
 } from "./types";
 import type { SkillsConfig, SkillDefinition } from "../../platform/config/schema";
 import type { Skill } from "../skills/types";
-import type { CommandDefinition } from "../claude-code-command-loader/types";
+import type { CommandDefinition } from "../command-loader/types";
 import { readFileSync, existsSync } from "fs";
 import { dirname, resolve, isAbsolute } from "path";
 import { homedir } from "os";

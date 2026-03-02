@@ -19,7 +19,7 @@ const AGENT_RESTRICTIONS: Record<string, Record<string, boolean>> = {
 
   "researcher-world": EXPLORATION_AGENT_DENYLIST,
 
-  "advisor-plan": {
+  plan: {
     write: false,
     edit: false,
     task: false,

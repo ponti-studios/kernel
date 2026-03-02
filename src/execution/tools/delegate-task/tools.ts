@@ -20,7 +20,7 @@ import { resolveMultipleSkillsAsync } from "../../opencode-skill-loader/skill-co
 import { discoverSkills } from "../../opencode-skill-loader";
 import { getTaskToastManager } from "../../task-toast-manager";
 import type { ModelFallbackInfo } from "../../task-toast-manager/types";
-import { subagentSessions, getSessionAgent } from "../../claude-code-session-state";
+import { subagentSessions, getSessionAgent } from "../../session-state";
 import { log, promptWithModelSuggestionRetry } from "../../../integration/shared";
 import { getAgentToolRestrictions } from "../../../agents/runtime/agent-tool-restrictions";
 import { resolveModel } from "../../../agents/runtime/model-resolver";

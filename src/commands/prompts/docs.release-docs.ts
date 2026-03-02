@@ -1,4 +1,4 @@
-import type { CommandDefinition } from "../../claude-code-command-loader";
+import type { CommandDefinition } from "../../command-loader";
 export const NAME = "ghostwire:docs:release-docs";
 export const DESCRIPTION = "Create versioned documentation release";
 export const TEMPLATE = `

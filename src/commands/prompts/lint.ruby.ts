@@ -1,4 +1,4 @@
-import type { CommandDefinition } from "../../claude-code-command-loader";
+import type { CommandDefinition } from "../../command-loader";
 export const NAME = "ghostwire:lint:ruby";
 export const DESCRIPTION = "Run linting and code quality checks on Ruby and ERB files";
 export const TEMPLATE = `

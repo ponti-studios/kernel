@@ -115,7 +115,7 @@ src/orchestration/agents/
 src/plugin/agents/
 └── [Only community/user-defined agents] # NO duplicates of ghostwire agents
 
-src/execution/claude-code-plugin-loader/
+src/execution/plugin-loader/
 └── loader.ts                  # Updated loadPluginAgents() to filter duplicates
 ```
 

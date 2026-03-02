@@ -1,9 +1,9 @@
 import { z } from "zod";
 
 /**
- * Zod Schema for canonical AgentProfileSpec
+ * Zod Schema for canonical AgentSpec
  *
- * Each profile:
+ * Each agent spec:
  * - Has strict ID format (lowercase + underscore separators only)
  * - Defines single runtime route (do | research)
  * - Enumerates required tools with strict set
@@ -12,7 +12,7 @@ import { z } from "zod";
  * - Includes immutable prompt text for deployment
  * - Optional lifecycle hints for adapter-specific behavior
  *
- * Completes → Phase 1.2 DeliverableL canonical profile specs for all 39 profiles
+ * Completes → Phase 1.2 Deliverable: canonical agent specs for all 39 profiles
  */
 
 const VALID_TOOLS = [
@@ -36,7 +36,7 @@ export type ValidTool = (typeof VALID_TOOLS)[number];
  */
 const PROFILE_ID_PATTERN = /^[a-z][a-z0-9_]*$/;
 
-export const agentProfileSpecSchema = z.object({
+export const agentSpecSchema = z.object({
   id: z.string().min(1).regex(PROFILE_ID_PATTERN, {
     message:
       "id must start with lowercase letter, contain only lowercase letters, digits, and underscores",
@@ -65,29 +65,29 @@ export const agentProfileSpecSchema = z.object({
   lifecycleHints: z.unknown().optional().describe("Adapter-specific behavior hints"),
 });
 
-export type AgentProfileSpec = z.infer<typeof agentProfileSpecSchema>;
+export type AgentSpec = z.infer<typeof agentSpecSchema>;
 
 /**
  * Single profile validation with detailed error diagnostics
  */
-export function validateAgentProfileSpec(
+export function validateAgentSpec(
   candidate: unknown,
-): ReturnType<typeof agentProfileSpecSchema.safeParse> {
-  return agentProfileSpecSchema.safeParse(candidate);
+): ReturnType<typeof agentSpecSchema.safeParse> {
+  return agentSpecSchema.safeParse(candidate);
 }
 
 /**
  * Batch validation with per-error diagnostics
  * Returns array of { index, spec, errors }
  */
-export function validateAgentProfileSpecList(candidates: unknown[]): Array<{
+export function validateAgentSpecList(candidates: unknown[]): Array<{
   index: number;
-  spec: AgentProfileSpec | null;
+  spec: AgentSpec | null;
   isValid: boolean;
   errors: string[];
 }> {
   return candidates.map((candidate, index) => {
-    const result = validateAgentProfileSpec(candidate);
+    const result = validateAgentSpec(candidate);
     if (result.success) {
       return { index, spec: result.data, isValid: true, errors: [] };
     } else {
@@ -103,8 +103,8 @@ export function validateAgentProfileSpecList(candidates: unknown[]): Array<{
  * Detect duplicate profile IDs
  * Returns array of collisions: { id, indices }
  */
-export function detectDuplicateProfileIds(
-  specs: AgentProfileSpec[],
+export function detectDuplicateAgentIds(
+  specs: AgentSpec[],
 ): Array<{ id: string; indices: number[] }> {
   const seen = new Map<string, number[]>();
   specs.forEach((spec, index) => {
@@ -125,7 +125,7 @@ export function detectDuplicateProfileIds(
  * - Ensures consistent spacing
  * - Stable across tool invocations
  */
-export function serializeAgentProfileSpec(spec: AgentProfileSpec): string {
+export function serializeAgentSpec(spec: AgentSpec): string {
   const sorted = {
     acceptanceChecks: spec.acceptanceChecks,
     defaultCommand: spec.defaultCommand,
@@ -142,10 +142,10 @@ export function serializeAgentProfileSpec(spec: AgentProfileSpec): string {
 
 /**
  * SHA-256 digest for snapshot verification
- * Both profiles can be compared by digest to detect material changes
+ * Both agent specs can be compared by digest to detect material changes
  */
-export async function digestAgentProfileSpec(spec: AgentProfileSpec): Promise<string> {
-  const serialized = serializeAgentProfileSpec(spec);
+export async function digestAgentSpec(spec: AgentSpec): Promise<string> {
+  const serialized = serializeAgentSpec(spec);
   const encoded = new TextEncoder().encode(serialized);
   const digest = await crypto.subtle.digest("SHA-256", encoded);
   return Array.from(new Uint8Array(digest))

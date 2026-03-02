@@ -6,7 +6,7 @@ import { ConcurrencyManager } from "./concurrency";
 import type { BackgroundTaskConfig, TmuxConfig } from "../../platform/config/schema";
 import { isInsideTmux } from "../../integration/shared/tmux";
 
-import { subagentSessions } from "../claude-code-session-state";
+import { subagentSessions } from "../session-state";
 import { getTaskToastManager } from "../task-toast-manager";
 import { findNearestMessageWithFields, MESSAGE_STORAGE } from "../hook-message-injector";
 import { existsSync, readdirSync } from "node:fs";

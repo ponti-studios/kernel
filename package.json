@@ -3,11 +3,11 @@
   "version": "3.1.10",
   "description": "The Best AI Agent Harness - Batteries-Included OpenCode Plugin with Multi-Model Orchestration, Parallel Background Agents, and Crafted LSP/AST Tools",
   "keywords": [
-    "advisor-plan",
     "agents",
     "ai",
     "llm",
     "opencode",
+    "plan",
     "plugin",
     "researcher-data"
   ],

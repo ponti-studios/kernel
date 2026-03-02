@@ -1,4 +1,4 @@
-import type { CommandDefinition } from "../../claude-code-command-loader";
+import type { CommandDefinition } from "../../command-loader";
 export const NAME = "ghostwire:git:smart-commit";
 export const DESCRIPTION = "Generate well-structured commits following conventions";
 export const TEMPLATE = `

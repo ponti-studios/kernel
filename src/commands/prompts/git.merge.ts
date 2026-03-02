@@ -1,4 +1,4 @@
-import type { CommandDefinition } from "../../claude-code-command-loader";
+import type { CommandDefinition } from "../../command-loader";
 export const NAME = "ghostwire:git:merge";
 export const DESCRIPTION = "Merge branches safely with conflict resolution";
 export const TEMPLATE = `

@@ -361,7 +361,7 @@ dist/execution/boulder-state/       # Build output
 
 #### 2.8 System Prompt
 
-**`system-prompt.md`**
+**`src/agents/prompts/operator.ts`**
 
 - Metaphor: "Humans roll their boulder every day. So do you. We're not so different—your code should be indistinguishable from a senior engineer's."
 
@@ -563,7 +563,7 @@ dist/execution/boulder-state/       # Build output
 20. `docs/concepts/reliability-performance.md`
 21. `docs/concepts/plugin-architecture.md`
 22. `docs/concepts/system-deep-dive.md`
-23. `system-prompt.md`
+23. `src/agents/prompts/operator.ts`
 
 ---
 

@@ -1,4 +1,4 @@
-import type { CommandDefinition } from "../../claude-code-command-loader";
+import type { CommandDefinition } from "../../command-loader";
 export const NAME = "ghostwire:workflows:review";
 export const DESCRIPTION = "Perform exhaustive code reviews using multi-agent analysis";
 export const TEMPLATE = `

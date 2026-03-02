@@ -1,4 +1,4 @@
-import type { CommandDefinition } from "../../claude-code-command-loader";
+import type { CommandDefinition } from "../../command-loader";
 export const NAME = "ghostwire:code:format";
 export const DESCRIPTION = "Apply consistent formatting and style standards";
 export const TEMPLATE = `

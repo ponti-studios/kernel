@@ -1,6 +1,6 @@
 import type { Task } from "./types";
 import { DelegationCategorySchema, type DelegationCategory } from "./types";
-import { AGENT_ADVISOR_PLAN } from "../../agents/runtime/constants";
+import { AGENT_PLANNER } from "../../agents/runtime/constants";
 
 /**
  * Delegation engine configuration
@@ -28,7 +28,7 @@ export const DELEGATION_CONFIGS: Record<DelegationCategory, DelegationConfig> = 
     category: "ultrabrain",
     skills: [],
     description: "Complex logic, architecture decisions, algorithmic problems",
-    defaultSubagent: AGENT_ADVISOR_PLAN,
+    defaultSubagent: AGENT_PLANNER,
   },
   quick: {
     category: "quick",

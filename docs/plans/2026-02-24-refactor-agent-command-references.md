@@ -115,7 +115,7 @@ export const TEMPLATE = WORKFLOW_PLAN_TEMPLATE;
 **In Scope**:
 - `src/**` runtime references
 - `tests/**` active regression tests
-- `README.md`, `system-prompt.md`, `src/plugin/README.md`
+- `README.md`, `src/agents/prompts/operator.ts`, `src/plugin/README.md`
 - Command/agent constants and validation lists
 - Command templates and brainstorming skill copy
 
@@ -175,7 +175,7 @@ Replace legacy fixture arrays with canonical agent/command sets. Update validati
 
 **Files**:
 - `README.md`
-- `system-prompt.md`
+- `src/agents/prompts/operator.ts`
 - `src/plugin/README.md`
 
 Rewrite all stale identifiers to canonical values.
@@ -230,7 +230,7 @@ Pre-commit hook  ← Secondary safety layer
 // Agent constants
 export const AGENT_PLANNER = "planner";
 export const AGENT_ORCHESTRATOR = "orchestrator";
-export const AGENT_ADVISOR_PLAN = "advisor-plan";
+// legacy constant (removed): AGENT_ADVISOR_PLAN = "advisor-plan"
 // ... all 40 agents
 
 // Command constants
@@ -486,7 +486,7 @@ Build-Time Checks:        ✅ Automatic on bun run build
 | Command templates (multiple) | Update references to canonical names |
 | `tests/regression.test.ts` | Update fixture arrays with canonical names |
 | `README.md` | Update documented agent names |
-| `system-prompt.md` | Update agent references |
+| `src/agents/prompts/operator.ts` | Update agent references |
 | `src/plugin/README.md` | Update documented commands |
 | `package.json` | Update keywords metadata |
 
@@ -608,7 +608,7 @@ bun test
 ### Reference Verification
 
 ```bash
-grep -rE 'seer-advisor|scout-recon|archive-researcher|performance-seer-advisor|tactician-strategist|glitch-auditor|zen-planner|nexus-orchestrator' src/ tests/ README.md system-prompt.md --exclude-dir=.ghostwire
+grep -rE 'seer-advisor|scout-recon|archive-researcher|performance-seer-advisor|tactician-strategist|glitch-auditor|zen-planner|nexus-orchestrator' src/ tests/ README.md src/agents/prompts/operator.ts --exclude-dir=.ghostwire
 # ✅ 0 matches found
 ```
 

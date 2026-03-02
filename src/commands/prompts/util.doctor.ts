@@ -1,4 +1,4 @@
-import type { CommandDefinition } from "../../claude-code-command-loader";
+import type { CommandDefinition } from "../../command-loader";
 export const NAME = "ghostwire:util:doctor";
 export const DESCRIPTION = "Diagnose project health and configuration";
 export const TEMPLATE = `

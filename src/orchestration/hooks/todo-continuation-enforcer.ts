@@ -2,7 +2,7 @@ import type { PluginInput } from "@opencode-ai/plugin";
 import { existsSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import type { BackgroundManager } from "../../execution/background-agent";
-import { getMainSessionID, subagentSessions } from "../../execution/claude-code-session-state";
+import { getMainSessionID, subagentSessions } from "../../execution/session-state";
 import {
   findNearestMessageWithFields,
   MESSAGE_STORAGE,

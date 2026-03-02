@@ -110,7 +110,7 @@ After making changes, you can test your local build in OpenCode:
 ```
 ghostwire/
 ├── src/
-│   ├── agents/        # AI agents (OmO, advisor-plan, archive-researcher, scout-recon, etc.)
+│   ├── agents/        # AI agents (OmO, plan, archive-researcher, scout-recon, etc.)
 │   ├── hooks/         # 21 lifecycle hooks
 │   ├── tools/         # LSP (11), AST-Grep, Grep, Glob, etc.
 │   ├── mcp/           # MCP server integrations (context7, grep_app)
@@ -182,7 +182,7 @@ bun run build:schema
 | ---------------- | ------------------------------------------------------------------------- |
 | Package Manager  | **Bun only** (`bun run`, `bun build`, `bunx`)                             |
 | Types            | Use `bun-types`, not `@types/node`                                        |
-| Directory Naming | kebab-case (`ast-grep/`, `grid-claude-code-hooks/`)                       |
+| Directory Naming | kebab-case (`ast-grep/`, `grid-some-feature-hooks/`)                       |
 | File Operations  | Never use bash commands (mkdir/touch/rm) for file creation in code        |
 | Tool Structure   | Each tool: `index.ts`, `types.ts`, `constants.ts`, `tools.ts`, `utils.ts` |
 | Hook Pattern     | `createXXXHook(input: PluginInput)` function naming                       |

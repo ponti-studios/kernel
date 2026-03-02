@@ -1,4 +1,4 @@
-import type { CommandDefinition } from "../../claude-code-command-loader";
+import type { CommandDefinition } from "../../command-loader";
 export const NAME = "ghostwire:workflows:complete";
 export const DESCRIPTION = "Finalize and archive completed workflow";
 export const TEMPLATE = `

@@ -178,7 +178,7 @@ call_grid_agent(subagent_type="researcher-world", prompt="Find best practices fo
 
 \`\`\`
 Task(
-  subagent_type="advisor-plan",
+  subagent_type="plan",
   prompt="Architecture consultation:
   Request: [user's request]
   Current state: [gathered context]

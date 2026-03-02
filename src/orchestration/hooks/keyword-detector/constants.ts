@@ -183,7 +183,7 @@ ${ULTRAWORK_PLANNER_SECTION}
 1. **THINK DEEPLY** - What is the user's TRUE intent? What problem are they REALLY trying to solve?
 2. **EXPLORE THOROUGHLY** - Fire researcher-codebase/researcher-world agents to gather ALL relevant context
 3. **CONSULT SPECIALISTS** - For hard/complex tasks, DO NOT struggle alone. Delegate:
-   - **Advisor Plan**: Conventional problems - architecture, debugging, complex logic
+   - **Plan agent**: Conventional problems - architecture, debugging, complex logic
    - **Artistry**: Non-conventional problems - different approach needed, unusual constraints
 4. **ASK THE USER** - If ambiguity remains after exploration, ASK. Don't guess.
 
@@ -200,7 +200,7 @@ delegate_task(subagent_type="research", prompt="[profile: researcher_codebase] F
 delegate_task(subagent_type="research", prompt="[profile: researcher_data] Find docs/examples for [Y]", background=true)
 
 // Hard problem? DON'T struggle alone:
-delegate_task(subagent_type="do", prompt="[profile: advisor_plan] ...")         // conventional: architecture, debugging
+delegate_task(subagent_type="do", prompt="[profile: plan] ...")         // conventional: architecture, debugging
 delegate_task(category="artistry", prompt="...")    // non-conventional: needs different approach
 \`\`\`
 
@@ -305,7 +305,7 @@ delegate_task(session_id="ses_abc123", prompt="Here's my answer to your question
 | Codebase exploration | delegate_task(subagent_type="research", run_in_background=true, prompt="[profile: researcher_codebase] ...") | Parallel, context-efficient |
 | Documentation lookup | delegate_task(subagent_type="research", run_in_background=true, prompt="[profile: researcher_world] ...") | Specialized knowledge |
 | Planning | delegate_task(subagent_type="do", prompt="[profile: planner] ...") | Parallel task graph + structured TODO list |
-| Hard problem (conventional) | delegate_task(subagent_type="do", prompt="[profile: advisor_plan] ...") | Architecture, debugging, complex logic |
+| Hard problem (conventional) | delegate_task(subagent_type="do", prompt="[profile: plan] ...") | Architecture, debugging, complex logic |
 | Hard problem (non-conventional) | delegate_task(category="artistry", load_skills=[...]) | Different approach needed |
 | Implementation | delegate_task(category="...", load_skills=[...]) | Domain-optimized models |
 
@@ -498,7 +498,7 @@ CONTEXT GATHERING (parallel):
 - Direct tools: Grep, AST-grep, LSP for targeted searches
 
 IF COMPLEX - DO NOT STRUGGLE ALONE. Consult specialists:
-- **Advisor Plan**: Conventional problems (architecture, debugging, complex logic)
+- **Plan agent**: Conventional problems (architecture, debugging, complex logic)
 - **Artistry**: Non-conventional problems (different approach needed)
 
 SYNTHESIZE findings before proceeding.`,
