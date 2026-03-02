@@ -1,7 +1,10 @@
-import type { CommandDefinition } from "../../command-loader";
+import type { CommandDefinition } from "../../execution/command-loader";
+
 export const NAME = "ghostwire:project:map";
+
 export const DESCRIPTION =
   "Map project structure and generate hierarchical AGENTS.md knowledge base";
+
 export const TEMPLATE = `
 # /init-deep
 Generate hierarchical AGENTS.md files. Root + complexity-scored subdirectories.
@@ -31,6 +34,7 @@ TodoWrite([
 \`\`\`
 </critical>
 `;
+
 export const ARGUMENT_HINT = "[--create-new] [--max-depth=N]";
 export const COMMAND: CommandDefinition = {
   name: NAME,

@@ -1,8 +1,11 @@
-import type { CommandDefinition } from "../../command-loader";
+import type { CommandDefinition } from "../../execution/command-loader";
 import { AGENT_PLANNER, AGENT_RESEARCHER_CODEBASE } from "../../agents/runtime/constants";
+
 export const NAME = "ghostwire:refactor";
+
 export const DESCRIPTION =
   "Intelligent refactoring command with LSP, AST-grep, architecture analysis, codemap, and TDD verification";
+
 export const TEMPLATE = `
 # Intelligent Refactor Command
 ## Usage
@@ -449,7 +452,7 @@ Use \`ast_grep_search\` and \`ast_grep_replace\` for structural transformations.
 ## Agents
 - \`profile.researcher_codebase\`: Parallel codebase pattern discovery
 - \`plan\`: Detailed refactoring plan generation
-- `profile.plan`: Read-only consultation for complex architectural decisions and debugging
+- \`profile.plan\`: Read-only consultation for complex architectural decisions and debugging
 - \`profile.researcher_world\`: **Use proactively** when encountering deprecated methods or library migration tasks. Query official docs and OSS examples for modern replacements.
 ## Deprecated Code & Library Migration
 When you encounter deprecated methods/APIs during refactoring:
@@ -461,7 +464,9 @@ When you encounter deprecated methods/APIs during refactoring:
 <refactoring-target>
 $ARGUMENTS
 </refactoring-target>`;
+
 export const ARGUMENT_HINT = "<target> [--scope=file|module|project] [--strategy=safe|aggressive]";
+
 export const COMMAND: CommandDefinition = {
   name: NAME,
   description: DESCRIPTION,

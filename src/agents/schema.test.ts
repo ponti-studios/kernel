@@ -1,15 +1,13 @@
-import { describe, it, expect, beforeAll } from "bun:test";
+import { describe, it, expect } from "bun:test";
 import {
-  agentProfileSpecSchema,
-  type AgentProfileSpec,
-  validateAgentProfileSpec,
-  validateAgentProfileSpecList,
-  detectDuplicateProfileIds,
-  serializeAgentProfileSpec,
-  digestAgentProfileSpec,
+  type AgentSpec,
+  validateAgentSpec,
+  validateAgentSpecList,
+  serializeAgentSpec,
+  digestAgentSpec,
 } from "./schema";
 
-describe("AgentProfileSpec Schema", () => {
+describe("AgentSpec Schema", () => {
   // ============================================================================
   // Valid Instances (minimal to comprehensive)
   // ============================================================================
@@ -25,7 +23,7 @@ describe("AgentProfileSpec Schema", () => {
       defaultCommand: "ghostwire:workflows:plan",
       promptAppend: "Test prompt append instruction",
     };
-    const result = validateAgentProfileSpec(profile);
+    const result = validateAgentSpec(profile);
     expect(result.success).toBe(true);
     if (result.success) {
       expect(result.data.id).toBe("test_profile");
@@ -33,7 +31,7 @@ describe("AgentProfileSpec Schema", () => {
   });
 
   it("should accept profile with all fields including optional", async () => {
-    const profile: AgentProfileSpec = {
+    const profile: AgentSpec = {
       id: "advisor_architecture",
       intent: "Validate architecture for agent-native parity and system cohesion",
       role: "Reviewer",
@@ -45,7 +43,7 @@ describe("AgentProfileSpec Schema", () => {
         "Perform architecture parity and capability mapping checks before implementation recommendations.",
       lifecycleHints: { adapter: "claude-code", timeout: 30000 },
     };
-    const result = validateAgentProfileSpec(profile);
+    const result = validateAgentSpec(profile);
     expect(result.success).toBe(true);
     if (result.success) {
       expect(result.data.lifecycleHints).toEqual({
@@ -66,7 +64,7 @@ describe("AgentProfileSpec Schema", () => {
       defaultCommand: "ghostwire:workflows:review",
       promptAppend: "Compare visual outputs against spec and list delta categories with severity.",
     };
-    const result = validateAgentProfileSpec(profile);
+    const result = validateAgentSpec(profile);
     expect(result.success).toBe(true);
   });
 
@@ -81,7 +79,7 @@ describe("AgentProfileSpec Schema", () => {
       defaultCommand: "ghostwire:docs:test-browser",
       promptAppend: "Run bounded iteration cycles with measurable visual quality deltas.",
     };
-    const result = validateAgentProfileSpec(profile);
+    const result = validateAgentSpec(profile);
     expect(result.success).toBe(true);
     if (result.success) {
       expect(result.data.tools.length).toBe(4);
@@ -104,7 +102,7 @@ describe("AgentProfileSpec Schema", () => {
       defaultCommand: "ghostwire:workflows:execute",
       promptAppend: "Execute with strict verification discipline and abort on errors.",
     };
-    const result = validateAgentProfileSpec(profile);
+    const result = validateAgentSpec(profile);
     expect(result.success).toBe(true);
   });
 
@@ -122,7 +120,7 @@ describe("AgentProfileSpec Schema", () => {
       defaultCommand: "ghostwire:workflows:plan",
       promptAppend: "Test prompt",
     };
-    const result = validateAgentProfileSpec(profile);
+    const result = validateAgentSpec(profile);
     expect(result.success).toBe(false);
   });
 
@@ -137,7 +135,7 @@ describe("AgentProfileSpec Schema", () => {
       defaultCommand: "ghostwire:workflows:plan",
       promptAppend: "Test prompt",
     };
-    const result = validateAgentProfileSpec(profile);
+    const result = validateAgentSpec(profile);
     expect(result.success).toBe(false);
   });
 
@@ -152,7 +150,7 @@ describe("AgentProfileSpec Schema", () => {
       defaultCommand: "ghostwire:workflows:plan",
       promptAppend: "Test prompt",
     };
-    const result = validateAgentProfileSpec(profile);
+    const result = validateAgentSpec(profile);
     expect(result.success).toBe(false);
   });
 
@@ -167,7 +165,7 @@ describe("AgentProfileSpec Schema", () => {
       defaultCommand: "ghostwire:workflows:plan",
       promptAppend: "Test prompt",
     };
-    const result = validateAgentProfileSpec(profile);
+    const result = validateAgentSpec(profile);
     expect(result.success).toBe(false);
   });
 
@@ -182,7 +180,7 @@ describe("AgentProfileSpec Schema", () => {
       defaultCommand: "ghostwire:workflows:plan",
       promptAppend: "Test prompt",
     };
-    const result = validateAgentProfileSpec(profile);
+    const result = validateAgentSpec(profile);
     expect(result.success).toBe(false);
   });
 
@@ -197,7 +195,7 @@ describe("AgentProfileSpec Schema", () => {
       defaultCommand: "ghostwire:workflows:plan",
       promptAppend: "Test prompt",
     };
-    const result = validateAgentProfileSpec(profile);
+    const result = validateAgentSpec(profile);
     expect(result.success).toBe(false);
   });
 
@@ -212,7 +210,7 @@ describe("AgentProfileSpec Schema", () => {
       defaultCommand: "ghostwire:workflows:plan",
       promptAppend: "Test prompt",
     };
-    const result = validateAgentProfileSpec(profile);
+    const result = validateAgentSpec(profile);
     expect(result.success).toBe(false);
   });
 
@@ -227,7 +225,7 @@ describe("AgentProfileSpec Schema", () => {
       defaultCommand: "ghostwire:workflows:plan",
       promptAppend: "Test prompt",
     };
-    const result = validateAgentProfileSpec(profile);
+    const result = validateAgentSpec(profile);
     expect(result.success).toBe(false);
   });
 
@@ -242,7 +240,7 @@ describe("AgentProfileSpec Schema", () => {
       defaultCommand: "ghostwire:workflows:plan",
       promptAppend: "Test prompt",
     };
-    const result = validateAgentProfileSpec(profile);
+    const result = validateAgentSpec(profile);
     expect(result.success).toBe(false);
   });
 
@@ -257,7 +255,7 @@ describe("AgentProfileSpec Schema", () => {
       defaultCommand: "ghostwire:workflows:plan",
       promptAppend: "Test prompt",
     };
-    const result = validateAgentProfileSpec(profile);
+    const result = validateAgentSpec(profile);
     expect(result.success).toBe(false);
   });
 
@@ -272,7 +270,7 @@ describe("AgentProfileSpec Schema", () => {
       defaultCommand: "ghostwire:workflows:plan",
       promptAppend: "Test prompt",
     };
-    const result = validateAgentProfileSpec(profile);
+    const result = validateAgentSpec(profile);
     expect(result.success).toBe(false);
   });
 
@@ -287,7 +285,7 @@ describe("AgentProfileSpec Schema", () => {
       defaultCommand: "ghostwire:workflows:plan",
       promptAppend: "Test prompt",
     };
-    const result = validateAgentProfileSpec(profile);
+    const result = validateAgentSpec(profile);
     expect(result.success).toBe(false);
   });
 
@@ -302,7 +300,7 @@ describe("AgentProfileSpec Schema", () => {
       defaultCommand: "ghostwire:workflows:plan",
       promptAppend: "Test prompt",
     };
-    const result = validateAgentProfileSpec(profile);
+    const result = validateAgentSpec(profile);
     expect(result.success).toBe(false);
   });
 
@@ -317,7 +315,7 @@ describe("AgentProfileSpec Schema", () => {
       defaultCommand: "",
       promptAppend: "Test prompt",
     };
-    const result = validateAgentProfileSpec(profile);
+    const result = validateAgentSpec(profile);
     expect(result.success).toBe(false);
   });
 
@@ -332,7 +330,7 @@ describe("AgentProfileSpec Schema", () => {
       defaultCommand: "ghostwire:workflows:plan",
       promptAppend: "",
     };
-    const result = validateAgentProfileSpec(profile);
+    const result = validateAgentSpec(profile);
     expect(result.success).toBe(false);
   });
 
@@ -347,7 +345,7 @@ describe("AgentProfileSpec Schema", () => {
       defaultCommand: "ghostwire:workflows:plan",
       promptAppend: "Short",
     };
-    const result = validateAgentProfileSpec(profile);
+    const result = validateAgentSpec(profile);
     expect(result.success).toBe(false);
   });
 
@@ -362,7 +360,7 @@ describe("AgentProfileSpec Schema", () => {
       defaultCommand: "ghostwire:workflows:plan",
       promptAppend: "Test prompt",
     };
-    const result = validateAgentProfileSpec(profile);
+    const result = validateAgentSpec(profile);
     expect(result.success).toBe(false);
   });
 
@@ -377,7 +375,7 @@ describe("AgentProfileSpec Schema", () => {
       defaultCommand: "ghostwire:workflows:plan",
       promptAppend: "Test prompt",
     };
-    const result = validateAgentProfileSpec(profile);
+    const result = validateAgentSpec(profile);
     expect(result.success).toBe(false);
   });
 
@@ -386,7 +384,7 @@ describe("AgentProfileSpec Schema", () => {
   // ============================================================================
 
   it("should produce stable JSON serialization", () => {
-    const profile: AgentProfileSpec = {
+    const profile: AgentSpec = {
       id: "test_profile",
       intent: "Provide test profile intent",
       role: "Tester",
@@ -396,13 +394,13 @@ describe("AgentProfileSpec Schema", () => {
       defaultCommand: "ghostwire:workflows:plan",
       promptAppend: "Test prompt append instruction",
     };
-    const ser1 = serializeAgentProfileSpec(profile);
-    const ser2 = serializeAgentProfileSpec(profile);
+    const ser1 = serializeAgentSpec(profile);
+    const ser2 = serializeAgentSpec(profile);
     expect(ser1).toBe(ser2);
   });
 
   it("should produce consistent serialization regardless of tool order", () => {
-    const profile1: AgentProfileSpec = {
+    const profile1: AgentSpec = {
       id: "test_profile",
       intent: "Provide test profile intent",
       role: "Tester",
@@ -413,18 +411,18 @@ describe("AgentProfileSpec Schema", () => {
       promptAppend: "Test prompt append instruction",
     };
 
-    const profile2: AgentProfileSpec = {
+    const profile2: AgentSpec = {
       ...profile1,
       tools: ["delegate_task", "read", "search"],
     };
 
-    const ser1 = serializeAgentProfileSpec(profile1);
-    const ser2 = serializeAgentProfileSpec(profile2);
+    const ser1 = serializeAgentSpec(profile1);
+    const ser2 = serializeAgentSpec(profile2);
     expect(ser1).toBe(ser2);
   });
 
   it("should round-trip correctly through parse", () => {
-    const profile: AgentProfileSpec = {
+    const profile: AgentSpec = {
       id: "reviewer_typescript",
       intent: "Review TypeScript changes for correctness and maintainability",
       role: "Reviewer",
@@ -435,9 +433,9 @@ describe("AgentProfileSpec Schema", () => {
       promptAppend: "Review TypeScript code for type safety, best practices, and performance.",
     };
 
-    const serialized = serializeAgentProfileSpec(profile);
+    const serialized = serializeAgentSpec(profile);
     const parsed = JSON.parse(serialized);
-    const validated = validateAgentProfileSpec(parsed);
+    const validated = validateAgentSpec(parsed);
     expect(validated.success).toBe(true);
     if (validated.success) {
       expect(validated.data.id).toBe(profile.id);
@@ -450,7 +448,7 @@ describe("AgentProfileSpec Schema", () => {
   // ============================================================================
 
   it("should produce stable digest for same profile", async () => {
-    const profile: AgentProfileSpec = {
+    const profile: AgentSpec = {
       id: "test_profile",
       intent: "Provide test profile intent",
       role: "Tester",
@@ -460,13 +458,13 @@ describe("AgentProfileSpec Schema", () => {
       defaultCommand: "ghostwire:workflows:plan",
       promptAppend: "Test prompt append instruction",
     };
-    const digest1 = await digestAgentProfileSpec(profile);
-    const digest2 = await digestAgentProfileSpec(profile);
+    const digest1 = await digestAgentSpec(profile);
+    const digest2 = await digestAgentSpec(profile);
     expect(digest1).toBe(digest2);
   });
 
   it("should produce different digest when intent changes", async () => {
-    const profile1: AgentProfileSpec = {
+    const profile1: AgentSpec = {
       id: "test_profile",
       intent: "Provide test profile intent version 1",
       role: "Tester",
@@ -477,13 +475,13 @@ describe("AgentProfileSpec Schema", () => {
       promptAppend: "Test prompt append instruction",
     };
 
-    const profile2: AgentProfileSpec = {
+    const profile2: AgentSpec = {
       ...profile1,
       intent: "Provide test profile intent version 2",
     };
 
-    const digest1 = await digestAgentProfileSpec(profile1);
-    const digest2 = await digestAgentProfileSpec(profile2);
+    const digest1 = await digestAgentSpec(profile1);
+    const digest2 = await digestAgentSpec(profile2);
     expect(digest1).not.toBe(digest2);
   });
 
@@ -514,7 +512,7 @@ describe("AgentProfileSpec Schema", () => {
         promptAppend: "Test prompt two",
       },
     ];
-    const results = validateAgentProfileSpecList(profiles);
+    const results = validateAgentSpecList(profiles);
     expect(results.length).toBe(2);
     expect(results.every((r) => r.isValid)).toBe(true);
   });
@@ -542,7 +540,7 @@ describe("AgentProfileSpec Schema", () => {
         promptAppend: "Test prompt two",
       },
     ];
-    const results = validateAgentProfileSpecList(profiles as unknown[]);
+    const results = validateAgentSpecList(profiles as unknown[]);
     expect(results[0].isValid).toBe(true);
     expect(results[1].isValid).toBe(false);
     expect(results[1].errors.length).toBeGreaterThan(0);
@@ -553,7 +551,7 @@ describe("AgentProfileSpec Schema", () => {
   // ============================================================================
 
   it("should detect duplicate profile IDs", () => {
-    const specs: AgentProfileSpec[] = [
+    const specs: AgentSpec[] = [
       {
         id: "plan",
         intent: "First plan profile",
@@ -585,14 +583,14 @@ describe("AgentProfileSpec Schema", () => {
         promptAppend: "This is a duplicate",
       },
     ];
-    const duplicates = detectDuplicateProfileIds(specs);
+    const duplicates = serializeAgentSpec(specs);
     expect(duplicates.length).toBe(1);
     expect(duplicates[0].id).toBe("plan");
     expect(duplicates[0].indices).toEqual([0, 2]);
   });
 
   it("should return empty array when no duplicates", () => {
-    const specs: AgentProfileSpec[] = [
+    const specs: AgentSpec[] = [
       {
         id: "unique_profile_1",
         intent: "First unique profile",
@@ -614,7 +612,7 @@ describe("AgentProfileSpec Schema", () => {
         promptAppend: "Second test prompt",
       },
     ];
-    const duplicates = detectDuplicateProfileIds(specs);
+    const duplicates = serializeAgentSpec(specs);
     expect(duplicates.length).toBe(0);
   });
 
@@ -633,7 +631,7 @@ describe("AgentProfileSpec Schema", () => {
       defaultCommand: "ghostwire:workflows:plan",
       promptAppend: "Retrieve and validate external documentation",
     };
-    const result = validateAgentProfileSpec(profile);
+    const result = validateAgentSpec(profile);
     expect(result.success).toBe(true);
   });
 
@@ -648,7 +646,7 @@ describe("AgentProfileSpec Schema", () => {
       defaultCommand: "ghostwire:workflows:execute",
       promptAppend: "Execute with strict verification discipline",
     };
-    const result = validateAgentProfileSpec(profile);
+    const result = validateAgentSpec(profile);
     expect(result.success).toBe(true);
   });
 
@@ -663,12 +661,12 @@ describe("AgentProfileSpec Schema", () => {
       defaultCommand: "ghostwire:workflows:review",
       promptAppend: "Validate plan against all criteria",
     };
-    const result = validateAgentProfileSpec(profile);
+    const result = validateAgentSpec(profile);
     expect(result.success).toBe(true);
   });
 
   it("should accept profile with complex lifecycle hints", () => {
-    const profile: AgentProfileSpec = {
+    const profile: AgentSpec = {
       id: "designer_iterator",
       intent: "Iterative UX quality refinement across feedback cycles",
       role: "Refiner",
@@ -683,7 +681,7 @@ describe("AgentProfileSpec Schema", () => {
         adapter: "claude-code",
       },
     };
-    const result = validateAgentProfileSpec(profile);
+    const result = validateAgentSpec(profile);
     expect(result.success).toBe(true);
   });
 
@@ -698,7 +696,7 @@ describe("AgentProfileSpec Schema", () => {
       defaultCommand: "ghostwire:code:review",
       promptAppend: "Apply DHH Rails conventions",
     };
-    const result = validateAgentProfileSpec(profile);
+    const result = validateAgentSpec(profile);
     expect(result.success).toBe(true);
   });
 
@@ -713,7 +711,7 @@ describe("AgentProfileSpec Schema", () => {
       defaultCommand: "ghostwire:workflows:review",
       promptAppend: "Validate with version 2 criteria",
     };
-    const result = validateAgentProfileSpec(profile);
+    const result = validateAgentSpec(profile);
     expect(result.success).toBe(true);
   });
 
@@ -729,7 +727,7 @@ describe("AgentProfileSpec Schema", () => {
       promptAppend: "Test prompt append",
       unknownField: "will be ignored by schema",
     };
-    const result = validateAgentProfileSpec(profile as any);
+    const result = validateAgentSpec(profile as any);
     // Zod strict mode strips unknown fields but still validates
     expect(result.success).toBe(true);
     if (result.success) {

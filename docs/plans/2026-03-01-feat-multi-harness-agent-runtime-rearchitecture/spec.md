@@ -51,7 +51,7 @@ As a maintainer, I can add a command or profile once and have it available to al
 
 **Acceptance Scenarios**:
 1. **Given** a new `CommandIntentSpec`, **When** generation runs, **Then** command appears in all adapter catalogs.
-2. **Given** a new `AgentProfileSpec`, **When** generation runs, **Then** `@` resolution table updates across adapters.
+2. **Given** a new `AgentSpec`, **When** generation runs, **Then** `@` resolution table updates across adapters.
 3. **Given** no host-specific files edited, **When** tests run, **Then** conformance suite passes for synthetic additions.
 
 ---

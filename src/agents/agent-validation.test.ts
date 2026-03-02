@@ -9,8 +9,8 @@ import {
   isValidCategory,
   isValidCommandName,
   isValidSkillName,
-} from "../../agents/runtime/constants";
-import * as AGENT_CONSTANTS from "../../agents/runtime/constants";
+} from "./runtime/constants";
+import * as AGENT_CONSTANTS from "./runtime/constants";
 
 const COMMANDS_DIR = join(import.meta.dir, "commands");
 const TEMPLATES_DIR = join(import.meta.dir, "templates");

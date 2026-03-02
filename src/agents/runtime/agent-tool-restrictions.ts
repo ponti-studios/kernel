@@ -4,7 +4,7 @@
  * true = tool allowed, false = tool denied.
  */
 
-import { findCaseInsensitive } from "../integration/shared/case-insensitive";
+import { findCaseInsensitive } from "../../integration/shared/case-insensitive";
 
 const EXPLORATION_AGENT_DENYLIST: Record<string, boolean> = {
   write: false,

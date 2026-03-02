@@ -1,22 +1,22 @@
 /**
  * Agent Definitions & Generator
  *
- * Complete set of 39 AgentProfileSpec instances.
+ * Complete set of 39 AgentSpec instances.
  * Validates, dedups, and produces catalogs with multi-dimensional indexing.
  */
 
 import {
-  validateAgentProfileSpecList,
-  detectDuplicateProfileIds,
-  serializeAgentProfileSpec,
-  type AgentProfileSpec,
+  validateAgentSpecList,
+  detectDuplicateAgentIds
+  serializeAgentSpec,
+  type AgentSpec,
 } from "./schema";
 
 // ============================================================================
 // AGENT DEFINITIONS (39 total, organized by category)
 // ============================================================================
 
-export const AGENT_DEFINITIONS: AgentProfileSpec[] = [
+export const AGENT_DEFINITIONS: AgentSpec[] = [
   // Planning & Strategy (2)
 
   {
@@ -479,19 +479,19 @@ export const AGENT_DEFINITIONS: AgentProfileSpec[] = [
 // ============================================================================
 
 export interface AgentCatalogByID {
-  [agentId: string]: AgentProfileSpec;
+  [agentId: string]: AgentSpec;
 }
 
 export interface AgentCatalogByCategory {
-  [category: string]: AgentProfileSpec[];
+  [category: string]: AgentSpec[];
 }
 
 export interface AgentCatalogByRoute {
-  [route: string]: AgentProfileSpec[];
+  [route: string]: AgentSpec[];
 }
 
 export interface AgentCatalogByTool {
-  [toolId: string]: AgentProfileSpec[];
+  [toolId: string]: AgentSpec[];
 }
 
 export interface AgentCatalog {
@@ -511,10 +511,10 @@ export interface AgentCatalog {
 
 export async function generateAgentCatalog(): Promise<AgentCatalog> {
   // Validate all agents
-  const validation = validateAgentProfileSpecList(AGENT_DEFINITIONS);
+  const validation = validateAgentSpecList(AGENT_DEFINITIONS);
 
   // Collect all valid agents and format errors properly
-  const agents: AgentProfileSpec[] = [];
+  const agents: AgentSpec[] = [];
   const validationErrors: Array<{ index: number; message: string }> = [];
 
   for (const item of validation) {
@@ -575,7 +575,7 @@ export async function generateAgentCatalog(): Promise<AgentCatalog> {
 
   // Compute digest
   const catalogJson = JSON.stringify(
-    { agents: sorted.map((agent) => serializeAgentProfileSpec(agent)) },
+    { agents: sorted.map((agent) => serializeAgentSpec(agent)) },
     null,
     2,
   );
@@ -624,28 +624,25 @@ async function digestCatalogJson(json: string): Promise<string> {
   return "digest-not-available";
 }
 
-export function lookupAgentById(
-  catalog: AgentCatalog,
-  agentId: string,
-): AgentProfileSpec | undefined {
+export function lookupAgentById(catalog: AgentCatalog, agentId: string): AgentSpec | undefined {
   return catalog.byId[agentId];
 }
 
-export function getAgentsByCategory(catalog: AgentCatalog, category: string): AgentProfileSpec[] {
+export function getAgentsByCategory(catalog: AgentCatalog, category: string): AgentSpec[] {
   return catalog.byCategory[category] ?? [];
 }
 
-export function getAgentsByRoute(catalog: AgentCatalog, route: string): AgentProfileSpec[] {
+export function getAgentsByRoute(catalog: AgentCatalog, route: string): AgentSpec[] {
   return catalog.byRoute[route] ?? [];
 }
 
-export function getAgentsByTool(catalog: AgentCatalog, tool: string): AgentProfileSpec[] {
+export function getAgentsByTool(catalog: AgentCatalog, tool: string): AgentSpec[] {
   return catalog.byTool[tool] ?? [];
 }
 
-export function getAgentsByIntent(catalog: AgentCatalog, ...intents: string[]): AgentProfileSpec[] {
+export function getAgentsByIntent(catalog: AgentCatalog, ...intents: string[]): AgentSpec[] {
   const intentSet = new Set(intents);
-  const result = new Set<AgentProfileSpec>();
+  const result = new Set<AgentSpec>();
 
   for (const tool of intents) {
     for (const agent of getAgentsByTool(catalog, tool)) {

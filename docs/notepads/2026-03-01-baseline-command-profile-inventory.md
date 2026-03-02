@@ -322,7 +322,7 @@ Handoff Profile: researcher_codebase, analyzer_patterns
 | Item | Count | Effort | Notes |
 |---|---|---|---|
 | Convert commands to CommandIntentSpec | 32 | ~16h | Straightforward schema mapping |
-| Convert profiles to AgentProfileSpec | 39 | ~20h | Tool policy normalization needed |
+| Convert profiles to AgentSpec | 39 | ~20h | Tool policy normalization needed |
 | Extract prompt assets | 39 | ~8h | Copy prompts to immutable asset layer |
 | Implement generation pipeline | 3 generators | ~24h | Command, agent, execution-plan catalogs |
 | Implement adapters (3 harnesses) | 3 adapters | ~40h | Claude, Codex, Copilot |
