@@ -1,9 +1,9 @@
 import type { GhostwireConfig } from "../../platform/config";
 import { findCaseInsensitive } from "./case-insensitive";
 import {
-  AGENT_MODEL_REQUIREMENTS,
-  CATEGORY_MODEL_REQUIREMENTS,
-} from "../../execution/agents/model-config";
+  getAgentModelRequirement,
+  getCategoryModelRequirement,
+} from "../../execution/agents/default-models";
 
 export function resolveAgentVariant(
   config: GhostwireConfig,
@@ -38,7 +38,7 @@ export function resolveVariantForModel(
   agentName: string,
   currentModel: { providerID: string; modelID: string },
 ): string | undefined {
-  const agentRequirement = AGENT_MODEL_REQUIREMENTS[agentName];
+  const agentRequirement = getAgentModelRequirement(agentName);
   if (agentRequirement) {
     return findVariantInChain(agentRequirement.fallbackChain, currentModel.providerID);
   }
@@ -47,7 +47,7 @@ export function resolveVariantForModel(
   const agentOverride = agentOverrides ? findCaseInsensitive(agentOverrides, agentName) : undefined;
   const categoryName = agentOverride?.category;
   if (categoryName) {
-    const categoryRequirement = CATEGORY_MODEL_REQUIREMENTS[categoryName];
+    const categoryRequirement = getCategoryModelRequirement(categoryName);
     if (categoryRequirement) {
       return findVariantInChain(categoryRequirement.fallbackChain, currentModel.providerID);
     }

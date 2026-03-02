@@ -6,7 +6,7 @@ import {
   AGENT_MODEL_REQUIREMENTS,
   CATEGORY_MODEL_REQUIREMENTS,
   type ModelRequirement,
-} from "../../../execution/agents/model-config";
+} from "../../../execution/agents/default-models";
 import { homedir } from "node:os";
 import { join } from "node:path";
 
