@@ -15,7 +15,7 @@ import {
   findFirstMessageWithAgent,
   MESSAGE_STORAGE,
 } from "../../../execution/hook-message-injector";
-import { getSessionAgent } from "../../../execution/claude-code-session-state";
+import { getSessionAgent } from "../../../execution/session-state";
 import { log } from "../../../integration/shared/logger";
 import { SYSTEM_DIRECTIVE_PREFIX } from "../../../integration/shared/system-directive";
 import { getAgentDisplayName } from "../../../integration/shared/agent-display-names";

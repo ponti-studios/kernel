@@ -48,14 +48,14 @@ import { createFirstMessageVariantGate } from "./integration/shared/first-messag
 import { discoverSharedPipelineSkills, mergeSkills } from "./execution/opencode-skill-loader";
 import { createSkills } from "./skills";
 import { createAgents } from "./agents/orchestration";
-import { getSystemMcpServerNames } from "./execution/claude-code-mcp-loader";
+import { getSystemMcpServerNames } from "./execution/mcp-loader";
 import {
   setMainSession,
   getMainSessionID,
   setSessionAgent,
   updateSessionAgent,
   clearSessionAgent,
-} from "./execution/claude-code-session-state";
+} from "./execution/session-state";
 import {
   tools,
   createBackgroundTools,

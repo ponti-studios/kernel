@@ -18,7 +18,7 @@ Release gates enforce architecture invariants and prevent regressions. All gates
 
 **Checks**:
 - [ ] All CommandIntentSpec files parse and validate (0 errors)
-- [ ] All AgentProfileSpec files parse and validate (0 errors)
+- [ ] All AgentSpec files parse and validate (0 errors)
 - [ ] All PromptAsset files parse and validate (0 errors)
 - [ ] All schema cross-references resolve (no missing IDs)
 - [ ] No duplicate IDs exist in any catalog
@@ -138,7 +138,7 @@ Release gates enforce architecture invariants and prevent regressions. All gates
 **Trigger**: Before Phase 6 completion (stabilization)
 
 **Checks**:
-- [ ] AGENTS.md profiles match AgentProfileSpec definitions
+- [ ] AGENTS.md profiles match AgentSpec definitions
 - [ ] Commands markdown list matches generated command catalog
 - [ ] Maintainer guide examples run without errors
 - [ ] Architecture diagrams match actual directory topology

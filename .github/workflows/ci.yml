@@ -57,7 +57,7 @@ jobs:
             src/execution/background-agent \
             src/execution/builtin-commands \
             src/execution/builtin-skills \
-            src/execution/claude-code-session-state \
+            src/execution/session-state \
             src/execution/hook-message-injector \
             src/execution/opencode-skill-loader \
             src/execution/skill-mcp-manager

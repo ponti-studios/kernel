@@ -1,4 +1,4 @@
-import type { CommandDefinition } from "../../claude-code-command-loader";
+import type { CommandDefinition } from "../../command-loader";
 export const NAME = "ghostwire:util:clean";
 export const DESCRIPTION = "Remove build artifacts and temporary files";
 export const TEMPLATE = `

@@ -5,7 +5,6 @@ Runtime supports only `do` and `research`. Specialist behavior is implemented th
 | Deleted Agent | Replacement Command | Profile | Runtime Route | Capability Domain | Status |
 |---|---|---|---|---|---|
 | advisor-architecture | ghostwire:workflows:review | advisor_architecture | do | architecture | active |
-| advisor-plan | ghostwire:workflows:plan | advisor_plan | do | planning | active |
 | advisor-strategy | ghostwire:workflows:plan | advisor_strategy | do | planning | active |
 | analyzer-design | ghostwire:workflows:review | analyzer_design | research | design | active |
 | analyzer-media | ghostwire:workflows:review | analyzer_media | research | media | active |

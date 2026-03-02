@@ -1,4 +1,4 @@
-import type { CommandDefinition } from "../../claude-code-command-loader";
+import type { CommandDefinition } from "../../command-loader";
 import { renderProfileUsage } from "../profiles";
 export const NAME = "ghostwire:code:optimize";
 export const DESCRIPTION = "Improve performance, reduce bundle size, or enhance efficiency";

@@ -1,4 +1,4 @@
-import type { CommandDefinition } from "../../claude-code-command-loader";
+import type { CommandDefinition } from "../../command-loader";
 export const NAME = "ghostwire:project:init";
 export const DESCRIPTION = "Initialize new project with structure and tooling";
 export const TEMPLATE = `

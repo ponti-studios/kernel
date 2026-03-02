@@ -30,7 +30,6 @@ export const AGENT_DISPLAY_NAMES: Record<string, string> = {
   // Phase 5 - Advisory/Validation/Documentation
   "advisor-architecture": "advisor-architecture",
   "advisor-strategy": "advisor-strategy",
-  "advisor-plan": "advisor-plan",
   "validator-audit": "validator-audit",
   "validator-deployment": "validator-deployment",
   "writer-readme": "writer-readme",

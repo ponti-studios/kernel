@@ -8,7 +8,7 @@ import {
 } from "../../../integration/shared";
 import { getClaudeConfigDir } from "../../../platform/claude/config-dir";
 import { getOpenCodeConfigDir } from "../../../platform/opencode/config-dir";
-import type { CommandFrontmatter } from "../../../execution/claude-code-command-loader/types";
+import type { CommandFrontmatter } from "../../../execution/command-loader/types";
 import { isMarkdownFile } from "../../../integration/shared/file-utils";
 import {
   discoverAllSkills,

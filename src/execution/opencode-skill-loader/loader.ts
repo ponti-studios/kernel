@@ -7,7 +7,7 @@ import { sanitizeModelField } from "../../integration/shared/model-sanitizer";
 import { resolveSymlinkAsync, isMarkdownFile } from "../../integration/shared/file-utils";
 import { getClaudeConfigDir } from "../../platform/claude/config-dir";
 import { getOpenCodeConfigDir } from "../../platform/opencode/config-dir";
-import type { CommandDefinition } from "../claude-code-command-loader/types";
+import type { CommandDefinition } from "../command-loader/types";
 import type {
   SkillScope,
   SkillMetadata,

@@ -1,4 +1,4 @@
-import type { CommandDefinition } from "../claude-code-command-loader";
+import type { CommandDefinition } from "../command-loader";
 import type { CommandName, Commands } from "./types";
 import { COMMANDS_MANIFEST } from "./commands-manifest";
 

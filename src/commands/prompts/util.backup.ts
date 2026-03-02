@@ -1,4 +1,4 @@
-import type { CommandDefinition } from "../../claude-code-command-loader";
+import type { CommandDefinition } from "../../command-loader";
 export const NAME = "ghostwire:util:backup";
 export const DESCRIPTION = "Create backups of project state and files";
 export const TEMPLATE = `

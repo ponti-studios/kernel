@@ -1,4 +1,4 @@
-import type { CommandDefinition } from "../../claude-code-command-loader";
+import type { CommandDefinition } from "../../command-loader";
 import { WORKFLOWS_PLAN_TEMPLATE } from "../templates/workflows/plan";
 export const NAME = "ghostwire:workflows:plan";
 export const DESCRIPTION =

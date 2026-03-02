@@ -1,4 +1,4 @@
-import type { CommandDefinition } from "../../claude-code-command-loader";
+import type { CommandDefinition } from "../../command-loader";
 export const NAME = "ghostwire:project:constitution";
 export const DESCRIPTION = "Create or update project constitution with core principles";
 export const TEMPLATE = `

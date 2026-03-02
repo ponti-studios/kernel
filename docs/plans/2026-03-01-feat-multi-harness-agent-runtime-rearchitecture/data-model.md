@@ -15,7 +15,7 @@
   - `acceptanceChecks.length >= 1`.
   - `argsSchema` must be serializable and deterministic.
 
-## Entity: AgentProfileSpec
+## Entity: AgentSpec
 
 - **Description**: Canonical declaration of `@agent` routing and policy behavior.
 - **Fields**:
@@ -74,7 +74,7 @@
 - **Description**: Read-only compilation artifact consumed by runtime and exporter.
 - **Fields**:
   - `commands` (array<CommandIntentSpec>)
-  - `profiles` (array<AgentProfileSpec>)
+  - `profiles` (array<AgentSpec>)
   - `executionPlans` (array<ExecutionPlan>)
   - `digest` (string): deterministic generation hash.
 - **Validation rules**:
@@ -85,7 +85,7 @@
 ## Relationships
 
 - `CommandIntentSpec` 1..* -> `ExecutionPlan`
-- `AgentProfileSpec` 1..* -> `ExecutionPlan`
+- `AgentSpec` 1..* -> `ExecutionPlan`
 - `PromptAsset` 1..* -> `ExecutionPlan`
 - `HarnessAdapterContract` 1..* -> translated runtime events from `ExecutionPlan`
 - `GeneratedCatalog` aggregates all canonical entities

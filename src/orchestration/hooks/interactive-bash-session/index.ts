@@ -6,7 +6,7 @@ import {
 } from "./storage";
 import { OMO_SESSION_PREFIX, buildSessionReminderMessage } from "./constants";
 import type { InteractiveBashSessionState } from "./types";
-import { subagentSessions } from "../../../execution/claude-code-session-state";
+import { subagentSessions } from "../../../execution/session-state";
 
 interface ToolExecuteInput {
   tool: string;

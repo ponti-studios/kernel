@@ -1,5 +1,5 @@
-import type { CommandDefinition } from "../../claude-code-command-loader";
-import { AGENT_PLANNER, AGENT_RESEARCHER_CODEBASE } from "../../agents/runtime/constants";
+import type { CommandDefinition } from "../../command-loader";
+import { AGENT_PLANNER, AGENT_RESEARCHER_CODEBASE } from "../../../agents/runtime/constants";
 export const NAME = "ghostwire:refactor";
 export const DESCRIPTION =
   "Intelligent refactoring command with LSP, AST-grep, architecture analysis, codemap, and TDD verification";
@@ -351,7 +351,7 @@ If ANY verification fails:
 4. **OPTIONS**:
    - Fix the issue and retry
    - Skip this step (if optional)
-   - Consult profile.advisor_plan agent for help
+   - Consult profile.plan agent for help
    - Ask user for guidance
 **NEVER proceed to next step with broken tests.**
 ## 5.3: Commit Checkpoints
@@ -449,13 +449,13 @@ Use \`ast_grep_search\` and \`ast_grep_replace\` for structural transformations.
 ## Agents
 - \`profile.researcher_codebase\`: Parallel codebase pattern discovery
 - \`plan\`: Detailed refactoring plan generation
-- \`profile.advisor_plan\`: Read-only consultation for complex architectural decisions and debugging
-- \`profile.researcher_world\`: **Use proactively** when encountering deprecated methods or library migration tasks. Query official docs and OSS examples for modern replacements.
+- `profile.plan`: Read-only consultation for complex architectural decisions and debugging
+- \`profile.researcher_data\`: **Use proactively** when encountering deprecated methods or library migration tasks. Query official docs and OSS examples for modern replacements.
 ## Deprecated Code & Library Migration
 When you encounter deprecated methods/APIs during refactoring:
-1. Fire \`profile.researcher_world\` to find the recommended modern alternative
+1. Fire \`profile.researcher_data\` to find the recommended modern alternative
 2. **DO NOT auto-upgrade to latest version** unless user explicitly requests migration
-3. If user requests library migration, use \`profile.researcher_world\` to fetch latest API docs before making changes
+3. If user requests library migration, use \`profile.researcher_data\` to fetch latest API docs before making changes
 ---
 **Remember: Refactoring without tests is reckless. Refactoring without understanding is destructive. This command ensures you do neither.**
 <refactoring-target>

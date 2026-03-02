@@ -32,7 +32,7 @@ This audit identifies all documentation and code references to "Ralph" and "Boul
 | `docs/reference/lifecycle-hooks.md`               | -    | "Ralph Loop" description              | Replace with "Ultrawork Loop"   |
 | `docs/reference/features.md`                      | -    | "Ralph Loop" feature                  | Replace with "Ultrawork Loop"   |
 | `docs/reference/modes.md`                         | -    | "Ralph Loop Mode" section             | Replace with "Ultrawork Mode"   |
-| `system-prompt.md`                                | 46   | "Humans roll their boulder every day" | Replace with Ultrawork metaphor |
+| `src/agents/prompts/operator.ts`                                | 46   | "Humans roll their boulder every day" | Replace with Ultrawork metaphor |
 
 ### 1.2 Skill Documentation
 

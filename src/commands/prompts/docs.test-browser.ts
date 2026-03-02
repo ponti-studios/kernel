@@ -1,4 +1,4 @@
-import type { CommandDefinition } from "../../claude-code-command-loader";
+import type { CommandDefinition } from "../../command-loader";
 export const NAME = "ghostwire:docs:test-browser";
 export const DESCRIPTION = "Test documentation in browser environment";
 export const TEMPLATE = `

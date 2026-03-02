@@ -7,7 +7,7 @@ import {
   appendSessionId,
   getPlanProgress,
 } from "../../../execution/ultrawork-state";
-import { getMainSessionID, subagentSessions } from "../../../execution/claude-code-session-state";
+import { getMainSessionID, subagentSessions } from "../../../execution/session-state";
 import {
   findNearestMessageWithFields,
   MESSAGE_STORAGE,

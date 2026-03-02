@@ -21,7 +21,7 @@ Execute Phase 0 and Phase 1 to establish canonical schemas, deterministic genera
    - Encode thresholds in CI config and task scripts.
 3. Implement canonical schemas (`Tasks 1.1-1.3`):
    - `CommandIntentSpec`
-   - `AgentProfileSpec`
+   - `AgentSpec`
    - `PromptAsset`
 4. Implement composition contract (`Task 1.4`):
    - typed compiler I/O for `ExecutionPlan`.

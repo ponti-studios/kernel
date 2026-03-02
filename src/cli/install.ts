@@ -193,12 +193,12 @@ async function runTuiMode(detected: DetectedConfig): Promise<InstallConfig | nul
       {
         value: "no" as const,
         label: "No",
-        hint: "Advisor Plan will use fallback models",
+        hint: "Plan agent will use fallback models",
       },
       {
         value: "yes" as const,
         label: "Yes",
-        hint: "GPT-5.2 for Advisor Plan (high-IQ debugging)",
+        hint: "GPT-5.2 for Plan agent (high-IQ debugging)",
       },
     ],
     initialValue: initial.openai,

@@ -3,7 +3,7 @@
  *
  * Generates deterministic ExecutionPlan catalog by composing:
  * - CommandIntentSpec (what to do)
- * - AgentProfileSpec (who does it)
+ * - AgentSpec (who does it)
  * - PromptAsset (how to do it)
  *
  * Produces fully-resolved execution plans with:
@@ -21,7 +21,7 @@ import {
   type ExecutionPlan,
 } from "./schema";
 import type { CommandIntentSpec } from "../intents";
-import type { AgentProfileSpec } from "../../agents";
+import type { AgentSpec } from "../../agents";
 import type { PromptAsset } from "../assets";
 
 /**
@@ -29,7 +29,7 @@ import type { PromptAsset } from "../assets";
  */
 export interface PlanComposition {
   commandId: string;
-  profileId: string;
+  agentId: string;
   assetId: string;
 }
 
@@ -58,9 +58,9 @@ export interface ExecutionPlanCatalog {
  * - Prompt composition from asset + command description
  * - Expiration metadata (1 hour TTL by default)
  *
- * @param compositions Array of {commandId, profileId, assetId} tuples
+ * @param compositions Array of {commandId, agentId, assetId} tuples
  * @param commands Map of command ID -> CommandIntentSpec
- * @param agents Map of profile ID -> AgentProfileSpec
+ * @param agents Map of agent spec ID -> AgentSpec
  * @param assets Map of asset ID -> PromptAsset
  * @returns Validated and indexed execution plan catalog
  * @throws Error if validation fails or composites are invalid
@@ -68,16 +68,16 @@ export interface ExecutionPlanCatalog {
 export async function generateExecutionPlanCatalog(
   compositions: PlanComposition[],
   commands: Record<string, CommandIntentSpec>,
-  agents: Record<string, AgentProfileSpec>,
+  agents: Record<string, AgentSpec>,
   assets: Record<string, PromptAsset>,
 ): Promise<ExecutionPlanCatalog> {
   const plans: ExecutionPlan[] = [];
   const errors: string[] = [];
 
   // Step 1: Compose all plans
-  for (const { commandId, profileId, assetId } of compositions) {
+  for (const { commandId, agentId, assetId } of compositions) {
     const command = commands[commandId];
-    const agent = agents[profileId];
+    const agent = agents[agentId];
     const asset = assets[assetId];
 
     if (!command) {
@@ -85,7 +85,7 @@ export async function generateExecutionPlanCatalog(
       continue;
     }
     if (!agent) {
-      errors.push(`Agent not found: ${profileId}`);
+      errors.push(`Agent not found: ${agentId}`);
       continue;
     }
     if (!asset) {
@@ -119,9 +119,9 @@ export async function generateExecutionPlanCatalog(
 
     // Create execution plan
     const plan: ExecutionPlan = {
-      id: `${commandId}::${profileId}::${assetId}`,
+      id: `${commandId}::${agentId}::${assetId}`,
       commandId,
-      profileId,
+      agentId,
       assetId,
       route: agent.route,
       resolvedTools,
@@ -168,7 +168,7 @@ export async function generateExecutionPlanCatalog(
   // Step 4: Build indexed catalog
   const planIndex: Record<string, ExecutionPlan> = {};
   const byCommand: Record<string, number> = {};
-  const byProfile: Record<string, number> = {};
+  const byAgent: Record<string, number> = {};
   const byRoute: Record<string, number> = {};
   const toolGrantCounts: Record<string, number> = {};
 
@@ -178,8 +178,8 @@ export async function generateExecutionPlanCatalog(
     // Count by command
     byCommand[plan.commandId] = (byCommand[plan.commandId] || 0) + 1;
 
-    // Count by profile
-    byProfile[plan.profileId] = (byProfile[plan.profileId] || 0) + 1;
+    // Count by agent
+    byAgent[plan.agentId] = (byAgent[plan.agentId] || 0) + 1;
 
     // Count by route
     byRoute[plan.route] = (byRoute[plan.route] || 0) + 1;
@@ -263,15 +263,15 @@ export function getPlansByCommand(
 }
 
 /**
- * Get all execution plans for a profile
+ * Get all execution plans for an agent
  */
-export function getPlansByProfile(
+export function getPlansByAgent(
   catalog: ExecutionPlanCatalog,
-  profileId: string,
+  agentId: string,
 ): ExecutionPlan[] {
   const result = [];
   for (const plan of Object.values(catalog.plans)) {
-    if (plan.profileId === profileId) {
+    if (plan.agentId === agentId) {
       result.push(plan);
     }
   }

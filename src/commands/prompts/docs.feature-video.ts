@@ -1,4 +1,4 @@
-import type { CommandDefinition } from "../../claude-code-command-loader";
+import type { CommandDefinition } from "../../command-loader";
 export const NAME = "ghostwire:docs:feature-video";
 export const DESCRIPTION = "Create demonstration video for feature";
 export const TEMPLATE = `

@@ -9,7 +9,7 @@ import {
   type LoadedPlugin,
   type PluginManifest,
   type PluginComponentsResult,
-} from "../../claude-code-plugin-loader";
+} from "../../plugin-loader";
 import type { ClaudeImportOptions, ClaudeImportResult } from "./types";
 import { buildNamespacedName, shouldIncludeComponent } from "./security";
 

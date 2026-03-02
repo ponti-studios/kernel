@@ -1,4 +1,4 @@
-import type { CommandDefinition } from "../../claude-code-command-loader";
+import type { CommandDefinition } from "../../command-loader";
 export const NAME = "ghostwire:workflows:stop";
 export const DESCRIPTION = "Stop all workflow continuation mechanisms";
 export const TEMPLATE = `

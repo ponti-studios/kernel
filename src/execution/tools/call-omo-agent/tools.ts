@@ -12,7 +12,7 @@ import {
   findNearestMessageWithFields,
   MESSAGE_STORAGE,
 } from "../../hook-message-injector";
-import { getSessionAgent } from "../../claude-code-session-state";
+import { getSessionAgent } from "../../session-state";
 
 function getMessageDir(sessionID: string): string | null {
   if (!existsSync(MESSAGE_STORAGE)) return null;

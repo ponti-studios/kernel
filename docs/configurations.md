@@ -20,7 +20,7 @@ It asks about your providers (Claude, OpenAI, Gemini, etc.) and generates optima
 
   // Override specific agent models
   "agents": {
-    "advisor-plan": { "model": "opencode/kimi-k2.5" }, // Use kimi-k2.5 for debugging
+    "plan": { "model": "opencode/kimi-k2.5" }, // Use kimi-k2.5 for debugging (formerly advisor-plan)
     "researcher-world": { "model": "opencode/kimi-k2.5" }, // Standardized model for research
     "researcher-codebase": { "model": "opencode/kimi-k2.5" }, // Standardized model for grep
   },
@@ -74,8 +74,8 @@ When both `ghostwire.jsonc` and `ghostwire.json` files exist, `.jsonc` takes pri
   "$schema": "https://raw.githubusercontent.com/hackefeller/ghostwire/master/assets/ghostwire.schema.json",
   /* Agent overrides - customize models for specific tasks */
   "agents": {
-    "advisor-plan": {
-      "model": "opencode/kimi-k2.5", // kimi-k2.5 for strategic reasoning
+    "plan": {
+      "model": "opencode/kimi-k2.5", // kimi-k2.5 for strategic reasoning (formerly advisor-plan)
     },
     "researcher-codebase": {
       "model": "opencode/kimi-k2.5", // Standardized model for exploration
@@ -186,7 +186,7 @@ Each agent supports: `model`, `temperature`, `top_p`, `prompt`, `prompt_append`,
 ```json
 {
   "agents": {
-    "advisor-plan": {
+    "plan": {
       "thinking": {
         "type": "enabled",
         "budgetTokens": 200000
@@ -245,11 +245,11 @@ Or disable via `disabled_agents` in `~/.config/opencode/ghostwire.json` or `.ope
 
 ```json
 {
-  "disabled_agents": ["advisor-plan", "analyzer-media"]
+  "disabled_agents": ["plan", "analyzer-media"] // "plan" replaces former "advisor-plan"
 }
 ```
 
-Available agents: `operator`, `planner`, `advisor-plan`, `researcher-world`, `researcher-codebase`, `analyzer-media`, `advisor-strategy`, `validator-audit`, `orchestrator`
+Available agents: `operator`, `planner`, `plan`, `researcher-world`, `researcher-codebase`, `analyzer-media`, `advisor-strategy`, `validator-audit`, `orchestrator`
 
 ## Built-in Skills
 
@@ -824,7 +824,7 @@ delegate_task(
 delegate_task((category = "ultrabrain"), (prompt = "Design the payment processing flow"));
 
 // Or target a specific agent directly (bypasses categories)
-delegate_task((agent = "advisor-plan"), (prompt = "Review this architecture"));
+delegate_task((agent = "plan"), (prompt = "Review this architecture"));
 ```
 
 ### Custom Categories
@@ -916,7 +916,7 @@ Each agent has a defined provider priority chain. The system tries providers in 
 | Agent                   | Model (no prefix) | Provider Priority Chain |
 | ----------------------- | ----------------- | ----------------------- |
 | **operator**            | `kimi-k2.5`       | opencode                |
-| **advisor-plan**        | `kimi-k2.5`       | opencode                |
+| **plan**               | `kimi-k2.5`       | opencode                |
 | **researcher-world**     | `kimi-k2.5`       | opencode                |
 | **researcher-codebase** | `kimi-k2.5`       | opencode                |
 | **analyzer-media**      | `kimi-k2.5`       | opencode                |
@@ -965,7 +965,7 @@ Override any agent or category model in `ghostwire.json`:
     "operator": {
       "model": "opencode/kimi-k2.5"
     },
-    "advisor-plan": {
+    "plan": {
       "model": "opencode/kimi-k2.5"
     }
   },

@@ -1,4 +1,4 @@
-import type { CommandDefinition } from "../../claude-code-command-loader";
+import type { CommandDefinition } from "../../command-loader";
 export const NAME = "ghostwire:project:map";
 export const DESCRIPTION =
   "Map project structure and generate hierarchical AGENTS.md knowledge base";

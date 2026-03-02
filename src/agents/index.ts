@@ -1,12 +1,12 @@
 // Agent execution module - flat structure for all agent definitions and catalog operations
 export {
-  agentProfileSpecSchema,
-  validateAgentProfileSpec,
-  validateAgentProfileSpecList,
-  detectDuplicateProfileIds,
-  serializeAgentProfileSpec,
-  digestAgentProfileSpec,
-  type AgentProfileSpec,
+  agentSpecSchema,
+  validateAgentSpec,
+  validateAgentSpecList,
+  detectDuplicateAgentIds,
+  serializeAgentSpec,
+  digestAgentSpec,
+  type AgentSpec,
   type RuntimeRoute,
   type ValidTool,
 } from "./schema";

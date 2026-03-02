@@ -73,7 +73,6 @@ These 6 commands represent ~80% of typical usage patterns per telemetry.
 | Profile ID | Role | Intent | Runtime Route | Required Tools | Default Command |
 |---|---|---|---|---|---|
 | advisor_architecture | Reviewer | Validate architecture for agent-native parity and system cohesion | do | read, search, delegate_task | ghostwire:workflows:review |
-| advisor_plan | Planner | Provide high-rigor planning and debugging reasoning | do | read, search, delegate_task | ghostwire:workflows:plan |
 | advisor_strategy | Strategist | Pre-plan strategy synthesis and hidden requirement extraction | do | read, search, delegate_task | ghostwire:workflows:plan |
 | analyzer_design | Designer | Assess implementation against visual design specifications | research | read, delegate_task, look_at | ghostwire:workflows:review |
 | analyzer_media | Analyst | Extract and interpret non-code media artifacts | research | read, delegate_task, look_at | ghostwire:workflows:review |
@@ -113,7 +112,7 @@ These 6 commands represent ~80% of typical usage patterns per telemetry.
 
 ### Profile Categories by Function
 
-**Planning & Strategy** (3): advisor_plan, advisor_strategy, planner  
+**Planning & Strategy** (2): advisor_strategy, planner  
 **Architecture & Design** (7): advisor_architecture, analyzer_design, analyzer_patterns, designer_builder, designer_flow, designer_iterator, designer_sync  
 **Research & Analysis** (8): analyzer_media, researcher_codebase, researcher_data, researcher_docs, researcher_git, researcher_learnings, researcher_practices, researcher_repo  
 **Code Review & Quality** (9): reviewer_python, reviewer_rails, reviewer_rails_dh, reviewer_security, reviewer_simplicity, reviewer_typescript, reviewer_races, resolver_pr, validator_audit  
@@ -148,7 +147,7 @@ src/commands/commands-manifest.ts (generated)
   ↓ consumed by
 src/commands/commands.ts (COMMAND_DEFINITIONS proxy)
   ↓ consumed by
-src/execution/claude-code-command-loader.ts (runtime)
+src/execution/command-loader/index.ts (runtime)
 ```
 
 **Key Facts**:
@@ -202,7 +201,7 @@ docs/export/
 - ghostwire:code:refactor → reviewer_typescript (+ analyzer_patterns)
 
 **Multi-Profile Workflows** (10+ profiles may be invoked per command):
-- ghostwire:workflows:plan → Can delegate to: advisor_plan, advisor_strategy, planner, researcher_* (5), validator_*
+- ghostwire:workflows:plan → Can delegate to: advisor_strategy, planner, researcher_* (5), validator_*
 - ghostwire:code:review → Can delegate to: reviewer_* (9), oracle_performance, validator_bugs
 - ghostwire:workflows:work → Can delegate to: executor, operator, orchestrator, + specialized profiles
 

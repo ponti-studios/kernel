@@ -1,4 +1,4 @@
-import type { CommandDefinition } from "../../claude-code-command-loader";
+import type { CommandDefinition } from "../../command-loader";
 export const NAME = "ghostwire:work:loop";
 export const DESCRIPTION =
   "Start iterative work loop until completion (ad-hoc, no plan required) [Phase: EXECUTE]";

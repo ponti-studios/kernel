@@ -37,7 +37,7 @@
   - [ ] Unit tests cover boundary and malformed cases.
 - **Dependencies**: Task 0.2
 
-#### Task 1.2: Implement `AgentProfileSpec` schema
+#### Task 1.2: Implement `AgentSpec` schema
 - **Description**: Create strict schema + validator for agent routing contracts.
 - **Acceptance Criteria**:
   - [ ] Schema includes runtime route, tool policy, model hints.

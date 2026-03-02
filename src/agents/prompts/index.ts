@@ -1,5 +1,4 @@
 import { PROMPT as advisor_architecture } from "./advisor_architecture";
-import { PROMPT as advisor_plan } from "./advisor_plan";
 import { PROMPT as advisor_strategy } from "./advisor_strategy";
 import { PROMPT as analyzer_design } from "./analyzer_design";
 import { PROMPT as analyzer_media } from "./analyzer_media";
@@ -42,7 +41,6 @@ import { PROMPT as writer_readme } from "./writer_readme";
 
 export const AGENT_PROMPTS: Record<string, string> = {
   advisor_architecture,
-  advisor_plan,
   advisor_strategy,
   analyzer_design,
   analyzer_media,

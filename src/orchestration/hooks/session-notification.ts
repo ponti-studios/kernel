@@ -1,6 +1,6 @@
 import type { PluginInput } from "@opencode-ai/plugin";
 import { platform } from "os";
-import { subagentSessions, getMainSessionID } from "../../execution/claude-code-session-state";
+import { subagentSessions, getMainSessionID } from "../../execution/session-state";
 import {
   getOsascriptPath,
   getNotifySendPath,

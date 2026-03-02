@@ -6,12 +6,12 @@ import { parseFrontmatter } from "../../integration/shared/frontmatter";
 import { sanitizeModelField } from "../../integration/shared/model-sanitizer";
 import { isMarkdownFile, resolveSymlink } from "../../integration/shared/file-utils";
 import { log } from "../../integration/shared/logger";
-import { expandEnvVarsInObject } from "../claude-code-mcp-loader/env-expander";
-import { transformMcpServer } from "../claude-code-mcp-loader/transformer";
-import type { CommandDefinition, CommandFrontmatter } from "../claude-code-command-loader/types";
+import { expandEnvVarsInObject } from "../mcp-loader/env-expander";
+import { transformMcpServer } from "../mcp-loader/transformer";
+import type { CommandDefinition, CommandFrontmatter } from "../command-loader/types";
 import type { SkillMetadata } from "../opencode-skill-loader/types";
-import type { AgentFrontmatter } from "../claude-code-agent-loader/types";
-import type { ClaudeCodeMcpConfig, McpServerConfig } from "../claude-code-mcp-loader/types";
+import type { AgentFrontmatter } from "../agent-loader/types";
+import type { ClaudeCodeMcpConfig, McpServerConfig } from "../mcp-loader/types";
 import type {
   InstalledPluginsDatabase,
   PluginInstallation,

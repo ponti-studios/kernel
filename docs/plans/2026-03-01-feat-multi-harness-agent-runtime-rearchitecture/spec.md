@@ -75,7 +75,7 @@ As an operator, I can deploy the new architecture with deterministic quality gat
 ### Functional Requirements
 
 - **FR-001**: Define canonical `CommandIntentSpec` schema and validators.
-- **FR-002**: Define canonical `AgentProfileSpec` schema and validators.
+- **FR-002**: Define canonical `AgentSpec` schema and validators.
 - **FR-003**: Define immutable `PromptAsset` schema and validators.
 - **FR-004**: Implement composition compiler to generate `ExecutionPlan` artifacts from intent/profile/asset.
 - **FR-005**: Implement generated catalogs (`command`, `agent`, `execution-plan`) as single source-of-truth.
@@ -96,7 +96,7 @@ As an operator, I can deploy the new architecture with deterministic quality gat
 
 - **CommandIntentSpec**
   - Fields: `id`, `description`, `argsSchema`, `acceptanceChecks`, `defaultRoute`
-- **AgentProfileSpec**
+- **AgentSpec**
   - Fields: `id`, `intent`, `runtimeRoute`, `toolPolicy`, `modelPolicyHint`, `acceptanceChecks`
 - **PromptAsset**
   - Fields: `id`, `kind`, `body`, `version`, `origin`

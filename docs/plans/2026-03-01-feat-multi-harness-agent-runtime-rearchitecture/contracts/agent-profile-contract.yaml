@@ -1,9 +1,9 @@
 version: 1
 name: agent-profile-contract
-summary: Canonical `@` agent profile schema, policy translation boundaries, and resolver invariants.
+summary: Canonical `@` agent spec schema, policy translation boundaries, and resolver invariants.
 
 schema:
-  AgentProfileSpec:
+  AgentSpec:
     required:
       - id
       - role
@@ -36,11 +36,11 @@ interfaces:
     input:
       target: string
       profiles:
-        - AgentProfileSpec
+        - AgentSpec
       context:
         harness: string
     output:
-      profileId: string
+      agentId: string
       route: string
       policy: object
       fallback:
@@ -50,18 +50,18 @@ interfaces:
   generateAgentCatalog:
     input:
       profiles:
-        - AgentProfileSpec
+        - AgentSpec
     output:
       profiles:
-        - AgentProfileSpec
+        - AgentSpec
       digest: string
 
 invariants:
-  - Profile IDs are globally unique.
+  - Agent IDs are globally unique.
   - Tool policy translation is deterministic for identical inputs.
   - Unsupported host capabilities must emit explicit fallback metadata.
-  - Generated profile catalogs are immutable at runtime.
+  - Generated agent catalogs are immutable at runtime.
 
 nonGoals:
-  - Embedding host-specific UX instructions in canonical profiles.
+  - Embedding host-specific UX instructions in canonical specs.
   - Implicit fallback behavior without diagnostics.

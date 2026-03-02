@@ -31,7 +31,7 @@ See `src/orchestration/phases/phase-1-codebase-assessment.md` for the detailed a
 
 ## Extended Protocols (load when needed)
 
-See `src/orchestration/phases/phase-2a-research.md`, `phase-2b-implementation.md` and `phase-oracle-consultation.md` for research, delegation, and advisor-plan workflows when applicable.
+See `src/orchestration/phases/phase-2a-research.md`, `phase-2b-implementation.md` and `phase-oracle-consultation.md` for research, delegation, and plan workflows when applicable.
 
 ---
 

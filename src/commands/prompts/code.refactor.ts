@@ -1,4 +1,4 @@
-import type { CommandDefinition } from "../../claude-code-command-loader";
+import type { CommandDefinition } from "../../command-loader";
 import { renderProfileUsage } from "../profiles";
 export const NAME = "ghostwire:code:refactor";
 export const DESCRIPTION = "Systematically refactor code while maintaining functionality";

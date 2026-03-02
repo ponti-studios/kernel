@@ -93,7 +93,7 @@ Establish evidence-backed constraints and opportunities for rearchitecting Ghost
 | Capability | Claude | Codex | Copilot | Canonical Contract Strategy |
 |------------|--------|-------|---------|-----------------------------|
 | `/` command invocation | Yes | Yes | Yes | `CommandIntentSpec` + adapter command binding |
-| `@` agent/participant targeting | Yes | Yes | Yes* | `AgentProfileSpec` + adapter target mapping |
+| `@` agent/participant targeting | Yes | Yes | Yes* | `AgentSpec` + adapter target mapping |
 | Tool policy controls | Yes | Yes | Yes* | `ToolPolicySpec` translated per adapter |
 | Model selection controls | Yes | Yes | Yes | `ModelPolicySpec` translated per adapter |
 | Generated artifact ecosystem | Yes | Yes | Yes | `generated/*-catalog.ts` as single source |

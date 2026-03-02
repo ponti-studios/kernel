@@ -17,21 +17,8 @@ import {
 // ============================================================================
 
 export const AGENT_DEFINITIONS: AgentProfileSpec[] = [
-  // Planning & Strategy (3)
-  {
-    id: "advisor-plan",
-    intent: "High-IQ reasoning specialist for debugging hard problems and architecture design",
-    role: "Planning",
-    route: "do",
-    tools: ["read", "search"],
-    acceptanceChecks: [
-      "Problem analysis is thorough",
-      "Solutions are well-reasoned",
-      "Edge cases identified",
-    ],
-    defaultCommand: "ghostwire:workflows:plan",
-    promptAppend: "Focus on deep analysis and first-principles reasoning.",
-  },
+  // Planning & Strategy (2)
+
   {
     id: "advisor-strategy",
     intent: "Pre-planning consultant analyzing intent and surfacing hidden requirements",
@@ -150,17 +137,23 @@ export const AGENT_DEFINITIONS: AgentProfileSpec[] = [
   // Orchestration Controllers (3)
   {
     id: "do",
-    intent: "Primary execution coordinator that delegates implementation, research, and planning tasks to specialized subagents",
+    intent:
+      "Primary execution coordinator that delegates implementation, research, and planning tasks to specialized subagents",
     role: "Orchestration",
     route: "do",
     tools: ["delegate_task", "task", "search", "read"],
-    acceptanceChecks: ["Tasks delegated appropriately", "Subagent results synthesized", "User goal achieved"],
+    acceptanceChecks: [
+      "Tasks delegated appropriately",
+      "Subagent results synthesized",
+      "User goal achieved",
+    ],
     defaultCommand: "ghostwire:workflows:execute",
     promptAppend: "Manage and verify subagent workflows to accomplish user objectives.",
   },
   {
     id: "research",
-    intent: "Primary research coordinator that dispatches and aggregates subagents for investigative queries",
+    intent:
+      "Primary research coordinator that dispatches and aggregates subagents for investigative queries",
     role: "Orchestration",
     route: "research",
     tools: ["delegate_task", "search", "web", "read"],
@@ -170,7 +163,8 @@ export const AGENT_DEFINITIONS: AgentProfileSpec[] = [
   },
   {
     id: "plan",
-    intent: "Strategic planning consultant that interviews users and creates comprehensive work plans",
+    intent:
+      "Strategic planning consultant that interviews users and creates comprehensive work plans",
     role: "Planning",
     route: "do",
     tools: ["read", "search", "delegate_task"],

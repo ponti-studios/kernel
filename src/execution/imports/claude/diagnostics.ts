@@ -5,7 +5,7 @@
  */
 
 import type { ClaudeImportResult, ClaudeImportReport } from "./types";
-import type { PluginComponentsResult } from "../../claude-code-plugin-loader";
+import type { PluginComponentsResult } from "../../plugin-loader";
 
 export interface DiagnosticIssue {
   severity: "error" | "warning" | "info";

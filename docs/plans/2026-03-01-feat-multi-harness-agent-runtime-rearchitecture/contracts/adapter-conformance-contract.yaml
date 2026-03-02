@@ -32,7 +32,7 @@ normalization:
       fields:
         - adapter
         - target
-        - resolvedProfileId
+        - resolvedAgentId
         - resolvedRoute
         - policyDigest
         - fallbackUsed

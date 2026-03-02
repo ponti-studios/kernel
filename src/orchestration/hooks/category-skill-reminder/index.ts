@@ -1,5 +1,5 @@
 import type { PluginInput } from "@opencode-ai/plugin";
-import { getSessionAgent } from "../../../execution/claude-code-session-state";
+import { getSessionAgent } from "../../../execution/session-state";
 import { log } from "../../../integration/shared";
 
 /**
