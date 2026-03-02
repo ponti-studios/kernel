@@ -30,7 +30,7 @@ import {
 } from "../../../platform/opencode/model-availability";
 import { readConnectedProvidersCache } from "../../../platform/opencode/connected-providers-cache";
 import { resolveModelWithFallback } from "../../../execution/agents/model-resolver";
-import { CATEGORY_MODEL_REQUIREMENTS } from "../../../execution/agents/model-config";
+import { getCategoryModelRequirement } from "../../../execution/agents/default-models";
 
 type OpencodeClient = PluginInput["client"];
 
@@ -613,7 +613,7 @@ To continue this session: session_id="${args.session_id}"`;
           return `Unknown category: "${args.category}". Available: ${Object.keys({ ...DEFAULT_CATEGORIES, ...userCategories }).join(", ")}`;
         }
 
-        const requirement = CATEGORY_MODEL_REQUIREMENTS[args.category];
+        const requirement = getCategoryModelRequirement(args.category);
         let actualModel: string | undefined;
 
         if (!requirement) {
@@ -629,7 +629,7 @@ To continue this session: session_id="${args.session_id}"`;
           const resolution = resolveModelWithFallback({
             userModel: userCategories?.[args.category]?.model,
             categoryDefaultModel: resolved.model ?? cipherJuniorModel,
-            fallbackChain: requirement.fallbackChain,
+            fallbackChain: requirement?.fallbackChain,
             availableModels,
             systemDefaultModel,
           });

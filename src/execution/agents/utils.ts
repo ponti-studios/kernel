@@ -26,7 +26,7 @@ import {
   readConnectedProvidersCache,
 } from "../platform/opencode";
 import { resolveModelWithFallback } from "./model-resolver";
-import { AGENT_MODEL_REQUIREMENTS } from "./model-config";
+import { getAgentModelRequirement } from "./default-models";
 import {
   DEFAULT_CATEGORIES,
   CATEGORY_DESCRIPTIONS,
@@ -380,9 +380,9 @@ export async function createAgents(
     if (includesCaseInsensitive(disabledAgents, agentName)) continue;
 
     const override = findCaseInsensitive(agentOverrides, agentName as BuiltinAgentName);
-    const requirement = AGENT_MODEL_REQUIREMENTS[agentName as BuiltinAgentName];
+    const requirement = getAgentModelRequirement(agentName as BuiltinAgentName);
 
-    // Check if agent requires a specific model
+    // Check if agent requires a specific model (legacy data)
     if (requirement?.requiresModel && availableModels) {
       if (!isModelAvailable(requirement.requiresModel, availableModels)) {
         continue;
@@ -463,7 +463,7 @@ export async function createAgents(
   if (!disabledAgents.includes("operator")) {
     const operatorMarkdown = markdownAgentMap.get("operator");
     const operatorOverride = agentOverrides["operator"];
-    const operatorRequirement = AGENT_MODEL_REQUIREMENTS["operator"];
+    const operatorRequirement = getAgentModelRequirement("operator");
 
     const operatorResolution = resolveModelWithFallback({
       uiSelectedModel,
@@ -510,7 +510,7 @@ export async function createAgents(
   if (!disabledAgents.includes("orchestrator")) {
     const orchestratorMarkdown = markdownAgentMap.get("orchestrator");
     const orchestratorOverride = agentOverrides["orchestrator"];
-    const nexusRequirement = AGENT_MODEL_REQUIREMENTS["orchestrator"];
+    const nexusRequirement = getAgentModelRequirement("orchestrator");
 
     const nexusResolution = resolveModelWithFallback({
       // NOTE: orchestrator does NOT use uiSelectedModel - respects its own fallbackChain (k2p5 primary)
