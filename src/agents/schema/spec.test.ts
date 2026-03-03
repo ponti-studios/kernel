@@ -6,7 +6,7 @@ import {
   serializeAgentSpec,
   digestAgentSpec,
   detectDuplicateAgentIds,
-} from ".";
+} from "./spec";
 
 describe("AgentSpec Schema", () => {
   // ============================================================================

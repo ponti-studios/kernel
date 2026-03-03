@@ -1,7 +1,7 @@
 import { tool, type PluginInput, type ToolDefinition } from "@opencode-ai/plugin";
 import { existsSync, readdirSync } from "node:fs";
 import { join } from "node:path";
-import type { BackgroundManager } from "../../background-agent";
+import type { BackgroundManager } from "../../background-agent/manager";
 import type { DelegateTaskArgs } from "./types";
 import type {
   CategoryConfig,
@@ -16,11 +16,11 @@ import {
   findFirstMessageWithAgent,
   MESSAGE_STORAGE,
 } from "../../hook-message-injector";
-import { resolveMultipleSkillsAsync } from "../../opencode-skill-loader/skill-content";
-import { discoverSkills } from "../../opencode-skill-loader";
+import { resolveMultipleSkillsAsync } from "../../execution/opencode-skill-loader/skill-content";
+import { discoverSkills } from "../../execution/opencode-skill-loader/loader";
 import { getTaskToastManager } from "../../task-toast-manager";
 import type { ModelFallbackInfo } from "../../task-toast-manager/types";
-import { subagentSessions, getSessionAgent } from "../../session-state";
+import { subagentSessions, getSessionAgent } from "../../session-state/state";
 import { log, promptWithModelSuggestionRetry } from "../../../integration/shared";
 import { getAgentToolRestrictions } from "../../../execution/agents/agent-tool-restrictions";
 // model resolution handled by caller; no defaults or availability checks.

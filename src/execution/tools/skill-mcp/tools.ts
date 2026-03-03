@@ -1,11 +1,8 @@
 import { tool, type ToolDefinition } from "@opencode-ai/plugin";
 import { SKILL_MCP_DESCRIPTION } from "./constants";
 import type { SkillMcpArgs } from "./types";
-import type {
-  SkillMcpManager,
-  SkillMcpClientInfo,
-  SkillMcpServerContext,
-} from "../../skill-mcp-manager";
+import type { SkillMcpManager } from "../../skill-mcp-manager/manager";
+import type { SkillMcpClientInfo, SkillMcpServerContext } from "../../skill-mcp-manager/types";
 import type { LoadedSkill } from "../../opencode-skill-loader/types";
 
 interface SkillMcpToolOptions {

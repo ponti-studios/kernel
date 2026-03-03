@@ -5,7 +5,6 @@ import type {
   DeterministicResolutionResult,
 } from "./types";
 import type { SkillsConfig, SkillDefinition } from "../../platform/config/skill.schema";
-import type { Skill } from "../skills/types";
 import type { CommandDefinition } from "../command-loader/types";
 import { readFileSync, existsSync } from "fs";
 import { dirname, resolve, isAbsolute } from "path";
@@ -13,6 +12,7 @@ import { homedir } from "os";
 import { parseFrontmatter } from "../../integration/shared/frontmatter";
 import { sanitizeModelField } from "../../integration/shared/model-sanitizer";
 import { deepMerge } from "../../integration/shared/deep-merge";
+import { SkillSpec } from "../../skills/schema";
 
 function parseAllowedToolsFromMetadata(
   allowedTools: string | string[] | undefined,
@@ -64,7 +64,7 @@ export function resolveDeterministicSkillsFirstWins(
   };
 }
 
-function skillToLoaded(builtin: Skill): LoadedSkill {
+function skillToLoaded(builtin: SkillSpec): LoadedSkill {
   const definition: CommandDefinition = {
     name: builtin.name,
     description: `(opencode - Skill) ${builtin.description}`,
@@ -246,7 +246,7 @@ export interface MergeSkillsOptions {
  * 3. Scoped skills (from .agents/skills via canonical pipeline)
  */
 export function mergeSkills(
-  builtinSkills: Skill[],
+  builtinSkills: SkillSpec[],
   config: SkillsConfig | undefined,
   scopedSkills: LoadedSkill[],
   options: MergeSkillsOptions = {},

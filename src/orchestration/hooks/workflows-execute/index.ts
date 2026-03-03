@@ -19,7 +19,7 @@ import {
   buildTaskDelegationPrompt,
   getTaskDelegationConfig,
 } from "../../../execution/task-queue/delegation-engine";
-import type { Task, WorkflowTaskList } from "../../../execution/task-queue";
+import type { Task, WorkflowTaskList } from "../../../execution/task-queue/types";
 
 const HOOK_NAME = "workflows-execute";
 

@@ -9,7 +9,7 @@ import {
 import { homedir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { parseJsonc } from "../integration/shared";
+import { parseJsonc } from "../integration/shared/jsonc-parser";
 import {
   getOpenCodeConfigPaths,
   type OpenCodeBinaryType,

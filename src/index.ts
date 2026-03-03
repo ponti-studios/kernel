@@ -45,17 +45,18 @@ import {
   resolveVariantForModel,
 } from "./integration/shared/agent-variant";
 import { createFirstMessageVariantGate } from "./integration/shared/first-message-variant";
-import { discoverSharedPipelineSkills, mergeSkills } from "./execution/opencode-skill-loader";
+import { discoverSharedPipelineSkills } from "./execution/opencode-skill-loader";
+import { mergeSkills } from "./execution/opencode-skill-loader/merger";
 import { createSkills } from "./skills/skills";
-import { createAgents } from "./agents/orchestration";
-import { getSystemMcpServerNames } from "./execution/mcp-loader";
+import { createAgents } from "./agents/utils";
+import { getSystemMcpServerNames } from "./execution/mcp-loader/loader";
 import {
   setMainSession,
   getMainSessionID,
   setSessionAgent,
   updateSessionAgent,
   clearSessionAgent,
-} from "./execution/session-state";
+} from "./execution/session-state/state";
 import {
   tools,
   createBackgroundTools,
@@ -70,18 +71,16 @@ import {
   startTmuxCheck,
   lspManager,
 } from "./execution/tools";
-import { BackgroundManager } from "./execution/background-agent";
-import { SkillMcpManager } from "./execution/skill-mcp-manager";
+import { BackgroundManager } from "./execution/background-agent/manager";
+import { SkillMcpManager } from "./execution/skill-mcp-manager/manager";
 import { initTaskToastManager } from "./execution/task-toast-manager";
-import { TmuxSessionManager } from "./execution/tmux-subagent";
-import { clearUltraworkState } from "./execution/ultrawork-state";
+import { TmuxSessionManager } from "./execution/tmux-subagent/manager";
+import { clearUltraworkState } from "./execution/ultrawork-state/storage";
 import { type HookName } from "./platform/config";
-import {
-  log,
-  resetMessageCursor,
-  includesCaseInsensitive,
-  runHookWithTelemetry,
-} from "./integration/shared";
+import { log } from "./integration/shared/logger";
+import { resetMessageCursor } from "./integration/shared/session-cursor";
+import { includesCaseInsensitive } from "./integration/shared/case-insensitive";
+import { runHookWithTelemetry } from "./integration/shared/hook-telemetry";
 import {
   detectExternalNotificationPlugin,
   getNotificationConflictWarning,

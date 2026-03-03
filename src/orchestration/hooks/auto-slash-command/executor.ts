@@ -14,7 +14,7 @@ import {
   discoverAllSkills,
   type LoadedSkill,
   type LazyContentLoader,
-} from "../../../execution/opencode-skill-loader";
+} from "../../../execution/opencode-skill-loader/loader";
 import type { ParsedSlashCommand } from "./types";
 
 interface CommandScope {

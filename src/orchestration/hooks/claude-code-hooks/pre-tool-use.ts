@@ -4,13 +4,11 @@ import type {
   PermissionDecision,
   ClaudeHooksConfig,
 } from "./types";
-import {
-  findMatchingHooks,
-  executeHookCommand,
-  objectToSnakeCase,
-  transformToolName,
-  log,
-} from "../../../integration/shared";
+import { findMatchingHooks } from "../../../integration/shared/pattern-matcher";
+import { executeHookCommand } from "../../../integration/shared/command-executor";
+import { objectToSnakeCase } from "../../../integration/shared/snake-case";
+import { transformToolName } from "../../../integration/shared/tool-name";
+import { log } from "../../../integration/shared/logger";
 import { DEFAULT_CONFIG } from "./plugin-config";
 import { isHookCommandDisabled, type PluginExtendedConfig } from "./config-loader";
 

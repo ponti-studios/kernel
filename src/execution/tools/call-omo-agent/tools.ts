@@ -3,8 +3,9 @@ import { existsSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { ALLOWED_AGENTS, CALL_OMO_AGENT_DESCRIPTION } from "./constants";
 import type { CallOmoAgentArgs } from "./types";
-import type { BackgroundManager } from "../../background-agent";
-import { log, includesCaseInsensitive } from "../../../integration/shared";
+import type { BackgroundManager } from "../../background-agent/manager";
+import { log } from "../../../integration/shared/logger";
+import { includesCaseInsensitive } from "../../../integration/shared/case-insensitive";
 import { getAgentToolRestrictions } from "../../../execution/agents/agent-tool-restrictions";
 import { consumeNewMessages } from "../../../integration/shared/session-cursor";
 import {
@@ -12,7 +13,7 @@ import {
   findNearestMessageWithFields,
   MESSAGE_STORAGE,
 } from "../../hook-message-injector";
-import { getSessionAgent } from "../../session-state";
+import { getSessionAgent } from "../../session-state/state";
 
 function getMessageDir(sessionID: string): string | null {
   if (!existsSync(MESSAGE_STORAGE)) return null;

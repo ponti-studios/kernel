@@ -1,4 +1,4 @@
-import { createSkills } from "../skills/skills";
+import { createSkills } from "../../skills/skills";
 import { discoverSkills } from "./loader";
 import type { LoadedSkill } from "./types";
 import { createHash } from "node:crypto";

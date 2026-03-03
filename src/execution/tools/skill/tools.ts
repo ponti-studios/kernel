@@ -2,14 +2,11 @@ import { dirname } from "node:path";
 import { tool, type ToolDefinition } from "@opencode-ai/plugin";
 import { TOOL_DESCRIPTION_NO_SKILLS, TOOL_DESCRIPTION_PREFIX } from "./constants";
 import type { SkillArgs, SkillInfo, SkillLoadOptions } from "./types";
-import type { LoadedSkill } from "../../opencode-skill-loader";
+import type { LoadedSkill } from "../../execution/opencode-skill-loader/types";
 import { getAllSkills, extractSkillTemplate } from "../../opencode-skill-loader/skill-content";
 import { injectGitMasterConfig } from "../../opencode-skill-loader/skill-content";
-import type {
-  SkillMcpManager,
-  SkillMcpClientInfo,
-  SkillMcpServerContext,
-} from "../../skill-mcp-manager";
+import type { SkillMcpManager } from "../../skill-mcp-manager/manager";
+import type { SkillMcpClientInfo, SkillMcpServerContext } from "../../skill-mcp-manager/types";
 import type { Tool, Resource, Prompt } from "@modelcontextprotocol/sdk/types.js";
 
 function loadedSkillToInfo(skill: LoadedSkill): SkillInfo {

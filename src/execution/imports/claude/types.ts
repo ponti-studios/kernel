@@ -1,4 +1,4 @@
-import type { PluginComponentsResult } from "../../plugin-loader";
+import type { PluginComponentsResult } from "../../execution/plugin-loader/types";
 
 export interface ClaudeImportReport {
   pluginName: string;

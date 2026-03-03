@@ -22,7 +22,7 @@ import {
   recordUserMessage,
 } from "./transcript";
 import type { PluginConfig } from "./types";
-import { log } from "../../../integration/shared";
+import { log } from "../../../integration/shared/logger";
 import { isHookDisabled } from "../../../platform/claude/hook-disabled";
 import type { ContextCollector } from "../../../execution/context-injector";
 

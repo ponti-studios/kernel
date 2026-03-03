@@ -1,8 +1,9 @@
 import type { PluginInput } from "@opencode-ai/plugin";
-import type { ShellType } from "../../../integration/shared";
+import type { ShellType } from "../../../integration/shared/shell-env";
 import { HOOK_NAME, NON_INTERACTIVE_ENV, SHELL_COMMAND_PATTERNS } from "./constants";
 import { isNonInteractive } from "./detector";
-import { log, buildEnvPrefix } from "../../../integration/shared";
+import { log } from "../../../integration/shared/logger";
+import { buildEnvPrefix } from "../../../integration/shared/shell-env";
 
 
 const BANNED_COMMAND_PATTERNS = SHELL_COMMAND_PATTERNS.banned

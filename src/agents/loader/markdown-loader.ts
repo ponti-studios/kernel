@@ -1,7 +1,7 @@
 import { readFileSync, readdirSync, existsSync } from "fs";
 import path from "path";
-import { parseFrontmatter } from "../integration/shared/frontmatter";
-import { safeValidateAgentMetadata, AgentMetadata } from "./agent-schema";
+import { parseFrontmatter } from "../../integration/shared/frontmatter";
+import { safeValidateAgentMetadata, AgentMetadata } from "../schema/metadata";
 import { AGENTS_MANIFEST } from "./agents-manifest";
 
 /**

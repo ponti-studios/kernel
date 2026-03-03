@@ -2,10 +2,10 @@ import { describe, expect, it } from "bun:test";
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { tmpdir } from "node:os";
-import { includesCaseInsensitive } from "./integration/shared";
+import { includesCaseInsensitive } from "./integration/shared/case-insensitive";
 import { createSkills } from "./skills/skills";
 import { discoverSharedPipelineSkills, mergeSkills } from "./execution/opencode-skill-loader";
-import type { LoadedSkill } from "./execution/opencode-skill-loader";
+import type { LoadedSkill } from "./execution/opencode-skill-loader/types";
 
 /**
  * Tests for conditional tool registration logic in index.ts

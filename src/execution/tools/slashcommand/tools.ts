@@ -1,18 +1,17 @@
 import { tool, type ToolDefinition } from "@opencode-ai/plugin";
 import { existsSync, readdirSync, readFileSync } from "fs";
 import { join, basename, dirname } from "path";
-import {
-  parseFrontmatter,
-  resolveCommandsInText,
-  resolveFileReferencesInText,
-  sanitizeModelField,
-} from "../../../integration/shared";
+import { parseFrontmatter } from "../../../integration/shared/frontmatter";
+import { resolveCommandsInText } from "../../../integration/shared/command-executor";
+import { resolveFileReferencesInText } from "../../../integration/shared/file-reference-resolver";
+import { sanitizeModelField } from "../../../integration/shared/model-sanitizer";
 import { getOpenCodeConfigDir } from "../../../platform/opencode/config-dir";
 import type { CommandFrontmatter } from "../../command-loader/types";
 import { isMarkdownFile } from "../../../integration/shared/file-utils";
 import { getClaudeConfigDir } from "../../../platform/claude/config-dir";
-import { discoverAllSkills, type LoadedSkill } from "../../opencode-skill-loader";
-import { loadCommands } from "../../commands";
+import { discoverAllSkills } from "../../execution/opencode-skill-loader/loader";
+import type { LoadedSkill } from "../../execution/opencode-skill-loader/types";
+import { loadCommands } from "../../commands/commands";
 import type { CommandScope, CommandMetadata, CommandInfo, SlashcommandToolOptions } from "./types";
 
 function discoverCommandsFromDir(commandsDir: string, scope: CommandScope): CommandInfo[] {

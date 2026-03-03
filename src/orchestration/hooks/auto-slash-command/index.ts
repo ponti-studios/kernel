@@ -1,9 +1,9 @@
 import { detectSlashCommand, extractPromptText } from "./detector";
 import { executeSlashCommand, type ExecutorOptions } from "./executor";
-import { log } from "../../../integration/shared";
+import { log } from "../../../integration/shared/logger";
 import { AUTO_SLASH_COMMAND_TAG_OPEN, AUTO_SLASH_COMMAND_TAG_CLOSE } from "./constants";
 import type { AutoSlashCommandHookInput, AutoSlashCommandHookOutput } from "./types";
-import type { LoadedSkill } from "../../../execution/opencode-skill-loader";
+import type { LoadedSkill } from "../../../execution/opencode-skill-loader/types";
 
 
 const sessionProcessedCommands = new Set<string>();

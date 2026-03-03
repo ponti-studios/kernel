@@ -6,13 +6,10 @@ import { z } from "zod";
 const SKILL_NAME_PATTERN = /^[a-z][a-z0-9-]*$/;
 
 export const skillSchema = z.object({
-  name: z
-    .string()
-    .min(1)
-    .regex(SKILL_NAME_PATTERN, {
-      message:
-        "name must start with a lowercase letter and contain only lowercase letters, digits, and hyphens",
-    }),
+  name: z.string().min(1).regex(SKILL_NAME_PATTERN, {
+    message:
+      "name must start with a lowercase letter and contain only lowercase letters, digits, and hyphens",
+  }),
   description: z.string().min(1).max(2000),
   template: z.string().min(1),
   license: z.string().optional(),
@@ -23,7 +20,7 @@ export const skillSchema = z.object({
   model: z.string().optional(),
   subtask: z.boolean().optional(),
   argumentHint: z.string().optional(),
-  mcpConfig: z.unknown().optional(),
+  mcpConfig: z.object().optional(),
 });
 
 export type SkillSpec = z.infer<typeof skillSchema>;

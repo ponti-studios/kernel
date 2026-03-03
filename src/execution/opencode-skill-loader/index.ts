@@ -18,10 +18,6 @@
 // two small orchestration helpers used by tests and runtime initialization:
 // `resolveScopedSkillsCanonical` and `discoverSharedPipelineSkills`.
 
-export * from "./types";
-export * from "./loader";
-export * from "./merger";
-export * from "./skill-content";
 
 // helper wrappers used by higher‑level callers (cli export, plugin init,
 // integration tests, etc)
@@ -67,3 +63,6 @@ export async function discoverSharedPipelineSkills(
   const canonical = await resolveScopedSkillsCanonical(options);
   return canonical.skills;
 }
+
+// re-export utilities for external consumers (tests, CLI, runtime)
+export { mergeSkills } from "./merger";

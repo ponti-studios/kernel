@@ -1,6 +1,6 @@
 import type { Hooks } from "@opencode-ai/plugin";
 import { subagentSessions } from "../../../execution/session-state";
-import { log } from "../../../integration/shared";
+import { log } from "../../../integration/shared/logger";
 
 export function createSubagentQuestionBlockerHook(): Hooks {
   return {

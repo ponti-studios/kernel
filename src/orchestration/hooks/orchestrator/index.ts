@@ -6,8 +6,8 @@ import {
   readUltraworkState,
   appendSessionId,
   getPlanProgress,
-} from "../../../execution/ultrawork-state";
-import { getMainSessionID, subagentSessions } from "../../../execution/session-state";
+} from "../../../execution/ultrawork-state/storage";
+import { getMainSessionID, subagentSessions } from "../../../execution/session-state/state";
 import {
   findNearestMessageWithFields,
   MESSAGE_STORAGE,
@@ -19,7 +19,7 @@ import {
   SystemDirectiveTypes,
 } from "../../../integration/shared/system-directive";
 import { isCallerOrchestrator, getMessageDir } from "../../../integration/shared/session-utils";
-import type { BackgroundManager } from "../../../execution/background-agent";
+import type { BackgroundManager } from "../../../execution/background-agent/manager";
 
 const HOOK_NAME = "orchestrator";
 

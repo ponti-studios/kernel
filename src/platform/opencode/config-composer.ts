@@ -1,24 +1,24 @@
-import { createAgents } from "../../agents/orchestration";
+import { createAgents } from "../../agents/utils";
 import {
   loadUserCommands,
   loadProjectCommands,
   loadOpencodeGlobalCommands,
   loadOpencodeProjectCommands,
-} from "../../execution/command-loader";
-import { loadCommands } from "../../commands";
+} from "../../execution/command-loader/loader";
+import { loadCommands } from "../../commands/commands";
 import {
   loadUserSkills,
   loadProjectSkills,
   loadOpencodeGlobalSkills,
   loadOpencodeProjectSkills,
-  discoverSharedPipelineSkills,
-} from "../../execution/opencode-skill-loader";
-import { loadUserAgents, loadProjectAgents } from "../../execution/agent-loader";
-import { loadMcpConfigs } from "../../execution/mcp-loader";
-import { loadAllPluginComponents } from "../../execution/plugin-loader";
+} from "../../execution/opencode-skill-loader/loader";
+import { discoverSharedPipelineSkills } from "../../execution/opencode-skill-loader";
+import { loadUserAgents, loadProjectAgents } from "../../execution/agent-loader/loader";
+import { loadMcpConfigs } from "../../execution/mcp-loader/loader";
+import { loadAllPluginComponents } from "../../execution/plugin-loader/loader";
 import { createMcps } from "../../integration/mcp";
 import type { GhostwireConfig } from "../../platform/config";
-import { log } from "../../integration/shared";
+import { log } from "../../integration/shared/logger";
 import { DEFAULT_CATEGORIES } from "../../execution/tools/delegate-task/constants";
 import type { ModelCacheState } from "../../plugin-state";
 import type { CategoryConfig } from "../../platform/config/category.schema";

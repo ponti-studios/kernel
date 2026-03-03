@@ -21,7 +21,7 @@ import {
   type ExecutionPlan,
 } from "./schema";
 import type { CommandIntentSpec } from "../intents";
-import type { AgentSpec } from "../../agents";
+import type { AgentSpec } from "../../agents/schema";
 import type { PromptAsset } from "../assets";
 
 /**

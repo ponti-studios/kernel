@@ -5,16 +5,16 @@ import {
   lsp_diagnostics,
   lsp_prepare_rename,
   lsp_rename,
-  lspManager,
-} from "./lsp";
+} from "./lsp/tools";
 
+import { lspManager } from "./lsp/client";
 export { lspManager };
 
 import { ast_grep_search, ast_grep_replace } from "./ast-grep";
 
 import { grep } from "./grep";
 import { glob } from "./glob";
-export { createSlashcommandTool, discoverCommandsSync } from "./slashcommand";
+export { createSlashcommandTool, discoverCommandsSync } from "./slashcommand/tools";
 
 import {
   session_list,
@@ -24,17 +24,17 @@ import {
   session_create,
   session_update,
   session_delete,
-} from "./session-manager";
+} from "./session-manager/tools";
 
 export { sessionExists } from "./session-manager/storage";
 
 export { interactive_bash, startBackgroundCheck as startTmuxCheck } from "./interactive-bash";
-export { createSkillTool } from "./skill";
+export { createSkillTool } from "./skill/tools";
 export { createSkillMcpTool } from "./skill-mcp";
 
-import { todo_create, todo_list, todo_update, todo_delete } from "./todo-manager";
+import { todo_create, todo_list, todo_update, todo_delete } from "./todo-manager/tools";
 
-import { skill_list, skill_create, skill_update, skill_delete } from "./skill";
+import { skill_list, skill_create, skill_update, skill_delete } from "./skill/crud";
 
 import {
   createBackgroundOutput,
@@ -42,15 +42,15 @@ import {
   createBackgroundTaskList,
   createBackgroundTaskInfo,
   createBackgroundTaskUpdate,
-} from "./background-task";
+} from "./background-task/tools";
 
 import type { PluginInput, ToolDefinition } from "@opencode-ai/plugin";
-import type { BackgroundManager } from "../background-agent";
+import type { BackgroundManager } from "../background-agent/manager";
 
 type OpencodeClient = PluginInput["client"];
 
-export { createLookAt } from "./look-at";
-export { createDelegateTask } from "./delegate-task";
+export { createLookAt } from "./look-at/tools";
+export { createDelegateTask } from "./delegate-task/tools";
 
 export function createBackgroundTools(
   manager: BackgroundManager,

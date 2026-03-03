@@ -2,7 +2,7 @@ import { existsSync, mkdirSync, chmodSync, unlinkSync } from "fs";
 import { join } from "path";
 import { homedir } from "os";
 import { createRequire } from "module";
-import { extractZip } from "../../../integration/shared";
+import { extractZip } from "../../../integration/shared/zip-extractor";
 import { log } from "../../../integration/shared/logger";
 
 const REPO = "ast-grep/ast-grep";

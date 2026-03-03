@@ -4,7 +4,7 @@ import {
   updateSessionAgent,
   clearSessionAgent,
   _resetForTesting,
-} from "../../../execution/session-state";
+} from "../../../execution/session-state/state";
 import * as logger from "../../../integration/shared/logger";
 
 describe("grid-category-skill-reminder hook", () => {

@@ -3,9 +3,6 @@ import { getHighVariant, isAlreadyHighVariant, getThinkingConfig } from "./switc
 import type { ThinkModeState, ThinkModeInput } from "./types";
 import { log } from "../../../integration/shared";
 
-export * from "./detector";
-export * from "./switcher";
-export * from "./types";
 
 const thinkModeState = new Map<string, ThinkModeState>();
 

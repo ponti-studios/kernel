@@ -3,7 +3,7 @@ import { homedir } from "node:os";
 import { join } from "node:path";
 import type { CheckResult, CheckDefinition, McpServerInfo } from "../types";
 import { CHECK_IDS, CHECK_NAMES } from "../constants";
-import { parseJsonc } from "../../../integration/shared";
+import { parseJsonc } from "../../../integration/shared/jsonc-parser";
 
 const MCP_SERVERS = ["context7", "grep_app"];
 

@@ -1,10 +1,11 @@
 import type { PluginInput } from "@opencode-ai/plugin";
 import type { BackgroundTask, LaunchInput, ResumeInput } from "./types";
-import { log, promptWithModelSuggestionRetry } from "../../integration/shared";
+import { log } from "../../integration/shared/logger";
+import { promptWithModelSuggestionRetry } from "../../integration/shared/model-suggestion-retry";
 import { getAgentToolRestrictions } from "../../execution/agents/agent-tool-restrictions";
 import { ConcurrencyManager } from "./concurrency";
 import type { BackgroundTaskConfig, TmuxConfig } from "../../platform/config/runtime.schema";
-import { isInsideTmux } from "../../integration/shared/tmux";
+import { isInsideTmux } from "../../integration/shared/tmux/tmux-utils";
 
 import { subagentSessions } from "../session-state";
 import { getTaskToastManager } from "../task-toast-manager";

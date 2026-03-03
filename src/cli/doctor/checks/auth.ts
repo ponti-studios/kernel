@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import type { CheckResult, CheckDefinition, AuthProviderInfo, AuthProviderId } from "../types";
 import { CHECK_IDS, CHECK_NAMES } from "../constants";
-import { parseJsonc } from "../../../integration/shared";
+import { parseJsonc } from "../../../integration/shared/jsonc-parser";
 import { getOpenCodeConfigDir } from "../../../platform/opencode/config-dir";
 
 const OPENCODE_CONFIG_DIR = getOpenCodeConfigDir({ binary: "opencode" });

@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import type { CheckResult, CheckDefinition, ConfigInfo } from "../types";
 import { CHECK_IDS, CHECK_NAMES, PACKAGE_NAME } from "../constants";
-import { parseJsonc, detectConfigFile } from "../../../integration/shared";
+import { parseJsonc, detectConfigFile } from "../../../integration/shared/jsonc-parser";
 import { getOpenCodeConfigDir } from "../../../platform/opencode/config-dir";
 import { GhostwireConfigSchema } from "../../../platform/config";
 

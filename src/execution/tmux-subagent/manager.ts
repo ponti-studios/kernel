@@ -4,12 +4,14 @@ import type { TrackedSession, CapacityConfig } from "./types";
 import {
   isInsideTmux as defaultIsInsideTmux,
   getCurrentPaneId as defaultGetCurrentPaneId,
+} from "../../integration/shared/tmux/tmux-utils";
+import {
   POLL_INTERVAL_BACKGROUND_MS,
   SESSION_MISSING_GRACE_MS,
   SESSION_READY_POLL_INTERVAL_MS,
   SESSION_READY_TIMEOUT_MS,
-} from "../../integration/shared/tmux";
-import { log } from "../../integration/shared";
+} from "../../integration/shared/tmux/constants";
+import { log } from "../../integration/shared/logger";
 import { queryWindowState } from "./pane-state-querier";
 import { decideSpawnActions, decideCloseAction, type SessionMapping } from "./decision-engine";
 import { executeActions, executeAction } from "./action-executor";

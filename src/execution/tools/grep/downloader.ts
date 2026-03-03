@@ -1,7 +1,7 @@
 import { existsSync, mkdirSync, chmodSync, unlinkSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { spawn } from "bun";
-import { extractZip as extractZipBase } from "../../../integration/shared";
+import { extractZip as extractZipBase } from "../../../integration/shared/zip-extractor";
 
 export function findFileRecursive(dir: string, filename: string): string | null {
   try {

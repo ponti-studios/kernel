@@ -8,9 +8,9 @@ import {
   createUltraworkState,
   getPlanName,
   clearUltraworkState,
-} from "../../../execution/ultrawork-state";
+} from "../../../execution/ultrawork-state/storage";
 import { log } from "../../../integration/shared/logger";
-import { getSessionAgent, updateSessionAgent } from "../../../execution/session-state";
+import { getSessionAgent, updateSessionAgent } from "../../../execution/session-state/state";
 
 const HOOK_NAME = "start-work";
 

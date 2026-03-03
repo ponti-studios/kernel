@@ -3,11 +3,9 @@ import { pathToFileURL } from "node:url";
 import { tool, type PluginInput, type ToolDefinition } from "@opencode-ai/plugin";
 import { LOOK_AT_DESCRIPTION, MULTIMODAL_LOOKER_AGENT } from "./constants";
 import type { LookAtArgs } from "./types";
-import {
-  findByNameCaseInsensitive,
-  log,
-  promptWithModelSuggestionRetry,
-} from "../../../integration/shared";
+import { findByNameCaseInsensitive } from "../../../integration/shared/case-insensitive";
+import { log } from "../../../integration/shared/logger";
+import { promptWithModelSuggestionRetry } from "../../../integration/shared/model-suggestion-retry";
 
 interface LookAtArgsWithAlias extends LookAtArgs {
   path?: string;

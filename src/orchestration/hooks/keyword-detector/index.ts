@@ -1,7 +1,7 @@
 import type { PluginInput } from "@opencode-ai/plugin";
 import { detectKeywordsWithType, extractPromptText, removeCodeBlocks } from "./detector";
 import { isPlannerAgent } from "./constants";
-import { log } from "../../../integration/shared";
+import { log } from "../../../integration/shared/logger";
 import {
   hasSystemReminder,
   isSystemDirective,
@@ -11,7 +11,7 @@ import {
   getMainSessionID,
   getSessionAgent,
   subagentSessions,
-} from "../../../execution/session-state";
+} from "../../../execution/session-state/state";
 import type { ContextCollector } from "../../../execution/context-injector";
 
 

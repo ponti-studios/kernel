@@ -10,16 +10,16 @@ import { getMcpCheckDefinitions } from "./mcp";
 import { getMcpOAuthCheckDefinition } from "./mcp-oauth";
 import { getVersionCheckDefinition } from "./version";
 
-export * from "./opencode";
-export * from "./plugin";
-export * from "./config";
-export * from "./auth";
-export * from "./dependencies";
-export * from "./gh";
-export * from "./lsp";
-export * from "./mcp";
-export * from "./mcp-oauth";
-export * from "./version";
+export { getOpenCodeCheckDefinition } from "./opencode";
+export { getPluginCheckDefinition } from "./plugin";
+export { getConfigCheckDefinition, validateConfig } from "./config";
+export { getAuthProviderInfo, checkAuthProvider } from "./auth";
+export { getDependencyCheckDefinitions } from "./dependencies";
+export { getGhCliCheckDefinition } from "./gh";
+export { getLspCheckDefinition } from "./lsp";
+export { getMcpCheckDefinitions, checkMcpServers, checkUserMcpServers } from "./mcp";
+export { getMcpOAuthCheckDefinition } from "./mcp-oauth";
+export { getVersionCheckDefinition } from "./version";
 
 export function getAllCheckDefinitions(): CheckDefinition[] {
   return [

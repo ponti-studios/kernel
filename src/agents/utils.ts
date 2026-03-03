@@ -22,13 +22,15 @@ import type {
   AvailableCategory,
   AvailableSkill,
 } from "./dynamic-agent-prompt-builder";
-import { deepMerge, findCaseInsensitive, includesCaseInsensitive } from "../integration/shared";
+import { deepMerge } from "../integration/shared/deep-merge";
+import { findCaseInsensitive } from "../integration/shared/case-insensitive";
+import { includesCaseInsensitive } from "../integration/shared/case-insensitive";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PLUGIN_ROOT = join(__dirname, "../..");
-import { readConnectedProvidersCache } from "../platform/opencode";
+import { readConnectedProvidersCache } from "../platform/opencode/connected-providers-cache";
 import {
   DEFAULT_CATEGORIES,
   CATEGORY_DESCRIPTIONS,

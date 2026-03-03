@@ -1,6 +1,6 @@
 import type { PluginInput } from "@opencode-ai/plugin";
-import { getSessionAgent } from "../../../execution/session-state";
-import { log } from "../../../integration/shared";
+import { getSessionAgent } from "../../../execution/session-state/state";
+import { log } from "../../../integration/shared/logger";
 
 /**
  * Target agents that should receive category+skill reminders.
