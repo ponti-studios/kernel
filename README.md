@@ -1,98 +1,72 @@
-# Ghostwire
+# Jinn ✨
 
-Ghostwire is an agent orchestration system for software production, not a prompt wrapper. 
+Your magical AI assistant for all personal computing tasks.
 
-The objective is deterministic throughput under bounded context: decompose work, route subtasks to specialized agents, validate outputs against code reality, and converge on completed artifacts. 
+## What is Jinn?
 
-We optimize for measurable completion probability, low entropy execution, and strict interface contracts between planning, delegation, tooling, and verification.
+Jinn is an AI-powered assistant that works across 24+ AI coding tools (OpenCode, Cursor, Claude Code, GitHub Copilot, and more) to help you get things done. Whether it's coding, research, automation, or general computing tasks—Jinn has you covered.
 
-Our design philosophy:
-- *Kanso (simplicity)* - removes rhetorical clutter; only operationally relevant information remains. 
-- *Ma (negative space)* is intentional structure: spacing separates concerns and highlights high-value signal. 
-- *Shibui (understated)* rejects adjective-driven persuasion in favor of factual authority and logical traceability. 
-- *Wabi-sabi (imperfection)* prioritizes brutalist truth over polished ambiguity, so functional clarity consistently outranks stylistic performance.
+## Features
 
-## Product Surface
+- **Multi-Tool Support** - Works with OpenCode, Cursor, Claude Code, GitHub Copilot, and 20+ other AI tools
+- **Rich Workflows** - Built-in commands for planning, exploring, implementing, and completing work
+- **Beautiful CLI** - Modern TUI with spinners, colored output, and progress indicators
+- **Harness-Agnostic** - Same great experience across any AI tool you use
 
-- Type: OpenCode plugin + CLI
-- Role: Multi-agent orchestration, workflow execution, deterministic code operations
-- Runtime focus: Bun + TypeScript
-- Core execution style: task graph + category delegation + validation loop
+## Install
+
+```bash
+npm install -g @hackefeller/jinn
+```
+
+Or use directly with bun:
+
+```bash
+bunx jinn init
+```
 
 ## Quick Start
 
 ```bash
-bunx ghostwire install
+# Initialize jinn in your project
+jinn init
+
+# Detect available AI tools
+jinn detect
+
+# View configuration
+jinn config
 ```
 
-Then use:
+## Commands
 
-```text
-ultrawork: <task>
+| Command | Description |
+|---------|-------------|
+| `jinn init` | Initialize jinn in your project |
+| `jinn update` | Regenerate jinn files |
+| `jinn detect` | Detect available AI tools |
+| `jinn config` | View/modify configuration |
+
+## Use in Your AI Tool
+
+After initialization, use these commands in your AI tool:
+
 ```
-
-or explicit commands:
-
-```bash
-/ghostwire:workflows:create
-/ghostwire:workflows:execute
-/ghostwire:workflows:status
-/ghostwire:workflows:complete
-/ghostwire:work:loop
-/ghostwire:work:cancel
+/jinn:propose    - Start a new change
+/jinn:explore    - Explore ideas and investigate problems  
+/jinn:plan       - Create detailed work plans
+/jinn:apply      - Implement tasks
+/jinn:archive    - Complete and archive work
 ```
-
-## Canonical Workflow
-
-1. `workflows:create`: transform objective into structured task graph.
-2. Delegation engine: map task categories to specialist agents.
-3. `workflows:execute` or `work:loop`: execute by dependency wave.
-4. `workflows:status`: track completion state and blockers.
-5. `workflows:complete`: finalize artifacts and close workflow.
-
-## Architecture (Compressed)
-
-- Orchestration: `src/orchestration/` (agents + lifecycle hooks)
-- Execution: `src/execution/` (features + tools + task queue)
-- Integration: `src/integration/` (shared infra + MCP)
-- Platform: `src/platform/` (config, schemas, compatibility)
-- CLI: `src/cli/`
-
-## Deterministic Guarantees
-
-- Structured plans with dependency metadata (`blocks`, `blockedBy`, `wave`)
-- Category-driven delegation (`visual-engineering`, `ultrabrain`, `quick`, `deep`, `artistry`, `writing`)
-- Validation gates for agent/command references and config schema
-- Tool-mediated code operations over ad-hoc text edits where possible
-
-## Configuration
-
-Primary configuration reference:
-
-- [docs/reference/configurations.md](docs/configurations.md)
-
-Command naming reference:
-
-- [docs/reference/commands.md](docs/commands.md)
-
-## Documentation (Canonical)
-
-- [docs/README.md](docs/README.md)
-- [docs/agents.yml](docs/agents.yml)
-- [docs/hooks.yml](docs/hooks.yml)
-- [docs/tools.yml](docs/tools.yml)
-- [docs/features.yml](docs/features.yml)
-- [docs/commands.yml](docs/commands.yml)
-- [docs/skills.yml](docs/skills.yml)
-- [docs/reference/services-models.yaml](docs/reference/services-models.yaml)
 
 ## Development
 
 ```bash
-bun install
-bun test
-bun run typecheck
+# Build
 bun run build
+
+# Run CLI
+bun run dev:cli
 ```
 
 ## License
