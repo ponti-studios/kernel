@@ -1,6 +1,6 @@
 # Examples Index
 
-This directory contains example ghostwire configurations.
+This directory contains example jinn configurations.
 
 ## Examples
 
@@ -22,8 +22,8 @@ This directory contains example ghostwire configurations.
 
 ```bash
 # Copy config to your project
-cp examples/minimal/.ghostwire/config.yaml .ghostwire/
+cp examples/minimal/.jinn/config.yaml .jinn/
 
 # Or use CLI
-ghostwire init --tools opencode
+jinn init --tools opencode
 ```
