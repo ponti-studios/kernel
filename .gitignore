@@ -1,5 +1,5 @@
 # Dependencies
-.sisyphus/
+.openspec-repo
 node_modules/
 
 # Build output

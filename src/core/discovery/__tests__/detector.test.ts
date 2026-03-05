@@ -24,14 +24,14 @@ describe('Tool Definitions', () => {
     const { TOOL_DEFINITIONS } = await import('../definitions.js');
     const opencode = TOOL_DEFINITIONS.find((t: any) => t.id === 'opencode');
     expect(opencode).toBeDefined();
-    expect(opencode.skillsDir).toBe('.opencode');
+    expect(opencode!.skillsDir).toBe('.opencode');
   });
 
   it('cursor tool exists', async () => {
     const { TOOL_DEFINITIONS } = await import('../definitions.js');
     const cursor = TOOL_DEFINITIONS.find((t: any) => t.id === 'cursor');
     expect(cursor).toBeDefined();
-    expect(cursor.skillsDir).toBe('.cursor');
+    expect(cursor!.skillsDir).toBe('.cursor');
   });
 });
 

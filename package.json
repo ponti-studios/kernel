@@ -25,38 +25,14 @@
     "ghostwire": "./dist/ghostwire"
   },
   "files": [
-    "dist",
-    "postinstall.mjs"
+    "dist"
   ],
   "type": "module",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    },
-    "./schema.json": "./dist/ghostwire.schema.json"
-  },
   "scripts": {
-    "build": "bun run src/cli/task.ts build && bun build ./src/cli/ghostwire/index.ts --compile --outfile ./dist/ghostwire",
-    "build-fast": "bun run src/cli/task.ts build-fast",
+    "build": "bun build ./src/cli/ghostwire/index.ts --compile --outfile ./dist/ghostwire",
     "build:bin": "bun build ./src/cli/ghostwire/index.ts --compile --outfile ./dist/ghostwire",
-    "dev": "bun run src/cli/task.ts dev",
     "dev:cli": "bun ./src/cli/ghostwire/index.ts",
-    "test": "bun run src/cli/task.ts test",
-    "clean": "bun run src/cli/task.ts clean",
-    "typecheck": "bun run src/cli/task.ts typecheck",
-    "schema": "bun run src/cli/task.ts schema",
-    "agents": "bun run src/cli/task.ts agents",
-    "commands": "bun run src/cli/task.ts commands",
-    "skills": "bun run src/cli/task.ts skills",
-    "docs": "bun run src/cli/task.ts docs",
-    "topology": "bun run src/cli/task.ts topology",
-    "dev-setup": "bun run src/cli/task.ts dev-setup",
-    "help": "bun run src/cli/task.ts help",
-    "postinstall": "node postinstall.mjs",
-    "prepublishOnly": "bun run src/cli/task.ts build"
+    "typecheck": "bun --bun tsc --noEmit"
   },
   "dependencies": {
     "@ast-grep/cli": "^0.40.0",

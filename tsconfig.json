@@ -17,6 +17,11 @@
     "allowImportingTsExtensions": true,
     "emitDeclarationOnly": true
   },
-  "include": ["src/**/*", "src/cli/task.ts"],
+  "include": [
+    "src/cli/ghostwire/**/*.ts",
+    "src/core/**/*.ts",
+    "src/templates/**/*.ts",
+    "src/types/**/*.ts"
+  ],
   "exclude": ["node_modules", "dist"]
 }
