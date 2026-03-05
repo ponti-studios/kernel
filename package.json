@@ -29,9 +29,9 @@
   ],
   "type": "module",
   "scripts": {
-    "build": "bun build ./src/cli/ghostwire/index.ts --compile --outfile ./dist/ghostwire",
-    "build:bin": "bun build ./src/cli/ghostwire/index.ts --compile --outfile ./dist/ghostwire",
-    "dev:cli": "bun ./src/cli/ghostwire/index.ts",
+    "build": "bun build ./src/cli/main.ts --compile --outfile ./dist/ghostwire",
+    "build:bin": "bun build ./src/cli/main.ts --compile --outfile ./dist/ghostwire",
+    "dev:cli": "bun ./src/cli/main.ts",
     "typecheck": "bun --bun tsc --noEmit"
   },
   "dependencies": {
@@ -42,11 +42,14 @@
     "@modelcontextprotocol/sdk": "^1.25.1",
     "@opencode-ai/plugin": "^1.1.19",
     "@opencode-ai/sdk": "^1.1.19",
+    "chalk": "^5.6.2",
     "citty": "^0.1.6",
     "commander": "^14.0.2",
     "detect-libc": "^2.0.0",
+    "inquirer": "^13.3.0",
     "js-yaml": "^4.1.1",
     "jsonc-parser": "^3.3.1",
+    "oclif": "^4.22.84",
     "picocolors": "^1.1.1",
     "picomatch": "^4.0.2",
     "vscode-jsonrpc": "^8.2.0",
