@@ -22,7 +22,7 @@ run = "bun run src/cli/ghostwire/index.ts config add-tool cursor"
 description = "Run all ghostwire CLI commands"
 run = [
   "bun run src/cli/ghostwire/index.ts detect",
-  "bun runwire/index.ts init src/cli/ghost --tools opencode --yes",
+  "bun run src/cli/ghostwire/index.ts init --tools opencode --yes",
   "bun run src/cli/ghostwire/index.ts config show",
   "bun run src/cli/ghostwire/index.ts update"
 ]
@@ -47,26 +47,6 @@ run = "bun run typecheck"
 description = "Run linting"
 run = "bun run lint"
 
-[tasks.gw]
-description = "Run ghostwire CLI (shortcut)"
-run = "bun run src/cli/ghostwire/index.ts"
-
-[tasks.gw-init]
-description = "Run ghostwire init"
-run = "bun run src/cli/ghostwire/index.ts init"
-
-[tasks.gw-detect]
-description = "Run ghostwire detect"
-run = "bun run src/cli/ghostwire/index.ts detect"
-
-[tasks.gw-config]
-description = "Run ghostwire config show"
-run = "bun run src/cli/ghostwire/index.ts config show"
-
-[tasks.gw-update]
-description = "Run ghostwire update"
-run = "bun run src/cli/ghostwire/index.ts update"
-
 [tasks.link]
 description = "Link ghostwire CLI globally with bun link"
 run = "bun link"
@@ -74,3 +54,11 @@ run = "bun link"
 [tasks.unlink]
 description = "Remove global ghostwire CLI link"
 run = "bun unlink"
+
+[tasks.build-dev]
+description = "Build development version of CLI"
+run = "bun build ./src/cli/main.ts --compile --outfile ./dist/jinn-dev"
+
+[tasks.link-dev]
+description = "Link development build globally (symlink to /usr/local/bin)"
+run = "ln -sf $PWD/dist/jinn-dev /usr/local/bin/jinn-dev"

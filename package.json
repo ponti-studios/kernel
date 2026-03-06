@@ -29,7 +29,9 @@
   "scripts": {
     "build": "bun build ./src/cli/main.ts --compile --outfile ./dist/jinn",
     "build:bin": "bun build ./src/cli/main.ts --compile --outfile ./dist/jinn",
+    "build:dev": "bun build ./src/cli/main.ts --compile --outfile ./dist/jinn-dev",
     "dev:cli": "bun ./src/cli/main.ts",
+    "link:dev": "ln -sf $PWD/dist/jinn-dev /usr/local/bin/jinn-dev",
     "typecheck": "bun --bun tsc --noEmit"
   },
   "dependencies": {
