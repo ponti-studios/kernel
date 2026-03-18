@@ -2,7 +2,7 @@ import type { CommandTemplate } from '../../core/templates/types.js';
 
 export function getSpeckitAnalyzeCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Speckit Analyze',
+    name: 'Speckit Analyze',
     description: 'Perform consistency checks across Linear project planning data',
     category: 'Speckit',
     tags: ['speckit', 'analysis', 'linear', 'consistency'],
@@ -23,7 +23,7 @@ Analyze a Linear project, its top-level Linear issues, and its sub-issues for ga
 
 export function getSpeckitPlanCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Speckit Plan',
+    name: 'Speckit Plan',
     description: 'Create a milestone plan directly in Linear',
     category: 'Speckit',
     tags: ['speckit', 'plan', 'linear', 'milestones'],
@@ -45,7 +45,7 @@ Turn requirements into a Linear project plan.
 
 export function getSpeckitImplementCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Speckit Implement',
+    name: 'Speckit Implement',
     description: 'Execute implementation from Linear issue state',
     category: 'Speckit',
     tags: ['speckit', 'implement', 'linear', 'execution'],
@@ -66,7 +66,7 @@ Execute implementation work from the current Linear project and Linear issues wi
 
 export function getSpeckitSpecifyCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Speckit Specify',
+    name: 'Speckit Specify',
     description: 'Capture detailed requirements in Linear',
     category: 'Speckit',
     tags: ['speckit', 'specify', 'linear', 'requirements'],
@@ -87,7 +87,7 @@ Capture detailed, testable requirements in a Linear project and its top-level Li
 
 export function getSpeckitTasksCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Speckit Tasks',
+    name: 'Speckit Tasks',
     description: 'Break requirements into Linear execution items',
     category: 'Speckit',
     tags: ['speckit', 'tasks', 'linear', 'implementation'],
@@ -108,7 +108,7 @@ Break a Linear requirement plan into actionable execution items.
 
 export function getSpeckitConstitutionCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Speckit Constitution',
+    name: 'Speckit Constitution',
     description: 'Establish project conventions and standards',
     category: 'Speckit',
     tags: ['speckit', 'constitution', 'standards', 'conventions'],

@@ -2,11 +2,11 @@ import type { CommandTemplate } from '../../core/templates/types.js';
 
 export function getRefactorCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Refactor',
+    name: 'Refactor',
     description: 'Intelligent refactoring with full codebase awareness',
     category: 'Code',
     tags: ['refactor', 'restructure', 'improve'],
-    content: `# Jinn: Refactor
+    content: `# Refactor
 
 Intelligent, deterministic refactoring with full codebase awareness.
 

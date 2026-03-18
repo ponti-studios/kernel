@@ -2,11 +2,11 @@ import type { CommandTemplate } from '../../core/templates/types.js';
 
 export function getGitSmartCommitCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Git Smart Commit',
+    name: 'Git Smart Commit',
     description: 'Create well-structured commits with clear messages',
     category: 'Git',
     tags: ['git', 'commits', 'version-control'],
-    content: `# Jinn: Git Smart Commit
+    content: `# Git Smart Commit
 
 Create well-structured commits with clear, conventional messages.
 
@@ -60,11 +60,11 @@ Include context that helps future developers.
 
 export function getGitBranchCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Git Branch',
+    name: 'Git Branch',
     description: 'Create properly named feature branches',
     category: 'Git',
     tags: ['git', 'branching', 'workflow'],
-    content: `# Jinn: Git Branch
+    content: `# Git Branch
 
 Create properly named feature branches.
 
@@ -101,11 +101,11 @@ Use descriptive names with type prefix:
 
 export function getGitCleanupCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Git Cleanup',
+    name: 'Git Cleanup',
     description: 'Remove stale branches and clean up repository',
     category: 'Git',
     tags: ['git', 'cleanup', 'maintenance'],
-    content: `# Jinn: Git Cleanup
+    content: `# Git Cleanup
 
 Remove stale branches and clean up repository.
 
@@ -138,11 +138,11 @@ Remove stale branches and clean up repository.
 
 export function getGitMergeCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Git Merge',
+    name: 'Git Merge',
     description: 'Safely merge branches with conflict resolution',
     category: 'Git',
     tags: ['git', 'merge', 'conflict'],
-    content: `# Jinn: Git Merge
+    content: `# Git Merge
 
 Safely merge branches with conflict resolution.
 

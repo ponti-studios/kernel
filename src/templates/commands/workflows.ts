@@ -2,11 +2,11 @@ import type { CommandTemplate } from '../../core/templates/types.js';
 
 export function getJinnProposeCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Propose',
+    name: 'Propose',
     description: 'Create or update a Linear project and seed execution issues',
     category: 'Workflow',
     tags: ['workflow', 'proposal', 'linear', 'planning'],
-    content: `Jinn: Propose
+    content: `Propose
 
 Create a new Linear-backed change. Linear is the source of truth.
 
@@ -31,7 +31,7 @@ Create a new Linear-backed change. Linear is the source of truth.
 
 export function getJinnExploreCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Explore',
+    name: 'Explore',
     description: 'Explore ideas using current Linear project and issue context',
     category: 'Workflow',
     tags: ['workflow', 'explore', 'linear', 'investigation'],
@@ -55,7 +55,7 @@ export function getJinnExploreCommandTemplate(): CommandTemplate {
 
 export function getJinnApplyCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Apply',
+    name: 'Apply',
     description: 'Implement work from Linear issues and sub-issues',
     category: 'Workflow',
     tags: ['workflow', 'apply', 'linear', 'execution'],
@@ -81,7 +81,7 @@ export function getJinnApplyCommandTemplate(): CommandTemplate {
 
 export function getJinnArchiveCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Archive',
+    name: 'Archive',
     description: 'Close out completed Linear work',
     category: 'Workflow',
     tags: ['workflow', 'archive', 'linear', 'completion'],
@@ -106,11 +106,11 @@ export function getJinnArchiveCommandTemplate(): CommandTemplate {
 
 export function getWorkflowsBrainstormCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Workflows Brainstorm',
+    name: 'Workflows Brainstorm',
     description: 'Generate ideas and explore solutions',
     category: 'Workflow',
     tags: ['brainstorm', 'ideas', 'exploration'],
-    content: `# Jinn: Workflows Brainstorm
+    content: `# Workflows Brainstorm
 
 Generate ideas and explore solutions.
 
@@ -141,11 +141,11 @@ Generate ideas and explore solutions.
 
 export function getWorkflowsCompleteCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Workflows Complete',
+    name: 'Workflows Complete',
     description: 'Complete ongoing work items',
     category: 'Workflow',
     tags: ['complete', 'finish', 'done'],
-    content: `# Jinn: Workflows Complete
+    content: `# Workflows Complete
 
 Complete ongoing work items.
 
@@ -176,11 +176,11 @@ Complete ongoing work items.
 
 export function getWorkflowsCreateCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Workflows Create',
+    name: 'Workflows Create',
     description: 'Create new work item or project',
     category: 'Workflow',
     tags: ['create', 'new', 'initiate'],
-    content: `# Jinn: Workflows Create
+    content: `# Workflows Create
 
 Create new work item or project.
 
@@ -211,11 +211,11 @@ Create new work item or project.
 
 export function getWorkflowsExecuteCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Workflows Execute',
+    name: 'Workflows Execute',
     description: 'Execute planned work',
     category: 'Workflow',
     tags: ['execute', 'run', 'do'],
-    content: `# Jinn: Workflows Execute
+    content: `# Workflows Execute
 
 Execute planned work.
 
@@ -246,11 +246,11 @@ Execute planned work.
 
 export function getWorkflowsLearningsCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Workflows Learnings',
+    name: 'Workflows Learnings',
     description: 'Document and share project learnings',
     category: 'Workflow',
     tags: ['learnings', 'knowledge', 'documentation'],
-    content: `# Jinn: Workflows Learnings
+    content: `# Workflows Learnings
 
 Document and share project learnings.
 
@@ -276,11 +276,11 @@ Document and share project learnings.
 
 export function getWorkflowsPlanCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Workflows Plan',
+    name: 'Workflows Plan',
     description: 'Create detailed work plan',
     category: 'Workflow',
     tags: ['plan', 'planning', 'roadmap'],
-    content: `# Jinn: Workflows Plan
+    content: `# Workflows Plan
 
 Create detailed work plan.
 
@@ -311,11 +311,11 @@ Create detailed work plan.
 
 export function getWorkflowsReviewCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Workflows Review',
+    name: 'Workflows Review',
     description: 'Review completed or in-progress work',
     category: 'Workflow',
     tags: ['review', 'feedback', 'assessment'],
-    content: `# Jinn: Workflows Review
+    content: `# Workflows Review
 
 Review completed or in-progress work.
 
@@ -346,11 +346,11 @@ Review completed or in-progress work.
 
 export function getWorkflowsStatusCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Workflows Status',
+    name: 'Workflows Status',
     description: 'Check status of ongoing work',
     category: 'Workflow',
     tags: ['status', 'progress', 'check'],
-    content: `# Jinn: Workflows Status
+    content: `# Workflows Status
 
 Check status of ongoing work.
 
@@ -376,11 +376,11 @@ Check status of ongoing work.
 
 export function getWorkflowsStopCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Workflows Stop',
+    name: 'Workflows Stop',
     description: 'Stop ongoing work',
     category: 'Workflow',
     tags: ['stop', 'halt', 'pause'],
-    content: `# Jinn: Workflows Stop
+    content: `# Workflows Stop
 
 Stop ongoing work.
 
@@ -406,11 +406,11 @@ Stop ongoing work.
 
 export function getWorkflowsWorkCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Workflows Work',
+    name: 'Workflows Work',
     description: 'Perform work tasks',
     category: 'Workflow',
     tags: ['work', 'task', 'do'],
-    content: `# Jinn: Workflows Work
+    content: `# Workflows Work
 
 Perform work tasks.
 

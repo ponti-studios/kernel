@@ -2,11 +2,11 @@ import type { CommandTemplate } from '../../core/templates/types.js';
 
 export function getUtilBackupCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Util Backup',
+    name: 'Util Backup',
     description: 'Create backup of project files',
     category: 'Utility',
     tags: ['backup', 'safety', 'restore'],
-    content: `# Jinn: Util Backup
+    content: `# Util Backup
 
 Create backup of project files.
 
@@ -44,11 +44,11 @@ Create backup of project files.
 
 export function getUtilCleanCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Util Clean',
+    name: 'Util Clean',
     description: 'Clean up temporary and generated files',
     category: 'Utility',
     tags: ['cleanup', 'maintenance', 'temp'],
-    content: `# Jinn: Util Clean
+    content: `# Util Clean
 
 Clean up temporary and generated files.
 
@@ -85,11 +85,11 @@ Clean up temporary and generated files.
 
 export function getUtilDoctorCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Util Doctor',
+    name: 'Util Doctor',
     description: 'Diagnose project health issues',
     category: 'Utility',
     tags: ['diagnostic', 'health', 'troubleshooting'],
-    content: `# Jinn: Util Doctor
+    content: `# Util Doctor
 
 Diagnose project health issues.
 
@@ -128,11 +128,11 @@ Diagnose project health issues.
 
 export function getUtilRestoreCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Util Restore',
+    name: 'Util Restore',
     description: 'Restore project from backup',
     category: 'Utility',
     tags: ['restore', 'recovery', 'backup'],
-    content: `# Jinn: Util Restore
+    content: `# Util Restore
 
 Restore project from backup.
 

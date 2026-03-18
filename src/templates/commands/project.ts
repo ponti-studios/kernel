@@ -2,11 +2,11 @@ import type { CommandTemplate } from '../../core/templates/types.js';
 
 export function getProjectBuildCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Project Build',
+    name: 'Project Build',
     description: 'Build the project for production',
     category: 'Project',
     tags: ['build', 'production', 'deployment'],
-    content: `# Jinn: Project Build
+    content: `# Project Build
 
 Build the project for production.
 
@@ -42,11 +42,11 @@ Build the project for production.
 
 export function getProjectDeployCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Project Deploy',
+    name: 'Project Deploy',
     description: 'Deploy project to hosting environment',
     category: 'Project',
     tags: ['deploy', 'deployment', 'release'],
-    content: `# Jinn: Project Deploy
+    content: `# Project Deploy
 
 Deploy project to hosting environment.
 
@@ -77,11 +77,11 @@ Deploy project to hosting environment.
 
 export function getProjectTestCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Project Test',
+    name: 'Project Test',
     description: 'Run project test suite',
     category: 'Project',
     tags: ['testing', 'quality', 'test'],
-    content: `# Jinn: Project Test
+    content: `# Project Test
 
 Run project test suite.
 
@@ -111,11 +111,11 @@ Run project test suite.
 
 export function getProjectConstitutionCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Project Constitution',
+    name: 'Project Constitution',
     description: 'Define project conventions and standards',
     category: 'Project',
     tags: ['conventions', 'standards', 'rules'],
-    content: `# Jinn: Project Constitution
+    content: `# Project Constitution
 
 Define project conventions and standards.
 
@@ -157,11 +157,11 @@ Establish clear rules that all team members follow.
 
 export function getProjectInitCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Project Init',
+    name: 'Project Init',
     description: 'Initialize new project structure',
     category: 'Project',
     tags: ['init', 'setup', 'scaffold'],
-    content: `# Jinn: Project Init
+    content: `# Project Init
 
 Initialize new project structure.
 
@@ -197,11 +197,11 @@ Initialize new project structure.
 
 export function getProjectMapCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Project Map',
+    name: 'Project Map',
     description: 'Map project structure and dependencies',
     category: 'Project',
     tags: ['mapping', 'structure', 'dependencies'],
-    content: `# Jinn: Project Map
+    content: `# Project Map
 
 Map project structure and dependencies.
 

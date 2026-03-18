@@ -2,11 +2,11 @@ import type { CommandTemplate } from '../../core/templates/types.js';
 
 export function getWorkCancelCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Work Cancel',
+    name: 'Work Cancel',
     description: 'Cancel ongoing work or process',
     category: 'Work',
     tags: ['cancel', 'stop', 'abort'],
-    content: `# Jinn: Work Cancel
+    content: `# Work Cancel
 
 Cancel ongoing work or process.
 
@@ -43,11 +43,11 @@ Cancel ongoing work or process.
 
 export function getWorkLoopCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Work Loop',
+    name: 'Work Loop',
     description: 'Execute work in a continuous loop',
     category: 'Work',
     tags: ['loop', 'iteration', 'repeat'],
-    content: `# Jinn: Work Loop
+    content: `# Work Loop
 
 Execute work in a continuous loop.
 

@@ -2,11 +2,11 @@ import type { CommandTemplate } from '../../core/templates/types.js';
 
 export function getDocsDeployCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Docs Deploy',
+    name: 'Docs Deploy',
     description: 'Build and deploy documentation to hosting',
     category: 'Docs',
     tags: ['docs', 'deployment', 'hosting'],
-    content: `# Jinn: Docs Deploy
+    content: `# Docs Deploy
 
 Build and deploy documentation to live hosting platform.
 
@@ -34,11 +34,11 @@ Build and deploy documentation to live hosting platform.
 
 export function getDocsFeatureVideoCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Docs Feature Video',
+    name: 'Docs Feature Video',
     description: 'Create demonstration video for feature',
     category: 'Docs',
     tags: ['docs', 'video', 'demo'],
-    content: `# Jinn: Docs Feature Video
+    content: `# Docs Feature Video
 
 Create demonstration video for new feature.
 
@@ -61,11 +61,11 @@ Create demonstration video for new feature.
 
 export function getDocsReleaseCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Docs Release',
+    name: 'Docs Release',
     description: 'Create versioned documentation release',
     category: 'Docs',
     tags: ['docs', 'versioning', 'release'],
-    content: `# Jinn: Docs Release
+    content: `# Docs Release
 
 Create versioned documentation release.
 
@@ -91,11 +91,11 @@ Create versioned documentation release.
 
 export function getDocsTestBrowserCommandTemplate(): CommandTemplate {
   return {
-    name: 'Jinn: Docs Test Browser',
+    name: 'Docs Test Browser',
     description: 'Test documentation in browser environment',
     category: 'Docs',
     tags: ['docs', 'testing', 'browser'],
-    content: `# Jinn: Docs Test Browser
+    content: `# Docs Test Browser
 
 Test documentation in browser environment.
 
