@@ -1,12 +1,27 @@
 /**
  * Claude Code adapter
  *
- * Formats commands, skills, and agents for Claude Code.
- * Claude Code uses:
- * - Skills: .claude/skills/<name>/SKILL.md
- * - Commands: .claude/commands/jinn/<id>.md (nested directory)
- * - Agents: .claude/agents/<name>.md (YAML frontmatter with name, description, tools, model)
- * - Format: YAML frontmatter with name, description, category, tags
+ * Formats skills and agents for Claude Code.
+ *
+ * Directory conventions (open agent skills standard + Claude-native):
+ * - Skills:         .claude/skills/<name>/SKILL.md
+ * - Commands:       .claude/commands/jinn/<id>.md  (also creates /jinn-<id> slash command)
+ * - Agents:         .claude/agents/<name>.md  (YAML frontmatter + markdown body)
+ *
+ * Agent frontmatter fields:
+ * - name           display name (used in @ mentions)
+ * - description    when/why to use this agent
+ * - tools          explicit allowlist (e.g. Read, Grep, Glob, Bash)
+ * - model          model override (default: sonnet)
+ * - skills         YAML list of skills to preload at agent startup
+ *
+ * Agent body:
+ * - Markdown instructions (system prompt)
+ * - ## Available commands  (informational; not a YAML field)
+ * - ## Related skills     (informational; mirrors skills: frontmatter)
+ *
+ * Skills are referenced by their bare name (e.g. skills: [jinn-git-master]).
+ * Claude Code resolves skill paths as .claude/skills/<name>/SKILL.md.
  */
 
 import path from 'path';
@@ -78,14 +93,27 @@ ${content.body}`;
 
   formatAgent(template: AgentTemplate, version: string): string {
     const tools = resolveClaudeTools(template.defaultTools);
-    return `---
-name: ${template.name}
-description: ${escapeYamlValue(template.description)}
-tools: ${tools}
-model: sonnet
----
-
-${template.instructions}`;
+    const frontmatterLines = [
+      `name: ${template.name}`,
+      `description: ${escapeYamlValue(template.description)}`,
+      `tools: ${tools}`,
+      `model: sonnet`,
+    ];
+    if (template.availableSkills && template.availableSkills.length > 0) {
+      frontmatterLines.push(`skills:\n  - ${template.availableSkills.join('\n  - ')}`);
+    }
+    const bodySections: string[] = [template.instructions];
+    if (template.availableCommands && template.availableCommands.length > 0) {
+      bodySections.push(
+        `## Available commands\n\n${template.availableCommands.map((c) => `- ${c}`).join('\n')}`,
+      );
+    }
+    if (template.availableSkills && template.availableSkills.length > 0) {
+      bodySections.push(
+        `## Related skills\n\n${template.availableSkills.map((s) => `- ${s}`).join('\n')}`,
+      );
+    }
+    return `---\n${frontmatterLines.join('\n')}\n---\n\n${bodySections.join('\n\n')}`;
   },
 
   formatSkill(template: SkillTemplate, version: string): string {

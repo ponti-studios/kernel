@@ -14,7 +14,7 @@ async function mkTmpDir(): Promise<string> {
 describe('Tool Definitions', () => {
   it('has tools defined', async () => {
     const { TOOL_DEFINITIONS } = await import('../definitions.js');
-    expect(TOOL_DEFINITIONS.length).toBeGreaterThanOrEqual(24);
+    expect(TOOL_DEFINITIONS.length).toBeGreaterThanOrEqual(25);
   });
 
   it('each tool has unique id', async () => {
@@ -62,7 +62,7 @@ describe('Adapter Registry', () => {
     const registry = createPopulatedAdapterRegistry();
     const adapters = registry.getAll();
     expect(Array.isArray(adapters)).toBe(true);
-    expect(adapters.length).toBe(24);
+    expect(adapters.length).toBe(25);
   });
 
   it('throws on unknown tool', async () => {

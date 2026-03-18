@@ -56,8 +56,7 @@ export interface CommandTemplate {
 }
 
 /**
- * Agent template - special skill for AI personas
- * Agents are sophisticated reasoning entities that orchestrate workflows
+ * Agent template - special skill for reasoning entities that orchestrate workflows
  */
 export interface AgentTemplate extends SkillTemplate {
   /** Agent capabilities */

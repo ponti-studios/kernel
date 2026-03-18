@@ -27,12 +27,14 @@ program
   .option('-p, --profile <profile>', 'Profile to use (core, extended)', 'core')
   .option('-d, --delivery <delivery>', 'What to install (skills, commands, both)', 'both')
   .option('-y, --yes', 'Skip prompts and use defaults')
+  .option('--path <path>', 'Project path to initialize (default: current directory)')
   .action(async (options) => {
     await executeInit({
       tools: options.tools,
       profile: options.profile,
       delivery: options.delivery,
       yes: options.yes,
+      projectPath: options.path,
     });
   });
 
@@ -41,20 +43,23 @@ program
   .description('Update/regenerate jinn files')
   .option('-f, --force', 'Force regeneration')
   .option('-t, --tool <tool>', 'Update specific tool only')
+  .option('--path <path>', 'Project path (default: current directory)')
   .action(async (options) => {
     await executeUpdate({
       force: options.force,
       tool: options.tool,
+      projectPath: options.path,
     });
   });
 
 program
   .command('config')
   .description('Manage jinn configuration')
+  .option('--path <path>', 'Project path (default: current directory)')
   .argument('[action]', 'Action: show, add-tool, remove-tool, set')
   .argument('[key]', 'Config key (for set)')
   .argument('[value]', 'Config value (for set)')
-  .action(async (action, key, value) => {
+  .action(async (options, action, key, value) => {
     const validActions = ['show', 'add-tool', 'remove-tool', 'set'];
     const actualAction = validActions.includes(action) ? action : 'show';
 
@@ -62,14 +67,16 @@ program
       action: actualAction as any,
       key,
       value,
+      projectPath: options.path,
     });
   });
 
 program
   .command('detect')
   .description('Detect available AI tools in the project')
-  .action(async () => {
-    await executeDetect({});
+  .option('--path <path>', 'Project path (default: current directory)')
+  .action(async (options) => {
+    await executeDetect({ projectPath: options.path });
   });
 
 const vault = program

@@ -1,6 +1,6 @@
-delivery: both
+delivery: commands
 featureFlags: {}
 profile: core
 tools:
-  - github-copilot
+  - opencode
 version: 1.0.0

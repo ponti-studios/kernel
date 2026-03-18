@@ -7,6 +7,7 @@
 export { opencodeAdapter } from './opencode.js';
 export { cursorAdapter } from './cursor.js';
 export { claudeAdapter } from './claude.js';
+export { codexAdapter } from './codex.js';
 export { githubCopilotAdapter } from './github-copilot.js';
 export { continueAdapter } from './continue.js';
 export { clineAdapter } from './cline.js';
@@ -36,6 +37,7 @@ import { createAdapterRegistry } from './registry.js';
 import { opencodeAdapter } from './opencode.js';
 import { cursorAdapter } from './cursor.js';
 import { claudeAdapter } from './claude.js';
+import { codexAdapter } from './codex.js';
 import { githubCopilotAdapter } from './github-copilot.js';
 import { continueAdapter } from './continue.js';
 import { clineAdapter } from './cline.js';
@@ -60,7 +62,7 @@ import { phindAdapter } from './phind.js';
 import type { AdapterRegistry } from './types.js';
 
 /**
- * Create a fully populated adapter registry with all 24 tools
+ * Create a fully populated adapter registry with all 25 tools
  */
 export function createPopulatedAdapterRegistry(): AdapterRegistry {
   const registry = createAdapterRegistry();
@@ -69,6 +71,7 @@ export function createPopulatedAdapterRegistry(): AdapterRegistry {
   registry.register(opencodeAdapter);
   registry.register(cursorAdapter);
   registry.register(claudeAdapter);
+  registry.register(codexAdapter);
   registry.register(githubCopilotAdapter);
   registry.register(continueAdapter);
   registry.register(clineAdapter);

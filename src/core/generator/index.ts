@@ -178,7 +178,7 @@ export class Generator {
       this.mergeResults(result, commandResult);
     }
 
-    if (this.config.delivery !== 'commands') {
+    if (this.config.delivery !== 'skills') {
       const agentResult = await this.generateAgents(adapters, projectPath);
       this.mergeResults(result, agentResult);
     }

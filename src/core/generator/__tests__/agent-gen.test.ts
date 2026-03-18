@@ -46,20 +46,26 @@ describe('generateAgentForTool — claude (has getAgentPath + formatAgent)', () 
   });
 });
 
-describe('generateAgentForTool — opencode (no getAgentPath, falls back to getSkillPath)', () => {
-  it('falls back to getSkillPath when no getAgentPath', () => {
+describe('generateAgentForTool — opencode (has getAgentPath and formatAgent)', () => {
+  it('uses getAgentPath for opencode agents', () => {
     const result = generateAgentForTool(testAgent, testAgent.name, opencodeAdapter, '1.0.0');
-    expect(result.path).toBe(opencodeAdapter.getSkillPath(testAgent.name));
+    expect(result.path).toBe(opencodeAdapter.getAgentPath!(testAgent.name));
   });
 
-  it('falls back to formatSkill when no formatAgent', () => {
+  it('uses formatAgent for opencode agents', () => {
     const result = generateAgentForTool(testAgent, testAgent.name, opencodeAdapter, '1.0.0');
-    expect(result.content).toBe(opencodeAdapter.formatSkill(testAgent, '1.0.0'));
+    expect(result.content).toBe(opencodeAdapter.formatAgent!(testAgent, '1.0.0'));
   });
 
-  it('opencode agent path is in .opencode/skills/', () => {
+  it('opencode agent path is in .opencode/agents/', () => {
     const result = generateAgentForTool(testAgent, testAgent.name, opencodeAdapter, '1.0.0');
-    expect(result.path).toBe('.opencode/skills/plan/SKILL.md');
+    expect(result.path).toBe('.opencode/agents/plan.md');
+  });
+
+  it('opencode agent content includes description frontmatter', () => {
+    const result = generateAgentForTool(testAgent, testAgent.name, opencodeAdapter, '1.0.0');
+    expect(result.content).toContain('description:');
+    expect(result.content).toContain('Pre-implementation planning agent');
   });
 });
 

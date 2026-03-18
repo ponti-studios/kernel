@@ -2,27 +2,9 @@
 
 **Harness-agnostic AI agent distribution for any coding assistant.**
 
-Jinn is a CLI that generates agents, skills, and commands for 24+ AI coding tools from a single source of truth. Run `jinn init` once and get a complete AI workflow suite installed across every tool in your project — OpenCode, Cursor, Claude Code, GitHub Copilot, and more.
+Jinn is a CLI that generates agents, skills, and commands for 25 AI coding tools from a single source of truth. Run `jinn init` once and get a complete AI workflow suite installed across every tool in your project — OpenCode, Cursor, Claude Code, GitHub Copilot, Codex, and more.
 
----
-
-## How It Works
-
-Jinn uses a **generator-adapter pattern**:
-
-1. **Templates** — Tool-agnostic definitions of agents, skills, and commands
-2. **Adapters** — Per-tool translators that know where files go and how to format them
-3. **Generator** — Reads your config, runs templates through adapters, writes files
-
-```
-jinn init
-  └── Reads .jinn/config.yaml
-        └── For each configured tool
-              └── For each agent / skill / command template
-                    └── Adapter formats + writes to tool's directory
-```
-
-Your AI tools pick up the generated files automatically. The same agents and commands work in every tool without any per-tool configuration.
+You write the templates once. Jinn makes them work everywhere.
 
 ---
 
@@ -39,15 +21,30 @@ bunx jinn init
 ## Quick Start
 
 ```bash
-# Detect which AI tools are installed in your project
+# Detect which AI tools are installed
 jinn detect
 
 # Initialize jinn (auto-detects tools, writes config, generates files)
 jinn init
 
-# Regenerate after updating jinn or changing config
+# Regenerate after upgrading jinn or changing config
 jinn update
 ```
+
+---
+
+## The Core Workflow
+
+**propose → explore → apply → archive** — all powered by Linear via Linear MCP.
+
+| Command | What it does |
+|---|---|
+| `/propose` | Create a Linear project with top-level issues and sub-issues for implementation tasks |
+| `/explore` | Read Linear project state, explore tradeoffs, write decisions back to Linear |
+| `/apply` | Pick up the next unblocked sub-issue from Linear, implement it, update Linear |
+| `/archive` | Close out the Linear project, finish remaining issues, report deferred work |
+
+Linear is the source of truth. No local `proposal.md` files. No sticky notes. No "I'll just jot this down in a text file." The issue tracker IS the plan.
 
 ---
 
@@ -55,28 +52,39 @@ jinn update
 
 ### `jinn init`
 
-Initialize jinn in the current project. Detects installed tools, writes `.jinn/config.yaml`, and generates all agent/skill/command files.
+Initialize jinn in a project. Detects installed tools, writes `.jinn/config.yaml`, generates everything.
 
 ```bash
 jinn init [options]
 
-Options:
-  -t, --tools <tools>      Comma-separated tool IDs, or "all"
-  -p, --profile <profile>  Profile to use: core | extended  (default: core)
-  -d, --delivery <mode>    What to install: skills | commands | both  (default: both)
+  -t, --tools <tools>      Tool IDs to configure: opencode, claude, cursor, "all"
+                           (default: all detected)
+  -p, --profile <profile>  Profile: core | extended  (default: core)
+  -d, --delivery <mode>    What to generate: skills | commands | both  (default: both)
   -y, --yes                Use all detected tools without prompting
+      --path <path>        Project path (default: current directory)
 ```
+
+**Delivery modes:**
+
+| Mode | Commands | Skills | Agents |
+|---|---|---|---|
+| `both` (default) | Yes | Yes | Yes |
+| `commands` | Yes | No | Yes |
+| `skills` | No | Yes | No |
+
+Agents live alongside commands unless you explicitly choose `skills`-only mode. Because agents are enhanced command wrappers, not a separate feature — you almost always want them.
 
 ### `jinn update`
 
-Regenerate all files from current templates. Run this after upgrading jinn or changing your config.
+Regenerate all files from current templates. Run after upgrading jinn, editing your config, or when your AI tool is acting weird and a clean slate sounds appealing.
 
 ```bash
 jinn update [options]
 
-Options:
-  -f, --force         Force regeneration of all files
-  -t, --tool <tool>   Update a single tool only
+  -f, --force              Regenerate everything, no questions
+  -t, --tool <tool>        Update a single tool only
+      --path <path>        Project path (default: current directory)
 ```
 
 ### `jinn config`
@@ -84,74 +92,111 @@ Options:
 View and modify `.jinn/config.yaml`.
 
 ```bash
-jinn config show                    # Print current config
-jinn config add-tool <tool-id>      # Add a tool
-jinn config remove-tool <tool-id>   # Remove a tool
-jinn config set <key> <value>       # Set a config value
+jinn config [action] [key] [value] [options]
+
+  show                    Print current config
+  add-tool <tool-id>      Add a tool
+  remove-tool <tool-id>   Remove a tool
+  set <key> <value>       Set any config value
+
+      --path <path>       Project path (default: current directory)
 ```
 
 ### `jinn detect`
 
-Scan the project for installed AI tools and show which are configured.
+Scan the project for installed AI tools. Reports which ones are present and which ones you haven't bothered to install yet.
 
 ```bash
-jinn detect
+jinn detect [--path <path>]
 ```
+
+### `jinn vault compile`
+
+Compile your personal vault skills into each configured AI tool's native format.
+
+Your vault is a directory (conventionally `~/.codex/skills/`) containing skills you want to use everywhere. Each skill is a `SKILL.md` with optional `references/` subdirectory. `jinn vault compile` reads the vault and writes cross-compiled skills into the current project for every configured tool.
+
+```bash
+jinn vault compile [options]
+
+  -v, --vault <path>      Vault root (overrides vaultPath in config; ~ supported)
+  -t, --tools <tools>    Tools to compile for (default: all configured tools)
+      --dry-run           Preview what would be written
+```
+
+**Vault structure:**
+
+```
+~/.codex/skills/
+  my-secret-weapon/
+    SKILL.md              # YAML frontmatter + markdown body
+    references/
+      context.md          # Supporting docs (loaded automatically)
+      patterns.md
+```
+
+Skills in the vault are yours. Jinn just helps them multiply and dress up for each tool's party.
 
 ---
 
 ## Configuration
 
-Jinn stores its config in `.jinn/config.yaml`:
+Jinn stores config in `.jinn/config.yaml`:
 
 ```yaml
 version: "1.0.0"
 tools:
+  - opencode
   - claude
-  - cursor
-  - github-copilot
 profile: core
 delivery: both
+vaultPath: ~/.codex        # optional — for jinn vault compile
+metadata:
+  name: my-project
+  description: Important work
 ```
 
 | Field | Values | Description |
 |---|---|---|
-| `tools` | See supported tools below | Which AI tools to generate files for |
+| `version` | `"1.0.0"` | Config schema version |
+| `tools` | 25 tool IDs | Which AI tools to generate files for |
 | `profile` | `core`, `extended` | Which command set to install |
 | `delivery` | `skills`, `commands`, `both` | What to generate |
+| `vaultPath` | path string | Path to your personal vault (optional) |
 
 ---
 
 ## Supported Tools
 
-Jinn generates files for 24 AI coding tools:
+Jinn generates files for 25 AI coding tools:
 
-| Tool | Directory | Notes |
-|---|---|---|
-| **OpenCode** | `.opencode/` | |
-| **Cursor** | `.cursor/` | Custom YAML frontmatter |
-| **Claude Code** | `.claude/` | Native agent format with tools/model |
-| **GitHub Copilot** | `.github/prompts/` | `.prompt.md` extension |
-| **Continue** | `.continue/prompts/` | `.prompt` extension |
-| **Cline** | `.cline/` | |
-| **Amazon Q Developer** | `.amazonq/` | |
-| **Windsurf** | `.windsurf/` | |
-| **Augment** | `.augment/` | |
-| **Supermaven** | `.supermaven/` | |
-| **Tabnine** | `.tabnine/` | |
-| **Codeium** | `.codeium/` | |
-| **Sourcegraph Cody** | `.cody/` | |
-| **Gemini** | `.gemini/` | |
-| **Mistral** | `.mistral/` | |
-| **Ollama** | `.ollama/` | |
-| **LM Studio** | `.lmstudio/` | |
-| **Text Generation WebUI** | `.webui/` | |
-| **KoboldCpp** | `.koboldcpp/` | |
-| **Tabby** | `.tabby/` | |
-| **GPT4All** | `.gpt4all/` | |
-| **Jan** | `.jan/` | |
-| **HuggingFace Chat** | `.hfchat/` | |
-| **Phind** | `.phind/` | |
+| Tool | ID | Directory | Notes |
+|---|---|---|---|
+| OpenCode | `opencode` | `.opencode/` | |
+| Cursor | `cursor` | `.cursor/` | YAML frontmatter |
+| Claude Code | `claude` | `.claude/` | Native agent format, `skills:` YAML, `## Available commands` |
+| OpenAI Codex | `codex` | `.codex/` + `.agents/` | TOML agent format, `[[skills.config]]` |
+| GitHub Copilot | `github-copilot` | `.github/` | `.prompt.md` extension, `.agent.md` format |
+| Continue | `continue` | `.continue/prompts/` | `.prompt` extension (no `.md`) |
+| Cline | `cline` | `.cline/` | |
+| Amazon Q Developer | `amazon-q` | `.amazonq/` | |
+| Windsurf | `windsurf` | `.windsurf/` | |
+| Augment | `augment` | `.augment/` | |
+| Supermaven | `supermaven` | `.supermaven/` | |
+| Tabnine | `tabnine` | `.tabnine/` | |
+| Codeium | `codeium` | `.codeium/` | |
+| Sourcegraph Cody | `sourcegraph-cody` | `.cody/` | |
+| Gemini | `gemini` | `.gemini/` | |
+| Mistral | `mistral` | `.mistral/` | |
+| Ollama | `ollama` | `.ollama/` | |
+| LM Studio | `lm-studio` | `.lmstudio/` | |
+| Text Generation WebUI | `text-generation-webui` | `.webui/` | |
+| KoboldCPP | `koboldcpp` | `.koboldcpp/` | |
+| Tabby | `tabby` | `.tabby/` | |
+| GPT4All | `gpt4all` | `.gpt4all/` | |
+| Jan | `jan` | `.jan/` | |
+| Hugging Face Chat | `huggingface-chat` | `.hfchat/` | |
+| Phind | `phind` | `.phind/` | |
 
 ---
 
@@ -161,7 +206,7 @@ Jinn generates files for 24 AI coding tools:
 
 Agents are autonomous task specialists. On Claude Code they become native subagents (`.claude/agents/*.md` with YAML frontmatter). On other tools they're installed as skills.
 
-#### Orchestrators — coordinate the workflow
+**Orchestrators — coordinate the workflow**
 
 | Agent | When to use |
 |---|---|
@@ -169,7 +214,7 @@ Agents are autonomous task specialists. On Claude Code they become native subage
 | `do` | Execution: work through a plan step by step, delegate to specialists |
 | `review` | Quality gate: correctness, security, performance, and code quality review |
 
-#### Specialists — domain experts
+**Specialists — domain experts**
 
 | Agent | When to use |
 |---|---|
@@ -177,7 +222,7 @@ Agents are autonomous task specialists. On Claude Code they become native subage
 | `designer` | Frontend: UI components, design implementation, user flow mapping |
 | `git` | Advanced git: branch strategy, commit hygiene, conflict resolution |
 
-#### Researchers — fast, read-only information gathering
+**Researchers — fast, read-only information gathering**
 
 | Agent | When to use |
 |---|---|
@@ -186,146 +231,111 @@ Agents are autonomous task specialists. On Claude Code they become native subage
 | `search-history` | Analyze git history to understand why code changed over time |
 | `search-learnings` | Surface past solutions and documented lessons from the project |
 
----
-
 ### Skills (7)
 
-Skills are persistent instruction sets that change how your AI tool behaves.
-
-#### Workflow skills
+**Workflow skills**
 
 | Skill | Description |
 |---|---|
-| `propose` | Start a new change — generates proposal.md, design.md, and tasks.md in one step |
-| `explore` | Thinking partner mode — explore ideas, investigate the codebase, map tradeoffs. Read-only, no implementation. |
-| `apply` | Execute a change's task list step by step until complete or blocked |
-| `archive` | Move a completed change to archive with date-stamped directory |
-| `ready` | Pre-deployment checklist — code quality, security, testing, documentation, deployment readiness |
+| `propose` | Create a Linear project and seed it with issues and sub-issues via Linear MCP |
+| `explore` | Explore tradeoffs using Linear project and issue context via Linear MCP |
+| `apply` | Execute implementation work from Linear sub-issues via Linear MCP |
+| `archive` | Close out completed Linear projects and issues via Linear MCP |
+| `ready` | Pre-deployment checklist: code quality, security, testing, documentation |
 
-#### Domain skills
+**Domain skills**
 
 | Skill | Description |
 |---|---|
-| `git` | Advanced git workflows: branching, commit hygiene, conflict resolution, rebase patterns |
-| `frontend-design` | Frontend best practices: component architecture, responsive design, accessibility |
-
----
+| `git` | Advanced git workflows: branching, commit hygiene, conflict resolution |
+| `frontend-design` | Frontend best practices: component architecture, accessibility, responsive design |
 
 ### Commands (32)
 
-Commands are slash-command prompts your AI tool can execute on demand. They're installed into each tool's commands directory.
+Commands are slash-command prompts your AI tool executes on demand.
 
-#### Workflow — change lifecycle
+**Workflow**
 
-| Command | Description |
-|---|---|
-| `propose` | Propose a new change with all artifacts generated |
-| `explore` | Explore and investigate before committing to an approach |
-| `apply` | Implement tasks from a change |
-| `archive` | Archive a completed change |
-| `workflows:plan` | Create a detailed work plan |
-| `workflows:execute` | Execute a work plan |
-| `workflows:review` | Review completed work |
-| `workflows:status` | Check current workflow status |
-| `workflows:stop` | Stop the current workflow |
-| `workflows:complete` | Mark work as complete |
-| `workflows:create` | Create a new workflow |
-| `workflows:brainstorm` | Brainstorm ideas and approaches |
-| `workflows:learnings` | Document lessons learned |
+```
+/propose              Create a Linear project with seeded issues
+/explore              Think through tradeoffs with Linear context
+/apply                Execute from Linear sub-issues
+/archive              Close out completed Linear work
+/workflows:plan       Create a detailed work plan
+/workflows:execute     Execute a work plan
+/workflows:review      Review completed work
+/workflows:status      Check current workflow status
+/workflows:stop        Stop the current workflow
+/workflows:complete    Mark work as complete
+/workflows:create      Create a new workflow
+/workflows:brainstorm  Brainstorm ideas and approaches
+/workflows:learnings   Document lessons learned
+```
 
-#### Code
+**Code**
 
-| Command | Description |
-|---|---|
-| `code:format` | Format code consistently |
-| `code:refactor` | Refactor for readability and maintainability |
-| `code:review` | Review code for correctness, security, and quality |
-| `code:optimize` | Optimize for performance |
+```
+/code:format          Format code consistently
+/code:refactor        Refactor for readability and maintainability
+/code:review           Review code for correctness, security, and quality
+/code:optimize         Optimize for performance
+```
 
-#### Git
+**Git**
 
-| Command | Description |
-|---|---|
-| `git:smart-commit` | Craft a well-structured commit message |
-| `git:branch` | Create and manage branches |
-| `git:cleanup` | Clean up stale branches and history |
-| `git:merge` | Merge with conflict resolution guidance |
+```
+/git:smart-commit     Craft a well-structured commit message
+/git:branch           Create and manage branches
+/git:cleanup          Clean up stale branches and history
+/git:merge            Merge with conflict resolution guidance
+```
 
-#### Documentation
+**Documentation**
 
-| Command | Description |
-|---|---|
-| `docs:deploy` | Generate deployment documentation |
-| `docs:feature-video` | Create feature demo scripts |
-| `docs:release` | Write release notes |
-| `docs:test-browser` | Document browser testing steps |
+```
+/docs:deploy          Generate deployment documentation
+/docs:feature-video   Create feature demo scripts
+/docs:release         Write release notes
+/docs:test-browser    Document browser testing steps
+```
 
-#### Project
+**Project**
 
-| Command | Description |
-|---|---|
-| `project:build` | Run and troubleshoot the build |
-| `project:deploy` | Deploy the project |
-| `project:constitution` | Define project rules and conventions |
-| `project:init` | Initialize a new project |
-| `project:map` | Map the project structure and architecture |
+```
+/project:build        Run and troubleshoot the build
+/project:deploy       Deploy the project
+/project:constitution Define project rules and conventions
+/project:init        Initialize a new project
+/project:map          Map the project structure and architecture
+```
 
-#### Utility
+**Utility**
 
-| Command | Description |
-|---|---|
-| `util:clean` | Clean build artifacts and temp files |
-| `util:doctor` | Diagnose project configuration issues |
+```
+/util:clean           Clean build artifacts and temp files
+/util:doctor          Diagnose project configuration issues
+```
 
 ---
 
-## The Jinn Workflow
+## How It Works
 
-The core workflow is **propose → explore → apply → archive**:
+Jinn uses a **generator-adapter pattern**. Three moving parts:
 
-```
-/propose   Create a change with proposal, design, and task artifacts
-/explore   Think through the approach, investigate tradeoffs (optional)
-/apply     Execute the task list
-/archive   Move the completed change to archive
-```
-
-Changes live in `jinn/changes/<name>/`:
+1. **Templates** — Tool-agnostic definitions of agents, skills, and commands
+2. **Adapters** — Per-tool translators that know where files go and how to format them
+3. **Generator** — Reads your config, runs templates through adapters, writes files
 
 ```
-jinn/changes/add-auth/
-  proposal.md   — what & why
-  design.md     — how
-  tasks.md      — implementation checklist
+.jinn/config.yaml
+  └── Generator
+        ├── For each configured tool
+        │     ├── Adapter formats commands → .opencode/commands/
+        │     ├── Adapter formats skills  → .claude/skills/
+        │     └── Adapter formats agents   → .claude/agents/ (on capable tools)
 ```
 
-Completed changes are archived to `jinn/changes/archive/YYYY-MM-DD-<name>/`.
-
----
-
-## Architecture
-
-```
-src/
-├── cli/
-│   └── jinn/               # CLI commands (init, update, config, detect)
-├── core/
-│   ├── adapters/           # Per-tool file format adapters
-│   │   ├── base.ts         # createAdapter() factory
-│   │   ├── claude.ts       # Native .claude/agents/ format
-│   │   ├── cursor.ts       # YAML frontmatter format
-│   │   └── *.ts            # One file per tool
-│   ├── config/             # Config loading, validation, schema
-│   ├── discovery/          # Tool auto-detection
-│   ├── generator/          # Orchestrates template → adapter → file
-│   └── templates/          # Shared type definitions
-└── templates/
-    ├── agents/             # 10 agent definitions
-    ├── commands/           # 32 command templates
-    └── skills/             # 7 skill templates
-```
-
-Adding a new tool requires one file:
+Every AI tool gets its own adapter. Adding a new tool means writing one file:
 
 ```typescript
 // src/core/adapters/my-tool.ts
@@ -337,26 +347,33 @@ export const myToolAdapter = createAdapter({
 });
 ```
 
+No plugin system. No dynamic loading. Just TypeScript.
+
 ---
 
 ## Development
 
 ```bash
-# Run tests
-bun test
-
-# Type-check
-bun run typecheck
-
-# Build the binary
-bun run build
-
-# Run without building
-bun run dev:cli
-
-# Build a dev binary and link it
-bun run build:dev && bun run link:dev
+bun test               # Run tests (319 and counting)
+bun run typecheck      # Type-check
+bun run build          # Build the binary
+bun run dev:cli         # Run without building
+bun run build:dev && bun run link:dev  # Dev binary + link
+make test-init          # Smoke-test the CLI with --delivery commands
+make test-all          # Full CLI integration test suite
 ```
+
+---
+
+## The Engineering Philosophy
+
+A few principles baked into the codebase:
+
+- **The folder that just works** — Directories are the discovery mechanism. Don't build a plugin system when `ls` already works.
+- **The abstraction tax** — Every abstraction is a loan against future understanding. Every `export *` barrel is a ticking time bomb.
+- **Configuration is a text file** — Extend existing configs rather than inventing new schema systems.
+- **Library-first** — Every feature starts as a standalone library. The CLI is a thin wrapper.
+- **TDD is non-negotiable** — 319 tests and they all pass.
 
 ---
 

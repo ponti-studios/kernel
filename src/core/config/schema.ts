@@ -26,12 +26,13 @@ export type Delivery = z.infer<typeof DeliverySchema>;
 
 /**
  * Supported AI tool identifiers
- * This list covers 24 popular AI coding assistants
+ * This list covers 25 popular AI coding assistants
  */
 export const ToolIdSchema = z.enum([
   'opencode',
   'cursor',
   'claude',
+  'codex',
   'github-copilot',
   'continue',
   'cline',

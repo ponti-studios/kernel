@@ -83,12 +83,19 @@ describe('Generator integration — opencode, delivery: both', () => {
     expect(count).toBe(32);
   });
 
-  it('generates skill+agent directories under .opencode/skills/', async () => {
+  it('generates skill directories under .opencode/skills/', async () => {
     await generateFiles(config, tmpDir);
-    // 7 skill templates + 10 agent templates, but 'jinn-git' appears in both
-    // → 16 unique subdirectories
+    // 7 skill templates
     const count = await countDirsInDir(path.join(tmpDir, '.opencode', 'skills'));
-    expect(count).toBe(16);
+    expect(count).toBe(7);
+  });
+
+  it('generates agent files under .opencode/agents/', async () => {
+    await generateFiles(config, tmpDir);
+    // 10 agent templates → 10 .md files
+    const agentDir = path.join(tmpDir, '.opencode', 'agents');
+    const count = await countFilesInDir(agentDir);
+    expect(count).toBe(10);
   });
 
   it('each command file starts with --- and has a description: line', async () => {
@@ -246,6 +253,16 @@ describe('Generator integration — github-copilot', () => {
     expect(files.length).toBeGreaterThan(0);
     expect(files[0]).toMatch(/\.prompt\.md$/);
   });
+
+  it('agent files land in .github/agents/ with .agent.md extension', async () => {
+    await generateFiles(config, tmpDir);
+    const agentsDir = path.join(tmpDir, '.github', 'agents');
+    const ok = await dirExists(agentsDir);
+    expect(ok).toBe(true);
+    const files = await fs.readdir(agentsDir);
+    expect(files.length).toBeGreaterThan(0);
+    expect(files[0]).toMatch(/\.agent\.md$/);
+  });
 });
 
 // ============================================================================
@@ -297,7 +314,7 @@ describe('Generator integration — delivery modes', () => {
     await fs.rm(tmpDir, { recursive: true, force: true });
   });
 
-  it("delivery: 'commands' — command files exist, no skill files", async () => {
+  it("delivery: 'commands' — command files and agents exist, no skill files", async () => {
     const config: Config = {
       version: '1.0.0',
       tools: ['opencode'],
@@ -311,9 +328,12 @@ describe('Generator integration — delivery modes', () => {
 
     const skillDirExists = await dirExists(path.join(tmpDir, '.opencode', 'skills'));
     expect(skillDirExists).toBe(false);
+
+    const agentCount = await countFilesInDir(path.join(tmpDir, '.opencode', 'agents'));
+    expect(agentCount).toBeGreaterThan(0);
   });
 
-  it("delivery: 'skills' — skill files exist, no command files", async () => {
+  it("delivery: 'skills' — skill files exist, no command or agent files", async () => {
     const config: Config = {
       version: '1.0.0',
       tools: ['opencode'],
@@ -327,6 +347,9 @@ describe('Generator integration — delivery modes', () => {
 
     const skillCount = await countDirsInDir(path.join(tmpDir, '.opencode', 'skills'));
     expect(skillCount).toBeGreaterThan(0);
+
+    const agentDirExists = await dirExists(path.join(tmpDir, '.opencode', 'agents'));
+    expect(agentDirExists).toBe(false);
   });
 
   it("delivery: 'both' — commands, skills, and agents all generated", async () => {
@@ -371,11 +394,13 @@ describe('Generator integration — multi-tool', () => {
     delivery: 'commands',
   };
 
-  it('creates all three tool directories', async () => {
+  it('creates all three tool directories with commands and agents', async () => {
     await generateFiles(config, tmpDir);
     expect(await dirExists(path.join(tmpDir, '.opencode', 'commands'))).toBe(true);
     expect(await dirExists(path.join(tmpDir, '.claude', 'commands', 'jinn'))).toBe(true);
     expect(await dirExists(path.join(tmpDir, '.cursor', 'commands'))).toBe(true);
+    expect(await dirExists(path.join(tmpDir, '.opencode', 'agents'))).toBe(true);
+    expect(await dirExists(path.join(tmpDir, '.claude', 'agents'))).toBe(true);
   });
 
   it('no cross-contamination between tool directories', async () => {
@@ -421,11 +446,15 @@ describe('Generator integration — idempotency', () => {
 
     await generateFiles(config, tmpDir);
     const countFirst = await countFilesInDir(path.join(tmpDir, '.opencode', 'commands'));
+    const agentCountFirst = await countFilesInDir(path.join(tmpDir, '.opencode', 'agents'));
 
     await generateFiles(config, tmpDir);
     const countSecond = await countFilesInDir(path.join(tmpDir, '.opencode', 'commands'));
+    const agentCountSecond = await countFilesInDir(path.join(tmpDir, '.opencode', 'agents'));
 
     expect(countFirst).toBe(countSecond);
+    expect(agentCountFirst).toBe(agentCountSecond);
     expect(countFirst).toBe(32);
+    expect(agentCountFirst).toBe(10);
   });
 });

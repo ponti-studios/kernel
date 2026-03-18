@@ -3,6 +3,7 @@ import {
   opencodeAdapter,
   cursorAdapter,
   claudeAdapter,
+  codexAdapter,
   githubCopilotAdapter,
   continueAdapter,
   clineAdapter,
@@ -33,6 +34,7 @@ const allAdapters: ToolCommandAdapter[] = [
   opencodeAdapter,
   cursorAdapter,
   claudeAdapter,
+  codexAdapter,
   githubCopilotAdapter,
   continueAdapter,
   clineAdapter,
@@ -80,15 +82,27 @@ const testSkillTemplate = {
   },
 };
 
+const testAgentTemplate: AgentTemplate = {
+  name: 'plan',
+  description: 'Pre-implementation planning agent',
+  instructions: 'You are a planning agent.',
+  license: 'MIT',
+  compatibility: 'Works with all jinn workflows',
+  metadata: { author: 'jinn', version: '1.0', category: 'Orchestration', tags: ['planning'] },
+  defaultTools: ['read', 'search'],
+  availableCommands: ['propose', 'explore'],
+  availableSkills: ['jinn-git-master', 'jinn-frontend-design'],
+};
+
 describe('Adapter Registry', () => {
-  it('has all 24 adapters', () => {
-    expect(allAdapters).toHaveLength(24);
+  it('has all 25 adapters', () => {
+    expect(allAdapters).toHaveLength(25);
   });
 
   it('each adapter has unique toolId', () => {
     const toolIds = allAdapters.map((a) => a.toolId);
     const uniqueIds = new Set(toolIds);
-    expect(uniqueIds.size).toBe(24);
+    expect(uniqueIds.size).toBe(25);
   });
 });
 
@@ -115,6 +129,43 @@ describe('OpenCode Adapter', () => {
     expect(result).toContain('---');
     expect(result).toContain('name: jinn-planner');
     expect(result).toContain('generatedBy: "1.0.0"');
+  });
+
+  it('uses .opencode/agents/<name>.md path for agents', () => {
+    expect(opencodeAdapter.getAgentPath!('plan')).toBe('.opencode/agents/plan.md');
+  });
+
+  it('generates YAML frontmatter with description for agents', () => {
+    const result = opencodeAdapter.formatAgent!(testAgentTemplate, '1.0.0');
+    const frontmatter = result.split('---')[1];
+    expect(frontmatter).toContain('description:');
+    expect(frontmatter).toContain('Pre-implementation planning agent');
+  });
+
+  it('maps availableCommands to ## Available commands in body', () => {
+    const result = opencodeAdapter.formatAgent!(testAgentTemplate, '1.0.0');
+    const body = result.split('---')[2];
+    expect(body).toContain('## Available commands');
+    expect(body).toContain('- propose');
+    expect(body).toContain('- explore');
+  });
+
+  it('maps availableSkills to ## Related skills in body', () => {
+    const result = opencodeAdapter.formatAgent!(testAgentTemplate, '1.0.0');
+    const body = result.split('---')[2];
+    expect(body).toContain('## Related skills');
+    expect(body).toContain('- jinn-git-master');
+    expect(body).toContain('- jinn-frontend-design');
+  });
+
+  it('omits ## sections when fields are empty', () => {
+    const result = opencodeAdapter.formatAgent!(
+      { ...testAgentTemplate, availableCommands: [], availableSkills: [] },
+      '1.0.0',
+    );
+    const body = result.split('---')[2];
+    expect(body).not.toContain('## Available commands');
+    expect(body).not.toContain('## Related skills');
   });
 });
 
@@ -281,7 +332,7 @@ describe('Phind Adapter', () => {
 });
 
 // ============================================================================
-// formatCommand — data-driven loop for all 24 adapters
+// formatCommand — data-driven loop for all 25 adapters
 // ============================================================================
 
 describe('formatCommand — all adapters', () => {
@@ -315,16 +366,6 @@ describe('Claude formatCommand', () => {
 });
 
 describe('Claude formatAgent', () => {
-  const testAgentTemplate: AgentTemplate = {
-    name: 'plan',
-    description: 'Pre-implementation planning agent',
-    instructions: 'You are a planning agent.',
-    license: 'MIT',
-    compatibility: 'Works with all jinn workflows',
-    metadata: { author: 'jinn', version: '1.0', category: 'Orchestration', tags: ['planning'] },
-    defaultTools: ['read', 'search'],
-  };
-
   it('includes name, description, tools, model fields', () => {
     const result = claudeAdapter.formatAgent!(testAgentTemplate, '1.0.0');
     expect(result).toContain('name:');
@@ -376,6 +417,48 @@ describe('Claude formatAgent', () => {
     const result = claudeAdapter.formatAgent!(testAgentTemplate, '1.0.0');
     expect(result).toContain('You are a planning agent.');
   });
+
+  it('maps availableSkills to skills: YAML frontmatter', () => {
+    const result = claudeAdapter.formatAgent!(testAgentTemplate, '1.0.0');
+    const frontmatter = result.split('---')[1];
+    expect(frontmatter).toContain('skills:');
+    expect(frontmatter).toContain('jinn-git-master');
+    expect(frontmatter).toContain('jinn-frontend-design');
+  });
+
+  it('maps availableCommands to ## Available commands in body', () => {
+    const result = claudeAdapter.formatAgent!(testAgentTemplate, '1.0.0');
+    const body = result.split('---')[2];
+    expect(body).toContain('## Available commands');
+    expect(body).toContain('- propose');
+    expect(body).toContain('- explore');
+  });
+
+  it('maps availableSkills to ## Related skills in body', () => {
+    const result = claudeAdapter.formatAgent!(testAgentTemplate, '1.0.0');
+    const body = result.split('---')[2];
+    expect(body).toContain('## Related skills');
+    expect(body).toContain('- jinn-git-master');
+    expect(body).toContain('- jinn-frontend-design');
+  });
+
+  it('omits skills: frontmatter when availableSkills is empty', () => {
+    const result = claudeAdapter.formatAgent!({ ...testAgentTemplate, availableSkills: [] }, '1.0.0');
+    const frontmatter = result.split('---')[1];
+    expect(frontmatter).not.toContain('skills:');
+  });
+
+  it('omits Available commands section when availableCommands is empty', () => {
+    const result = claudeAdapter.formatAgent!({ ...testAgentTemplate, availableCommands: [] }, '1.0.0');
+    const body = result.split('---')[2];
+    expect(body).not.toContain('## Available commands');
+  });
+
+  it('omits Related skills section when availableSkills is empty', () => {
+    const result = claudeAdapter.formatAgent!({ ...testAgentTemplate, availableSkills: [] }, '1.0.0');
+    const body = result.split('---')[2];
+    expect(body).not.toContain('## Related skills');
+  });
 });
 
 describe('Claude getAgentPath', () => {
@@ -386,93 +469,114 @@ describe('Claude getAgentPath', () => {
 });
 
 // ============================================================================
-// Cursor adapter — specific formatCommand fields
+// Codex adapter — TOML agent format
 // ============================================================================
 
-describe('Cursor formatCommand', () => {
-  it('includes name: /jinn-<id> format', () => {
-    const result = cursorAdapter.formatCommand(testCommandContent);
-    expect(result).toContain('name: /jinn-propose');
+describe('Codex formatAgent', () => {
+  it('uses .codex/agents/<name>.toml path', () => {
+    expect(codexAdapter.getAgentPath!('plan')).toBe('.codex/agents/plan.toml');
+    expect(codexAdapter.getAgentPath!('review')).toBe('.codex/agents/review.toml');
   });
 
-  it('includes id: jinn-<id> format', () => {
-    const result = cursorAdapter.formatCommand(testCommandContent);
-    expect(result).toContain('id: jinn-propose');
+  it('generates TOML with name and description', () => {
+    const result = codexAdapter.formatAgent!(testAgentTemplate, '1.0.0');
+    expect(result).toContain('name = "plan"');
+    expect(result).toContain('description = "Pre-implementation planning agent"');
   });
 
-  it('includes category field', () => {
-    const result = cursorAdapter.formatCommand(testCommandContent);
-    expect(result).toContain('category:');
+  it('wraps instructions in ``` code fence as developer_instructions', () => {
+    const result = codexAdapter.formatAgent!(testAgentTemplate, '1.0.0');
+    expect(result).toContain('```');
+    expect(result).toContain('You are a planning agent.');
   });
 
-  it('includes description field', () => {
-    const result = cursorAdapter.formatCommand(testCommandContent);
-    expect(result).toContain('description:');
+  it('maps availableSkills to [[skills.config]] entries', () => {
+    const result = codexAdapter.formatAgent!(testAgentTemplate, '1.0.0');
+    expect(result).toContain('[[skills.config]]');
+    expect(result).toContain('.agents/skills/jinn-git-master/SKILL.md');
+    expect(result).toContain('.agents/skills/jinn-frontend-design/SKILL.md');
+  });
+
+  it('maps availableCommands to ## Available commands section', () => {
+    const result = codexAdapter.formatAgent!(testAgentTemplate, '1.0.0');
+    expect(result).toContain('## Available commands');
+    expect(result).toContain('- propose');
+    expect(result).toContain('- explore');
+  });
+
+  it('omits [[skills.config]] when availableSkills is empty', () => {
+    const result = codexAdapter.formatAgent!({ ...testAgentTemplate, availableSkills: [] }, '1.0.0');
+    expect(result).not.toContain('[[skills.config]]');
+  });
+
+  it('omits ## Available commands when availableCommands is empty', () => {
+    const result = codexAdapter.formatAgent!({ ...testAgentTemplate, availableCommands: [] }, '1.0.0');
+    expect(result).not.toContain('## Available commands');
   });
 });
 
-// ============================================================================
-// GitHub Copilot — command path ends in .prompt.md
-// ============================================================================
-
-describe('GitHub Copilot command path', () => {
-  it('command path ends in .prompt.md', () => {
-    const path = githubCopilotAdapter.getCommandPath('test');
-    expect(path).toMatch(/\.prompt\.md$/);
+describe('Codex formatSkill', () => {
+  it('uses .agents/skills/<name>/SKILL.md path', () => {
+    expect(codexAdapter.getSkillPath('jinn-git-master')).toBe('.agents/skills/jinn-git-master/SKILL.md');
   });
 
-  it('command path uses prompts directory', () => {
-    const path = githubCopilotAdapter.getCommandPath('test');
-    expect(path).toContain('prompts');
-  });
-});
-
-// ============================================================================
-// Continue — command path ends in .prompt (no .md)
-// ============================================================================
-
-describe('Continue command path', () => {
-  it('command path ends in .prompt', () => {
-    const path = continueAdapter.getCommandPath('test');
-    expect(path).toMatch(/\.prompt$/);
-    expect(path).not.toMatch(/\.prompt\.md$/);
-  });
-});
-
-// ============================================================================
-// formatSkill — shared behavior via opencode adapter
-// ============================================================================
-
-describe('formatSkill shared behavior', () => {
-  it('includes name, description, license, compatibility fields', () => {
-    const result = opencodeAdapter.formatSkill(testSkillTemplate as any, '1.0.0');
-    expect(result).toContain('name:');
-    expect(result).toContain('description:');
-    expect(result).toContain('license: MIT');
-    expect(result).toContain('compatibility:');
+  it('includes name and description in frontmatter', () => {
+    const result = codexAdapter.formatSkill(testSkillTemplate as any, '1.0.0');
+    expect(result).toContain('name: jinn-planner');
+    expect(result).toContain('description: Planning agent');
   });
 
-  it('includes metadata.generatedBy with version', () => {
-    const result = opencodeAdapter.formatSkill(testSkillTemplate as any, '1.0.0');
+  it('includes generatedBy version', () => {
+    const result = codexAdapter.formatSkill(testSkillTemplate as any, '1.0.0');
     expect(result).toContain('generatedBy: "1.0.0"');
   });
-
-  it('wraps content with --- delimiters', () => {
-    const result = opencodeAdapter.formatSkill(testSkillTemplate as any, '1.0.0');
-    const parts = result.split('---');
-    expect(parts.length).toBeGreaterThanOrEqual(3);
-  });
-
-  it('includes instructions after second ---', () => {
-    const result = opencodeAdapter.formatSkill(testSkillTemplate as any, '1.0.0');
-    const afterFrontmatter = result.split('---').slice(2).join('---');
-    expect(afterFrontmatter).toContain('You are a planner agent.');
-  });
 });
 
 // ============================================================================
-// YAML escaping edge cases (tested via claudeAdapter.formatCommand)
+// GitHub Copilot adapter — .agent.md format
 // ============================================================================
+
+describe('GitHub Copilot formatAgent', () => {
+  it('uses .github/agents/<name>.agent.md path', () => {
+    expect(githubCopilotAdapter.getAgentPath!('plan')).toBe('.github/agents/plan.agent.md');
+    expect(githubCopilotAdapter.getAgentPath!('review')).toBe('.github/agents/review.agent.md');
+  });
+
+  it('generates YAML frontmatter with name and description', () => {
+    const result = githubCopilotAdapter.formatAgent!(testAgentTemplate, '1.0.0');
+    const frontmatter = result.split('---')[1];
+    expect(frontmatter).toContain('name: plan');
+    expect(frontmatter).toContain('description:');
+  });
+
+  it('maps availableCommands to ## Available commands in body', () => {
+    const result = githubCopilotAdapter.formatAgent!(testAgentTemplate, '1.0.0');
+    const body = result.split('---')[2];
+    expect(body).toContain('## Available commands');
+    expect(body).toContain('- propose');
+    expect(body).toContain('- explore');
+  });
+
+  it('maps availableSkills to ## Related skills in body', () => {
+    const result = githubCopilotAdapter.formatAgent!(testAgentTemplate, '1.0.0');
+    const body = result.split('---')[2];
+    expect(body).toContain('## Related skills');
+    expect(body).toContain('- jinn-git-master');
+    expect(body).toContain('- jinn-frontend-design');
+  });
+
+  it('omits ## Available commands when availableCommands is empty', () => {
+    const result = githubCopilotAdapter.formatAgent!({ ...testAgentTemplate, availableCommands: [] }, '1.0.0');
+    const body = result.split('---')[2];
+    expect(body).not.toContain('## Available commands');
+  });
+
+  it('omits ## Related skills when availableSkills is empty', () => {
+    const result = githubCopilotAdapter.formatAgent!({ ...testAgentTemplate, availableSkills: [] }, '1.0.0');
+    const body = result.split('---')[2];
+    expect(body).not.toContain('## Related skills');
+  });
+});
 
 describe('YAML escaping edge cases', () => {
   function fmtDesc(desc: string): string {

@@ -1,7 +1,7 @@
 /**
  * Tool definitions
  *
- * Metadata for all 24 supported AI coding assistants.
+ * Metadata for all 25 supported AI coding assistants.
  */
 
 import type { ToolDefinition } from '../config/schema.js';
@@ -42,6 +42,14 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
     available: true,
     successLabel: 'GitHub Copilot',
     notes: 'GitHub AI assistant. Commands in .github/prompts/',
+  },
+  {
+    id: 'codex',
+    name: 'OpenAI Codex',
+    skillsDir: '.agents',
+    available: true,
+    successLabel: 'OpenAI Codex',
+    notes: 'OpenAI CLI tool with native TOML agent format',
   },
 
   // Open Source & Extensions
