@@ -2,8 +2,8 @@ import type { SkillTemplate } from '../../core/templates/types.js';
 
 export function getGitMasterSkillTemplate(): SkillTemplate {
   return {
-    name: 'jinn-git-master',
-    description: 'Use when working through advanced git workflows, branch strategy, history cleanup, or collaboration conflicts.',
+    name: 'git',
+    description: 'Advanced git workflows, branch management, and collaboration patterns',
     license: 'MIT',
     compatibility: 'Works with any git repository',
     metadata: {
@@ -70,99 +70,10 @@ git push --force-with-lease origin feature/descriptive-name
   };
 }
 
-export function getBrainstormingSkillTemplate(): SkillTemplate {
-  return {
-    name: 'jinn-brainstorming',
-    description: 'Use when exploring ideas, opening solution space, or generating multiple approaches before deciding.',
-    license: 'MIT',
-    compatibility: 'Works with any project',
-    metadata: {
-      author: 'jinn',
-      version: '1.0',
-      category: 'Productivity',
-      tags: ['brainstorming', 'ideas', 'creativity'],
-    },
-    instructions: `# Brainstorming Skill
-
-You help users generate creative solutions and explore ideas.
-
-## Your Approach
-
-1. **Go Wide First**
-   - Generate many ideas without judgment
-   - Build on others' ideas
-   - Encourage wild ideas
-
-2. **Then Narrow**
-   - Evaluate feasibility
-   - Consider constraints
-   - Prioritize impact
-
-3. **Document Everything**
-   - No idea is too small
-   - Capture context
-   - Tag for categorization
-
-## Techniques
-
-- SCAMPER: Substitute, Combine, Adapt, Modify, Put to use, Eliminate, Reverse
-- Six Thinking Hats: Facts, Emotions, Risks, Benefits, Creativity, Process
-- Mind Mapping: Visual organization of ideas
-
-## When to Use
-
-- Feature ideation
-- Problem solving
-- Exploring alternatives
-- Breaking through blocks
-`,
-  };
-}
-
-export function getRailsStyleSkillTemplate(): SkillTemplate {
-  return {
-    name: 'jinn-rails-style',
-    description: 'Use when working in a Ruby on Rails codebase and needing Rails-native conventions or structure.',
-    license: 'MIT',
-    compatibility: 'Works with Rails projects',
-    metadata: {
-      author: 'jinn',
-      version: '1.0',
-      category: 'Framework',
-      tags: ['rails', 'ruby', 'conventions'],
-    },
-    instructions: `# Rails Style Skill
-
-You are an expert in Ruby on Rails development.
-
-## Conventions
-
-- RESTful routes
-- Convention over configuration
-- DRY principle
-- Fat models, skinny controllers
-
-## Best Practices
-
-- Use concerns for shared behavior
-- Service objects for complex logic
-- Form objects for complex forms
-- Query objects for database queries
-
-## Common Patterns
-
-- migrations, callbacks, validations
-- associations and scopes
-- background jobs
-- caching strategies
-`,
-  };
-}
-
 export function getFrontendDesignSkillTemplate(): SkillTemplate {
   return {
-    name: 'jinn-frontend-design',
-    description: 'Use when building or refining frontend UI, component structure, styling, or accessibility behavior.',
+    name: 'frontend-design',
+    description: 'Frontend development and UI implementation best practices',
     license: 'MIT',
     compatibility: 'Works with any frontend project',
     metadata: {

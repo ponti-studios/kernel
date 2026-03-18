@@ -87,20 +87,3 @@ export interface AgentTemplate extends SkillTemplate {
   /** Additional prompt content */
   promptAppend?: string;
 }
-
-/**
- * Template registry entry with metadata
- */
-export interface TemplateEntry<T> {
-  /** Template identifier */
-  id: string;
-
-  /** Template factory function */
-  template: () => T;
-
-  /** Category for grouping */
-  category: string;
-
-  /** Whether included in core profile */
-  isCore: boolean;
-}

@@ -6,8 +6,8 @@ node_modules/
 dist/
 
 # Platform binaries (built, not committed)
-packages/*/bin/ghostwire
-packages/*/bin/ghostwire.exe
+packages/*/bin/jinn
+packages/*/bin/jinn.exe
 # Block ALL binaries in packages bin directories
 packages/*/bin/*
 !packages/*/bin/.gitkeep

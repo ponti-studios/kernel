@@ -6,7 +6,7 @@
  * requirements while the core templates remain tool-agnostic.
  */
 
-import type { SkillTemplate } from '../templates/types.js';
+import type { AgentTemplate, SkillTemplate } from '../templates/types.js';
 
 /**
  * Tool-agnostic command content
@@ -78,6 +78,23 @@ export interface ToolCommandAdapter {
    * @returns Complete file content ready to write
    */
   formatSkill(template: SkillTemplate, version: string): string;
+
+  /**
+   * Optional: Returns the file path for an agent.
+   * Defaults to getSkillPath(agentName) if not implemented.
+   * @param agentName - The agent name (e.g., 'jinn-plan')
+   * @returns Path from project root (e.g., '.claude/agents/jinn-plan.md')
+   */
+  getAgentPath?(agentName: string): string;
+
+  /**
+   * Optional: Formats agent file content with tool-native agent frontmatter.
+   * Defaults to formatSkill(template, version) if not implemented.
+   * @param template - The agent template
+   * @param version - Jinn version
+   * @returns Complete file content ready to write
+   */
+  formatAgent?(template: AgentTemplate, version: string): string;
 
   /**
    * Optional: Transform command references for this tool.

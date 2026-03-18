@@ -7,30 +7,146 @@
 import * as fs from 'fs/promises';
 import * as path from 'path';
 
-import type { JinnConfig } from '../config/schema.js';
-import type { GenerationResult, GenerationOptions } from './types.js';
+import type { Config } from '../config/schema.js';
+import type { GenerationResult } from './types.js';
 import type { ToolCommandAdapter } from '../adapters/types.js';
-import type { AgentTemplate, CommandTemplate, SkillTemplate } from '../templates/types.js';
+import type { CommandTemplate, SkillTemplate, AgentTemplate } from '../templates/types.js';
 
+import { CONFIG_VERSION } from '../config/defaults.js';
 import { createPopulatedAdapterRegistry } from '../adapters/index.js';
-import { generateCommandsForTool, generateCommandsForAllTools } from './command-gen.js';
+import { generateCommandsForTool } from './command-gen.js';
 import { generateSkillsForAllTools } from './skill-gen.js';
 import { generateAgentsForAllTools } from './agent-gen.js';
+
 import {
-  getDefaultAgentTemplates,
-  getDefaultCommandTemplates,
-  getDefaultSkillTemplates,
-} from '../../templates/catalog.js';
+  getGitSmartCommitCommandTemplate,
+  getGitBranchCommandTemplate,
+  getGitCleanupCommandTemplate,
+  getGitMergeCommandTemplate,
+} from '../../templates/commands/git.js';
+
+import {
+  getCodeFormatCommandTemplate,
+  getCodeRefactorCommandTemplate,
+  getCodeReviewCommandTemplate,
+  getCodeOptimizeCommandTemplate,
+} from '../../templates/commands/code.js';
+
+import {
+  getWorkflowsPlanCommandTemplate,
+  getWorkflowsExecuteCommandTemplate,
+  getWorkflowsReviewCommandTemplate,
+  getWorkflowsStatusCommandTemplate,
+  getWorkflowsStopCommandTemplate,
+  getWorkflowsCompleteCommandTemplate,
+  getWorkflowsCreateCommandTemplate,
+  getWorkflowsBrainstormCommandTemplate,
+  getWorkflowsLearningsCommandTemplate,
+} from '../../templates/commands/workflows.js';
+
+import {
+  getDocsDeployCommandTemplate,
+  getDocsFeatureVideoCommandTemplate,
+  getDocsReleaseCommandTemplate,
+  getDocsTestBrowserCommandTemplate,
+} from '../../templates/commands/docs.js';
+
+import {
+  getProjectBuildCommandTemplate,
+  getProjectConstitutionCommandTemplate,
+  getProjectDeployCommandTemplate,
+  getProjectInitCommandTemplate,
+  getProjectMapCommandTemplate,
+} from '../../templates/commands/project.js';
+
+import {
+  getUtilCleanCommandTemplate,
+  getUtilDoctorCommandTemplate,
+} from '../../templates/commands/util.js';
+
+import {
+  getProposeCommandTemplate,
+  getExploreCommandTemplate,
+  getApplyCommandTemplate,
+  getArchiveCommandTemplate,
+} from '../../templates/commands/workflows-rich.js';
+
+import {
+  getGitMasterSkillTemplate,
+  getFrontendDesignSkillTemplate,
+} from '../../templates/skills/index.js';
+
+import {
+  getProposeSkillTemplate,
+  getExploreSkillTemplate,
+  getApplySkillTemplate,
+  getArchiveSkillTemplate,
+  getReadySkillTemplate,
+} from '../../templates/skills/skills.js';
+
+import {
+  ALL_AGENTS,
+} from '../../templates/agents/index.js';
+
+const DEFAULT_COMMAND_TEMPLATES: CommandTemplate[] = [
+  // Git
+  getGitSmartCommitCommandTemplate(),
+  getGitBranchCommandTemplate(),
+  getGitCleanupCommandTemplate(),
+  getGitMergeCommandTemplate(),
+  // Code
+  getCodeFormatCommandTemplate(),
+  getCodeRefactorCommandTemplate(),
+  getCodeReviewCommandTemplate(),
+  getCodeOptimizeCommandTemplate(),
+  // Workflow
+  getWorkflowsPlanCommandTemplate(),
+  getWorkflowsExecuteCommandTemplate(),
+  getWorkflowsReviewCommandTemplate(),
+  getWorkflowsStatusCommandTemplate(),
+  getWorkflowsStopCommandTemplate(),
+  getWorkflowsCompleteCommandTemplate(),
+  getWorkflowsCreateCommandTemplate(),
+  getWorkflowsBrainstormCommandTemplate(),
+  getWorkflowsLearningsCommandTemplate(),
+  getProposeCommandTemplate(),
+  getExploreCommandTemplate(),
+  getApplyCommandTemplate(),
+  getArchiveCommandTemplate(),
+  // Docs
+  getDocsDeployCommandTemplate(),
+  getDocsFeatureVideoCommandTemplate(),
+  getDocsReleaseCommandTemplate(),
+  getDocsTestBrowserCommandTemplate(),
+  // Project
+  getProjectBuildCommandTemplate(),
+  getProjectConstitutionCommandTemplate(),
+  getProjectDeployCommandTemplate(),
+  getProjectInitCommandTemplate(),
+  getProjectMapCommandTemplate(),
+  // Utility
+  getUtilCleanCommandTemplate(),
+  getUtilDoctorCommandTemplate(),
+];
+
+const DEFAULT_SKILL_TEMPLATES: SkillTemplate[] = [
+  getGitMasterSkillTemplate(),
+  getFrontendDesignSkillTemplate(),
+  getProposeSkillTemplate(),
+  getExploreSkillTemplate(),
+  getApplySkillTemplate(),
+  getArchiveSkillTemplate(),
+  getReadySkillTemplate(),
+];
+
+const DEFAULT_AGENT_TEMPLATES: AgentTemplate[] = ALL_AGENTS.map(fn => fn());
 
 export class Generator {
-  private config: JinnConfig;
+  private config: Config;
   private adapterRegistry = createPopulatedAdapterRegistry();
-  private version = '1.0.0';
-  private commandTemplates: CommandTemplate[] = getDefaultCommandTemplates();
-  private skillTemplates: SkillTemplate[] = getDefaultSkillTemplates();
-  private agentTemplates: AgentTemplate[] = getDefaultAgentTemplates();
+  private version = CONFIG_VERSION;
 
-  constructor(config: JinnConfig) {
+  constructor(config: Config) {
     this.config = config;
   }
 
@@ -98,10 +214,9 @@ export class Generator {
 
     const filesToWrite: Array<{ path: string; content: string }> = [];
 
-    for (const template of this.commandTemplates) {
+    for (const template of DEFAULT_COMMAND_TEMPLATES) {
       const commandId = template.name
         .toLowerCase()
-        .replace(/^jinn:?\s*/i, '')
         .replace(/[^a-z0-9]+/g, '-')
         .replace(/^-|-$/g, '');
 
@@ -129,7 +244,7 @@ export class Generator {
       removed: [],
     };
 
-    const generated = generateSkillsForAllTools(this.skillTemplates, adapters, this.version);
+    const generated = generateSkillsForAllTools(DEFAULT_SKILL_TEMPLATES, adapters, this.version);
     const filesToWrite = generated.map(f => ({ path: f.path, content: f.content }));
     const batchResult = await this.writeFilesBatch(filesToWrite, projectPath);
     result.generated = batchResult.generated;
@@ -149,7 +264,7 @@ export class Generator {
       removed: [],
     };
 
-    const generated = generateAgentsForAllTools(this.agentTemplates, adapters, this.version);
+    const generated = generateAgentsForAllTools(DEFAULT_AGENT_TEMPLATES, adapters, this.version);
     const filesToWrite = generated.map(f => ({ path: f.path, content: f.content }));
     const batchResult = await this.writeFilesBatch(filesToWrite, projectPath);
     result.generated = batchResult.generated;
@@ -239,7 +354,7 @@ export class Generator {
 }
 
 export async function generateFiles(
-  config: JinnConfig,
+  config: Config,
   projectPath: string
 ): Promise<GenerationResult> {
   const generator = new Generator(config);

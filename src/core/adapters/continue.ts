@@ -1,46 +1,9 @@
-/**
- * Continue adapter
- *
- * Formats commands and skills for Continue.
- */
+import { createAdapter } from './base.js';
 
-import path from 'path';
-import type { ToolCommandAdapter, CommandContent } from './types.js';
-import type { SkillTemplate } from '../templates/types.js';
-
-export const continueAdapter: ToolCommandAdapter = {
+export const continueAdapter = createAdapter({
   toolId: 'continue',
   toolName: 'Continue',
   skillsDir: '.continue',
-
-  getCommandPath(commandId: string): string {
-    return path.join('.continue', 'prompts', `jinn-${commandId}.prompt`);
-  },
-
-  getSkillPath(skillName: string): string {
-    return path.join('.continue', 'skills', skillName, 'SKILL.md');
-  },
-
-  formatCommand(content: CommandContent): string {
-    return `---
-description: ${content.description}
----
-
-${content.body}`;
-  },
-
-  formatSkill(template: SkillTemplate, version: string): string {
-    return `---
-name: ${template.name}
-description: ${template.description}
-license: ${template.license || 'MIT'}
-compatibility: ${template.compatibility || 'Requires jinn CLI.'}
-metadata:
-  author: ${template.metadata?.author || 'jinn'}
-  version: "${template.metadata?.version || '1.0'}"
-  generatedBy: "${version}"
----
-
-${template.instructions}`;
-  },
-};
+  commandDir: 'prompts',
+  commandExt: '.prompt',
+});

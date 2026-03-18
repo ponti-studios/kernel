@@ -1,6 +1,0 @@
-version: "1.0.0"
-tools:
-  - opencode
-  - github-copilot
-profile: core
-delivery: both

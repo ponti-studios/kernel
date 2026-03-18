@@ -2,20 +2,17 @@
  * Default configuration values
  */
 
-import type { JinnConfig } from './schema.js';
+import type { Config } from './schema.js';
 
 /**
- * Default configuration values
+ * Default values for optional config fields.
+ * `tools` is required and must be supplied by the caller.
  */
-export const DEFAULT_CONFIG: JinnConfig = {
+export const DEFAULT_CONFIG: Omit<Config, 'tools'> = {
   version: '1.0.0',
-  tools: [],
   profile: 'core',
   delivery: 'both',
   featureFlags: {},
-  workflow: {
-    backend: 'filesystem',
-  },
 };
 
 /**
@@ -24,7 +21,7 @@ export const DEFAULT_CONFIG: JinnConfig = {
 export const DEFAULT_CONFIG_FILENAME = 'config.yaml';
 
 /**
- * Jinn directory name
+ * Config directory name
  */
 export const JINN_DIR_NAME = '.jinn';
 
