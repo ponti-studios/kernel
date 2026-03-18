@@ -7,13 +7,14 @@
 import * as fs from 'fs/promises';
 import * as path from 'path';
 
-import type { GhostwireConfig } from '../config/schema.js';
-import type { GenerationResult, GenerationOptions } from './types.js';
+import type { Config } from '../config/schema.js';
+import type { GenerationResult } from './types.js';
 import type { ToolCommandAdapter } from '../adapters/types.js';
 import type { CommandTemplate, SkillTemplate, AgentTemplate } from '../templates/types.js';
 
+import { CONFIG_VERSION } from '../config/defaults.js';
 import { createPopulatedAdapterRegistry } from '../adapters/index.js';
-import { generateCommandsForTool, generateCommandsForAllTools } from './command-gen.js';
+import { generateCommandsForTool } from './command-gen.js';
 import { generateSkillsForAllTools } from './skill-gen.js';
 import { generateAgentsForAllTools } from './agent-gen.js';
 
@@ -59,81 +60,46 @@ import {
 } from '../../templates/commands/project.js';
 
 import {
-  getUtilBackupCommandTemplate,
   getUtilCleanCommandTemplate,
   getUtilDoctorCommandTemplate,
-  getUtilRestoreCommandTemplate,
 } from '../../templates/commands/util.js';
 
 import {
-  getWorkCancelCommandTemplate,
-  getWorkLoopCommandTemplate,
-} from '../../templates/commands/work.js';
-
-import {
-  getLintRubyCommandTemplate,
-} from '../../templates/commands/lint.js';
-
-import {
-  getRefactorCommandTemplate,
-} from '../../templates/commands/refactor.js';
-
-import {
-  getGhostwireProposeCommandTemplate,
-  getGhostwireExploreCommandTemplate,
-  getGhostwireApplyCommandTemplate,
-  getGhostwireArchiveCommandTemplate,
+  getProposeCommandTemplate,
+  getExploreCommandTemplate,
+  getApplyCommandTemplate,
+  getArchiveCommandTemplate,
 } from '../../templates/commands/workflows-rich.js';
 
 import {
-  getSpeckitAnalyzeCommandTemplate,
-  getSpeckitPlanCommandTemplate,
-  getSpeckitImplementCommandTemplate,
-  getSpeckitSpecifyCommandTemplate,
-  getSpeckitTasksCommandTemplate,
-  getSpeckitConstitutionCommandTemplate,
-} from '../../templates/commands/speckit.js';
-
-import {
   getGitMasterSkillTemplate,
-  getBrainstormingSkillTemplate,
-  getRailsStyleSkillTemplate,
   getFrontendDesignSkillTemplate,
 } from '../../templates/skills/index.js';
 
 import {
-  getOpenspecProposeSkillTemplate,
-  getOpenspecExploreSkillTemplate,
-  getOpenspecApplySkillTemplate,
-  getOpenspecArchiveSkillTemplate,
-  getReadyForProdSkillTemplate,
-} from '../../templates/skills/ghostwire-skills.js';
+  getProposeSkillTemplate,
+  getExploreSkillTemplate,
+  getApplySkillTemplate,
+  getArchiveSkillTemplate,
+  getReadySkillTemplate,
+} from '../../templates/skills/skills.js';
 
 import {
-  getAdvisorStrategyAgentTemplate,
-  getPlannerAgentTemplate,
-  getAdvisorArchitectureAgentTemplate,
-  getAnalyzerDesignAgentTemplate,
-  getAnalyzerPatternsAgentTemplate,
-  getDesignerBuilderAgentTemplate,
-  getDesignerFlowAgentTemplate,
-  getDesignerIteratorAgentTemplate,
-  getDesignerSyncAgentTemplate,
-  getDoAgentTemplate,
-  getResearchAgentTemplate,
-  getPlanAgentTemplate,
-  RESEARCH_AGENTS,
+  ALL_AGENTS,
 } from '../../templates/agents/index.js';
 
 const DEFAULT_COMMAND_TEMPLATES: CommandTemplate[] = [
+  // Git
   getGitSmartCommitCommandTemplate(),
   getGitBranchCommandTemplate(),
   getGitCleanupCommandTemplate(),
   getGitMergeCommandTemplate(),
+  // Code
   getCodeFormatCommandTemplate(),
   getCodeRefactorCommandTemplate(),
   getCodeReviewCommandTemplate(),
   getCodeOptimizeCommandTemplate(),
+  // Workflow
   getWorkflowsPlanCommandTemplate(),
   getWorkflowsExecuteCommandTemplate(),
   getWorkflowsReviewCommandTemplate(),
@@ -143,69 +109,44 @@ const DEFAULT_COMMAND_TEMPLATES: CommandTemplate[] = [
   getWorkflowsCreateCommandTemplate(),
   getWorkflowsBrainstormCommandTemplate(),
   getWorkflowsLearningsCommandTemplate(),
+  getProposeCommandTemplate(),
+  getExploreCommandTemplate(),
+  getApplyCommandTemplate(),
+  getArchiveCommandTemplate(),
+  // Docs
   getDocsDeployCommandTemplate(),
   getDocsFeatureVideoCommandTemplate(),
   getDocsReleaseCommandTemplate(),
   getDocsTestBrowserCommandTemplate(),
+  // Project
   getProjectBuildCommandTemplate(),
   getProjectConstitutionCommandTemplate(),
   getProjectDeployCommandTemplate(),
   getProjectInitCommandTemplate(),
   getProjectMapCommandTemplate(),
-  getUtilBackupCommandTemplate(),
+  // Utility
   getUtilCleanCommandTemplate(),
   getUtilDoctorCommandTemplate(),
-  getUtilRestoreCommandTemplate(),
-  getWorkCancelCommandTemplate(),
-  getWorkLoopCommandTemplate(),
-  getLintRubyCommandTemplate(),
-  getRefactorCommandTemplate(),
-  getGhostwireProposeCommandTemplate(),
-  getGhostwireExploreCommandTemplate(),
-  getGhostwireApplyCommandTemplate(),
-  getGhostwireArchiveCommandTemplate(),
-  getSpeckitAnalyzeCommandTemplate(),
-  getSpeckitPlanCommandTemplate(),
-  getSpeckitImplementCommandTemplate(),
-  getSpeckitSpecifyCommandTemplate(),
-  getSpeckitTasksCommandTemplate(),
-  getSpeckitConstitutionCommandTemplate(),
 ];
 
 const DEFAULT_SKILL_TEMPLATES: SkillTemplate[] = [
   getGitMasterSkillTemplate(),
-  getBrainstormingSkillTemplate(),
-  getRailsStyleSkillTemplate(),
   getFrontendDesignSkillTemplate(),
-  getOpenspecProposeSkillTemplate(),
-  getOpenspecExploreSkillTemplate(),
-  getOpenspecApplySkillTemplate(),
-  getOpenspecArchiveSkillTemplate(),
-  getReadyForProdSkillTemplate(),
+  getProposeSkillTemplate(),
+  getExploreSkillTemplate(),
+  getApplySkillTemplate(),
+  getArchiveSkillTemplate(),
+  getReadySkillTemplate(),
 ];
 
-const DEFAULT_AGENT_TEMPLATES: AgentTemplate[] = [
-  getAdvisorStrategyAgentTemplate(),
-  getPlannerAgentTemplate(),
-  getAdvisorArchitectureAgentTemplate(),
-  getAnalyzerDesignAgentTemplate(),
-  getAnalyzerPatternsAgentTemplate(),
-  getDesignerBuilderAgentTemplate(),
-  getDesignerFlowAgentTemplate(),
-  getDesignerIteratorAgentTemplate(),
-  getDesignerSyncAgentTemplate(),
-  getDoAgentTemplate(),
-  getResearchAgentTemplate(),
-  getPlanAgentTemplate(),
-  ... RESEARCH_AGENTS.map(fn => fn()),
-];
+const DEFAULT_AGENT_TEMPLATES: AgentTemplate[] = ALL_AGENTS.map(fn => fn());
 
 export class Generator {
-  private config: GhostwireConfig;
+  private config: Config;
   private adapterRegistry = createPopulatedAdapterRegistry();
-  private version = '1.0.0';
+  private version = CONFIG_VERSION;
 
-  constructor(config: GhostwireConfig) {
+  constructor(config: Config) {
     this.config = config;
   }
 
@@ -276,7 +217,6 @@ export class Generator {
     for (const template of DEFAULT_COMMAND_TEMPLATES) {
       const commandId = template.name
         .toLowerCase()
-        .replace(/^ghostwire:?\s*/i, '')
         .replace(/[^a-z0-9]+/g, '-')
         .replace(/^-|-$/g, '');
 
@@ -414,7 +354,7 @@ export class Generator {
 }
 
 export async function generateFiles(
-  config: GhostwireConfig,
+  config: Config,
   projectPath: string
 ): Promise<GenerationResult> {
   const generator = new Generator(config);

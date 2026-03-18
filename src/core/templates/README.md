@@ -1,6 +1,6 @@
 # Template System
 
-Type definitions and registry for ghostwire templates.
+Type definitions and registry for jinn templates.
 
 ## Types
 

@@ -2,11 +2,11 @@ import type { CommandTemplate } from '../../core/templates/types.js';
 
 export function getProjectBuildCommandTemplate(): CommandTemplate {
   return {
-    name: 'Ghostwire: Project Build',
+    name: 'Jinn: Project Build',
     description: 'Build the project for production',
     category: 'Project',
     tags: ['build', 'production', 'deployment'],
-    content: `# Ghostwire: Project Build
+    content: `# Jinn: Project Build
 
 Build the project for production.
 
@@ -42,11 +42,11 @@ Build the project for production.
 
 export function getProjectDeployCommandTemplate(): CommandTemplate {
   return {
-    name: 'Ghostwire: Project Deploy',
+    name: 'Jinn: Project Deploy',
     description: 'Deploy project to hosting environment',
     category: 'Project',
     tags: ['deploy', 'deployment', 'release'],
-    content: `# Ghostwire: Project Deploy
+    content: `# Jinn: Project Deploy
 
 Deploy project to hosting environment.
 
@@ -77,11 +77,11 @@ Deploy project to hosting environment.
 
 export function getProjectTestCommandTemplate(): CommandTemplate {
   return {
-    name: 'Ghostwire: Project Test',
+    name: 'Jinn: Project Test',
     description: 'Run project test suite',
     category: 'Project',
     tags: ['testing', 'quality', 'test'],
-    content: `# Ghostwire: Project Test
+    content: `# Jinn: Project Test
 
 Run project test suite.
 
@@ -111,11 +111,11 @@ Run project test suite.
 
 export function getProjectConstitutionCommandTemplate(): CommandTemplate {
   return {
-    name: 'Ghostwire: Project Constitution',
+    name: 'Jinn: Project Constitution',
     description: 'Define project conventions and standards',
     category: 'Project',
     tags: ['conventions', 'standards', 'rules'],
-    content: `# Ghostwire: Project Constitution
+    content: `# Jinn: Project Constitution
 
 Define project conventions and standards.
 
@@ -157,11 +157,11 @@ Establish clear rules that all team members follow.
 
 export function getProjectInitCommandTemplate(): CommandTemplate {
   return {
-    name: 'Ghostwire: Project Init',
+    name: 'Jinn: Project Init',
     description: 'Initialize new project structure',
     category: 'Project',
     tags: ['init', 'setup', 'scaffold'],
-    content: `# Ghostwire: Project Init
+    content: `# Jinn: Project Init
 
 Initialize new project structure.
 
@@ -197,11 +197,11 @@ Initialize new project structure.
 
 export function getProjectMapCommandTemplate(): CommandTemplate {
   return {
-    name: 'Ghostwire: Project Map',
+    name: 'Jinn: Project Map',
     description: 'Map project structure and dependencies',
     category: 'Project',
     tags: ['mapping', 'structure', 'dependencies'],
-    content: `# Ghostwire: Project Map
+    content: `# Jinn: Project Map
 
 Map project structure and dependencies.
 

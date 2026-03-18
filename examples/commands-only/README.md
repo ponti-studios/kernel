@@ -4,7 +4,7 @@ Only generate commands, no skills or agents.
 
 ## Files
 
-### .ghostwire/config.yaml
+### .jinn/config.yaml
 ```yaml
 version: "1.0.0"
 tools:
@@ -18,12 +18,12 @@ delivery: commands
 
 ```bash
 # Initialize commands only
-ghostwire init --tools opencode,cursor --delivery commands
+jinn init --tools opencode,cursor --delivery commands
 
 # Use commands
-/ghostwire:propose
-/ghostwire:apply
-/ghostwire:code:format
+/jinn:propose
+/jinn:apply
+/jinn:code:format
 ```
 
 ## When to Use

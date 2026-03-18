@@ -2,11 +2,11 @@ import type { CommandTemplate } from '../../core/templates/types.js';
 
 export function getDocsDeployCommandTemplate(): CommandTemplate {
   return {
-    name: 'Ghostwire: Docs Deploy',
+    name: 'Jinn: Docs Deploy',
     description: 'Build and deploy documentation to hosting',
     category: 'Docs',
     tags: ['docs', 'deployment', 'hosting'],
-    content: `# Ghostwire: Docs Deploy
+    content: `# Jinn: Docs Deploy
 
 Build and deploy documentation to live hosting platform.
 
@@ -34,11 +34,11 @@ Build and deploy documentation to live hosting platform.
 
 export function getDocsFeatureVideoCommandTemplate(): CommandTemplate {
   return {
-    name: 'Ghostwire: Docs Feature Video',
+    name: 'Jinn: Docs Feature Video',
     description: 'Create demonstration video for feature',
     category: 'Docs',
     tags: ['docs', 'video', 'demo'],
-    content: `# Ghostwire: Docs Feature Video
+    content: `# Jinn: Docs Feature Video
 
 Create demonstration video for new feature.
 
@@ -61,11 +61,11 @@ Create demonstration video for new feature.
 
 export function getDocsReleaseCommandTemplate(): CommandTemplate {
   return {
-    name: 'Ghostwire: Docs Release',
+    name: 'Jinn: Docs Release',
     description: 'Create versioned documentation release',
     category: 'Docs',
     tags: ['docs', 'versioning', 'release'],
-    content: `# Ghostwire: Docs Release
+    content: `# Jinn: Docs Release
 
 Create versioned documentation release.
 
@@ -91,11 +91,11 @@ Create versioned documentation release.
 
 export function getDocsTestBrowserCommandTemplate(): CommandTemplate {
   return {
-    name: 'Ghostwire: Docs Test Browser',
+    name: 'Jinn: Docs Test Browser',
     description: 'Test documentation in browser environment',
     category: 'Docs',
     tags: ['docs', 'testing', 'browser'],
-    content: `# Ghostwire: Docs Test Browser
+    content: `# Jinn: Docs Test Browser
 
 Test documentation in browser environment.
 

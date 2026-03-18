@@ -17,7 +17,7 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
     skillsDir: '.opencode',
     available: true,
     successLabel: 'OpenCode',
-    notes: 'Primary development platform with full ghostwire support',
+    notes: 'Primary development platform with full jinn support',
   },
   {
     id: 'cursor',
@@ -116,7 +116,7 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
   {
     id: 'sourcegraph-cody',
     name: 'Sourcegraph Cody',
-    skillsDir: '.sourcegraph',
+    skillsDir: '.cody',
     available: true,
     successLabel: 'Sourcegraph Cody',
     notes: 'AI coding assistant with codebase intelligence',
@@ -160,7 +160,7 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
   {
     id: 'text-generation-webui',
     name: 'Text Generation WebUI',
-    skillsDir: '.textgen',
+    skillsDir: '.webui',
     available: true,
     successLabel: 'Text Generation WebUI',
     notes: 'Gradio web UI for running LLMs',
@@ -202,7 +202,7 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
   {
     id: 'huggingface-chat',
     name: 'Hugging Face Chat',
-    skillsDir: '.huggingface',
+    skillsDir: '.hfchat',
     available: true,
     successLabel: 'Hugging Face Chat',
     notes: 'Chat interface for HF models',
@@ -238,23 +238,3 @@ export function getAvailableTools(): ToolDefinition[] {
   return TOOL_DEFINITIONS.filter((tool) => tool.available);
 }
 
-/**
- * Get tool IDs as array
- */
-export function getToolIds(): string[] {
-  return TOOL_DEFINITIONS.map((tool) => tool.id);
-}
-
-/**
- * Check if a tool ID is valid
- */
-export function isValidToolId(toolId: string): boolean {
-  return TOOL_DEFINITIONS.some((tool) => tool.id === toolId);
-}
-
-/**
- * Get tool by skills directory name
- */
-export function getToolBySkillsDir(skillsDir: string): ToolDefinition | undefined {
-  return TOOL_DEFINITIONS.find((tool) => tool.skillsDir === skillsDir);
-}

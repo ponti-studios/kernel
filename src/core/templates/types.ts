@@ -1,7 +1,7 @@
 /**
  * Core template types for skills, commands, and agents.
  *
- * These types define the structure of ghostwire's content templates,
+ * These types define the structure of jinn's content templates,
  * which are tool-agnostic and get formatted for specific AI tools by adapters.
  */
 
@@ -10,7 +10,7 @@
  * Skills are installed to <tool>/skills/<name>/SKILL.md
  */
 export interface SkillTemplate {
-  /** Unique skill identifier (e.g., 'ghostwire-git-master') */
+  /** Unique skill identifier (e.g., 'jinn-git-master') */
   name: string;
 
   /** Human-readable description */
@@ -86,21 +86,4 @@ export interface AgentTemplate extends SkillTemplate {
 
   /** Additional prompt content */
   promptAppend?: string;
-}
-
-/**
- * Template registry entry with metadata
- */
-export interface TemplateEntry<T> {
-  /** Template identifier */
-  id: string;
-
-  /** Template factory function */
-  template: () => T;
-
-  /** Category for grouping */
-  category: string;
-
-  /** Whether included in core profile */
-  isCore: boolean;
 }

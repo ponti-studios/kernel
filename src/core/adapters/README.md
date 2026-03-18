@@ -4,7 +4,7 @@ Tool-specific format adapters for 24 AI coding assistants.
 
 ## Purpose
 
-Each adapter implements the `ToolCommandAdapter` interface to format ghostwire content for a specific AI tool's expected format and directory structure.
+Each adapter implements the `ToolCommandAdapter` interface to format jinn content for a specific AI tool's expected format and directory structure.
 
 ## Supported Tools (24 Total)
 

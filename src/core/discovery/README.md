@@ -1,6 +1,6 @@
 # Discovery
 
-Tool detection and registry for ghostwire.
+Tool detection and registry for jinn.
 
 ## Tool Detection
 

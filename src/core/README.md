@@ -1,4 +1,4 @@
-# Ghostwire Core
+# Jinn Core
 
 Core infrastructure for harness-agnostic architecture.
 
@@ -13,10 +13,10 @@ Core infrastructure for harness-agnostic architecture.
 
 ## Overview
 
-The core module provides the foundation for ghostwire's harness-agnostic architecture:
+The core module provides the foundation for jinn's harness-agnostic architecture:
 
 1. **Adapters** translate generic templates to tool-specific formats
-2. **Config** manages ghostwire configuration files
+2. **Config** manages jinn configuration files
 3. **Discovery** detects which AI tools are installed
 4. **Generator** orchestrates file generation across all tools
 5. **Templates** defines the template system types

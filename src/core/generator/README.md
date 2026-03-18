@@ -1,6 +1,6 @@
 # File Generator
 
-Orchestrates generation of ghostwire files across all configured AI tools.
+Orchestrates generation of jinn files across all configured AI tools.
 
 ## Files
 
@@ -41,12 +41,12 @@ Generated files follow tool-specific conventions:
 
 ```
 .opencode/
-├── commands/ghostwire-propose.md
-├── skills/ghostwire-planner/SKILL.md
+├── commands/jinn-propose.md
+├── skills/jinn-planner/SKILL.md
 └── ...
 
 .cursor/
-├── commands/ghostwire-propose.md
-├── skills/ghostwire-planner/SKILL.md
+├── commands/jinn-propose.md
+├── skills/jinn-planner/SKILL.md
 └── ...
 ```

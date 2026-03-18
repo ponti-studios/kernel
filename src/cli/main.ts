@@ -1,52 +1,5 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 
-import { Command } from 'commander';
+import { jinnProgram } from './jinn/index.js';
 
-const VERSION = '0.0.1';
-
-const program = new Command();
-
-program
-  .name('jinn')
-  .description('AI-powered assistant for all personal computing tasks')
-  .version(VERSION);
-
-program
-  .command('init')
-  .description('Initialize jinn in the current project')
-  .option('-t, --tools <tools>', 'Tools to configure (comma-separated or "all")')
-  .option('-y, --yes', 'Skip confirmation prompts')
-  .action(async (options) => {
-    const { executeInit } = await import('./commands/init.js');
-    await executeInit(options);
-  });
-
-program
-  .command('update')
-  .description('Update/regenerate jinn files')
-  .option('-y, --yes', 'Skip confirmation prompts')
-  .action(async (options) => {
-    const { executeUpdate } = await import('./commands/update.js');
-    await executeUpdate(options);
-  });
-
-program
-  .command('config')
-  .description('Manage jinn configuration')
-  .argument('[action]', 'Action to perform (show, set, get)', 'show')
-  .argument('[key]', 'Configuration key')
-  .argument('[value]', 'Configuration value')
-  .action(async (action, key, value) => {
-    const { executeConfig } = await import('./commands/config.js');
-    await executeConfig({ action, key, value });
-  });
-
-program
-  .command('detect')
-  .description('Detect available AI tools in the project')
-  .action(async (options) => {
-    const { executeDetect } = await import('./commands/detect.js');
-    await executeDetect(options || {});
-  });
-
-program.parse();
+jinnProgram.parse();
