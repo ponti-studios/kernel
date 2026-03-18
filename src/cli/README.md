@@ -13,16 +13,16 @@ Command-line interface for jinn.
 
 ```bash
 # Initialize with detected tools
-gjinn init
+jinn init
 
 # Initialize with specific tools
-gjinn init --tools opencode,cursor
+jinn init --tools opencode,cursor
 
 # Update all configured tools
-gjinn update
+jinn update
 
 # Change profile
-gjinn config profile extended
+jinn config profile extended
 ```
 
 ## Implementation

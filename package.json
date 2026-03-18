@@ -32,43 +32,19 @@
     "build:dev": "bun build ./src/cli/main.ts --compile --outfile ./dist/jinn-dev",
     "dev:cli": "bun ./src/cli/main.ts",
     "link:dev": "ln -sf $PWD/dist/jinn-dev /usr/local/bin/jinn-dev",
+    "test": "bun test",
+    "test:vault": "bun test src/core/vault/__tests__",
     "typecheck": "bun --bun tsc --noEmit"
   },
   "dependencies": {
-    "@ast-grep/cli": "^0.40.0",
-    "@ast-grep/napi": "^0.40.0",
-    "@clack/prompts": "^0.11.0",
-    "@code-yeongyu/comment-checker": "^0.6.1",
-    "@modelcontextprotocol/sdk": "^1.25.1",
-    "@opencode-ai/plugin": "^1.1.19",
-    "@opencode-ai/sdk": "^1.1.19",
-    "chalk": "^5.6.2",
-    "citty": "^0.1.6",
     "commander": "^14.0.2",
-    "detect-libc": "^2.0.0",
-    "inquirer": "^13.3.0",
-    "js-yaml": "^4.1.1",
-    "jsonc-parser": "^3.3.1",
-    "oclif": "^4.22.84",
-    "picocolors": "^1.1.1",
-    "picomatch": "^4.0.2",
-    "vscode-jsonrpc": "^8.2.0",
+    "yaml": "^2.8.0",
     "zod": "^4.1.8"
   },
   "devDependencies": {
-    "@types/js-yaml": "^4.0.9",
-    "@types/picomatch": "^3.0.2",
     "bun-types": "latest",
     "knip": "^5.85.0",
-    "lint-staged": "^16.2.7",
-    "nanospinner": "^1.2.2",
-    "oxfmt": "^0.35.0",
     "oxlint": "^1.50.0",
     "typescript": "^5.7.3"
-  },
-  "trustedDependencies": [
-    "@ast-grep/cli",
-    "@ast-grep/napi",
-    "@code-yeongyu/grid-comment-checker"
-  ]
+  }
 }

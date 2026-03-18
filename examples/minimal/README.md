@@ -1,10 +1,10 @@
 # Example: Minimal Setup
 
-Minimal ghostwire setup with just OpenCode.
+Minimal jinn setup with just OpenCode.
 
 ## Files
 
-### .ghostwire/config.yaml
+### .jinn/config.yaml
 ```yaml
 version: "1.0.0"
 tools:
@@ -17,11 +17,11 @@ delivery: both
 
 ```bash
 # Initialize
-ghostwire init --tools opencode --yes
+jinn init --tools opencode --yes
 
 # Use commands
-/ghostwire:propose
-/ghostwire:apply
+/jinn:propose
+/jinn:apply
 ```
 
 ## What You Get

@@ -6,26 +6,6 @@
 
 import type { ToolCommandAdapter, CommandContent, GeneratedFile } from '../adapters/types.js';
 import type { CommandTemplate } from '../templates/types.js';
-import type { CommandGenerationOptions } from './types.js';
-
-export function generateCommand(options: CommandGenerationOptions): GeneratedFile {
-  const { template, commandId, toolId, version } = options;
-
-  const content: CommandContent = {
-    id: commandId,
-    fullId: `jinn:${commandId}`,
-    name: template.name,
-    description: template.description,
-    category: template.category,
-    tags: template.tags,
-    body: template.content,
-  };
-
-  return {
-    path: toolId,
-    content: JSON.stringify({ commandId, toolId, content }),
-  };
-}
 
 export function generateCommandsForTool(
   template: CommandTemplate,

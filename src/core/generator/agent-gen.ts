@@ -7,16 +7,6 @@
 
 import type { ToolCommandAdapter, GeneratedFile } from '../adapters/types.js';
 import type { AgentTemplate } from '../templates/types.js';
-import type { AgentGenerationOptions } from './types.js';
-
-export function generateAgent(options: AgentGenerationOptions): GeneratedFile {
-  const { template, agentId, toolId, version } = options;
-
-  return {
-    path: toolId,
-    content: JSON.stringify({ agentId, toolId, template, version }),
-  };
-}
 
 export function generateAgentForTool(
   template: AgentTemplate,
@@ -24,8 +14,13 @@ export function generateAgentForTool(
   adapter: ToolCommandAdapter,
   version: string
 ): GeneratedFile {
-  const filePath = adapter.getSkillPath(template.name);
-  const fileContent = adapter.formatSkill(template, version);
+  const filePath = adapter.getAgentPath
+    ? adapter.getAgentPath(template.name)
+    : adapter.getSkillPath(template.name);
+
+  const fileContent = adapter.formatAgent
+    ? adapter.formatAgent(template, version)
+    : adapter.formatSkill(template, version);
 
   return {
     path: filePath,

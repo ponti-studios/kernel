@@ -1,11 +1,11 @@
-# Ghostwire Quick Start Guide
+# Jinn Quick Start Guide
 
 ## Installation
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-repo/ghostwire.git
-cd ghostwire
+git clone https://github.com/your-repo/jinn.git
+cd jinn
 
 # Install dependencies (if needed)
 bun install
@@ -19,37 +19,37 @@ bun install
 # Navigate to your project
 cd your-project
 
-# Initialize ghostwire with auto-detection
-bun run /path/to/ghostwire/src/cli/ghostwire/index.ts init --yes
+# Initialize jinn with auto-detection
+jinn init --yes
 
 # Or specify tools manually
-bun run /path/to/ghostwire/src/cli/ghostwire/index.ts init --tools opencode,cursor
+jinn init --tools opencode,cursor
 ```
 
-### 2. Use Ghostwire Commands
+### 2. Use Jinn Commands
 
 In your AI tool, use these commands:
 
 ```
-/ghostwire:propose - Start a new change
-/ghostwire:explore - Explore a problem space  
-/ghostwire:apply - Implement changes
-/ghostwire:archive - Complete and document work
+/jinn:propose - Start a new change
+/jinn:explore - Explore a problem space  
+/jinn:apply - Implement changes
+/jinn:archive - Complete and document work
 ```
 
 ### 3. Update Generated Files
 
 ```bash
 # Regenerate all files
-bun run /path/to/ghostwire/src/cli/ghostwire/index.ts update
+jinn update
 
 # Update specific tool
-bun run /path/to/ghostwire/src/cli/ghostwire/index.ts update --tool cursor
+jinn update --tool cursor
 ```
 
 ## Configuration
 
-Ghostwire creates `.ghostwire/config.yaml`:
+Jinn creates `.jinn/config.yaml`:
 
 ```yaml
 version: "1.0.0"
@@ -73,36 +73,36 @@ delivery: both
 
 ## Supported Tools
 
-Ghostwire supports 24 AI coding assistants:
+Jinn supports 24 AI coding assistants:
 
 | Tool | Command Format |
 |------|----------------|
-| OpenCode | `/ghostwire:command` |
-| Cursor | `/ghostwire:command` |
-| Claude Code | `/ghostwire:command` |
-| GitHub Copilot | `@ghostwire /command` |
-| Continue | `/ghostwire:command` |
-| Cline | `/ghostwire:command` |
-| Amazon Q | `/ghostwire:command` |
-| Windsurf | `/ghostwire:command` |
+| OpenCode | `/jinn:command` |
+| Cursor | `/jinn:command` |
+| Claude Code | `/jinn:command` |
+| GitHub Copilot | `@jinn /command` |
+| Continue | `/jinn:command` |
+| Cline | `/jinn:command` |
+| Amazon Q | `/jinn:command` |
+| Windsurf | `/jinn:command` |
 
 ## Example Workflows
 
 ### Starting New Work
 
-1. Use `/ghostwire:propose` to define the change
-2. Use `/ghostwire:explore` if you need to research
-3. Use `/ghostwire:apply` to implement
-4. Use `/ghostwire:archive` when done
+1. Use `/jinn:propose` to define the change
+2. Use `/jinn:explore` if you need to research
+3. Use `/jinn:apply` to implement
+4. Use `/jinn:archive` when done
 
 ### Code Review
 
-1. Use `/ghostwire:code:review` to review changes
+1. Use `/jinn:code:review` to review changes
 2. Agents will analyze and provide feedback
 
 ### Performance Optimization
 
-1. Use `/ghostwire:code:optimize` with target
+1. Use `/jinn:code:optimize` with target
 2. Agents will profile and optimize
 
 ## Troubleshooting
@@ -111,21 +111,21 @@ Ghostwire supports 24 AI coding assistants:
 
 ```bash
 # Check what tools are available
-bun run /path/to/ghostwire/src/cli/ghostwire/index.ts detect
+jinn detect
 ```
 
 ### Config issues
 
 ```bash
 # View current config
-bun run /path/to/ghostwire/src/cli/ghostwire/index.ts config show
+jinn config show
 ```
 
 ### Regenerate files
 
 ```bash
 # Force regeneration
-bun run /path/to/ghostwire/src/cli/ghostwire/index.ts update --force
+jinn update --force
 ```
 
 ## Next Steps

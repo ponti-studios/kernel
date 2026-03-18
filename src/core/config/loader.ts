@@ -7,13 +7,13 @@
 import * as path from 'path';
 import * as yaml from 'yaml';
 import { fileExists, readFile, writeFile, ensureDir } from '../utils/file-system.js';
-import { JinnConfigSchema, type JinnConfig } from './schema.js';
+import { ConfigSchema, type Config } from './schema.js';
 import { DEFAULT_CONFIG, DEFAULT_CONFIG_FILENAME, JINN_DIR_NAME } from './defaults.js';
 
 /**
  * Get the jinn configuration directory path
  */
-export function getJinnDir(projectPath: string): string {
+export function getConfigDir(projectPath: string): string {
   return path.join(projectPath, JINN_DIR_NAME);
 }
 
@@ -21,7 +21,7 @@ export function getJinnDir(projectPath: string): string {
  * Get the full path to the configuration file
  */
 export function getConfigPath(projectPath: string): string {
-  return path.join(getJinnDir(projectPath), DEFAULT_CONFIG_FILENAME);
+  return path.join(getConfigDir(projectPath), DEFAULT_CONFIG_FILENAME);
 }
 
 /**
@@ -30,7 +30,7 @@ export function getConfigPath(projectPath: string): string {
  * @param projectPath - Path to project root
  * @returns Configuration object or null if not found
  */
-export async function loadConfig(projectPath: string): Promise<JinnConfig | null> {
+export async function loadConfig(projectPath: string): Promise<Config | null> {
   const configPath = getConfigPath(projectPath);
 
   if (!(await fileExists(configPath))) {
@@ -40,7 +40,7 @@ export async function loadConfig(projectPath: string): Promise<JinnConfig | null
   try {
     const content = await readFile(configPath);
     const parsed = yaml.parse(content);
-    return JinnConfigSchema.parse(parsed);
+    return ConfigSchema.parse(parsed);
   } catch (error) {
     throw new Error(`Failed to load config from ${configPath}: ${error}`);
   }
@@ -52,7 +52,7 @@ export async function loadConfig(projectPath: string): Promise<JinnConfig | null
  * @param config - Configuration to save
  * @param projectPath - Path to project root
  */
-export async function saveConfig(config: JinnConfig, projectPath: string): Promise<void> {
+export async function saveConfig(config: Config, projectPath: string): Promise<void> {
   const configPath = getConfigPath(projectPath);
   await ensureDir(path.dirname(configPath));
 
@@ -68,14 +68,14 @@ export async function saveConfig(config: JinnConfig, projectPath: string): Promi
  * Create a default configuration
  *
  * @param projectPath - Path to project root
- * @param overrides - Configuration overrides
+ * @param overrides - Configuration overrides (must include `tools`)
  * @returns Created configuration
  */
 export async function createDefaultConfig(
   projectPath: string,
-  overrides?: Partial<JinnConfig>
-): Promise<JinnConfig> {
-  const config: JinnConfig = {
+  overrides: Pick<Config, 'tools'> & Partial<Config>
+): Promise<Config> {
+  const config: Config = {
     ...DEFAULT_CONFIG,
     ...overrides,
   };
@@ -104,15 +104,15 @@ export async function hasConfig(projectPath: string): Promise<boolean> {
  */
 export async function updateConfig(
   projectPath: string,
-  updates: Partial<JinnConfig>
-): Promise<JinnConfig> {
+  updates: Partial<Config>
+): Promise<Config> {
   const current = await loadConfig(projectPath);
 
   if (!current) {
     throw new Error('No existing configuration found. Run init first.');
   }
 
-  const updated: JinnConfig = {
+  const updated: Config = {
     ...current,
     ...updates,
   };
