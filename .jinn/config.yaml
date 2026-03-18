@@ -1,0 +1,6 @@
+delivery: both
+featureFlags: {}
+profile: core
+tools:
+  - github-copilot
+version: 1.0.0

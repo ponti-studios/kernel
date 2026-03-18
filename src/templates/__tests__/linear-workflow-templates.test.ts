@@ -7,13 +7,6 @@ import {
   getJinnProposeCommandTemplate,
 } from '../commands/workflows.js';
 import {
-  getSpeckitAnalyzeCommandTemplate,
-  getSpeckitImplementCommandTemplate,
-  getSpeckitPlanCommandTemplate,
-  getSpeckitSpecifyCommandTemplate,
-  getSpeckitTasksCommandTemplate,
-} from '../commands/speckit.js';
-import {
   getJinnApplySkillTemplate,
   getJinnArchiveSkillTemplate,
   getJinnExploreSkillTemplate,
@@ -25,11 +18,6 @@ const templates = [
   getJinnExploreCommandTemplate().content,
   getJinnApplyCommandTemplate().content,
   getJinnArchiveCommandTemplate().content,
-  getSpeckitAnalyzeCommandTemplate().content,
-  getSpeckitPlanCommandTemplate().content,
-  getSpeckitSpecifyCommandTemplate().content,
-  getSpeckitTasksCommandTemplate().content,
-  getSpeckitImplementCommandTemplate().content,
   getJinnProposeSkillTemplate().instructions,
   getJinnExploreSkillTemplate().instructions,
   getJinnApplySkillTemplate().instructions,

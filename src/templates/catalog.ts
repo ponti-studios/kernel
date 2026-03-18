@@ -27,14 +27,6 @@ import {
 } from "./commands/project.js";
 import { getRefactorCommandTemplate } from "./commands/refactor.js";
 import {
-  getSpeckitAnalyzeCommandTemplate,
-  getSpeckitConstitutionCommandTemplate,
-  getSpeckitImplementCommandTemplate,
-  getSpeckitPlanCommandTemplate,
-  getSpeckitSpecifyCommandTemplate,
-  getSpeckitTasksCommandTemplate,
-} from "./commands/speckit.js";
-import {
   getUtilBackupCommandTemplate,
   getUtilCleanCommandTemplate,
   getUtilDoctorCommandTemplate,
@@ -114,12 +106,6 @@ export function getDefaultCommandTemplates(): CommandTemplate[] {
     getJinnExploreCommandTemplate(),
     getJinnApplyCommandTemplate(),
     getJinnArchiveCommandTemplate(),
-    getSpeckitAnalyzeCommandTemplate(),
-    getSpeckitPlanCommandTemplate(),
-    getSpeckitImplementCommandTemplate(),
-    getSpeckitSpecifyCommandTemplate(),
-    getSpeckitTasksCommandTemplate(),
-    getSpeckitConstitutionCommandTemplate(),
   ];
 }
 
