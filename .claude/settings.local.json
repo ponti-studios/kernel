@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -n \"export function get\" /Users/charlesponti/Developer/jinn/src/templates/commands/*.ts | wc -l)",
+      "Bash(grep -n \"export function get\" /Users/charlesponti/Developer/jinn/src/templates/skills/*.ts | wc -l)",
+      "Bash(bun run:*)"
+    ]
+  }
+}

@@ -1,6 +1,6 @@
 # Utils
 
-Core utility functions for ghostwire.
+Core utility functions for jinn.
 
 ## Modules
 

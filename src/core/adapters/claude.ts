@@ -1,16 +1,37 @@
 /**
  * Claude Code adapter
  *
- * Formats commands and skills for Claude Code.
+ * Formats commands, skills, and agents for Claude Code.
  * Claude Code uses:
  * - Skills: .claude/skills/<name>/SKILL.md
- * - Commands: .claude/commands/ghostwire/<id>.md (nested directory)
+ * - Commands: .claude/commands/jinn/<id>.md (nested directory)
+ * - Agents: .claude/agents/<name>.md (YAML frontmatter with name, description, tools, model)
  * - Format: YAML frontmatter with name, description, category, tags
  */
 
 import path from 'path';
 import type { ToolCommandAdapter, CommandContent } from './types.js';
-import type { SkillTemplate } from '../templates/types.js';
+import type { AgentTemplate, SkillTemplate } from '../templates/types.js';
+
+/** Maps AgentTemplate.defaultTools values to Claude Code tool names */
+function resolveClaudeTools(defaultTools: string[] = []): string {
+  const toolMap: Record<string, string[]> = {
+    read: ['Read'],
+    search: ['Grep', 'Glob'],
+    edit: ['Edit', 'Write'],
+    web: ['WebSearch', 'WebFetch'],
+    task: ['Bash'],
+    look_at: ['Read'],
+    delegate_task: ['Bash'],
+  };
+  const resolved = new Set<string>();
+  for (const tool of defaultTools) {
+    for (const mapped of toolMap[tool] ?? []) {
+      resolved.add(mapped);
+    }
+  }
+  return [...resolved].join(', ') || 'Read, Grep, Glob';
+}
 
 function escapeYamlValue(value: string): string {
   const needsQuoting = /[:\n\r#{}\[\],&*!|>'"%@`]|^\s|\s$/.test(value);
@@ -33,8 +54,11 @@ export const claudeAdapter: ToolCommandAdapter = {
   skillsDir: '.claude',
 
   getCommandPath(commandId: string): string {
-    // Claude uses nested directory structure
-    return path.join('.claude', 'commands', 'ghostwire', `${commandId}.md`);
+    return path.join('.claude', 'commands', 'jinn', `${commandId}.md`);
+  },
+
+  getAgentPath(agentName: string): string {
+    return path.join('.claude', 'agents', `${agentName}.md`);
   },
 
   getSkillPath(skillName: string): string {
@@ -52,14 +76,26 @@ tags: ${formatTagsArray(content.tags)}
 ${content.body}`;
   },
 
+  formatAgent(template: AgentTemplate, version: string): string {
+    const tools = resolveClaudeTools(template.defaultTools);
+    return `---
+name: ${template.name}
+description: ${escapeYamlValue(template.description)}
+tools: ${tools}
+model: sonnet
+---
+
+${template.instructions}`;
+  },
+
   formatSkill(template: SkillTemplate, version: string): string {
     const metadataLines = [
       `name: ${template.name}`,
       `description: ${template.description}`,
       `license: ${template.license || 'MIT'}`,
-      `compatibility: ${template.compatibility || 'Requires ghostwire CLI.'}`,
+      `compatibility: ${template.compatibility || 'Requires jinn CLI.'}`,
       'metadata:',
-      `  author: ${template.metadata?.author || 'ghostwire'}`,
+      `  author: ${template.metadata?.author || 'jinn'}`,
       `  version: "${template.metadata?.version || '1.0'}"`,
       `  generatedBy: "${version}"`,
     ];

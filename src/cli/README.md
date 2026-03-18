@@ -1,28 +1,28 @@
 # CLI
 
-Command-line interface for ghostwire.
+Command-line interface for jinn.
 
 ## Commands
 
-- **ghostwire init** - Initialize ghostwire in a project
-- **ghostwire update** - Update all configured tools
-- **ghostwire config** - Manage configuration
-- **ghostwire validate** - Validate installation
+- **jinn init** - Initialize jinn in a project
+- **jinn update** - Update all configured tools
+- **jinn config** - Manage configuration
+- **jinn validate** - Validate installation
 
 ## Usage Examples
 
 ```bash
 # Initialize with detected tools
-gghostwire init
+jinn init
 
 # Initialize with specific tools
-gghostwire init --tools opencode,cursor
+jinn init --tools opencode,cursor
 
 # Update all configured tools
-gghostwire update
+jinn update
 
 # Change profile
-gghostwire config profile extended
+jinn config profile extended
 ```
 
 ## Implementation

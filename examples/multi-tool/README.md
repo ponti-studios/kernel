@@ -4,7 +4,7 @@ Multiple AI tools with extended profile.
 
 ## Files
 
-### .ghostwire/config.yaml
+### .jinn/config.yaml
 ```yaml
 version: "1.0.0"
 tools:
@@ -20,12 +20,12 @@ delivery: both
 
 ```bash
 # Initialize with all tools
-ghostwire init --tools all --profile extended
+jinn init --tools all --profile extended
 
 # Commands work in all tools
-/ghostwire:propose
-/ghostwire:code:review
-/ghostwire:project:deploy
+/jinn:propose
+/jinn:code:review
+/jinn:project:deploy
 ```
 
 ## What You Get

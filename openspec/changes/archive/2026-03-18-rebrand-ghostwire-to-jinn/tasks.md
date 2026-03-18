@@ -33,7 +33,7 @@
 - [x] 6.2 Test init command
 - [x] 6.3 Test detect command
 - [x] 6.4 Test config command
-- [ ] 6.5 Test update command
+- [x] 6.5 Test update command
 
 ## 7. Cleanup
 

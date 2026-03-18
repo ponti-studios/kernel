@@ -2,11 +2,11 @@ import type { CommandTemplate } from '../../core/templates/types.js';
 
 export function getWorkflowsBrainstormCommandTemplate(): CommandTemplate {
   return {
-    name: 'Ghostwire: Workflows Brainstorm',
+    name: 'Jinn: Workflows Brainstorm',
     description: 'Generate ideas and explore solutions',
     category: 'Workflow',
     tags: ['brainstorm', 'ideas', 'exploration'],
-    content: `# Ghostwire: Workflows Brainstorm
+    content: `# Jinn: Workflows Brainstorm
 
 Generate ideas and explore solutions.
 
@@ -37,11 +37,11 @@ Generate ideas and explore solutions.
 
 export function getWorkflowsCompleteCommandTemplate(): CommandTemplate {
   return {
-    name: 'Ghostwire: Workflows Complete',
+    name: 'Jinn: Workflows Complete',
     description: 'Complete ongoing work items',
     category: 'Workflow',
     tags: ['complete', 'finish', 'done'],
-    content: `# Ghostwire: Workflows Complete
+    content: `# Jinn: Workflows Complete
 
 Complete ongoing work items.
 
@@ -72,11 +72,11 @@ Complete ongoing work items.
 
 export function getWorkflowsCreateCommandTemplate(): CommandTemplate {
   return {
-    name: 'Ghostwire: Workflows Create',
+    name: 'Jinn: Workflows Create',
     description: 'Create new work item or project',
     category: 'Workflow',
     tags: ['create', 'new', 'initiate'],
-    content: `# Ghostwire: Workflows Create
+    content: `# Jinn: Workflows Create
 
 Create new work item or project.
 
@@ -107,11 +107,11 @@ Create new work item or project.
 
 export function getWorkflowsExecuteCommandTemplate(): CommandTemplate {
   return {
-    name: 'Ghostwire: Workflows Execute',
+    name: 'Jinn: Workflows Execute',
     description: 'Execute planned work',
     category: 'Workflow',
     tags: ['execute', 'run', 'do'],
-    content: `# Ghostwire: Workflows Execute
+    content: `# Jinn: Workflows Execute
 
 Execute planned work.
 
@@ -142,11 +142,11 @@ Execute planned work.
 
 export function getWorkflowsLearningsCommandTemplate(): CommandTemplate {
   return {
-    name: 'Ghostwire: Workflows Learnings',
+    name: 'Jinn: Workflows Learnings',
     description: 'Document and share project learnings',
     category: 'Workflow',
     tags: ['learnings', 'knowledge', 'documentation'],
-    content: `# Ghostwire: Workflows Learnings
+    content: `# Jinn: Workflows Learnings
 
 Document and share project learnings.
 
@@ -172,11 +172,11 @@ Document and share project learnings.
 
 export function getWorkflowsPlanCommandTemplate(): CommandTemplate {
   return {
-    name: 'Ghostwire: Workflows Plan',
+    name: 'Jinn: Workflows Plan',
     description: 'Create detailed work plan',
     category: 'Workflow',
     tags: ['plan', 'planning', 'roadmap'],
-    content: `# Ghostwire: Workflows Plan
+    content: `# Jinn: Workflows Plan
 
 Create detailed work plan.
 
@@ -207,11 +207,11 @@ Create detailed work plan.
 
 export function getWorkflowsReviewCommandTemplate(): CommandTemplate {
   return {
-    name: 'Ghostwire: Workflows Review',
+    name: 'Jinn: Workflows Review',
     description: 'Review completed or in-progress work',
     category: 'Workflow',
     tags: ['review', 'feedback', 'assessment'],
-    content: `# Ghostwire: Workflows Review
+    content: `# Jinn: Workflows Review
 
 Review completed or in-progress work.
 
@@ -242,11 +242,11 @@ Review completed or in-progress work.
 
 export function getWorkflowsStatusCommandTemplate(): CommandTemplate {
   return {
-    name: 'Ghostwire: Workflows Status',
+    name: 'Jinn: Workflows Status',
     description: 'Check status of ongoing work',
     category: 'Workflow',
     tags: ['status', 'progress', 'check'],
-    content: `# Ghostwire: Workflows Status
+    content: `# Jinn: Workflows Status
 
 Check status of ongoing work.
 
@@ -272,11 +272,11 @@ Check status of ongoing work.
 
 export function getWorkflowsStopCommandTemplate(): CommandTemplate {
   return {
-    name: 'Ghostwire: Workflows Stop',
+    name: 'Jinn: Workflows Stop',
     description: 'Stop ongoing work',
     category: 'Workflow',
     tags: ['stop', 'halt', 'pause'],
-    content: `# Ghostwire: Workflows Stop
+    content: `# Jinn: Workflows Stop
 
 Stop ongoing work.
 
@@ -302,11 +302,11 @@ Stop ongoing work.
 
 export function getWorkflowsWorkCommandTemplate(): CommandTemplate {
   return {
-    name: 'Ghostwire: Workflows Work',
+    name: 'Jinn: Workflows Work',
     description: 'Perform work tasks',
     category: 'Workflow',
     tags: ['work', 'task', 'do'],
-    content: `# Ghostwire: Workflows Work
+    content: `# Jinn: Workflows Work
 
 Perform work tasks.
 

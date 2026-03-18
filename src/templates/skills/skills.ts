@@ -1,12 +1,18 @@
-import type { CommandTemplate } from '../../core/templates/types.js';
+import type { SkillTemplate } from '../../core/templates/types.js';
 
-export function getProposeCommandTemplate(): CommandTemplate {
+export function getProposeSkillTemplate(): SkillTemplate {
   return {
-    name: 'Propose',
-    description: 'Propose a new change with all artifacts generated in one step',
-    category: 'Workflow',
-    tags: ['workflow', 'proposal', 'change', 'planning'],
-    content: `Propose a new change - create the change and generate all artifacts in one step.
+    name: 'propose',
+    description: 'Propose a new change with all artifacts generated in one step. Use when the user wants to quickly describe what they want to build and get a complete proposal with design, specs, and tasks ready for implementation.',
+    license: 'MIT',
+    compatibility: 'Requires jinn CLI.',
+    metadata: {
+      author: 'jinn',
+      version: '1.0',
+      category: 'Workflow',
+      tags: ['workflow', 'propose', 'change', 'planning'],
+    },
+    instructions: `Propose a new change - create the change and generate all artifacts in one step.
 
 I'll create a change with artifacts:
 - proposal.md (what & why)
@@ -17,11 +23,11 @@ When ready to implement, run /apply
 
 ---
 
-**Input**: The argument after \`/propose\` is the change name (kebab-case), OR a description of what the user wants to build.
+**Input**: The user's request should include a change name (kebab-case) OR a description of what they want to build.
 
 **Steps**
 
-1. **If no input provided, ask what they want to build**
+1. **If no clear input provided, ask what they want to build**
 
    Use the **AskUserQuestion tool** (open-ended, no preset options) to ask:
    > "What change do you want to work on? Describe what you want to build or fix."
@@ -32,9 +38,9 @@ When ready to implement, run /apply
 
 2. **Create the change directory**
    \`\`\`bash
-   jinn propose "<name>"
+   jinn new change "<name>"
    \`\`\`
-   This creates a scaffolded change at \`jinn/changes/<name>/\` with configuration.
+   This creates a scaffolded change at \`jinn/changes/<name>/\`.
 
 3. **Get the artifact build order**
    \`\`\`bash
@@ -72,7 +78,7 @@ After completing all artifacts, summarize:
 - Change name and location
 - List of artifacts created with brief descriptions
 - What's ready: "All artifacts created! Ready for implementation."
-- Prompt: "Run \`/apply\` to start implementing."
+- Prompt: "Run \`/apply\` or ask me to implement to start working on the tasks."
 
 **Artifact Creation Guidelines**
 
@@ -93,24 +99,23 @@ After completing all artifacts, summarize:
   };
 }
 
-export function getExploreCommandTemplate(): CommandTemplate {
+export function getExploreSkillTemplate(): SkillTemplate {
   return {
-    name: 'Explore',
-    description: 'Enter explore mode - think through ideas, investigate problems, clarify requirements',
-    category: 'Workflow',
-    tags: ['workflow', 'explore', 'thinking', 'investigation'],
-    content: `Enter explore mode. Think deeply. Visualize freely. Follow the conversation wherever it goes.
+    name: 'explore',
+    description: 'Enter explore mode - a thinking partner for exploring ideas, investigating problems, and clarifying requirements. Use when the user wants to think through something before or during a change.',
+    license: 'MIT',
+    compatibility: 'Requires jinn CLI.',
+    metadata: {
+      author: 'jinn',
+      version: '1.0',
+      category: 'Workflow',
+      tags: ['workflow', 'explore', 'thinking', 'investigation'],
+    },
+    instructions: `Enter explore mode. Think deeply. Visualize freely. Follow the conversation wherever it goes.
 
 **IMPORTANT: Explore mode is for thinking, not implementing.** You may read files, search code, and investigate the codebase, but you must NEVER write code or implement features. If the user asks you to implement something, remind them to exit explore mode first and create a change proposal. You MAY create proposal artifacts if the user asks—that's capturing thinking, not implementing.
 
 **This is a stance, not a workflow.** There are no fixed steps, no required sequence, no mandatory outputs. You're a thinking partner helping the user explore.
-
-**Input**: The argument after \`/explore\` is whatever the user wants to think about. Could be:
-- A vague idea: "real-time collaboration"
-- A specific problem: "the auth system is getting unwieldy"
-- A change name: "add-dark-mode" (to explore in context of that change)
-- A comparison: "postgres vs sqlite for this"
-- Nothing (just enter explore mode)
 
 ---
 
@@ -126,8 +131,6 @@ export function getExploreCommandTemplate(): CommandTemplate {
 ---
 
 ## What You Might Do
-
-Depending on what the user brings, you might:
 
 **Explore the problem space**
 - Ask clarifying questions that emerge from what they said
@@ -172,9 +175,13 @@ Depending on what the user brings, you might:
 
 ---
 
-## Context Awareness
+## Jinn Awareness
 
-Check for existing context at the start:
+You have full context of the Jinn system. Use it naturally, don't force it.
+
+### Check for context
+
+At the start, quickly check what exists:
 \`\`\`bash
 jinn list
 \`\`\`
@@ -244,13 +251,19 @@ There's no required ending. Discovery might:
   };
 }
 
-export function getApplyCommandTemplate(): CommandTemplate {
+export function getApplySkillTemplate(): SkillTemplate {
   return {
-    name: 'Apply',
-    description: 'Implement tasks from a change',
-    category: 'Workflow',
-    tags: ['workflow', 'apply', 'implementation', 'execute'],
-    content: `Implement tasks from a change.
+    name: 'apply',
+    description: 'Implement tasks from a Jinn change. Use when user wants to execute the implementation plan.',
+    license: 'MIT',
+    compatibility: 'Requires jinn CLI.',
+    metadata: {
+      author: 'jinn',
+      version: '1.0',
+      category: 'Workflow',
+      tags: ['workflow', 'apply', 'implement', 'execute'],
+    },
+    instructions: `Implement tasks from a Jinn change.
 
 **Input**: Optionally specify a change name (e.g., \`/apply add-auth\`). If omitted, check if it can be inferred from conversation context.
 
@@ -261,34 +274,19 @@ export function getApplyCommandTemplate(): CommandTemplate {
    If a name is provided, use it. Otherwise:
    - Infer from conversation context if the user mentioned a change
    - Auto-select if only one active change exists
-   - If ambiguous, run \`jinn list\` to get available changes and use the **AskUserQuestion tool** to let the user select
+   - If ambiguous, run \`jinn list\` to get available changes
 
-   Always announce: "Using change: <name>" and how to override (e.g., \`/apply <other>\`).
+   Always announce: "Using change: <name>".
 
 2. **Check status to understand the workflow**
    \`\`\`bash
    jinn status --change "<name>" --json
    \`\`\`
-   Parse the JSON to understand:
-   - \`schemaName\`: The workflow being used (e.g., "spec-driven")
-   - Which artifact contains the tasks
 
 3. **Get apply instructions**
-
    \`\`\`bash
    jinn instructions apply --change "<name>" --json
    \`\`\`
-
-   This returns:
-   - Context file paths
-   - Progress (total, complete, remaining)
-   - Task list with status
-   - Dynamic instruction based on current state
-
-   **Handle states:**
-   - If \`state: "blocked"\` (missing artifacts): show message, suggest completing artifacts first
-   - If \`state: "all_done"\`: congratulate, suggest archive
-   - Otherwise: proceed to implementation
 
 4. **Read context files**
 
@@ -299,8 +297,6 @@ export function getApplyCommandTemplate(): CommandTemplate {
    Display:
    - Workflow being used
    - Progress: "N/M tasks complete"
-   - Remaining tasks overview
-   - Dynamic instruction
 
 6. **Implement tasks (loop until done or blocked)**
 
@@ -308,73 +304,39 @@ export function getApplyCommandTemplate(): CommandTemplate {
    - Show which task is being worked on
    - Make the code changes required
    - Keep changes minimal and focused
-   - Mark task complete in the tasks file: \`- [ ]\` → \`- [x]\`
+   - Mark task complete: \`- [ ]\` → \`- [x]\`
    - Continue to next task
 
    **Pause if:**
    - Task is unclear → ask for clarification
    - Implementation reveals a design issue → suggest updating artifacts
    - Error or blocker encountered → report and wait for guidance
-   - User interrupts
 
 7. **On completion or pause, show status**
-
-   Display:
-   - Tasks completed this session
-   - Overall progress: "N/M tasks complete"
-   - If all done: suggest archive
-   - If paused: explain why and wait for guidance
-
-**Output During Implementation**
-
-\`\`\`
-## Implementing: <change-name> (workflow: <workflow-name>)
-
-Working on task 3/7: <task description>
-[...implementation happening...]
-✓ Task complete
-
-Working on task 4/7: <task description>
-[...implementation happening...]
-✓ Task complete
-\`\`\`
-
-**Output On Completion**
-
-\`\`\`
-## Implementation Complete
-
-**Change:** <change-name>
-**Workflow:** <workflow-name>
-**Progress:** 7/7 tasks complete ✓
-
-### Completed This Session
-- [x] Task 1
-- [x] Task 2
-...
-
-All tasks complete! You can archive this change with \`/archive\`.
-\`\`\`
 
 **Guardrails**
 - Keep going through tasks until done or blocked
 - Always read context files before starting
 - If task is ambiguous, pause and ask before implementing
-- If implementation reveals issues, pause and suggest artifact updates
 - Keep code changes minimal and scoped to each task
 - Update task checkbox immediately after completing each task
-- Pause on errors, blockers, or unclear requirements - don't guess
 `,
   };
 }
 
-export function getArchiveCommandTemplate(): CommandTemplate {
+export function getArchiveSkillTemplate(): SkillTemplate {
   return {
-    name: 'Archive',
-    description: 'Archive a completed change',
-    category: 'Workflow',
-    tags: ['workflow', 'archive', 'complete', 'done'],
-    content: `Archive a completed change.
+    name: 'archive',
+    description: 'Archive a completed change. Use when work is done and ready to be moved to archive.',
+    license: 'MIT',
+    compatibility: 'Requires jinn CLI.',
+    metadata: {
+      author: 'jinn',
+      version: '1.0',
+      category: 'Workflow',
+      tags: ['workflow', 'archive', 'complete', 'done'],
+    },
+    instructions: `Archive a completed change.
 
 **Input**: Optionally specify a change name (e.g., \`/archive add-auth\`). If omitted, check if it can be inferred from conversation context.
 
@@ -392,10 +354,6 @@ export function getArchiveCommandTemplate(): CommandTemplate {
 
    Run \`jinn status --change "<name>" --json\` to check artifact completion.
 
-   Parse the JSON to understand:
-   - \`schemaName\`: The workflow being used
-   - \`artifacts\`: List of artifacts with their status (\`done\` or other)
-
    **If any artifacts are not \`done\`:**
    - Display warning listing incomplete artifacts
    - Prompt user for confirmation to continue
@@ -404,8 +362,6 @@ export function getArchiveCommandTemplate(): CommandTemplate {
 3. **Check task completion status**
 
    Read the tasks file to check for incomplete tasks.
-
-   Count tasks marked with \`- [ ]\` (incomplete) vs \`- [x]\` (complete).
 
    **If incomplete tasks found:**
    - Display warning showing count of incomplete tasks
@@ -421,10 +377,7 @@ export function getArchiveCommandTemplate(): CommandTemplate {
 
    Generate target name using current date: \`YYYY-MM-DD-<change-name>\`
 
-   **Check if target already exists:**
-   - If yes: Fail with error, suggest renaming existing archive or using different date
-   - If no: Move the change directory to archive
-
+   Move the change directory to archive:
    \`\`\`bash
    mv jinn/changes/<name> jinn/changes/archive/YYYY-MM-DD-<name>
    \`\`\`
@@ -435,41 +388,77 @@ export function getArchiveCommandTemplate(): CommandTemplate {
    - Change name
    - Workflow that was used
    - Archive location
-   - Note about any warnings (incomplete artifacts/tasks)
-
-**Output On Success**
-
-\`\`\`
-## Archive Complete
-
-**Change:** <change-name>
-**Workflow:** <workflow-name>
-**Archived to:** jinn/changes/archive/YYYY-MM-DD-<name>/
-
-All artifacts complete. All tasks complete.
-\`\`\`
-
-**Output On Success With Warnings**
-
-\`\`\`
-## Archive Complete (with warnings)
-
-**Change:** <change-name>
-**Workflow:** <workflow-name>
-**Archived to:** jinn/changes/archive/YYYY-MM-DD-<name>/
-
-**Warnings:**
-- Archived with 2 incomplete artifacts
-- Archived with 3 incomplete tasks
-
-Review the archive if this was not intentional.
-\`\`\`
+   - Note about any warnings
 
 **Guardrails**
 - Always prompt for change selection if not provided
 - Use status for completion checking
 - Don't block archive on warnings - just inform and confirm
-- Show clear summary of what happened
+`,
+  };
+}
+
+export function getReadySkillTemplate(): SkillTemplate {
+  return {
+    name: 'ready',
+    description: 'Check production readiness before deployment. Use before major releases.',
+    license: 'MIT',
+    compatibility: 'Works with any project.',
+    metadata: {
+      author: 'jinn',
+      version: '1.0',
+      category: 'Quality',
+      tags: ['quality', 'production', 'deployment', 'readiness'],
+    },
+    instructions: `Check production readiness before deployment.
+
+## Production Readiness Checklist
+
+### 1. Code Quality
+- [ ] No console.log or debug statements
+- [ ] No hardcoded secrets or keys
+- [ ] Error handling in place
+- [ ] TypeScript types correct
+
+### 2. Testing
+- [ ] Unit tests passing
+- [ ] Integration tests passing
+- [ ] Manual testing completed
+- [ ] Edge cases covered
+
+### 3. Security
+- [ ] Input validation
+- [ ] Authentication/authorization verified
+- [ ] No security vulnerabilities (run security scan)
+- [ ] Secrets not in code
+
+### 4. Performance
+- [ ] No memory leaks
+- [ ] Load testing done if applicable
+- [ ] Performance benchmarks met
+
+### 5. Documentation
+- [ ] README updated
+- [ ] API docs updated
+- [ ] Changelog updated
+
+### 6. Deployment
+- [ ] Environment variables configured
+- [ ] Database migrations ready
+- [ ] Rollback plan in place
+- [ ] Monitoring/alerts configured
+
+### 7. Business
+- [ ] Feature complete per requirements
+- [ ] Stakeholder sign-off
+
+## Output
+
+Provide a report showing:
+- What's complete
+- What's missing
+- Risks identified
+- Go/no-go recommendation
 `,
   };
 }

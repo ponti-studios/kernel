@@ -1,10 +1,10 @@
 # Config
 
-Ghostwire configuration system.
+Jinn configuration system.
 
 ## Schema
 
-Zod schemas for validating ghostwire configuration.
+Zod schemas for validating jinn configuration.
 
 ## Loader
 

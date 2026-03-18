@@ -2,11 +2,11 @@ import type { CommandTemplate } from '../../core/templates/types.js';
 
 export function getUtilBackupCommandTemplate(): CommandTemplate {
   return {
-    name: 'Ghostwire: Util Backup',
+    name: 'Jinn: Util Backup',
     description: 'Create backup of project files',
     category: 'Utility',
     tags: ['backup', 'safety', 'restore'],
-    content: `# Ghostwire: Util Backup
+    content: `# Jinn: Util Backup
 
 Create backup of project files.
 
@@ -44,11 +44,11 @@ Create backup of project files.
 
 export function getUtilCleanCommandTemplate(): CommandTemplate {
   return {
-    name: 'Ghostwire: Util Clean',
+    name: 'Jinn: Util Clean',
     description: 'Clean up temporary and generated files',
     category: 'Utility',
     tags: ['cleanup', 'maintenance', 'temp'],
-    content: `# Ghostwire: Util Clean
+    content: `# Jinn: Util Clean
 
 Clean up temporary and generated files.
 
@@ -85,11 +85,11 @@ Clean up temporary and generated files.
 
 export function getUtilDoctorCommandTemplate(): CommandTemplate {
   return {
-    name: 'Ghostwire: Util Doctor',
+    name: 'Jinn: Util Doctor',
     description: 'Diagnose project health issues',
     category: 'Utility',
     tags: ['diagnostic', 'health', 'troubleshooting'],
-    content: `# Ghostwire: Util Doctor
+    content: `# Jinn: Util Doctor
 
 Diagnose project health issues.
 
@@ -128,11 +128,11 @@ Diagnose project health issues.
 
 export function getUtilRestoreCommandTemplate(): CommandTemplate {
   return {
-    name: 'Ghostwire: Util Restore',
+    name: 'Jinn: Util Restore',
     description: 'Restore project from backup',
     category: 'Utility',
     tags: ['restore', 'recovery', 'backup'],
-    content: `# Ghostwire: Util Restore
+    content: `# Jinn: Util Restore
 
 Restore project from backup.
 

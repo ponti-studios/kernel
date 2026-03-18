@@ -6,16 +6,6 @@
 
 import type { ToolCommandAdapter, GeneratedFile } from '../adapters/types.js';
 import type { SkillTemplate } from '../templates/types.js';
-import type { SkillGenerationOptions } from './types.js';
-
-export function generateSkill(options: SkillGenerationOptions): GeneratedFile {
-  const { template, toolId, version } = options;
-
-  return {
-    path: toolId,
-    content: JSON.stringify({ template, toolId, version }),
-  };
-}
 
 export function generateSkillForTool(
   template: SkillTemplate,

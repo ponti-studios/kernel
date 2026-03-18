@@ -2,11 +2,11 @@ import type { CommandTemplate } from '../../core/templates/types.js';
 
 export function getCodeFormatCommandTemplate(): CommandTemplate {
   return {
-    name: 'Ghostwire: Code Format',
+    name: 'Jinn: Code Format',
     description: 'Apply consistent formatting and style standards',
     category: 'Code',
     tags: ['formatting', 'style', 'code-quality'],
-    content: `# Ghostwire: Code Format
+    content: `# Jinn: Code Format
 
 Apply consistent formatting and style standards across codebase.
 
@@ -52,11 +52,11 @@ Apply consistent formatting and style standards across codebase.
 
 export function getCodeRefactorCommandTemplate(): CommandTemplate {
   return {
-    name: 'Ghostwire: Code Refactor',
+    name: 'Jinn: Code Refactor',
     description: 'Systematically refactor code while maintaining functionality',
     category: 'Code',
     tags: ['refactoring', 'code-quality', 'maintenance'],
-    content: `# Ghostwire: Code Refactor
+    content: `# Jinn: Code Refactor
 
 Systematically refactor code while maintaining functionality.
 
@@ -106,11 +106,11 @@ Systematically refactor code while maintaining functionality.
 
 export function getCodeReviewCommandTemplate(): CommandTemplate {
   return {
-    name: 'Ghostwire: Code Review',
+    name: 'Jinn: Code Review',
     description: 'Conduct comprehensive code reviews',
     category: 'Code',
     tags: ['review', 'code-quality', 'security'],
-    content: `# Ghostwire: Code Review
+    content: `# Jinn: Code Review
 
 Conduct comprehensive code reviews.
 
@@ -153,11 +153,11 @@ Conduct comprehensive code reviews.
 
 export function getCodeOptimizeCommandTemplate(): CommandTemplate {
   return {
-    name: 'Ghostwire: Code Optimize',
+    name: 'Jinn: Code Optimize',
     description: 'Improve performance and reduce bundle size',
     category: 'Code',
     tags: ['performance', 'optimization', 'efficiency'],
-    content: `# Ghostwire: Code Optimize
+    content: `# Jinn: Code Optimize
 
 Improve performance, reduce bundle size, or enhance runtime efficiency.
 
