@@ -1,87 +1,29 @@
 ---
-description: Propose a new change with all artifacts generated in one step
+description: Create or update a Linear project and seed execution issues
 ---
 
-Propose a new change - create the change and generate all artifacts in one step.
+Propose
 
-I'll create a change with artifacts:
-- proposal.md (what & why)
-- design.md (how)
-- tasks.md (implementation steps)
+Create a new Linear-backed change. Use Linear MCP to create and manage issues.
 
-When ready to implement, run /apply
+## Prerequisites
 
----
+- Linear MCP must be configured in your environment
+- Verify Linear MCP is available by checking for linear_* tools
 
-**Input**: The argument after `/propose` is the change name (kebab-case), OR a description of what the user wants to build.
+## Steps
 
-**Steps**
+1. Clarify the goal, success criteria, and scope.
+2. Use Linear MCP to create or update a Linear project for the change.
+3. Write the proposal summary and design context into the Linear project description.
+4. Use Linear MCP to seed top-level Linear issues for major workstreams.
+5. Use Linear MCP to seed sub-issues for immediately known implementation work.
+6. Report the created Linear project, issue links, and open decisions.
 
-1. **If no input provided, ask what they want to build**
+## Guardrails
 
-   Use the **AskUserQuestion tool** (open-ended, no preset options) to ask:
-   > "What change do you want to work on? Describe what you want to build or fix."
-
-   From their description, derive a kebab-case name (e.g., "add user authentication" → `add-user-auth`).
-
-   **IMPORTANT**: Do NOT proceed without understanding what the user wants to build.
-
-2. **Create the change directory**
-   ```bash
-   jinn propose "<name>"
-   ```
-   This creates a scaffolded change at `jinn/changes/<name>/` with configuration.
-
-3. **Get the artifact build order**
-   ```bash
-   jinn status --change "<name>" --json
-   ```
-   Parse the JSON to get:
-   - `applyRequires`: array of artifact IDs needed before implementation (e.g., `["tasks"]`)
-   - `artifacts`: list of all artifacts with their status and dependencies
-
-4. **Create artifacts in sequence until apply-ready**
-
-   Use the **TodoWrite tool** to track progress through the artifacts.
-
-   Loop through artifacts in dependency order (artifacts with no pending dependencies first):
-
-   a. **For each artifact that is `ready` (dependencies satisfied)**:
-      - Get instructions for creating the artifact
-      - Read any completed dependency files for context
-      - Create the artifact file using the appropriate template
-      - Show brief progress: "Created <artifact-id>"
-
-   b. **Continue until all `applyRequires` artifacts are complete**
-      - After creating each artifact, re-run status check
-      - Stop when all required artifacts are done
-
-   c. **If an artifact requires user input** (unclear context):
-      - Use **AskUserQuestion tool** to clarify
-      - Then continue with creation
-
-5. **Show final status**
-
-**Output**
-
-After completing all artifacts, summarize:
-- Change name and location
-- List of artifacts created with brief descriptions
-- What's ready: "All artifacts created! Ready for implementation."
-- Prompt: "Run `/apply` to start implementing."
-
-**Artifact Creation Guidelines**
-
-- Follow the workflow schema for what each artifact should contain
-- Read dependency artifacts for context before creating new ones
-- Use templates as the structure - fill in their sections
-- **IMPORTANT**: Context and rules are constraints for YOU, not content for the file
-  - Do NOT copy context blocks into the artifact
-  - These guide what you write, but should never appear in the output
-
-**Guardrails**
-- Create ALL artifacts needed for implementation
-- Always read dependency artifacts before creating a new one
-- If context is critically unclear, ask the user - but prefer making reasonable decisions to keep momentum
-- If a change with that name already exists, ask if user wants to continue it or create a new one
-- Verify each artifact file exists after writing before proceeding to next
+- Do not create local artifact files as the primary workflow record.
+- Prefer one Linear project per change.
+- Keep top-level Linear issues outcome-oriented and sub-issues execution-oriented.
+- If a matching Linear project already exists, update it instead of duplicating it.
+- Always use Linear MCP tools (linear_project_create, linear_issue_create, etc.) to interact with Linear.

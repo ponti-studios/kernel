@@ -1,6 +1,6 @@
 ---
-name: ready
-description: Check production readiness before deployment. Use before major releases.
+name: jinn-ready-for-prod
+description: Use when validating production readiness before a release, deployment, or launch decision.
 license: MIT
 compatibility: Works with any project.
 metadata:
@@ -30,7 +30,7 @@ Check production readiness before deployment.
 ### 3. Security
 - [ ] Input validation
 - [ ] Authentication/authorization verified
-- [ ] No security vulnerabilities (run security scan)
+- [ ] No security vulnerabilities
 - [ ] Secrets not in code
 
 ### 4. Performance
@@ -47,16 +47,8 @@ Check production readiness before deployment.
 - [ ] Environment variables configured
 - [ ] Database migrations ready
 - [ ] Rollback plan in place
-- [ ] Monitoring/alerts configured
+- [ ] Monitoring and alerts configured
 
 ### 7. Business
 - [ ] Feature complete per requirements
 - [ ] Stakeholder sign-off
-
-## Output
-
-Provide a report showing:
-- What's complete
-- What's missing
-- Risks identified
-- Go/no-go recommendation

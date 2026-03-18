@@ -65,11 +65,11 @@ import {
 } from '../../templates/commands/util.js';
 
 import {
-  getProposeCommandTemplate,
-  getExploreCommandTemplate,
-  getApplyCommandTemplate,
-  getArchiveCommandTemplate,
-} from '../../templates/commands/workflows-rich.js';
+  getJinnProposeCommandTemplate,
+  getJinnExploreCommandTemplate,
+  getJinnApplyCommandTemplate,
+  getJinnArchiveCommandTemplate,
+} from '../../templates/commands/workflows.js';
 
 import {
   getGitMasterSkillTemplate,
@@ -77,12 +77,12 @@ import {
 } from '../../templates/skills/index.js';
 
 import {
-  getProposeSkillTemplate,
-  getExploreSkillTemplate,
-  getApplySkillTemplate,
-  getArchiveSkillTemplate,
-  getReadySkillTemplate,
-} from '../../templates/skills/skills.js';
+  getJinnProposeSkillTemplate,
+  getJinnExploreSkillTemplate,
+  getJinnApplySkillTemplate,
+  getJinnArchiveSkillTemplate,
+  getReadyForProdSkillTemplate,
+} from '../../templates/skills/jinn-skills.js';
 
 import {
   ALL_AGENTS,
@@ -109,10 +109,10 @@ const DEFAULT_COMMAND_TEMPLATES: CommandTemplate[] = [
   getWorkflowsCreateCommandTemplate(),
   getWorkflowsBrainstormCommandTemplate(),
   getWorkflowsLearningsCommandTemplate(),
-  getProposeCommandTemplate(),
-  getExploreCommandTemplate(),
-  getApplyCommandTemplate(),
-  getArchiveCommandTemplate(),
+  getJinnProposeCommandTemplate(),
+  getJinnExploreCommandTemplate(),
+  getJinnApplyCommandTemplate(),
+  getJinnArchiveCommandTemplate(),
   // Docs
   getDocsDeployCommandTemplate(),
   getDocsFeatureVideoCommandTemplate(),
@@ -132,11 +132,11 @@ const DEFAULT_COMMAND_TEMPLATES: CommandTemplate[] = [
 const DEFAULT_SKILL_TEMPLATES: SkillTemplate[] = [
   getGitMasterSkillTemplate(),
   getFrontendDesignSkillTemplate(),
-  getProposeSkillTemplate(),
-  getExploreSkillTemplate(),
-  getApplySkillTemplate(),
-  getArchiveSkillTemplate(),
-  getReadySkillTemplate(),
+  getJinnProposeSkillTemplate(),
+  getJinnExploreSkillTemplate(),
+  getJinnApplySkillTemplate(),
+  getJinnArchiveSkillTemplate(),
+  getReadyForProdSkillTemplate(),
 ];
 
 const DEFAULT_AGENT_TEMPLATES: AgentTemplate[] = ALL_AGENTS.map(fn => fn());
