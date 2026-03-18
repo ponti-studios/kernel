@@ -12,16 +12,18 @@ export function getJinnProposeSkillTemplate(): SkillTemplate {
       category: 'Workflow',
       tags: ['workflow', 'propose', 'linear', 'planning'],
     },
-    instructions: `Create a Linear-backed change proposal.
+    instructions: `Create a Linear-backed change proposal using Linear MCP.
 
-1. Clarify the requested change.
-2. Create or update a Linear project for the change.
-3. Put the summary and design context in the Linear project description.
-4. Seed top-level Linear issues for workstreams or milestones.
-5. Seed sub-issues for immediately actionable implementation tasks.
-6. Report the resulting Linear project and open decisions.
+1. Verify Linear MCP is available (check for linear_* tools).
+2. Clarify the requested change.
+3. Use Linear MCP to create or update a Linear project.
+4. Use Linear MCP to write the summary and design context in the Linear project description.
+5. Use Linear MCP to seed top-level Linear issues for workstreams or milestones.
+6. Use Linear MCP to seed sub-issues for immediately actionable implementation tasks.
+7. Report the resulting Linear project and open decisions.
 
 Guardrails:
+- Always use Linear MCP tools to interact with Linear — never manage state manually.
 - Linear is the source of truth.
 - Do not create local planning artifacts as the primary record.
 - Update an existing matching Linear project instead of duplicating it.
@@ -41,14 +43,16 @@ export function getJinnExploreSkillTemplate(): SkillTemplate {
       category: 'Workflow',
       tags: ['workflow', 'explore', 'linear', 'investigation'],
     },
-    instructions: `Enter explore mode with Linear context.
+    instructions: `Explore with Linear context using Linear MCP.
 
-1. Identify the relevant Linear project or Linear issue.
-2. Read the current Linear descriptions, dependencies, and status.
-3. Explore options, risks, and missing context.
-4. Offer to write clarified decisions back into the relevant Linear project or Linear issue.
+1. Verify Linear MCP is available (check for linear_* tools).
+2. Use Linear MCP to identify the relevant Linear project or Linear issue.
+3. Use Linear MCP to read the current Linear descriptions, dependencies, and status.
+4. Explore options, risks, and missing context.
+5. Use Linear MCP to write clarified decisions back into the relevant Linear project or Linear issue.
 
 Guardrails:
+- Always use Linear MCP tools to read and write Linear data.
 - Explore before implementation.
 - Keep recommendations grounded in both the codebase and Linear state.
 `,
@@ -67,15 +71,17 @@ export function getJinnApplySkillTemplate(): SkillTemplate {
       category: 'Workflow',
       tags: ['workflow', 'apply', 'linear', 'execute'],
     },
-    instructions: `Implement work from Linear.
+    instructions: `Implement work from Linear using Linear MCP.
 
-1. Select the relevant Linear project or Linear issue.
-2. Read the next unblocked sub-issue.
-3. Implement the change and verify it.
-4. Update the Linear issue progress and state.
-5. Continue until the selected Linear scope is complete or blocked.
+1. Verify Linear MCP is available (check for linear_* tools).
+2. Use Linear MCP to select the relevant Linear project or Linear issue.
+3. Use Linear MCP to read the next unblocked sub-issue.
+4. Implement the change and verify it.
+5. Use Linear MCP to update the Linear issue progress and state.
+6. Continue until the selected Linear scope is complete or blocked.
 
 Guardrails:
+- Always use Linear MCP tools to read and write Linear data.
 - Use Linear sub-issues as the execution queue.
 - Pause on ambiguity or blockers instead of guessing.
 `,
@@ -94,16 +100,17 @@ export function getJinnArchiveSkillTemplate(): SkillTemplate {
       category: 'Workflow',
       tags: ['workflow', 'archive', 'linear', 'done'],
     },
-    instructions: `Close completed Linear work.
+    instructions: `Close completed Linear work using Linear MCP.
 
-1. Select the Linear project to close.
-2. Review remaining open Linear issues and sub-issues.
-3. Confirm what should be deferred versus completed.
-4. Mark the Linear project complete and finish the relevant Linear issues.
-5. Report any remaining follow-up work.
+1. Verify Linear MCP is available (check for linear_* tools).
+2. Use Linear MCP to select the Linear project to close.
+3. Use Linear MCP to review remaining open Linear issues and sub-issues.
+4. Confirm what should be deferred versus completed.
+5. Use Linear MCP to mark the Linear project complete and finish the relevant Linear issues.
+6. Report any remaining follow-up work.
 
 Guardrails:
-- Use Linear state transitions instead of moving local folders.
+- Always use Linear MCP tools to transition Linear state — never manage manually.
 - Surface incomplete items before closing the Linear project.
 `,
   };

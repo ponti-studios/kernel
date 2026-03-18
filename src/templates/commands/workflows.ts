@@ -8,15 +8,20 @@ export function getJinnProposeCommandTemplate(): CommandTemplate {
     tags: ['workflow', 'proposal', 'linear', 'planning'],
     content: `Propose
 
-Create a new Linear-backed change. Linear is the source of truth.
+Create a new Linear-backed change. Use Linear MCP to create and manage issues.
+
+## Prerequisites
+
+- Linear MCP must be configured in your environment
+- Verify Linear MCP is available by checking for linear_* tools
 
 ## Steps
 
 1. Clarify the goal, success criteria, and scope.
-2. Create or update a Linear project for the change.
+2. Use Linear MCP to create or update a Linear project for the change.
 3. Write the proposal summary and design context into the Linear project description.
-4. Seed top-level Linear issues for major workstreams.
-5. Seed sub-issues for immediately known implementation work.
+4. Use Linear MCP to seed top-level Linear issues for major workstreams.
+5. Use Linear MCP to seed sub-issues for immediately known implementation work.
 6. Report the created Linear project, issue links, and open decisions.
 
 ## Guardrails
@@ -25,6 +30,7 @@ Create a new Linear-backed change. Linear is the source of truth.
 - Prefer one Linear project per change.
 - Keep top-level Linear issues outcome-oriented and sub-issues execution-oriented.
 - If a matching Linear project already exists, update it instead of duplicating it.
+- Always use Linear MCP tools (linear_project_create, linear_issue_create, etc.) to interact with Linear.
 `,
   };
 }
@@ -35,19 +41,26 @@ export function getJinnExploreCommandTemplate(): CommandTemplate {
     description: 'Explore ideas using current Linear project and issue context',
     category: 'Workflow',
     tags: ['workflow', 'explore', 'linear', 'investigation'],
-    content: `Enter explore mode with Linear context.
+    content: `Explore
+
+Enter explore mode with Linear context. Use Linear MCP to read project and issue state.
+
+## Prerequisites
+
+- Linear MCP must be configured in your environment
+- Verify Linear MCP is available by checking for linear_* tools
 
 ## Steps
 
 1. Identify the relevant Linear project or Linear issue from the conversation.
-2. Read the existing Linear description, issue hierarchy, and status.
+2. Use Linear MCP to read the existing Linear description, issue hierarchy, and status.
 3. Explore options, risks, dependencies, and edge cases.
-4. Offer to capture new decisions back into the relevant Linear project or Linear issue.
+4. Use Linear MCP to capture new decisions back into the relevant Linear project or Linear issue.
 
 ## Guardrails
 
 - Explore and reason before implementation.
-- Use Linear as the context source when work has already been captured.
+- Use Linear MCP to read and write Linear data — never manage state manually.
 - Keep recommendations grounded in the current codebase and current Linear state.
 `,
   };
@@ -59,15 +72,20 @@ export function getJinnApplyCommandTemplate(): CommandTemplate {
     description: 'Implement work from Linear issues and sub-issues',
     category: 'Workflow',
     tags: ['workflow', 'apply', 'linear', 'execution'],
-    content: `Implement work from Linear.
+    content: `Implement work from Linear using Linear MCP.
+
+## Prerequisites
+
+- Linear MCP must be configured in your environment
+- Verify Linear MCP is available by checking for linear_* tools
 
 ## Steps
 
-1. Select the Linear project or Linear issue to execute.
-2. Read the active top-level Linear issues and pending sub-issues.
+1. Use Linear MCP to select the Linear project or Linear issue to execute.
+2. Use Linear MCP to read the active top-level Linear issues and pending sub-issues.
 3. Choose the next unblocked sub-issue.
 4. Implement the change, run verification, and summarize progress.
-5. Update the Linear issue state, assignee, or notes through the available workflow.
+5. Use Linear MCP to update the Linear issue state, assignee, or notes.
 6. Continue until the selected Linear scope is complete or blocked.
 
 ## Guardrails
@@ -75,6 +93,7 @@ export function getJinnApplyCommandTemplate(): CommandTemplate {
 - Treat Linear sub-issues as the execution queue.
 - Pause when the next Linear issue is ambiguous or blocked.
 - Keep code changes scoped to the selected Linear work item.
+- Always use Linear MCP tools to read and write Linear state.
 `,
   };
 }
@@ -85,20 +104,25 @@ export function getJinnArchiveCommandTemplate(): CommandTemplate {
     description: 'Close out completed Linear work',
     category: 'Workflow',
     tags: ['workflow', 'archive', 'linear', 'completion'],
-    content: `Archive completed Linear work.
+    content: `Archive completed Linear work using Linear MCP.
+
+## Prerequisites
+
+- Linear MCP must be configured in your environment
+- Verify Linear MCP is available by checking for linear_* tools
 
 ## Steps
 
-1. Select the Linear project to close.
-2. Review open top-level Linear issues and sub-issues.
+1. Use Linear MCP to select the Linear project to close.
+2. Use Linear MCP to review open top-level Linear issues and sub-issues.
 3. Confirm whether any remaining items should stay open or be deferred.
-4. Mark the Linear project complete and transition finished Linear issues to done.
+4. Use Linear MCP to mark the Linear project complete and transition finished Linear issues to done.
 5. Summarize remaining follow-ups, if any.
 
 ## Guardrails
 
 - Do not move local folders as the completion mechanism.
-- Use Linear project and Linear issue state transitions as the archive step.
+- Use Linear MCP to transition Linear project and issue state — never manage manually.
 - Surface incomplete items before closing the Linear project.
 `,
   };
