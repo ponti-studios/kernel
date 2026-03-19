@@ -39,32 +39,14 @@ tools:
 
 #### Available Tools
 
-| Tool ID                 | Description           |
-| ----------------------- | --------------------- |
-| `opencode`              | OpenCode              |
-| `cursor`                | Cursor                |
-| `claude`                | Claude Code           |
-| `github-copilot`        | GitHub Copilot        |
-| `continue`              | Continue              |
-| `cline`                 | Cline                 |
-| `amazon-q`              | Amazon Q Developer    |
-| `windsurf`              | Windsurf              |
-| `augment`               | Augment               |
-| `supermaven`            | Supermaven            |
-| `tabnine`               | Tabnine               |
-| `codeium`               | Codeium               |
-| `sourcegraph-cody`      | Sourcegraph Cody      |
-| `gemini`                | Google Gemini         |
-| `mistral`               | Mistral               |
-| `ollama`                | Ollama                |
-| `lm-studio`             | LM Studio             |
-| `text-generation-webui` | Text Generation WebUI |
-| `koboldcpp`             | KoboldCpp             |
-| `tabby`                 | Tabby                 |
-| `gpt4all`               | GPT4All               |
-| `jan`                   | Jan                   |
-| `huggingface-chat`      | Hugging Face Chat     |
-| `phind`                 | Phind                 |
+| Tool ID          | Description    |
+| ---------------- | -------------- |
+| `opencode`       | OpenCode       |
+| `claude`         | Claude Code    |
+| `codex`          | OpenAI Codex   |
+| `github-copilot` | GitHub Copilot |
+| `gemini`         | Google Gemini  |
+| `cursor`         | Cursor         |
 
 ### profile
 

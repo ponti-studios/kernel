@@ -10,7 +10,7 @@ import { compileSkillForAdapter, compileVaultSkills } from "../compiler.js";
 import { claudeAdapter } from "../../adapters/claude.js";
 import { githubCopilotAdapter } from "../../adapters/github-copilot.js";
 import { cursorAdapter } from "../../adapters/cursor.js";
-import { createAdapter } from "../../adapters/base.js";
+import { geminiAdapter } from "../../adapters/gemini.js";
 import type { VaultSkill, VaultReference } from "../types.js";
 
 // ---------------------------------------------------------------------------
@@ -49,11 +49,7 @@ function makeSkill(overrides: Partial<VaultSkill> = {}): VaultSkill {
   };
 }
 
-const anyAdapter = createAdapter({
-  toolId: "gemini" as any,
-  toolName: "Gemini",
-  skillsDir: ".gemini",
-});
+const anyAdapter = geminiAdapter;
 
 // ---------------------------------------------------------------------------
 // compileSkillForAdapter — file counts

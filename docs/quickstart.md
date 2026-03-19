@@ -73,18 +73,16 @@ delivery: both
 
 ## Supported Tools
 
-Jinn supports 24 AI coding assistants:
+Jinn supports 6 AI coding tools:
 
-| Tool           | Command Format   |
-| -------------- | ---------------- |
-| OpenCode       | `/jinn:command`  |
-| Cursor         | `/jinn:command`  |
-| Claude Code    | `/jinn:command`  |
-| GitHub Copilot | `@jinn /command` |
-| Continue       | `/jinn:command`  |
-| Cline          | `/jinn:command`  |
-| Amazon Q       | `/jinn:command`  |
-| Windsurf       | `/jinn:command`  |
+| Tool           | ID               | Directory   |
+| -------------- | ---------------- | ----------- |
+| OpenCode       | `opencode`       | `.opencode/` |
+| Claude Code    | `claude`         | `.claude/`  |
+| OpenAI Codex   | `codex`          | `.agents/`  |
+| GitHub Copilot | `github-copilot` | `.github/`  |
+| Google Gemini  | `gemini`         | `.gemini/`  |
+| Cursor         | `cursor`         | `.cursor/`  |
 
 ## Example Workflows
 

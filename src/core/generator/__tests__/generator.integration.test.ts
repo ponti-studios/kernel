@@ -211,10 +211,10 @@ describe("Generator integration — github-copilot", () => {
 });
 
 // ============================================================================
-// continue
+// gemini
 // ============================================================================
 
-describe("Generator integration — continue", () => {
+describe("Generator integration — gemini", () => {
   let tmpDir: string;
 
   beforeEach(async () => {
@@ -227,14 +227,14 @@ describe("Generator integration — continue", () => {
 
   const config: Config = {
     version: "1.0.0",
-    tools: ["continue"],
+    tools: ["gemini"],
     profile: "core",
     delivery: "skills",
   };
 
-  it("skill directories created under .continue/skills/", async () => {
+  it("skill directories created under .gemini/skills/", async () => {
     await generateFiles(config, tmpDir);
-    const count = await countDirsInDir(path.join(tmpDir, ".continue", "skills"));
+    const count = await countDirsInDir(path.join(tmpDir, ".gemini", "skills"));
     expect(count).toBeGreaterThan(0);
   });
 });

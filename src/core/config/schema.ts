@@ -31,30 +31,11 @@ export type Delivery = z.infer<typeof DeliverySchema>;
  */
 export const ToolIdSchema = z.enum([
   "opencode",
-  "cursor",
   "claude",
   "codex",
   "github-copilot",
-  "continue",
-  "cline",
-  "amazon-q",
-  "windsurf",
-  "augment",
-  "supermaven",
-  "tabnine",
-  "codeium",
-  "sourcegraph-cody",
   "gemini",
-  "mistral",
-  "ollama",
-  "lm-studio",
-  "text-generation-webui",
-  "koboldcpp",
-  "tabby",
-  "gpt4all",
-  "jan",
-  "huggingface-chat",
-  "phind",
+  "cursor",
 ]);
 export type ToolId = z.infer<typeof ToolIdSchema>;
 

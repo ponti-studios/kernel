@@ -14,7 +14,7 @@ async function mkTmpDir(): Promise<string> {
 describe("Tool Definitions", () => {
   it("has tools defined", async () => {
     const { TOOL_DEFINITIONS } = await import("../definitions.js");
-    expect(TOOL_DEFINITIONS.length).toBeGreaterThanOrEqual(25);
+    expect(TOOL_DEFINITIONS.length).toBe(6);
   });
 
   it("each tool has unique id", async () => {
@@ -38,11 +38,11 @@ describe("Tool Definitions", () => {
     expect(opencode!.skillsDir).toBe(".opencode");
   });
 
-  it("cursor tool exists", async () => {
+  it("codex tool exists", async () => {
     const { TOOL_DEFINITIONS } = await import("../definitions.js");
-    const cursor = TOOL_DEFINITIONS.find((t: any) => t.id === "cursor");
-    expect(cursor).toBeDefined();
-    expect(cursor!.skillsDir).toBe(".cursor");
+    const codex = TOOL_DEFINITIONS.find((t: any) => t.id === "codex");
+    expect(codex).toBeDefined();
+    expect(codex!.skillsDir).toBe(".agents");
   });
 });
 
@@ -62,7 +62,7 @@ describe("Adapter Registry", () => {
     const registry = createPopulatedAdapterRegistry();
     const adapters = registry.getAll();
     expect(Array.isArray(adapters)).toBe(true);
-    expect(adapters.length).toBe(25);
+    expect(adapters.length).toBe(6);
   });
 
   it("throws on unknown tool", async () => {
@@ -76,8 +76,11 @@ describe("Adapter Registry", () => {
     const registry = createPopulatedAdapterRegistry();
     const ids = registry.getRegisteredToolIds();
     expect(ids).toContain("opencode");
-    expect(ids).toContain("cursor");
     expect(ids).toContain("claude");
+    expect(ids).toContain("codex");
+    expect(ids).toContain("github-copilot");
+    expect(ids).toContain("gemini");
+    expect(ids).toContain("cursor");
   });
 });
 

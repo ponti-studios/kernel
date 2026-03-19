@@ -1,60 +1,22 @@
 import { describe, it, expect } from "bun:test";
 import {
   opencodeAdapter,
-  cursorAdapter,
   claudeAdapter,
   codexAdapter,
   githubCopilotAdapter,
-  continueAdapter,
-  clineAdapter,
-  amazonQAdapter,
-  windsurfAdapter,
-  augmentAdapter,
-  supermavenAdapter,
-  tabnineAdapter,
-  codeiumAdapter,
-  sourcegraphCodyAdapter,
   geminiAdapter,
-  mistralAdapter,
-  ollamaAdapter,
-  lmStudioAdapter,
-  textGenerationWebuiAdapter,
-  koboldcppAdapter,
-  tabbyAdapter,
-  gpt4allAdapter,
-  janAdapter,
-  huggingfaceChatAdapter,
-  phindAdapter,
+  cursorAdapter,
   type ToolCommandAdapter,
 } from "../index.js";
 import type { AgentTemplate } from "../../templates/types.js";
 
 const allAdapters: ToolCommandAdapter[] = [
   opencodeAdapter,
-  cursorAdapter,
   claudeAdapter,
   codexAdapter,
   githubCopilotAdapter,
-  continueAdapter,
-  clineAdapter,
-  amazonQAdapter,
-  windsurfAdapter,
-  augmentAdapter,
-  supermavenAdapter,
-  tabnineAdapter,
-  codeiumAdapter,
-  sourcegraphCodyAdapter,
   geminiAdapter,
-  mistralAdapter,
-  ollamaAdapter,
-  lmStudioAdapter,
-  textGenerationWebuiAdapter,
-  koboldcppAdapter,
-  tabbyAdapter,
-  gpt4allAdapter,
-  janAdapter,
-  huggingfaceChatAdapter,
-  phindAdapter,
+  cursorAdapter,
 ];
 
 const testSkillTemplate = {
@@ -83,14 +45,14 @@ const testAgentTemplate: AgentTemplate = {
 };
 
 describe("Adapter Registry", () => {
-  it("has all 25 adapters", () => {
-    expect(allAdapters).toHaveLength(25);
+  it("has all 6 adapters", () => {
+    expect(allAdapters).toHaveLength(6);
   });
 
   it("each adapter has unique toolId", () => {
     const toolIds = allAdapters.map((a) => a.toolId);
     const uniqueIds = new Set(toolIds);
-    expect(uniqueIds.size).toBe(25);
+    expect(uniqueIds.size).toBe(6);
   });
 });
 
@@ -141,17 +103,6 @@ describe("OpenCode Adapter", () => {
   });
 });
 
-describe("Cursor Adapter", () => {
-  it("uses .cursor directory", () => {
-    expect(cursorAdapter.skillsDir).toBe(".cursor");
-  });
-
-  it("generates correct skill path", () => {
-    const path = cursorAdapter.getSkillPath("jinn-planner");
-    expect(path).toBe(".cursor/skills/jinn-planner/SKILL.md");
-  });
-});
-
 describe("Claude Adapter", () => {
   it("uses .claude directory", () => {
     expect(claudeAdapter.skillsDir).toBe(".claude");
@@ -174,57 +125,13 @@ describe("GitHub Copilot Adapter", () => {
   });
 });
 
-describe("Continue Adapter", () => {
-  it("uses .continue directory", () => {
-    expect(continueAdapter.skillsDir).toBe(".continue");
+describe("Cursor Adapter", () => {
+  it("uses .cursor directory", () => {
+    expect(cursorAdapter.skillsDir).toBe(".cursor");
   });
-});
 
-describe("Cline Adapter", () => {
-  it("uses .cline directory", () => {
-    expect(clineAdapter.skillsDir).toBe(".cline");
-  });
-});
-
-describe("Amazon Q Adapter", () => {
-  it("uses .amazonq directory", () => {
-    expect(amazonQAdapter.skillsDir).toBe(".amazonq");
-  });
-});
-
-describe("Windsurf Adapter", () => {
-  it("uses .windsurf directory", () => {
-    expect(windsurfAdapter.skillsDir).toBe(".windsurf");
-  });
-});
-
-describe("Augment Adapter", () => {
-  it("uses .augment directory", () => {
-    expect(augmentAdapter.skillsDir).toBe(".augment");
-  });
-});
-
-describe("Supermaven Adapter", () => {
-  it("uses .supermaven directory", () => {
-    expect(supermavenAdapter.skillsDir).toBe(".supermaven");
-  });
-});
-
-describe("Tabnine Adapter", () => {
-  it("uses .tabnine directory", () => {
-    expect(tabnineAdapter.skillsDir).toBe(".tabnine");
-  });
-});
-
-describe("Codeium Adapter", () => {
-  it("uses .codeium directory", () => {
-    expect(codeiumAdapter.skillsDir).toBe(".codeium");
-  });
-});
-
-describe("Sourcegraph Cody Adapter", () => {
-  it("uses .cody directory", () => {
-    expect(sourcegraphCodyAdapter.skillsDir).toBe(".cody");
+  it("generates correct skill path", () => {
+    expect(cursorAdapter.getSkillPath("jinn-planner")).toBe(".cursor/skills/jinn-planner/SKILL.md");
   });
 });
 
@@ -232,65 +139,13 @@ describe("Gemini Adapter", () => {
   it("uses .gemini directory", () => {
     expect(geminiAdapter.skillsDir).toBe(".gemini");
   });
-});
 
-describe("Mistral Adapter", () => {
-  it("uses .mistral directory", () => {
-    expect(mistralAdapter.skillsDir).toBe(".mistral");
+  it("generates correct skill path", () => {
+    expect(geminiAdapter.getSkillPath("jinn-planner")).toBe(".gemini/skills/jinn-planner/SKILL.md");
   });
-});
 
-describe("Ollama Adapter", () => {
-  it("uses .ollama directory", () => {
-    expect(ollamaAdapter.skillsDir).toBe(".ollama");
-  });
-});
-
-describe("LM Studio Adapter", () => {
-  it("uses .lmstudio directory", () => {
-    expect(lmStudioAdapter.skillsDir).toBe(".lmstudio");
-  });
-});
-
-describe("Text Generation WebUI Adapter", () => {
-  it("uses .webui directory", () => {
-    expect(textGenerationWebuiAdapter.skillsDir).toBe(".webui");
-  });
-});
-
-describe("KoboldCpp Adapter", () => {
-  it("uses .koboldcpp directory", () => {
-    expect(koboldcppAdapter.skillsDir).toBe(".koboldcpp");
-  });
-});
-
-describe("Tabby Adapter", () => {
-  it("uses .tabby directory", () => {
-    expect(tabbyAdapter.skillsDir).toBe(".tabby");
-  });
-});
-
-describe("GPT4All Adapter", () => {
-  it("uses .gpt4all directory", () => {
-    expect(gpt4allAdapter.skillsDir).toBe(".gpt4all");
-  });
-});
-
-describe("Jan Adapter", () => {
-  it("uses .jan directory", () => {
-    expect(janAdapter.skillsDir).toBe(".jan");
-  });
-});
-
-describe("Hugging Face Chat Adapter", () => {
-  it("uses .hfchat directory", () => {
-    expect(huggingfaceChatAdapter.skillsDir).toBe(".hfchat");
-  });
-});
-
-describe("Phind Adapter", () => {
-  it("uses .phind directory", () => {
-    expect(phindAdapter.skillsDir).toBe(".phind");
+  it("generates correct agent path", () => {
+    expect(geminiAdapter.getAgentPath!("plan")).toBe(".gemini/agents/plan.md");
   });
 });
 

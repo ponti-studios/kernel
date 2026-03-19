@@ -20,7 +20,7 @@ import { compileVaultSkills, compileSkillForAdapter } from "../compiler.js";
 import { claudeAdapter } from "../../adapters/claude.js";
 import { githubCopilotAdapter } from "../../adapters/github-copilot.js";
 import { cursorAdapter } from "../../adapters/cursor.js";
-import { createAdapter } from "../../adapters/base.js";
+import { geminiAdapter } from "../../adapters/gemini.js";
 
 // ---------------------------------------------------------------------------
 // Temp directory helpers
@@ -293,11 +293,6 @@ describe("full pipeline: load → compile → write (github-copilot)", () => {
 
 describe("full pipeline: load → compile → write (non-copilot platform)", () => {
   let geminiOutputDir: string;
-  const geminiAdapter = createAdapter({
-    toolId: "gemini" as any,
-    toolName: "Gemini",
-    skillsDir: ".gemini",
-  });
 
   beforeAll(async () => {
     geminiOutputDir = path.join(outputDir, "gemini-test");

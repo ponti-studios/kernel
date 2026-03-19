@@ -2,7 +2,7 @@
 
 **Harness-agnostic AI agent distribution for any coding assistant.**
 
-Jinn is a CLI that generates agents, skills, and commands for 25 AI coding tools from a single source of truth. Run `jinn init` once and get a complete AI workflow suite installed across every tool in your project — OpenCode, Cursor, Claude Code, GitHub Copilot, Codex, and more.
+Jinn is a CLI that generates agents, skills, and commands for 6 AI coding tools from a single source of truth. Run `jinn init` once and get a complete AI workflow suite installed across every tool in your project — OpenCode, Cursor, Claude Code, GitHub Copilot, Codex, and Gemini.
 
 You write the templates once. Jinn makes them work everywhere.
 
@@ -159,7 +159,7 @@ metadata:
 | Field       | Values                       | Description                            |
 | ----------- | ---------------------------- | -------------------------------------- |
 | `version`   | `"1.0.0"`                    | Config schema version                  |
-| `tools`     | 25 tool IDs                  | Which AI tools to generate files for   |
+| `tools`     | 6 tool IDs                   | Which AI tools to generate files for   |
 | `profile`   | `core`, `extended`           | Which command set to install           |
 | `delivery`  | `skills`, `commands`, `both` | What to generate                       |
 | `vaultPath` | path string                  | Path to your personal vault (optional) |
@@ -168,35 +168,16 @@ metadata:
 
 ## Supported Tools
 
-Jinn generates files for 25 AI coding tools:
+Jinn generates files for 6 AI coding tools:
 
-| Tool                  | ID                      | Directory              | Notes                                                        |
-| --------------------- | ----------------------- | ---------------------- | ------------------------------------------------------------ |
-| OpenCode              | `opencode`              | `.opencode/`           |                                                              |
-| Cursor                | `cursor`                | `.cursor/`             | YAML frontmatter                                             |
-| Claude Code           | `claude`                | `.claude/`             | Native agent format, `skills:` YAML, `## Available commands` |
-| OpenAI Codex          | `codex`                 | `.codex/` + `.agents/` | TOML agent format, `[[skills.config]]`                       |
-| GitHub Copilot        | `github-copilot`        | `.github/`             | `.prompt.md` extension, `.agent.md` format                   |
-| Continue              | `continue`              | `.continue/prompts/`   | `.prompt` extension (no `.md`)                               |
-| Cline                 | `cline`                 | `.cline/`              |                                                              |
-| Amazon Q Developer    | `amazon-q`              | `.amazonq/`            |                                                              |
-| Windsurf              | `windsurf`              | `.windsurf/`           |                                                              |
-| Augment               | `augment`               | `.augment/`            |                                                              |
-| Supermaven            | `supermaven`            | `.supermaven/`         |                                                              |
-| Tabnine               | `tabnine`               | `.tabnine/`            |                                                              |
-| Codeium               | `codeium`               | `.codeium/`            |                                                              |
-| Sourcegraph Cody      | `sourcegraph-cody`      | `.cody/`               |                                                              |
-| Gemini                | `gemini`                | `.gemini/`             |                                                              |
-| Mistral               | `mistral`               | `.mistral/`            |                                                              |
-| Ollama                | `ollama`                | `.ollama/`             |                                                              |
-| LM Studio             | `lm-studio`             | `.lmstudio/`           |                                                              |
-| Text Generation WebUI | `text-generation-webui` | `.webui/`              |                                                              |
-| KoboldCPP             | `koboldcpp`             | `.koboldcpp/`          |                                                              |
-| Tabby                 | `tabby`                 | `.tabby/`              |                                                              |
-| GPT4All               | `gpt4all`               | `.gpt4all/`            |                                                              |
-| Jan                   | `jan`                   | `.jan/`                |                                                              |
-| Hugging Face Chat     | `huggingface-chat`      | `.hfchat/`             |                                                              |
-| Phind                 | `phind`                 | `.phind/`              |                                                              |
+| Tool           | ID               | Directory   | Notes                                                        |
+| -------------- | ---------------- | ----------- | ------------------------------------------------------------ |
+| OpenCode       | `opencode`       | `.opencode/` |                                                             |
+| Claude Code    | `claude`         | `.claude/`  | Native agent format, `skills:` YAML, `## Available commands` |
+| OpenAI Codex   | `codex`          | `.agents/`  | TOML agent format, `[[skills.config]]`                       |
+| GitHub Copilot | `github-copilot` | `.github/`  | `.prompt.md` extension, `.agent.md` format                   |
+| Google Gemini  | `gemini`         | `.gemini/`  |                                                              |
+| Cursor         | `cursor`         | `.cursor/`  | YAML frontmatter, skills only                                |
 
 ---
 
@@ -339,12 +320,13 @@ Every AI tool gets its own adapter. Adding a new tool means writing one file:
 
 ```typescript
 // src/core/adapters/my-tool.ts
-import { createAdapter } from "./base.js";
-export const myToolAdapter = createAdapter({
+import type { ToolCommandAdapter } from "./types.js";
+export const myToolAdapter: ToolCommandAdapter = {
   toolId: "my-tool",
   toolName: "My Tool",
   skillsDir: ".my-tool",
-});
+  // implement getSkillPath, formatSkill, etc.
+};
 ```
 
 No plugin system. No dynamic loading. Just TypeScript.
@@ -354,7 +336,7 @@ No plugin system. No dynamic loading. Just TypeScript.
 ## Development
 
 ```bash
-bun test               # Run tests (319 and counting)
+bun test               # Run tests
 bun run typecheck      # Type-check
 bun run build          # Build the binary
 bun run dev:cli         # Run without building
@@ -373,7 +355,7 @@ A few principles baked into the codebase:
 - **The abstraction tax** — Every abstraction is a loan against future understanding. Every `export *` barrel is a ticking time bomb.
 - **Configuration is a text file** — Extend existing configs rather than inventing new schema systems.
 - **Library-first** — Every feature starts as a standalone library. The CLI is a thin wrapper.
-- **TDD is non-negotiable** — 319 tests and they all pass.
+- **TDD is non-negotiable** — tests are mandatory and they all pass.
 
 ---
 
