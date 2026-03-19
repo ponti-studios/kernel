@@ -4,9 +4,9 @@ This directory contains command, skill, and agent templates that are tool-agnost
 
 ## Structure
 
+- `agents/` - Agent templates (AI personas)
 - `commands/` - Command templates (slash commands)
 - `skills/` - Skill templates (domain expertise)
-- `agents/` - Agent templates (AI personas)
 
 ## Usage
 
