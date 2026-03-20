@@ -1,22 +1,22 @@
 import type { AgentTemplate } from "../../core/templates/types.js";
 
-import { getPlanAgentTemplate as planAgentTemplate } from "./orchestrators/jinn-plan.js";
-import { getDoAgentTemplate as doAgentTemplate } from "./orchestrators/jinn-do.js";
-import { getCaptureAgentTemplate as captureAgentTemplate } from "./orchestrators/jinn-capture.js";
-import { getReviewAgentTemplate as reviewAgentTemplate } from "./specialists/jinn-review.js";
-import { getArchitectAgentTemplate as architectAgentTemplate } from "./specialists/jinn-architect.js";
-import { getDesignerAgentTemplate as designerAgentTemplate } from "./specialists/jinn-designer.js";
-import { getGitAgentTemplate as gitAgentTemplate } from "./specialists/jinn-git.js";
-import { getSearchAgentTemplate as searchAgentTemplate } from "./specialists/jinn-search.js";
+import { getPlanAgentTemplate as planAgentTemplate } from "./jinn-plan/template.js";
+import { getDoAgentTemplate as doAgentTemplate } from "./jinn-do/template.js";
+import { getCaptureAgentTemplate as captureAgentTemplate } from "./jinn-capture/template.js";
+import { getReviewAgentTemplate as reviewAgentTemplate } from "./jinn-review/template.js";
+import { getArchitectAgentTemplate as architectAgentTemplate } from "./jinn-architect/template.js";
+import { getDesignerAgentTemplate as designerAgentTemplate } from "./jinn-designer/template.js";
+import { getGitAgentTemplate as gitAgentTemplate } from "./jinn-git/template.js";
+import { getSearchAgentTemplate as searchAgentTemplate } from "./jinn-search/template.js";
 
-export { getPlanAgentTemplate } from "./orchestrators/jinn-plan.js";
-export { getDoAgentTemplate } from "./orchestrators/jinn-do.js";
-export { getCaptureAgentTemplate } from "./orchestrators/jinn-capture.js";
-export { getReviewAgentTemplate } from "./specialists/jinn-review.js";
-export { getArchitectAgentTemplate } from "./specialists/jinn-architect.js";
-export { getDesignerAgentTemplate } from "./specialists/jinn-designer.js";
-export { getGitAgentTemplate } from "./specialists/jinn-git.js";
-export { getSearchAgentTemplate } from "./specialists/jinn-search.js";
+export { getPlanAgentTemplate } from "./jinn-plan/template.js";
+export { getDoAgentTemplate } from "./jinn-do/template.js";
+export { getCaptureAgentTemplate } from "./jinn-capture/template.js";
+export { getReviewAgentTemplate } from "./jinn-review/template.js";
+export { getArchitectAgentTemplate } from "./jinn-architect/template.js";
+export { getDesignerAgentTemplate } from "./jinn-designer/template.js";
+export { getGitAgentTemplate } from "./jinn-git/template.js";
+export { getSearchAgentTemplate } from "./jinn-search/template.js";
 
 export const ALL_AGENTS: Array<() => AgentTemplate> = [
   planAgentTemplate,

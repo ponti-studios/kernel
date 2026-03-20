@@ -19,6 +19,15 @@ async function countFilesInDir(dir: string): Promise<number> {
   }
 }
 
+async function countFilesInDirBySuffix(dir: string, suffix: string): Promise<number> {
+  try {
+    const entries = await fs.readdir(dir, { withFileTypes: true });
+    return entries.filter((e) => e.isFile() && e.name.endsWith(suffix)).length;
+  } catch {
+    return 0;
+  }
+}
+
 async function countDirsInDir(dir: string): Promise<number> {
   try {
     const entries = await fs.readdir(dir, { withFileTypes: true });
@@ -79,17 +88,16 @@ describe("Generator integration — opencode, delivery: both", () => {
 
   it("generates skill directories under .opencode/skills/", async () => {
     await generateFiles(config, tmpDir);
-    // 20 skill templates
+    // 21 skill templates
     const count = await countDirsInDir(path.join(tmpDir, ".opencode", "skills"));
-    expect(count).toBe(20);
+    expect(count).toBe(21);
   });
 
   it("generates agent files under .opencode/agents/", async () => {
     await generateFiles(config, tmpDir);
-    // 8 agent templates → 8 .md files
     const agentDir = path.join(tmpDir, ".opencode", "agents");
-    const count = await countFilesInDir(agentDir);
-    expect(count).toBe(8);
+    const count = await countFilesInDirBySuffix(agentDir, ".md");
+    expect(count).toBe(3);
   });
 
   it('skill SKILL.md files contain generatedBy: "1.0.0"', async () => {
@@ -128,8 +136,8 @@ describe("Generator integration — claude, delivery: both", () => {
 
   it("generates 8 agent files under .claude/agents/", async () => {
     await generateFiles(config, tmpDir);
-    const count = await countFilesInDir(path.join(tmpDir, ".claude", "agents"));
-    expect(count).toBe(8);
+    const count = await countFilesInDirBySuffix(path.join(tmpDir, ".claude", "agents"), ".md");
+    expect(count).toBe(3);
   });
 
   it("agent files contain tools: field (model omitted, defaults to inherit)", async () => {
@@ -211,8 +219,8 @@ describe("Generator integration — github-copilot", () => {
     const ok = await dirExists(agentsDir);
     expect(ok).toBe(true);
     const files = await fs.readdir(agentsDir);
-    expect(files.length).toBeGreaterThan(0);
-    expect(files[0]).toMatch(/\.agent\.md$/);
+    const agentFiles = files.filter((file) => file.endsWith(".agent.md"));
+    expect(agentFiles.length).toBeGreaterThan(0);
   });
 });
 
@@ -370,15 +378,15 @@ describe("Generator integration — idempotency", () => {
 
     await generateFiles(config, tmpDir);
     const skillCountFirst = await countDirsInDir(path.join(tmpDir, ".opencode", "skills"));
-    const agentCountFirst = await countFilesInDir(path.join(tmpDir, ".opencode", "agents"));
+    const agentCountFirst = await countFilesInDirBySuffix(path.join(tmpDir, ".opencode", "agents"), ".md");
 
     await generateFiles(config, tmpDir);
     const skillCountSecond = await countDirsInDir(path.join(tmpDir, ".opencode", "skills"));
-    const agentCountSecond = await countFilesInDir(path.join(tmpDir, ".opencode", "agents"));
+    const agentCountSecond = await countFilesInDirBySuffix(path.join(tmpDir, ".opencode", "agents"), ".md");
 
     expect(skillCountFirst).toBe(skillCountSecond);
     expect(agentCountFirst).toBe(agentCountSecond);
-    expect(skillCountFirst).toBe(20);
-    expect(agentCountFirst).toBe(8);
+    expect(skillCountFirst).toBe(21);
+    expect(agentCountFirst).toBe(3);
   });
 });

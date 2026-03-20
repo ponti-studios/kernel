@@ -77,8 +77,8 @@ export interface SkillTemplate {
  * Additional markdown files emitted alongside a skill or agent template.
  */
 export interface TemplateReference {
-  /** Reference filename, e.g. 'python.md' */
-  filename: string;
+  /** Reference path relative to the generated template file, e.g. 'references/common/python.md' */
+  relativePath: string;
 
   /** File content */
   content: string;

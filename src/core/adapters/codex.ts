@@ -26,6 +26,7 @@
 import path from "path";
 import type { ToolCommandAdapter } from "./types.js";
 import type { AgentTemplate, SkillTemplate } from "../templates/types.js";
+import { formatBaseSkillFrontmatter, closeSkillFrontmatter } from "./shared.js";
 
 /** Escape a string value for a TOML basic string (single-line) */
 function escapeTomlString(value: string): string {
@@ -82,30 +83,6 @@ export const codexAdapter: ToolCommandAdapter = {
   },
 
   formatSkill(template: SkillTemplate, version: string): string {
-    const lines: string[] = [
-      "---",
-      `name: ${template.name}`,
-      `description: ${template.description}`,
-      `license: ${template.license || "MIT"}`,
-      `compatibility: ${template.compatibility || "Requires jinn CLI."}`,
-      "metadata:",
-      `  author: ${template.metadata?.author || "jinn"}`,
-      `  version: "${template.metadata?.version || "1.0"}"`,
-      `  generatedBy: "${version}"`,
-    ];
-
-    if (template.metadata?.category) {
-      lines.push(`  category: ${template.metadata.category}`);
-    }
-
-    if (template.metadata?.tags && template.metadata.tags.length > 0) {
-      lines.push(`  tags: [${template.metadata.tags.join(", ")}]`);
-    }
-
-    lines.push("---");
-    lines.push("");
-    lines.push(template.instructions);
-
-    return lines.join("\n");
+    return closeSkillFrontmatter(formatBaseSkillFrontmatter(template, version), template.instructions);
   },
 };

@@ -25,27 +25,27 @@ const testAgent2: AgentTemplate = {
   compatibility: "Works with all projects",
   metadata: { author: "jinn", version: "1.0", category: "Orchestration", tags: ["review"] },
   defaultTools: ["read"],
-  references: [{ filename: "python.md", content: "# Python Review\n" }],
+  references: [{ relativePath: "references/common/python.md", content: "# Python Review\n" }],
 };
 
 describe("generateAgentForTool — claude (has getAgentPath + formatAgent)", () => {
   it("uses getAgentPath for the file path", () => {
-    const result = generateAgentForTool(testAgent, testAgent.name, claudeAdapter, "1.0.0");
+    const result = generateAgentForTool(testAgent, claudeAdapter, "1.0.0");
     expect(result[0].path).toBe(claudeAdapter.getAgentPath!(testAgent.name));
   });
 
   it("claude agents land at .claude/agents/<name>.md", () => {
-    const result = generateAgentForTool(testAgent, testAgent.name, claudeAdapter, "1.0.0");
+    const result = generateAgentForTool(testAgent, claudeAdapter, "1.0.0");
     expect(result[0].path).toBe(".claude/agents/plan.md");
   });
 
   it("uses formatAgent for the file content", () => {
-    const result = generateAgentForTool(testAgent, testAgent.name, claudeAdapter, "1.0.0");
+    const result = generateAgentForTool(testAgent, claudeAdapter, "1.0.0");
     expect(result[0].content).toBe(claudeAdapter.formatAgent!(testAgent, "1.0.0"));
   });
 
   it("claude agent content contains tools: field (model defaults to inherit, not emitted)", () => {
-    const result = generateAgentForTool(testAgent, testAgent.name, claudeAdapter, "1.0.0");
+    const result = generateAgentForTool(testAgent, claudeAdapter, "1.0.0");
     expect(result[0].content).toContain("tools:");
     expect(result[0].content).not.toContain("model: sonnet");
   });
@@ -53,37 +53,37 @@ describe("generateAgentForTool — claude (has getAgentPath + formatAgent)", () 
 
 describe("generateAgentForTool — opencode (has getAgentPath and formatAgent)", () => {
   it("uses getAgentPath for opencode agents", () => {
-    const result = generateAgentForTool(testAgent, testAgent.name, opencodeAdapter, "1.0.0");
+    const result = generateAgentForTool(testAgent, opencodeAdapter, "1.0.0");
     expect(result[0].path).toBe(opencodeAdapter.getAgentPath!(testAgent.name));
   });
 
   it("uses formatAgent for opencode agents", () => {
-    const result = generateAgentForTool(testAgent, testAgent.name, opencodeAdapter, "1.0.0");
+    const result = generateAgentForTool(testAgent, opencodeAdapter, "1.0.0");
     expect(result[0].content).toBe(opencodeAdapter.formatAgent!(testAgent, "1.0.0"));
   });
 
   it("opencode agent path is in .opencode/agents/", () => {
-    const result = generateAgentForTool(testAgent, testAgent.name, opencodeAdapter, "1.0.0");
+    const result = generateAgentForTool(testAgent, opencodeAdapter, "1.0.0");
     expect(result[0].path).toBe(".opencode/agents/plan.md");
   });
 
   it("opencode agent content includes description frontmatter", () => {
-    const result = generateAgentForTool(testAgent, testAgent.name, opencodeAdapter, "1.0.0");
+    const result = generateAgentForTool(testAgent, opencodeAdapter, "1.0.0");
     expect(result[0].content).toContain("description:");
     expect(result[0].content).toContain("Pre-implementation planning agent");
   });
 
   it("emits reference files next to the main agent file", () => {
-    const result = generateAgentForTool(testAgent2, testAgent2.name, opencodeAdapter, "1.0.0");
+    const result = generateAgentForTool(testAgent2, opencodeAdapter, "1.0.0");
     expect(result).toHaveLength(2);
-    expect(result[1].path).toBe(".opencode/agents/references/python.md");
+    expect(result[1].path).toBe(".opencode/agents/references/common/python.md");
     expect(result[1].content).toBe("# Python Review\n");
   });
 });
 
 describe("generateAgentForTool — cursor (no native agent support)", () => {
   it("returns no files for tools without agent support", () => {
-    const result = generateAgentForTool(testAgent, testAgent.name, cursorAdapter, "1.0.0");
+    const result = generateAgentForTool(testAgent, cursorAdapter, "1.0.0");
     expect(result).toHaveLength(0);
   });
 });
@@ -100,7 +100,7 @@ describe("generateAgentsForTool", () => {
     const results = generateAgentsForTool(templates, claudeAdapter, "1.0.0");
     expect(results[0].path).toBe(".claude/agents/plan.md");
     expect(results[1].path).toBe(".claude/agents/review.md");
-    expect(results[2].path).toBe(".claude/agents/references/python.md");
+    expect(results[2].path).toBe(".claude/agents/references/common/python.md");
   });
 
   it("returns empty array for empty templates", () => {

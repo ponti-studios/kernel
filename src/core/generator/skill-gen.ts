@@ -7,6 +7,7 @@
 import * as path from "path";
 import type { ToolCommandAdapter, GeneratedFile } from "../adapters/types.js";
 import type { SkillTemplate } from "../templates/types.js";
+import { collectReferenceFiles } from "./shared.js";
 
 export function generateSkillForTool(
   template: SkillTemplate,
@@ -14,23 +15,10 @@ export function generateSkillForTool(
   version: string,
 ): GeneratedFile[] {
   const filePath = adapter.getSkillPath(template.name);
-  const fileContent = adapter.formatSkill(template, version);
-  const fileDirectory = path.dirname(filePath);
-  const files: GeneratedFile[] = [
-    {
-      path: filePath,
-      content: fileContent,
-    },
+  return [
+    { path: filePath, content: adapter.formatSkill(template, version) },
+    ...collectReferenceFiles(path.dirname(filePath), template),
   ];
-
-  for (const reference of template.references || []) {
-    files.push({
-      path: path.join(fileDirectory, "references", reference.filename),
-      content: reference.content,
-    });
-  }
-
-  return files;
 }
 
 export function generateSkillsForTool(

@@ -15,30 +15,21 @@
  * - mcp-servers    optional MCP server config scoped to this agent
  * - target         optional: 'vscode' | 'github-copilot' to scope visibility
  *
- * Agent body:
- * - Markdown instructions (system prompt)
- * - ## Available commands  (informational; no YAML field exists)
- * - ## Available skills    (informational; Copilot discovers skills via the skill tool)
+ * Skills are NOT preloaded — discovered and invoked via the native skill tool.
+ * No `skills:` frontmatter field exists in Copilot agents.
  *
- * Skills are NOT preloaded in Copilot agents — they are discovered and invoked
- * via the native skill tool based on description matching. There is no skills:
- * frontmatter field in Copilot agents.
- *
- * Reference: https://docs.github.com/en/copilot/how-tos/use-copilot-agents/coding-agent/create-custom-agents
+ * Reference: https://docs.github.com/en/copilot/how-tos/use-copilot-agents
  */
 
 import path from "path";
 import type { ToolCommandAdapter } from "./types.js";
 import type { AgentTemplate, SkillTemplate } from "../templates/types.js";
-
-function escapeYamlValue(value: string): string {
-  const needsQuoting = /[:\n\r#{}\[\],&*!|>'"%@`]|^\s|\s$/.test(value);
-  if (needsQuoting) {
-    const escaped = value.replace(/\\/g, "\\\\").replace(/"/g, '\\"').replace(/\n/g, "\\n");
-    return `"${escaped}"`;
-  }
-  return value;
-}
+import {
+  escapeYamlValue,
+  formatBaseSkillFrontmatter,
+  closeSkillFrontmatter,
+  formatAgentBody,
+} from "./shared.js";
 
 export const githubCopilotAdapter: ToolCommandAdapter = {
   toolId: "github-copilot",
@@ -53,43 +44,11 @@ export const githubCopilotAdapter: ToolCommandAdapter = {
     return path.join(".github", "skills", skillName, "SKILL.md");
   },
 
-  formatAgent(template: AgentTemplate, version: string): string {
-    const bodySections: string[] = [template.instructions];
-
-    if (template.availableSkills && template.availableSkills.length > 0) {
-      bodySections.push(
-        `## Available skills\n\n${template.availableSkills.map((s) => `- ${s}`).join("\n")}`,
-      );
-    }
-
-    return `---\nname: ${template.name}\ndescription: ${escapeYamlValue(template.description)}\n---\n\n${bodySections.join("\n\n")}`;
+  formatAgent(template: AgentTemplate, _version: string): string {
+    return `---\nname: ${template.name}\ndescription: ${escapeYamlValue(template.description)}\n---\n\n${formatAgentBody(template)}`;
   },
 
   formatSkill(template: SkillTemplate, version: string): string {
-    const lines = [
-      "---",
-      `name: ${template.name}`,
-      `description: ${template.description}`,
-      `license: ${template.license || "MIT"}`,
-      `compatibility: ${template.compatibility || "Requires jinn CLI."}`,
-      "metadata:",
-      `  author: ${template.metadata?.author || "jinn"}`,
-      `  version: "${template.metadata?.version || "1.0"}"`,
-      `  generatedBy: "${version}"`,
-    ];
-
-    if (template.metadata?.category) {
-      lines.push(`  category: ${template.metadata.category}`);
-    }
-
-    if (template.metadata?.tags && template.metadata.tags.length > 0) {
-      lines.push(`  tags: [${template.metadata.tags.join(", ")}]`);
-    }
-
-    lines.push("---");
-    lines.push("");
-    lines.push(template.instructions);
-
-    return lines.join("\n");
+    return closeSkillFrontmatter(formatBaseSkillFrontmatter(template, version), template.instructions);
   },
 };

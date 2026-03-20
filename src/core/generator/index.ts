@@ -18,53 +18,10 @@ import { generateSkillsForAllTools } from "./skill-gen.js";
 import { generateAgentsForAllTools } from "./agent-gen.js";
 import { generateManifestsForAllTools } from "./manifest-gen.js";
 
-import { getFrontendDesignSkillTemplate } from "../../templates/skills/code/jinn-frontend-design.js";
-import { getGitMasterSkillTemplate } from "../../templates/skills/git/jinn-git-master.js";
-import { getJinnApplySkillTemplate } from "../../templates/skills/workflow/jinn-apply.js";
-import { getJinnArchiveSkillTemplate } from "../../templates/skills/workflow/jinn-archive.js";
-import { getCodeQualitySkillTemplate } from "../../templates/skills/code/jinn-code-quality.js";
-import { getDevEnvironmentSkillTemplate } from "../../templates/skills/code/jinn-dev-environment.js";
-import { getDocsWorkflowSkillTemplate } from "../../templates/skills/docs/jinn-docs-workflow.js";
-import { getProjectInitSkillTemplate } from "../../templates/skills/code/jinn-project-init.js";
-import { getProjectBuildSkillTemplate } from "../../templates/skills/code/jinn-build.js";
-import { getProjectDeploySkillTemplate } from "../../templates/skills/code/jinn-deploy.js";
-import { getProjectConventionsSkillTemplate } from "../../templates/skills/code/jinn-conventions.js";
-import { getMapCodebaseSkillTemplate } from "../../templates/skills/code/jinn-map-codebase.js";
-import { getJinnExploreSkillTemplate } from "../../templates/skills/workflow/jinn-explore.js";
-import { getJinnProposeSkillTemplate } from "../../templates/skills/workflow/jinn-propose.js";
-import { getReadyForProdSkillTemplate } from "../../templates/skills/workflow/jinn-ready-for-prod.js";
-import { getJinnSyncSkillTemplate } from "../../templates/skills/workflow/jinn-sync.js";
-import { getJinnTriageSkillTemplate } from "../../templates/skills/workflow/jinn-triage.js";
-import { getJinnUnblockSkillTemplate } from "../../templates/skills/support/jinn-unblock.js";
-import { getJinnCheckSkillTemplate } from "../../templates/skills/workflow/jinn-check.js";
-import { getJinnReviewSkillTemplate } from "../../templates/skills/workflow/jinn-review.js";
+import { getDefaultSkillTemplates, getDefaultAgentTemplates } from "../../templates/catalog.js";
 
-import { ALL_AGENTS } from "../../templates/agents/index.js";
-
-const DEFAULT_SKILL_TEMPLATES: SkillTemplate[] = [
-  getGitMasterSkillTemplate(),
-  getFrontendDesignSkillTemplate(),
-  getJinnProposeSkillTemplate(),
-  getJinnExploreSkillTemplate(),
-  getJinnApplySkillTemplate(),
-  getJinnArchiveSkillTemplate(),
-  getReadyForProdSkillTemplate(),
-  getJinnSyncSkillTemplate(),
-  getJinnTriageSkillTemplate(),
-  getJinnUnblockSkillTemplate(),
-  getJinnCheckSkillTemplate(),
-  getJinnReviewSkillTemplate(),
-  getCodeQualitySkillTemplate(),
-  getDocsWorkflowSkillTemplate(),
-  getDevEnvironmentSkillTemplate(),
-  getProjectInitSkillTemplate(),
-  getProjectBuildSkillTemplate(),
-  getProjectDeploySkillTemplate(),
-  getProjectConventionsSkillTemplate(),
-  getMapCodebaseSkillTemplate(),
-];
-
-const DEFAULT_AGENT_TEMPLATES: AgentTemplate[] = ALL_AGENTS.map((fn) => fn());
+const DEFAULT_SKILL_TEMPLATES: SkillTemplate[] = getDefaultSkillTemplates();
+const DEFAULT_AGENT_TEMPLATES: AgentTemplate[] = getDefaultAgentTemplates();
 
 export class Generator {
   private config: Config;
@@ -76,191 +33,68 @@ export class Generator {
   }
 
   async generateAll(projectPath: string): Promise<GenerationResult> {
-    const result: GenerationResult = {
-      generated: [],
-      failed: [],
-      skipped: [],
-      removed: [],
-    };
+    const result: GenerationResult = { generated: [], failed: [], skipped: [], removed: [] };
 
     const adapters = this.getAdaptersForTools();
-
     if (adapters.length === 0) {
-      result.failed.push({
-        path: "config",
-        error: "No valid adapters found for configured tools",
-      });
+      result.failed.push({ path: "config", error: "No valid adapters found for configured tools" });
       return result;
     }
 
-    const skillResult = await this.generateSkills(adapters, projectPath);
-    this.mergeResults(result, skillResult);
+    const skillFiles = generateSkillsForAllTools(DEFAULT_SKILL_TEMPLATES, adapters, this.version);
+    const manifestFiles = generateManifestsForAllTools(DEFAULT_SKILL_TEMPLATES, adapters, this.version);
+    const agentFiles =
+      this.config.delivery !== "skills"
+        ? generateAgentsForAllTools(DEFAULT_AGENT_TEMPLATES, adapters, this.version)
+        : [];
 
-    const manifestResult = await this.generateManifests(adapters, projectPath);
-    this.mergeResults(result, manifestResult);
-
-    if (this.config.delivery !== "skills") {
-      const agentResult = await this.generateAgents(adapters, projectPath);
-      this.mergeResults(result, agentResult);
-    }
+    const { generated, failed } = await this.writeFilesBatch(
+      [...skillFiles, ...manifestFiles, ...agentFiles],
+      projectPath,
+    );
+    result.generated = generated;
+    result.failed = failed;
 
     return result;
   }
 
   private getAdaptersForTools(): ToolCommandAdapter[] {
     const adapters: ToolCommandAdapter[] = [];
-
     for (const toolId of this.config.tools) {
       try {
-        const adapter = this.adapterRegistry.get(toolId);
-        adapters.push(adapter);
-      } catch (error) {
+        adapters.push(this.adapterRegistry.get(toolId));
+      } catch {
         console.warn(`No adapter found for tool: ${toolId}`);
       }
     }
-
     return adapters;
-  }
-
-  private async generateSkills(
-    adapters: ToolCommandAdapter[],
-    projectPath: string,
-  ): Promise<GenerationResult> {
-    const result: GenerationResult = {
-      generated: [],
-      failed: [],
-      skipped: [],
-      removed: [],
-    };
-
-    const generated = generateSkillsForAllTools(DEFAULT_SKILL_TEMPLATES, adapters, this.version);
-    const filesToWrite = generated.map((f) => ({ path: f.path, content: f.content }));
-    const batchResult = await this.writeFilesBatch(filesToWrite, projectPath);
-    result.generated = batchResult.generated;
-    result.failed = batchResult.failed;
-
-    return result;
-  }
-
-  private async generateAgents(
-    adapters: ToolCommandAdapter[],
-    projectPath: string,
-  ): Promise<GenerationResult> {
-    const result: GenerationResult = {
-      generated: [],
-      failed: [],
-      skipped: [],
-      removed: [],
-    };
-
-    const generated = generateAgentsForAllTools(DEFAULT_AGENT_TEMPLATES, adapters, this.version);
-    const filesToWrite = generated.map((f) => ({ path: f.path, content: f.content }));
-    const batchResult = await this.writeFilesBatch(filesToWrite, projectPath);
-    result.generated = batchResult.generated;
-    result.failed = batchResult.failed;
-
-    return result;
-  }
-
-  private async generateManifests(
-    adapters: ToolCommandAdapter[],
-    projectPath: string,
-  ): Promise<GenerationResult> {
-    const result: GenerationResult = {
-      generated: [],
-      failed: [],
-      skipped: [],
-      removed: [],
-    };
-
-    const generated = generateManifestsForAllTools(DEFAULT_SKILL_TEMPLATES, adapters, this.version);
-    const filesToWrite = generated.map((f) => ({ path: f.path, content: f.content }));
-    const batchResult = await this.writeFilesBatch(filesToWrite, projectPath);
-    result.generated = batchResult.generated;
-    result.failed = batchResult.failed;
-
-    return result;
-  }
-
-  private async ensureDir(dirPath: string): Promise<void> {
-    try {
-      await fs.mkdir(dirPath, { recursive: true });
-    } catch {
-      // Directory may already exist
-    }
-  }
-
-  private async ensureDirsBatch(dirPaths: string[]): Promise<void> {
-    const uniqueDirs = [...new Set(dirPaths)];
-    await Promise.all(uniqueDirs.map((dir) => this.ensureDir(dir)));
   }
 
   private async writeFilesBatch(
     files: Array<{ path: string; content: string }>,
     projectPath: string,
-    skipUnchanged: boolean = false,
   ): Promise<{ generated: string[]; failed: Array<{ path: string; error: string }> }> {
+    if (files.length === 0) return { generated: [], failed: [] };
+
+    // Create all required directories up-front in parallel
+    const uniqueDirs = [...new Set(files.map((f) => path.dirname(path.join(projectPath, f.path))))];
+    await Promise.all(uniqueDirs.map((dir) => fs.mkdir(dir, { recursive: true }).catch(() => {})));
+
     const generated: string[] = [];
     const failed: Array<{ path: string; error: string }> = [];
 
-    const dirsToCreate = [
-      ...new Set(files.map((f) => path.dirname(path.join(projectPath, f.path)))),
-    ];
-    await this.ensureDirsBatch(dirsToCreate);
-
-    const filesToWrite = skipUnchanged
-      ? await this.filterUnchangedFiles(files, projectPath)
-      : files;
-
-    if (filesToWrite.length === 0) {
-      return { generated: [], failed: [] };
-    }
-
-    const writePromises = filesToWrite.map(async (file) => {
-      try {
-        const fullPath = path.join(projectPath, file.path);
-        await fs.writeFile(fullPath, file.content, "utf-8");
-        generated.push(file.path);
-      } catch (error) {
-        failed.push({
-          path: file.path,
-          error: String(error),
-        });
-      }
-    });
-
-    await Promise.all(writePromises);
-    return { generated, failed };
-  }
-
-  private async filterUnchangedFiles(
-    files: Array<{ path: string; content: string }>,
-    projectPath: string,
-  ): Promise<Array<{ path: string; content: string }>> {
-    const unchanged: Array<{ path: string; content: string }> = [];
-
-    const checkPromises = files.map(async (file) => {
-      const fullPath = path.join(projectPath, file.path);
-      try {
-        const existing = await fs.readFile(fullPath, "utf-8");
-        if (existing === file.content) {
-          unchanged.push(file);
+    await Promise.all(
+      files.map(async (file) => {
+        try {
+          await fs.writeFile(path.join(projectPath, file.path), file.content, "utf-8");
+          generated.push(file.path);
+        } catch (error) {
+          failed.push({ path: file.path, error: String(error) });
         }
-      } catch {
-        // File doesn't exist, needs to be written
-      }
-    });
+      }),
+    );
 
-    await Promise.all(checkPromises);
-
-    return files.filter((f) => !unchanged.includes(f));
-  }
-
-  private mergeResults(target: GenerationResult, source: GenerationResult): void {
-    target.generated.push(...source.generated);
-    target.failed.push(...source.failed);
-    target.skipped.push(...source.skipped);
-    target.removed.push(...source.removed);
+    return { generated, failed };
   }
 }
 
@@ -268,6 +102,5 @@ export async function generateFiles(
   config: Config,
   projectPath: string,
 ): Promise<GenerationResult> {
-  const generator = new Generator(config);
-  return generator.generateAll(projectPath);
+  return new Generator(config).generateAll(projectPath);
 }

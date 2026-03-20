@@ -9,10 +9,10 @@
 import * as path from "path";
 import type { ToolCommandAdapter, GeneratedFile } from "../adapters/types.js";
 import type { AgentTemplate } from "../templates/types.js";
+import { collectReferenceFiles } from "./shared.js";
 
 export function generateAgentForTool(
   template: AgentTemplate,
-  agentId: string,
   adapter: ToolCommandAdapter,
   version: string,
 ): GeneratedFile[] {
@@ -21,24 +21,10 @@ export function generateAgentForTool(
   }
 
   const filePath = adapter.getAgentPath(template.name);
-  const fileDirectory = path.dirname(filePath);
-  const fileContent = adapter.formatAgent(template, version);
-
-  const files: GeneratedFile[] = [
-    {
-      path: filePath,
-      content: fileContent,
-    },
+  return [
+    { path: filePath, content: adapter.formatAgent(template, version) },
+    ...collectReferenceFiles(path.dirname(filePath), template),
   ];
-
-  for (const reference of template.references || []) {
-    files.push({
-      path: path.join(fileDirectory, "references", reference.filename),
-      content: reference.content,
-    });
-  }
-
-  return files;
 }
 
 export function generateAgentsForTool(
@@ -46,9 +32,7 @@ export function generateAgentsForTool(
   adapter: ToolCommandAdapter,
   version: string,
 ): GeneratedFile[] {
-  return templates.flatMap((template) =>
-    generateAgentForTool(template, template.name, adapter, version),
-  );
+  return templates.flatMap((template) => generateAgentForTool(template, adapter, version));
 }
 
 export function generateAgentsForAllTools(

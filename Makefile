@@ -33,9 +33,8 @@ help:
 	@echo "  --delivery skills:     0 agents + 20 skills"
 
 build:
+	bun ./src/templates/.generated/generate.ts
 	bun build ./src/cli/main.ts --compile --outfile ./dist/jinn
-	mkdir -p ./dist
-	cp -r ./src/templates/agents/refs ./dist/
 	cp ./package.json ./dist/
 	ln -sf $(PWD)/dist/jinn /usr/local/bin/jinn
 

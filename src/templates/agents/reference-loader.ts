@@ -8,10 +8,11 @@ function isCompiledMode(metaPath: string): boolean {
 
 function normalizeRefsPath(refsPath: string): string {
   const normalized = normalize(refsPath);
-  if (normalized.startsWith("../")) {
-    return normalized.slice(3);
+  let stripped = normalized;
+  while (stripped.startsWith("../")) {
+    stripped = stripped.slice(3);
   }
-  return normalized;
+  return stripped;
 }
 
 export function createTemplateReferenceReader(
