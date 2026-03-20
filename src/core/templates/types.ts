@@ -1,7 +1,7 @@
 /**
  * Core template types for skills, commands, and agents.
  *
- * These types define the structure of jinn's content templates,
+ * These types define the structure of spec's content templates,
  * which are tool-agnostic and get formatted for specific AI tools by adapters.
  */
 
@@ -10,7 +10,7 @@
  * Skills are installed to <tool>/skills/<name>/SKILL.md
  */
 export interface SkillTemplate {
-  /** Unique skill identifier (e.g., 'jinn-git-master') */
+  /** Unique skill identifier (e.g., 'spec-git-master') */
   name: string;
 
   /** Human-readable description */

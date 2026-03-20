@@ -1,5 +1,5 @@
 /**
- * Jinn detect command
+ * Spec detect command
  *
  * Detects available AI tools in the project.
  */

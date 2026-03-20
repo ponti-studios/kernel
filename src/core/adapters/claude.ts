@@ -5,7 +5,7 @@
  *
  * Directory conventions (open agent skills standard + Claude-native):
  * - Skills:         .claude/skills/<name>/SKILL.md
- * - Commands:       .claude/commands/jinn/<id>.md  (also creates /jinn-<id> slash command)
+ * - Commands:       .claude/commands/spec/<id>.md  (also creates /spec-<id> slash command)
  * - Agents:         .claude/agents/<name>.md  (YAML frontmatter + markdown body)
  *
  * Agent frontmatter fields (https://code.claude.com/docs/en/sub-agents):

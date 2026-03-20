@@ -1,7 +1,7 @@
 /**
  * Configuration loader
  *
- * Load and save jinn configuration files.
+ * Load and save spec configuration files.
  */
 
 import * as path from "path";
@@ -11,7 +11,7 @@ import { ConfigSchema, type Config } from "./schema.js";
 import { DEFAULT_CONFIG, DEFAULT_CONFIG_FILENAME, JINN_DIR_NAME } from "./defaults.js";
 
 /**
- * Get the jinn configuration directory path
+ * Get the spec configuration directory path
  */
 export function getConfigDir(projectPath: string): string {
   return path.join(projectPath, JINN_DIR_NAME);
@@ -85,7 +85,7 @@ export async function createDefaultConfig(
 }
 
 /**
- * Check if jinn is configured in a project
+ * Check if spec is configured in a project
  *
  * @param projectPath - Path to project root
  * @returns True if configuration exists

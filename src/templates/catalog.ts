@@ -2,34 +2,34 @@ import type { AgentTemplate, SkillTemplate } from "../core/templates/types.js";
 import { ALL_AGENTS } from "./agents/index.js";
 
 // Code skills
-import { getDesignSkillTemplate } from "./skills/jinn-design/template.js";
-import { getCodeQualitySkillTemplate } from "./skills/jinn-code-quality/template.js";
-import { getDevEnvironmentSkillTemplate } from "./skills/jinn-dev-environment/template.js";
-import { getProjectInitSkillTemplate } from "./skills/jinn-project-init/template.js";
-import { getProjectBuildSkillTemplate } from "./skills/jinn-build/template.js";
-import { getProjectDeploySkillTemplate } from "./skills/jinn-deploy/template.js";
-import { getProjectConventionsSkillTemplate } from "./skills/jinn-conventions/template.js";
-import { getMapCodebaseSkillTemplate } from "./skills/jinn-map-codebase/template.js";
+import { getDesignSkillTemplate } from "./skills/spec-design/template.js";
+import { getCodeQualitySkillTemplate } from "./skills/spec-code-quality/template.js";
+import { getDevEnvironmentSkillTemplate } from "./skills/spec-dev-environment/template.js";
+import { getProjectInitSkillTemplate } from "./skills/spec-project-init/template.js";
+import { getProjectBuildSkillTemplate } from "./skills/spec-build/template.js";
+import { getProjectDeploySkillTemplate } from "./skills/spec-deploy/template.js";
+import { getProjectConventionsSkillTemplate } from "./skills/spec-conventions/template.js";
+import { getMapCodebaseSkillTemplate } from "./skills/spec-map-codebase/template.js";
 
 // Git skills
-import { getGitMasterSkillTemplate } from "./skills/jinn-git-master/template.js";
+import { getGitMasterSkillTemplate } from "./skills/spec-git-master/template.js";
 
 // Workflow skills
-import { getJinnApplySkillTemplate } from "./skills/jinn-apply/template.js";
-import { getJinnArchiveSkillTemplate } from "./skills/jinn-archive/template.js";
-import { getJinnCheckSkillTemplate } from "./skills/jinn-check/template.js";
-import { getJinnExploreSkillTemplate } from "./skills/jinn-explore/template.js";
-import { getJinnProposeSkillTemplate } from "./skills/jinn-propose/template.js";
-import { getReadyForProdSkillTemplate } from "./skills/jinn-ready-for-prod/template.js";
-import { getJinnReviewSkillTemplate } from "./skills/jinn-review/template.js";
-import { getJinnSyncSkillTemplate } from "./skills/jinn-sync/template.js";
-import { getJinnTriageSkillTemplate } from "./skills/jinn-triage/template.js";
+import { getSpecApplySkillTemplate } from "./skills/spec-apply/template.js";
+import { getSpecArchiveSkillTemplate } from "./skills/spec-archive/template.js";
+import { getSpecCheckSkillTemplate } from "./skills/spec-check/template.js";
+import { getSpecExploreSkillTemplate } from "./skills/spec-explore/template.js";
+import { getSpecProposeSkillTemplate } from "./skills/spec-propose/template.js";
+import { getReadyForProdSkillTemplate } from "./skills/spec-ready-for-prod/template.js";
+import { getSpecReviewSkillTemplate } from "./skills/spec-review/template.js";
+import { getSpecSyncSkillTemplate } from "./skills/spec-sync/template.js";
+import { getSpecTriageSkillTemplate } from "./skills/spec-triage/template.js";
 
 // Docs skills
-import { getDocsWorkflowSkillTemplate } from "./skills/jinn-docs-workflow/template.js";
+import { getDocsWorkflowSkillTemplate } from "./skills/spec-docs-workflow/template.js";
 
 // Support skills
-import { getJinnUnblockSkillTemplate } from "./skills/jinn-unblock/template.js";
+import { getSpecUnblockSkillTemplate } from "./skills/spec-unblock/template.js";
 
 export function getDefaultSkillTemplates(): SkillTemplate[] {
   return [
@@ -49,21 +49,21 @@ export function getDefaultSkillTemplates(): SkillTemplate[] {
     getGitMasterSkillTemplate(),
 
     // Workflow
-    getJinnProposeSkillTemplate(),
-    getJinnExploreSkillTemplate(),
-    getJinnApplySkillTemplate(),
-    getJinnCheckSkillTemplate(),
-    getJinnReviewSkillTemplate(),
-    getJinnArchiveSkillTemplate(),
+    getSpecProposeSkillTemplate(),
+    getSpecExploreSkillTemplate(),
+    getSpecApplySkillTemplate(),
+    getSpecCheckSkillTemplate(),
+    getSpecReviewSkillTemplate(),
+    getSpecArchiveSkillTemplate(),
     getReadyForProdSkillTemplate(),
-    getJinnSyncSkillTemplate(),
-    getJinnTriageSkillTemplate(),
+    getSpecSyncSkillTemplate(),
+    getSpecTriageSkillTemplate(),
 
     // Docs
     getDocsWorkflowSkillTemplate(),
 
     // Support
-    getJinnUnblockSkillTemplate(),
+    getSpecUnblockSkillTemplate(),
   ];
 }
 

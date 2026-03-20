@@ -4,10 +4,15 @@ import * as path from "path";
 import * as os from "os";
 import { generateFiles } from "../index.js";
 import type { Config } from "../../config/schema.js";
+import { getDefaultAgentTemplates } from "../../../templates/catalog.js";
+
+const defaultAgentFileNames = getDefaultAgentTemplates()
+  .map((template) => `${template.name}.md`)
+  .sort();
 
 // Helpers
 async function mkTmpDir(): Promise<string> {
-  return fs.mkdtemp(path.join(os.tmpdir(), "jinn-integ-"));
+  return fs.mkdtemp(path.join(os.tmpdir(), "spec-integ-"));
 }
 
 async function countFilesInDir(dir: string): Promise<number> {
@@ -99,6 +104,14 @@ describe("Generator integration — opencode, delivery: both", () => {
     expect(count).toBe(8);
   });
 
+  it("generates the expected agent file names under .opencode/agents/", async () => {
+    await generateFiles(config, tmpDir);
+    const agentDir = path.join(tmpDir, ".opencode", "agents");
+    const files = (await fs.readdir(agentDir)).filter((file) => file.endsWith(".md")).sort();
+
+    expect(files).toEqual(defaultAgentFileNames);
+  });
+
   it('skill SKILL.md files contain generatedBy: "1.0.0"', async () => {
     await generateFiles(config, tmpDir);
     const skillsDir = path.join(tmpDir, ".opencode", "skills");
@@ -139,6 +152,14 @@ describe("Generator integration — claude, delivery: both", () => {
     expect(count).toBe(8);
   });
 
+  it("generates the expected agent file names under .claude/agents/", async () => {
+    await generateFiles(config, tmpDir);
+    const agentsDir = path.join(tmpDir, ".claude", "agents");
+    const files = (await fs.readdir(agentsDir)).filter((file) => file.endsWith(".md")).sort();
+
+    expect(files).toEqual(defaultAgentFileNames);
+  });
+
   it("agent files contain tools: field (model omitted, defaults to inherit)", async () => {
     await generateFiles(config, tmpDir);
     const agentsDir = path.join(tmpDir, ".claude", "agents");
@@ -148,9 +169,9 @@ describe("Generator integration — claude, delivery: both", () => {
     expect(content).not.toContain("model: sonnet");
   });
 
-  it("specific agent file exists at .claude/agents/jinn-plan.md", async () => {
+  it("specific agent file exists at .claude/agents/spec-plan.md", async () => {
     await generateFiles(config, tmpDir);
-    const ok = await fileExists(path.join(tmpDir, ".claude", "agents", "jinn-plan.md"));
+    const ok = await fileExists(path.join(tmpDir, ".claude", "agents", "spec-plan.md"));
     expect(ok).toBe(true);
   });
 });

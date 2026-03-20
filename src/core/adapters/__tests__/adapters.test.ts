@@ -20,13 +20,13 @@ const allAdapters: ToolCommandAdapter[] = [
 ];
 
 const testSkillTemplate = {
-  name: "jinn-planner",
+  name: "spec-planner",
   description: "Planning agent",
   instructions: "You are a planner agent.",
   license: "MIT",
-  compatibility: "Works with jinn CLI",
+  compatibility: "Works with spec CLI",
   metadata: {
-    author: "jinn",
+    author: "spec",
     version: "1.0.0",
     category: "Orchestration",
     tags: ["planning"],
@@ -38,10 +38,10 @@ const testAgentTemplate: AgentTemplate = {
   description: "Pre-implementation planning agent",
   instructions: "You are a planning agent.",
   license: "MIT",
-  compatibility: "Works with all jinn workflows",
-  metadata: { author: "jinn", version: "1.0", category: "Orchestration", tags: ["planning"] },
+  compatibility: "Works with all spec workflows",
+  metadata: { author: "spec", version: "1.0", category: "Orchestration", tags: ["planning"] },
   defaultTools: ["read", "search"],
-  availableSkills: ["jinn-git-master", "jinn-design"],
+  availableSkills: ["spec-git-master", "spec-design"],
 };
 
 const nativeAgentSupport: Record<string, boolean> = {
@@ -84,14 +84,14 @@ describe("OpenCode Adapter", () => {
   });
 
   it("generates correct skill path", () => {
-    const path = opencodeAdapter.getSkillPath("jinn-planner");
-    expect(path).toBe(".opencode/skills/jinn-planner/SKILL.md");
+    const path = opencodeAdapter.getSkillPath("spec-planner");
+    expect(path).toBe(".opencode/skills/spec-planner/SKILL.md");
   });
 
   it("formats skill with frontmatter", () => {
     const result = opencodeAdapter.formatSkill(testSkillTemplate as any, "1.0.0");
     expect(result).toContain("---");
-    expect(result).toContain("name: jinn-planner");
+    expect(result).toContain("name: spec-planner");
     expect(result).toContain('generatedBy: "1.0.0"');
   });
 
@@ -110,8 +110,8 @@ describe("OpenCode Adapter", () => {
     const result = opencodeAdapter.formatAgent!(testAgentTemplate, "1.0.0");
     const body = result.split("---")[2];
     expect(body).toContain("## Available skills");
-    expect(body).toContain("- jinn-git-master");
-    expect(body).toContain("- jinn-design");
+    expect(body).toContain("- spec-git-master");
+    expect(body).toContain("- spec-design");
   });
 
   it("omits ## sections when fields are empty", () => {
@@ -131,8 +131,8 @@ describe("Claude Adapter", () => {
   });
 
   it("generates correct skill path", () => {
-    const path = claudeAdapter.getSkillPath("jinn-planner");
-    expect(path).toBe(".claude/skills/jinn-planner/SKILL.md");
+    const path = claudeAdapter.getSkillPath("spec-planner");
+    expect(path).toBe(".claude/skills/spec-planner/SKILL.md");
   });
 });
 
@@ -142,8 +142,8 @@ describe("GitHub Copilot Adapter", () => {
   });
 
   it("generates correct skill path", () => {
-    const path = githubCopilotAdapter.getSkillPath("jinn-planner");
-    expect(path).toBe(".github/skills/jinn-planner/SKILL.md");
+    const path = githubCopilotAdapter.getSkillPath("spec-planner");
+    expect(path).toBe(".github/skills/spec-planner/SKILL.md");
   });
 });
 
@@ -153,7 +153,7 @@ describe("Cursor Adapter", () => {
   });
 
   it("generates correct skill path", () => {
-    expect(cursorAdapter.getSkillPath("jinn-planner")).toBe(".cursor/skills/jinn-planner/SKILL.md");
+    expect(cursorAdapter.getSkillPath("spec-planner")).toBe(".cursor/skills/spec-planner/SKILL.md");
   });
 });
 
@@ -163,7 +163,7 @@ describe("Gemini Adapter", () => {
   });
 
   it("generates correct skill path", () => {
-    expect(geminiAdapter.getSkillPath("jinn-planner")).toBe(".gemini/skills/jinn-planner/SKILL.md");
+    expect(geminiAdapter.getSkillPath("spec-planner")).toBe(".gemini/skills/spec-planner/SKILL.md");
   });
 
   it("generates correct agent path", () => {
@@ -255,8 +255,8 @@ describe("Claude formatAgent", () => {
     const result = claudeAdapter.formatAgent!(testAgentTemplate, "1.0.0");
     const frontmatter = result.split("---")[1];
     expect(frontmatter).toContain("skills:");
-    expect(frontmatter).toContain("jinn-git-master");
-    expect(frontmatter).toContain("jinn-design");
+    expect(frontmatter).toContain("spec-git-master");
+    expect(frontmatter).toContain("spec-design");
   });
 
   it("does not add ## Available skills section to agent body", () => {
@@ -326,8 +326,8 @@ describe("Codex formatAgent", () => {
   it("maps availableSkills to [[skills.config]] entries", () => {
     const result = codexAdapter.formatAgent!(testAgentTemplate, "1.0.0");
     expect(result).toContain("[[skills.config]]");
-    expect(result).toContain(".codex/skills/jinn-git-master/SKILL.md");
-    expect(result).toContain(".codex/skills/jinn-design/SKILL.md");
+    expect(result).toContain(".codex/skills/spec-git-master/SKILL.md");
+    expect(result).toContain(".codex/skills/spec-design/SKILL.md");
   });
 
   it("omits [[skills.config]] when availableSkills is empty", () => {
@@ -341,14 +341,14 @@ describe("Codex formatAgent", () => {
 
 describe("Codex formatSkill", () => {
   it("uses .codex/skills/<name>/SKILL.md path", () => {
-    expect(codexAdapter.getSkillPath("jinn-git-master")).toBe(
-      ".codex/skills/jinn-git-master/SKILL.md",
+    expect(codexAdapter.getSkillPath("spec-git-master")).toBe(
+      ".codex/skills/spec-git-master/SKILL.md",
     );
   });
 
   it("includes name and description in frontmatter", () => {
     const result = codexAdapter.formatSkill(testSkillTemplate as any, "1.0.0");
-    expect(result).toContain("name: jinn-planner");
+    expect(result).toContain("name: spec-planner");
     expect(result).toContain("description: Planning agent");
   });
 
@@ -379,8 +379,8 @@ describe("GitHub Copilot formatAgent", () => {
     const result = githubCopilotAdapter.formatAgent!(testAgentTemplate, "1.0.0");
     const body = result.split("---")[2];
     expect(body).toContain("## Available skills");
-    expect(body).toContain("- jinn-git-master");
-    expect(body).toContain("- jinn-design");
+    expect(body).toContain("- spec-git-master");
+    expect(body).toContain("- spec-design");
   });
 
   it("omits ## Available skills when availableSkills is empty", () => {

@@ -1,19 +1,19 @@
-# Jinn
+# Spec
 
 **Harness-agnostic AI workflow distribution for any coding assistant.**
 
-Jinn is a CLI that generates skills and native agents for 6 AI coding tools from a single source of truth. Run `jinn init` once and get a complete AI workflow suite installed across every tool in your project — OpenCode, Cursor, Claude Code, GitHub Copilot, Codex, and Gemini.
+Spec is a CLI that generates skills and native agents for 6 AI coding tools from a single source of truth. Run `spec init` once and get a complete AI workflow suite installed across every tool in your project — OpenCode, Cursor, Claude Code, GitHub Copilot, Codex, and Gemini.
 
-You write the templates once. Jinn makes them work everywhere.
+You write the templates once. Spec makes them work everywhere.
 
 ---
 
 ## Install
 
 ```bash
-npm install -g @hackefeller/jinn
+npm install -g @stndrds/spec
 # or
-bunx jinn init
+bunx spec init
 ```
 
 ---
@@ -22,13 +22,13 @@ bunx jinn init
 
 ```bash
 # Detect which AI tools are installed
-jinn detect
+spec detect
 
-# Initialize jinn (auto-detects tools, writes config, generates files)
-jinn init
+# Initialize spec (auto-detects tools, writes config, generates files)
+spec init
 
-# Regenerate after upgrading jinn or changing config
-jinn update
+# Regenerate after upgrading spec or changing config
+spec update
 ```
 
 ---
@@ -50,12 +50,12 @@ Linear is the source of truth. No local `proposal.md` files. No sticky notes. No
 
 ## CLI Reference
 
-### `jinn init`
+### `spec init`
 
-Initialize jinn in a project. Detects installed tools, writes `.jinn/config.yaml`, generates everything.
+Initialize spec in a project. Detects installed tools, writes `.spec/config.yaml`, generates everything.
 
 ```bash
-jinn init [options]
+spec init [options]
 
   -t, --tools <tools>      Tool IDs to configure: opencode, claude, codex, github-copilot, gemini, cursor, "all"
                            (default: all detected)
@@ -72,26 +72,26 @@ jinn init [options]
 | `both` (default) | Yes    | Yes           |
 | `skills`         | Yes    | No            |
 
-When you choose `both`, jinn generates skills for every configured tool and native agents only for tools that support them. Skills-only tools such as Cursor still receive the full skill set.
+When you choose `both`, spec generates skills for every configured tool and native agents only for tools that support them. Skills-only tools such as Cursor still receive the full skill set.
 
-### `jinn update`
+### `spec update`
 
-Regenerate all files from current templates. Run after upgrading jinn, editing your config, or when your AI tool is acting weird and a clean slate sounds appealing.
+Regenerate all files from current templates. Run after upgrading spec, editing your config, or when your AI tool is acting weird and a clean slate sounds appealing.
 
 ```bash
-jinn update [options]
+spec update [options]
 
   -f, --force              Regenerate everything, no questions
   -t, --tool <tool>        Update a single tool only
       --path <path>        Project path (default: current directory)
 ```
 
-### `jinn config`
+### `spec config`
 
-View and modify `.jinn/config.yaml`.
+View and modify `.spec/config.yaml`.
 
 ```bash
-jinn config [action] [key] [value] [options]
+spec config [action] [key] [value] [options]
 
   show                    Print current config
   add-tool <tool-id>      Add a tool
@@ -101,22 +101,22 @@ jinn config [action] [key] [value] [options]
       --path <path>       Project path (default: current directory)
 ```
 
-### `jinn detect`
+### `spec detect`
 
 Scan the project for installed AI tools. Reports which ones are present and which ones you haven't bothered to install yet.
 
 ```bash
-jinn detect [--path <path>]
+spec detect [--path <path>]
 ```
 
-### `jinn vault compile`
+### `spec vault compile`
 
 Compile your personal vault skills into each configured AI tool's native format.
 
-Your vault is a directory (conventionally `~/.codex/skills/`) containing skills you want to use everywhere. Each skill is a `SKILL.md` with optional `references/` subdirectory. `jinn vault compile` reads the vault and writes cross-compiled skills into the current project for every configured tool.
+Your vault is a directory (conventionally `~/.codex/skills/`) containing skills you want to use everywhere. Each skill is a `SKILL.md` with optional `references/` subdirectory. `spec vault compile` reads the vault and writes cross-compiled skills into the current project for every configured tool.
 
 ```bash
-jinn vault compile [options]
+spec vault compile [options]
 
   -v, --vault <path>      Vault root (overrides vaultPath in config; ~ supported)
   -t, --tools <tools>    Tools to compile for (default: all configured tools)
@@ -134,13 +134,13 @@ jinn vault compile [options]
       patterns.md
 ```
 
-Skills in the vault are yours. Jinn just helps them multiply and dress up for each tool's party.
+Skills in the vault are yours. Spec just helps them multiply and dress up for each tool's party.
 
 ---
 
 ## Configuration
 
-Jinn stores config in `.jinn/config.yaml`:
+Spec stores config in `.spec/config.yaml`:
 
 ```yaml
 version: "1.0.0"
@@ -149,7 +149,7 @@ tools:
   - claude
 profile: core
 delivery: both
-vaultPath: ~/.codex # optional — for jinn vault compile
+vaultPath: ~/.codex # optional — for spec vault compile
 metadata:
   name: my-project
   description: Important work
@@ -167,7 +167,7 @@ metadata:
 
 ## Supported Tools
 
-Jinn generates files for 6 AI coding tools:
+Spec generates files for 6 AI coding tools:
 
 | Tool           | ID               | Directory    | Notes                                                 |
 | -------------- | ---------------- | ------------ | ----------------------------------------------------- |
@@ -184,7 +184,7 @@ Jinn generates files for 6 AI coding tools:
 
 ### Agents
 
-Agents are autonomous task specialists. On tools with native agent support they are emitted as native agent files. On skills-only tools, jinn does not coerce agents into skills.
+Agents are autonomous task specialists. On tools with native agent support they are emitted as native agent files. On skills-only tools, spec does not coerce agents into skills.
 
 #### Orchestrators
 
@@ -213,7 +213,7 @@ Agents are autonomous task specialists. On tools with native agent support they 
 
 ### Skills
 
-Jinn installs a broader skill catalog that covers:
+Spec installs a broader skill catalog that covers:
 
 - workflow execution and project-state handling (`propose`, `explore`, `apply`, `archive`, `review`, `check`, `sync`, `triage`, `unblock`, `ready-for-prod`)
 - engineering support (`git-master`, `frontend-design`, `code-quality`, `docs-workflow`, `dev-environment`)
@@ -227,14 +227,14 @@ Workflow entrypoints such as `/propose`, `/explore`, `/apply`, and `/archive` ar
 
 ## How It Works
 
-Jinn uses a **generator-adapter pattern**. Three moving parts:
+Spec uses a **generator-adapter pattern**. Three moving parts:
 
 1. **Templates** — Tool-agnostic definitions of agents and skills
 2. **Adapters** — Per-tool translators that know where files go and how to format them
 3. **Generator** — Reads your config, runs templates through adapters, writes files
 
 ```text
-.jinn/config.yaml
+.spec/config.yaml
   └── Generator
         ├── For each configured tool
         │     ├── Adapter formats skills  → .claude/skills/

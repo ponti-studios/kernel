@@ -1,7 +1,7 @@
 {
-  "name": "@hackefeller/jinn",
+  "name": "@stndrds/spec",
   "version": "0.0.1",
-  "description": "AI-powered assistant for all personal computing tasks",
+  "description": "Set standards for your AI. Spec enables AI users to apply the highest standards across all tasks via efficient, reusable skills.",
   "keywords": [
     "agent",
     "ai",
@@ -9,18 +9,18 @@
     "automation",
     "personal-computing"
   ],
-  "homepage": "https://github.com/hackefeller/jinn#readme",
+  "homepage": "https://github.com/hackefeller/spec#readme",
   "bugs": {
-    "url": "https://github.com/hackefeller/jinn/issues"
+    "url": "https://github.com/hackefeller/spec/issues"
   },
   "license": "SUL-1.0",
   "author": "Charles Ponti",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hackefeller/jinn.git"
+    "url": "git+https://github.com/hackefeller/spec.git"
   },
   "bin": {
-    "jinn": "./dist/jinn"
+    "spec": "./dist/spec"
   },
   "files": [
     "dist"
@@ -28,11 +28,11 @@
   "type": "module",
   "scripts": {
     "generate:template-refs": "bun ./src/templates/.generated/generate.ts",
-    "build": "bun run generate:template-refs && bun build ./src/cli/main.ts --compile --outfile ./dist/jinn",
-    "build:bin": "bun run generate:template-refs && bun build ./src/cli/main.ts --compile --outfile ./dist/jinn",
-    "build:dev": "bun run generate:template-refs && bun build ./src/cli/main.ts --compile --outfile ./dist/jinn-dev",
+    "build": "bun run generate:template-refs && bun build ./src/cli/main.ts --compile --outfile ./dist/spec",
+    "build:bin": "bun run generate:template-refs && bun build ./src/cli/main.ts --compile --outfile ./dist/spec",
+    "build:dev": "bun run generate:template-refs && bun build ./src/cli/main.ts --compile --outfile ./dist/spec-dev",
     "dev:cli": "bun ./src/cli/main.ts",
-    "link:dev": "ln -sf $PWD/dist/jinn-dev /usr/local/bin/jinn-dev",
+    "link:dev": "ln -sf $PWD/dist/spec-dev /usr/local/bin/spec-dev",
     "test": "bun run generate:template-refs && bun test",
     "test:vault": "bun test src/core/vault/__tests__",
     "typecheck": "bun run generate:template-refs && bun --bun tsc --noEmit",

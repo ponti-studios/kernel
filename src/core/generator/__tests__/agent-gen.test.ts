@@ -12,8 +12,8 @@ const testAgent: AgentTemplate = {
   description: "Pre-implementation planning agent",
   instructions: "You are a planning agent.",
   license: "MIT",
-  compatibility: "Works with all jinn workflows",
-  metadata: { author: "jinn", version: "1.0", category: "Orchestration", tags: ["planning"] },
+  compatibility: "Works with all spec workflows",
+  metadata: { author: "spec", version: "1.0", category: "Orchestration", tags: ["planning"] },
   defaultTools: ["read", "search"],
 };
 
@@ -23,7 +23,7 @@ const testAgent2: AgentTemplate = {
   instructions: "You are a review agent.",
   license: "MIT",
   compatibility: "Works with all projects",
-  metadata: { author: "jinn", version: "1.0", category: "Orchestration", tags: ["review"] },
+  metadata: { author: "spec", version: "1.0", category: "Orchestration", tags: ["review"] },
   defaultTools: ["read"],
   references: [{ relativePath: "references/common/python.md", content: "# Python Review\n" }],
 };

@@ -1,5 +1,5 @@
 /**
- * Configuration schema and types for jinn.
+ * Configuration schema and types for spec.
  *
  * Uses Zod for runtime validation and TypeScript type inference.
  */
@@ -27,7 +27,7 @@ export type Delivery = z.infer<typeof DeliverySchema>;
 
 /**
  * Supported AI tool identifiers
- * This list covers the AI coding tools currently supported by jinn
+ * This list covers the AI coding tools currently supported by spec
  */
 export const ToolIdSchema = z.enum([
   "opencode",
@@ -41,7 +41,7 @@ export type ToolId = z.infer<typeof ToolIdSchema>;
 
 /**
  * Main configuration schema
- * This defines the structure of .jinn/config.yaml
+ * This defines the structure of .spec/config.yaml
  */
 export const ConfigSchema = z.object({
   /** Configuration schema version */
@@ -64,7 +64,7 @@ export const ConfigSchema = z.object({
 
   /**
    * Path to the personal knowledge vault containing .codex/skills/.
-   * Used by `jinn vault compile` when --vault is not passed explicitly.
+   * Used by `spec vault compile` when --vault is not passed explicitly.
    * Supports ~ for home directory.
    */
   vaultPath: z.string().optional(),

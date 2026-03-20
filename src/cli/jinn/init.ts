@@ -1,7 +1,7 @@
 /**
  * Init command
  *
- * Initializes jinn in the current project.
+ * Initializes spec in the current project.
  */
 
 import type { Config } from "../../core/config/schema.js";
@@ -20,7 +20,7 @@ export interface InitOptions {
 export async function executeInit(options: InitOptions): Promise<void> {
   const projectPath = options.projectPath || process.cwd();
 
-  console.log("Initializing jinn...\n");
+  console.log("Initializing spec...\n");
 
   const availableTools = await detectAvailableTools(projectPath);
 
@@ -34,7 +34,7 @@ export async function executeInit(options: InitOptions): Promise<void> {
     }
   } else if (availableTools.length === 0) {
     console.log("No AI tools detected. Install a tool first (e.g., OpenCode, Cursor).");
-    console.log("\nJinn supports:");
+    console.log("\nSpec supports:");
     console.log("  - OpenCode (.opencode/)");
     console.log("  - Cursor (.cursor/)");
     console.log("  - Claude Code (.claude/)");
@@ -62,7 +62,7 @@ export async function executeInit(options: InitOptions): Promise<void> {
     delivery: (options.delivery as any) || "both",
   });
 
-  console.log("Generating jinn files...");
+  console.log("Generating spec files...");
   const result = await generateFiles(config, projectPath);
 
   console.log(`\nGenerated ${result.generated.length} files`);
@@ -74,7 +74,7 @@ export async function executeInit(options: InitOptions): Promise<void> {
     }
   }
 
-  console.log("\n✓ Jinn initialized successfully!");
+  console.log("\n✓ Spec initialized successfully!");
   console.log(`\nConfigured tools: ${selectedTools.join(", ")}`);
   console.log(`Profile: ${config.profile}`);
   console.log("\nTry running one of these commands in your AI tool:");

@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 
 /**
- * Jinn CLI
+ * Spec CLI
  *
  * Harness-agnostic AI agent distribution platform.
  */
@@ -33,13 +33,13 @@ function getVersion(): string {
 const program = new Command();
 
 program
-  .name("jinn")
+  .name("spec")
   .description("AI-native development workflows for any coding assistant")
   .version(getVersion());
 
 program
   .command("init")
-  .description("Initialize jinn in the current project")
+  .description("Initialize spec in the current project")
   .option("-t, --tools <tools>", 'Comma-separated list of tools (or "all")')
   .option("-p, --profile <profile>", "Profile to use (core, extended)", "core")
   .option("-d, --delivery <delivery>", "What to install (skills, both)", "both")
@@ -57,7 +57,7 @@ program
 
 program
   .command("update")
-  .description("Update/regenerate jinn files")
+  .description("Update/regenerate spec files")
   .option("-f, --force", "Force regeneration")
   .option("-t, --tool <tool>", "Update specific tool only")
   .option("--path <path>", "Project path (default: current directory)")
@@ -71,7 +71,7 @@ program
 
 program
   .command("config")
-  .description("Manage jinn configuration")
+  .description("Manage spec configuration")
   .option("--path <path>", "Project path (default: current directory)")
   .argument("[action]", "Action: show, add-tool, remove-tool, set")
   .argument("[key]", "Config key (for set)")
@@ -101,7 +101,7 @@ const vault = program.command("vault").description("Manage personal knowledge va
 vault
   .command("compile")
   .description("Compile vault skills into each configured AI tool's native format")
-  .option("-v, --vault <path>", "Path to vault root — overrides vaultPath in .jinn/config.yaml")
+  .option("-v, --vault <path>", "Path to vault root — overrides vaultPath in .spec/config.yaml")
   .option(
     "-t, --tools <tools>",
     "Comma-separated tool IDs to compile for (default: all configured tools)",
@@ -115,4 +115,4 @@ vault
     });
   });
 
-export { program as jinnProgram };
+export { program as specProgram };

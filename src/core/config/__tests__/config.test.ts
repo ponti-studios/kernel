@@ -17,7 +17,7 @@ import { JINN_DIR_NAME, DEFAULT_CONFIG_FILENAME } from "../defaults.js";
 import type { Config } from "../schema.js";
 
 async function mkTmpDir(): Promise<string> {
-  return fs.mkdtemp(path.join(os.tmpdir(), "jinn-config-"));
+  return fs.mkdtemp(path.join(os.tmpdir(), "spec-config-"));
 }
 
 // ============================================================================
@@ -25,7 +25,7 @@ async function mkTmpDir(): Promise<string> {
 // ============================================================================
 
 describe("getConfigPath", () => {
-  it("returns <projectPath>/.jinn/config.yaml", () => {
+  it("returns <projectPath>/.spec/config.yaml", () => {
     const result = getConfigPath("/some/project");
     expect(result).toBe(path.join("/some/project", JINN_DIR_NAME, DEFAULT_CONFIG_FILENAME));
   });

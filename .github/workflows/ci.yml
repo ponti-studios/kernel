@@ -100,4 +100,4 @@ jobs:
 
       - name: Verify build output
         run: |
-          test -f dist/jinn || (echo "ERROR: dist/jinn not found!" && exit 1)
+          test -f dist/spec || (echo "ERROR: dist/spec not found!" && exit 1)

@@ -23,7 +23,7 @@ export const DEFAULT_CONFIG_FILENAME = "config.yaml";
 /**
  * Config directory name
  */
-export const JINN_DIR_NAME = ".jinn";
+export const JINN_DIR_NAME = ".spec";
 
 /**
  * Current configuration schema version

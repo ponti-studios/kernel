@@ -4,7 +4,7 @@ import * as path from "path";
 import * as os from "os";
 
 async function mkTmpDir(): Promise<string> {
-  return fs.mkdtemp(path.join(os.tmpdir(), "jinn-detector-"));
+  return fs.mkdtemp(path.join(os.tmpdir(), "spec-detector-"));
 }
 
 // ============================================================================

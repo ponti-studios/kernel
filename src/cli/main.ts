@@ -1,5 +1,5 @@
 #!/usr/bin/env bun
 
-import { jinnProgram } from "./jinn/index.js";
+import { specProgram } from "./jinn/index.js";
 
-jinnProgram.parse();
+specProgram.parse();

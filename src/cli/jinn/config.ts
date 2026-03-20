@@ -1,7 +1,7 @@
 /**
  * Config command
  *
- * Manages jinn configuration.
+ * Manages spec configuration.
  */
 
 import * as fs from "fs/promises";
@@ -33,8 +33,8 @@ async function showConfig(projectPath: string): Promise<void> {
     const content = await fs.readFile(getConfigPath(projectPath), "utf-8");
     console.log(content);
   } catch {
-    console.log("No jinn configuration found.");
-    console.log('Run "jinn init" to initialize.');
+    console.log("No spec configuration found.");
+    console.log('Run "spec init" to initialize.');
   }
 }
 
@@ -45,7 +45,7 @@ async function modifyTools(
 ): Promise<void> {
   const config = await loadConfig(projectPath);
   if (!config) {
-    console.log('No jinn configuration found. Run "jinn init" to initialize.');
+    console.log('No spec configuration found. Run "spec init" to initialize.');
     return;
   }
 
@@ -71,7 +71,7 @@ async function modifyTools(
 async function setConfig(projectPath: string, key: string, value: string): Promise<void> {
   const config = await loadConfig(projectPath);
   if (!config) {
-    console.log('No jinn configuration found. Run "jinn init" to initialize.');
+    console.log('No spec configuration found. Run "spec init" to initialize.');
     return;
   }
 

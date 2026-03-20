@@ -1,7 +1,7 @@
 /**
  * Update command
  *
- * Updates/regenerates jinn files.
+ * Updates/regenerates spec files.
  */
 
 import type { Config } from "../../core/config/schema.js";
@@ -18,14 +18,14 @@ export interface UpdateOptions {
 export async function executeUpdate(options: UpdateOptions): Promise<void> {
   const projectPath = options.projectPath || process.cwd();
 
-  console.log("Updating jinn...\n");
+  console.log("Updating spec...\n");
 
   try {
     const loaded = await loadConfig(projectPath);
 
     if (!loaded) {
-      console.log("No jinn configuration found.");
-      console.log('\nRun "jinn init" first to initialize jinn.');
+      console.log("No spec configuration found.");
+      console.log('\nRun "spec init" first to initialize spec.');
       return;
     }
 
@@ -46,9 +46,9 @@ export async function executeUpdate(options: UpdateOptions): Promise<void> {
       }
     }
 
-    console.log("\n✓ Jinn updated successfully!");
+    console.log("\n✓ Spec updated successfully!");
   } catch (error) {
     console.error("Error:", error);
-    console.log('\nRun "jinn init" first to initialize jinn.');
+    console.log('\nRun "spec init" first to initialize spec.');
   }
 }

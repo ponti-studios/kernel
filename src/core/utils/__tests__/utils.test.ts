@@ -20,7 +20,7 @@ import {
 } from "../file-system.js";
 
 async function mkTmpDir(): Promise<string> {
-  return fs.mkdtemp(path.join(os.tmpdir(), "jinn-utils-"));
+  return fs.mkdtemp(path.join(os.tmpdir(), "spec-utils-"));
 }
 
 describe("File System Utilities", () => {

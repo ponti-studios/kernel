@@ -51,7 +51,7 @@ describe("importLegacyChanges", () => {
   });
 
   it("imports active Legacy changes into normalized Linear payloads", async () => {
-    root = await mkdtemp(join(tmpdir(), "jinn-linear-import-"));
+    root = await mkdtemp(join(tmpdir(), "spec-linear-import-"));
     await writeFixture(root);
 
     const projects = await importLegacyChanges(root);
@@ -67,7 +67,7 @@ describe("importLegacyChanges", () => {
   });
 
   it("is idempotent for the same source tree", async () => {
-    root = await mkdtemp(join(tmpdir(), "jinn-linear-import-"));
+    root = await mkdtemp(join(tmpdir(), "spec-linear-import-"));
     await writeFixture(root);
 
     const first = await importLegacyChanges(root);
@@ -77,7 +77,7 @@ describe("importLegacyChanges", () => {
   });
 
   it("creates a minimal project when optional files are missing", async () => {
-    root = await mkdtemp(join(tmpdir(), "jinn-linear-import-"));
+    root = await mkdtemp(join(tmpdir(), "spec-linear-import-"));
     const changeRoot = join(root, "openspec", "changes", "minimal-change");
     await mkdir(changeRoot, { recursive: true });
     await writeFile(join(changeRoot, "proposal.md"), "Minimal import");

@@ -1,7 +1,7 @@
 /**
  * Adapter types for tool-specific formatting.
  *
- * The adapter pattern is the core of jinn's harness-agnostic architecture.
+ * The adapter pattern is the core of spec's harness-agnostic architecture.
  * Each AI tool implements ToolCommandAdapter to format content for its specific
  * requirements while the core templates remain tool-agnostic.
  */
@@ -25,15 +25,15 @@ export interface ToolCommandAdapter {
 
   /**
    * Returns the skill directory path.
-   * @param skillName - The skill name (e.g., 'jinn-planner')
-   * @returns Path from project root (e.g., '.opencode/skills/jinn-planner/SKILL.md')
+   * @param skillName - The skill name (e.g., 'spec-planner')
+   * @returns Path from project root (e.g., '.opencode/skills/spec-planner/SKILL.md')
    */
   getSkillPath(skillName: string): string;
 
   /**
    * Formats skill file content including frontmatter.
    * @param template - The skill template
-   * @param version - Jinn version
+   * @param version - Spec version
    * @returns Complete file content ready to write
    */
   formatSkill(template: SkillTemplate, version: string): string;
@@ -41,8 +41,8 @@ export interface ToolCommandAdapter {
   /**
    * Optional: Returns the file path for an agent.
     * If omitted, this tool does not support native agent generation.
-   * @param agentName - The agent name (e.g., 'jinn-plan')
-   * @returns Path from project root (e.g., '.claude/agents/jinn-plan.md')
+   * @param agentName - The agent name (e.g., 'spec-plan')
+   * @returns Path from project root (e.g., '.claude/agents/spec-plan.md')
    */
   getAgentPath?(agentName: string): string;
 
@@ -50,7 +50,7 @@ export interface ToolCommandAdapter {
    * Optional: Formats agent file content with tool-native agent frontmatter.
     * If omitted, this tool does not support native agent generation.
    * @param template - The agent template
-   * @param version - Jinn version
+   * @param version - Spec version
    * @returns Complete file content ready to write
    */
   formatAgent?(template: AgentTemplate, version: string): string;
@@ -64,7 +64,7 @@ export interface ToolCommandAdapter {
   /**
    * Optional: Formats the skills discovery manifest content.
    * @param skills - All skill templates to index
-   * @param version - Jinn version
+   * @param version - Spec version
    * @returns Complete manifest file content
    */
   formatManifest?(skills: SkillTemplate[], version: string): string;

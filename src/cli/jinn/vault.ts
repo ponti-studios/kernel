@@ -1,14 +1,14 @@
 /**
- * jinn vault compile
+ * spec vault compile
  *
  * Compiles vault skills from a personal knowledge vault into each configured
  * AI tool's native format, writing the output files into the current project.
  *
  * Usage:
- *   jinn vault compile                          # uses vaultPath from .jinn/config.yaml
- *   jinn vault compile --vault ~/path/to/vault  # explicit override
- *   jinn vault compile --tools claude,github-copilot
- *   jinn vault compile --dry-run
+ *   spec vault compile                          # uses vaultPath from .spec/config.yaml
+ *   spec vault compile --vault ~/path/to/vault  # explicit override
+ *   spec vault compile --tools claude,github-copilot
+ *   spec vault compile --dry-run
  */
 
 import * as fs from "fs/promises";
@@ -67,10 +67,10 @@ export async function executeVaultCompile(options: VaultCompileCommandOptions): 
   const projectPath = process.cwd();
   const dryRun = options.dryRun ?? false;
 
-  // 1. Load jinn config
+  // 1. Load spec config
   const config = await loadConfig(projectPath);
   if (!config) {
-    console.error("No .jinn/config.yaml found. Run `jinn init` first.");
+    console.error("No .spec/config.yaml found. Run `spec init` first.");
     process.exit(1);
   }
 
@@ -78,7 +78,7 @@ export async function executeVaultCompile(options: VaultCompileCommandOptions): 
   const rawVaultPath = options.vault ?? config.vaultPath;
   if (!rawVaultPath) {
     console.error(
-      "No vault path found. Either pass --vault <path> or set vaultPath in .jinn/config.yaml.",
+      "No vault path found. Either pass --vault <path> or set vaultPath in .spec/config.yaml.",
     );
     process.exit(1);
   }
@@ -149,7 +149,7 @@ export async function executeVaultCompile(options: VaultCompileCommandOptions): 
 
   if (!dryRun) {
     console.log(
-      "\nDone. Run `jinn update` to regenerate jinn-native skills alongside vault skills.",
+      "\nDone. Run `spec update` to regenerate spec-native skills alongside vault skills.",
     );
   }
 }

@@ -13,30 +13,30 @@
 // =============================================================================
 export const SKILL_NAMES = {
   // Git skills
-  GIT_MASTER: "jinn-git-master",
+  GIT_MASTER: "spec-git-master",
 
   // Frontend skills
-  DESIGN: "jinn-design",
+  DESIGN: "spec-design",
 
   // Engineering skills
-  CODE_QUALITY: "jinn-code-quality",
-  DEV_ENVIRONMENT: "jinn-dev-environment",
-  DOCS_WORKFLOW: "jinn-docs-workflow",
-  PROJECT_INIT: "jinn-project-init",
-  BUILD: "jinn-build",
-  DEPLOY: "jinn-deploy",
-  CONVENTIONS: "jinn-conventions",
-  MAP_CODEBASE: "jinn-map-codebase",
+  CODE_QUALITY: "spec-code-quality",
+  DEV_ENVIRONMENT: "spec-dev-environment",
+  DOCS_WORKFLOW: "spec-docs-workflow",
+  PROJECT_INIT: "spec-project-init",
+  BUILD: "spec-build",
+  DEPLOY: "spec-deploy",
+  CONVENTIONS: "spec-conventions",
+  MAP_CODEBASE: "spec-map-codebase",
 
-  // Jinn workflow skills
-  JINN_CHECK: "jinn-check",
-  JINN_REVIEW: "jinn-review",
-  JINN_PROPOSE: "jinn-propose",
-  JINN_EXPLORE: "jinn-explore",
-  JINN_APPLY: "jinn-apply",
-  JINN_ARCHIVE: "jinn-archive",
-  JINN_SYNC: "jinn-sync",
-  JINN_TRIAGE: "jinn-triage",
-  JINN_UNBLOCK: "jinn-unblock",
-  JINN_READY_FOR_PROD: "jinn-ready-for-prod",
+  // Spec workflow skills
+  JINN_CHECK: "spec-check",
+  JINN_REVIEW: "spec-review",
+  JINN_PROPOSE: "spec-propose",
+  JINN_EXPLORE: "spec-explore",
+  JINN_APPLY: "spec-apply",
+  JINN_ARCHIVE: "spec-archive",
+  JINN_SYNC: "spec-sync",
+  JINN_TRIAGE: "spec-triage",
+  JINN_UNBLOCK: "spec-unblock",
+  JINN_READY_FOR_PROD: "spec-ready-for-prod",
 } as const;

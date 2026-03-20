@@ -4,7 +4,7 @@ import * as path from "path";
 import * as os from "os";
 
 async function mkTmpDir(): Promise<string> {
-  return fs.mkdtemp(path.join(os.tmpdir(), "jinn-cli-"));
+  return fs.mkdtemp(path.join(os.tmpdir(), "spec-cli-"));
 }
 
 // ============================================================================
@@ -79,7 +79,7 @@ describe("executeInit", () => {
     const { executeInit } = await import("../init.js");
     await executeInit({ projectPath: tmpDir, tools: "opencode" });
     expect(logs.some((l) => l.includes("initialized successfully"))).toBe(true);
-    const configExists = await fs.stat(path.join(tmpDir, ".jinn", "config.yaml")).then(
+    const configExists = await fs.stat(path.join(tmpDir, ".spec", "config.yaml")).then(
       () => true,
       () => false,
     );
@@ -145,7 +145,7 @@ describe("executeUpdate", () => {
   it("reports no config when not initialized", async () => {
     const { executeUpdate } = await import("../update.js");
     await executeUpdate({ projectPath: tmpDir });
-    expect(logs.some((l) => l.includes("No jinn configuration found"))).toBe(true);
+    expect(logs.some((l) => l.includes("No spec configuration found"))).toBe(true);
   });
 
   it("updates successfully when config exists", async () => {
@@ -205,7 +205,7 @@ describe("executeConfig", () => {
   it("show reports no config when not initialized", async () => {
     const { executeConfig } = await import("../config.js");
     await executeConfig({ action: "show", projectPath: tmpDir });
-    expect(logs.some((l) => l.includes("No jinn configuration found"))).toBe(true);
+    expect(logs.some((l) => l.includes("No spec configuration found"))).toBe(true);
   });
 
   it("show prints config content after init", async () => {
@@ -280,6 +280,6 @@ describe("executeConfig", () => {
   it("add-tool reports no config when not initialized", async () => {
     const { executeConfig } = await import("../config.js");
     await executeConfig({ action: "add-tool", value: "cursor", projectPath: tmpDir });
-    expect(logs.some((l) => l.includes("No jinn configuration found"))).toBe(true);
+    expect(logs.some((l) => l.includes("No spec configuration found"))).toBe(true);
   });
 });
