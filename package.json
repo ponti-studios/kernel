@@ -1,7 +1,7 @@
 {
-  "name": "@stndrds/spec",
-  "version": "0.0.1",
-  "description": "Set standards for your AI. Spec enables AI users to apply the highest standards across all tasks via efficient, reusable skills.",
+  "name": "@hackefeller/kernel",
+  "version": "0.0.4",
+  "description": "Turn a dumb AI agent into a super intelligent and capable agent. Kernel ensures your AI always does things the right way.",
   "keywords": [
     "agent",
     "ai",
@@ -9,18 +9,18 @@
     "automation",
     "personal-computing"
   ],
-  "homepage": "https://github.com/hackefeller/spec#readme",
+  "homepage": "https://github.com/hackefeller/kernel#readme",
   "bugs": {
-    "url": "https://github.com/hackefeller/spec/issues"
+    "url": "https://github.com/hackefeller/kernel/issues"
   },
   "license": "SUL-1.0",
   "author": "Charles Ponti",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hackefeller/spec.git"
+    "url": "git+https://github.com/hackefeller/kernel.git"
   },
   "bin": {
-    "spec": "./dist/spec"
+    "kernel": "./dist/kernel"
   },
   "files": [
     "dist"
@@ -28,11 +28,11 @@
   "type": "module",
   "scripts": {
     "generate:template-refs": "bun ./src/templates/.generated/generate.ts",
-    "build": "bun run generate:template-refs && bun build ./src/cli/main.ts --compile --outfile ./dist/spec",
-    "build:bin": "bun run generate:template-refs && bun build ./src/cli/main.ts --compile --outfile ./dist/spec",
-    "build:dev": "bun run generate:template-refs && bun build ./src/cli/main.ts --compile --outfile ./dist/spec-dev",
+    "build": "bun run generate:template-refs && bun build ./src/cli/main.ts --compile --outfile ./dist/kernel && cp ./package.json ./dist/",
+    "build:bin": "bun run generate:template-refs && bun build ./src/cli/main.ts --compile --outfile ./dist/kernel && cp ./package.json ./dist/",
+    "build:dev": "bun run generate:template-refs && bun build ./src/cli/main.ts --compile --outfile ./dist/kernel-dev && cp ./package.json ./dist/",
     "dev:cli": "bun ./src/cli/main.ts",
-    "link:dev": "ln -sf $PWD/dist/spec-dev /usr/local/bin/spec-dev",
+    "link:dev": "ln -sf $PWD/dist/kernel-dev /usr/local/bin/kernel-dev",
     "test": "bun run generate:template-refs && bun test",
     "test:vault": "bun test src/core/vault/__tests__",
     "typecheck": "bun run generate:template-refs && bun --bun tsc --noEmit",

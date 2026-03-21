@@ -1,5 +1,5 @@
 #!/usr/bin/env bun
 
-import { specProgram } from "./jinn/index.js";
+import { kernelProgram } from "./index.js";
 
-specProgram.parse();
+kernelProgram.parse();

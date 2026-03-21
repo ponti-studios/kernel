@@ -1,42 +1,42 @@
 # =============================================================================
-# Spec CLI test targets
+# Kernel CLI test targets
 # Run from repo root: make <target>
 # =============================================================================
 
-BIN := $(shell pwd)/dist/spec
-TESTDIR := /tmp/spec-cli-test
-TESTDIR_DELIVERY_BOTH := /tmp/spec-cli-test-delivery-both
-TESTDIR_DELIVERY_SKILLS := /tmp/spec-cli-test-delivery-skills
-TESTDIR_MULTI := /tmp/spec-cli-test-multi
+BIN := $(shell pwd)/dist/kernel
+TESTDIR := /tmp/kernel-cli-test
+TESTDIR_DELIVERY_BOTH := /tmp/kernel-cli-test-delivery-both
+TESTDIR_DELIVERY_SKILLS := /tmp/kernel-cli-test-delivery-skills
+TESTDIR_MULTI := /tmp/kernel-cli-test-multi
 
 .PHONY: help test-all test-init test-init-both test-init-skills test-init-multi \
 	test-update test-config test-detect test-vault clean build
 
 help:
-	@echo "Spec CLI test targets"
+	@echo "Kernel CLI test targets"
 	@echo ""
 	@echo "  make build              Build the CLI binary"
-	@echo "  make test-init         Test 'spec init --delivery commands'"
-	@echo "  make test-init-both    Test 'spec init --delivery both'"
-	@echo "  make test-init-skills  Test 'spec init --delivery skills'"
-	@echo "  make test-init-multi   Test 'spec init' with multiple tools"
-	@echo "  make test-update       Test 'spec update --force'"
-	@echo "  make test-config       Test 'spec config show / add-tool'"
-	@echo "  make test-detect       Test 'spec detect'"
-	@echo "  make test-vault        Test 'spec vault compile --dry-run'"
+	@echo "  make test-init         Test 'kernel init --delivery commands'"
+	@echo "  make test-init-both    Test 'kernel init --delivery both'"
+	@echo "  make test-init-skills  Test 'kernel init --delivery skills'"
+	@echo "  make test-init-multi   Test 'kernel init' with multiple tools"
+	@echo "  make test-update       Test 'kernel update --force'"
+	@echo "  make test-config       Test 'kernel config show / add-tool'"
+	@echo "  make test-detect       Test 'kernel detect'"
+	@echo "  make test-vault        Test 'kernel vault compile --dry-run'"
 	@echo "  make test-all          Run all CLI integration tests"
 	@echo "  make clean             Remove test directories"
 	@echo ""
 	@echo "File count expectations:"
 	@echo "  --delivery commands:   8 agents + 20 skills"
 	@echo "  --delivery both:       8 agents + 20 skills"
-	@echo "  --delivery skills:     0 agents + 20 skills"
+	@echo "  --delivery skills:    0 agents + 20 skills"
 
 build:
 	bun ./src/templates/.generated/generate.ts
-	bun build ./src/cli/main.ts --compile --outfile ./dist/spec
+	bun build ./src/cli/main.ts --compile --outfile ./dist/kernel
 	cp ./package.json ./dist/
-	ln -sf $(PWD)/dist/spec /usr/local/bin/spec
+	ln -sf $(PWD)/dist/kernel /usr/local/bin/kernel
 
 # --- Test init with --delivery commands ---
 test-init: build
@@ -49,8 +49,8 @@ test-init: build
 	@echo ".opencode/agents/  -> $$(ls $(TESTDIR)/.opencode/agents/*.md 2>/dev/null | wc -l | tr -d ' ') (expected 8)"
 	@echo ".opencode/skills/  -> $$(ls -d $(TESTDIR)/.opencode/skills/*/ 2>/dev/null | wc -l | tr -d ' ') (expected 20)"
 	@echo ""
-	@echo "=== Spot-check: spec-plan.md has ## Available skills ==="
-	@{ grep -q "## Available skills" $(TESTDIR)/.opencode/agents/spec-plan.md && echo "PASS: spec-plan.md has ## Available skills" || echo "FAIL: spec-plan.md missing ## Available skills"; }
+	@echo "=== Spot-check: kernel-plan.md has ## Available skills ==="
+	@{ grep -q "## Available skills" $(TESTDIR)/.opencode/agents/kernel-plan.md && echo "PASS: kernel-plan.md has ## Available skills" || echo "FAIL: kernel-plan.md missing ## Available skills"; }
 
 # --- Test init with --delivery both ---
 test-init-both: build

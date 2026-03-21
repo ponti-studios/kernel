@@ -1,6 +1,7 @@
-delivery: skills
+delivery:
+  - skills
+  - agents
 featureFlags: {}
-profile: core
 tools:
   - opencode
   - claude

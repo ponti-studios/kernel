@@ -1,19 +1,19 @@
-# Spec
+# Kernel
 
-**Harness-agnostic AI workflow distribution for any coding assistant.**
+**Turn a dumb AI agent into a super intelligent and capable agent.**
 
-Spec is a CLI that generates skills and native agents for 6 AI coding tools from a single source of truth. Run `spec init` once and get a complete AI workflow suite installed across every tool in your project — OpenCode, Cursor, Claude Code, GitHub Copilot, Codex, and Gemini.
+Kernel is a CLI that generates skills and native agents for 6 AI coding tools from a single source of truth. Run `kernel init` once and get a complete AI workflow suite installed across every tool in your project — OpenCode, Cursor, Claude Code, GitHub Copilot, Codex, and Gemini.
 
-You write the templates once. Spec makes them work everywhere.
+You write the templates once. Kernel makes them work everywhere.
 
 ---
 
 ## Install
 
 ```bash
-npm install -g @stndrds/spec
+npm install -g @hackefeller/kernel
 # or
-bunx spec init
+bunx kernel init
 ```
 
 ---
@@ -22,13 +22,13 @@ bunx spec init
 
 ```bash
 # Detect which AI tools are installed
-spec detect
+kernel detect
 
-# Initialize spec (auto-detects tools, writes config, generates files)
-spec init
+# Initialize kernel (auto-detects tools, writes config, generates files)
+kernel init
 
-# Regenerate after upgrading spec or changing config
-spec update
+# Regenerate after upgrading kernel or changing config
+kernel update
 ```
 
 ---
@@ -50,12 +50,12 @@ Linear is the source of truth. No local `proposal.md` files. No sticky notes. No
 
 ## CLI Reference
 
-### `spec init`
+### `kernel init`
 
-Initialize spec in a project. Detects installed tools, writes `.spec/config.yaml`, generates everything.
+Initialize kernel in a project. Detects installed tools, writes `.agents/kernel.config.yaml`, generates everything.
 
 ```bash
-spec init [options]
+kernel init [options]
 
   -t, --tools <tools>      Tool IDs to configure: opencode, claude, codex, github-copilot, gemini, cursor, "all"
                            (default: all detected)
@@ -72,26 +72,26 @@ spec init [options]
 | `both` (default) | Yes    | Yes           |
 | `skills`         | Yes    | No            |
 
-When you choose `both`, spec generates skills for every configured tool and native agents only for tools that support them. Skills-only tools such as Cursor still receive the full skill set.
+When you choose `both`, kernel generates skills for every configured tool and native agents only for tools that support them. Skills-only tools such as Cursor still receive the full skill set.
 
-### `spec update`
+### `kernel update`
 
-Regenerate all files from current templates. Run after upgrading spec, editing your config, or when your AI tool is acting weird and a clean slate sounds appealing.
+Regenerate all files from current templates. Run after upgrading kernel, editing your config, or when your AI tool is acting weird and a clean slate sounds appealing.
 
 ```bash
-spec update [options]
+kernel update [options]
 
   -f, --force              Regenerate everything, no questions
   -t, --tool <tool>        Update a single tool only
       --path <path>        Project path (default: current directory)
 ```
 
-### `spec config`
+### `kernel config`
 
-View and modify `.spec/config.yaml`.
+View and modify `.agents/kernel.config.yaml`.
 
 ```bash
-spec config [action] [key] [value] [options]
+kernel config [action] [key] [value] [options]
 
   show                    Print current config
   add-tool <tool-id>      Add a tool
@@ -101,22 +101,22 @@ spec config [action] [key] [value] [options]
       --path <path>       Project path (default: current directory)
 ```
 
-### `spec detect`
+### `kernel detect`
 
 Scan the project for installed AI tools. Reports which ones are present and which ones you haven't bothered to install yet.
 
 ```bash
-spec detect [--path <path>]
+kernel detect [--path <path>]
 ```
 
-### `spec vault compile`
+### `kernel vault compile`
 
 Compile your personal vault skills into each configured AI tool's native format.
 
-Your vault is a directory (conventionally `~/.codex/skills/`) containing skills you want to use everywhere. Each skill is a `SKILL.md` with optional `references/` subdirectory. `spec vault compile` reads the vault and writes cross-compiled skills into the current project for every configured tool.
+Your vault is a directory (conventionally `~/.codex/skills/`) containing skills you want to use everywhere. Each skill is a `SKILL.md` with optional `references/` subdirectory. `kernel vault compile` reads the vault and writes cross-compiled skills into the current project for every configured tool.
 
 ```bash
-spec vault compile [options]
+kernel vault compile [options]
 
   -v, --vault <path>      Vault root (overrides vaultPath in config; ~ supported)
   -t, --tools <tools>    Tools to compile for (default: all configured tools)
@@ -134,13 +134,13 @@ spec vault compile [options]
       patterns.md
 ```
 
-Skills in the vault are yours. Spec just helps them multiply and dress up for each tool's party.
+Skills in the vault are yours. Kernel just helps them multiply and dress up for each tool's party.
 
 ---
 
 ## Configuration
 
-Spec stores config in `.spec/config.yaml`:
+Kernel stores config in `.agents/kernel.config.yaml`:
 
 ```yaml
 version: "1.0.0"
@@ -149,7 +149,7 @@ tools:
   - claude
 profile: core
 delivery: both
-vaultPath: ~/.codex # optional — for spec vault compile
+vaultPath: ~/.codex # optional — for kernel vault compile
 metadata:
   name: my-project
   description: Important work
@@ -167,7 +167,7 @@ metadata:
 
 ## Supported Tools
 
-Spec generates files for 6 AI coding tools:
+Kernel generates files for 6 AI coding tools:
 
 | Tool           | ID               | Directory    | Notes                                                 |
 | -------------- | ---------------- | ------------ | ----------------------------------------------------- |
@@ -184,7 +184,7 @@ Spec generates files for 6 AI coding tools:
 
 ### Agents
 
-Agents are autonomous task specialists. On tools with native agent support they are emitted as native agent files. On skills-only tools, spec does not coerce agents into skills.
+Agents are autonomous task specialists. On tools with native agent support they are emitted as native agent files. On skills-only tools, kernel does not coerce agents into skills.
 
 #### Orchestrators
 
@@ -199,7 +199,7 @@ Agents are autonomous task specialists. On tools with native agent support they 
 | Agent       | When to use                                                               |
 | ----------- | ------------------------------------------------------------------------- |
 | `architect` | Architecture review: patterns, anti-patterns, structural design decisions |
-| `designer`  | Frontend: UI components, design implementation, user flow mapping         |
+| `designer`  | Frontend: UI components, design implementation, user flow mapping        |
 | `git`       | Advanced git: branch strategy, commit hygiene, conflict resolution        |
 
 #### Researchers
@@ -208,12 +208,12 @@ Agents are autonomous task specialists. On tools with native agent support they 
 | ------------------ | --------------------------------------------------------------- |
 | `search-code`      | Locate files, functions, and patterns in the local codebase     |
 | `search-docs`      | Find external documentation, API references, and best practices |
-| `search-history`   | Analyze git history to understand why code changed over time    |
-| `search-learnings` | Surface past solutions and documented lessons from the project  |
+| `search-history`   | Analyze git history to understand why code changed over time      |
+| `search-learnings` | Surface past solutions and documented lessons from the project    |
 
 ### Skills
 
-Spec installs a broader skill catalog that covers:
+Kernel installs a broader skill catalog that covers:
 
 - workflow execution and project-state handling (`propose`, `explore`, `apply`, `archive`, `review`, `check`, `sync`, `triage`, `unblock`, `ready-for-prod`)
 - engineering support (`git-master`, `frontend-design`, `code-quality`, `docs-workflow`, `dev-environment`)
@@ -227,18 +227,18 @@ Workflow entrypoints such as `/propose`, `/explore`, `/apply`, and `/archive` ar
 
 ## How It Works
 
-Spec uses a **generator-adapter pattern**. Three moving parts:
+Kernel uses a **generator-adapter pattern**. Three moving parts:
 
 1. **Templates** — Tool-agnostic definitions of agents and skills
 2. **Adapters** — Per-tool translators that know where files go and how to format them
 3. **Generator** — Reads your config, runs templates through adapters, writes files
 
 ```text
-.spec/config.yaml
+.agents/kernel.config.yaml
   └── Generator
         ├── For each configured tool
         │     ├── Adapter formats skills  → .claude/skills/
-  │     └── Adapter formats agents  → .claude/agents/ (on capable tools)
+        │     └── Adapter formats agents  → .claude/agents/ (on capable tools)
 ```
 
 Every AI tool gets its own adapter. Adding a new tool means writing one file:

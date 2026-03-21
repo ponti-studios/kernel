@@ -1,30 +1,30 @@
-[tasks.jinn-init]
-description = "Initialize jinn in test project"
-run = "bun run src/cli/jinn/index.ts init --tools opencode --yes"
+[tasks.kernel-init]
+description = "Initialize kernel in test project"
+run = "bun run src/cli/index.ts init --tools opencode --yes"
 
-[tasks.jinn-update]
-description = "Update jinn files"
-run = "bun run src/cli/jinn/index.ts update"
+[tasks.kernel-update]
+description = "Update kernel files"
+run = "bun run src/cli/index.ts update"
 
-[tasks.jinn-detect]
+[tasks.kernel-detect]
 description = "Detect available AI tools"
-run = "bun run src/cli/jinn/index.ts detect"
+run = "bun run src/cli/index.ts detect"
 
-[tasks.jinn-config-show]
-description = "Show jinn configuration"
-run = "bun run src/cli/jinn/index.ts config show"
+[tasks.kernel-config-show]
+description = "Show kernel configuration"
+run = "bun run src/cli/index.ts config show"
 
-[tasks.jinn-config-add-tool]
+[tasks.kernel-config-add-tool]
 description = "Add a tool to config"
-run = "bun run src/cli/jinn/index.ts config add-tool cursor"
+run = "bun run src/cli/index.ts config add-tool cursor"
 
-[tasks.jinn-all]
-description = "Run all jinn CLI commands"
+[tasks.kernel-all]
+description = "Run all kernel CLI commands"
 run = [
-  "bun run src/cli/jinn/index.ts detect",
-  "bun run src/cli/jinn/index.ts init --tools opencode --yes",
-  "bun run src/cli/jinn/index.ts config show",
-  "bun run src/cli/jinn/index.ts update",
+  "bun run src/cli/index.ts detect",
+  "bun run src/cli/index.ts init --tools opencode --yes",
+  "bun run src/cli/index.ts config show",
+  "bun run src/cli/index.ts update",
 ]
 
 [tasks.test]
@@ -48,17 +48,17 @@ description = "Run linting"
 run = "bun run lint"
 
 [tasks.link]
-description = "Link jinn CLI globally with bun link"
+description = "Link kernel CLI globally with bun link"
 run = "bun link"
 
 [tasks.unlink]
-description = "Remove global jinn CLI link"
+description = "Remove global kernel CLI link"
 run = "bun unlink"
 
 [tasks.build-dev]
 description = "Build development version of CLI"
-run = "bun build ./src/cli/main.ts --compile --outfile ./dist/jinn-dev"
+run = "bun build ./src/cli/main.ts --compile --outfile ./dist/kernel-dev"
 
 [tasks.link-dev]
 description = "Link development build globally (symlink to /usr/local/bin)"
-run = "ln -sf $PWD/dist/jinn-dev /usr/local/bin/jinn-dev"
+run = "ln -sf $PWD/dist/kernel-dev /usr/local/bin/kernel-dev"

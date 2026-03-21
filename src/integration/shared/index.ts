@@ -1,1 +1,1 @@
-export { parseJsonc, detectConfigFile } from "./jsonc-parser.js";
+export { parseJsonc, detectConfigFile } from "./jsonc-parser;
