@@ -3,7 +3,7 @@ import { mkdtemp, mkdir, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 
-import { importLegacyChanges } from "../importer;
+import { importLegacyChanges } from "../importer";
 
 async function writeFixture(root: string): Promise<void> {
   const changeRoot = join(root, "openspec", "changes", "add-linear-migration");
