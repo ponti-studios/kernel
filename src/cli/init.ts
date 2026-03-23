@@ -15,6 +15,7 @@ export interface InitOptions {
   delivery?: string;
   yes?: boolean;
   projectPath?: string;
+  configRootPath?: string;
 }
 
 export async function executeInit(options: InitOptions): Promise<void> {
@@ -56,7 +57,7 @@ export async function executeInit(options: InitOptions): Promise<void> {
 
   console.log(`Configured tools: ${selectedTools.join(", ")}\n`);
 
-  const config: Config = await createDefaultConfig(projectPath, {
+  const config: Config = await createDefaultConfig(options.configRootPath, {
     tools: selectedTools as any,
     profile: (options.profile as any) || "core",
     delivery: (options.delivery as any) || "both",

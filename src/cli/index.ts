@@ -71,20 +71,20 @@ program
 
 program
   .command("config")
-  .description("Manage project configuration")
-  .option("--path <path>", "Project path (default: current directory)")
+  .description("Manage global kernel configuration")
   .argument("[action]", "Action: show, add-tool, remove-tool, set")
   .argument("[key]", "Config key (for set)")
   .argument("[value]", "Config value (for set)")
-  .action(async (options, action, key, value) => {
+  .action(async (action, key, value) => {
     const validActions = ["show", "add-tool", "remove-tool", "set"];
     const actualAction = validActions.includes(action) ? action : "show";
+    const configKey = actualAction === "set" ? key : undefined;
+    const configValue = actualAction === "set" ? value : key;
 
     await executeConfig({
       action: actualAction as any,
-      key,
-      value,
-      projectPath: options.path,
+      key: configKey,
+      value: configValue,
     });
   });
 
@@ -103,7 +103,7 @@ vault
   .description("Compile vault skills into each configured AI tool's native format")
   .option(
     "-v, --vault <path>",
-    "Path to vault root — overrides vaultPath in .kernel/config.yaml or legacy .spec/config.yaml",
+    "Path to vault root — overrides vaultPath in ~/.kernel/config.yaml",
   )
   .option(
     "-t, --tools <tools>",

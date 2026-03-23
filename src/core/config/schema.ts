@@ -41,8 +41,7 @@ export type ToolId = z.infer<typeof ToolIdSchema>;
 
 /**
  * Main configuration schema
- * This defines the project configuration file structure.
- * The loader also reads .spec/config.yaml for backward compatibility.
+ * This defines the kernel configuration file structure.
  */
 export const ConfigSchema = z.object({
   /** Configuration schema version */

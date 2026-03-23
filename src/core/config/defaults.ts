@@ -26,11 +26,6 @@ export const DEFAULT_CONFIG_FILENAME = "config.yaml";
 export const CONFIG_DIR_NAME = ".kernel";
 
 /**
- * Legacy config directory name retained for backward compatibility.
- */
-export const LEGACY_CONFIG_DIR_NAME = ".spec";
-
-/**
  * Current configuration schema version
  */
 export const CONFIG_VERSION = "1.0.0";

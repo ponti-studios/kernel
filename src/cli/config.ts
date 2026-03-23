@@ -1,7 +1,7 @@
 /**
  * Config command
  *
- * Manages project configuration.
+ * Manages global kernel configuration.
  */
 
 import * as fs from "fs/promises";
@@ -11,41 +11,39 @@ export interface ConfigOptions {
   action: "show" | "get" | "set" | "add-tool" | "remove-tool";
   key?: string;
   value?: string;
-  projectPath?: string;
+  configRootPath?: string;
 }
 
 export async function executeConfig(options: ConfigOptions): Promise<void> {
-  const projectPath = options.projectPath || process.cwd();
-
   if (options.action === "show") {
-    await showConfig(projectPath);
+    await showConfig(options.configRootPath);
   } else if (options.action === "add-tool" && options.value) {
-    await modifyTools(projectPath, "add", options.value);
+    await modifyTools(options.configRootPath, "add", options.value);
   } else if (options.action === "remove-tool" && options.value) {
-    await modifyTools(projectPath, "remove", options.value);
+    await modifyTools(options.configRootPath, "remove", options.value);
   } else if (options.action === "set" && options.key && options.value) {
-    await setConfig(projectPath, options.key, options.value);
+    await setConfig(options.configRootPath, options.key, options.value);
   }
 }
 
-async function showConfig(projectPath: string): Promise<void> {
+async function showConfig(configRootPath?: string): Promise<void> {
   try {
-    const content = await fs.readFile(getConfigPath(projectPath), "utf-8");
+    const content = await fs.readFile(getConfigPath(configRootPath), "utf-8");
     console.log(content);
   } catch {
-    console.log("No project configuration found.");
-    console.log('Run "kernel init" to initialize.');
+    console.log("No kernel configuration found.");
+    console.log('Run "kernel init" to initialize kernel.');
   }
 }
 
 async function modifyTools(
-  projectPath: string,
+  configRootPath: string | undefined,
   action: "add" | "remove",
   tool: string,
 ): Promise<void> {
-  const config = await loadConfig(projectPath);
+  const config = await loadConfig(configRootPath);
   if (!config) {
-    console.log('No project configuration found. Run "kernel init" to initialize.');
+    console.log('No kernel configuration found. Run "kernel init" to initialize kernel.');
     return;
   }
 
@@ -56,22 +54,22 @@ async function modifyTools(
       console.log(`Tool already configured: ${tool}`);
       return;
     }
-    await saveConfig({ ...config, tools: [...tools, tool] as any }, projectPath);
+    await saveConfig({ ...config, tools: [...tools, tool] as any }, configRootPath);
     console.log(`Added tool: ${tool}`);
   } else {
     if (!tools.includes(tool)) {
       console.log(`Tool not found: ${tool}`);
       return;
     }
-    await saveConfig({ ...config, tools: tools.filter((t) => t !== tool) as any }, projectPath);
+    await saveConfig({ ...config, tools: tools.filter((t) => t !== tool) as any }, configRootPath);
     console.log(`Removed tool: ${tool}`);
   }
 }
 
-async function setConfig(projectPath: string, key: string, value: string): Promise<void> {
-  const config = await loadConfig(projectPath);
+async function setConfig(configRootPath: string | undefined, key: string, value: string): Promise<void> {
+  const config = await loadConfig(configRootPath);
   if (!config) {
-    console.log('No project configuration found. Run "kernel init" to initialize.');
+    console.log('No kernel configuration found. Run "kernel init" to initialize kernel.');
     return;
   }
 
@@ -81,6 +79,6 @@ async function setConfig(projectPath: string, key: string, value: string): Promi
     return;
   }
 
-  await saveConfig({ ...config, [key]: value }, projectPath);
+  await saveConfig({ ...config, [key]: value }, configRootPath);
   console.log(`Set ${key} = ${value}`);
 }

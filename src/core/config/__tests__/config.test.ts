@@ -25,14 +25,19 @@ async function mkTmpDir(): Promise<string> {
 // ============================================================================
 
 describe("getConfigPath", () => {
-  it("returns the project config path", () => {
+  it("returns the config path for an override root", () => {
     const result = getConfigPath("/some/project");
-    expect(result).toBe(path.join("/some/project", CONFIG_DIR_NAME, DEFAULT_CONFIG_FILENAME));
+    expect(result).toBe(path.join("/some/project", DEFAULT_CONFIG_FILENAME));
   });
 
   it("always ends with config.yaml", () => {
     const result = getConfigPath("/a/b/c");
     expect(result).toMatch(/config\.yaml$/);
+  });
+
+  it("defaults to ~/.kernel/config.yaml", () => {
+    const result = getConfigPath();
+    expect(result).toBe(path.join(os.homedir(), CONFIG_DIR_NAME, DEFAULT_CONFIG_FILENAME));
   });
 });
 
@@ -60,6 +65,18 @@ describe("hasConfig", () => {
     await createDefaultConfig(tmpDir, { tools: ["opencode"] });
     const result = await hasConfig(tmpDir);
     expect(result).toBe(true);
+  });
+
+  it("returns false when only legacy .spec/config.yaml exists", async () => {
+    const legacyConfigPath = path.join(tmpDir, ".spec", "config.yaml");
+    await fs.mkdir(path.dirname(legacyConfigPath), { recursive: true });
+    await fs.writeFile(
+      legacyConfigPath,
+      yaml.stringify({ version: "1.0.0", tools: ["opencode"] }),
+      "utf-8",
+    );
+    const result = await hasConfig(tmpDir);
+    expect(result).toBe(false);
   });
 });
 
@@ -117,6 +134,18 @@ describe("loadConfig", () => {
   });
 
   it("returns null when config file does not exist", async () => {
+    const result = await loadConfig(tmpDir);
+    expect(result).toBeNull();
+  });
+
+  it("does not load legacy .spec/config.yaml", async () => {
+    const legacyConfigPath = path.join(tmpDir, ".spec", "config.yaml");
+    await fs.mkdir(path.dirname(legacyConfigPath), { recursive: true });
+    await fs.writeFile(
+      legacyConfigPath,
+      yaml.stringify({ version: "1.0.0", tools: ["opencode"] }),
+      "utf-8",
+    );
     const result = await loadConfig(tmpDir);
     expect(result).toBeNull();
   });

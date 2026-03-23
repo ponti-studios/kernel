@@ -13,6 +13,7 @@ export interface UpdateOptions {
   force?: boolean;
   tool?: string;
   projectPath?: string;
+  configRootPath?: string;
 }
 
 export async function executeUpdate(options: UpdateOptions): Promise<void> {
@@ -21,11 +22,11 @@ export async function executeUpdate(options: UpdateOptions): Promise<void> {
   console.log("Updating project files...\n");
 
   try {
-    const loaded = await loadConfig(projectPath);
+    const loaded = await loadConfig(options.configRootPath);
 
     if (!loaded) {
-      console.log("No project configuration found.");
-      console.log('\nRun "kernel init" first to initialize the project.');
+      console.log("No kernel configuration found.");
+      console.log('\nRun "kernel init" first to initialize kernel.');
       return;
     }
 
@@ -49,6 +50,6 @@ export async function executeUpdate(options: UpdateOptions): Promise<void> {
     console.log("\n✓ Project files updated successfully!");
   } catch (error) {
     console.error("Error:", error);
-    console.log('\nRun "kernel init" first to initialize the project.');
+    console.log('\nRun "kernel init" first to initialize kernel.');
   }
 }

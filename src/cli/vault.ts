@@ -5,7 +5,7 @@
  * AI tool's native format, writing the output files into the current project.
  *
  * Usage:
- *   kernel vault compile                          # uses vaultPath from .kernel/config.yaml
+ *   kernel vault compile                          # uses vaultPath from ~/.kernel/config.yaml
  *   kernel vault compile --vault ~/path/to/vault  # explicit override
  *   kernel vault compile --tools claude,github-copilot
  *   kernel vault compile --dry-run
@@ -24,6 +24,7 @@ export interface VaultCompileCommandOptions {
   vault?: string;
   tools?: string;
   dryRun?: boolean;
+  configRootPath?: string;
 }
 
 /** Expand ~ in paths */
@@ -67,10 +68,10 @@ export async function executeVaultCompile(options: VaultCompileCommandOptions): 
   const projectPath = process.cwd();
   const dryRun = options.dryRun ?? false;
 
-  // 1. Load project config
-  const config = await loadConfig(projectPath);
+  // 1. Load global kernel config
+  const config = await loadConfig(options.configRootPath);
   if (!config) {
-    console.error("No .kernel/config.yaml found. Run `kernel init` first.");
+    console.error("No ~/.kernel/config.yaml found. Run `kernel init` first.");
     process.exit(1);
   }
 
@@ -78,7 +79,7 @@ export async function executeVaultCompile(options: VaultCompileCommandOptions): 
   const rawVaultPath = options.vault ?? config.vaultPath;
   if (!rawVaultPath) {
     console.error(
-      "No vault path found. Either pass --vault <path> or set vaultPath in .kernel/config.yaml.",
+      "No vault path found. Either pass --vault <path> or set vaultPath in ~/.kernel/config.yaml.",
     );
     process.exit(1);
   }

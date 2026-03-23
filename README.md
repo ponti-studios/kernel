@@ -2,7 +2,7 @@
 
 Generate skills and native agents for multiple coding assistants from one shared template set.
 
-Run `kernel init` once to detect supported tools, write project configuration, and emit the files each tool expects.
+Run `kernel init` once to detect supported tools in the current project, write global kernel configuration, and emit the files each tool expects.
 
 ---
 
@@ -47,7 +47,7 @@ kernel update --tool cursor
 
 ### Configuration
 
-Initialization creates `.kernel/config.yaml`. The full supported schema is documented in [Configuration](#configuration).
+Initialization creates `~/.kernel/config.yaml`. The full supported schema is documented in [Configuration](#configuration).
 
 ### Supported Tools
 
@@ -138,7 +138,7 @@ Releases are driven by Changesets.
 
 ### `init`
 
-Initialize a project. Detect installed tools, write `.kernel/config.yaml`, and generate the configured output.
+Initialize a project. Detect installed tools, write `~/.kernel/config.yaml`, and generate the configured output for the current repository.
 
 ```bash
 kernel init [options]
@@ -174,17 +174,16 @@ kernel update [options]
 
 ### `config`
 
-View and modify `.kernel/config.yaml`.
+View and modify `~/.kernel/config.yaml`.
 
 ```bash
-kernel config [action] [key] [value] [options]
+kernel config [action] [key] [value]
 
   show                    Print current config
   add-tool <tool-id>      Add a tool
   remove-tool <tool-id>   Remove a tool
   set <key> <value>       Set any config value
 
-      --path <path>       Project path (default: current directory)
 ```
 
 ### `detect`
@@ -226,7 +225,7 @@ The source material stays in one place; the command handles the per-tool transla
 
 ## Configuration
 
-Kernel reads project configuration from `.kernel/config.yaml`. For backward compatibility it will also load `.spec/config.yaml` when `.kernel/config.yaml` is missing. All writes go to `.kernel/config.yaml`.
+Kernel reads global configuration from `~/.kernel/config.yaml`.
 
 The minimal valid config is:
 
@@ -297,9 +296,8 @@ Use these IDs in `tools`, `kernel init --tools`, `kernel update --tool`, and `ke
 
 ### Runtime Notes
 
-- `kernel init` writes `.kernel/config.yaml` from the selected tools plus `profile` and `delivery`.
-- `kernel config show` prints `.kernel/config.yaml` directly and does not fall back to `.spec/config.yaml`.
-- `kernel update` and `kernel vault compile` do load the legacy `.spec/config.yaml` when the primary file is absent.
+- `kernel init` writes `~/.kernel/config.yaml` from the selected tools plus `profile` and `delivery`.
+- `kernel config show`, `kernel update`, and `kernel vault compile` all read `~/.kernel/config.yaml`.
 - `kernel config add-tool`, `remove-tool`, and `set` write raw YAML updates without re-validating the full schema.
 - The deprecated `commands` delivery mode is not part of the supported schema and should not be used.
 
@@ -388,7 +386,7 @@ The codebase is organized around five layers:
    `init`, `update`, `config`, `detect`, and `vault compile` are thin entrypoints. They parse flags, load project state, and hand off to library code rather than embedding generation logic directly in command handlers.
 
 2. **Configuration and discovery** in `src/core/config/` and `src/core/discovery/`
-   Config is validated with Zod, loaded from `.kernel/config.yaml`, and can fall back to `.spec/config.yaml` for legacy projects. Tool discovery is directory-based: if a known tool directory such as `.claude/` or `.codex/` exists, kernel can detect that tool without any plugin system.
+   Config is validated with Zod and loaded from `~/.kernel/config.yaml`. Tool discovery is directory-based: if a known tool directory such as `.claude/` or `.codex/` exists, kernel can detect that tool without any plugin system.
 
 3. **Template catalog** in `src/templates/`
    Skills and agents are authored once as TypeScript templates. A template carries the portable intent of the artifact: name, description, instructions, metadata, routing hints, references, and platform-relevant options such as available skills or sandbox mode.

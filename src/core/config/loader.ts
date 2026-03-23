@@ -1,58 +1,38 @@
 /**
  * Configuration loader
  *
- * Load and save project configuration files.
+ * Load and save kernel configuration files.
  */
 
+import * as os from "os";
 import * as path from "path";
 import * as yaml from "yaml";
 import { fileExists, readFile, writeFile, ensureDir } from "../utils/file-system.js";
 import { ConfigSchema, type Config } from "./schema.js";
-import {
-  DEFAULT_CONFIG,
-  DEFAULT_CONFIG_FILENAME,
-  CONFIG_DIR_NAME,
-  LEGACY_CONFIG_DIR_NAME,
-} from "./defaults.js";
+import { DEFAULT_CONFIG, DEFAULT_CONFIG_FILENAME, CONFIG_DIR_NAME } from "./defaults.js";
 
 /**
- * Get the primary configuration directory path.
+ * Get the configuration directory path.
  */
-export function getConfigDir(projectPath: string): string {
-  return path.join(projectPath, CONFIG_DIR_NAME);
-}
-
-/**
- * Get the legacy spec configuration directory path.
- */
-export function getLegacyConfigDir(projectPath: string): string {
-  return path.join(projectPath, LEGACY_CONFIG_DIR_NAME);
+export function getConfigDir(configRoot?: string): string {
+  return configRoot ?? path.join(os.homedir(), CONFIG_DIR_NAME);
 }
 
 /**
  * Get the full path to the configuration file
  */
-export function getConfigPath(projectPath: string): string {
-  return path.join(getConfigDir(projectPath), DEFAULT_CONFIG_FILENAME);
-}
-
-/**
- * Get the legacy spec config path.
- */
-export function getLegacyConfigPath(projectPath: string): string {
-  return path.join(getLegacyConfigDir(projectPath), DEFAULT_CONFIG_FILENAME);
+export function getConfigPath(configRoot?: string): string {
+  return path.join(getConfigDir(configRoot), DEFAULT_CONFIG_FILENAME);
 }
 
 /**
  * Load configuration from file
  *
- * @param projectPath - Path to project root
+ * @param configRoot - Optional config directory override used for tests
  * @returns Configuration object or null if not found
  */
-export async function loadConfig(projectPath: string): Promise<Config | null> {
-  const primaryConfigPath = getConfigPath(projectPath);
-  const configPath =
-    (await fileExists(primaryConfigPath)) ? primaryConfigPath : getLegacyConfigPath(projectPath);
+export async function loadConfig(configRoot?: string): Promise<Config | null> {
+  const configPath = getConfigPath(configRoot);
 
   if (!(await fileExists(configPath))) {
     return null;
@@ -71,10 +51,10 @@ export async function loadConfig(projectPath: string): Promise<Config | null> {
  * Save configuration to file
  *
  * @param config - Configuration to save
- * @param projectPath - Path to project root
+ * @param configRoot - Optional config directory override used for tests
  */
-export async function saveConfig(config: Config, projectPath: string): Promise<void> {
-  const configPath = getConfigPath(projectPath);
+export async function saveConfig(config: Config, configRoot?: string): Promise<void> {
+  const configPath = getConfigPath(configRoot);
   await ensureDir(path.dirname(configPath));
 
   const content = yaml.stringify(config, {
@@ -88,12 +68,12 @@ export async function saveConfig(config: Config, projectPath: string): Promise<v
 /**
  * Create a default configuration
  *
- * @param projectPath - Path to project root
+ * @param configRoot - Optional config directory override used for tests
  * @param overrides - Configuration overrides (must include `tools`)
  * @returns Created configuration
  */
 export async function createDefaultConfig(
-  projectPath: string,
+  configRoot: string | undefined,
   overrides: Pick<Config, "tools"> & Partial<Config>,
 ): Promise<Config> {
   const config: Config = {
@@ -101,29 +81,29 @@ export async function createDefaultConfig(
     ...overrides,
   };
 
-  await saveConfig(config, projectPath);
+  await saveConfig(config, configRoot);
   return config;
 }
 
 /**
- * Check if configuration exists in a project
+ * Check if configuration exists
  *
- * @param projectPath - Path to project root
+ * @param configRoot - Optional config directory override used for tests
  * @returns True if configuration exists
  */
-export async function hasConfig(projectPath: string): Promise<boolean> {
-  return (await fileExists(getConfigPath(projectPath))) || fileExists(getLegacyConfigPath(projectPath));
+export async function hasConfig(configRoot?: string): Promise<boolean> {
+  return fileExists(getConfigPath(configRoot));
 }
 
 /**
  * Update specific configuration values
  *
- * @param projectPath - Path to project root
+ * @param configRoot - Optional config directory override used for tests
  * @param updates - Configuration updates
  * @returns Updated configuration
  */
-export async function updateConfig(projectPath: string, updates: Partial<Config>): Promise<Config> {
-  const current = await loadConfig(projectPath);
+export async function updateConfig(configRoot: string | undefined, updates: Partial<Config>): Promise<Config> {
+  const current = await loadConfig(configRoot);
 
   if (!current) {
     throw new Error("No existing configuration found. Run init first.");
@@ -134,6 +114,6 @@ export async function updateConfig(projectPath: string, updates: Partial<Config>
     ...updates,
   };
 
-  await saveConfig(updated, projectPath);
+  await saveConfig(updated, configRoot);
   return updated;
 }
