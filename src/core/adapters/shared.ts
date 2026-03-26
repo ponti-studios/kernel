@@ -110,6 +110,12 @@ export function closeSkillFrontmatter(lines: string[], instructions: string): st
 export function formatAgentBody(template: AgentTemplate): string {
   const sections: string[] = [template.instructions];
 
+  if (template.acceptanceChecks && template.acceptanceChecks.length > 0) {
+    sections.push(
+      `## Acceptance checks\n\nYou are done when all of these are true:\n\n${template.acceptanceChecks.map((c) => `- ${c}`).join("\n")}`,
+    );
+  }
+
   if (template.availableSkills && template.availableSkills.length > 0) {
     sections.push(
       `## Available skills\n\n${template.availableSkills.map((s) => `- ${s}`).join("\n")}`,
@@ -144,6 +150,15 @@ export function formatManifestContent(skills: SkillTemplate[], version: string):
     lines.push(`## ${skill.name}`);
     lines.push("");
     lines.push(`**Description**: ${skill.description}`);
+    if (skill.role) {
+      lines.push(`**Role**: ${skill.role}`);
+    }
+    if (skill.route) {
+      lines.push(`**Route**: ${skill.route}`);
+    }
+    if (skill.capabilities && skill.capabilities.length > 0) {
+      lines.push(`**Capabilities**: ${skill.capabilities.join(", ")}`);
+    }
     if (skill.when && skill.when.length > 0) {
       lines.push(`**When**: ${skill.when.join("; ")}`);
     }

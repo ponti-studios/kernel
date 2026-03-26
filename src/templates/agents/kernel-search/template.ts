@@ -23,6 +23,11 @@ export function getSearchAgentTemplate(): AgentTemplate {
     role: "Research",
     route: "research",
     defaultTools: ["search", "read", "web"],
+    permissionMode: "plan",
+    maxTurns: 20,
+    disallowedTools: ["Edit", "Write"],
+    sandboxMode: "read-only",
+    reasoningEffort: "low",
     acceptanceChecks: ["Search scope identified", "Relevant results returned", "Findings are actionable"],
     references: getAgentReferences(
       AGENT_NAMES.SEARCH,

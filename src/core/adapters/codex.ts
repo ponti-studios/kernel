@@ -68,8 +68,17 @@ export const codexAdapter: ToolCommandAdapter = {
       lines.push(`sandbox_mode = ${escapeTomlString(template.sandboxMode)}`);
     }
 
+    if (template.reasoningEffort) {
+      lines.push(`model_reasoning_effort = ${escapeTomlString(template.reasoningEffort)}`);
+    }
+
+    let instructions = template.instructions.trim();
+    if (template.acceptanceChecks && template.acceptanceChecks.length > 0) {
+      instructions += `\n\n## Acceptance checks\n\nYou are done when all of these are true:\n\n${template.acceptanceChecks.map((c) => `- ${c}`).join("\n")}`;
+    }
+
     lines.push("");
-    lines.push(`developer_instructions = ${toTomlMultilineString(template.instructions.trim())}`);
+    lines.push(`developer_instructions = ${toTomlMultilineString(instructions)}`);
 
     if (template.availableSkills && template.availableSkills.length > 0) {
       for (const skill of template.availableSkills) {

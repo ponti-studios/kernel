@@ -62,17 +62,22 @@ bun run typecheck && bun run lint && bun test
 
 ## Health Diagnostics
 
-Run in order:
+Run in order. Stop at the first failure — later checks depend on earlier ones passing.
 
-**Runtime:** Bun installed and up to date (`bun --version`).
+| Area | Command | Healthy signal |
+|------|---------|---------------|
+| Runtime | `bun --version` | Returns a version ≥ 1.0 |
+| Docker | `docker compose ps` | All infrastructure services show "Up (healthy)" |
+| Dependencies | `bun install --frozen-lockfile` | Exits 0 with no warnings |
+| Environment | `diff <(grep -oP '^[A-Z_]+' .env.example) <(grep -oP '^[A-Z_]+' .env.local)` | No missing keys |
+| Type check | `bun run typecheck` | Exits 0 |
+| Build | `bun run build` | Exits 0, output in `dist/` |
+| Tests | `bun test` | All pass |
+| Lint | `bun run lint` | Exits 0 |
 
-**Dependencies:** no missing packages; `bun.lockb` committed and up to date.
+**Report format:** `healthy` | `degraded (specific issues)` | `broken (remediation steps)`.
 
-**Configuration:** all required env vars in `.env.local`; config files parse cleanly; no local-only paths hardcoded.
-
-**Build and tests:** `bun run typecheck && bun run build && bun test` — all pass.
-
-Report: `healthy` | `degraded (specific issues)` | `broken (remediation steps)`.
+If broken, run the "Resetting a Broken Environment" steps below before further diagnosis.
 
 ## Cleaning Up
 

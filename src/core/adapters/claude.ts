@@ -107,7 +107,12 @@ export const claudeAdapter: ToolCommandAdapter = {
       frontmatterLines.push(`skills:\n  - ${template.availableSkills.join("\n  - ")}`);
     }
 
-    return `---\n${frontmatterLines.join("\n")}\n---\n\n${template.instructions}`;
+    let body = template.instructions;
+    if (template.acceptanceChecks && template.acceptanceChecks.length > 0) {
+      body += `\n\n## Acceptance checks\n\nYou are done when all of these are true:\n\n${template.acceptanceChecks.map((c) => `- ${c}`).join("\n")}`;
+    }
+
+    return `---\n${frontmatterLines.join("\n")}\n---\n\n${body}`;
   },
 
   formatSkill(template: SkillTemplate, version: string): string {

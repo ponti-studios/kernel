@@ -1,71 +1,68 @@
 Publish documentation, cut versioned releases, and record feature demos.
 
-## Deploying Documentation
+## Toolchain
 
-### Build
+| Concern | Choice | Notes |
+|---------|--------|-------|
+| Doc platform | **Vitepress** | Built-in search, fast builds, Vue-based. Never Docusaurus. |
+| Hosting | **Vercel** | Preferred. GitHub Pages acceptable for open-source projects. |
+| Link validation | `linkcheck` | Run against built output before every publish. |
+| Release notes | `git log` | Generate from conventional commits between tags. |
+
+## Building Documentation
 
 ```bash
-# Vitepress (preferred)
 bun run docs:build        # outputs to docs/.vitepress/dist/
-
-# Docusaurus
-bun run build             # outputs to build/
-
-# Verify the output before deploying
 bun run docs:preview      # serve locally at http://localhost:4173
 ```
 
-### Validate before publishing
+## Validate Before Publishing
+
+Run these checks before every deploy. Any failure is a deploy blocker.
 
 ```bash
-# Check for broken links
+# Broken links
 bun run docs:check-links  # or: npx linkcheck ./docs/.vitepress/dist
 
-# Confirm search index is up to date (Vitepress: built-in; Docusaurus: Algolia)
+# Heading hierarchy — h1 → h2 → h3, no skips
+# Search index is built automatically by Vitepress
+
+# Confirm all images have alt text
+# Test navigation on desktop and mobile
 ```
 
-### Deploy
+## Deploy
 
 ```bash
-# Vercel (recommended)
+# Vercel (preferred)
 vercel deploy --prod
 
-# GitHub Pages (via CI — do not deploy manually)
+# GitHub Pages (via CI only — never deploy manually)
 # Trigger via: git push origin main → CI workflow deploys automatically
-
-# Manual upload to S3
-aws s3 sync docs/.vitepress/dist s3://your-bucket/docs --delete
-aws cloudfront create-invalidation --distribution-id $CF_ID --paths "/docs/*"
 ```
 
 ### Verify after deploy
 
 - Confirm the URL is live and content is correct
 - Test navigation and search on desktop and mobile
-- Check heading hierarchy (`h1` → `h2` → `h3`, no skips)
 - Confirm all images have alt text
 
 ## Versioned Documentation Releases
 
 When a software version ships:
 
-```bash
-# Vitepress versioning — copy current docs snapshot
-cp -r docs/ docs-versions/v1.2.3/
-
-# Docusaurus versioning
-bun run docusaurus docs:version 1.2.3
-```
-
-Steps:
-1. Audit docs against the new version — flag outdated content and missing coverage
-2. Write breaking-change notices and migration guides before cutting the version
-3. Update the "latest" pointer in the docs config
-4. Generate release notes from git log:
+1. Audit docs against the new version — flag outdated content and missing coverage.
+2. Write breaking-change notices and migration guides before cutting the version.
+3. Copy current docs snapshot:
+   ```bash
+   cp -r docs/ docs-versions/v1.2.3/
+   ```
+4. Update the "latest" pointer in the Vitepress config.
+5. Generate release notes from git log:
    ```bash
    git log v1.1.0..v1.2.3 --oneline --no-merges
    ```
-5. Deploy and confirm the version switcher works
+6. Deploy and confirm the version switcher works.
 
 ## Feature Demo Videos
 
@@ -80,7 +77,8 @@ When recording a feature demonstration:
 
 ## Guardrails
 
-- Never deploy docs from a local machine to production — use CI or the platform CLI with proper credentials
-- Never publish docs for an unreleased version — version snapshots are cut at release time only
-- Every breaking change must have a migration guide before the version is published
-- Broken links are a deploy blocker — run link validation before every publish
+- Never deploy docs from a local machine to production — use CI or the platform CLI with proper credentials.
+- Never publish docs for an unreleased version — version snapshots are cut at release time only.
+- Every breaking change must have a migration guide before the version is published.
+- Broken links are a deploy blocker — run link validation before every publish.
+- Never use Docusaurus, MkDocs, or GitBook — Vitepress is the standard.

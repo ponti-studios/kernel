@@ -334,6 +334,19 @@ describe("Codex formatAgent", () => {
     expect(result).toContain(`.codex/skills/${SKILL_NAMES.DESIGN}/SKILL.md`);
   });
 
+  it("emits model_reasoning_effort when reasoningEffort is set", () => {
+    const result = codexAdapter.formatAgent!(
+      { ...testAgentTemplate, reasoningEffort: "high" },
+      "1.0.0",
+    );
+    expect(result).toContain('model_reasoning_effort = "high"');
+  });
+
+  it("omits model_reasoning_effort when not set", () => {
+    const result = codexAdapter.formatAgent!(testAgentTemplate, "1.0.0");
+    expect(result).not.toContain("model_reasoning_effort");
+  });
+
   it("omits [[skills.config]] when availableSkills is empty", () => {
     const result = codexAdapter.formatAgent!(
       { ...testAgentTemplate, availableSkills: [] },
@@ -468,6 +481,19 @@ describe("GitHub Copilot formatAgent", () => {
     expect(frontmatter).toContain("description:");
   });
 
+  it("emits model field when template specifies one", () => {
+    const withModel = githubCopilotAdapter.formatAgent!(
+      { ...testAgentTemplate, model: "Claude Opus 4.5" },
+      "1.0.0",
+    );
+    expect(withModel).toContain("model: Claude Opus 4.5");
+  });
+
+  it("omits model field when not set", () => {
+    const result = githubCopilotAdapter.formatAgent!(testAgentTemplate, "1.0.0");
+    expect(result).not.toContain("model:");
+  });
+
   it("maps availableSkills to ## Available skills in body", () => {
     const result = githubCopilotAdapter.formatAgent!(testAgentTemplate, "1.0.0");
     const body = result.split("---")[2];
@@ -483,5 +509,65 @@ describe("GitHub Copilot formatAgent", () => {
     );
     const body = result.split("---")[2];
     expect(body).not.toContain("## Available skills");
+  });
+
+  it("includes acceptance checks in body when present", () => {
+    const result = githubCopilotAdapter.formatAgent!(
+      { ...testAgentTemplate, acceptanceChecks: ["All tasks done", "Tests pass"] },
+      "1.0.0",
+    );
+    expect(result).toContain("## Acceptance checks");
+    expect(result).toContain("- All tasks done");
+    expect(result).toContain("- Tests pass");
+  });
+});
+
+describe("GitHub Copilot formatSkill — behavioral fields", () => {
+  it("emits disable-model-invocation when set", () => {
+    const result = githubCopilotAdapter.formatSkill(
+      { ...testSkillTemplate, disableModelInvocation: true } as any,
+      "1.0.0",
+    );
+    expect(result).toContain("disable-model-invocation: true");
+  });
+
+  it("emits user-invocable: false when set", () => {
+    const result = githubCopilotAdapter.formatSkill(
+      { ...testSkillTemplate, userInvocable: false } as any,
+      "1.0.0",
+    );
+    expect(result).toContain("user-invocable: false");
+  });
+
+  it("emits argument-hint when set", () => {
+    const result = githubCopilotAdapter.formatSkill(
+      { ...testSkillTemplate, argumentHint: "issue URL" } as any,
+      "1.0.0",
+    );
+    expect(result).toContain("argument-hint: issue URL");
+  });
+
+  it("emits allowed-tools when set", () => {
+    const result = githubCopilotAdapter.formatSkill(
+      { ...testSkillTemplate, allowedTools: ["Read", "Grep"] } as any,
+      "1.0.0",
+    );
+    expect(result).toContain("allowed-tools: Read, Grep");
+  });
+});
+
+describe("GitHub Copilot manifest", () => {
+  it("has getManifestPath", () => {
+    expect(githubCopilotAdapter.getManifestPath!()).toBe(".github/skills-index.md");
+  });
+
+  it("generates manifest content", () => {
+    const result = githubCopilotAdapter.formatManifest!(
+      [testSkillTemplate as any],
+      "1.0.0",
+    );
+    expect(result).toContain("# Skills Index");
+    expect(result).toContain("## planner");
+    expect(result).toContain("**Description**: Planning agent");
   });
 });

@@ -29,6 +29,12 @@ export function getPlanAgentTemplate(): AgentTemplate {
     role: "Orchestration",
     route: "plan",
     defaultTools: ["read", "search"],
+    permissionMode: "plan",
+    maxTurns: 30,
+    memory: "project",
+    disallowedTools: ["Edit", "Write", "Bash"],
+    sandboxMode: "read-only",
+    reasoningEffort: "high",
     acceptanceChecks: [
       "Goal is unambiguous and written down",
       "All implicit requirements have been surfaced",

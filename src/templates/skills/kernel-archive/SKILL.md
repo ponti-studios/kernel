@@ -11,7 +11,14 @@ Close completed Linear work using Linear MCP.
 For each issue that is not Done:
 - **In Progress** — determine if it can be finished now or must be deferred. If deferring, reconcile its status first.
 - **Blocked** — diagnose the blocker. If it cannot be resolved, defer to a follow-up issue.
-- **Todo** — assess whether it belongs to this scope. If small and in-scope, complete it. If large or out-of-scope, create a new issue under a different parent or a new follow-up project and record its ID.
+- **Todo** — classify using the scope test below, then act accordingly.
+
+**Scope test — is this issue in-scope or out-of-scope?**
+- **In-scope**: the issue directly serves the parent's stated goal, was planned from the start, and can be completed without expanding the original scope.
+- **Out-of-scope**: the issue was discovered during execution, serves a different goal, or would require work beyond the parent's acceptance criteria.
+- **Grey area**: if unsure, ask — does completing this issue change what the parent delivers? If yes, it's scope expansion and should be deferred.
+
+For in-scope Todo items that are small, complete them now. For out-of-scope or large items, create a follow-up issue under a different parent or new project. Always record the follow-up issue ID in the completion summary.
 
 ### 3. Mark the project complete
 - Confirm all sub-issues are either Done, cancelled, or deferred to a clearly identified follow-up.

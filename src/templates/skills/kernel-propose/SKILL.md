@@ -38,9 +38,3 @@ For each phase identified in step 2, use `mcp_linear_save_issue` to create a sub
 - Use `blockedBy` relations between phases to model sequencing, not just ordering by title.
 - Update an existing matching parent issue instead of duplicating it.
 
-Guardrails:
-- Always use Linear MCP tools to interact with Linear — never manage state manually.
-- Linear is the source of truth.
-- Do not create local planning artifacts as the primary record.
-- Update an existing matching Linear project instead of duplicating it.
-

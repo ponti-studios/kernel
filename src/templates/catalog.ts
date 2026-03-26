@@ -79,7 +79,7 @@ export function getDefaultSkillTemplates(profile: Profile = "extended"): SkillTe
     getAssetIntegrationSecuritySkillTemplate(),
     getAuthContractSkillTemplate(),
     getDatabaseWorkflowSkillTemplate(),
-getDockerWorkflowSkillTemplate(),
+    getDockerWorkflowSkillTemplate(),
     getReactPatternsSkillTemplate(),
     getTestingStandardsSkillTemplate(),
     getTypeArchitectureSkillTemplate(),

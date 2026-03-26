@@ -147,6 +147,13 @@ export interface AgentTemplate extends SkillTemplate {
   sandboxMode?: "read-only" | "workspace-write" | "danger-full-access";
 
   /**
+   * Codex reasoning effort.
+   * Controls how much "thinking" the model does for this agent.
+   * low | medium | high
+   */
+  reasoningEffort?: "low" | "medium" | "high";
+
+  /**
    * Tools to deny access to (Claude Code disallowedTools).
    * Removed from the inherited or specified tool list.
    */

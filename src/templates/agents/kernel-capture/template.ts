@@ -28,6 +28,10 @@ export function getCaptureAgentTemplate(): AgentTemplate {
     role: "Orchestration",
     route: "capture",
     defaultTools: ["read", "write"],
+    maxTurns: 30,
+    memory: "project",
+    sandboxMode: "workspace-write",
+    reasoningEffort: "medium",
     acceptanceChecks: [
       "What went well is documented with root causes (not just outcomes)",
       "What didn't work names specific root causes, not symptoms",

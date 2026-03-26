@@ -7,14 +7,14 @@ export function getDocsWorkflowSkillTemplate(): SkillTemplate {
     name: SKILL_NAMES.DOCS_WORKFLOW,
     profile: "extended",
     description:
-      "Manages documentation publishing workflows: deploys docs, creates versioned releases, records feature demos, and validates doc sites. Use when publishing or updating documentation, cutting a release with docs, or when users ask how to deploy or validate a doc site.",
+      "Manages Vitepress documentation workflows: deploys docs via Vercel, creates versioned releases, records feature demos, and validates doc sites. Use when publishing or updating documentation, cutting a release with docs, or when users ask how to deploy or validate a doc site.",
     license: "MIT",
-    compatibility: "Works with any documentation platform",
+    compatibility: "Vitepress documentation sites deployed via Vercel or GitHub Pages",
     metadata: {
       author: "project",
-      version: "1.0",
+      version: "2.0",
       category: "Documentation",
-      tags: ["docs", "documentation", "deploy", "release", "video"],
+      tags: ["docs", "documentation", "vitepress", "vercel", "deploy", "release", "video"],
     },
     when: [
       "user needs to publish or deploy documentation",

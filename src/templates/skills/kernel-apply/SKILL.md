@@ -33,8 +33,11 @@ After identifying the candidate, call `mcp_linear_get_issue` (with `includeRelat
 - Do not start implementation until the status is confirmed updated.
 
 ### 3. Implement and verify
-- Implement only what the issue describes — nothing more.
-- Run all relevant checks (type-check, lint, tests) before declaring work done.
+- Implement only what the issue describes — nothing more, nothing less.
+  - **Code changes**: write or modify source files as described by the issue's acceptance criteria.
+  - **Tests**: add or update tests that prove the acceptance criteria are met.
+  - **No adjacent cleanup**: do not refactor surrounding code, add docstrings, or fix unrelated lint warnings. If you notice a separate problem, create a new issue.
+- Run all relevant checks (type-check, lint, tests) before declaring work done. All must pass.
 - If a blocker surfaces mid-implementation: stop, add a comment explaining the blocker, transition the issue to **Blocked**, and do not proceed.
 
 ### 4. Update the issue on completion

@@ -6,19 +6,31 @@
  * Directory conventions (open agent skills standard + Copilot-native):
  * - Skills:         .github/skills/<name>/SKILL.md
  * - Agents:         .github/agents/<name>.agent.md  (YAML frontmatter + markdown body)
+ * - Manifest:       .github/skills-index.md
  *
- * Agent frontmatter fields:
- * - name           display name (defaults to filename without .agent.md)
- * - description    required; explains what the agent does
- * - tools          optional allowlist (e.g. ['read', 'search', 'edit'])
- * - model          optional model override
- * - mcp-servers    optional MCP server config scoped to this agent
- * - target         optional: 'vscode' | 'github-copilot' to scope visibility
+ * Agent frontmatter fields (https://docs.github.com/en/copilot/reference/custom-agents-configuration):
+ * - name                      display name (defaults to filename without .agent.md)
+ * - description               required; explains what the agent does
+ * - tools                     optional allowlist (string[]); omit or ["*"] for all
+ * - model                     optional model override (string or string[])
+ * - disable-model-invocation  true = agent won't be auto-selected
+ * - user-invocable            false = hidden from user selection
+ * - argument-hint             guidance text shown to user for input
+ * - agents                    subagent names this agent can invoke
+ * - mcp-servers               MCP server configs scoped to this agent
+ * - target                    'vscode' | 'github-copilot' to scope visibility
+ * - metadata                  arbitrary key-value string pairs
  *
- * Skills are NOT preloaded — discovered and invoked via the native skill tool.
- * No `skills:` frontmatter field exists in Copilot agents.
+ * Skill frontmatter fields (agentskills.io + VS Code extensions):
+ * - name, description, license, compatibility, metadata  (agentskills.io standard)
+ * - disable-model-invocation, user-invocable, argument-hint, allowed-tools  (VS Code/Copilot)
+ * - when, applicability, termination, outputs, dependencies  (lifecycle — informational)
  *
- * Reference: https://docs.github.com/en/copilot/how-tos/use-copilot-agents
+ * Skills are NOT preloaded — discovered and invoked via the native skill tool
+ * based on description matching.
+ *
+ * Reference: https://docs.github.com/en/copilot/reference/custom-agents-configuration
+ * Reference: https://agentskills.io/specification
  */
 
 import path from "path";
@@ -26,9 +38,10 @@ import type { ToolCommandAdapter } from "./types.js";
 import type { AgentTemplate, SkillTemplate } from "../templates/types.js";
 import {
   escapeYamlValue,
-  formatBaseSkillFrontmatter,
+  formatFullSkillFrontmatter,
   closeSkillFrontmatter,
   formatAgentBody,
+  formatManifestContent,
 } from "./shared.js";
 
 export const githubCopilotAdapter: ToolCommandAdapter = {
@@ -45,10 +58,27 @@ export const githubCopilotAdapter: ToolCommandAdapter = {
   },
 
   formatAgent(template: AgentTemplate, _version: string): string {
-    return `---\nname: ${template.name}\ndescription: ${escapeYamlValue(template.description)}\n---\n\n${formatAgentBody(template)}`;
+    const frontmatterLines = [
+      `name: ${template.name}`,
+      `description: ${escapeYamlValue(template.description)}`,
+    ];
+
+    if (template.model) {
+      frontmatterLines.push(`model: ${template.model}`);
+    }
+
+    return `---\n${frontmatterLines.join("\n")}\n---\n\n${formatAgentBody(template)}`;
   },
 
   formatSkill(template: SkillTemplate, version: string): string {
-    return closeSkillFrontmatter(formatBaseSkillFrontmatter(template, version), template.instructions);
+    return closeSkillFrontmatter(formatFullSkillFrontmatter(template, version), template.instructions);
+  },
+
+  getManifestPath(): string {
+    return path.join(".github", "skills-index.md");
+  },
+
+  formatManifest(skills: SkillTemplate[], version: string): string {
+    return formatManifestContent(skills, version);
   },
 };

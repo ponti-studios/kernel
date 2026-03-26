@@ -13,15 +13,24 @@ Intake and place new issues into the correct position in the Linear hierarchy us
 
 ### 2. Find the right parent
 - Use `mcp_linear_list_issues` to search existing parent issues by keyword or project.
+- **Matching strategy** — try in this order:
+  1. **Exact feature match**: the item directly relates to an existing parent's stated goal (e.g., a login bug belongs under the auth parent).
+  2. **Component match**: the item affects the same module or service as an existing parent, even if the feature is different.
+  3. **No match**: the item is genuinely new scope — create a parent issue first, then add this item as its first sub-issue.
+- When multiple parents could match, prefer the one whose scope is narrower and more specific.
 - If a matching parent issue exists: the new item is a sub-issue — record the `parentId`.
-- If no matching parent exists and the item is new scope: create a parent issue first, then add this item as its first sub-issue.
 
 ### 3. Assess priority and phase placement
 - If attaching to an existing parent, review its existing sub-issues with `mcp_linear_list_issues` filtered by `parentId`.
-- Determine whether this item should:
-  - **Block** an in-progress or upcoming sub-issue (`blockedBy` relation).
-  - **Be inserted before** an upcoming phase (use `mcp_linear_save_issue` with `blockedBy` / `blocks` to splice it in).
-  - **Queue at the end** of the sub-issue list.
+- **Priority rules:**
+  - Bugs affecting production users: `urgent` or `high`.
+  - Bugs affecting development/staging: `high` or `medium`.
+  - Gaps in existing features: `medium`.
+  - New scope or spikes: `medium` or `low`.
+- **Placement rules** — determine where this item fits in the parent's sequence:
+  - **Block** an in-progress or upcoming sub-issue (`blockedBy` relation) — if the existing sub-issue cannot succeed without this fix.
+  - **Insert before** an upcoming phase (use `mcp_linear_save_issue` with `blockedBy` / `blocks` to splice it in) — if this item is a prerequisite.
+  - **Queue at the end** of the sub-issue list — if it's independent of existing phases.
 
 ### 4. Create the issue
 - Use `mcp_linear_save_issue` to create the issue with:

@@ -1,7 +1,7 @@
 import type { AgentTemplate } from "../../../core/templates/types.js";
 import { AGENT_NAMES } from "../../constants.js";
 import { GIT_AGENT_AVAILABLE_SKILLS } from "../available-skills.js";
-import { getAgentInstructions } from "../../.generated/templates.js";
+import { getAgentInstructions, getAgentReferences } from "../../.generated/templates.js";
 
 export function getGitAgentTemplate(): AgentTemplate {
   return {
@@ -27,12 +27,20 @@ export function getGitAgentTemplate(): AgentTemplate {
     ],
     availableSkills: GIT_AGENT_AVAILABLE_SKILLS,
     role: "Specialist",
-    route: "do",
+    route: "git",
     defaultTools: ["read", "search"],
+    maxTurns: 50,
+    sandboxMode: "workspace-write",
+    reasoningEffort: "medium",
     acceptanceChecks: [
       "Git operation completed safely",
       "History is clean",
       "Branch strategy is sound",
     ],
+    references: getAgentReferences(
+      AGENT_NAMES.GIT,
+      "references/branching.md",
+      "references/commits.md",
+    ),
   };
 }

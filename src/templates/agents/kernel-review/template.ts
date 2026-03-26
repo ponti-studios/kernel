@@ -23,6 +23,12 @@ export function getReviewAgentTemplate(): AgentTemplate {
     role: "Reviewer",
     route: "review",
     defaultTools: ["read", "search"],
+    permissionMode: "plan",
+    maxTurns: 50,
+    memory: "project",
+    disallowedTools: ["Edit", "Write", "Bash"],
+    sandboxMode: "read-only",
+    reasoningEffort: "high",
     acceptanceChecks: [
       "All dimensions reviewed",
       "Issues are prioritized",

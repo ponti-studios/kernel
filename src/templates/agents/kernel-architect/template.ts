@@ -1,7 +1,7 @@
 import type { AgentTemplate } from "../../../core/templates/types.js";
 import { AGENT_NAMES } from "../../constants.js";
 import { ARCHITECT_AGENT_AVAILABLE_SKILLS } from "../available-skills.js";
-import { getAgentInstructions } from "../../.generated/templates.js";
+import { getAgentInstructions, getAgentReferences } from "../../.generated/templates.js";
 
 export function getArchitectAgentTemplate(): AgentTemplate {
   return {
@@ -26,12 +26,23 @@ export function getArchitectAgentTemplate(): AgentTemplate {
     ],
     availableSkills: ARCHITECT_AGENT_AVAILABLE_SKILLS,
     role: "Specialist",
-    route: "do",
+    route: "architect",
     defaultTools: ["read", "search"],
+    permissionMode: "plan",
+    maxTurns: 30,
+    memory: "project",
+    disallowedTools: ["Edit", "Write", "Bash"],
+    sandboxMode: "read-only",
+    reasoningEffort: "high",
     acceptanceChecks: [
       "Architecture assessed",
       "Patterns identified",
       "Recommendations are concrete",
     ],
+    references: getAgentReferences(
+      AGENT_NAMES.ARCHITECT,
+      "references/patterns.md",
+      "references/dependencies.md",
+    ),
   };
 }

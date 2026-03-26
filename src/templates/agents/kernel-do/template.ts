@@ -29,6 +29,10 @@ export function getDoAgentTemplate(): AgentTemplate {
     role: "Orchestration",
     route: "do",
     defaultTools: ["edit", "read", "search", "task"],
+    maxTurns: 100,
+    memory: "project",
+    sandboxMode: "workspace-write",
+    reasoningEffort: "medium",
     acceptanceChecks: [
       "All tasks complete",
       "Each task verified against its acceptance criterion",

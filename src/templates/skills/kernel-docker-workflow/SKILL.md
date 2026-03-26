@@ -83,6 +83,51 @@ HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
 ENTRYPOINT ["bun", "dist/index.js"]
 ```
 
+## Multi-Container Networking
+
+When your app depends on multiple services (database, cache, queue), Compose creates a default network for inter-container communication.
+
+```yaml
+# compose.yml — services can reach each other by service name
+services:
+  postgres:
+    image: postgres:16-alpine
+    # ...
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dev"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    # ...
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgres://dev:dev@postgres:5432/app_dev
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+```
+
+**Rules:**
+- Always use `depends_on` with `condition: service_healthy` — never bare `depends_on` (it only waits for container start, not readiness).
+- Reference other services by their Compose service name (e.g., `postgres`, not `localhost`).
+- The host app (running outside Docker) connects via `localhost:<published-port>`. Containers inside the network connect via `<service-name>:<container-port>`.
+- Define `healthcheck` on every infrastructure service.
+
 ## Image Build and Push
 
 ```bash

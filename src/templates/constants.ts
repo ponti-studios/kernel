@@ -44,7 +44,7 @@ export const SKILL_NAMES = {
   ASSET_INTEGRATION_SECURITY: prefixKernelTemplateName("asset-integration-security"),
   AUTH_CONTRACT: prefixKernelTemplateName("auth-contract"),
   DATABASE_WORKFLOW: prefixKernelTemplateName("database-workflow"),
-DOCKER_WORKFLOW: prefixKernelTemplateName("docker-workflow"),
+  DOCKER_WORKFLOW: prefixKernelTemplateName("docker-workflow"),
   REACT_PATTERNS: prefixKernelTemplateName("react-patterns"),
   TESTING_STANDARDS: prefixKernelTemplateName("testing-standards"),
   TYPE_ARCHITECTURE: prefixKernelTemplateName("type-architecture"),
