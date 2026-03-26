@@ -27,7 +27,7 @@ jobs:
 
       - name: Read package version
         id: version
-        run: echo "version=$(node -p \"JSON.parse(require('fs').readFileSync('package.json', 'utf8')).version\")" >> "$GITHUB_OUTPUT"
+        run: echo "version=$(node -p 'JSON.parse(require(\"fs\").readFileSync(\"package.json\", \"utf8\")).version')" >> "$GITHUB_OUTPUT"
 
       - name: Publish GitHub release
         env:
