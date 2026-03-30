@@ -68,14 +68,14 @@ Merge rule: keep the broader, more general name. Fold the narrower skill in as a
 
 Use `references/` when a skill has substantial code examples, migration guides, or violation catalogs. Reference files are loaded on demand — keep them deep, keep the body shallow.
 
-Structure: `references/<topic>.md` — descriptive, not namespaced.
+Structure: `references/<topic>` — descriptive, not namespaced. Any file type supported.
 
 In `template.ts`:
 ```typescript
 references: getSkillReferences(
   SKILL_NAMES.YOUR_SKILL,
-  "references/patterns.md",
-  "references/migration.md",
+  "references/patterns",
+  "references/migration",
 ),
 ```
 

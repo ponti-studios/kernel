@@ -14,7 +14,16 @@ export function getReviewSkillTemplate(): SkillTemplate {
       author: "project",
       version: "2.0",
       category: "Workflow",
-      tags: ["workflow", "review", "quality", "post-completion", "refactor", "lint", "format", "optimize"],
+      tags: [
+        "workflow",
+        "review",
+        "quality",
+        "post-completion",
+        "refactor",
+        "lint",
+        "format",
+        "optimize",
+      ],
     },
     when: [
       "a deliverable is complete and ready for sign-off",
@@ -39,12 +48,14 @@ export function getReviewSkillTemplate(): SkillTemplate {
     outputs: [
       "Review report with recommendation",
       "Prioritised findings list",
-      "Updated issue file status (done or back to in-progress)",
+      "Updated Linear issue status (done or back to in-progress)",
       "Refactored code with unchanged behaviour",
       "Lint-clean, formatted code",
     ],
     dependencies: [],
-    argumentHint: "issue file path, PR link, or file/directory to review (optional)",
+    disableModelInvocation: true,
+    allowedTools: ["mcp_linear_get_issue", "mcp_linear_save_issue", "mcp_linear_save_comment"],
+    argumentHint: "issue ID, PR link, or file/directory to review (optional)",
     instructions: getSkillInstructions(SKILL_NAMES.REVIEW),
   };
 }

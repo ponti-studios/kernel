@@ -9,7 +9,7 @@ export function getTriageSkillTemplate(): SkillTemplate {
     description:
       "Assesses and classifies incoming bugs, ad-hoc requests, and unplanned issues before work begins. Use when a new bug report arrives, an unstructured request needs sizing, or work needs to be placed into the correct position in the project issue hierarchy.",
     license: "MIT",
-    compatibility: "Requires the CLI and access to the project .kernel/ directory.",
+    compatibility: "Requires Linear access for issue and project reads and writes.",
     metadata: {
       author: "project",
       version: "1.0",
@@ -22,17 +22,18 @@ export function getTriageSkillTemplate(): SkillTemplate {
       "a new item needs to be assessed and placed into the issue hierarchy",
     ],
     applicability: [
-      "Use to intake and correctly position new bugs or requests in the task board",
+      "Use to intake and correctly position new bugs or requests in the Linear issue hierarchy",
       "Use before implementation to ensure the item is properly scoped and sequenced",
     ],
     termination: [
-      "Issue file created with correct parent_id and priority",
-      "blocked_by / blocks relations set to maintain correct phase ordering",
-      "Triage report delivered with issue file path and position in hierarchy",
+      "Linear issue created with correct parentId and priority",
+      "Blocking relations set to maintain correct phase ordering",
+      "Triage report delivered with issue ID and position in hierarchy",
     ],
-    outputs: ["New issue file with parent_id, priority, and relations set", "Triage report"],
+    outputs: ["New or updated Linear issue with hierarchy and relations set", "Triage report"],
     dependencies: [SKILL_NAMES.EXPLORE, SKILL_NAMES.PROPOSE],
-    argumentHint: "bug description, issue file path, or request summary",
+    disableModelInvocation: true,
+    argumentHint: "bug description, issue ID, or request summary",
     instructions: getSkillInstructions(SKILL_NAMES.TRIAGE),
   };
 }

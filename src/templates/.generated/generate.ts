@@ -1,4 +1,10 @@
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import {
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  writeFileSync,
+} from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -13,7 +19,11 @@ function listTemplateDirectories(kind: TemplateKind): string[] {
   return readdirSync(baseDir, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
     .map((entry) => entry.name)
-    .filter((name) => existsSync(join(baseDir, name, kind === "agents" ? "AGENT.md" : "SKILL.md")))
+    .filter((name) =>
+      existsSync(
+        join(baseDir, name, kind === "agents" ? "AGENT.md" : "SKILL.md")
+      )
+    )
     .sort((left, right) => left.localeCompare(right));
 }
 
@@ -22,7 +32,7 @@ function listReferenceFiles(dir: string): string[] {
     .flatMap((entry) => {
       const fullPath = join(dir, entry.name);
       if (entry.isDirectory()) return listReferenceFiles(fullPath);
-      return entry.isFile() && entry.name.endsWith(".md") ? [fullPath] : [];
+      return entry.isFile() ? [fullPath] : [];
     })
     .sort((left, right) => left.localeCompare(right));
 }
@@ -30,11 +40,16 @@ function listReferenceFiles(dir: string): string[] {
 function buildInstructionBundle(kind: TemplateKind): string {
   const filename = kind === "agents" ? "AGENT.md" : "SKILL.md";
   const entries = listTemplateDirectories(kind).map((name) => {
-    const content = JSON.stringify(readFileSync(join(templatesDir, kind, name, filename), "utf8"));
+    const content = JSON.stringify(
+      readFileSync(join(templatesDir, kind, name, filename), "utf8")
+    );
     return `  ${JSON.stringify(name)}: ${content},`;
   });
-  const exportName = kind === "agents" ? "agentInstructionBundle" : "skillInstructionBundle";
-  return `export const ${exportName} = {\n${entries.join("\n")}\n} as const;`;
+  const exportName =
+    kind === "agents" ? "agentInstructionBundle" : "skillInstructionBundle";
+  return `export const ${exportName}: InstructionBundle = {\n${entries.join(
+    "\n"
+  )}\n} as const;`;
 }
 
 function buildReferenceBundle(kind: TemplateKind): string {
@@ -45,7 +60,10 @@ function buildReferenceBundle(kind: TemplateKind): string {
     }
 
     const refs = listReferenceFiles(referencesDir).map((fullPath) => {
-      const relativePath = relative(join(templatesDir, kind, name), fullPath).replaceAll("\\", "/");
+      const relativePath = relative(
+        join(templatesDir, kind, name),
+        fullPath
+      ).replaceAll("\\", "/");
       const content = JSON.stringify(readFileSync(fullPath, "utf8"));
       return `    ${JSON.stringify(relativePath)}: ${content},`;
     });
@@ -53,8 +71,11 @@ function buildReferenceBundle(kind: TemplateKind): string {
     return `  ${JSON.stringify(name)}: {\n${refs.join("\n")}\n  },`;
   });
 
-  const exportName = kind === "agents" ? "agentReferenceBundle" : "skillReferenceBundle";
-  return `export const ${exportName} = {\n${entries.join("\n")}\n} as const;`;
+  const exportName =
+    kind === "agents" ? "agentReferenceBundle" : "skillReferenceBundle";
+  return `export const ${exportName}: TemplateReferenceBundle = {\n${entries.join(
+    "\n"
+  )}\n} as const;`;
 }
 
 function buildModule(): string {

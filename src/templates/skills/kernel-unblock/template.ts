@@ -7,9 +7,10 @@ export function getUnblockSkillTemplate(): SkillTemplate {
     name: SKILL_NAMES.UNBLOCK,
     profile: "extended",
     description:
-      "Diagnoses blocked project issues and determines how to resolve them. Use when an issue is in blocked status, implementation has stopped on a dependency, or a blocked_by relationship hasn't resolved — decides whether to resolve, defer, or split, and updates the issue file.",
+      "Diagnoses blocked Linear issues and determines how to resolve them. Use when an issue is in blocked status, implementation has stopped on a dependency, or a blocking relationship has not resolved — decides whether to resolve, defer, or split, and updates the issue.",
     license: "MIT",
-    compatibility: "Requires the CLI and access to the project .kernel/ directory.",
+    compatibility:
+      "Requires Linear access for issue reads, comments, and state or relation updates.",
     metadata: {
       author: "project",
       version: "1.0",
@@ -17,12 +18,12 @@ export function getUnblockSkillTemplate(): SkillTemplate {
       tags: ["workflow", "unblock", "tasks", "blocked"],
     },
     when: [
-      "an issue file is in blocked status",
+      "an issue is in blocked status",
       "implementation stopped due to a blocker",
-      "a blocked_by dependency has not been resolved",
+      "a blocking dependency has not been resolved",
     ],
     applicability: [
-      "Use to diagnose and resolve blocked issue files",
+      "Use to diagnose and resolve blocked Linear issues",
       "Use when a blocker must be classified and actioned before implementation can resume",
     ],
     termination: [
@@ -31,13 +32,19 @@ export function getUnblockSkillTemplate(): SkillTemplate {
       "Parent issue updated if timeline or scope is affected",
     ],
     outputs: [
-      "Updated issue file status",
+      "Updated Linear issue status or relations",
       "Comment explaining blocker resolution",
       "Unblock report",
     ],
     dependencies: [SKILL_NAMES.EXPLORE, SKILL_NAMES.SYNC],
     disableModelInvocation: true,
-    argumentHint: "blocked issue file path or issue ID",
+    allowedTools: [
+      "mcp_linear_get_issue",
+      "mcp_linear_list_issues",
+      "mcp_linear_save_issue",
+      "mcp_linear_save_comment",
+    ],
+    argumentHint: "blocked issue ID or title",
     instructions: getSkillInstructions(SKILL_NAMES.UNBLOCK),
   };
 }

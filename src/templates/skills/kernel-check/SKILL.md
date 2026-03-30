@@ -1,20 +1,29 @@
-Answer: *where are we and what do we need to know right now?*
+---
+name: kernel-check
+description: "Reports current execution state mid-task: what is done, what is in progress, what is blocked, and what comes next. Use mid-execution when task status is unclear, a blocker has appeared, or users ask where are we, what is next, or what is blocking."
+---
+
+Answer: _where are we and what do we need to know right now?_
 
 ## Steps
 
 ### 1. Gather the current state
+
 - Review what has been done, what is in progress, and what remains.
-- Read the active issue files with `state: in-progress` and `state: todo`.
+- Read the active issues with `state: in-progress` and `state: todo`.
 
 ### 2. Surface blockers
+
 - Are any tasks waiting on something external?
-- Read the relevant issue files and check `blocked_by` dependencies.
+- Read the relevant issues and check blocking dependencies.
 
 ### 3. Assess timeline
+
 - Is delivery still on track given current progress?
 - Are any remaining tasks larger than originally estimated?
 
 ### 4. Flag risks
+
 - Has anything emerged that could threaten the goal?
 - Are there incomplete tasks that have hidden dependencies?
 
@@ -43,7 +52,7 @@ Answer: *where are we and what do we need to know right now?*
 ```
 
 ## Guardrails
+
 - Do not report what you hope is true — report what you can verify.
 - Every blocker must have a recommended resolution, not just a description.
 - The recommendation must be actionable: one sentence, one owner, one direction.
-

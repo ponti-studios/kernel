@@ -104,7 +104,7 @@ export interface SkillTemplate {
 }
 
 /**
- * Additional markdown files emitted alongside a skill or agent template.
+ * Additional reference files emitted alongside a skill or agent template.
  */
 export interface TemplateReference {
   /** Reference path relative to the generated template file, e.g. 'references/common/python.md' */
@@ -169,4 +169,27 @@ export interface AgentTemplate extends SkillTemplate {
    * user | project | local
    */
   memory?: "user" | "project" | "local";
+
+  /**
+   * Handoffs define guided transitions to other agents after this agent completes.
+   * VS Code renders these as clickable buttons after the agent's response.
+   */
+  handoffs?: AgentHandoff[];
+}
+
+/**
+ * A handoff transitions the user to another agent with pre-filled context.
+ * VS Code renders handoffs as interactive buttons after an agent response.
+ */
+export interface AgentHandoff {
+  /** Button label shown to the user */
+  label: string;
+  /** Target agent name to switch to */
+  agent: string;
+  /** Optional prompt pre-filled for the target agent */
+  prompt?: string;
+  /** If true, auto-submits the prompt without user confirmation. Default: false */
+  send?: boolean;
+  /** Optional model override for the handoff. Format: "Model Name (vendor)" */
+  model?: string;
 }

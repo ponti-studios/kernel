@@ -1,18 +1,18 @@
-import { describe, it, expect } from "bun:test";
+import { describe, expect, it } from "bun:test";
 import {
-  opencodeAdapter,
-  claudeAdapter,
-  codexAdapter,
-  githubCopilotAdapter,
-  geminiAdapter,
-  cursorAdapter,
-  type ToolCommandAdapter,
-} from "../index.js";
+    AGENT_NAMES,
+    SKILL_NAMES,
+} from "../../../templates/constants.js";
 import type { AgentTemplate } from "../../templates/types.js";
 import {
-  AGENT_NAMES,
-  SKILL_NAMES,
-} from "../../../templates/constants.js";
+    claudeAdapter,
+    codexAdapter,
+    cursorAdapter,
+    geminiAdapter,
+    githubCopilotAdapter,
+    opencodeAdapter,
+    type ToolCommandAdapter,
+} from "../index.js";
 
 const allAdapters: ToolCommandAdapter[] = [
   opencodeAdapter,
@@ -519,6 +519,48 @@ describe("GitHub Copilot formatAgent", () => {
     expect(result).toContain("## Acceptance checks");
     expect(result).toContain("- All tasks done");
     expect(result).toContain("- Tests pass");
+  });
+
+  it("emits tools as YAML array when allowedTools is set", () => {
+    const result = githubCopilotAdapter.formatAgent!(
+      { ...testAgentTemplate, allowedTools: ["Read", "Grep", "Glob"] },
+      "1.0.0",
+    );
+    const frontmatter = result.split("---")[1];
+    expect(frontmatter).toContain("tools: [Read, Grep, Glob]");
+    expect(frontmatter).not.toContain("allowed-tools:");
+  });
+
+  it("omits tools when allowedTools is empty", () => {
+    const result = githubCopilotAdapter.formatAgent!(
+      { ...testAgentTemplate, allowedTools: [] },
+      "1.0.0",
+    );
+    const frontmatter = result.split("---")[1];
+    expect(frontmatter).not.toContain("tools:");
+  });
+
+  it("emits handoffs when defined", () => {
+    const result = githubCopilotAdapter.formatAgent!(
+      {
+        ...testAgentTemplate,
+        handoffs: [
+          { label: "Start Execution", agent: "kernel-do", prompt: "Execute the plan.", send: false },
+        ],
+      },
+      "1.0.0",
+    );
+    const frontmatter = result.split("---")[1];
+    expect(frontmatter).toContain("handoffs:");
+    expect(frontmatter).toContain("label: Start Execution");
+    expect(frontmatter).toContain("agent: kernel-do");
+    expect(frontmatter).toContain("prompt: Execute the plan.");
+    expect(frontmatter).toContain("send: false");
+  });
+
+  it("omits handoffs when not defined", () => {
+    const result = githubCopilotAdapter.formatAgent!(testAgentTemplate, "1.0.0");
+    expect(result).not.toContain("handoffs:");
   });
 });
 

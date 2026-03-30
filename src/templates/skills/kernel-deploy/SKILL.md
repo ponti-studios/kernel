@@ -1,41 +1,53 @@
+---
+name: kernel-deploy
+description: "Validates production readiness, prompts for confirmation, then deploys with the right strategy for the change. Use when deploying services, releasing a feature, coordinating database migrations, managing mobile builds, or diagnosing a deployment failure."
+---
+
 Deploy to any environment safely. Validates production readiness first, then executes the deployment with the right strategy for the change.
 
 ## Phase 1 — Gate
 
 ### 1. Identify scope
+
 - Determine what is being deployed: a PR, branch, feature, or full release.
-- Ask for the associated issue file path if not provided — the verdict will be written back to it.
+- Ask for the associated Linear issue or project if not provided — the verdict will be written back to it.
 
 ### 2. Run the readiness checklist
 
 **Code Quality**
+
 - [ ] No `console.log` or debug statements left in production paths
 - [ ] No hardcoded secrets, tokens, or environment-specific values in source
 - [ ] Error handling is present at all external boundaries (API calls, user input, file I/O)
 - [ ] TypeScript types are correct and there are no `any` casts masking real errors
 
 **Testing**
+
 - [ ] Unit tests pass (`bun test` or equivalent)
 - [ ] Integration tests pass
 - [ ] Manual testing completed for the changed user flows
 - [ ] Edge cases and error paths are covered
 
 **Security**
+
 - [ ] All user input is validated and sanitized
 - [ ] Authentication and authorization are enforced on all protected routes
 - [ ] No OWASP Top 10 issues introduced (injection, XSS, SSRF, broken auth, etc.)
 - [ ] Secrets are not in source code or committed files
 
 **Performance**
+
 - [ ] No memory leaks or unbounded resource allocations
 - [ ] No N+1 queries or unindexed lookups on hot paths
 - [ ] Load tested if the change affects throughput-sensitive paths
 
 **Documentation**
+
 - [ ] README updated if setup or usage changed
 - [ ] API docs or changelogs updated for externally visible changes
 
 **Deployment**
+
 - [ ] All required environment variables are configured in the target environment
 - [ ] Database migrations are backward-compatible and ready to run
 - [ ] Dependent services are compatible with this release (no breaking API changes)
@@ -43,13 +55,14 @@ Deploy to any environment safely. Validates production readiness first, then exe
 - [ ] On-call contact is aware if deploying during off-hours
 
 **Scope completeness**
-- [ ] Feature is complete per the issue file description and acceptance criteria
+
+- [ ] Feature is complete per the issue description and acceptance criteria
 - [ ] No known regressions introduced
 
 ### 3. Deliver verdict and prompt
 
-- **FAIL** — one or more blocking items. List each with a short description. Write to the issue file. Stop — do not proceed to deployment.
-- **PASS** — all items satisfied. Write verdict to the issue file, then ask:
+- **FAIL** — one or more blocking items. List each with a short description. Write to the Linear issue or project comment thread. Stop — do not proceed to deployment.
+- **PASS** — all items satisfied. Write verdict to the Linear issue or project comment thread, then ask:
 
 > Everything looks good. **Deploy now?** (yes / no)
 
@@ -60,12 +73,12 @@ If the user says **yes**: proceed to Phase 2.
 
 Choose the deployment strategy automatically based on the nature of the change. Do not ask the user to choose — assess and state the strategy with a one-line rationale before proceeding.
 
-| Signal | Strategy |
-|---|---|
+| Signal                                             | Strategy                                                               |
+| -------------------------------------------------- | ---------------------------------------------------------------------- |
 | Change touches auth, payments, or a data migration | **Canary** — route 5–10% first, monitor for 10 min before full rollout |
-| New feature with a corresponding feature flag | **Feature flag** — deploy dark, enable incrementally |
-| Routine release, no schema changes, low risk | **Blue-Green** — zero-downtime swap |
-| Capacity constraints prevent blue-green | **Rolling** — last resort only |
+| New feature with a corresponding feature flag      | **Feature flag** — deploy dark, enable incrementally                   |
+| Routine release, no schema changes, low risk       | **Blue-Green** — zero-downtime swap                                    |
+| Capacity constraints prevent blue-green            | **Rolling** — last resort only                                         |
 
 ## Phase 3 — Execute
 
@@ -125,10 +138,10 @@ eas submit --platform ios --latest
 eas build --platform ios --profile production && eas submit --platform ios --latest
 ```
 
-| Profile | Channel | Purpose |
-|---|---|---|
-| `preview` | preview | Internal QA — TestFlight internal group |
-| `production` | production | App Store / external TestFlight group |
+| Profile      | Channel    | Purpose                                 |
+| ------------ | ---------- | --------------------------------------- |
+| `preview`    | preview    | Internal QA — TestFlight internal group |
+| `production` | production | App Store / external TestFlight group   |
 
 Always verify the build artifact on a device before submitting to an external group.
 
@@ -177,6 +190,7 @@ Decide within 10 minutes whether to roll forward or roll back. Prolonged ambigui
 ## Environment Parity
 
 Production bugs that don't reproduce in staging usually mean the environments diverged:
+
 - Are the environment variables identical (modulo secrets)?
 - Are the dependency versions identical (check lockfiles)?
 - Are the infrastructure configurations the same (replica count, memory limits)?

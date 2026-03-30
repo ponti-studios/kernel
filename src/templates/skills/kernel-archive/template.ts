@@ -7,9 +7,9 @@ export function getArchiveSkillTemplate(): SkillTemplate {
     name: SKILL_NAMES.ARCHIVE,
     profile: "extended",
     description:
-      "Closes and cleans up completed project issue files and associated follow-up work. Use when a project milestone is done, stale work needs cleanup, or users ask to archive, close, or wrap up completed items.",
+      "Closes and cleans up completed project issues and associated follow-up work in Linear. Use when a project milestone is done, stale work needs cleanup, or users ask to archive, close, or wrap up completed items.",
     license: "MIT",
-    compatibility: "Requires the CLI and access to the project .kernel/ directory.",
+    compatibility: "Requires Linear access for issue reads, comments, and state updates.",
     metadata: {
       author: "project",
       version: "1.0",
@@ -29,10 +29,13 @@ export function getArchiveSkillTemplate(): SkillTemplate {
       "Project issue group marked complete",
       "All open issues resolved, deferred, or captured as follow-up",
     ],
-    outputs: ["Completed project issue group", "Follow-up issue files for deferred work"],
+    outputs: [
+      "Completed project issue group in Linear",
+      "Follow-up Linear issues for deferred work",
+    ],
     dependencies: [SKILL_NAMES.APPLY],
     disableModelInvocation: true,
-    argumentHint: "project name or issue file path",
+    argumentHint: "project name or issue ID",
     instructions: getSkillInstructions(SKILL_NAMES.ARCHIVE),
   };
 }

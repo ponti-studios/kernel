@@ -4,7 +4,6 @@ import { ALL_AGENTS } from "./agents/index.js";
 
 // Code skills
 import { getBuildSkillTemplate } from "./skills/kernel-build/template.js";
-import { getDeploySkillTemplate } from "./skills/kernel-deploy/template.js";
 import { getMapCodebaseSkillTemplate } from "./skills/kernel-map-codebase/template.js";
 import { getPdfSkillTemplate } from "./skills/kernel-pdf/template.js";
 import { getProjectInitSkillTemplate } from "./skills/kernel-project-init/template.js";
@@ -14,21 +13,19 @@ import { getProjectSetupSkillTemplate } from "./skills/kernel-project-setup/temp
 import { getGitMasterSkillTemplate } from "./skills/kernel-git-master/template.js";
 
 // Workflow skills
-import { getApplySkillTemplate } from "./skills/kernel-apply/template.js";
-import { getArchiveSkillTemplate } from "./skills/kernel-archive/template.js";
-import { getBoardSkillTemplate } from "./skills/kernel-board/template.js";
-import { getCheckSkillTemplate } from "./skills/kernel-check/template.js";
-import { getExploreSkillTemplate } from "./skills/kernel-explore/template.js";
-import { getProposeSkillTemplate } from "./skills/kernel-propose/template.js";
+import { getCloseSkillTemplate } from "./skills/kernel-close/template.js";
+import { getExecuteSkillTemplate } from "./skills/kernel-execute/template.js";
+import { getIntakeSkillTemplate } from "./skills/kernel-intake/template.js";
+import { getPlanSkillTemplate } from "./skills/kernel-plan/template.js";
+import { getResearchSkillTemplate } from "./skills/kernel-research/template.js";
 import { getReviewSkillTemplate } from "./skills/kernel-review/template.js";
+import { getShipSkillTemplate } from "./skills/kernel-ship/template.js";
+import { getStatusSkillTemplate } from "./skills/kernel-status/template.js";
 import { getSyncSkillTemplate } from "./skills/kernel-sync/template.js";
-import { getTriageSkillTemplate } from "./skills/kernel-triage/template.js";
+import { getUnblockSkillTemplate } from "./skills/kernel-unblock/template.js";
 
 // Docs skills
 import { getDocsWorkflowSkillTemplate } from "./skills/kernel-docs-workflow/template.js";
-
-// Support skills
-import { getUnblockSkillTemplate } from "./skills/kernel-unblock/template.js";
 
 // Specialist skills
 import { getApiEngineeringSkillTemplate } from "./skills/kernel-api-engineering/template.js";
@@ -52,7 +49,6 @@ export function getDefaultSkillTemplates(profile: Profile = "extended"): SkillTe
   const all = [
     // Code quality and tooling
     getBuildSkillTemplate(),
-    getDeploySkillTemplate(),
     getProjectInitSkillTemplate(),
     getProjectSetupSkillTemplate(),
     getMapCodebaseSkillTemplate(),
@@ -62,21 +58,19 @@ export function getDefaultSkillTemplates(profile: Profile = "extended"): SkillTe
     getGitMasterSkillTemplate(),
 
     // Workflow
-    getProposeSkillTemplate(),
-    getExploreSkillTemplate(),
-    getApplySkillTemplate(),
-    getBoardSkillTemplate(),
-    getCheckSkillTemplate(),
+    getPlanSkillTemplate(),
+    getResearchSkillTemplate(),
+    getExecuteSkillTemplate(),
+    getStatusSkillTemplate(),
     getReviewSkillTemplate(),
-    getArchiveSkillTemplate(),
     getSyncSkillTemplate(),
-    getTriageSkillTemplate(),
+    getUnblockSkillTemplate(),
+    getIntakeSkillTemplate(),
+    getCloseSkillTemplate(),
+    getShipSkillTemplate(),
 
     // Docs
     getDocsWorkflowSkillTemplate(),
-
-    // Support
-    getUnblockSkillTemplate(),
 
     // Specialist
     getApiEngineeringSkillTemplate(),

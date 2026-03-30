@@ -11,7 +11,9 @@
 export const KERNEL_TEMPLATE_PREFIX = "kernel-";
 
 export function prefixKernelTemplateName(name: string): string {
-  return name.startsWith(KERNEL_TEMPLATE_PREFIX) ? name : `${KERNEL_TEMPLATE_PREFIX}${name}`;
+  return name.startsWith(KERNEL_TEMPLATE_PREFIX)
+    ? name
+    : `${KERNEL_TEMPLATE_PREFIX}${name}`;
 }
 
 // =============================================================================
@@ -26,23 +28,30 @@ export const SKILL_NAMES = {
   DOCS_WORKFLOW: prefixKernelTemplateName("docs-workflow"),
   PROJECT_INIT: prefixKernelTemplateName("project-init"),
   BUILD: prefixKernelTemplateName("build"),
-  DEPLOY: prefixKernelTemplateName("deploy"),
   MAP_CODEBASE: prefixKernelTemplateName("map-codebase"),
 
   // Workflow skills
-  CHECK: prefixKernelTemplateName("check"),
-  REVIEW: prefixKernelTemplateName("review"),
-  PROPOSE: prefixKernelTemplateName("propose"),
-  EXPLORE: prefixKernelTemplateName("explore"),
   APPLY: prefixKernelTemplateName("apply"),
   ARCHIVE: prefixKernelTemplateName("archive"),
+  BOARD: prefixKernelTemplateName("board"),
+  CLOSE: prefixKernelTemplateName("close"),
+  EXECUTE: prefixKernelTemplateName("execute"),
+  EXPLORE: prefixKernelTemplateName("explore"),
+  INTAKE: prefixKernelTemplateName("intake"),
+  PLAN: prefixKernelTemplateName("plan"),
+  PROPOSE: prefixKernelTemplateName("propose"),
+  RESEARCH: prefixKernelTemplateName("research"),
+  REVIEW: prefixKernelTemplateName("review"),
+  SHIP: prefixKernelTemplateName("ship"),
+  STATUS: prefixKernelTemplateName("status"),
   SYNC: prefixKernelTemplateName("sync"),
   TRIAGE: prefixKernelTemplateName("triage"),
   UNBLOCK: prefixKernelTemplateName("unblock"),
-  BOARD: prefixKernelTemplateName("board"),
   // Specialist skills
   API_ENGINEERING: prefixKernelTemplateName("api-engineering"),
-  ASSET_INTEGRATION_SECURITY: prefixKernelTemplateName("asset-integration-security"),
+  ASSET_INTEGRATION_SECURITY: prefixKernelTemplateName(
+    "asset-integration-security"
+  ),
   AUTH_CONTRACT: prefixKernelTemplateName("auth-contract"),
   DATABASE_WORKFLOW: prefixKernelTemplateName("database-workflow"),
   DOCKER_WORKFLOW: prefixKernelTemplateName("docker-workflow"),

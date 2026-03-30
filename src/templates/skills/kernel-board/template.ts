@@ -7,9 +7,10 @@ export function getBoardSkillTemplate(): SkillTemplate {
     name: SKILL_NAMES.BOARD,
     profile: "core",
     description:
-      "Generates and refreshes the project task board from markdown issue files. Use when the board needs to be rebuilt, issue states changed, or users ask to see the current work queue without opening individual files.",
+      "Generates a current-state task board from Linear projects and issues. Use when the board needs to be rebuilt, issue states changed, or users ask to see the current work queue without opening individual issues.",
     license: "MIT",
-    compatibility: "Requires access to the project .kernel/ directory.",
+    compatibility:
+      "Requires Linear access for project and issue reads, and optionally document writes.",
     metadata: {
       author: "project",
       version: "1.0",
@@ -17,21 +18,20 @@ export function getBoardSkillTemplate(): SkillTemplate {
       tags: ["workflow", "board", "tasks", "markdown"],
     },
     when: [
-      "the task board needs to be regenerated from issue files",
+      "the task board needs to be regenerated from Linear issues",
       "issue states, priorities, or relations have changed",
       "the user asks for a current board view of the project",
     ],
     applicability: [
-      "Use to rebuild the canonical board from .kernel/issues/*.md",
-      "Use after triage, apply, archive, or sync changes issue state",
+      "Use to summarize the current board directly from Linear state",
+      "Use after triage, execution, or sync changes issue state or relations",
     ],
     termination: [
-      ".kernel/BOARD.md reflects the current issue files",
+      "Board summary reflects the current Linear issues in scope",
       "Blocked, in-progress, todo, done, and cancelled groups are current",
     ],
-    outputs: ["Refreshed .kernel/BOARD.md", "Grouped task board markdown"],
+    outputs: ["Grouped task board markdown", "Optional Linear document summary"],
     dependencies: [],
-    disableModelInvocation: true,
     instructions: getSkillInstructions(SKILL_NAMES.BOARD),
   };
 }

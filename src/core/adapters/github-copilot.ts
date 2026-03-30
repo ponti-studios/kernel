@@ -76,10 +76,17 @@ export const githubCopilotAdapter: ToolCommandAdapter = {
       frontmatterLines.push(`argument-hint: ${escapeYamlValue(template.argumentHint)}`);
     }
     if (template.allowedTools && template.allowedTools.length > 0) {
-      frontmatterLines.push(`allowed-tools: ${template.allowedTools.join(", ")}`);
+      frontmatterLines.push(`tools: [${template.allowedTools.join(", ")}]`);
     }
-    if (template.availableSkills && template.availableSkills.length > 0) {
-      frontmatterLines.push(`agents: ${template.availableSkills.join(", ")}`);
+    if (template.handoffs && template.handoffs.length > 0) {
+      const handoffLines = template.handoffs.map((h) => {
+        const parts = [`  - label: ${escapeYamlValue(h.label)}`, `    agent: ${h.agent}`];
+        if (h.prompt) parts.push(`    prompt: ${escapeYamlValue(h.prompt)}`);
+        if (h.send !== undefined) parts.push(`    send: ${h.send}`);
+        if (h.model) parts.push(`    model: ${escapeYamlValue(h.model)}`);
+        return parts.join("\n");
+      });
+      frontmatterLines.push(`handoffs:\n${handoffLines.join("\n")}`);
     }
 
     return `---\n${frontmatterLines.join("\n")}\n---\n\n${formatAgentBody(template)}`;

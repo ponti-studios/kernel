@@ -1,17 +1,17 @@
 import { describe, expect, it } from "bun:test";
 
-import { AGENT_NAMES, SKILL_NAMES } from "../constants.js";
 import { getDefaultAgentTemplates } from "../catalog.js";
+import { AGENT_NAMES, SKILL_NAMES } from "../constants.js";
 
 import {
   ALL_AGENTS,
-  getPlanAgentTemplate,
-  getDoAgentTemplate,
-  getCaptureAgentTemplate,
-  getReviewAgentTemplate,
   getArchitectAgentTemplate,
+  getCaptureAgentTemplate,
   getDesignerAgentTemplate,
+  getDoAgentTemplate,
   getGitAgentTemplate,
+  getPlanAgentTemplate,
+  getReviewAgentTemplate,
   getSearchAgentTemplate,
 } from "../agents/index.js";
 
@@ -65,7 +65,7 @@ describe("agent templates", () => {
     expect(getArchitectAgentTemplate().availableSkills).toEqual([
       SKILL_NAMES.REVIEW,
       SKILL_NAMES.MAP_CODEBASE,
-      SKILL_NAMES.DEPLOY,
+      SKILL_NAMES.SHIP,
     ]);
 
     expect(getGitAgentTemplate().availableSkills).toEqual([SKILL_NAMES.GIT_MASTER]);
@@ -73,12 +73,12 @@ describe("agent templates", () => {
     expect(getSearchAgentTemplate().availableSkills).toEqual([
       SKILL_NAMES.GIT_MASTER,
       SKILL_NAMES.MAP_CODEBASE,
-      SKILL_NAMES.EXPLORE,
+      SKILL_NAMES.RESEARCH,
     ]);
 
     expect(getReviewAgentTemplate().availableSkills).toEqual([
       SKILL_NAMES.REVIEW,
-      SKILL_NAMES.DEPLOY,
+      SKILL_NAMES.SHIP,
       SKILL_NAMES.GIT_MASTER,
     ]);
   });
@@ -88,21 +88,21 @@ describe("agent templates", () => {
       SKILL_NAMES.GIT_MASTER,
       SKILL_NAMES.DESIGN,
       SKILL_NAMES.MAP_CODEBASE,
-      SKILL_NAMES.EXPLORE,
-      SKILL_NAMES.PROPOSE,
-      SKILL_NAMES.TRIAGE,
+      SKILL_NAMES.RESEARCH,
+      SKILL_NAMES.PLAN,
+      SKILL_NAMES.INTAKE,
     ]);
 
     expect(getDoAgentTemplate().availableSkills).toEqual([
       SKILL_NAMES.GIT_MASTER,
       SKILL_NAMES.DESIGN,
       SKILL_NAMES.REVIEW,
-      SKILL_NAMES.CHECK,
-      SKILL_NAMES.APPLY,
+      SKILL_NAMES.STATUS,
+      SKILL_NAMES.EXECUTE,
       SKILL_NAMES.SYNC,
-      SKILL_NAMES.TRIAGE,
+      SKILL_NAMES.INTAKE,
       SKILL_NAMES.UNBLOCK,
-      SKILL_NAMES.DEPLOY,
+      SKILL_NAMES.SHIP,
       SKILL_NAMES.PROJECT_INIT,
       SKILL_NAMES.BUILD,
       SKILL_NAMES.MAP_CODEBASE,
@@ -110,7 +110,7 @@ describe("agent templates", () => {
 
     expect(getCaptureAgentTemplate().availableSkills).toEqual([
       SKILL_NAMES.GIT_MASTER,
-      SKILL_NAMES.ARCHIVE,
+      SKILL_NAMES.CLOSE,
     ]);
   });
 

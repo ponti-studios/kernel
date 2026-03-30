@@ -44,5 +44,13 @@ export function getPlanAgentTemplate(): AgentTemplate {
       "Acceptance criteria are specific enough to be tested",
       "Risks and open questions are documented",
     ],
+    handoffs: [
+      {
+        label: "Start Execution",
+        agent: "kernel-do",
+        prompt: "The plan above is approved. Execute it.",
+        send: false,
+      },
+    ],
   };
 }

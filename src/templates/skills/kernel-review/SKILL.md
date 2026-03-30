@@ -1,26 +1,34 @@
-Answer: *is this done well enough to move forward?*
+---
+name: kernel-review
+description: "Assesses completed deliverables for correctness, completeness, quality, security, performance, and standards compliance. Use after implementation to evaluate whether work meets acceptance criteria, before handoff, merge, or deployment, or when users ask to refactor, clean up, or improve code quality."
+---
+
+Answer: _is this done well enough to move forward?_
 
 ## Steps
 
 ### 1. Read the plan
-- Read the relevant issue file in `.kernel/issues/` and its frontmatter to retrieve the description and acceptance criteria.
+
+- Read the relevant Linear issue to retrieve the description and acceptance criteria.
 - Identify the goal and what "done" means for this work.
 
 ### 2. Examine the output
+
 - Read the relevant files, diffs, or artifacts produced.
 - Check whether the output matches what was promised.
 
 ### 3. Evaluate across dimensions
+
 Weight each dimension by what matters most for this work:
 
-| Dimension | Question |
-|---|---|
-| **Correctness** | Does it do what it is supposed to do? |
-| **Completeness** | Are all acceptance criteria satisfied? |
-| **Quality** | Is it well-made, readable, and maintainable? |
-| **Security** | Are there vulnerabilities or unsafe patterns? |
-| **Performance** | Are there obvious bottlenecks or wasted resources? |
-| **Standards** | Does it conform to project conventions? |
+| Dimension        | Question                                           |
+| ---------------- | -------------------------------------------------- |
+| **Correctness**  | Does it do what it is supposed to do?              |
+| **Completeness** | Are all acceptance criteria satisfied?             |
+| **Quality**      | Is it well-made, readable, and maintainable?       |
+| **Security**     | Are there vulnerabilities or unsafe patterns?      |
+| **Performance**  | Are there obvious bottlenecks or wasted resources? |
+| **Standards**    | Does it conform to project conventions?            |
 
 ### 4. Prioritise findings
 
@@ -51,12 +59,14 @@ Weight each dimension by what matters most for this work:
 [Clear direction: what happens next and who owns it]
 ```
 
-### 6. Update issue file
-- If approved: update the issue file in `.kernel/issues/` to `done` and add the review summary under `## Comments`.
-- If needs rework: add a comment with the must-fix list and leave the issue file in `.kernel/issues/` as `in-progress`.
+### 6. Update the Linear issue
+
+- If approved: transition the issue to `done` and add the review summary as a comment.
+- If needs rework: add a comment with the must-fix list and leave the issue as `in-progress`.
 - If approve with changes: add the should-fix list as a comment and transition to `done` only after changes are confirmed.
 
 ## Review Principles
+
 - **Review against the goal, not your preferences.** The question is whether the work achieves its stated intent.
 - **Be specific.** Name the exact location, the exact problem, and the exact fix.
 - **Prioritise ruthlessly.** A review with ten must-fixes is broken. If everything is urgent, nothing is.
@@ -64,7 +74,9 @@ Weight each dimension by what matters most for this work:
 - **Acknowledge what works.** A review that only criticises misses context and demotivates iterative improvement.
 
 ## Quality Checks
+
 Before delivering the review:
+
 - [ ] Findings are specific and actionable, not vague
 - [ ] Must-fix items are genuinely blocking
 - [ ] The recommendation is clear and unambiguous
@@ -76,30 +88,36 @@ Before delivering the review:
 Follow this process for any refactoring task:
 
 ### 1. Intent Gate
+
 - Classify the request: rename, extract, inline, move, simplify, or restructure
 - Identify the target clearly and scope the impact
 
 ### 2. Codebase Analysis
+
 - Map all call sites and usages of affected code
 - Identify type boundaries, test coverage, and established patterns
 - Check for side effects and hidden dependencies
 
 ### 3. Plan
+
 - Write the exact sequence of atomic, independently verifiable steps
 - Each step must leave the codebase in a passing state
 
 ### 4. Execute
+
 - Apply changes one step at a time
 - Run type-check and tests after each step
 - Never proceed with a failing build
 
 ### 5. Final Verification
+
 - Full test suite passes
 - Type-check clean
 - Lint clean
 - Behaviour is unchanged (tests are the proof)
 
 ### Refactoring Rules
+
 - NEVER skip diagnostics or proceed with failing tests
 - NEVER use `as any` or `@ts-ignore` as workarounds
 - NEVER delete tests to make the build pass
@@ -115,6 +133,7 @@ Follow this process for any refactoring task:
 ## Linting
 
 Supported linters by language:
+
 - JavaScript/TypeScript: eslint, oxlint
 - Ruby: RuboCop, StandardRB, Fasterer
 - Python: ruff, pylint, flake8
@@ -122,6 +141,7 @@ Supported linters by language:
 - Go: staticcheck, golangci-lint
 
 Process:
+
 1. Run linter on the target scope
 2. Auto-fix safe fixable violations
 3. Review remaining violations — distinguish errors from warnings
@@ -130,6 +150,7 @@ Process:
 ## Performance Optimization
 
 Profile before optimizing:
+
 - **Algorithm** — choose better data structures, reduce time complexity
 - **Memory** — reduce allocations, fix leaks, improve GC pressure
 - **CPU** — cache-friendly access patterns, avoid repeated computation
