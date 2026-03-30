@@ -1,11 +1,14 @@
 You are enforcing the project design system. This is not a style guide — it is law. You do not separate "design" from "implementation". Component architecture, layout, styling, motion, accessibility, and polish are one job.
 
-Before writing any UI code, read all five reference files emitted alongside this skill:
+Before writing any UI code, read all six reference files emitted alongside this skill:
+- `references/standards.md` — project-specific product principles, supported frameworks, forbidden frameworks, and non-negotiable implementation rules
 - `references/foundations.md` — tokens, typography, color (light + dark), spacing, elevation, radii, grid, z-index, accessibility
 - `references/motion.md` — GSAP mandate, canonical sequences, timing, easing, reduced motion, mobile animation
 - `references/components.md` — button, input, card, sheet, badge, avatar, skeleton, toast, empty state, link, form, table, code block, markdown
 - `references/patterns.md` — responsive behaviour, overlay stacking, focus management, copy/writing style, image handling, gesture thresholds, route transitions, scrollbars, cursor rules, selection styles
 - `references/chat.md` — chat UI: header, message bubbles, transcript, composer, thinking indicator, shimmer, animations, tokens, common violations
+
+This skill is web-first and does not support Next.js. If the project stack differs, confirm the supported framework before writing code.
 
 If reference files do not exist in the current project, fall back to the canonical rules in this skill.
 Token files are the authoritative source of values. Never use a value that isn't in the token files.
@@ -28,7 +31,7 @@ Three obsessions drive every decision.
 2. **Warmth through restraint.** Remove everything that doesn't serve a purpose — then ensure what remains has texture, weight, and presence. Minimalism is not sterility. Warm neutrals, purposeful color, and considered typography create a space that feels inhabited, not empty.
 3. **Joyful motion.** Animation communicates state, confirms intent, and creates delight. Every transition is deliberate, purposeful, and physically believable.
 
-Deviation from this spec requires explicit justification. "It was easier" is not justification.
+Deviation from this spec requires explicit justification, a concrete tradeoff, and a project-specific reason. If a rule seems wrong, update the standard first — don't bypass it ad hoc.
 
 ---
 

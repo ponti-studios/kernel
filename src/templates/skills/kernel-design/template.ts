@@ -1,15 +1,19 @@
 import type { SkillTemplate } from "../../../core/templates/types.js";
 import { SKILL_NAMES } from "../../constants.js";
-import { getSkillInstructions, getSkillReferences } from "../../.generated/templates.js";
+import {
+  getSkillInstructions,
+  getSkillReferences,
+} from "../../.generated/templates.js";
 
 export function getDesignSkillTemplate(): SkillTemplate {
   return {
     name: SKILL_NAMES.DESIGN,
     profile: "extended",
     description:
-      "Enforces the project design system when designing, writing, reviewing, or modifying any frontend UI code — tokens, animations, accessibility, responsive layout, performance, and chat UI. Use when building UI components, styling views, reviewing frontend code for design compliance, or when users ask about design system rules.",
+      "Enforces the project design system when designing, writing, reviewing, or modifying any frontend UI code — tokens, animations, accessibility, responsive layout, performance, and chat UI. Use when building UI components, styling views, reviewing frontend code for design compliance, or when users ask about design system rules. This skill is prescriptive, standards-heavy, and does not support Next.js.",
     license: "MIT",
-    compatibility: "Any frontend project using React (web or React Native)",
+    compatibility:
+      "Supported frontend stack: React web and React Native. Next.js is not supported.",
     metadata: {
       author: "project",
       version: "2.1",
@@ -78,11 +82,12 @@ export function getDesignSkillTemplate(): SkillTemplate {
     dependencies: [],
     references: getSkillReferences(
       SKILL_NAMES.DESIGN,
+      "references/standards.md",
       "references/foundations.md",
       "references/motion.md",
       "references/components.md",
       "references/patterns.md",
-      "references/chat.md",
+      "references/chat.md"
     ),
     instructions: getSkillInstructions(SKILL_NAMES.DESIGN),
   };
