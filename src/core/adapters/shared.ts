@@ -5,7 +5,7 @@
  * Import from here — never reimplement locally in an adapter.
  */
 
-import type { AgentTemplate, SkillTemplate } from "../templates/types.js";
+import type { AgentTemplate, CommandTemplate, SkillTemplate } from "../templates/types.js";
 
 // ─── YAML helpers ─────────────────────────────────────────────────────────────
 
@@ -98,6 +98,52 @@ export function formatFullSkillFrontmatter(template: SkillTemplate, version: str
  */
 export function closeSkillFrontmatter(lines: string[], instructions: string): string {
   return [...lines, "---", "", instructions].join("\n");
+}
+
+// ─── Command formatting ───────────────────────────────────────────────────────
+
+export function formatCommandFrontmatter(template: CommandTemplate, version: string): string[] {
+  const lines = [
+    "---",
+    `name: ${template.name}`,
+    `description: ${escapeYamlValue(template.description)}`,
+    "metadata:",
+    "  author: project",
+    `  generatedBy: "${version}"`,
+  ];
+
+  if (template.backedBySkill) {
+    lines.push(`backed-by-skill: ${template.backedBySkill}`);
+  }
+  if (template.argumentsHint) {
+    lines.push(`argument-hint: ${escapeYamlValue(template.argumentsHint)}`);
+  }
+  if (template.allowedTools && template.allowedTools.length > 0) {
+    lines.push(`allowed-tools: ${template.allowedTools.join(", ")}`);
+  }
+
+  return lines;
+}
+
+export function closeCommandFrontmatter(lines: string[], instructions: string): string {
+  return [...lines, "---", "", instructions].join("\n");
+}
+
+export function formatCompatibilityCommand(
+  template: CommandTemplate,
+  version: string,
+  toolName: string,
+): string {
+  const lines = formatCommandFrontmatter(template, version);
+  lines.push("native-command: false");
+  lines.push(`tool: ${escapeYamlValue(toolName)}`);
+
+  let body = template.instructions.trim();
+  if (template.backedBySkill) {
+    body += `\n\n## Kernel Routing\n\n- Preferred backing skill: ${template.backedBySkill}\n- Preserve the legacy command name and behavior when invoking this workflow.`;
+  }
+
+  return closeCommandFrontmatter(lines, body);
 }
 
 // ─── Agent body ───────────────────────────────────────────────────────────────

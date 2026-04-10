@@ -1,5 +1,8 @@
 import { describe, expect, it } from "bun:test";
 
+import { getDefaultSkillTemplates } from "../catalog.js";
+import { SKILL_NAMES } from "../constants.js";
+import { getExploreSkillTemplate } from "../skills/kernel-explore/template.js";
 import { getCloseSkillTemplate } from "../skills/kernel-close/template.js";
 import { getExecuteSkillTemplate } from "../skills/kernel-execute/template.js";
 import { getIntakeSkillTemplate } from "../skills/kernel-intake/template.js";
@@ -15,6 +18,7 @@ const templates = [
   getPlanSkillTemplate(),
   getResearchSkillTemplate(),
   getExecuteSkillTemplate(),
+  getExploreSkillTemplate(),
   getStatusSkillTemplate(),
   getIntakeSkillTemplate(),
   getCloseSkillTemplate(),
@@ -34,6 +38,16 @@ describe("workflow skill templates", () => {
   it("all workflow skills have at least one allowed tool", () => {
     for (const template of templates) {
       expect(template.allowedTools?.length ?? 0).toBeGreaterThan(0);
+    }
+  });
+
+  it("workflow skill dependencies exist in the default catalog", () => {
+    const defaultSkillNames = new Set(getDefaultSkillTemplates("extended").map((template) => template.name));
+
+    for (const template of templates) {
+      for (const dependency of template.dependencies ?? []) {
+        expect(defaultSkillNames.has(dependency)).toBe(true);
+      }
     }
   });
 

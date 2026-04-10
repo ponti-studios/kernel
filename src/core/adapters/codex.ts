@@ -25,8 +25,12 @@
 
 import path from "path";
 import type { ToolCommandAdapter } from "./types.js";
-import type { AgentTemplate, SkillTemplate } from "../templates/types.js";
-import { formatBaseSkillFrontmatter, closeSkillFrontmatter } from "./shared.js";
+import type { AgentTemplate, CommandTemplate, SkillTemplate } from "../templates/types.js";
+import {
+  closeSkillFrontmatter,
+  formatBaseSkillFrontmatter,
+  formatCompatibilityCommand,
+} from "./shared.js";
 
 /** Escape a string value for a TOML basic string (single-line) */
 function escapeTomlString(value: string): string {
@@ -52,6 +56,10 @@ export const codexAdapter: ToolCommandAdapter = {
 
   getSkillPath(skillName: string): string {
     return path.join(".codex", "skills", skillName, "SKILL.md");
+  },
+
+  getCommandPath(commandName: string): string {
+    return path.join(".codex", "commands", `${commandName}.md`);
   },
 
   formatAgent(template: AgentTemplate, version: string): string {
@@ -93,5 +101,9 @@ export const codexAdapter: ToolCommandAdapter = {
 
   formatSkill(template: SkillTemplate, version: string): string {
     return closeSkillFrontmatter(formatBaseSkillFrontmatter(template, version), template.instructions);
+  },
+
+  formatCommand(template: CommandTemplate, version: string): string {
+    return formatCompatibilityCommand(template, version, "OpenAI Codex");
   },
 };

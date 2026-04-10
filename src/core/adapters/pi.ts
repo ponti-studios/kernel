@@ -17,11 +17,12 @@
 
 import path from "path";
 import type { ToolCommandAdapter } from "./types.js";
-import type { SkillTemplate } from "../templates/types.js";
+import type { CommandTemplate, SkillTemplate } from "../templates/types.js";
 import {
   closeSkillFrontmatter,
   escapeYamlValue,
   formatBaseSkillFrontmatter,
+  formatCompatibilityCommand,
   formatManifestContent,
 } from "./shared.js";
 
@@ -34,10 +35,18 @@ export const piAdapter: ToolCommandAdapter = {
     return path.join(".pi", "skills", skillName, "SKILL.md");
   },
 
+  getCommandPath(commandName: string): string {
+    return path.join(".pi", "commands", `${commandName}.md`);
+  },
+
   formatSkill(template: SkillTemplate, version: string): string {
     // Pi uses the Agent Skills standard - keep frontmatter minimal
     // but include essential fields: name, description, license, compatibility, metadata
     return closeSkillFrontmatter(formatBaseSkillFrontmatter(template, version), template.instructions);
+  },
+
+  formatCommand(template: CommandTemplate, version: string): string {
+    return formatCompatibilityCommand(template, version, "Pi");
   },
 
   getManifestPath(): string {

@@ -234,7 +234,7 @@ describe("Generator integration — delivery modes", () => {
     await fs.rm(tmpDir, { recursive: true, force: true });
   });
 
-  it("delivery: 'skills' — skill files exist, no command or agent files", async () => {
+  it("delivery: 'skills' — skill and command files exist, no agent files", async () => {
     const config: Config = {
       version: "1.0.0",
       tools: ["claude"],
@@ -244,7 +244,7 @@ describe("Generator integration — delivery modes", () => {
     await generateFiles(config, tmpDir);
 
     const cmdDirExists = await dirExists(path.join(tmpDir, ".claude", "commands"));
-    expect(cmdDirExists).toBe(false);
+    expect(cmdDirExists).toBe(true);
 
     const skillCount = await countDirsInDir(path.join(tmpDir, ".claude", "skills"));
     expect(skillCount).toBeGreaterThan(0);
@@ -253,7 +253,7 @@ describe("Generator integration — delivery modes", () => {
     expect(agentDirExists).toBe(false);
   });
 
-  it("delivery: 'both' — skills and agents generated, no command files", async () => {
+  it("delivery: 'both' — skills, commands, and agents are generated", async () => {
     const config: Config = {
       version: "1.0.0",
       tools: ["claude"],
@@ -263,7 +263,7 @@ describe("Generator integration — delivery modes", () => {
     await generateFiles(config, tmpDir);
 
     const cmdDirExists = await dirExists(path.join(tmpDir, ".claude", "commands"));
-    expect(cmdDirExists).toBe(false);
+    expect(cmdDirExists).toBe(true);
 
     const skillCount = await countDirsInDir(path.join(tmpDir, ".claude", "skills"));
     expect(skillCount).toBeGreaterThan(0);
@@ -298,9 +298,12 @@ describe("Generator integration — multi-tool", () => {
   it("creates skills for all tools and agents only for native-agent tools", async () => {
     await generateFiles(config, tmpDir);
     expect(await dirExists(path.join(tmpDir, ".claude", "skills"))).toBe(true);
+    expect(await dirExists(path.join(tmpDir, ".claude", "commands"))).toBe(true);
     expect(await dirExists(path.join(tmpDir, ".cursor", "skills"))).toBe(true);
+    expect(await dirExists(path.join(tmpDir, ".cursor", "commands"))).toBe(true);
     expect(await dirExists(path.join(tmpDir, ".claude", "agents"))).toBe(true);
     expect(await dirExists(path.join(tmpDir, ".gemini", "skills"))).toBe(true);
+    expect(await dirExists(path.join(tmpDir, ".gemini", "commands"))).toBe(true);
     expect(await dirExists(path.join(tmpDir, ".gemini", "agents"))).toBe(true);
     expect(await dirExists(path.join(tmpDir, ".cursor", "agents"))).toBe(false);
   });
@@ -344,15 +347,25 @@ describe("Generator integration — idempotency", () => {
 
     await generateFiles(config, tmpDir);
     const skillCountFirst = await countDirsInDir(path.join(tmpDir, ".claude", "skills"));
+    const commandCountFirst = await countFilesInDirBySuffix(
+      path.join(tmpDir, ".claude", "commands", "kernel"),
+      ".md",
+    );
     const agentCountFirst = await countFilesInDirBySuffix(path.join(tmpDir, ".claude", "agents"), ".md");
 
     await generateFiles(config, tmpDir);
     const skillCountSecond = await countDirsInDir(path.join(tmpDir, ".claude", "skills"));
+    const commandCountSecond = await countFilesInDirBySuffix(
+      path.join(tmpDir, ".claude", "commands", "kernel"),
+      ".md",
+    );
     const agentCountSecond = await countFilesInDirBySuffix(path.join(tmpDir, ".claude", "agents"), ".md");
 
     expect(skillCountFirst).toBe(skillCountSecond);
+    expect(commandCountFirst).toBe(commandCountSecond);
     expect(agentCountFirst).toBe(agentCountSecond);
-    expect(skillCountFirst).toBe(27);
+    expect(skillCountFirst).toBe(28);
+    expect(commandCountFirst).toBe(19);
     expect(agentCountFirst).toBe(8);
   });
 });

@@ -27,11 +27,17 @@ import { homedir } from "node:os";
 import { basename, dirname, join } from "node:path";
 import { claudeAdapter } from "../core/adapters/claude.js";
 import { codexAdapter } from "../core/adapters/codex.js";
+import { cursorAdapter } from "../core/adapters/cursor.js";
 import { geminiAdapter } from "../core/adapters/gemini.js";
 import { githubCopilotAdapter } from "../core/adapters/github-copilot.js";
+import { piAdapter } from "../core/adapters/pi.js";
 import type { ToolCommandAdapter } from "../core/adapters/types.js";
 import { CONFIG_VERSION } from "../core/config/defaults.js";
-import { getDefaultAgentTemplates, getDefaultSkillTemplates } from "../templates/catalog.js";
+import {
+  getDefaultAgentTemplates,
+  getDefaultCommandTemplates,
+  getDefaultSkillTemplates,
+} from "../templates/catalog.js";
 
 export interface SyncOptions {
   homePath?: string;
@@ -52,6 +58,15 @@ const AGENT_ADAPTERS: Array<{ adapter: ToolCommandAdapter; toolHomeDir: string }
   { adapter: githubCopilotAdapter, toolHomeDir: ".copilot" },
 ];
 
+const COMMAND_ADAPTERS: Array<{ adapter: ToolCommandAdapter; toolHomeDir: string }> = [
+  { adapter: claudeAdapter, toolHomeDir: ".claude" },
+  { adapter: codexAdapter, toolHomeDir: ".codex" },
+  { adapter: geminiAdapter, toolHomeDir: ".gemini" },
+  { adapter: githubCopilotAdapter, toolHomeDir: ".copilot" },
+  { adapter: cursorAdapter, toolHomeDir: ".cursor" },
+  { adapter: piAdapter, toolHomeDir: ".pi" },
+];
+
 export async function executeSync(options: SyncOptions): Promise<void> {
   await installGlobalCatalog(options.homePath);
 }
@@ -61,6 +76,7 @@ async function installGlobalCatalog(homePath = homedir()): Promise<void> {
   mkdirSync(skillsSourceDir, { recursive: true });
 
   const agents = getDefaultAgentTemplates("extended");
+  const commands = getDefaultCommandTemplates();
   const skillTemplates = getDefaultSkillTemplates("extended");
 
   // --- Shared skills catalog: ~/.agents/skills/<name>/SKILL.md ---
@@ -105,6 +121,27 @@ async function installGlobalCatalog(homePath = homedir()): Promise<void> {
     }
   }
 
+  // --- Per-tool command files using each tool's native or compatibility format ---
+  for (const { adapter, toolHomeDir } of COMMAND_ADAPTERS) {
+    if (!adapter.getCommandPath || !adapter.formatCommand) continue;
+
+    for (const command of commands) {
+      if (command.nativeOnly && adapter.toolId !== "claude") continue;
+
+      const commandRelativePath = adapter.getCommandPath(command.name);
+      const relativeParts = commandRelativePath.split("/").slice(1);
+      const commandFilePath = join(homePath, toolHomeDir, ...relativeParts);
+      mkdirSync(dirname(commandFilePath), { recursive: true });
+      writeFileSync(commandFilePath, adapter.formatCommand(command, CONFIG_VERSION));
+
+      for (const ref of command.references ?? []) {
+        const refPath = join(dirname(commandFilePath), ref.relativePath);
+        mkdirSync(dirname(refPath), { recursive: true });
+        writeFileSync(refPath, ref.content);
+      }
+    }
+  }
+
   // --- Skill symlinks: ~/.{tool}/skills/<name> → ~/.agents/skills/<name> ---
   for (const toolId of SKILL_LINK_TOOLS) {
     const toolSkillsDir = join(homePath, `.${toolId}`, "skills");
@@ -118,6 +155,7 @@ async function installGlobalCatalog(homePath = homedir()): Promise<void> {
   }
 
   console.log(`\n✓ Installed ${skillTemplates.length} skills to ~/.agents/skills/`);
+  console.log(`✓ Installed ${commands.length} commands to tool home directories`);
   console.log(
     `✓ Installed ${agents.length} agents to: ${AGENT_ADAPTERS.map((a) => a.toolHomeDir).join(", ")}`,
   );

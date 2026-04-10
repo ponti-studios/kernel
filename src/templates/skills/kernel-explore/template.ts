@@ -33,6 +33,12 @@ export function getExploreSkillTemplate(): SkillTemplate {
     outputs: ["Updated Linear issue or comment with decisions", "Risk and tradeoff analysis"],
     dependencies: [],
     disableModelInvocation: true,
+    allowedTools: [
+      "mcp_linear_list_issues",
+      "mcp_linear_get_issue",
+      "mcp_linear_save_issue",
+      "mcp_linear_save_comment",
+    ],
     argumentHint: "issue ID, parent issue, or topic to investigate",
     instructions: parseFrontmatter(exploreSkillMarkdown).body,
   };

@@ -1,6 +1,6 @@
 # Multi-Tool AI Workflow Generator
 
-Generate skills and native agents for multiple coding assistants from one shared template set.
+Generate skills, commands, and native agents for multiple coding assistants from one shared template set.
 
 Run `kernel init` once to detect supported tools in the current project, write global kernel configuration, and emit the files each tool expects.
 
@@ -33,7 +33,7 @@ kernel init --tools claude,cursor
 
 #### 2. Use The Installed Workflows
 
-In your AI tool, invoke the generated workflows and agents for planning, exploration, execution, and review.
+In your AI tool, invoke the generated workflows, commands, skills, and agents for planning, exploration, execution, and review.
 
 #### 3. Update Generated Files
 
@@ -153,12 +153,12 @@ kernel init [options]
 
 **Delivery modes:**
 
-| Mode             | Skills | Native Agents |
-| ---------------- | ------ | ------------- |
-| `both` (default) | Yes    | Yes           |
-| `skills`         | Yes    | No            |
+| Mode             | Skills | Commands | Native Agents |
+| ---------------- | ------ | -------- | ------------- |
+| `both` (default) | Yes    | Yes      | Yes           |
+| `skills`         | Yes    | Yes      | No            |
 
-When you choose `both`, the generator emits skills for every configured tool and native agents only for tools that support them. Skills-only tools such as Cursor still receive the full skill set.
+Commands are always generated. When you choose `both`, the generator also emits native agents for tools that support them. Skills-only tools such as Cursor still receive the full skill and command catalogs.
 
 ### `update`
 
@@ -356,16 +356,25 @@ The generated skill catalog covers:
 - workflow execution and project-state handling (`propose`, `explore`, `apply`, `archive`, `review`, `check`, `sync`, `triage`, `unblock`, `ready-for-prod`)
 - engineering support (`git-master`, `frontend-design`, `code-quality`, `docs-workflow`, `dev-environment`)
 - project lifecycle work (`project-init`, `build`, `deploy`, `conventions`, `map-codebase`)
+- OpenSpec workflows (`kernel-openspec-propose`, `kernel-openspec-explore`, `kernel-openspec-apply-change`, `kernel-openspec-archive-change`, `kernel-gh-pr-errors`)
+
+### Commands
+
+Kernel also installs legacy command entrypoints such as `opsx-*`, `speckit.*`, and `gh-pr-errors`.
+
+- Claude receives native command files under `.claude/commands/kernel/`
+- Other tools receive compatibility command artifacts under their tool-local `commands/` directory
+- Compatibility artifacts preserve the command name, description, invocation guidance, and backing skill when one exists
 
 ### Workflow Entry Points
 
-Workflow entrypoints such as `/propose`, `/explore`, `/apply`, and `/archive` are delivered through skills and native agents in the current architecture rather than as a separate generated command layer.
+Workflow entrypoints such as `/propose`, `/explore`, `/apply`, `/archive`, `opsx-*`, and `speckit.*` are now generated as command artifacts alongside the skill and agent catalogs.
 
 ---
 
 ## Architecture
 
-Kernel is a config-driven code generator. The project keeps one shared catalog of tool-agnostic skills and agents, then translates that catalog into each tool's native file layout at generation time.
+Kernel is a config-driven code generator. The project keeps one shared catalog of tool-agnostic skills, commands, and agents, then translates that catalog into each tool's native file layout at generation time.
 
 At a high level, the runtime flow is:
 
@@ -374,7 +383,7 @@ CLI command
   -> config load / tool detection
   -> template catalog selection
   -> adapter lookup per configured tool
-  -> skill / manifest / agent generation
+  -> skill / command / manifest / agent generation
   -> file writes into tool-native directories
 ```
 
@@ -389,19 +398,20 @@ The codebase is organized around five layers:
    Config is validated with Zod and loaded from `~/.kernel/config.yaml`. Tool discovery is directory-based: if a known tool directory such as `.claude/` or `.codex/` exists, kernel can detect that tool without any plugin system.
 
 3. **Template catalog** in `src/templates/`
-   Skills and agents are authored once as TypeScript templates. A template carries the portable intent of the artifact: name, description, instructions, metadata, routing hints, references, and platform-relevant options such as available skills or sandbox mode.
+   Skills, commands, and agents are authored once as TypeScript templates. A template carries the portable intent of the artifact: name, description, instructions, metadata, routing hints, references, and platform-relevant options such as available skills or sandbox mode.
 
 4. **Adapters** in `src/core/adapters/`
-   Each supported tool implements `ToolCommandAdapter`. An adapter decides where a file lives for that tool and how to format it. Skills, agents, and optional manifests all use the same adapter contract, which keeps per-tool behavior isolated instead of scattering format branches across the generator.
+   Each supported tool implements `ToolCommandAdapter`. An adapter decides where a file lives for that tool and how to format it. Skills, commands, agents, and optional manifests all use the same adapter contract, which keeps per-tool behavior isolated instead of scattering format branches across the generator.
 
 5. **Generation and vault compilation** in `src/core/generator/` and `src/core/vault/`
    The generator expands built-in templates into output files for every configured tool. The vault pipeline does the same for user-owned skills loaded from a personal `.codex/skills/` vault, including copying reference files and rewriting paths where a platform needs a different syntax.
 
 ### Data Model
 
-Kernel has two primary content types:
+Kernel has three primary content types:
 
 - **Skill templates** are reusable workflow or specialist instructions that become `SKILL.md` files in each tool's skills directory.
+- **Command templates** are user-facing entrypoints or compatibility shims that preserve command names across tools.
 - **Agent templates** are native agent personas for tools that support first-class agents. They extend the skill template shape with agent-only fields such as model overrides, permission or sandbox settings, and acceptance checks.
 
 Both types can carry sidecar reference files. The generator emits those reference files next to the main generated artifact rather than inlining everything into one prompt file.
@@ -413,13 +423,14 @@ Built-in generation is deterministic and straightforward:
 1. Load config and resolve the configured tool IDs.
 2. Build an adapter registry containing all supported tool adapters.
 3. Filter the registry to the configured tools.
-4. Load the default skill catalog and default agent catalog.
+4. Load the default skill, command, and agent catalogs.
 5. Generate skill files for every configured tool.
-6. Generate discovery manifests for tools whose adapters support them.
-7. Generate native agents only when `delivery` is not `skills` and the adapter implements agent formatting.
+6. Generate command files for every configured tool.
+7. Generate discovery manifests for tools whose adapters support them.
+8. Generate native agents only when `delivery` is not `skills` and the adapter implements agent formatting.
 8. Create directories up front and write files in parallel.
 
-This is why the main generator stays small: skill generation, agent generation, manifest generation, and reference-file collection are split into focused modules rather than one large exporter.
+This is why the main generator stays small: skill generation, command generation, agent generation, manifest generation, and reference-file collection are split into focused modules rather than one large exporter.
 
 ### Adapter Pattern
 
@@ -493,7 +504,7 @@ bun run typecheck      # Type-check
 bun run build          # Build the binary
 bun run dev:cli         # Run without building
 bun run build:dev && bun run link:dev  # Dev binary + link
-make test-init          # Smoke-test the CLI with --delivery commands
+make test-init          # Smoke-test the CLI with the default generation modes
 make test-all          # Full CLI integration test suite
 ```
 

@@ -6,7 +6,7 @@
  * requirements while the core templates remain tool-agnostic.
  */
 
-import type { AgentTemplate, SkillTemplate } from "../templates/types.js";
+import type { AgentTemplate, CommandTemplate, SkillTemplate } from "../templates/types.js";
 
 /**
  * Per-tool formatting strategy.
@@ -37,6 +37,18 @@ export interface ToolCommandAdapter {
    * @returns Complete file content ready to write
    */
   formatSkill(template: SkillTemplate, version: string): string;
+
+  /**
+   * Optional: Returns the file path for a command.
+   * If omitted, this tool does not support installed commands.
+   */
+  getCommandPath?(commandName: string): string;
+
+  /**
+   * Optional: Formats a command file.
+   * If omitted, this tool does not support installed commands.
+   */
+  formatCommand?(template: CommandTemplate, version: string): string;
 
   /**
    * Optional: Returns the file path for an agent.

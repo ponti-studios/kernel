@@ -33,9 +33,9 @@ help:
 	@echo "  make clean             Remove test directories"
 	@echo ""
 	@echo "File count expectations (default --profile core):"
-	@echo "  --delivery both:       8 agents + 8 skills"
-	@echo "  --delivery skills:    0 agents + 8 skills"
-	@echo "  (use --profile extended for all 20 skills)"
+	@echo "  --delivery both:       agents + skills + commands"
+	@echo "  --delivery skills:     skills + commands"
+	@echo "  (use --profile extended for the full skill catalog)"
 
 build:
 	bun ./src/templates/.generated/generate.ts

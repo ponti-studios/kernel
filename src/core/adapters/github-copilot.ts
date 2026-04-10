@@ -34,11 +34,12 @@
  */
 
 import path from "path";
-import type { AgentTemplate, SkillTemplate } from "../templates/types.js";
+import type { AgentTemplate, CommandTemplate, SkillTemplate } from "../templates/types.js";
 import {
     closeSkillFrontmatter,
     escapeYamlValue,
     formatAgentBody,
+    formatCompatibilityCommand,
     formatFullSkillFrontmatter,
     formatManifestContent,
 } from "./shared.js";
@@ -55,6 +56,10 @@ export const githubCopilotAdapter: ToolCommandAdapter = {
 
   getSkillPath(skillName: string): string {
     return path.join(".github", "skills", skillName, "SKILL.md");
+  },
+
+  getCommandPath(commandName: string): string {
+    return path.join(".github", "commands", `${commandName}.md`);
   },
 
   formatAgent(template: AgentTemplate, _version: string): string {
@@ -94,6 +99,10 @@ export const githubCopilotAdapter: ToolCommandAdapter = {
 
   formatSkill(template: SkillTemplate, version: string): string {
     return closeSkillFrontmatter(formatFullSkillFrontmatter(template, version), template.instructions);
+  },
+
+  formatCommand(template: CommandTemplate, version: string): string {
+    return formatCompatibilityCommand(template, version, "GitHub Copilot");
   },
 
   getManifestPath(): string {

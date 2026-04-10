@@ -35,7 +35,7 @@ program
 
 program
   .command("sync")
-  .description("Install agents and skills to user-level directories")
+  .description("Install agents, skills, and commands globally")
   .action(async () => {
     await executeSync({});
   });

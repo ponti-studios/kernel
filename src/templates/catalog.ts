@@ -1,6 +1,7 @@
 import type { Profile } from "../core/config/schema.js";
-import type { AgentTemplate, SkillTemplate } from "../core/templates/types.js";
+import type { AgentTemplate, CommandTemplate, SkillTemplate } from "../core/templates/types.js";
 import { ALL_AGENTS } from "./agents/index.js";
+import { getDefaultCommandTemplates as getCommandTemplates } from "./commands/index.js";
 
 // Code skills
 import { getBuildSkillTemplate } from "./skills/kernel-build/template.js";
@@ -15,7 +16,13 @@ import { getGitMasterSkillTemplate } from "./skills/kernel-git-master/template.j
 // Workflow skills
 import { getCloseSkillTemplate } from "./skills/kernel-close/template.js";
 import { getExecuteSkillTemplate } from "./skills/kernel-execute/template.js";
+import { getExploreSkillTemplate } from "./skills/kernel-explore/template.js";
+import { getGhPrErrorsSkillTemplate } from "./skills/kernel-gh-pr-errors/template.js";
 import { getIntakeSkillTemplate } from "./skills/kernel-intake/template.js";
+import { getOpenSpecApplyChangeSkillTemplate } from "./skills/kernel-openspec-apply-change/template.js";
+import { getOpenSpecArchiveChangeSkillTemplate } from "./skills/kernel-openspec-archive-change/template.js";
+import { getOpenSpecExploreSkillTemplate } from "./skills/kernel-openspec-explore/template.js";
+import { getOpenSpecProposeSkillTemplate } from "./skills/kernel-openspec-propose/template.js";
 import { getPlanSkillTemplate } from "./skills/kernel-plan/template.js";
 import { getResearchSkillTemplate } from "./skills/kernel-research/template.js";
 import { getReviewSkillTemplate } from "./skills/kernel-review/template.js";
@@ -61,6 +68,8 @@ export function getDefaultSkillTemplates(profile: Profile = "extended"): SkillTe
     getPlanSkillTemplate(),
     getResearchSkillTemplate(),
     getExecuteSkillTemplate(),
+    getExploreSkillTemplate(),
+    getGhPrErrorsSkillTemplate(),
     getStatusSkillTemplate(),
     getReviewSkillTemplate(),
     getSyncSkillTemplate(),
@@ -68,6 +77,10 @@ export function getDefaultSkillTemplates(profile: Profile = "extended"): SkillTe
     getIntakeSkillTemplate(),
     getCloseSkillTemplate(),
     getShipSkillTemplate(),
+    getOpenSpecProposeSkillTemplate(),
+    getOpenSpecExploreSkillTemplate(),
+    getOpenSpecApplyChangeSkillTemplate(),
+    getOpenSpecArchiveChangeSkillTemplate(),
 
     // Docs
     getDocsWorkflowSkillTemplate(),
@@ -103,4 +116,8 @@ export function getDefaultAgentTemplates(profile: Profile = "extended"): AgentTe
     return all.filter((t) => t.profile === "core");
   }
   return all;
+}
+
+export function getDefaultCommandTemplates(): CommandTemplate[] {
+  return getCommandTemplates();
 }

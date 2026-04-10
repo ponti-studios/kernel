@@ -115,6 +115,36 @@ export interface TemplateReference {
 }
 
 /**
+ * Command template - defines a command entrypoint or compatibility shim
+ * Commands are installed to <tool>/commands/<name>.md or a tool-native location.
+ */
+export interface CommandTemplate {
+  /** Stable command identifier (e.g. 'opsx-apply' or 'speckit.plan') */
+  name: string;
+
+  /** Human-readable description */
+  description: string;
+
+  /** Full instructions for the command */
+  instructions: string;
+
+  /** Optional guidance for command arguments */
+  argumentsHint?: string;
+
+  /** Tools this command may use without approval prompts */
+  allowedTools?: string[];
+
+  /** Additional reference files emitted alongside the command */
+  references?: TemplateReference[];
+
+  /** Skill this command routes to or wraps, when applicable */
+  backedBySkill?: string;
+
+  /** True when this command should only be emitted on tools with native support */
+  nativeOnly?: boolean;
+}
+
+/**
  * Agent template - native agent persona with additional execution metadata
  */
 export interface AgentTemplate extends SkillTemplate {

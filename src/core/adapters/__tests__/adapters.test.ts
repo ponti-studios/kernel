@@ -3,7 +3,7 @@ import {
     AGENT_NAMES,
     SKILL_NAMES,
 } from "../../../templates/constants.js";
-import type { AgentTemplate } from "../../templates/types.js";
+import type { AgentTemplate, CommandTemplate } from "../../templates/types.js";
 import {
     claudeAdapter,
     codexAdapter,
@@ -48,6 +48,14 @@ const testAgentTemplate: AgentTemplate = {
   availableSkills: [SKILL_NAMES.GIT_MASTER, SKILL_NAMES.DESIGN],
 };
 
+const testCommandTemplate: CommandTemplate = {
+  name: "opsx-explore",
+  description: "Enter explore mode",
+  instructions: "Think deeply before implementing.",
+  backedBySkill: SKILL_NAMES.OPENSPEC_EXPLORE,
+  allowedTools: ["Read", "Grep"],
+};
+
 const nativeAgentSupport: Record<string, boolean> = {
   claude: true,
   codex: true,
@@ -55,6 +63,15 @@ const nativeAgentSupport: Record<string, boolean> = {
   gemini: true,
   cursor: false,
   pi: false,
+};
+
+const commandSupport: Record<string, boolean> = {
+  claude: true,
+  codex: true,
+  "github-copilot": true,
+  gemini: true,
+  cursor: true,
+  pi: true,
 };
 
 describe("Adapter Registry", () => {
@@ -78,6 +95,13 @@ describe("Adapter Registry", () => {
   it("never exposes only one half of native agent support", () => {
     for (const adapter of allAdapters) {
       expect(Boolean(adapter.getAgentPath)).toBe(Boolean(adapter.formatAgent));
+    }
+  });
+
+  it("command support is explicit and consistent", () => {
+    for (const adapter of allAdapters) {
+      const supportsCommands = Boolean(adapter.getCommandPath && adapter.formatCommand);
+      expect(supportsCommands).toBe(commandSupport[adapter.toolId]);
     }
   });
 });
@@ -110,6 +134,12 @@ describe("Claude Adapter", () => {
     const path = claudeAdapter.getSkillPath("planner");
     expect(path).toBe(".claude/skills/planner/SKILL.md");
   });
+
+  it("generates native command path", () => {
+    expect(claudeAdapter.getCommandPath!("opsx-explore")).toBe(
+      ".claude/commands/kernel/opsx-explore.md",
+    );
+  });
 });
 
 describe("GitHub Copilot Adapter", () => {
@@ -121,6 +151,12 @@ describe("GitHub Copilot Adapter", () => {
     const path = githubCopilotAdapter.getSkillPath("planner");
     expect(path).toBe(".github/skills/planner/SKILL.md");
   });
+
+  it("generates compatibility command path", () => {
+    expect(githubCopilotAdapter.getCommandPath!("opsx-explore")).toBe(
+      ".github/commands/opsx-explore.md",
+    );
+  });
 });
 
 describe("Cursor Adapter", () => {
@@ -130,6 +166,10 @@ describe("Cursor Adapter", () => {
 
   it("generates correct skill path", () => {
     expect(cursorAdapter.getSkillPath("planner")).toBe(".cursor/skills/planner/SKILL.md");
+  });
+
+  it("generates compatibility command path", () => {
+    expect(cursorAdapter.getCommandPath!("opsx-explore")).toBe(".cursor/commands/opsx-explore.md");
   });
 });
 
@@ -144,6 +184,26 @@ describe("Gemini Adapter", () => {
 
   it("generates correct agent path", () => {
     expect(geminiAdapter.getAgentPath!(AGENT_NAMES.PLAN)).toBe(".gemini/agents/kernel-plan.md");
+  });
+
+  it("generates compatibility command path", () => {
+    expect(geminiAdapter.getCommandPath!("opsx-explore")).toBe(".gemini/commands/opsx-explore.md");
+  });
+});
+
+describe("Command formatting", () => {
+  it("Claude emits native command metadata and backing skill", () => {
+    const result = claudeAdapter.formatCommand!(testCommandTemplate, "1.0.0");
+    expect(result).toContain("native-command: true");
+    expect(result).toContain(`backed-by-skill: ${SKILL_NAMES.OPENSPEC_EXPLORE}`);
+    expect(result).toContain("Think deeply before implementing.");
+  });
+
+  it("compatibility adapters emit shim metadata and tool label", () => {
+    const result = codexAdapter.formatCommand!(testCommandTemplate, "1.0.0");
+    expect(result).toContain("native-command: false");
+    expect(result).toContain("tool: OpenAI Codex");
+    expect(result).toContain(`Preferred backing skill: ${SKILL_NAMES.OPENSPEC_EXPLORE}`);
   });
 });
 
