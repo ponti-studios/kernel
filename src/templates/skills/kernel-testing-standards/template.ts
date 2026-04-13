@@ -1,7 +1,7 @@
-import type { SkillTemplate } from "../../../core/templates/types.js";
 import { parseFrontmatter } from "../../../core/templates/frontmatter.js";
-import testingStandardsSkillMarkdown from "./instructions.md";
+import type { SkillTemplate } from "../../../core/templates/types.js";
 import { SKILL_NAMES } from "../../constants.js";
+import testingStandardsSkillMarkdown from "./instructions.md";
 
 export function getTestingStandardsSkillTemplate(): SkillTemplate {
   return {
@@ -15,7 +15,17 @@ export function getTestingStandardsSkillTemplate(): SkillTemplate {
       author: "project",
       version: "1.0",
       category: "Engineering",
-      tags: ["testing", "unit-tests", "integration-tests", "e2e", "vitest", "jest", "tdd", "coverage", "factories"],
+      tags: [
+        "testing",
+        "unit-tests",
+        "integration-tests",
+        "e2e",
+        "vitest",
+        "jest",
+        "tdd",
+        "coverage",
+        "factories",
+      ],
     },
     when: [
       "user is writing tests for a new feature or bug fix",

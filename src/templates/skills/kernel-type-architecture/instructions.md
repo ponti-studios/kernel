@@ -6,13 +6,13 @@ Types are the contract between modules. Where a type lives determines who can us
 
 Every type has exactly one source of truth. Duplication creates divergence.
 
-| Type category | Lives in |
-|---|---|
-| Database row types | `packages/db` — Kysely codegen output, never hand-edited |
+| Type category              | Lives in                                                    |
+| -------------------------- | ----------------------------------------------------------- |
+| Database row types         | `packages/db` — Kysely codegen output, never hand-edited    |
 | API request/response types | `packages/api` or `services/api` — derived from Zod schemas |
-| Shared domain types | A dedicated `packages/types` or `packages/core` |
-| App-local UI state types | The app package that owns them |
-| Utility types | The package that uses them — do not hoist unless shared |
+| Shared domain types        | A dedicated `packages/types` or `packages/core`             |
+| App-local UI state types   | The app package that owns them                              |
+| Utility types              | The package that uses them — do not hoist unless shared     |
 
 **Import direction:** apps import from packages; packages do not import from apps.
 
@@ -26,8 +26,8 @@ import { z } from "zod";
 // Define once
 export const CreateUserSchema = z.object({
   email: z.string().email(),
-  name:  z.string().min(1).max(100),
-  role:  z.enum(["admin", "standard"]).default("standard"),
+  name: z.string().min(1).max(100),
+  role: z.enum(["admin", "standard"]).default("standard"),
 });
 
 // Derive — do not redeclare
@@ -35,6 +35,7 @@ export type CreateUserInput = z.infer<typeof CreateUserSchema>;
 ```
 
 Never write:
+
 ```typescript
 // ❌ schema and type maintained separately — they will diverge
 const CreateUserSchema = z.object({ email: z.string() });
@@ -82,10 +83,7 @@ apps/
     "declarationMap": true,
     "outDir": "./dist"
   },
-  "references": [
-    { "path": "../db" },
-    { "path": "../types" }
-  ]
+  "references": [{ "path": "../db" }, { "path": "../types" }]
 }
 ```
 
@@ -124,7 +122,7 @@ Use the `exports` field — not `main` — for all packages.
 {
   "name": "@acme/api",
   "exports": {
-    ".":       { "import": "./dist/index.js", "types": "./dist/index.d.ts" },
+    ".": { "import": "./dist/index.js", "types": "./dist/index.d.ts" },
     "./types": { "import": "./dist/types.js", "types": "./dist/types.d.ts" }
   }
 }
@@ -134,13 +132,13 @@ Import paths in consuming packages: `import type { X } from "@acme/api/types"` �
 
 ## Avoiding Common Pitfalls
 
-| Anti-pattern | Fix |
-|---|---|
-| `any` in a shared type | Use `unknown` and narrow explicitly |
-| Types redeclared in multiple packages | Move to `packages/types`, export from there |
-| Circular package references | Introduce a shared types package that neither imports from the other |
-| Hand-edited codegen output | Regenerate from source; add to `.gitignore` if it should not be committed |
-| `@ts-ignore` or `@ts-expect-error` without explanation | Explain in a comment why it is necessary; add a ticket to remove it |
+| Anti-pattern                                           | Fix                                                                       |
+| ------------------------------------------------------ | ------------------------------------------------------------------------- |
+| `any` in a shared type                                 | Use `unknown` and narrow explicitly                                       |
+| Types redeclared in multiple packages                  | Move to `packages/types`, export from there                               |
+| Circular package references                            | Introduce a shared types package that neither imports from the other      |
+| Hand-edited codegen output                             | Regenerate from source; add to `.gitignore` if it should not be committed |
+| `@ts-ignore` or `@ts-expect-error` without explanation | Explain in a comment why it is necessary; add a ticket to remove it       |
 
 ## Guardrails
 

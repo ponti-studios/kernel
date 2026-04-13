@@ -36,17 +36,17 @@
 import path from "path";
 import type { AgentTemplate, CommandTemplate, SkillTemplate } from "../templates/types.js";
 import {
-    closeSkillFrontmatter,
-    escapeYamlValue,
-    formatAgentBody,
-    formatCompatibilityCommand,
-    formatFullSkillFrontmatter,
-    formatManifestContent,
+  closeSkillFrontmatter,
+  escapeYamlValue,
+  formatAgentBody,
+  formatCompatibilityCommand,
+  formatFullSkillFrontmatter,
+  formatManifestContent,
 } from "./shared.js";
 import type { ToolCommandAdapter } from "./types.js";
 
 export const githubCopilotAdapter: ToolCommandAdapter = {
-  toolId: "github-copilot",
+  toolId: "copilot",
   toolName: "GitHub Copilot",
   skillsDir: ".github",
 
@@ -98,7 +98,10 @@ export const githubCopilotAdapter: ToolCommandAdapter = {
   },
 
   formatSkill(template: SkillTemplate, version: string): string {
-    return closeSkillFrontmatter(formatFullSkillFrontmatter(template, version), template.instructions);
+    return closeSkillFrontmatter(
+      formatFullSkillFrontmatter(template, version),
+      template.instructions,
+    );
   },
 
   formatCommand(template: CommandTemplate, version: string): string {

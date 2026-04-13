@@ -34,7 +34,10 @@ export const cursorAdapter: ToolCommandAdapter = {
   },
 
   formatSkill(template: SkillTemplate, version: string): string {
-    return closeSkillFrontmatter(formatBaseSkillFrontmatter(template, version), template.instructions);
+    return closeSkillFrontmatter(
+      formatBaseSkillFrontmatter(template, version),
+      template.instructions,
+    );
   },
 
   formatCommand(template: CommandTemplate, version: string): string {

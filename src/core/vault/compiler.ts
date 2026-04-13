@@ -34,7 +34,7 @@ function rewriteReferencePaths(
 ): string {
   if (references.length === 0) return body;
 
-  if (toolId === "github-copilot") {
+  if (toolId === "copilot") {
     // Copilot prompt files support `#file:<workspace-relative-path>` which
     // auto-attaches the file when the user loads the prompt.
     let rewritten = body;

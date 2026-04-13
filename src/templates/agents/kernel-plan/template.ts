@@ -1,8 +1,8 @@
-import type { AgentTemplate } from "../../../core/templates/types.js";
 import { parseFrontmatter } from "../../../core/templates/frontmatter.js";
-import planAgentMarkdown from "./AGENT.md";
+import type { AgentTemplate } from "../../../core/templates/types.js";
 import { AGENT_NAMES } from "../../constants.js";
 import { PLAN_AGENT_AVAILABLE_SKILLS } from "../available-skills.js";
+import planAgentMarkdown from "./AGENT.md";
 
 const { body } = parseFrontmatter(planAgentMarkdown);
 
@@ -33,7 +33,8 @@ export function getPlanAgentTemplate(): AgentTemplate {
     route: "plan",
     defaultTools: ["read", "search"],
     allowedTools: ["Read", "Grep", "Glob"],
-    argumentHint: "goal or task to plan (e.g., 'add user authentication', 'refactor the API layer')",
+    argumentHint:
+      "goal or task to plan (e.g., 'add user authentication', 'refactor the API layer')",
     permissionMode: "plan",
     maxTurns: 30,
     memory: "project",

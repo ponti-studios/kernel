@@ -10,14 +10,12 @@ import type { ToolCommandAdapter } from "../adapters/types.js";
 
 import { CONFIG_VERSION } from "../config/defaults.js";
 import { createPopulatedAdapterRegistry } from "../adapters/index.js";
-import { generateCommandsForAllTools } from "./command-gen.js";
 import { generateSkillsForAllTools } from "./skill-gen.js";
 import { generateAgentsForAllTools } from "./agent-gen.js";
 import { generateManifestsForAllTools } from "./manifest-gen.js";
 
 import {
   getDefaultAgentTemplates,
-  getDefaultCommandTemplates,
   getDefaultSkillTemplates,
 } from "../../templates/catalog.js";
 import { writeFilesBatch } from "../utils/batch-writer.js";
@@ -42,10 +40,7 @@ export class Generator {
 
     const skillTemplates = getDefaultSkillTemplates(this.config.profile);
     const agentTemplates = getDefaultAgentTemplates(this.config.profile);
-    const commandTemplates = getDefaultCommandTemplates();
-
     const skillFiles = generateSkillsForAllTools(skillTemplates, adapters, this.version);
-    const commandFiles = generateCommandsForAllTools(commandTemplates, adapters, this.version);
     const manifestFiles = generateManifestsForAllTools(skillTemplates, adapters, this.version);
     const agentFiles =
       this.config.delivery !== "skills"
@@ -53,7 +48,7 @@ export class Generator {
         : [];
 
     const { written, failed } = await writeFilesBatch(
-      [...skillFiles, ...commandFiles, ...manifestFiles, ...agentFiles],
+      [...skillFiles, ...manifestFiles, ...agentFiles],
       projectPath,
     );
     result.generated = written;
@@ -73,7 +68,6 @@ export class Generator {
     }
     return adapters;
   }
-
 }
 
 export async function generateFiles(

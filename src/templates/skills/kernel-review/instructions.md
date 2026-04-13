@@ -7,9 +7,9 @@ Answer: _is this done well enough to move forward?_
 
 ## Steps
 
-### 1. Read the plan
+### 1. Read the local plan
 
-- Read the relevant Linear issue to retrieve the description and acceptance criteria.
+- Read the local work brief, plan, or task record to retrieve the goal and acceptance criteria.
 - Identify the goal and what "done" means for this work.
 
 ### 2. Examine the output
@@ -59,11 +59,11 @@ Weight each dimension by what matters most for this work:
 [Clear direction: what happens next and who owns it]
 ```
 
-### 6. Update the Linear issue
+### 6. Update the local work state
 
-- If approved: transition the issue to `done` and add the review summary as a comment.
-- If needs rework: add a comment with the must-fix list and leave the issue as `in-progress`.
-- If approve with changes: add the should-fix list as a comment and transition to `done` only after changes are confirmed.
+- If approved: mark the task or work item ready to move forward.
+- If needs rework: keep the task open and attach the must-fix list to the local work notes.
+- If approve with changes: record the should-fix list and decide whether the work can still advance.
 
 ## Review Principles
 
@@ -125,7 +125,7 @@ Follow this process for any refactoring task:
 
 ## Code Formatting
 
-1. Confirm the formatter the project uses (prettier, eslint, gofmt, black, rustfmt, etc.)
+1. Confirm the formatter the project uses (prettier, eslint, rustfmt, biome, etc.)
 2. Run the formatter on changed files
 3. Review the diff — formatting changes should be pure whitespace/style
 4. Commit formatting separately from logic changes
@@ -136,9 +136,7 @@ Supported linters by language:
 
 - JavaScript/TypeScript: eslint, oxlint
 - Ruby: RuboCop, StandardRB, Fasterer
-- Python: ruff, pylint, flake8
 - Rust: clippy
-- Go: staticcheck, golangci-lint
 
 Process:
 

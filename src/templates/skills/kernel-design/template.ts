@@ -1,25 +1,14 @@
-import type { SkillTemplate } from "../../../core/templates/types.js";
 import { parseFrontmatter } from "../../../core/templates/frontmatter.js";
+import type { SkillTemplate } from "../../../core/templates/types.js";
 import designSkillMarkdown from "./instructions.md";
-import {
-  getSkillReferences,
-} from "../../.generated/templates.js";
+import { DESIGN_SKILL_REFERENCES } from "./reference-bundle.js";
 
-const { frontmatter, body } = parseFrontmatter<Omit<SkillTemplate, "instructions" | "references">>(
-  designSkillMarkdown,
-);
+const { frontmatter, body } =
+  parseFrontmatter<Omit<SkillTemplate, "instructions" | "references">>(designSkillMarkdown);
 
 export function getDesignSkillTemplate(): SkillTemplate {
   return {
-    references: getSkillReferences(
-      frontmatter.name,
-      "references/standards.md",
-      "references/foundations.md",
-      "references/motion.md",
-      "references/components.md",
-      "references/patterns.md",
-      "references/chat.md"
-    ),
+    references: DESIGN_SKILL_REFERENCES,
     ...frontmatter,
     instructions: body,
   };

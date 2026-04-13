@@ -65,7 +65,6 @@ describe("agent templates", () => {
     expect(getArchitectAgentTemplate().availableSkills).toEqual([
       SKILL_NAMES.REVIEW,
       SKILL_NAMES.MAP_CODEBASE,
-      SKILL_NAMES.SHIP,
     ]);
 
     expect(getGitAgentTemplate().availableSkills).toEqual([SKILL_NAMES.GIT_MASTER]);
@@ -73,12 +72,12 @@ describe("agent templates", () => {
     expect(getSearchAgentTemplate().availableSkills).toEqual([
       SKILL_NAMES.GIT_MASTER,
       SKILL_NAMES.MAP_CODEBASE,
-      SKILL_NAMES.RESEARCH,
+      SKILL_NAMES.PROJECT_SETUP,
     ]);
 
     expect(getReviewAgentTemplate().availableSkills).toEqual([
       SKILL_NAMES.REVIEW,
-      SKILL_NAMES.SHIP,
+      SKILL_NAMES.MAP_CODEBASE,
       SKILL_NAMES.GIT_MASTER,
     ]);
   });
@@ -86,26 +85,18 @@ describe("agent templates", () => {
   it("assigns orchestration skills to planning and execution agents", () => {
     expect(getPlanAgentTemplate().availableSkills).toEqual([
       SKILL_NAMES.GIT_MASTER,
-      SKILL_NAMES.DESIGN,
       SKILL_NAMES.MAP_CODEBASE,
-      SKILL_NAMES.RESEARCH,
-      SKILL_NAMES.PLAN,
-      SKILL_NAMES.INTAKE,
+      SKILL_NAMES.PROJECT_SETUP,
+      SKILL_NAMES.REVIEW,
     ]);
 
     expect(getDoAgentTemplate().availableSkills).toEqual([
       SKILL_NAMES.GIT_MASTER,
-      SKILL_NAMES.DESIGN,
       SKILL_NAMES.REVIEW,
-      SKILL_NAMES.STATUS,
-      SKILL_NAMES.EXECUTE,
-      SKILL_NAMES.SYNC,
-      SKILL_NAMES.INTAKE,
-      SKILL_NAMES.UNBLOCK,
-      SKILL_NAMES.SHIP,
       SKILL_NAMES.PROJECT_INIT,
       SKILL_NAMES.BUILD,
       SKILL_NAMES.MAP_CODEBASE,
+      SKILL_NAMES.PROJECT_SETUP,
     ]);
 
     expect(getCaptureAgentTemplate().availableSkills).toEqual([

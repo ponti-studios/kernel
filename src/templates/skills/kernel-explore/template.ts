@@ -1,7 +1,7 @@
-import type { SkillTemplate } from "../../../core/templates/types.js";
 import { parseFrontmatter } from "../../../core/templates/frontmatter.js";
-import exploreSkillMarkdown from "./instructions.md";
+import type { SkillTemplate } from "../../../core/templates/types.js";
 import { SKILL_NAMES } from "../../constants.js";
+import exploreSkillMarkdown from "./instructions.md";
 
 export function getExploreSkillTemplate(): SkillTemplate {
   return {
@@ -33,12 +33,6 @@ export function getExploreSkillTemplate(): SkillTemplate {
     outputs: ["Updated Linear issue or comment with decisions", "Risk and tradeoff analysis"],
     dependencies: [],
     disableModelInvocation: true,
-    allowedTools: [
-      "mcp_linear_list_issues",
-      "mcp_linear_get_issue",
-      "mcp_linear_save_issue",
-      "mcp_linear_save_comment",
-    ],
     argumentHint: "issue ID, parent issue, or topic to investigate",
     instructions: parseFrontmatter(exploreSkillMarkdown).body,
   };

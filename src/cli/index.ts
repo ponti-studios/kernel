@@ -10,7 +10,12 @@ import { Command } from "commander";
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { executeSync } from "./sync.js";
+import { registerDoctorCommand } from "./commands/doctor.js";
+import { registerHostCommand } from "./commands/host.js";
+import { registerInitCommand } from "./commands/init.js";
+import { registerPackageCommand } from "./commands/package.js";
+import { registerSyncCommand } from "./commands/sync.js";
+import { registerWorkCommand } from "./commands/work.js";
 
 function getVersion(): string {
   const metaPath = fileURLToPath(import.meta.url);
@@ -30,14 +35,15 @@ const program = new Command();
 
 program
   .name("kernel")
-  .description("AI-native development workflows for any coding assistant")
-  .version(getVersion());
+  .description("Local brain and workflow OS for coding agents")
+  .version(getVersion())
+  .showHelpAfterError();
 
-program
-  .command("sync")
-  .description("Install agents, skills, and commands globally")
-  .action(async () => {
-    await executeSync({});
-  });
+registerInitCommand(program);
+registerSyncCommand(program);
+registerDoctorCommand(program);
+registerPackageCommand(program);
+registerHostCommand(program);
+registerWorkCommand(program);
 
 export { program };

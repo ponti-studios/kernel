@@ -1,7 +1,7 @@
 {
   "name": "@hackefeller/kernel",
   "version": "0.0.5",
-  "description": "Upgrade an AI agent with stronger workflows, templates, and execution guidance.",
+  "description": "Local brain and workflow OS for coding agents.",
   "keywords": [
     "agent",
     "ai",
@@ -27,15 +27,14 @@
   ],
   "type": "module",
   "scripts": {
-    "generate:template-refs": "bun ./scripts/generate-template-refs.ts",
-    "build": "bun run generate:template-refs && bun build ./src/cli/main.ts --compile --outfile ./dist/kernel && cp ./package.json ./dist/",
-    "build:bin": "bun run generate:template-refs && bun build ./src/cli/main.ts --compile --outfile ./dist/kernel && cp ./package.json ./dist/",
-    "build:dev": "bun run generate:template-refs && bun build ./src/cli/main.ts --compile --outfile ./dist/kernel-dev && cp ./package.json ./dist/",
+    "build": "bun build ./src/cli/main.ts --compile --outfile ./dist/kernel && cp ./package.json ./dist/",
+    "build:bin": "bun build ./src/cli/main.ts --compile --outfile ./dist/kernel && cp ./package.json ./dist/",
+    "build:dev": "bun build ./src/cli/main.ts --compile --outfile ./dist/kernel-dev && cp ./package.json ./dist/",
     "dev:cli": "bun ./src/cli/main.ts",
     "link:dev": "ln -sf $PWD/dist/kernel-dev /usr/local/bin/kernel-dev",
-    "test": "bun run generate:template-refs && bun test",
+    "test": "bun test",
     "test:vault": "bun test src/core/vault/__tests__",
-    "typecheck": "bun run generate:template-refs && bun --bun tsc --noEmit",
+    "typecheck": "bun --bun tsc --noEmit",
     "lefthook": "lefthook",
     "prepare": "lefthook install"
   },

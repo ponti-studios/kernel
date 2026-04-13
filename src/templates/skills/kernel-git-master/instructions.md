@@ -28,6 +28,7 @@ git rebase -i main
 ```
 
 Common fixup operations:
+
 - `squash` / `s` — merge into previous commit, combine messages
 - `fixup` / `f` — merge into previous commit, discard this message
 - `reword` / `r` — keep commit, edit message
@@ -59,6 +60,7 @@ git rebase --abort
 ```
 
 For complex conflicts, use a 3-way merge tool:
+
 ```bash
 git mergetool
 ```

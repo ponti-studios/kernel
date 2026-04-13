@@ -2,9 +2,9 @@ import * as yaml from "yaml";
 
 const FRONTMATTER_DELIMITER = "---";
 
-export function parseFrontmatter<TFrontmatter extends Record<string, unknown> = Record<string, unknown>>(
-  content: string,
-): { frontmatter: TFrontmatter; body: string } {
+export function parseFrontmatter<
+  TFrontmatter extends Record<string, unknown> = Record<string, unknown>,
+>(content: string): { frontmatter: TFrontmatter; body: string } {
   if (!content.startsWith(FRONTMATTER_DELIMITER)) {
     return { frontmatter: {} as TFrontmatter, body: content };
   }

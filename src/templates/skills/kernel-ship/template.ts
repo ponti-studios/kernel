@@ -1,11 +1,10 @@
-import type { SkillTemplate } from "../../../core/templates/types.js";
 import { parseFrontmatter } from "../../../core/templates/frontmatter.js";
-import shipSkillMarkdown from "./instructions.md";
+import type { SkillTemplate } from "../../../core/templates/types.js";
 import { SKILL_NAMES } from "../../constants.js";
+import shipSkillMarkdown from "./instructions.md";
 
-const { frontmatter, body } = parseFrontmatter<Omit<SkillTemplate, "instructions" | "references">>(
-  shipSkillMarkdown,
-);
+const { frontmatter, body } =
+  parseFrontmatter<Omit<SkillTemplate, "instructions" | "references">>(shipSkillMarkdown);
 
 export function getShipSkillTemplate(): SkillTemplate {
   return {

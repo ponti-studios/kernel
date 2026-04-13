@@ -1,7 +1,7 @@
-import type { SkillTemplate } from "../../../core/templates/types.js";
 import { parseFrontmatter } from "../../../core/templates/frontmatter.js";
-import buildSkillMarkdown from "./instructions.md";
+import type { SkillTemplate } from "../../../core/templates/types.js";
 import { SKILL_NAMES } from "../../constants.js";
+import buildSkillMarkdown from "./instructions.md";
 
 const { body } = parseFrontmatter(buildSkillMarkdown);
 

@@ -2,14 +2,14 @@
 
 ## Table Conventions
 
-| Column | Type | Requirement |
-|---|---|---|
-| Primary key | `UUID DEFAULT gen_random_uuid()` | Always UUID — never serial/integer |
-| `created_at` | `TIMESTAMPTZ NOT NULL DEFAULT now()` | Required on every table |
-| `updated_at` | `TIMESTAMPTZ NOT NULL DEFAULT now()` | Required; maintain via trigger or app layer |
-| Foreign keys | `UUID NOT NULL REFERENCES table(id)` | Always NOT NULL unless explicitly optional |
-| Soft deletes | `deleted_at TIMESTAMPTZ` | Use over hard deletes when history matters |
-| Status/state | `TEXT NOT NULL` with a check constraint | Over enums — TEXT is easier to extend |
+| Column       | Type                                    | Requirement                                 |
+| ------------ | --------------------------------------- | ------------------------------------------- |
+| Primary key  | `UUID DEFAULT gen_random_uuid()`        | Always UUID — never serial/integer          |
+| `created_at` | `TIMESTAMPTZ NOT NULL DEFAULT now()`    | Required on every table                     |
+| `updated_at` | `TIMESTAMPTZ NOT NULL DEFAULT now()`    | Required; maintain via trigger or app layer |
+| Foreign keys | `UUID NOT NULL REFERENCES table(id)`    | Always NOT NULL unless explicitly optional  |
+| Soft deletes | `deleted_at TIMESTAMPTZ`                | Use over hard deletes when history matters  |
+| Status/state | `TEXT NOT NULL` with a check constraint | Over enums — TEXT is easier to extend       |
 
 ## Column Rules
 

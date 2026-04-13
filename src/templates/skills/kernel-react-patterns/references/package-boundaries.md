@@ -29,15 +29,15 @@ export function Composer({ mode, itemId, onSubmit, onCancel, initialValue }: Com
 ```typescript
 // ❌ Wrong — this belongs in apps/<your-app>/components/
 const Composer = () => {
-  const { mode, itemId } = useComposerMode() // ❌ routing hook
-  const navigate = useNavigate()             // ❌ routing
-  const { mutate } = useCreateItem()         // ❌ API call
+  const { mode, itemId } = useComposerMode(); // ❌ routing hook
+  const navigate = useNavigate(); // ❌ routing
+  const { mutate } = useCreateItem(); // ❌ API call
 
   const handleSubmit = async (data) => {
-    await mutate(data)    // ❌ business logic
-    navigate('/items')    // ❌ navigation
-  }
-}
+    await mutate(data); // ❌ business logic
+    navigate("/items"); // ❌ navigation
+  };
+};
 ```
 
 ## Container → Presentational Split
@@ -66,8 +66,8 @@ export function Layout() {
 ```typescript
 // packages/ui/src/components/composer/composer.tsx
 interface ComposerProps {
-  mode: 'insert' | 'update'
-  itemId?: string
+  mode: "insert" | "update";
+  itemId?: string;
   // ... other props
 }
 

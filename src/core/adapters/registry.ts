@@ -47,4 +47,3 @@ class AdapterRegistryImpl implements AdapterRegistry {
 export function createAdapterRegistry(): AdapterRegistry {
   return new AdapterRegistryImpl();
 }
-

@@ -98,6 +98,7 @@ DROP TABLE IF EXISTS users;
 ### Step 1 — Confirm Scope
 
 Before writing anything, confirm:
+
 - Does this require a migration, or is it an app-layer change?
 - Is there a prior migration that should be amended instead? (Only if it has never been applied outside disposable environments)
 - Does this change conflict with any pending migration in the set?
@@ -139,6 +140,7 @@ If you are working on a greenfield baseline track that has not shipped yet, you 
 Write the `Up` block first. Then write the `Down` block that exactly reverses it.
 
 **Down block rules:**
+
 - `CREATE TABLE` → `DROP TABLE IF EXISTS`
 - `ADD COLUMN` → `DROP COLUMN`
 - `CREATE INDEX` → `DROP INDEX IF EXISTS`
@@ -203,6 +205,7 @@ Prefer database-native or SQL-driven assertions for schema behavior, not only ap
 ### Step 9 — Report
 
 Always tell the user:
+
 - Which migration file was created or modified
 - Whether the work was a new migration or an in-place greenfield baseline refinement
 - Whether `db-migrate-sync` passed on dev and test

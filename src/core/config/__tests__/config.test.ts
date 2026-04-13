@@ -103,8 +103,8 @@ describe("createDefaultConfig", () => {
   });
 
   it("applies overrides to the returned config", async () => {
-    const config = await createDefaultConfig(tmpDir, { tools: ["cursor"], profile: "extended" });
-    expect(config.tools).toEqual(["cursor"]);
+    const config = await createDefaultConfig(tmpDir, { tools: ["copilot"], profile: "extended" });
+    expect(config.tools).toEqual(["copilot"]);
     expect(config.profile).toBe("extended");
   });
 
@@ -211,7 +211,7 @@ describe("saveConfig", () => {
   it("writes valid YAML with version, tools, profile, delivery", async () => {
     const config: Config = {
       version: "1.0.0",
-      tools: ["cursor"],
+      tools: ["copilot"],
       profile: "extended",
       delivery: "both",
     };
@@ -220,7 +220,7 @@ describe("saveConfig", () => {
     const raw = await fs.readFile(configPath, "utf-8");
     const parsed = yaml.parse(raw);
     expect(parsed.version).toBe("1.0.0");
-    expect(parsed.tools).toContain("cursor");
+    expect(parsed.tools).toContain("copilot");
     expect(parsed.profile).toBe("extended");
     expect(parsed.delivery).toBe("both");
   });
@@ -289,7 +289,7 @@ describe("ConfigSchema", () => {
 
   it("accepts all valid tool IDs", () => {
     const result = ConfigSchema.parse({
-      tools: ["claude", "claude", "codex", "github-copilot", "gemini", "cursor"],
+      tools: ["claude", "claude", "codex", "copilot", "opencode", "pi"],
     });
     expect(result.tools).toHaveLength(6);
   });

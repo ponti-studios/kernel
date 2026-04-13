@@ -2,12 +2,12 @@ Publish documentation, cut versioned releases, and record feature demos.
 
 ## Toolchain
 
-| Concern | Choice | Notes |
-|---------|--------|-------|
-| Doc platform | **Vitepress** | Built-in search, fast builds, Vue-based. Never Docusaurus. |
-| Hosting | **Vercel** | Preferred. GitHub Pages acceptable for open-source projects. |
-| Link validation | `linkcheck` | Run against built output before every publish. |
-| Release notes | `git log` | Generate from conventional commits between tags. |
+| Concern         | Choice        | Notes                                                        |
+| --------------- | ------------- | ------------------------------------------------------------ |
+| Doc platform    | **Vitepress** | Built-in search, fast builds, Vue-based. Never Docusaurus.   |
+| Hosting         | **Vercel**    | Preferred. GitHub Pages acceptable for open-source projects. |
+| Link validation | `linkcheck`   | Run against built output before every publish.               |
+| Release notes   | `git log`     | Generate from conventional commits between tags.             |
 
 ## Building Documentation
 

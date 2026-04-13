@@ -1,7 +1,7 @@
-import type { SkillTemplate } from "../../../core/templates/types.js";
 import { parseFrontmatter } from "../../../core/templates/frontmatter.js";
-import typeArchitectureSkillMarkdown from "./instructions.md";
+import type { SkillTemplate } from "../../../core/templates/types.js";
 import { SKILL_NAMES } from "../../constants.js";
+import typeArchitectureSkillMarkdown from "./instructions.md";
 
 export function getTypeArchitectureSkillTemplate(): SkillTemplate {
   return {
@@ -15,7 +15,16 @@ export function getTypeArchitectureSkillTemplate(): SkillTemplate {
       author: "project",
       version: "1.0",
       category: "Engineering",
-      tags: ["typescript", "types", "tsconfig", "zod", "schemas", "monorepo", "project-references", "type-safety"],
+      tags: [
+        "typescript",
+        "types",
+        "tsconfig",
+        "zod",
+        "schemas",
+        "monorepo",
+        "project-references",
+        "type-safety",
+      ],
     },
     when: [
       "user is deciding where a shared type should live in the package graph",

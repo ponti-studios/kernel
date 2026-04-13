@@ -1,7 +1,7 @@
 /**
  * Sync command
  *
- * Installs agents and skills to user-level directories.
+ * Installs agents, skills, and commands to user-level directories.
  *
  * Design:
  * - Skills: written to ~/.agents/skills/ (shared catalog, open agent skills format).
@@ -18,8 +18,8 @@
  * Tool home directories:
  *   Claude     → ~/.claude/agents/   (*.md)
  *   Codex      → ~/.codex/agents/    (*.toml)
- *   Gemini     → ~/.gemini/agents/   (*.md)
  *   Copilot    → ~/.copilot/agents/  (*.agent.md)  ← user-level dir differs from project .github/
+ *   OpenCode   → ~/.config/opencode/agents/ (*.md)
  */
 
 import { mkdirSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
@@ -27,44 +27,36 @@ import { homedir } from "node:os";
 import { basename, dirname, join } from "node:path";
 import { claudeAdapter } from "../core/adapters/claude.js";
 import { codexAdapter } from "../core/adapters/codex.js";
-import { cursorAdapter } from "../core/adapters/cursor.js";
-import { geminiAdapter } from "../core/adapters/gemini.js";
 import { githubCopilotAdapter } from "../core/adapters/github-copilot.js";
-import { piAdapter } from "../core/adapters/pi.js";
+import { opencodeAdapter } from "../core/adapters/opencode.js";
 import type { ToolCommandAdapter } from "../core/adapters/types.js";
 import { CONFIG_VERSION } from "../core/config/defaults.js";
 import {
-  getDefaultAgentTemplates,
-  getDefaultCommandTemplates,
-  getDefaultSkillTemplates,
+    getDefaultAgentTemplates,
+    getDefaultSkillTemplates,
 } from "../templates/catalog.js";
 
 export interface SyncOptions {
   homePath?: string;
 }
 
-// Tools that receive per-skill symlinks pointing to ~/.agents/skills/<name>
-// Cursor has no agents but does use skills.
-const SKILL_LINK_TOOLS = ["claude", "cursor", "codex", "gemini"];
+const SKILL_LINK_TARGETS: Array<{ toolHomeDir: string }> = [
+  { toolHomeDir: ".claude" },
+  { toolHomeDir: ".codex" },
+  { toolHomeDir: ".copilot" },
+  { toolHomeDir: ".config/opencode" },
+  { toolHomeDir: ".pi" },
+];
 
 // Per-tool agent installation config.
 // toolHomeDir: the dot-directory under homePath where agents are written.
-// github-copilot: project-level path prefix is .github/ (used by the adapter's getAgentPath),
+// Copilot: project-level path prefix is .github/ (used by the adapter's getAgentPath),
 // but the user-level installation target is ~/.copilot/agents/.
 const AGENT_ADAPTERS: Array<{ adapter: ToolCommandAdapter; toolHomeDir: string }> = [
   { adapter: claudeAdapter, toolHomeDir: ".claude" },
   { adapter: codexAdapter, toolHomeDir: ".codex" },
-  { adapter: geminiAdapter, toolHomeDir: ".gemini" },
   { adapter: githubCopilotAdapter, toolHomeDir: ".copilot" },
-];
-
-const COMMAND_ADAPTERS: Array<{ adapter: ToolCommandAdapter; toolHomeDir: string }> = [
-  { adapter: claudeAdapter, toolHomeDir: ".claude" },
-  { adapter: codexAdapter, toolHomeDir: ".codex" },
-  { adapter: geminiAdapter, toolHomeDir: ".gemini" },
-  { adapter: githubCopilotAdapter, toolHomeDir: ".copilot" },
-  { adapter: cursorAdapter, toolHomeDir: ".cursor" },
-  { adapter: piAdapter, toolHomeDir: ".pi" },
+  { adapter: opencodeAdapter, toolHomeDir: ".config/opencode" },
 ];
 
 export async function executeSync(options: SyncOptions): Promise<void> {
@@ -76,7 +68,6 @@ async function installGlobalCatalog(homePath = homedir()): Promise<void> {
   mkdirSync(skillsSourceDir, { recursive: true });
 
   const agents = getDefaultAgentTemplates("extended");
-  const commands = getDefaultCommandTemplates();
   const skillTemplates = getDefaultSkillTemplates("extended");
 
   // --- Shared skills catalog: ~/.agents/skills/<name>/SKILL.md ---
@@ -114,37 +105,13 @@ async function installGlobalCatalog(homePath = homedir()): Promise<void> {
       // Derive the native filename from the adapter (e.g. "kernel-plan.md" / "kernel-plan.toml")
       // References are embedded inline by each adapter's formatAgent — no side-files written.
       const agentFileName = basename(adapter.getAgentPath(agent.name));
-      writeFileSync(
-        join(toolAgentsDir, agentFileName),
-        adapter.formatAgent(agent, CONFIG_VERSION),
-      );
-    }
-  }
-
-  // --- Per-tool command files using each tool's native or compatibility format ---
-  for (const { adapter, toolHomeDir } of COMMAND_ADAPTERS) {
-    if (!adapter.getCommandPath || !adapter.formatCommand) continue;
-
-    for (const command of commands) {
-      if (command.nativeOnly && adapter.toolId !== "claude") continue;
-
-      const commandRelativePath = adapter.getCommandPath(command.name);
-      const relativeParts = commandRelativePath.split("/").slice(1);
-      const commandFilePath = join(homePath, toolHomeDir, ...relativeParts);
-      mkdirSync(dirname(commandFilePath), { recursive: true });
-      writeFileSync(commandFilePath, adapter.formatCommand(command, CONFIG_VERSION));
-
-      for (const ref of command.references ?? []) {
-        const refPath = join(dirname(commandFilePath), ref.relativePath);
-        mkdirSync(dirname(refPath), { recursive: true });
-        writeFileSync(refPath, ref.content);
-      }
+      writeFileSync(join(toolAgentsDir, agentFileName), adapter.formatAgent(agent, CONFIG_VERSION));
     }
   }
 
   // --- Skill symlinks: ~/.{tool}/skills/<name> → ~/.agents/skills/<name> ---
-  for (const toolId of SKILL_LINK_TOOLS) {
-    const toolSkillsDir = join(homePath, `.${toolId}`, "skills");
+  for (const { toolHomeDir } of SKILL_LINK_TARGETS) {
+    const toolSkillsDir = join(homePath, toolHomeDir, "skills");
     mkdirSync(toolSkillsDir, { recursive: true });
 
     for (const template of skillTemplates) {
@@ -155,9 +122,8 @@ async function installGlobalCatalog(homePath = homedir()): Promise<void> {
   }
 
   console.log(`\n✓ Installed ${skillTemplates.length} skills to ~/.agents/skills/`);
-  console.log(`✓ Installed ${commands.length} commands to tool home directories`);
   console.log(
     `✓ Installed ${agents.length} agents to: ${AGENT_ADAPTERS.map((a) => a.toolHomeDir).join(", ")}`,
   );
-  console.log(`✓ Linked skills to: ${SKILL_LINK_TOOLS.join(", ")}`);
+  console.log(`✓ Linked skills to: ${SKILL_LINK_TARGETS.map((a) => a.toolHomeDir).join(", ")}`);
 }

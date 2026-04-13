@@ -15,7 +15,7 @@ export function getGhPrErrorsSkillTemplate(): SkillTemplate {
     license: "MIT",
     compatibility: "Requires gh CLI with an authenticated session.",
     metadata: {
-      author: "openspec",
+      author: "kernel",
       version: "1.0",
       category: "Workflow",
       tags: ["github", "actions", "ci", "pull-request", "errors"],

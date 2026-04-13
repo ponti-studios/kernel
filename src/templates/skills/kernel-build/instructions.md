@@ -2,13 +2,13 @@ Run builds, type-checks, and tests using the prescribed toolchain. Diagnose and 
 
 ## Prescribed Toolchain
 
-| Concern | Tool |
-|---|---|
-| Runtime | Bun |
-| Build | Vite (`bun run build`) |
+| Concern    | Tool                       |
+| ---------- | -------------------------- |
+| Runtime    | Bun                        |
+| Build      | Vite (`bun run build`)     |
 | Type-check | tsgo (`bun run typecheck`) |
-| Test | Vitest (`bun test`) |
-| Lint | ESLint (`bun run lint`) |
+| Test       | Vitest (`bun test`)        |
+| Lint       | ESLint (`bun run lint`)    |
 
 Never use: `npm`, `npx`, `yarn`, `pnpm`, `tsc` (use tsgo), Jest, Webpack, or any other substitute.
 
@@ -56,12 +56,12 @@ bun test --project packages/db
 
 ### CI vs. local differences
 
-| Symptom | Likely cause |
-|---|---|
+| Symptom                     | Likely cause                                                                            |
+| --------------------------- | --------------------------------------------------------------------------------------- |
 | Passes locally, fails in CI | Missing env var; lockfile drift (`bun install --frozen-lockfile`); case-sensitive paths |
-| Fails locally, passes in CI | Stale local artifacts — clean and rebuild |
-| Flaky test | Timing assumption or shared state — isolate the test |
-| Type error only in CI | tsgo version mismatch — check `package.json` |
+| Fails locally, passes in CI | Stale local artifacts — clean and rebuild                                               |
+| Flaky test                  | Timing assumption or shared state — isolate the test                                    |
+| Type error only in CI       | tsgo version mismatch — check `package.json`                                            |
 
 ## Guardrails
 

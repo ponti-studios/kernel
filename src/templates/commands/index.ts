@@ -3,24 +3,24 @@ import { parseFrontmatter } from "../../core/templates/frontmatter.js";
 import { COMMAND_NAMES, SKILL_NAMES } from "../constants.js";
 
 import ghPrErrorsMarkdown from "./gh-pr-errors.md";
-import opsxApplyMarkdown from "./opsx-apply.md";
-import opsxArchiveMarkdown from "./opsx-archive.md";
-import opsxExploreMarkdown from "./opsx-explore.md";
-import opsxProposeMarkdown from "./opsx-propose.md";
-import speckitAnalyzeMarkdown from "./speckit.analyze.md";
-import speckitChecklistMarkdown from "./speckit.checklist.md";
-import speckitClarifyMarkdown from "./speckit.clarify.md";
-import speckitConstitutionMarkdown from "./speckit.constitution.md";
-import speckitGitCommitMarkdown from "./speckit.git.commit.md";
-import speckitGitFeatureMarkdown from "./speckit.git.feature.md";
-import speckitGitInitializeMarkdown from "./speckit.git.initialize.md";
-import speckitGitRemoteMarkdown from "./speckit.git.remote.md";
-import speckitGitValidateMarkdown from "./speckit.git.validate.md";
-import speckitImplementMarkdown from "./speckit.implement.md";
-import speckitPlanMarkdown from "./speckit.plan.md";
-import speckitSpecifyMarkdown from "./speckit.specify.md";
-import speckitTasksMarkdown from "./speckit.tasks.md";
-import speckitTasksToIssuesMarkdown from "./speckit.taskstoissues.md";
+import kernelChangeApplyMarkdown from "./kernel-change-apply.md";
+import kernelChangeArchiveMarkdown from "./kernel-change-archive.md";
+import kernelChangeExploreMarkdown from "./kernel-change-explore.md";
+import kernelChangeProposeMarkdown from "./kernel-change-propose.md";
+import kernelSpecAnalyzeMarkdown from "./kernel-spec-analyze.md";
+import kernelSpecChecklistMarkdown from "./kernel-spec-checklist.md";
+import kernelSpecClarifyMarkdown from "./kernel-spec-clarify.md";
+import kernelSpecConstitutionMarkdown from "./kernel-spec-constitution.md";
+import kernelSpecGitCommitMarkdown from "./kernel-spec-git-commit.md";
+import kernelSpecGitFeatureMarkdown from "./kernel-spec-git-feature.md";
+import kernelSpecGitInitializeMarkdown from "./kernel-spec-git-initialize.md";
+import kernelSpecGitRemoteMarkdown from "./kernel-spec-git-remote.md";
+import kernelSpecGitValidateMarkdown from "./kernel-spec-git-validate.md";
+import kernelSpecImplementMarkdown from "./kernel-spec-implement.md";
+import kernelSpecPlanMarkdown from "./kernel-spec-plan.md";
+import kernelSpecifyMarkdown from "./kernel-specify.md";
+import kernelSpecTasksMarkdown from "./kernel-spec-tasks.md";
+import kernelSpecTasksToIssuesMarkdown from "./kernel-spec-tasks-to-issues.md";
 
 function createCommandTemplate(
   name: string,
@@ -48,31 +48,31 @@ export function getDefaultCommandTemplates(): CommandTemplate[] {
       backedBySkill: SKILL_NAMES.GH_PR_ERRORS,
       allowedTools: ["Bash", "Read", "Grep", "Glob"],
     }),
-    createCommandTemplate(COMMAND_NAMES.OPSX_PROPOSE, opsxProposeMarkdown, {
-      backedBySkill: SKILL_NAMES.OPENSPEC_PROPOSE,
+    createCommandTemplate(COMMAND_NAMES.CHANGE_PROPOSE, kernelChangeProposeMarkdown, {
+      backedBySkill: SKILL_NAMES.CHANGE_PROPOSE,
     }),
-    createCommandTemplate(COMMAND_NAMES.OPSX_EXPLORE, opsxExploreMarkdown, {
-      backedBySkill: SKILL_NAMES.OPENSPEC_EXPLORE,
+    createCommandTemplate(COMMAND_NAMES.CHANGE_EXPLORE, kernelChangeExploreMarkdown, {
+      backedBySkill: SKILL_NAMES.CHANGE_EXPLORE,
     }),
-    createCommandTemplate(COMMAND_NAMES.OPSX_APPLY, opsxApplyMarkdown, {
-      backedBySkill: SKILL_NAMES.OPENSPEC_APPLY_CHANGE,
+    createCommandTemplate(COMMAND_NAMES.CHANGE_APPLY, kernelChangeApplyMarkdown, {
+      backedBySkill: SKILL_NAMES.CHANGE_APPLY,
     }),
-    createCommandTemplate(COMMAND_NAMES.OPSX_ARCHIVE, opsxArchiveMarkdown, {
-      backedBySkill: SKILL_NAMES.OPENSPEC_ARCHIVE_CHANGE,
+    createCommandTemplate(COMMAND_NAMES.CHANGE_ARCHIVE, kernelChangeArchiveMarkdown, {
+      backedBySkill: SKILL_NAMES.CHANGE_ARCHIVE,
     }),
-    createCommandTemplate(COMMAND_NAMES.SPECKIT_ANALYZE, speckitAnalyzeMarkdown),
-    createCommandTemplate(COMMAND_NAMES.SPECKIT_CHECKLIST, speckitChecklistMarkdown),
-    createCommandTemplate(COMMAND_NAMES.SPECKIT_CLARIFY, speckitClarifyMarkdown),
-    createCommandTemplate(COMMAND_NAMES.SPECKIT_CONSTITUTION, speckitConstitutionMarkdown),
-    createCommandTemplate(COMMAND_NAMES.SPECKIT_GIT_COMMIT, speckitGitCommitMarkdown),
-    createCommandTemplate(COMMAND_NAMES.SPECKIT_GIT_FEATURE, speckitGitFeatureMarkdown),
-    createCommandTemplate(COMMAND_NAMES.SPECKIT_GIT_INITIALIZE, speckitGitInitializeMarkdown),
-    createCommandTemplate(COMMAND_NAMES.SPECKIT_GIT_REMOTE, speckitGitRemoteMarkdown),
-    createCommandTemplate(COMMAND_NAMES.SPECKIT_GIT_VALIDATE, speckitGitValidateMarkdown),
-    createCommandTemplate(COMMAND_NAMES.SPECKIT_IMPLEMENT, speckitImplementMarkdown),
-    createCommandTemplate(COMMAND_NAMES.SPECKIT_PLAN, speckitPlanMarkdown),
-    createCommandTemplate(COMMAND_NAMES.SPECKIT_SPECIFY, speckitSpecifyMarkdown),
-    createCommandTemplate(COMMAND_NAMES.SPECKIT_TASKS, speckitTasksMarkdown),
-    createCommandTemplate(COMMAND_NAMES.SPECKIT_TASKS_TO_ISSUES, speckitTasksToIssuesMarkdown),
+    createCommandTemplate(COMMAND_NAMES.SPEC_ANALYZE, kernelSpecAnalyzeMarkdown),
+    createCommandTemplate(COMMAND_NAMES.SPEC_CHECKLIST, kernelSpecChecklistMarkdown),
+    createCommandTemplate(COMMAND_NAMES.SPEC_CLARIFY, kernelSpecClarifyMarkdown),
+    createCommandTemplate(COMMAND_NAMES.SPEC_CONSTITUTION, kernelSpecConstitutionMarkdown),
+    createCommandTemplate(COMMAND_NAMES.SPEC_GIT_COMMIT, kernelSpecGitCommitMarkdown),
+    createCommandTemplate(COMMAND_NAMES.SPEC_GIT_FEATURE, kernelSpecGitFeatureMarkdown),
+    createCommandTemplate(COMMAND_NAMES.SPEC_GIT_INITIALIZE, kernelSpecGitInitializeMarkdown),
+    createCommandTemplate(COMMAND_NAMES.SPEC_GIT_REMOTE, kernelSpecGitRemoteMarkdown),
+    createCommandTemplate(COMMAND_NAMES.SPEC_GIT_VALIDATE, kernelSpecGitValidateMarkdown),
+    createCommandTemplate(COMMAND_NAMES.SPEC_IMPLEMENT, kernelSpecImplementMarkdown),
+    createCommandTemplate(COMMAND_NAMES.SPEC_PLAN, kernelSpecPlanMarkdown),
+    createCommandTemplate(COMMAND_NAMES.SPEC_SPECIFY, kernelSpecifyMarkdown),
+    createCommandTemplate(COMMAND_NAMES.SPEC_TASKS, kernelSpecTasksMarkdown),
+    createCommandTemplate(COMMAND_NAMES.SPEC_TASKS_TO_ISSUES, kernelSpecTasksToIssuesMarkdown),
   ];
 }

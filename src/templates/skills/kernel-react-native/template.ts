@@ -1,8 +1,8 @@
-import type { SkillTemplate } from "../../../core/templates/types.js";
 import { parseFrontmatter } from "../../../core/templates/frontmatter.js";
-import reactNativeSkillMarkdown from "./instructions.md";
+import type { SkillTemplate } from "../../../core/templates/types.js";
 import { SKILL_NAMES } from "../../constants.js";
-import { getSkillReferences } from "../../.generated/templates.js";
+import reactNativeSkillMarkdown from "./instructions.md";
+import { REACT_NATIVE_SKILL_REFERENCES } from "./reference-bundle.js";
 
 export function getReactNativeSkillTemplate(): SkillTemplate {
   return {
@@ -58,61 +58,7 @@ export function getReactNativeSkillTemplate(): SkillTemplate {
       "Animation using Reanimated on GPU-friendly properties",
     ],
     dependencies: [],
-    references: getSkillReferences(
-      SKILL_NAMES.REACT_NATIVE,
-      // Expo Router & UI
-      "references/expo-route-structure.md",
-      "references/expo-animations.md",
-      "references/expo-controls.md",
-      "references/expo-form-sheet.md",
-      "references/expo-gradients.md",
-      "references/expo-icons.md",
-      "references/expo-media.md",
-      "references/expo-search.md",
-      "references/expo-storage.md",
-      "references/expo-tabs.md",
-      "references/expo-toolbar-and-headers.md",
-      "references/expo-visual-effects.md",
-      "references/expo-webgpu-three.md",
-      "references/expo-zoom-transitions.md",
-      // Performance rules
-      "references/animation-derived-value.md",
-      "references/animation-gesture-detector-press.md",
-      "references/animation-gpu-properties.md",
-      "references/design-system-compound-components.md",
-      "references/fonts-config-plugin.md",
-      "references/imports-design-system-folder.md",
-      "references/js-hoist-intl.md",
-      "references/list-performance-callbacks.md",
-      "references/list-performance-function-references.md",
-      "references/list-performance-images.md",
-      "references/list-performance-inline-objects.md",
-      "references/list-performance-item-expensive.md",
-      "references/list-performance-item-memo.md",
-      "references/list-performance-item-types.md",
-      "references/list-performance-virtualize.md",
-      "references/monorepo-native-deps-in-app.md",
-      "references/monorepo-single-dependency-versions.md",
-      "references/navigation-native-navigators.md",
-      "references/react-compiler-destructure-functions.md",
-      "references/react-compiler-reanimated-shared-values.md",
-      "references/react-state-dispatcher.md",
-      "references/react-state-fallback.md",
-      "references/react-state-minimize.md",
-      "references/rendering-no-falsy-and.md",
-      "references/rendering-text-in-text-component.md",
-      "references/scroll-position-no-state.md",
-      "references/state-ground-truth.md",
-      "references/ui-expo-image.md",
-      "references/ui-image-gallery.md",
-      "references/ui-measure-views.md",
-      "references/ui-menus.md",
-      "references/ui-native-modals.md",
-      "references/ui-pressable.md",
-      "references/ui-safe-area-scroll.md",
-      "references/ui-scrollview-content-inset.md",
-      "references/ui-styling.md",
-    ),
+    references: REACT_NATIVE_SKILL_REFERENCES,
     instructions: parseFrontmatter(reactNativeSkillMarkdown).body,
   };
 }

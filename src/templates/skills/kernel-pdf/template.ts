@@ -1,7 +1,7 @@
-import type { SkillTemplate } from "../../../core/templates/types.js";
 import { parseFrontmatter } from "../../../core/templates/frontmatter.js";
-import pdfSkillMarkdown from "./instructions.md";
+import type { SkillTemplate } from "../../../core/templates/types.js";
 import { SKILL_NAMES } from "../../constants.js";
+import pdfSkillMarkdown from "./instructions.md";
 
 export function getPdfSkillTemplate(): SkillTemplate {
   return {
@@ -15,7 +15,7 @@ export function getPdfSkillTemplate(): SkillTemplate {
       author: "Callstack",
       version: "1.0",
       category: "File Formats",
-      tags: ["pdf", "reportlab", "pdfplumber", "pypdf", "poppler"],
+      tags: ["pdf", "rendering", "layout", "inspection", "poppler"],
     },
     when: [
       "user needs to read, review, or extract text from a PDF",
@@ -26,7 +26,7 @@ export function getPdfSkillTemplate(): SkillTemplate {
     applicability: [
       "Use for PDF generation, inspection, and formatting work",
       "Use when visual fidelity matters and a plain text diff is not enough",
-      "Use when Python-based PDF tooling is the most direct path",
+      "Use when dedicated PDF tooling is the most direct path",
     ],
     termination: [
       "PDF renders cleanly with no clipping or layout regressions",

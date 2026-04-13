@@ -2,22 +2,22 @@ Tests verify behavior, not implementation. A test that passes when behavior is b
 
 ## Toolchain
 
-| Concern | Tool |
-|---|---|
-| Test runner | Vitest (`bun test`) |
-| Component testing | `@testing-library/react` + Vitest |
+| Concern                 | Tool                               |
+| ----------------------- | ---------------------------------- |
+| Test runner             | Vitest (`bun test`)                |
+| Component testing       | `@testing-library/react` + Vitest  |
 | API/integration testing | Hono's `app.request()` test client |
-| E2E | Playwright (`bun run test:e2e`) |
+| E2E                     | Playwright (`bun run test:e2e`)    |
 
 Never use Jest, Mocha, Jasmine, or any other test runner. Vitest is the only prescribed runner.
 
 ## Test Pyramid
 
-| Layer | What it tests | Speed | Count |
-|---|---|---|---|
-| Unit | Pure functions, business logic, isolated modules | Fast (< 5ms) | Many |
-| Integration | Module boundaries, DB queries, API routes | Medium (< 500ms) | Moderate |
-| E2E | Critical user flows end-to-end | Slow (seconds) | Few |
+| Layer       | What it tests                                    | Speed            | Count    |
+| ----------- | ------------------------------------------------ | ---------------- | -------- |
+| Unit        | Pure functions, business logic, isolated modules | Fast (< 5ms)     | Many     |
+| Integration | Module boundaries, DB queries, API routes        | Medium (< 500ms) | Moderate |
+| E2E         | Critical user flows end-to-end                   | Slow (seconds)   | Few      |
 
 Write tests at the lowest level that gives meaningful confidence.
 
@@ -35,6 +35,7 @@ src/
 ```
 
 E2E tests live in a top-level directory:
+
 ```
 e2e/
   auth.spec.ts
@@ -101,11 +102,19 @@ import { db } from "@/database";
 describe("GET /api/users/:id", () => {
   let app: Awaited<ReturnType<typeof createTestApp>>;
 
-  beforeAll(async () => { app = await createTestApp(); });
-  afterEach(async () => { await db.deleteFrom("users").execute(); });
+  beforeAll(async () => {
+    app = await createTestApp();
+  });
+  afterEach(async () => {
+    await db.deleteFrom("users").execute();
+  });
 
   it("returns the user when found", async () => {
-    const user = await db.insertInto("users").values({ email: "a@example.com", name: "Alice" }).returningAll().executeTakeFirstOrThrow();
+    const user = await db
+      .insertInto("users")
+      .values({ email: "a@example.com", name: "Alice" })
+      .returningAll()
+      .executeTakeFirstOrThrow();
 
     const res = await app.request(`/api/users/${user.id}`, {
       headers: { Authorization: `Bearer ${testToken(user.id)}` },

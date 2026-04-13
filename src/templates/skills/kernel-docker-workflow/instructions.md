@@ -123,6 +123,7 @@ services:
 ```
 
 **Rules:**
+
 - Always use `depends_on` with `condition: service_healthy` — never bare `depends_on` (it only waits for container start, not readiness).
 - Reference other services by their Compose service name (e.g., `postgres`, not `localhost`).
 - The host app (running outside Docker) connects via `localhost:<published-port>`. Containers inside the network connect via `<service-name>:<container-port>`.
@@ -149,13 +150,13 @@ docker buildx build \
 
 ## Image Size Optimization
 
-| Technique | Impact |
-|---|---|
-| Alpine base images | -100MB+ vs Debian |
-| Multi-stage builds | Excludes build tools from runtime |
-| `--production` install | Excludes devDependencies |
-| `.dockerignore` | Excludes source, tests, docs from context |
-| Combine RUN commands | Fewer layers |
+| Technique              | Impact                                    |
+| ---------------------- | ----------------------------------------- |
+| Alpine base images     | -100MB+ vs Debian                         |
+| Multi-stage builds     | Excludes build tools from runtime         |
+| `--production` install | Excludes devDependencies                  |
+| `.dockerignore`        | Excludes source, tests, docs from context |
+| Combine RUN commands   | Fewer layers                              |
 
 ```dockerignore
 # .dockerignore

@@ -3,6 +3,7 @@ Get an existing project running on your local machine.
 ## Prerequisites
 
 Before cloning:
+
 - Bun installed (`curl -fsSL https://bun.sh/install | bash`)
 - Docker Desktop running (for local infrastructure)
 - Git with SSH key configured
@@ -56,6 +57,7 @@ bun run dev
 ```
 
 Before pushing:
+
 ```bash
 bun run typecheck && bun run lint && bun test
 ```
@@ -64,16 +66,16 @@ bun run typecheck && bun run lint && bun test
 
 Run in order. Stop at the first failure — later checks depend on earlier ones passing.
 
-| Area | Command | Healthy signal |
-|------|---------|---------------|
-| Runtime | `bun --version` | Returns a version ≥ 1.0 |
-| Docker | `docker compose ps` | All infrastructure services show "Up (healthy)" |
-| Dependencies | `bun install --frozen-lockfile` | Exits 0 with no warnings |
-| Environment | `diff <(grep -oP '^[A-Z_]+' .env.example) <(grep -oP '^[A-Z_]+' .env.local)` | No missing keys |
-| Type check | `bun run typecheck` | Exits 0 |
-| Build | `bun run build` | Exits 0, output in `dist/` |
-| Tests | `bun test` | All pass |
-| Lint | `bun run lint` | Exits 0 |
+| Area         | Command                                                                      | Healthy signal                                  |
+| ------------ | ---------------------------------------------------------------------------- | ----------------------------------------------- |
+| Runtime      | `bun --version`                                                              | Returns a version ≥ 1.0                         |
+| Docker       | `docker compose ps`                                                          | All infrastructure services show "Up (healthy)" |
+| Dependencies | `bun install --frozen-lockfile`                                              | Exits 0 with no warnings                        |
+| Environment  | `diff <(grep -oP '^[A-Z_]+' .env.example) <(grep -oP '^[A-Z_]+' .env.local)` | No missing keys                                 |
+| Type check   | `bun run typecheck`                                                          | Exits 0                                         |
+| Build        | `bun run build`                                                              | Exits 0, output in `dist/`                      |
+| Tests        | `bun test`                                                                   | All pass                                        |
+| Lint         | `bun run lint`                                                               | Exits 0                                         |
 
 **Report format:** `healthy` | `degraded (specific issues)` | `broken (remediation steps)`.
 

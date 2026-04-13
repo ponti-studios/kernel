@@ -19,6 +19,7 @@ Migration 3 — Contract: enforce the constraint, drop the old column
 Never combine steps. Each is a separate file. Deploy each step independently to avoid table locks on large datasets.
 
 **When required:**
+
 - Adding `NOT NULL` to an existing column without a default
 - Renaming a column
 - Splitting or merging columns
@@ -67,15 +68,15 @@ Migrations always run **before** the application code that requires them. Never 
 
 ### Online vs Offline DDL
 
-| Operation | Risk | Mitigation |
-|---|---|---|
-| `CREATE TABLE` | None | Safe online |
-| `ADD COLUMN` with default (Postgres 11+) | None | Safe online |
-| `ADD COLUMN NOT NULL` without default | Table lock on old Postgres | Use expand pattern |
-| `CREATE INDEX` | Table lock | Use `CREATE INDEX CONCURRENTLY` |
-| `DROP INDEX` | Brief lock | Use `DROP INDEX CONCURRENTLY` |
-| `ALTER COLUMN TYPE` | Table rewrite | Use expand → backfill → contract |
-| `DROP TABLE` / `DROP COLUMN` | Irreversible | Requires explicit review |
+| Operation                                | Risk                       | Mitigation                       |
+| ---------------------------------------- | -------------------------- | -------------------------------- |
+| `CREATE TABLE`                           | None                       | Safe online                      |
+| `ADD COLUMN` with default (Postgres 11+) | None                       | Safe online                      |
+| `ADD COLUMN NOT NULL` without default    | Table lock on old Postgres | Use expand pattern               |
+| `CREATE INDEX`                           | Table lock                 | Use `CREATE INDEX CONCURRENTLY`  |
+| `DROP INDEX`                             | Brief lock                 | Use `DROP INDEX CONCURRENTLY`    |
+| `ALTER COLUMN TYPE`                      | Table rewrite              | Use expand → backfill → contract |
+| `DROP TABLE` / `DROP COLUMN`             | Irreversible               | Requires explicit review         |
 
 ### Production Apply Commands
 

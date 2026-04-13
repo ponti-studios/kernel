@@ -11,9 +11,7 @@
 export const KERNEL_TEMPLATE_PREFIX = "kernel-";
 
 export function prefixKernelTemplateName(name: string): string {
-  return name.startsWith(KERNEL_TEMPLATE_PREFIX)
-    ? name
-    : `${KERNEL_TEMPLATE_PREFIX}${name}`;
+  return name.startsWith(KERNEL_TEMPLATE_PREFIX) ? name : `${KERNEL_TEMPLATE_PREFIX}${name}`;
 }
 
 // =============================================================================
@@ -39,10 +37,10 @@ export const SKILL_NAMES = {
   EXPLORE: prefixKernelTemplateName("explore"),
   GH_PR_ERRORS: prefixKernelTemplateName("gh-pr-errors"),
   INTAKE: prefixKernelTemplateName("intake"),
-  OPENSPEC_APPLY_CHANGE: prefixKernelTemplateName("openspec-apply-change"),
-  OPENSPEC_ARCHIVE_CHANGE: prefixKernelTemplateName("openspec-archive-change"),
-  OPENSPEC_EXPLORE: prefixKernelTemplateName("openspec-explore"),
-  OPENSPEC_PROPOSE: prefixKernelTemplateName("openspec-propose"),
+  CHANGE_APPLY: prefixKernelTemplateName("change-apply"),
+  CHANGE_ARCHIVE: prefixKernelTemplateName("change-archive"),
+  CHANGE_EXPLORE: prefixKernelTemplateName("change-explore"),
+  CHANGE_PROPOSE: prefixKernelTemplateName("change-propose"),
   PLAN: prefixKernelTemplateName("plan"),
   PROPOSE: prefixKernelTemplateName("propose"),
   RESEARCH: prefixKernelTemplateName("research"),
@@ -54,9 +52,7 @@ export const SKILL_NAMES = {
   UNBLOCK: prefixKernelTemplateName("unblock"),
   // Specialist skills
   API_ENGINEERING: prefixKernelTemplateName("api-engineering"),
-  ASSET_INTEGRATION_SECURITY: prefixKernelTemplateName(
-    "asset-integration-security"
-  ),
+  ASSET_INTEGRATION_SECURITY: prefixKernelTemplateName("asset-integration-security"),
   AUTH_CONTRACT: prefixKernelTemplateName("auth-contract"),
   DATABASE_WORKFLOW: prefixKernelTemplateName("database-workflow"),
   DOCKER_WORKFLOW: prefixKernelTemplateName("docker-workflow"),
@@ -88,22 +84,22 @@ export const AGENT_NAMES = {
 
 export const COMMAND_NAMES = {
   GH_PR_ERRORS: "gh-pr-errors",
-  OPSX_APPLY: "opsx-apply",
-  OPSX_ARCHIVE: "opsx-archive",
-  OPSX_EXPLORE: "opsx-explore",
-  OPSX_PROPOSE: "opsx-propose",
-  SPECKIT_ANALYZE: "speckit.analyze",
-  SPECKIT_CHECKLIST: "speckit.checklist",
-  SPECKIT_CLARIFY: "speckit.clarify",
-  SPECKIT_CONSTITUTION: "speckit.constitution",
-  SPECKIT_GIT_COMMIT: "speckit.git.commit",
-  SPECKIT_GIT_FEATURE: "speckit.git.feature",
-  SPECKIT_GIT_INITIALIZE: "speckit.git.initialize",
-  SPECKIT_GIT_REMOTE: "speckit.git.remote",
-  SPECKIT_GIT_VALIDATE: "speckit.git.validate",
-  SPECKIT_IMPLEMENT: "speckit.implement",
-  SPECKIT_PLAN: "speckit.plan",
-  SPECKIT_SPECIFY: "speckit.specify",
-  SPECKIT_TASKS: "speckit.tasks",
-  SPECKIT_TASKS_TO_ISSUES: "speckit.taskstoissues",
+  CHANGE_APPLY: "kernel-change-apply",
+  CHANGE_ARCHIVE: "kernel-change-archive",
+  CHANGE_EXPLORE: "kernel-change-explore",
+  CHANGE_PROPOSE: "kernel-change-propose",
+  SPEC_ANALYZE: "kernel-spec-analyze",
+  SPEC_CHECKLIST: "kernel-spec-checklist",
+  SPEC_CLARIFY: "kernel-spec-clarify",
+  SPEC_CONSTITUTION: "kernel-spec-constitution",
+  SPEC_GIT_COMMIT: "kernel-spec-git-commit",
+  SPEC_GIT_FEATURE: "kernel-spec-git-feature",
+  SPEC_GIT_INITIALIZE: "kernel-spec-git-initialize",
+  SPEC_GIT_REMOTE: "kernel-spec-git-remote",
+  SPEC_GIT_VALIDATE: "kernel-spec-git-validate",
+  SPEC_IMPLEMENT: "kernel-spec-implement",
+  SPEC_PLAN: "kernel-spec-plan",
+  SPEC_SPECIFY: "kernel-specify",
+  SPEC_TASKS: "kernel-spec-tasks",
+  SPEC_TASKS_TO_ISSUES: "kernel-spec-tasks-to-issues",
 } as const;

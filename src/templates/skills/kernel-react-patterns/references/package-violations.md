@@ -4,14 +4,14 @@
 
 ```typescript
 // ❌ Wrong — auth logic in packages/ui
-import { useSession } from '@your-org/auth'
-import { useUser } from '@your-org/auth'
+import { useSession } from "@your-org/auth";
+import { useUser } from "@your-org/auth";
 
 // ✅ Correct — pass auth data as props
 interface UserAvatarProps {
-  userId: string
-  displayName: string
-  avatarUrl?: string
+  userId: string;
+  displayName: string;
+  avatarUrl?: string;
 }
 ```
 
@@ -21,13 +21,13 @@ interface UserAvatarProps {
 
 ```typescript
 // ❌ Wrong — routing in packages/ui
-import { useNavigate } from 'react-router'
-import { useRouter } from 'next/router'
+import { useNavigate } from "react-router";
+import { useRouter } from "next/router";
 
 // ✅ Correct — accept a callback prop
 interface ListItemProps {
-  label: string
-  onPress: () => void  // navigation is the container's responsibility
+  label: string;
+  onPress: () => void; // navigation is the container's responsibility
 }
 ```
 
@@ -37,16 +37,16 @@ interface ListItemProps {
 
 ```typescript
 // ❌ Wrong — data fetching in packages/ui
-import { useQuery } from '@tanstack/react-query'
-import { useMutation } from '@your-org/rpc'
+import { useQuery } from "@tanstack/react-query";
+import { useMutation } from "@your-org/rpc";
 
-const { data } = useQuery({ queryKey: ['items'], queryFn: fetchItems })
+const { data } = useQuery({ queryKey: ["items"], queryFn: fetchItems });
 
 // ✅ Correct — accept typed data as props
 interface ItemListProps {
-  items: Item[]
-  isLoading: boolean
-  onRefresh: () => void
+  items: Item[];
+  isLoading: boolean;
+  onRefresh: () => void;
 }
 ```
 
@@ -56,12 +56,12 @@ interface ItemListProps {
 
 ```typescript
 // ❌ Wrong — env access in packages/ui
-const apiUrl = import.meta.env.VITE_API_URL
-const isDev = process.env.NODE_ENV === 'development'
+const apiUrl = import.meta.env.VITE_API_URL;
+const isDev = process.env.NODE_ENV === "development";
 
 // ✅ Correct — accept config as prop or via provider
 interface ClientProps {
-  apiBaseUrl: string
+  apiBaseUrl: string;
 }
 ```
 

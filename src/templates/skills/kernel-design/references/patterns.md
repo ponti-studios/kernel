@@ -6,17 +6,18 @@ Mobile-first. All base styles are mobile. Never style down with max-width querie
 
 ### Layout adaptations by breakpoint
 
-| Component | Mobile (base) | md (768px+) | lg (1024px+) |
-|-----------|--------------|-------------|--------------|
-| Sidebar | Hidden, accessible via drawer | Hidden, accessible via drawer | Visible, 240px fixed |
-| Feed | Full width | Full width | Remaining width after sidebar |
-| Modal | Full-width sheet from bottom | Centred dialog, max 480px | Same |
-| Form | Full-width fields, full-width submit | Same | Max-width fields, right-aligned submit |
-| Navigation | Bottom tab bar | Top nav or sidebar | Sidebar |
-| Toast | Bottom-centre, calc(100vw - 32px) | Bottom-right, 320px | Same |
-| HyperForm | Pinned to bottom, full width | Max width 768px, centred | Same |
+| Component  | Mobile (base)                        | md (768px+)                   | lg (1024px+)                           |
+| ---------- | ------------------------------------ | ----------------------------- | -------------------------------------- |
+| Sidebar    | Hidden, accessible via drawer        | Hidden, accessible via drawer | Visible, 240px fixed                   |
+| Feed       | Full width                           | Full width                    | Remaining width after sidebar          |
+| Modal      | Full-width sheet from bottom         | Centred dialog, max 480px     | Same                                   |
+| Form       | Full-width fields, full-width submit | Same                          | Max-width fields, right-aligned submit |
+| Navigation | Bottom tab bar                       | Top nav or sidebar            | Sidebar                                |
+| Toast      | Bottom-centre, calc(100vw - 32px)    | Bottom-right, 320px           | Same                                   |
+| HyperForm  | Pinned to bottom, full width         | Max width 768px, centred      | Same                                   |
 
 ### Responsive rules
+
 - Never hide content behind a breakpoint without an accessible alternative
 - Touch targets remain 44px minimum at all breakpoints
 - Sidebar drawer on mobile uses Sheet component with slide animation
@@ -27,6 +28,7 @@ Mobile-first. All base styles are mobile. Never style down with max-width querie
 ## Overlay stacking
 
 ### Rules
+
 - Only one modal or sheet open at a time. Opening a second closes the first.
 - Only one command palette open at a time.
 - Toasts render above all modals — they portal to `document.body` at z-toast (400).
@@ -34,6 +36,7 @@ Mobile-first. All base styles are mobile. Never style down with max-width querie
 - Backdrop (bg-overlay) renders at z-overlay (200), behind the modal at z-modal (300).
 
 ### Focus management
+
 - On open: focus moves to the first focusable element, or the close button if no fields.
 - On close: focus returns to the element that triggered the overlay.
 - Tab key: cycles through focusable elements within the overlay only (focus trap).
@@ -43,20 +46,21 @@ Mobile-first. All base styles are mobile. Never style down with max-width querie
 
 ### Z-index reference
 
-| Layer | Token | Value |
-|-------|-------|-------|
-| Page | z-base | 0 |
-| Sticky UI | z-raised | 10 |
-| Dropdowns | z-dropdown | 100 |
-| Backdrop | z-overlay | 200 |
-| Modals | z-modal | 300 |
-| Toasts | z-toast | 400 |
+| Layer     | Token      | Value |
+| --------- | ---------- | ----- |
+| Page      | z-base     | 0     |
+| Sticky UI | z-raised   | 10    |
+| Dropdowns | z-dropdown | 100   |
+| Backdrop  | z-overlay  | 200   |
+| Modals    | z-modal    | 300   |
+| Toasts    | z-toast    | 400   |
 
 ---
 
 ## Copy and writing style
 
 ### Button labels
+
 - Verb-first, sentence case: "Save note", "Start chat", "Delete account"
 - Never: "Save Note", "SAVE", "Submit", "OK", "Yes", "No"
 - Destructive actions: name the action. "Delete note" not "Confirm"
@@ -64,11 +68,13 @@ Mobile-first. All base styles are mobile. Never style down with max-width querie
 - Never ellipsis unless the action opens a dialog for more information
 
 ### Placeholder text
+
 - Describe the action, not the field: "Write a note or start a chat…"
 - Never use placeholder as label — always have an explicit label
 - Never: "Enter your email address", "Type here"
 
 ### Error messages
+
 - Plain language, tell the user what to do
 - "Name can't be empty" not "Required field"
 - "Email looks incorrect — check for typos" not "Invalid email format"
@@ -76,16 +82,19 @@ Mobile-first. All base styles are mobile. Never style down with max-width querie
 - Never blame the user: "Something went wrong" not "You entered an invalid value"
 
 ### Empty state copy
+
 - Headline: active voice, present tense. "No notes yet"
 - Body: one sentence, tells the user what to do. "Create your first note using the input below."
 - Never: "There are no items to display", "Nothing found"
 
 ### Confirmation dialogs
+
 - Title: "Delete this note?" not "Are you sure?"
 - Destructive button: "Delete note" (matches the title action)
 - Cancel button: "Cancel" (not "No" or "Go back")
 
 ### General rules
+
 - Sentence case everywhere except proper nouns and product names
 - Never use jargon or technical terms in user-facing copy
 - Avoid abbreviations unless universally understood (e.g. "min" for minute is fine)
@@ -109,6 +118,7 @@ Mobile-first. All base styles are mobile. Never style down with max-width querie
 ## Scrollbars
 
 Web custom scrollbar (webkit only, graceful degradation):
+
 - Width: 6px
 - Track: transparent
 - Thumb: `var(--color-border-default)`
@@ -128,15 +138,15 @@ Scroll containers: always set a `max-height` or `height`, never let the browser 
 
 ## Cursor rules
 
-| Element | Cursor |
-|---------|--------|
-| Clickable (button, link, card) | pointer |
-| Disabled (any element) | not-allowed |
-| Text input, textarea | text |
-| Draggable element | grab |
-| Dragging (active drag) | grabbing |
-| Resize handle | col-resize or row-resize |
-| Default (non-interactive) | default |
+| Element                        | Cursor                   |
+| ------------------------------ | ------------------------ |
+| Clickable (button, link, card) | pointer                  |
+| Disabled (any element)         | not-allowed              |
+| Text input, textarea           | text                     |
+| Draggable element              | grab                     |
+| Dragging (active drag)         | grabbing                 |
+| Resize handle                  | col-resize or row-resize |
+| Default (non-interactive)      | default                  |
 
 Never set `cursor: pointer` on non-interactive elements.
 Never remove cursor feedback from disabled elements — users need to know why they can't interact.
@@ -158,14 +168,14 @@ Uses the accent-subtle token so selection color matches the warm amber palette i
 
 ## Gesture patterns (mobile)
 
-| Gesture | Component | Behaviour |
-|---------|-----------|-----------|
-| Swipe down | Sheet | Dismiss if velocity > 500px/s or distance > 30% height |
-| Swipe left | List row | Reveal destructive action |
-| Swipe right | Navigation | Back (iOS native, do not intercept) |
-| Long press | List row | Context menu |
-| Pull to refresh | Feed | Trigger refetch, show activity indicator |
-| Pinch | Image | Zoom (only on image views, not general content) |
+| Gesture         | Component  | Behaviour                                              |
+| --------------- | ---------- | ------------------------------------------------------ |
+| Swipe down      | Sheet      | Dismiss if velocity > 500px/s or distance > 30% height |
+| Swipe left      | List row   | Reveal destructive action                              |
+| Swipe right     | Navigation | Back (iOS native, do not intercept)                    |
+| Long press      | List row   | Context menu                                           |
+| Pull to refresh | Feed       | Trigger refetch, show activity indicator               |
+| Pinch           | Image      | Zoom (only on image views, not general content)        |
 
 Never intercept the iOS back swipe gesture.
 Swipe-to-delete: always require a tap to confirm — never delete on swipe release alone.
@@ -199,10 +209,10 @@ Haptic feedback on destructive confirmations (react-native's HapticFeedback or E
 
 ```tsx
 // Active row
-'bg-sidebar-accent/60'
+"bg-sidebar-accent/60";
 
 // Hover / focus-within row (on the <li>)
-'hover:bg-sidebar-accent/40 focus-within:bg-sidebar-accent/40 transition-colors duration-150'
+"hover:bg-sidebar-accent/40 focus-within:bg-sidebar-accent/40 transition-colors duration-150";
 ```
 
 Active state (/60) is stronger than hover (/40) to clearly indicate selection.
@@ -231,12 +241,14 @@ export default function FocusView() {
 ## Dark mode patterns
 
 ### Implementation
+
 - Color mode is controlled by a `data-theme="light|dark"` attribute on `<html>`.
 - All color tokens resolve via CSS custom properties that change per `data-theme`.
 - Never use Tailwind `dark:` variants for colors — they create maintenance burden and miss edge cases.
 - `dark:` variants are acceptable only for non-color properties (e.g., `dark:border` for structural border that only appears in dark mode).
 
 ### Visual adjustments in dark mode
+
 - Borders carry more structural weight than shadows. Add `border-subtle` to elevated surfaces that rely only on shadow in light mode.
 - Accent color (`#D4A574`) remains the same — it naturally reads warmer against dark backgrounds.
 - Never invert colors (e.g., white → black) — use the defined dark mode token.
@@ -248,26 +260,31 @@ export default function FocusView() {
 ## Performance patterns
 
 ### List rendering
+
 - Virtualise any list > 50 items: `react-window` (`FixedSizeList` or `VariableSizeList`) on web, `FlashList` on mobile
 - Always provide a `getItemKey` function — never rely on array index as key
 - `React.memo` on row components with a custom `areEqual` comparator
 
 ### Code splitting
+
 - Route-level: `React.lazy` + `Suspense` on every route
 - Feature-level: dynamic import for heavy features (chart libraries, markdown editors, rich text)
 - Never load a feature's code until the user navigates to it
 
 ### Image loading
+
 - Intersection Observer for lazy loading (or `loading="lazy"` on img)
 - Show skeleton at the image's final dimensions while loading
 - `playShimmer` on the skeleton, kill on load event
 
 ### Query patterns
+
 - `useInfiniteQuery` for paginated feeds with IntersectionObserver sentinel
 - Optimistic updates for note create/edit — update cache before the API call resolves
 - Stale time: 30 seconds for feed queries, 5 minutes for detail queries
 
 ### Bundle rules
+
 - Named imports only from all libraries — no namespace imports (`import * as`)
 - Never import lodash — use native array/object/string methods
 - Audit imports: if a library adds > 20kb gzipped, evaluate a lighter alternative

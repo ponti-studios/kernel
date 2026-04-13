@@ -2,15 +2,15 @@ React Native and Expo standards: UI patterns, Expo Router conventions, performan
 
 ## Toolchain
 
-| Concern | Tool |
-|---|---|
-| Framework | React Native + Expo |
-| Navigation | Expo Router |
-| Builds | EAS (`eas build`, `eas submit`) |
+| Concern    | Tool                                                   |
+| ---------- | ------------------------------------------------------ |
+| Framework  | React Native + Expo                                    |
+| Navigation | Expo Router                                            |
+| Builds     | EAS (`eas build`, `eas submit`)                        |
 | Animations | `react-native-reanimated` — never `Animated` from core |
-| Gestures | `react-native-gesture-handler` |
-| Lists | `FlashList` — never `FlatList` for long lists |
-| Images | `expo-image` |
+| Gestures   | `react-native-gesture-handler`                         |
+| Lists      | `FlashList` — never `FlatList` for long lists          |
+| Images     | `expo-image`                                           |
 
 Never use: React Native CLI (use Expo), `Animated` from React Native core, `FlatList` for long lists, `TouchableOpacity` (use `Pressable`).
 
@@ -50,18 +50,18 @@ Expo Go supports all `expo-*` packages, Expo Router navigation, Reanimated, gest
 
 ## Library Preferences
 
-| Use | Instead of |
-|---|---|
-| `expo-audio` | `expo-av` for audio |
-| `expo-video` | `expo-av` for video |
+| Use                                  | Instead of                             |
+| ------------------------------------ | -------------------------------------- |
+| `expo-audio`                         | `expo-av` for audio                    |
+| `expo-video`                         | `expo-av` for video                    |
 | `expo-image` with `source="sf:name"` | `expo-symbols` or `@expo/vector-icons` |
-| `react-native-safe-area-context` | React Native's built-in `SafeAreaView` |
-| `process.env.EXPO_OS` | `Platform.OS` |
-| `React.use` | `React.useContext` |
-| `expo-image` `<Image>` | intrinsic `<img>` element |
-| `expo-glass-effect` | custom blur implementations |
-| `Pressable` | `TouchableOpacity` |
-| `FlashList` | `FlatList` for long lists |
+| `react-native-safe-area-context`     | React Native's built-in `SafeAreaView` |
+| `process.env.EXPO_OS`                | `Platform.OS`                          |
+| `React.use`                          | `React.useContext`                     |
+| `expo-image` `<Image>`               | intrinsic `<img>` element              |
+| `expo-glass-effect`                  | custom blur implementations            |
+| `Pressable`                          | `TouchableOpacity`                     |
+| `FlashList`                          | `FlatList` for long lists              |
 
 **Never use:** Picker, WebView, SafeAreaView, or AsyncStorage from core React Native — they have been removed. Never use `legacy expo-permissions`.
 
@@ -71,16 +71,16 @@ Expo Go supports all `expo-*` packages, Expo Router navigation, Reanimated, gest
 
 ### Priority Order
 
-| Priority | Category | Impact |
-|---|---|---|
-| 1 | List Performance | CRITICAL |
-| 2 | Animation | HIGH |
-| 3 | Navigation | HIGH |
-| 4 | UI Patterns | HIGH |
-| 5 | State Management | MEDIUM |
-| 6 | Rendering | MEDIUM |
-| 7 | Monorepo | MEDIUM |
-| 8 | Configuration | LOW |
+| Priority | Category         | Impact   |
+| -------- | ---------------- | -------- |
+| 1        | List Performance | CRITICAL |
+| 2        | Animation        | HIGH     |
+| 3        | Navigation       | HIGH     |
+| 4        | UI Patterns      | HIGH     |
+| 5        | State Management | MEDIUM   |
+| 6        | Rendering        | MEDIUM   |
+| 7        | Monorepo         | MEDIUM   |
+| 8        | Configuration    | LOW      |
 
 ### List Performance (CRITICAL)
 
@@ -194,7 +194,9 @@ Always consider adding `<Link.Preview>` to follow iOS conventions. Add context m
 ```tsx
 <Link href="/settings" asChild>
   <Link.Trigger>
-    <Pressable><Card /></Pressable>
+    <Pressable>
+      <Card />
+    </Pressable>
   </Link.Trigger>
   <Link.Menu>
     <Link.MenuAction title="Share" icon="square.and.arrow.up" onPress={handleShare} />
@@ -276,6 +278,7 @@ This section covers performance optimization for React Native applications, base
 ### When to Apply
 
 Reference these guidelines when:
+
 - Debugging slow/janky UI or animations
 - Investigating memory leaks (JS or native)
 - Optimizing app startup time (TTI)
@@ -286,42 +289,47 @@ Reference these guidelines when:
 
 ### Priority Order
 
-| Priority | Category | Impact |
-|----------|----------|--------|
-| 1 | List Performance | CRITICAL |
-| 2 | Bundle Size | CRITICAL |
-| 3 | FPS & Re-renders | CRITICAL |
-| 4 | TTI Optimization | HIGH |
-| 5 | Native Performance | HIGH |
-| 6 | Memory Management | MEDIUM-HIGH |
-| 7 | Animations | MEDIUM |
+| Priority | Category           | Impact      |
+| -------- | ------------------ | ----------- |
+| 1        | List Performance   | CRITICAL    |
+| 2        | Bundle Size        | CRITICAL    |
+| 3        | FPS & Re-renders   | CRITICAL    |
+| 4        | TTI Optimization   | HIGH        |
+| 5        | Native Performance | HIGH        |
+| 6        | Memory Management  | MEDIUM-HIGH |
+| 7        | Animations         | MEDIUM      |
 
 ### Quick Reference
 
 **Profile first:**
+
 ```bash
 # Open React Native DevTools
 # Press 'j' in Metro, or shake device → "Open DevTools"
 ```
 
 **Common fixes for slow/janky UI:**
+
 - Replace ScrollView with FlatList/FlashList for lists
 - Use React Compiler for automatic memoization
 - Use atomic state (Jotai/Zustand) to reduce re-renders
 - Use `useDeferredValue` for expensive computations
 
 **Common fixes for bundle size:**
+
 - Avoid barrel imports (import directly from source)
 - Remove unnecessary Intl polyfills (Hermes has native support)
 - Enable tree shaking (Expo SDK 52+ or Re.Pack)
 - Enable R8 for Android native code shrinking
 
 **Common fixes for TTI:**
+
 - Disable JS bundle compression on Android (enables Hermes mmap)
 - Use native navigation (react-native-screens)
 - Preload commonly-used expensive screens before navigating to them
 
 **Common fixes for native performance:**
+
 - Use background threads for heavy native work
 - Prefer async over sync Turbo Module methods
 - Use C++ for cross-platform performance-critical code
@@ -330,27 +338,27 @@ Reference these guidelines when:
 
 Full documentation with code examples in `references/`:
 
-| Category | Files |
-|----------|-------|
-| JavaScript/React | `js-lists-flatlist-flashlist.md`, `js-profile-react.md`, `js-measure-fps.md`, `js-memory-leaks.md`, `js-atomic-state.md`, `js-concurrent-react.md`, `js-react-compiler.md`, `js-animations-reanimated.md`, `js-uncontrolled-components.md` |
-| Native | `native-turbo-modules.md`, `native-sdks-over-polyfills.md`, `native-measure-tti.md`, `native-threading-model.md`, `native-profiling.md`, `native-platform-setup.md`, `native-view-flattening.md`, `native-memory-patterns.md`, `native-memory-leaks.md`, `native-android-16kb-alignment.md` |
-| Bundling | `bundle-barrel-exports.md`, `bundle-analyze-js.md`, `bundle-tree-shaking.md`, `bundle-analyze-app.md`, `bundle-r8-android.md`, `bundle-hermes-mmap.md`, `bundle-native-assets.md`, `bundle-library-size.md`, `bundle-code-splitting.md` |
+| Category         | Files                                                                                                                                                                                                                                                                                       |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| JavaScript/React | `js-lists-flatlist-flashlist.md`, `js-profile-react.md`, `js-measure-fps.md`, `js-memory-leaks.md`, `js-atomic-state.md`, `js-concurrent-react.md`, `js-react-compiler.md`, `js-animations-reanimated.md`, `js-uncontrolled-components.md`                                                  |
+| Native           | `native-turbo-modules.md`, `native-sdks-over-polyfills.md`, `native-measure-tti.md`, `native-threading-model.md`, `native-profiling.md`, `native-platform-setup.md`, `native-view-flattening.md`, `native-memory-patterns.md`, `native-memory-leaks.md`, `native-android-16kb-alignment.md` |
+| Bundling         | `bundle-barrel-exports.md`, `bundle-analyze-js.md`, `bundle-tree-shaking.md`, `bundle-analyze-app.md`, `bundle-r8-android.md`, `bundle-hermes-mmap.md`, `bundle-native-assets.md`, `bundle-library-size.md`, `bundle-code-splitting.md`                                                     |
 
 ### Problem → Skill Mapping
 
-| Problem | Start With |
-|---------|------------|
-| App feels slow/janky | `js-measure-fps.md` → `js-profile-react.md` |
-| Too many re-renders | `js-profile-react.md` → `js-react-compiler.md` |
-| Slow startup (TTI) | `native-measure-tti.md` → `bundle-analyze-js.md` |
-| Large app size | `bundle-analyze-app.md` → `bundle-r8-android.md` |
-| Memory growing | `js-memory-leaks.md` or `native-memory-leaks.md` |
-| Animation drops frames | `js-animations-reanimated.md` |
-| List scroll jank | `js-lists-flatlist-flashlist.md` |
-| TextInput lag | `js-uncontrolled-components.md` |
-| Native module slow | `native-turbo-modules.md` → `native-threading-model.md` |
-| Native library alignment issue | `native-android-16kb-alignment.md` |
+| Problem                        | Start With                                              |
+| ------------------------------ | ------------------------------------------------------- |
+| App feels slow/janky           | `js-measure-fps.md` → `js-profile-react.md`             |
+| Too many re-renders            | `js-profile-react.md` → `js-react-compiler.md`          |
+| Slow startup (TTI)             | `native-measure-tti.md` → `bundle-analyze-js.md`        |
+| Large app size                 | `bundle-analyze-app.md` → `bundle-r8-android.md`        |
+| Memory growing                 | `js-memory-leaks.md` or `native-memory-leaks.md`        |
+| Animation drops frames         | `js-animations-reanimated.md`                           |
+| List scroll jank               | `js-lists-flatlist-flashlist.md`                        |
+| TextInput lag                  | `js-uncontrolled-components.md`                         |
+| Native module slow             | `native-turbo-modules.md` → `native-threading-model.md` |
+| Native library alignment issue | `native-android-16kb-alignment.md`                      |
 
 ---
 
-*Performance optimization content based on "The Ultimate Guide to React Native Optimization" by Callstack.*
+_Performance optimization content based on "The Ultimate Guide to React Native Optimization" by Callstack._

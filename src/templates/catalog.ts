@@ -14,15 +14,15 @@ import { getProjectSetupSkillTemplate } from "./skills/kernel-project-setup/temp
 import { getGitMasterSkillTemplate } from "./skills/kernel-git-master/template.js";
 
 // Workflow skills
+import { getChangeApplySkillTemplate } from "./skills/kernel-change-apply/template.js";
+import { getChangeArchiveSkillTemplate } from "./skills/kernel-change-archive/template.js";
+import { getChangeExploreSkillTemplate } from "./skills/kernel-change-explore/template.js";
+import { getChangeProposeSkillTemplate } from "./skills/kernel-change-propose/template.js";
 import { getCloseSkillTemplate } from "./skills/kernel-close/template.js";
 import { getExecuteSkillTemplate } from "./skills/kernel-execute/template.js";
 import { getExploreSkillTemplate } from "./skills/kernel-explore/template.js";
 import { getGhPrErrorsSkillTemplate } from "./skills/kernel-gh-pr-errors/template.js";
 import { getIntakeSkillTemplate } from "./skills/kernel-intake/template.js";
-import { getOpenSpecApplyChangeSkillTemplate } from "./skills/kernel-openspec-apply-change/template.js";
-import { getOpenSpecArchiveChangeSkillTemplate } from "./skills/kernel-openspec-archive-change/template.js";
-import { getOpenSpecExploreSkillTemplate } from "./skills/kernel-openspec-explore/template.js";
-import { getOpenSpecProposeSkillTemplate } from "./skills/kernel-openspec-propose/template.js";
 import { getPlanSkillTemplate } from "./skills/kernel-plan/template.js";
 import { getResearchSkillTemplate } from "./skills/kernel-research/template.js";
 import { getReviewSkillTemplate } from "./skills/kernel-review/template.js";
@@ -77,10 +77,10 @@ export function getDefaultSkillTemplates(profile: Profile = "extended"): SkillTe
     getIntakeSkillTemplate(),
     getCloseSkillTemplate(),
     getShipSkillTemplate(),
-    getOpenSpecProposeSkillTemplate(),
-    getOpenSpecExploreSkillTemplate(),
-    getOpenSpecApplyChangeSkillTemplate(),
-    getOpenSpecArchiveChangeSkillTemplate(),
+    getChangeProposeSkillTemplate(),
+    getChangeExploreSkillTemplate(),
+    getChangeApplySkillTemplate(),
+    getChangeArchiveSkillTemplate(),
 
     // Docs
     getDocsWorkflowSkillTemplate(),

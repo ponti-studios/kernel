@@ -1,7 +1,7 @@
-import type { SkillTemplate } from "../../../core/templates/types.js";
 import { parseFrontmatter } from "../../../core/templates/frontmatter.js";
-import dockerWorkflowSkillMarkdown from "./instructions.md";
+import type { SkillTemplate } from "../../../core/templates/types.js";
 import { SKILL_NAMES } from "../../constants.js";
+import dockerWorkflowSkillMarkdown from "./instructions.md";
 
 const { body } = parseFrontmatter(dockerWorkflowSkillMarkdown);
 
@@ -17,7 +17,15 @@ export function getDockerWorkflowSkillTemplate(): SkillTemplate {
       author: "project",
       version: "1.0",
       category: "Engineering",
-      tags: ["docker", "compose", "containers", "dockerfile", "multi-stage", "infrastructure", "devops"],
+      tags: [
+        "docker",
+        "compose",
+        "containers",
+        "dockerfile",
+        "multi-stage",
+        "infrastructure",
+        "devops",
+      ],
     },
     when: [
       "user is writing or reviewing a Dockerfile",

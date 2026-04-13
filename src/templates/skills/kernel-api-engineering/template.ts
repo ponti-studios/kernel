@@ -1,7 +1,7 @@
-import type { SkillTemplate } from "../../../core/templates/types.js";
 import { parseFrontmatter } from "../../../core/templates/frontmatter.js";
-import apiEngineeringSkillMarkdown from "./instructions.md";
+import type { SkillTemplate } from "../../../core/templates/types.js";
 import { SKILL_NAMES } from "../../constants.js";
+import apiEngineeringSkillMarkdown from "./instructions.md";
 
 const { body } = parseFrontmatter(apiEngineeringSkillMarkdown);
 
@@ -17,7 +17,17 @@ export function getApiEngineeringSkillTemplate(): SkillTemplate {
       author: "project",
       version: "1.0",
       category: "Engineering",
-      tags: ["api", "rpc", "http", "typescript", "hono", "rest", "openapi", "error-handling", "middleware"],
+      tags: [
+        "api",
+        "rpc",
+        "http",
+        "typescript",
+        "hono",
+        "rest",
+        "openapi",
+        "error-handling",
+        "middleware",
+      ],
     },
     when: [
       "user is designing a new API endpoint or route",

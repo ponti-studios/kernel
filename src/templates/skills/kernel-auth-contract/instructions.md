@@ -2,12 +2,12 @@ Authentication and authorization contract for apps and services. Better-Auth own
 
 ## Toolchain
 
-| Concern | Tool |
-|---|---|
-| Auth provider | Better-Auth |
-| Session hook (React) | `better-auth/react` → `useSession()` |
-| Server middleware | Better-Auth Hono plugin |
-| Inter-service auth | Short-lived signed tokens (custom — Better-Auth doesn't cover s2s) |
+| Concern              | Tool                                                               |
+| -------------------- | ------------------------------------------------------------------ |
+| Auth provider        | Better-Auth                                                        |
+| Session hook (React) | `better-auth/react` → `useSession()`                               |
+| Server middleware    | Better-Auth Hono plugin                                            |
+| Inter-service auth   | Short-lived signed tokens (custom — Better-Auth doesn't cover s2s) |
 
 Never use: custom JWT libraries, Passport.js, NextAuth, Lucia, or hand-rolled session logic.
 
@@ -22,8 +22,8 @@ export const auth = betterAuth({
   database: db,
   emailAndPassword: { enabled: true },
   session: {
-    expiresIn: 60 * 60 * 24 * 7,        // 7 days
-    updateAge: 60 * 60 * 24,             // refresh if older than 24h
+    expiresIn: 60 * 60 * 24 * 7, // 7 days
+    updateAge: 60 * 60 * 24, // refresh if older than 24h
     cookieCache: { enabled: true, maxAge: 5 * 60 },
   },
   trustedOrigins: [process.env.APP_URL!],

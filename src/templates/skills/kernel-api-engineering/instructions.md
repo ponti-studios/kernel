@@ -2,12 +2,12 @@ Build type-safe, contract-first APIs with consistent error handling, explicit au
 
 ## Toolchain
 
-| Concern | Tool |
-|---|---|
-| HTTP framework | Hono |
-| Schema validation | Zod |
-| RPC client | Hono RPC (`hc<typeof AppRouter>`) |
-| Auth middleware | Better-Auth (via `kernel-auth-contract`) |
+| Concern           | Tool                                     |
+| ----------------- | ---------------------------------------- |
+| HTTP framework    | Hono                                     |
+| Schema validation | Zod                                      |
+| RPC client        | Hono RPC (`hc<typeof AppRouter>`)        |
+| Auth middleware   | Better-Auth (via `kernel-auth-contract`) |
 
 Never use: Express, Fastify, Koa, tRPC, or any other HTTP framework.
 
@@ -68,10 +68,12 @@ export const ApiErrors = {
     error: { code: "VALIDATION_FAILED", message: "Invalid request body", details },
   }),
   UNAUTHORIZED: { error: { code: "UNAUTHORIZED", message: "Authentication required" } },
-  FORBIDDEN:    { error: { code: "FORBIDDEN", message: "Insufficient permissions" } },
-  NOT_FOUND:    (resource: string) => ({ error: { code: "NOT_FOUND", message: `${resource} not found` } }),
-  CONFLICT:     (message: string)  => ({ error: { code: "CONFLICT", message } }),
-  INTERNAL:     { error: { code: "INTERNAL_ERROR", message: "An unexpected error occurred" } },
+  FORBIDDEN: { error: { code: "FORBIDDEN", message: "Insufficient permissions" } },
+  NOT_FOUND: (resource: string) => ({
+    error: { code: "NOT_FOUND", message: `${resource} not found` },
+  }),
+  CONFLICT: (message: string) => ({ error: { code: "CONFLICT", message } }),
+  INTERNAL: { error: { code: "INTERNAL_ERROR", message: "An unexpected error occurred" } },
 } as const;
 ```
 
@@ -99,19 +101,27 @@ app.use("/api/admin/*", requireRole("admin"));
 
 Every endpoint needs at minimum:
 
-| Test | Description |
-|---|---|
-| Happy path | 200/201 with correct shape |
-| Validation rejection | 422 with `VALIDATION_FAILED` code |
-| No auth | 401 with `UNAUTHORIZED` code |
-| Forbidden | 403 with `FORBIDDEN` code (when authz applies) |
+| Test                 | Description                                    |
+| -------------------- | ---------------------------------------------- |
+| Happy path           | 200/201 with correct shape                     |
+| Validation rejection | 422 with `VALIDATION_FAILED` code              |
+| No auth              | 401 with `UNAUTHORIZED` code                   |
+| Forbidden            | 403 with `FORBIDDEN` code (when authz applies) |
 
 ```typescript
 describe("POST /api/users", () => {
-  it("creates user when request is valid", async () => { /* ... */ });
-  it("returns 422 when email is missing", async () => { /* ... */ });
-  it("returns 401 when no session token", async () => { /* ... */ });
-  it("returns 403 when caller lacks required role", async () => { /* ... */ });
+  it("creates user when request is valid", async () => {
+    /* ... */
+  });
+  it("returns 422 when email is missing", async () => {
+    /* ... */
+  });
+  it("returns 401 when no session token", async () => {
+    /* ... */
+  });
+  it("returns 403 when caller lacks required role", async () => {
+    /* ... */
+  });
 });
 ```
 

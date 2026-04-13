@@ -275,12 +275,8 @@ describe("full pipeline: load → compile → write (github-copilot)", () => {
 
   it("rewrites reference paths to #file: workspace-relative format", async () => {
     const content = await readOutput(copilotOutputDir, ".github/skills/writer-agent/SKILL.md");
-    expect(content).toContain(
-      "#file:.github/skills/writer-agent/references/voice-and-style.md",
-    );
-    expect(content).toContain(
-      "#file:.github/skills/writer-agent/references/writing-doctrine.md",
-    );
+    expect(content).toContain("#file:.github/skills/writer-agent/references/voice-and-style.md");
+    expect(content).toContain("#file:.github/skills/writer-agent/references/writing-doctrine.md");
   });
 
   it("appends vault-references attachment block", async () => {
@@ -307,9 +303,7 @@ describe("full pipeline: load → compile → write (non-copilot platform)", () 
 
   it("writes SKILL.md", async () => {
     expect(
-      await pathExists(
-        path.join(geminiOutputDir, ".gemini", "skills", "writer-agent", "SKILL.md"),
-      ),
+      await pathExists(path.join(geminiOutputDir, ".gemini", "skills", "writer-agent", "SKILL.md")),
     ).toBe(true);
   });
 
@@ -346,19 +340,13 @@ describe("full pipeline: multi-platform output isolation", () => {
 
   it("each tool directory is independent on disk", async () => {
     expect(
-      await pathExists(
-        path.join(multiOutputDir, ".claude", "skills", "writer-agent", "SKILL.md"),
-      ),
+      await pathExists(path.join(multiOutputDir, ".claude", "skills", "writer-agent", "SKILL.md")),
     ).toBe(true);
     expect(
-      await pathExists(
-        path.join(multiOutputDir, ".github", "skills", "writer-agent", "SKILL.md"),
-      ),
+      await pathExists(path.join(multiOutputDir, ".github", "skills", "writer-agent", "SKILL.md")),
     ).toBe(true);
     expect(
-      await pathExists(
-        path.join(multiOutputDir, ".cursor", "skills", "writer-agent", "SKILL.md"),
-      ),
+      await pathExists(path.join(multiOutputDir, ".cursor", "skills", "writer-agent", "SKILL.md")),
     ).toBe(true);
   });
 });

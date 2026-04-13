@@ -102,7 +102,10 @@ export async function hasConfig(configRoot?: string): Promise<boolean> {
  * @param updates - Configuration updates
  * @returns Updated configuration
  */
-export async function updateConfig(configRoot: string | undefined, updates: Partial<Config>): Promise<Config> {
+export async function updateConfig(
+  configRoot: string | undefined,
+  updates: Partial<Config>,
+): Promise<Config> {
   const current = await loadConfig(configRoot);
 
   if (!current) {

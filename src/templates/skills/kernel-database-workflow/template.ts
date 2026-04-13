@@ -1,8 +1,8 @@
-import type { SkillTemplate } from "../../../core/templates/types.js";
 import { parseFrontmatter } from "../../../core/templates/frontmatter.js";
-import databaseWorkflowSkillMarkdown from "./instructions.md";
+import type { SkillTemplate } from "../../../core/templates/types.js";
 import { SKILL_NAMES } from "../../constants.js";
-import { getSkillReferences } from "../../.generated/templates.js";
+import databaseWorkflowSkillMarkdown from "./instructions.md";
+import { DATABASE_WORKFLOW_REFERENCES } from "./reference-bundle.js";
 
 export function getDatabaseWorkflowSkillTemplate(): SkillTemplate {
   return {
@@ -11,12 +11,25 @@ export function getDatabaseWorkflowSkillTemplate(): SkillTemplate {
     description:
       "Manages the full database migration lifecycle: schema design, authoring, validation, multi-environment apply, type generation, rollback, and production deployment coordination. Use whenever a schema change is required, migrations need to be applied or rolled back, or generated types are out of sync.",
     license: "MIT",
-    compatibility: "Any PostgreSQL project using Goose for migrations and kysely-codegen for type generation.",
+    compatibility:
+      "Any PostgreSQL project using Goose for migrations and kysely-codegen for type generation.",
     metadata: {
       author: "project",
       version: "2.0",
       category: "Database",
-      tags: ["database", "migrations", "sql", "goose", "postgres", "schema", "kysely", "drizzle", "codegen", "types", "ddl"],
+      tags: [
+        "database",
+        "migrations",
+        "sql",
+        "goose",
+        "postgres",
+        "schema",
+        "kysely",
+        "drizzle",
+        "codegen",
+        "types",
+        "ddl",
+      ],
     },
     when: [
       "user needs to add, modify, or remove a table, column, index, or constraint",
@@ -50,12 +63,7 @@ export function getDatabaseWorkflowSkillTemplate(): SkillTemplate {
     ],
     dependencies: [],
     disableModelInvocation: true,
-    references: getSkillReferences(
-      SKILL_NAMES.DATABASE_WORKFLOW,
-      "references/schema-design.md",
-      "references/migration-patterns.md",
-      "references/goose-workflow.md",
-    ),
+    references: DATABASE_WORKFLOW_REFERENCES,
     instructions: parseFrontmatter(databaseWorkflowSkillMarkdown).body,
   };
 }

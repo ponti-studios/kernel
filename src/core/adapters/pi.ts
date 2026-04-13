@@ -42,7 +42,10 @@ export const piAdapter: ToolCommandAdapter = {
   formatSkill(template: SkillTemplate, version: string): string {
     // Pi uses the Agent Skills standard - keep frontmatter minimal
     // but include essential fields: name, description, license, compatibility, metadata
-    return closeSkillFrontmatter(formatBaseSkillFrontmatter(template, version), template.instructions);
+    return closeSkillFrontmatter(
+      formatBaseSkillFrontmatter(template, version),
+      template.instructions,
+    );
   },
 
   formatCommand(template: CommandTemplate, version: string): string {

@@ -7,16 +7,18 @@ Work through these steps in order. Don't skip to reading random files — orient
 ### 1. Find the entry points
 
 Start with the edges of the system — where does execution begin?
+
 - **Web apps**: framework router file, `main.*`, `server.*`, `app.*`, `index.*`
-- **CLIs**: `cli.*`, `cmd/`, `bin/` directory, `main.go` / `main.ts`
+- **CLIs**: `cli.*`, `cmd/`, `bin/` directory, `main.*`
 - **Libraries**: `index.*`, `lib/`, `src/` — look for what is exported
 - **Services**: service registration, worker entrypoints, cron definitions
 
-Read the `package.json`, `Makefile`, `pyproject.toml`, or equivalent first. The `scripts` section tells you the intended commands; the `main` / `exports` field tells you what external consumers see.
+Read the project manifest or build file first. The script and entrypoint fields tell you the intended commands and public surface.
 
 ### 2. Trace from entry outward
 
 Follow imports from the entry points:
+
 - What does the entry point depend on? What do those modules depend on?
 - Where are the major subsystems? (auth, data access, business logic, presentation, background jobs)
 - What are the boundaries between subsystems? (interfaces, service layers, explicit API contracts)
@@ -35,6 +37,7 @@ Input arrives → validated → processed → stored → response returned
 For each step, identify: which file handles it, which function, and what it produces. One well-chosen trace teaches more than reading 20 unrelated files.
 
 ### 4. Locate the test infrastructure
+
 - Where do tests live? (co-located vs. `tests/` vs. `__tests__/`)
 - What runner and assertion libraries are used?
 - What fixtures and factories exist?
@@ -57,16 +60,16 @@ Tests are the most honest documentation. Read a few to understand the expected b
 
 ## Warning Signals
 
-| Signal | What it means |
-|---|---|
-| Large files (1000+ lines) | Likely a God class — understand it before touching it |
-| Deep import chains | Tight coupling — a change here ripples far |
-| No tests for a subsystem | High risk area — add tests before changing |
-| Multiple implementations of the same concept | Historical drift — identify the canonical one |
-| Comments like "don't change this" | Load-bearing code that isn't well-understood — investigate first |
+| Signal                                       | What it means                                                    |
+| -------------------------------------------- | ---------------------------------------------------------------- |
+| Large files (1000+ lines)                    | Likely a God class — understand it before touching it            |
+| Deep import chains                           | Tight coupling — a change here ripples far                       |
+| No tests for a subsystem                     | High risk area — add tests before changing                       |
+| Multiple implementations of the same concept | Historical drift — identify the canonical one                    |
+| Comments like "don't change this"            | Load-bearing code that isn't well-understood — investigate first |
 
 ## Guardrails
+
 - Do not start making changes until the architecture summary is complete.
 - Do not read files randomly — orient top-down from entry points.
 - The map is done when someone unfamiliar with the codebase can answer "where do I start?" in under 30 seconds.
-

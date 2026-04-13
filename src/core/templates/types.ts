@@ -107,7 +107,7 @@ export interface SkillTemplate {
  * Additional reference files emitted alongside a skill or agent template.
  */
 export interface TemplateReference {
-  /** Reference path relative to the generated template file, e.g. 'references/common/python.md' */
+  /** Reference path relative to the generated template file, e.g. 'references/common/example.md' */
   relativePath: string;
 
   /** File content */
@@ -115,11 +115,11 @@ export interface TemplateReference {
 }
 
 /**
- * Command template - defines a command entrypoint or compatibility shim
- * Commands are installed to <tool>/commands/<name>.md or a tool-native location.
+ * Command template - defines a command entrypoint or compatibility shim.
+ * Commands are installed through the global sync catalog under ~/.agents/commands/.
  */
 export interface CommandTemplate {
-  /** Stable command identifier (e.g. 'opsx-apply' or 'speckit.plan') */
+  /** Stable command identifier (e.g. 'kernel-change-apply' or 'kernel-spec-plan') */
   name: string;
 
   /** Human-readable description */

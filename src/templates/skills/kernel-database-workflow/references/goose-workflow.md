@@ -2,20 +2,20 @@
 
 ## Make Targets
 
-| Command | Effect |
-|---|---|
-| `make db-new-migration NAME=<desc>` | Scaffold timestamped migration file |
-| `make db-migrate` | Apply pending migrations → dev database |
-| `make db-migrate-test` | Apply pending migrations → test database |
-| `make db-migrate-all` | Apply pending migrations → dev + test |
-| `make db-migrate-sync` | Apply dev + test, then regenerate types (**canonical workflow**) |
-| `make db-rollback` | Roll back latest migration → dev |
-| `make db-rollback-test` | Roll back latest migration → test |
-| `make db-rollback-all` | Roll back latest → dev + test |
-| `make db-rollback-sync` | Roll back dev + test, then regenerate types |
-| `make db-generate-types` | Regenerate `packages/db/src/types/database.ts` from live schema |
-| `make db-verify-types` | Assert generated types match live schema |
-| `make db-status` | Show applied/pending migration state |
+| Command                             | Effect                                                           |
+| ----------------------------------- | ---------------------------------------------------------------- |
+| `make db-new-migration NAME=<desc>` | Scaffold timestamped migration file                              |
+| `make db-migrate`                   | Apply pending migrations → dev database                          |
+| `make db-migrate-test`              | Apply pending migrations → test database                         |
+| `make db-migrate-all`               | Apply pending migrations → dev + test                            |
+| `make db-migrate-sync`              | Apply dev + test, then regenerate types (**canonical workflow**) |
+| `make db-rollback`                  | Roll back latest migration → dev                                 |
+| `make db-rollback-test`             | Roll back latest migration → test                                |
+| `make db-rollback-all`              | Roll back latest → dev + test                                    |
+| `make db-rollback-sync`             | Roll back dev + test, then regenerate types                      |
+| `make db-generate-types`            | Regenerate `packages/db/src/types/database.ts` from live schema  |
+| `make db-verify-types`              | Assert generated types match live schema                         |
+| `make db-status`                    | Show applied/pending migration state                             |
 
 ## Direct Goose Commands (when Make unavailable)
 

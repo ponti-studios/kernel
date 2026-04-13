@@ -16,18 +16,19 @@ Keep components small and single-responsibility. If a component needs more than 
 ```
 
 **Rules:**
+
 - Presentational components receive data via props — no data fetching inside them
 - Data-fetching components (containers) focus on fetching and pass data down
 - Never define a component inside another component's render — it remounts on every render
 
 ## State Management
 
-| State type | Tool |
-|---|---|
-| Server data (remote) | TanStack Query |
-| Shared client UI state | Zustand or Context |
-| Local component state | `useState` |
-| Derived values | Compute inline — do not store in state |
+| State type             | Tool                                   |
+| ---------------------- | -------------------------------------- |
+| Server data (remote)   | TanStack Query                         |
+| Shared client UI state | Zustand or Context                     |
+| Local component state  | `useState`                             |
+| Derived values         | Compute inline — do not store in state |
 
 ```typescript
 // ✅ derive — do not store derived values in state
@@ -64,14 +65,15 @@ Extract reusable logic into custom hooks. A hook should have a single responsibi
 // useDisclosure.ts — manages open/close state
 export function useDisclosure(initial = false) {
   const [isOpen, setIsOpen] = useState(initial);
-  const open  = useCallback(() => setIsOpen(true),  []);
+  const open = useCallback(() => setIsOpen(true), []);
   const close = useCallback(() => setIsOpen(false), []);
-  const toggle = useCallback(() => setIsOpen(v => !v), []);
+  const toggle = useCallback(() => setIsOpen((v) => !v), []);
   return { isOpen, open, close, toggle };
 }
 ```
 
 Rules:
+
 - Hooks start with `use` — always
 - A hook that fetches data should not also manage UI state
 - A hook that manages form state should not also submit the form
@@ -127,10 +129,10 @@ Use stable, unique IDs as list keys — never array indices.
 
 ```tsx
 // ✅ stable identity
-items.map(item => <Card key={item.id} {...item} />)
+items.map((item) => <Card key={item.id} {...item} />);
 
 // ❌ index as key — causes incorrect reconciliation on reorder/delete
-items.map((item, i) => <Card key={i} {...item} />)
+items.map((item, i) => <Card key={i} {...item} />);
 ```
 
 ## Error Boundaries
@@ -162,13 +164,14 @@ app component
 
 Use TanStack Query (or equivalent server-state library) for all remote data:
 
-| Need | Hook |
-|---|---|
-| Read data | `useQuery` / `useSuspenseQuery` |
-| Write data | `useMutation` |
-| Infinite scroll / feeds | `useInfiniteQuery` |
+| Need                    | Hook                            |
+| ----------------------- | ------------------------------- |
+| Read data               | `useQuery` / `useSuspenseQuery` |
+| Write data              | `useMutation`                   |
+| Infinite scroll / feeds | `useInfiniteQuery`              |
 
 **Query key rules:**
+
 - Must be an array — never a plain string
 - Must include every variable that affects the result (e.g. `["users", userId]`)
 - `staleTime` must be set explicitly; the default `0` causes excessive refetches
@@ -181,23 +184,24 @@ See `references/data-fetching.md` for query hook, mutation hook, suspense, pagin
 
 In a monorepo, `packages/ui` (or equivalent) must stay presentational and environment-agnostic. It is a shared component library that should work in any context — web, mobile, Storybook — without knowing about data sources or routing.
 
-| Layer | Location | Responsibilities |
-|---|---|---|
-| Presentational components | `packages/ui` | Rendering, interactions, styling |
-| Container components | `apps/` | Data fetching, routing, business logic |
-| Feature hooks | `packages/<feature>` | Reusable domain logic |
+| Layer                     | Location             | Responsibilities                       |
+| ------------------------- | -------------------- | -------------------------------------- |
+| Presentational components | `packages/ui`        | Rendering, interactions, styling       |
+| Container components      | `apps/`              | Data fetching, routing, business logic |
+| Feature hooks             | `packages/<feature>` | Reusable domain logic                  |
 
 **Hook location rules:**
 
-| Hook type | Location |
-|---|---|
-| Pure UI (`useHover`, `useMediaQuery`) | `packages/ui/src/hooks` |
-| Web routing (`useComposerMode`) | `apps/<web-app>/src/hooks` |
-| Auth (`useSession`) | `packages/auth/src/hooks` |
-| API/RPC | `packages/rpc/src` |
-| Feature-specific | `packages/<feature>/src/hooks` |
+| Hook type                             | Location                       |
+| ------------------------------------- | ------------------------------ |
+| Pure UI (`useHover`, `useMediaQuery`) | `packages/ui/src/hooks`        |
+| Web routing (`useComposerMode`)       | `apps/<web-app>/src/hooks`     |
+| Auth (`useSession`)                   | `packages/auth/src/hooks`      |
+| API/RPC                               | `packages/rpc/src`             |
+| Feature-specific                      | `packages/<feature>/src/hooks` |
 
 **Checklist for shared UI package changes:**
+
 - [ ] No imports from auth, API/RPC, or database packages
 - [ ] No routing hooks (`useNavigate`, `useSearchParams`, `useRouter`)
 - [ ] No direct API calls or mutation hooks

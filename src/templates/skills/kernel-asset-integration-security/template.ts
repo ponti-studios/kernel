@@ -1,7 +1,7 @@
-import type { SkillTemplate } from "../../../core/templates/types.js";
 import { parseFrontmatter } from "../../../core/templates/frontmatter.js";
-import assetIntegrationSecuritySkillMarkdown from "./instructions.md";
+import type { SkillTemplate } from "../../../core/templates/types.js";
 import { SKILL_NAMES } from "../../constants.js";
+import assetIntegrationSecuritySkillMarkdown from "./instructions.md";
 
 const { body } = parseFrontmatter(assetIntegrationSecuritySkillMarkdown);
 
@@ -17,7 +17,17 @@ export function getAssetIntegrationSecuritySkillTemplate(): SkillTemplate {
       author: "project",
       version: "1.0",
       category: "Security",
-      tags: ["security", "csp", "cors", "cdn", "third-party", "integrity", "sri", "assets", "integrations"],
+      tags: [
+        "security",
+        "csp",
+        "cors",
+        "cdn",
+        "third-party",
+        "integrity",
+        "sri",
+        "assets",
+        "integrations",
+      ],
     },
     when: [
       "user is adding a third-party script, font, or stylesheet from a CDN",

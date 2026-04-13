@@ -1,8 +1,8 @@
-import type { AgentTemplate } from "../../../core/templates/types.js";
 import { parseFrontmatter } from "../../../core/templates/frontmatter.js";
-import gitAgentMarkdown from "./AGENT.md";
+import type { AgentTemplate } from "../../../core/templates/types.js";
 import { AGENT_NAMES } from "../../constants.js";
 import { GIT_AGENT_AVAILABLE_SKILLS } from "../available-skills.js";
+import gitAgentMarkdown from "./AGENT.md";
 
 const { body } = parseFrontmatter(gitAgentMarkdown);
 
@@ -33,7 +33,8 @@ export function getGitAgentTemplate(): AgentTemplate {
     route: "git",
     defaultTools: ["read", "search"],
     allowedTools: ["Read", "Grep", "Glob", "Bash"],
-    argumentHint: "git operation or question (e.g., 'resolve merge conflict', 'rebase feature branch')",
+    argumentHint:
+      "git operation or question (e.g., 'resolve merge conflict', 'rebase feature branch')",
     maxTurns: 50,
     sandboxMode: "workspace-write",
     reasoningEffort: "medium",

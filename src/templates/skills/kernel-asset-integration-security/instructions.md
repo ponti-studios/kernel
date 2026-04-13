@@ -4,12 +4,12 @@ Every external resource is untrusted. A compromised CDN or third-party vendor ca
 
 ## Threat Model
 
-| Threat | Vector |
-|---|---|
-| Supply-chain attack | CDN resource replaced with malicious version |
-| Credential theft | Secret API key embedded in the frontend bundle |
-| XSS via embed | Malicious iframe or widget executes in your origin |
-| Data exfiltration | Third-party script reads cookies or localStorage and phones home |
+| Threat              | Vector                                                           |
+| ------------------- | ---------------------------------------------------------------- |
+| Supply-chain attack | CDN resource replaced with malicious version                     |
+| Credential theft    | Secret API key embedded in the frontend bundle                   |
+| XSS via embed       | Malicious iframe or widget executes in your origin               |
+| Data exfiltration   | Third-party script reads cookies or localStorage and phones home |
 
 ## Subresource Integrity (SRI)
 
@@ -31,6 +31,7 @@ Add `integrity` and `crossorigin` to every CDN-loaded script and stylesheet.
 ```
 
 Generate the hash:
+
 ```bash
 curl -s https://cdn.example.com/lib@1.2.3/dist/lib.min.js \
   | openssl dgst -sha384 -binary | openssl base64 -A
@@ -55,6 +56,7 @@ Content-Security-Policy:
 ```
 
 Never use:
+
 - `unsafe-inline` (use a nonce if inline scripts are absolutely required)
 - `unsafe-eval`
 - Wildcard `*` in any directive
@@ -74,12 +76,12 @@ Before adding any script:
 
 ## API Keys in the Frontend
 
-| Rule | Rationale |
-|---|---|
-| Never embed server secrets | Any key in the bundle is public |
-| Restrict public keys by domain | Configure in the provider dashboard |
-| Rotate exposed keys immediately | Treat an exposed key as compromised |
-| Prefer server-side proxies | Keep secrets server-side; proxy calls from the API |
+| Rule                            | Rationale                                          |
+| ------------------------------- | -------------------------------------------------- |
+| Never embed server secrets      | Any key in the bundle is public                    |
+| Restrict public keys by domain  | Configure in the provider dashboard                |
+| Rotate exposed keys immediately | Treat an exposed key as compromised                |
+| Prefer server-side proxies      | Keep secrets server-side; proxy calls from the API |
 
 ```typescript
 // ✅ public key, restricted in provider dashboard by origin

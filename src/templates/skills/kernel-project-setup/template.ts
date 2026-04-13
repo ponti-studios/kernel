@@ -1,7 +1,7 @@
-import type { SkillTemplate } from "../../../core/templates/types.js";
 import { parseFrontmatter } from "../../../core/templates/frontmatter.js";
-import projectSetupSkillMarkdown from "./instructions.md";
+import type { SkillTemplate } from "../../../core/templates/types.js";
 import { SKILL_NAMES } from "../../constants.js";
+import projectSetupSkillMarkdown from "./instructions.md";
 
 export function getProjectSetupSkillTemplate(): SkillTemplate {
   return {
@@ -15,7 +15,17 @@ export function getProjectSetupSkillTemplate(): SkillTemplate {
       author: "project",
       version: "2.0",
       category: "Engineering",
-      tags: ["environment", "setup", "onboarding", "cleanup", "health", "backup", "maintenance", "monorepo", "docker"],
+      tags: [
+        "environment",
+        "setup",
+        "onboarding",
+        "cleanup",
+        "health",
+        "backup",
+        "maintenance",
+        "monorepo",
+        "docker",
+      ],
     },
     when: [
       "user is setting up a project for the first time on a new machine",

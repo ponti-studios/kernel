@@ -77,6 +77,7 @@ dependencies: []
 You are enforcing the project design system. This is not a style guide — it is law. You do not separate "design" from "implementation". Component architecture, layout, styling, motion, accessibility, and polish are one job.
 
 Before writing any UI code, read all six reference files emitted alongside this skill:
+
 - `references/standards.md` — project-specific product principles, supported frameworks, forbidden frameworks, and non-negotiable implementation rules
 - `references/foundations.md` — tokens, typography, color (light + dark), spacing, elevation, radii, grid, z-index, accessibility
 - `references/motion.md` — GSAP mandate, canonical sequences, timing, easing, reduced motion, mobile animation
@@ -114,16 +115,19 @@ Deviation from this spec requires explicit justification, a concrete tradeoff, a
 ## Absolute rules — no exceptions
 
 ### Tokens
+
 - All values come from tokens: colors, spacing, radii, shadows, durations, font sizes, z-indices. See `references/foundations.md`.
 - **Never hardcode** any of these values in a component or style file.
 - If a token doesn't exist, add it to the project's token files before using it.
 
 ### Color mode
+
 - **Dark mode is a first-class citizen**, not an afterthought. Both light and dark tokens are defined in `references/foundations.md`.
 - Use CSS custom properties that resolve per-mode. Never branch with `dark:` utility classes for color — use semantic tokens that swap automatically.
 - Light mode is warm-neutral (stone palette). Dark mode is near-black (Vercel-inspired). Both share the same warm accent.
 
 ### Animation
+
 - **All interactive animations on web MUST use GSAP via the project's canonical sequences file.** See `references/motion.md`.
 - Never reimplement a canonical sequence locally — import it.
 - CSS keyframe animations are reserved exclusively for Radix UI component enter/exit.
@@ -133,6 +137,7 @@ Deviation from this spec requires explicit justification, a concrete tradeoff, a
 - Target 60fps.
 
 ### Typography
+
 - Use only composed utility classes: `.display-1/2`, `.heading-1–4`, `.body-1–4`, `.subheading-1–4`.
 - Never mix raw size/weight utilities for product text.
 - Never `font-weight` above 700.
@@ -140,12 +145,14 @@ Deviation from this spec requires explicit justification, a concrete tradeoff, a
 - Maximum line length: 72 characters for body copy.
 
 ### Color
+
 - All color references through CSS custom properties. Never raw Tailwind palette classes.
 - Text dimming: use the correct text tier token — never `opacity` on text.
 - Accent = `#D4A574` (warm amber). Destructive = `#EF4444`. Never swap these.
 - WCAG AA minimum contrast ratio: 4.5:1 for body text, 3:1 for large text and UI components.
 
 ### Accessibility
+
 - Touch targets: **44px × 44px minimum**.
 - Focus ring: `outline: 2px solid var(--color-ring); outline-offset: 2px; border-radius: inherit`. Never suppress without replacement.
 - Mouse/touch `:focus` shows nothing. Keyboard `:focus-visible` shows the ring.
@@ -155,7 +162,9 @@ Deviation from this spec requires explicit justification, a concrete tradeoff, a
 - `aria-label` on all icon-only buttons.
 
 ### Interaction states
+
 Every interactive element must implement all applicable states. Missing states are bugs.
+
 - **Hover**: CSS `transition-colors duration-150`
 - **Focus-visible**: `outline: 2px solid var(--color-ring); outline-offset: 2px; border-radius: inherit`
 - **Active/pressed**: GSAP `scale(0.97)` on pointerdown
@@ -165,6 +174,7 @@ Every interactive element must implement all applicable states. Missing states a
 - **Selected**: accent background at 12% + accent foreground
 
 ### Performance
+
 - Lists > 50 items: virtualise (`react-window` web, `FlashList` mobile).
 - `React.memo` on all feed/stream row components.
 - Lazy-load routes: `React.lazy` + `Suspense`.
@@ -206,12 +216,14 @@ Execute with precision. Never produce a layout that looks like a default templat
 Fail the review if any of the following are violated:
 
 ### Tokens & values
+
 - [ ] No hardcoded colors, sizes, radii, durations, z-indices, or font values
 - [ ] Platform-correct token keys used (web vs. native)
 - [ ] New token added to token files if a value was missing
 - [ ] Both light and dark mode tokens defined for any new color
 
 ### Animation
+
 - [ ] All interactive animations use GSAP canonical sequences
 - [ ] Radix/headless UI states use CSS `void-anim-*` classes only
 - [ ] `reducedMotion()` guard respected
@@ -219,6 +231,7 @@ Fail the review if any of the following are violated:
 - [ ] 60fps achievable on mid-range device
 
 ### Typography & copy
+
 - [ ] Composed utility classes used — no raw size/weight combinations
 - [ ] Font weight ≤ 700
 - [ ] Mobile inputs ≥ 16px
@@ -226,6 +239,7 @@ Fail the review if any of the following are violated:
 - [ ] Error messages tell the user what to do
 
 ### Color & contrast
+
 - [ ] All colors from CSS custom properties — no raw Tailwind palette
 - [ ] Text dimmed via tier token, not opacity
 - [ ] Accent and destructive never swapped
@@ -233,6 +247,7 @@ Fail the review if any of the following are violated:
 - [ ] Dark mode tested — not just light mode with `dark:` slapped on
 
 ### Accessibility
+
 - [ ] Touch targets ≥ 44px × 44px
 - [ ] Focus ring uses `--color-ring`, not accent, with `border-radius: inherit`
 - [ ] `:focus` shows nothing; `:focus-visible` shows the ring
@@ -243,11 +258,13 @@ Fail the review if any of the following are violated:
 - [ ] `aria-label` on icon-only buttons
 
 ### Components & states
+
 - [ ] All required interaction states implemented
 - [ ] Loading and error states implemented where applicable
 - [ ] Component spec consulted before implementing (components.md)
 
 ### Layout & responsive
+
 - [ ] Mobile-first — base styles are mobile, breakpoints layer up
 - [ ] No max-width media queries
 - [ ] Z-index from token scale only
@@ -255,6 +272,7 @@ Fail the review if any of the following are violated:
 - [ ] Toasts portal to document body
 
 ### Performance
+
 - [ ] Lists > 50 items virtualised
 - [ ] React.memo on feed row components
 - [ ] Routes lazy-loaded
@@ -262,6 +280,7 @@ Fail the review if any of the following are violated:
 - [ ] Explicit width/height on images
 
 ### Chat UI
+
 - [ ] `chatTokens` used for all chat-specific values
 - [ ] User messages in bubble, assistant messages plain
 - [ ] No hardcoded Tailwind color classes in chat

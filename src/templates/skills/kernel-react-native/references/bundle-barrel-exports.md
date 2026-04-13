@@ -13,14 +13,14 @@ Refactor barrel imports (index files) to reduce bundle size and improve startup 
 **Incorrect:**
 
 ```tsx
-import { Button } from './components';
+import { Button } from "./components";
 // Loads ALL exports from components/index.ts
 ```
 
 **Correct:**
 
 ```tsx
-import Button from './components/Button';
+import Button from "./components/Button";
 // Loads only Button
 ```
 
@@ -35,13 +35,13 @@ import Button from './components/Button';
 
 ```tsx
 // components/index.ts (barrel file)
-export { Button } from './Button';
-export { Card } from './Card';
-export { Modal } from './Modal';
-export { Sidebar } from './Sidebar';
+export { Button } from "./Button";
+export { Card } from "./Card";
+export { Modal } from "./Modal";
+export { Sidebar } from "./Sidebar";
 
 // Usage (barrel import)
-import { Button } from './components';
+import { Button } from "./components";
 ```
 
 ## Problems with Barrel Imports
@@ -52,7 +52,7 @@ Metro includes **all exports** even if you use one:
 
 ```tsx
 // Only need Button, but entire barrel is bundled
-import { Button } from './components';
+import { Button } from "./components";
 // Card, Modal, Sidebar also included!
 ```
 
@@ -61,11 +61,11 @@ import { Button } from './components';
 All modules evaluate before returning your import:
 
 ```tsx
-import { Button } from './components';
+import { Button } from "./components";
 // JavaScript must evaluate:
 // - Button.tsx
 // - Card.tsx
-// - Modal.tsx  
+// - Modal.tsx
 // - Sidebar.tsx
 // Even though you only use Button
 ```
@@ -87,11 +87,11 @@ Replace barrel imports with direct paths:
 
 ```tsx
 // BEFORE: Barrel import
-import { Button, Card } from './components';
+import { Button, Card } from "./components";
 
 // AFTER: Direct imports
-import Button from './components/Button';
-import Card from './components/Card';
+import Button from "./components/Button";
+import Card from "./components/Card";
 ```
 
 ### Enforce with ESLint
@@ -102,13 +102,13 @@ npm install -D eslint-plugin-no-barrel-files
 
 ```javascript
 // eslint.config.js
-import noBarrelFiles from 'eslint-plugin-no-barrel-files';
+import noBarrelFiles from "eslint-plugin-no-barrel-files";
 
 export default [
   {
-    plugins: { 'no-barrel-files': noBarrelFiles },
+    plugins: { "no-barrel-files": noBarrelFiles },
     rules: {
-      'no-barrel-files/no-barrel-files': 'error',
+      "no-barrel-files/no-barrel-files": "error",
     },
   },
 ];
@@ -122,7 +122,7 @@ Enable tree shaking to automatically remove unused barrel exports.
 
 ```tsx
 // metro.config.js
-const { getDefaultConfig } = require('expo/metro-config');
+const { getDefaultConfig } = require("expo/metro-config");
 const config = getDefaultConfig(__dirname);
 
 config.transformer.getTransformOptions = async () => ({
@@ -154,12 +154,12 @@ Tree shaking built-in.
 
 ```tsx
 // BAD: Imports entire library
-import { format, addDays, isToday } from 'date-fns';
+import { format, addDays, isToday } from "date-fns";
 
 // GOOD: Direct imports
-import format from 'date-fns/format';
-import addDays from 'date-fns/addDays';
-import isToday from 'date-fns/isToday';
+import format from "date-fns/format";
+import addDays from "date-fns/addDays";
+import isToday from "date-fns/isToday";
 ```
 
 ## Library-Specific Solutions
@@ -172,16 +172,17 @@ Some libraries provide Babel plugins:
 // babel.config.js
 module.exports = {
   plugins: [
-    'react-native-paper/babel',  // Auto-transforms imports
+    "react-native-paper/babel", // Auto-transforms imports
   ],
 };
 ```
 
 Transforms:
+
 ```tsx
-import { Button } from 'react-native-paper';
+import { Button } from "react-native-paper";
 // Into:
-import Button from 'react-native-paper/lib/module/components/Button';
+import Button from "react-native-paper/lib/module/components/Button";
 ```
 
 ## Refactoring Strategy
@@ -202,7 +203,7 @@ grep -r "export { .* } from" src/
 // VS Code: Cmd+Shift+F for "from './components'"
 
 // Replace each with direct import
-import Button from './components/Button';
+import Button from "./components/Button";
 ```
 
 ### Step 3: (Optional) Keep Barrel for External API
@@ -212,11 +213,11 @@ If your package is consumed by others:
 ```tsx
 // Keep index.ts for package API
 // components/index.ts
-export { Button } from './Button';
+export { Button } from "./Button";
 
 // Internal code uses direct imports
 // src/screens/Home.tsx
-import Button from '../components/Button';
+import Button from "../components/Button";
 ```
 
 ## Migration Script Example

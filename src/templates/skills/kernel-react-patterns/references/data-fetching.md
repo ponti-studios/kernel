@@ -9,7 +9,7 @@ import { apiClient } from "@/lib/api-client";
 export function useUser(userId: string) {
   return useQuery({
     queryKey: ["users", userId],
-    queryFn: () => apiClient.users[":id"].$get({ param: { id: userId } }).then(r => r.json()),
+    queryFn: () => apiClient.users[":id"].$get({ param: { id: userId } }).then((r) => r.json()),
     staleTime: 30_000,
     enabled: !!userId,
   });
@@ -25,7 +25,7 @@ export function useUpdateUser() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data: UpdateUserInput) =>
-      apiClient.users[":id"].$patch({ param: { id: data.id }, json: data }).then(r => r.json()),
+      apiClient.users[":id"].$patch({ param: { id: data.id }, json: data }).then((r) => r.json()),
     onSuccess: (updated) => {
       queryClient.invalidateQueries({ queryKey: ["users", updated.data.id] });
       queryClient.invalidateQueries({ queryKey: ["users"] });
@@ -48,7 +48,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 function UserProfile({ userId }: { userId: string }) {
   const { data } = useSuspenseQuery({
     queryKey: ["users", userId],
-    queryFn: () => apiClient.users[":id"].$get({ param: { id: userId } }).then(r => r.json()),
+    queryFn: () => apiClient.users[":id"].$get({ param: { id: userId } }).then((r) => r.json()),
   });
   return <div>{data.data.name}</div>;
 }
@@ -58,22 +58,22 @@ function UserProfile({ userId }: { userId: string }) {
   <Suspense fallback={<Skeleton />}>
     <UserProfile userId={id} />
   </Suspense>
-</ErrorBoundary>
+</ErrorBoundary>;
 ```
 
 ## Pagination
 
-| Pattern | Use for |
-|---|---|
-| `useInfiniteQuery` with cursor | Feeds, timelines, infinite scroll |
-| `useQuery` with `page` param | Tables, paginated lists with page controls |
+| Pattern                        | Use for                                    |
+| ------------------------------ | ------------------------------------------ |
+| `useInfiniteQuery` with cursor | Feeds, timelines, infinite scroll          |
+| `useQuery` with `page` param   | Tables, paginated lists with page controls |
 
 ```typescript
 export function useUserFeed() {
   return useInfiniteQuery({
     queryKey: ["feed"],
     queryFn: ({ pageParam }) =>
-      apiClient.feed.$get({ query: { cursor: pageParam } }).then(r => r.json()),
+      apiClient.feed.$get({ query: { cursor: pageParam } }).then((r) => r.json()),
     getNextPageParam: (lastPage) => lastPage.data.nextCursor,
     initialPageParam: undefined,
   });

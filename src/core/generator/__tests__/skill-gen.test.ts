@@ -1,11 +1,11 @@
-import { describe, it, expect } from "bun:test";
-import {
-  generateSkillForTool,
-  generateSkillsForTool,
-  generateSkillsForAllTools,
-} from "../skill-gen.js";
-import { geminiAdapter, claudeAdapter, cursorAdapter } from "../../adapters/index.js";
+import { describe, expect, it } from "bun:test";
+import { claudeAdapter, githubCopilotAdapter, opencodeAdapter } from "../../adapters/index.js";
 import type { SkillTemplate } from "../../templates/types.js";
+import {
+    generateSkillForTool,
+    generateSkillsForAllTools,
+    generateSkillsForTool,
+} from "../skill-gen.js";
 const testSkill: SkillTemplate = {
   name: "test-skill",
   description: "A test skill for unit testing",
@@ -31,22 +31,22 @@ const testSkill2: SkillTemplate = {
 
 describe("generateSkillForTool", () => {
   it("path comes from adapter.getSkillPath(template.name)", () => {
-    const result = generateSkillForTool(testSkill, geminiAdapter, "1.0.0");
-    expect(result[0].path).toBe(geminiAdapter.getSkillPath(testSkill.name));
+    const result = generateSkillForTool(testSkill, opencodeAdapter, "1.0.0");
+    expect(result[0].path).toBe(opencodeAdapter.getSkillPath(testSkill.name));
   });
 
   it("content comes from adapter.formatSkill(template, version)", () => {
-    const result = generateSkillForTool(testSkill, geminiAdapter, "1.0.0");
-    expect(result[0].content).toBe(geminiAdapter.formatSkill(testSkill, "1.0.0"));
+    const result = generateSkillForTool(testSkill, opencodeAdapter, "1.0.0");
+    expect(result[0].content).toBe(opencodeAdapter.formatSkill(testSkill, "1.0.0"));
   });
 
   it("version string appears as generatedBy in output", () => {
-    const result = generateSkillForTool(testSkill, geminiAdapter, "2.3.4");
+    const result = generateSkillForTool(testSkill, opencodeAdapter, "2.3.4");
     expect(result[0].content).toContain('generatedBy: "2.3.4"');
   });
 
   it("returns a GeneratedFile with path and content", () => {
-    const result = generateSkillForTool(testSkill, geminiAdapter, "1.0.0");
+    const result = generateSkillForTool(testSkill, opencodeAdapter, "1.0.0");
     expect(result[0]).toHaveProperty("path");
     expect(result[0]).toHaveProperty("content");
   });
@@ -57,9 +57,9 @@ describe("generateSkillForTool", () => {
   });
 
   it("emits reference files next to the main skill file", () => {
-    const result = generateSkillForTool(testSkill2, geminiAdapter, "1.0.0");
+    const result = generateSkillForTool(testSkill2, opencodeAdapter, "1.0.0");
     expect(result).toHaveLength(2);
-    expect(result[1].path).toBe(".gemini/skills/second-skill/references/guides/guide.md");
+    expect(result[1].path).toBe(".opencode/skills/second-skill/references/guides/guide.md");
     expect(result[1].content).toBe("# Guide\n");
   });
 });
@@ -68,26 +68,26 @@ describe("generateSkillsForTool", () => {
   const templates = [testSkill, testSkill2];
 
   it("returns one file per template", () => {
-    const results = generateSkillsForTool(templates, geminiAdapter, "1.0.0");
+    const results = generateSkillsForTool(templates, opencodeAdapter, "1.0.0");
     expect(results).toHaveLength(templates.length + 1);
   });
 
   it("each file uses the correct skill path", () => {
-    const results = generateSkillsForTool(templates, geminiAdapter, "1.0.0");
-    expect(results[0].path).toBe(geminiAdapter.getSkillPath(testSkill.name));
-    expect(results[1].path).toBe(geminiAdapter.getSkillPath(testSkill2.name));
-    expect(results[2].path).toBe(".gemini/skills/second-skill/references/guides/guide.md");
+    const results = generateSkillsForTool(templates, opencodeAdapter, "1.0.0");
+    expect(results[0].path).toBe(opencodeAdapter.getSkillPath(testSkill.name));
+    expect(results[1].path).toBe(opencodeAdapter.getSkillPath(testSkill2.name));
+    expect(results[2].path).toBe(".opencode/skills/second-skill/references/guides/guide.md");
   });
 
   it("returns empty array for empty templates list", () => {
-    const results = generateSkillsForTool([], geminiAdapter, "1.0.0");
+    const results = generateSkillsForTool([], opencodeAdapter, "1.0.0");
     expect(results).toHaveLength(0);
   });
 });
 
 describe("generateSkillsForAllTools", () => {
   const templates = [testSkill, testSkill2];
-  const adapters = [geminiAdapter, claudeAdapter, cursorAdapter];
+  const adapters = [opencodeAdapter, claudeAdapter, githubCopilotAdapter];
 
   it("returns templates.length × adapters.length files", () => {
     const results = generateSkillsForAllTools(templates, adapters, "1.0.0");

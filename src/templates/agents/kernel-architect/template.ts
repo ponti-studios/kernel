@@ -1,8 +1,8 @@
-import type { AgentTemplate } from "../../../core/templates/types.js";
 import { parseFrontmatter } from "../../../core/templates/frontmatter.js";
-import architectAgentMarkdown from "./AGENT.md";
+import type { AgentTemplate } from "../../../core/templates/types.js";
 import { AGENT_NAMES } from "../../constants.js";
 import { ARCHITECT_AGENT_AVAILABLE_SKILLS } from "../available-skills.js";
+import architectAgentMarkdown from "./AGENT.md";
 
 const { body } = parseFrontmatter(architectAgentMarkdown);
 
@@ -32,7 +32,8 @@ export function getArchitectAgentTemplate(): AgentTemplate {
     route: "architect",
     defaultTools: ["read", "search"],
     allowedTools: ["Read", "Grep", "Glob"],
-    argumentHint: "code or architecture question (e.g., 'review the database schema', 'how should we structure the API')",
+    argumentHint:
+      "code or architecture question (e.g., 'review the database schema', 'how should we structure the API')",
     permissionMode: "plan",
     maxTurns: 30,
     memory: "project",

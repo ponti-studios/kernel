@@ -1,8 +1,8 @@
-import type { SkillTemplate } from "../../../core/templates/types.js";
 import { parseFrontmatter } from "../../../core/templates/frontmatter.js";
-import reactPatternsSkillMarkdown from "./instructions.md";
+import type { SkillTemplate } from "../../../core/templates/types.js";
 import { SKILL_NAMES } from "../../constants.js";
-import { getSkillReferences } from "../../.generated/templates.js";
+import reactPatternsSkillMarkdown from "./instructions.md";
+import { REACT_PATTERNS_REFERENCES } from "./reference-bundle.js";
 
 export function getReactPatternsSkillTemplate(): SkillTemplate {
   return {
@@ -16,7 +16,21 @@ export function getReactPatternsSkillTemplate(): SkillTemplate {
       author: "project",
       version: "1.0",
       category: "Frontend",
-      tags: ["react", "components", "hooks", "state", "performance", "patterns", "suspense", "typescript", "monorepo", "package-boundaries", "tanstack-query", "data-fetching", "mutations"],
+      tags: [
+        "react",
+        "components",
+        "hooks",
+        "state",
+        "performance",
+        "patterns",
+        "suspense",
+        "typescript",
+        "monorepo",
+        "package-boundaries",
+        "tanstack-query",
+        "data-fetching",
+        "mutations",
+      ],
     },
     when: [
       "user is building a React component or custom hook",
@@ -44,13 +58,7 @@ export function getReactPatternsSkillTemplate(): SkillTemplate {
       "Custom hook with isolated, testable logic",
       "Correct async data pattern (Suspense or inline loading state)",
     ],
-    references: getSkillReferences(
-      SKILL_NAMES.REACT_PATTERNS,
-      "references/data-fetching.md",
-      "references/package-boundaries.md",
-      "references/package-migration.md",
-      "references/package-violations.md",
-    ),
+    references: REACT_PATTERNS_REFERENCES,
     instructions: parseFrontmatter(reactPatternsSkillMarkdown).body,
   };
 }

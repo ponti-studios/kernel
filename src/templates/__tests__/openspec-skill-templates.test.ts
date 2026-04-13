@@ -2,29 +2,29 @@ import { describe, expect, it } from "bun:test";
 
 import { getDefaultSkillTemplates } from "../catalog.js";
 import { SKILL_NAMES } from "../constants.js";
+import { getChangeApplySkillTemplate } from "../skills/kernel-change-apply/template.js";
+import { getChangeArchiveSkillTemplate } from "../skills/kernel-change-archive/template.js";
+import { getChangeExploreSkillTemplate } from "../skills/kernel-change-explore/template.js";
+import { getChangeProposeSkillTemplate } from "../skills/kernel-change-propose/template.js";
 import { getGhPrErrorsSkillTemplate } from "../skills/kernel-gh-pr-errors/template.js";
-import { getOpenSpecApplyChangeSkillTemplate } from "../skills/kernel-openspec-apply-change/template.js";
-import { getOpenSpecArchiveChangeSkillTemplate } from "../skills/kernel-openspec-archive-change/template.js";
-import { getOpenSpecExploreSkillTemplate } from "../skills/kernel-openspec-explore/template.js";
-import { getOpenSpecProposeSkillTemplate } from "../skills/kernel-openspec-propose/template.js";
 
-describe("OpenSpec skill templates", () => {
+describe("Kernel skill templates", () => {
   const templates = [
     getGhPrErrorsSkillTemplate(),
-    getOpenSpecProposeSkillTemplate(),
-    getOpenSpecExploreSkillTemplate(),
-    getOpenSpecApplyChangeSkillTemplate(),
-    getOpenSpecArchiveChangeSkillTemplate(),
+    getChangeProposeSkillTemplate(),
+    getChangeExploreSkillTemplate(),
+    getChangeApplySkillTemplate(),
+    getChangeArchiveSkillTemplate(),
   ];
 
-  it("registers all OpenSpec skills in the default catalog", () => {
+  it("registers all Kernel skills in the default catalog", () => {
     const names = new Set(getDefaultSkillTemplates("extended").map((template) => template.name));
 
     expect(names.has(SKILL_NAMES.GH_PR_ERRORS)).toBe(true);
-    expect(names.has(SKILL_NAMES.OPENSPEC_PROPOSE)).toBe(true);
-    expect(names.has(SKILL_NAMES.OPENSPEC_EXPLORE)).toBe(true);
-    expect(names.has(SKILL_NAMES.OPENSPEC_APPLY_CHANGE)).toBe(true);
-    expect(names.has(SKILL_NAMES.OPENSPEC_ARCHIVE_CHANGE)).toBe(true);
+    expect(names.has(SKILL_NAMES.CHANGE_PROPOSE)).toBe(true);
+    expect(names.has(SKILL_NAMES.CHANGE_EXPLORE)).toBe(true);
+    expect(names.has(SKILL_NAMES.CHANGE_APPLY)).toBe(true);
+    expect(names.has(SKILL_NAMES.CHANGE_ARCHIVE)).toBe(true);
   });
 
   it("has non-empty instructions", () => {
@@ -41,10 +41,17 @@ describe("OpenSpec skill templates", () => {
     expect(template.instructions).toContain("first actionable error");
   });
 
-  it("OpenSpec workflow skills preserve their operational content", () => {
-    expect(getOpenSpecProposeSkillTemplate().instructions).toContain("openspec new change");
-    expect(getOpenSpecExploreSkillTemplate().instructions).toContain("Explore mode is for thinking");
-    expect(getOpenSpecApplyChangeSkillTemplate().instructions).toContain("openspec instructions apply");
-    expect(getOpenSpecArchiveChangeSkillTemplate().instructions).toContain("openspec/changes/archive");
+  it("Kernel workflow skills preserve their operational content", () => {
+    expect(getChangeProposeSkillTemplate().instructions).toContain("kernel new <name>");
+    expect(getChangeExploreSkillTemplate().instructions).toContain("Explore mode is for thinking");
+    expect(getChangeApplySkillTemplate().instructions).toContain("kernel instructions apply");
+    expect(getChangeArchiveSkillTemplate().instructions).toContain("kernel/changes/archive");
+  });
+
+  it("removes legacy layout references from kernel workflow skills", () => {
+    for (const template of templates) {
+      expect(template.instructions).not.toContain("openspec");
+      expect(template.instructions).not.toContain(".specify/");
+    }
   });
 });

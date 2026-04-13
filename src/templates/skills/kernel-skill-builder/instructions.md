@@ -66,6 +66,7 @@ The description is the ONLY content always in context. It must answer two questi
 **Pattern:** `"{Does X in third-person}. Use when {trigger-1}, {trigger-2}, or when users ask about {X}."`
 
 Rules:
+
 - Third-person subject: "Enforces...", "Guides...", "Provides...", "Manages...", "Diagnoses..."
 - Never starts with "Use when" or "I can" or imperative form ("Enforce...")
 - Includes key user terms users would naturally say ("is this ready to ship?", "break this down", "clean up")
@@ -73,6 +74,7 @@ Rules:
 - Covers WHAT it does AND WHEN to invoke it
 
 **Failure patterns:**
+
 - `"Use when validating production readiness..."` → missing third-person subject
 - `"Code review, formatting, refactoring..."` → noun phrase, no trigger language
 - `"Advanced git workflows..."` → describes content, not behavior or trigger
@@ -82,12 +84,14 @@ Rules:
 Target: under 300 lines. Hard limit: 500 lines. Above 300 lines, extract code examples to reference files.
 
 Canonical section order:
+
 1. One-sentence role statement (no heading)
 2. `## Rule` or `## Standards` — the authoritative constraints
 3. `## Process` or `## Steps` — numbered workflow (if procedural)
 4. `## Guardrails` — must/never list, always last
 
 Rules:
+
 - No project-specific package names (use `@your-org/auth`, not your actual org name)
 - No project-specific commands (`bun run lint` is fine; `bun run validate-db-imports` is not)
 - No team names, repo names, or proprietary tool names
@@ -98,16 +102,17 @@ Rules:
 
 Set these in `template.ts` — they control how platforms invoke the skill:
 
-| Field | When to set |
-|---|---|
-| `disableModelInvocation: true` | Skill has side effects: deploys code, modifies issue state, archives work, creates PRs |
-| `userInvocable: false` | Model-only auto-invoke; never a direct slash command (e.g. `kernel-conventions`) |
-| `argumentHint: "..."` | Skill benefits from a user-supplied argument (`kernel-triage`, `kernel-explore`, `kernel-propose`) |
-| `allowedTools: [...]` | Skill needs specific tools without per-use approval |
+| Field                          | When to set                                                                                        |
+| ------------------------------ | -------------------------------------------------------------------------------------------------- |
+| `disableModelInvocation: true` | Skill has side effects: deploys code, modifies issue state, archives work, creates PRs             |
+| `userInvocable: false`         | Model-only auto-invoke; never a direct slash command (e.g. `kernel-conventions`)                   |
+| `argumentHint: "..."`          | Skill benefits from a user-supplied argument (`kernel-triage`, `kernel-explore`, `kernel-propose`) |
+| `allowedTools: [...]`          | Skill needs specific tools without per-use approval                                                |
 
 ### 4. Merge Candidates
 
 Two skills are merge candidates when:
+
 - Their `when:` trigger conditions overlap significantly
 - One is a subset of the other's domain
 - Both fire in the same user context
@@ -122,6 +127,7 @@ Use `references/` when a skill has substantial code examples, migration guides, 
 Structure: `references/<topic>` — descriptive, not namespaced. Any file type supported.
 
 In `template.ts`:
+
 ```typescript
 references: getSkillReferences(
   SKILL_NAMES.YOUR_SKILL,

@@ -1,15 +1,14 @@
-import type { SkillTemplate } from "../../../core/templates/types.js";
 import { parseFrontmatter } from "../../../core/templates/frontmatter.js";
-import closeSkillMarkdown from "./instructions.md";
+import type { SkillTemplate } from "../../../core/templates/types.js";
 import { SKILL_NAMES } from "../../constants.js";
+import closeSkillMarkdown from "./instructions.md";
 
-const { frontmatter, body } = parseFrontmatter<Omit<SkillTemplate, "instructions" | "references">>(
-  closeSkillMarkdown,
-);
+const { frontmatter, body } =
+  parseFrontmatter<Omit<SkillTemplate, "instructions" | "references">>(closeSkillMarkdown);
 
 export function getCloseSkillTemplate(): SkillTemplate {
   return {
-    name: SKILL_NAMES.CLOSE,
+    name: frontmatter.name,
     profile: "extended",
     description:
       "Close out a completed project or milestone: resolve remaining open issues, write a completion summary, and create a retrospective document. Use when a project is done, a milestone has shipped, or users ask to wrap up, close, or finalize a body of work.",

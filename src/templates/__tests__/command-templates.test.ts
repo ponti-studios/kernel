@@ -7,16 +7,16 @@ describe("command templates", () => {
   const commands = getDefaultCommandTemplates();
   const skillNames = new Set(getDefaultSkillTemplates("extended").map((template) => template.name));
 
-  it("registers the expected OpenSpec and Speckit commands", () => {
+  it("registers the expected kernel change and kernel spec commands", () => {
     const names = new Set(commands.map((command) => command.name));
 
     expect(names.has(COMMAND_NAMES.GH_PR_ERRORS)).toBe(true);
-    expect(names.has(COMMAND_NAMES.OPSX_PROPOSE)).toBe(true);
-    expect(names.has(COMMAND_NAMES.OPSX_EXPLORE)).toBe(true);
-    expect(names.has(COMMAND_NAMES.OPSX_APPLY)).toBe(true);
-    expect(names.has(COMMAND_NAMES.OPSX_ARCHIVE)).toBe(true);
-    expect(names.has(COMMAND_NAMES.SPECKIT_PLAN)).toBe(true);
-    expect(names.has(COMMAND_NAMES.SPECKIT_TASKS_TO_ISSUES)).toBe(true);
+    expect(names.has(COMMAND_NAMES.CHANGE_PROPOSE)).toBe(true);
+    expect(names.has(COMMAND_NAMES.CHANGE_EXPLORE)).toBe(true);
+    expect(names.has(COMMAND_NAMES.CHANGE_APPLY)).toBe(true);
+    expect(names.has(COMMAND_NAMES.CHANGE_ARCHIVE)).toBe(true);
+    expect(names.has(COMMAND_NAMES.SPEC_PLAN)).toBe(true);
+    expect(names.has(COMMAND_NAMES.SPEC_TASKS_TO_ISSUES)).toBe(true);
   });
 
   it("keeps backedBySkill references valid", () => {
@@ -34,13 +34,22 @@ describe("command templates", () => {
     expect(command!.instructions).toContain("first actionable error");
   });
 
-  it("preserves opsx command content", () => {
-    const apply = commands.find((entry) => entry.name === COMMAND_NAMES.OPSX_APPLY);
-    const archive = commands.find((entry) => entry.name === COMMAND_NAMES.OPSX_ARCHIVE);
+  it("preserves kernel change command content", () => {
+    const apply = commands.find((entry) => entry.name === COMMAND_NAMES.CHANGE_APPLY);
+    const archive = commands.find((entry) => entry.name === COMMAND_NAMES.CHANGE_ARCHIVE);
 
-    expect(apply!.instructions).toContain("openspec instructions apply");
+    expect(apply!.instructions).toContain("kernel instructions apply");
     expect(apply!.instructions).toContain("Mark task complete");
     expect(archive!.instructions).toContain("Archive Complete");
-    expect(archive!.instructions).toContain("openspec/changes/archive");
+    expect(archive!.instructions).toContain("kernel/changes/archive");
+  });
+
+  it("fully removes legacy surfaces from command content", () => {
+    for (const command of commands) {
+      expect(command.instructions).not.toContain("openspec");
+      expect(command.instructions).not.toContain("opsx");
+      expect(command.instructions).not.toContain("speckit");
+      expect(command.instructions).not.toContain(".specify/");
+    }
   });
 });

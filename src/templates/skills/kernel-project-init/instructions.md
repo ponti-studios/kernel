@@ -2,25 +2,27 @@ Initialize a new project using the prescribed stack. Every choice below is non-n
 
 ## Prescribed Stack
 
-| Concern | Technology |
-|---|---|
-| Runtime | Bun |
-| Language | TypeScript 7 (tsgo) |
-| Monorepo | Vite+ (Vitest, Vite workspaces) |
-| Web framework | TanStack Router |
-| Backend framework | Hono |
-| Mobile framework | React Native + Expo (EAS for builds) |
-| Database query | Kysely |
-| Database migrations | Goose |
-| Styling | Tailwind CSS + CSS Modules (web); StyleSheet / NativeWind (mobile) |
-| Auth | Better-Auth |
+| Concern             | Technology                                                         |
+| ------------------- | ------------------------------------------------------------------ |
+| Runtime             | Bun                                                                |
+| Language            | TypeScript 7 (tsgo)                                                |
+| Monorepo            | Vite+ (Vitest, Vite workspaces)                                    |
+| Web framework       | TanStack Router                                                    |
+| Backend framework   | Hono                                                               |
+| Mobile framework    | React Native + Expo (EAS for builds)                               |
+| Database query      | Kysely                                                             |
+| Database migrations | Goose                                                              |
+| Styling             | Tailwind CSS + CSS Modules (web); StyleSheet / NativeWind (mobile) |
+| Auth                | Better-Auth                                                        |
 
 Never use: Express, Next.js, Remix, Prisma, Drizzle, tRPC, Webpack, Create React App, plain React Router, React Native CLI (use Expo), or any other substitute. If the user asks to use a different technology, explain the standard and proceed with the prescribed choice.
 
 ## Steps
 
 ### 1. Confirm project type
+
 Determine the shape of the project:
+
 - **Full-stack web app** — TanStack Router (frontend) + Hono (backend) + Kysely + Goose
 - **Backend service only** — Hono + Kysely + Goose
 - **Frontend only** — TanStack Router + Vite
@@ -35,6 +37,7 @@ bun init
 ```
 
 Monorepo workspace layout:
+
 ```
 apps/
   web/          # TanStack Router app
@@ -71,30 +74,33 @@ Strict mode is non-negotiable. Never disable `strict`, `noImplicitAny`, or `stri
 ### 4. Configure tooling
 
 **Vite+ (build + dev server):**
+
 ```ts
 // vite.config.ts
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-})
+});
 ```
 
 **Tailwind CSS:**
+
 ```bash
 bun add -d tailwindcss @tailwindcss/vite
 ```
 
 ```ts
 // vite.config.ts — add to plugins
-import tailwindcss from '@tailwindcss/vite'
-plugins: [react(), tailwindcss()]
+import tailwindcss from "@tailwindcss/vite";
+plugins: [react(), tailwindcss()];
 ```
 
 Use CSS Modules for component-scoped styles alongside Tailwind utility classes. Never use inline styles.
 
 **Linting and formatting:**
+
 ```bash
 bun add -d eslint @typescript-eslint/eslint-plugin prettier
 ```
@@ -102,6 +108,7 @@ bun add -d eslint @typescript-eslint/eslint-plugin prettier
 Enforce via CI — format and lint must pass before merge.
 
 **Testing:**
+
 ```bash
 bun add -d vitest @testing-library/react
 ```
@@ -123,9 +130,9 @@ bun add hono
 
 ```ts
 // src/index.ts
-import { Hono } from 'hono'
-const app = new Hono()
-export default app
+import { Hono } from "hono";
+const app = new Hono();
+export default app;
 ```
 
 ### 7. Set up Kysely + Goose (database)

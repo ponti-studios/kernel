@@ -1,11 +1,10 @@
-import type { SkillTemplate } from "../../../core/templates/types.js";
 import { parseFrontmatter } from "../../../core/templates/frontmatter.js";
-import archiveSkillMarkdown from "./instructions.md";
+import type { SkillTemplate } from "../../../core/templates/types.js";
 import { SKILL_NAMES } from "../../constants.js";
+import archiveSkillMarkdown from "./instructions.md";
 
-const { frontmatter, body } = parseFrontmatter<Omit<SkillTemplate, "instructions" | "references">>(
-  archiveSkillMarkdown,
-);
+const { frontmatter, body } =
+  parseFrontmatter<Omit<SkillTemplate, "instructions" | "references">>(archiveSkillMarkdown);
 
 export function getArchiveSkillTemplate(): SkillTemplate {
   return {

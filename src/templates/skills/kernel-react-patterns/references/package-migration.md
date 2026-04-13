@@ -5,6 +5,7 @@
 ### 1. Identify what needs to move
 
 Scan `packages/ui` for:
+
 - [ ] Imports from auth packages (`@your-org/auth`, `useSession`, etc.)
 - [ ] Imports from API/RPC packages (`@your-org/rpc`, `useMutation`, `useQuery`, etc.)
 - [ ] Imports from database packages (`@your-org/db`)
@@ -14,12 +15,12 @@ Scan `packages/ui` for:
 
 ### 2. Find the right destination
 
-| What | Where to move it |
-|---|---|
-| Web routing hooks | `apps/<web-app>/src/hooks/` |
-| Auth hooks | `packages/auth/src/hooks/` |
-| API/data hooks | `packages/rpc/src/` or `apps/<app>/src/hooks/` |
-| Feature-specific data | `packages/<feature>/src/hooks/` |
+| What                  | Where to move it                               |
+| --------------------- | ---------------------------------------------- |
+| Web routing hooks     | `apps/<web-app>/src/hooks/`                    |
+| Auth hooks            | `packages/auth/src/hooks/`                     |
+| API/data hooks        | `packages/rpc/src/` or `apps/<app>/src/hooks/` |
+| Feature-specific data | `packages/<feature>/src/hooks/`                |
 
 ### 3. Refactor the component
 
@@ -89,6 +90,7 @@ render(
 ### 6. Validate
 
 After refactoring:
+
 - [ ] Run your project's import linter / import boundary checker
 - [ ] Run `bun run lint` (or your project's lint command)
 - [ ] Update test mocks if component signature changed
@@ -117,6 +119,7 @@ const apiUrl =
 ## Refactoring Checklist
 
 **Before starting:**
+
 - [ ] Identify all forbidden imports in the component
 - [ ] Identify all routing hooks used
 - [ ] Identify environment-specific code
@@ -124,6 +127,7 @@ const apiUrl =
 - [ ] Check test files for mock cleanup
 
 **After refactoring:**
+
 - [ ] Run import linter
 - [ ] Run lint
 - [ ] Update tests (remove provider mocks, use props)

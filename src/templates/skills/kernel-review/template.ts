@@ -1,7 +1,7 @@
-import type { SkillTemplate } from "../../../core/templates/types.js";
 import { parseFrontmatter } from "../../../core/templates/frontmatter.js";
-import reviewSkillMarkdown from "./instructions.md";
+import type { SkillTemplate } from "../../../core/templates/types.js";
 import { SKILL_NAMES } from "../../constants.js";
+import reviewSkillMarkdown from "./instructions.md";
 
 export function getReviewSkillTemplate(): SkillTemplate {
   return {
@@ -49,14 +49,14 @@ export function getReviewSkillTemplate(): SkillTemplate {
     outputs: [
       "Review report with recommendation",
       "Prioritised findings list",
-      "Updated Linear issue status (done or back to in-progress)",
+      "Updated local work status or follow-up notes",
       "Refactored code with unchanged behaviour",
       "Lint-clean, formatted code",
     ],
     dependencies: [],
     disableModelInvocation: true,
-    allowedTools: ["mcp_linear_get_issue", "mcp_linear_save_issue", "mcp_linear_save_comment"],
-    argumentHint: "issue ID, PR link, or file/directory to review (optional)",
+    allowedTools: ["Read", "Grep", "Glob", "Bash"],
+    argumentHint: "work item, PR link, or file/directory to review (optional)",
     instructions: parseFrontmatter(reviewSkillMarkdown).body,
   };
 }
