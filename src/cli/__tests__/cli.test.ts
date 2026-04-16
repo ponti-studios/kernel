@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it } from "bun:test";
 import * as fs from "fs/promises";
 import * as os from "os";
 import * as path from "path";
+import packageJson from "../../../package.json";
 import { getBuiltInCatalog } from "../../core/brain/catalog.js";
 import { saveBrainConfig } from "../../core/brain/config.js";
 import { syncKernelBrain } from "../../core/brain/sync.js";
@@ -85,5 +86,6 @@ describe("program", () => {
     expect(commandNames.has("host")).toBe(true);
     expect(commandNames.has("work")).toBe(true);
     expect(program.options.some((option) => option.long === "--json")).toBe(true);
+    expect(program.version()).toBe(packageJson.version);
   });
 });

@@ -1,4 +1,4 @@
-name: Changesets
+name: Version Bump
 
 on:
   push:
@@ -9,10 +9,10 @@ concurrency:
 
 permissions:
   contents: write
-  pull-requests: write
 
 jobs:
   version:
+    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -26,8 +26,21 @@ jobs:
 
       - name: Install dependencies
         run: npm install --ignore-scripts
+      - name: Configure git author
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Create or update version PR
-        uses: changesets/action@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Bump patch version
+        run: npm version patch --no-git-tag-version
+
+      - name: Commit and push version bump
+        run: |
+          git add package.json
+          if git diff --cached --quiet; then
+            echo "No version changes to commit."
+            exit 0
+          fi
+          version=$(node -p 'JSON.parse(require("fs").readFileSync("package.json", "utf8")).version')
+          git commit -m "chore(release): bump version to v${version}"
+          git push
