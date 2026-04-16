@@ -10,38 +10,35 @@ description: Validate production readiness, confirm with the user, then deploy
   releasing a feature, coordinating database migrations, managing mobile builds,
   or diagnosing a deployment failure.
 license: MIT
-compatibility: Requires access to deployment tooling (Fly.io, EAS) and Linear
-  for verdict comments.
 metadata:
   author: project
-  version: "1.0"
+  version: "2.0"
   category: Workflow
   tags:
     - workflow
     - ship
     - deploy
     - release
-    - linear
+    - local
 when:
-  - user wants to deploy a service, release a feature, or ship a build
-  - a PR or branch is ready for production
-  - a deployment needs readiness validation before proceeding
-  - user says 'ship', 'deploy', 'release', or 'push to production'
+  - User wants to deploy a service, release a feature, or ship a build
+  - A PR or branch is ready for production
+  - A deployment needs readiness validation before proceeding
+  - User says 'ship', 'deploy', 'release', or 'push to production'
 termination:
-  - Readiness verdict delivered and written to Linear issue
+  - Readiness verdict delivered (optionally written to work item)
   - Deployment executed with chosen strategy
   - Post-deploy verification complete
 outputs:
-  - Readiness verdict (PASS / FAIL) written to Linear issue comment
+  - Readiness verdict (PASS / FAIL) report
   - Deployed release in target environment
   - Post-deploy verification summary
 dependencies:
   - kernel-review
 disableModelInvocation: true
-argumentHint: branch, PR, feature, or issue to ship
+argumentHint: branch, PR, feature, or work item to ship
 allowedTools:
-  - mcp_linear_get_issue
-  - mcp_linear_save_comment
+  - bash
 ---
 
 # kernel-ship
@@ -99,7 +96,22 @@ Ship to any environment safely. Validates production readiness first, then execu
 
 ### 3. Deliver verdict and prompt
 
-Write the verdict to the associated Linear issue comment thread.
+Write the verdict to a deployment record or associated work item (optional):
+
+```bash
+# Optional: Create a deployment record
+mkdir -p kernel/deployments
+cat > kernel/deployments/$(date +%Y%m%d-%H%M%S)-<feature>.md <<EOF
+# Deployment Verdict — $(date)
+
+**Result**: PASS / FAIL
+
+[Checklist details here]
+EOF
+
+# Or if associated with a work item, add to journal:
+echo "- $(date -u +%Y-%m-%dT%H:%M:%SZ): Deployment validation: PASS" >> kernel/work/<workId>/journal.md
+```
 
 - **FAIL** — list each blocking item with a description. Stop — do not proceed to deployment.
 - **PASS** — all items satisfied. Then ask:

@@ -114,3 +114,84 @@ If a requested design decision cannot be supported by the current standards:
 ## Bottom line
 
 This design system is meant to be precise, enforceable, and opinionated. The goal is not to allow every reasonable approach. The goal is to make the right approach obvious and repeatable.
+
+## Review checklist
+
+Fail the review if any of the following are violated:
+
+### Tokens & values
+
+- [ ] No hardcoded colors, sizes, radii, durations, z-indices, or font values
+- [ ] Platform-correct token keys used (web vs. native)
+- [ ] New token added to token files if a value was missing
+- [ ] Both light and dark mode tokens defined for any new color
+
+### Animation
+
+- [ ] All interactive animations use GSAP canonical sequences
+- [ ] Radix/headless UI states use CSS `void-anim-*` classes only
+- [ ] `reducedMotion()` guard respected
+- [ ] No animation of layout-triggering CSS properties
+- [ ] 60fps achievable on mid-range device
+
+### Typography & copy
+
+- [ ] Composed utility classes used — no raw size/weight combinations
+- [ ] Font weight ≤ 700
+- [ ] Mobile inputs ≥ 16px
+- [ ] Button labels are verb-first, sentence case
+- [ ] Error messages tell the user what to do
+
+### Color & contrast
+
+- [ ] All colors from CSS custom properties — no raw Tailwind palette
+- [ ] Text dimmed via tier token, not opacity
+- [ ] Accent and destructive never swapped
+- [ ] WCAG AA contrast met (4.5:1 body, 3:1 UI components)
+- [ ] Dark mode tested — not just light mode with `dark:` slapped on
+
+### Accessibility
+
+- [ ] Touch targets ≥ 44px × 44px
+- [ ] Focus ring uses `--color-ring`, not accent, with `border-radius: inherit`
+- [ ] `:focus` shows nothing; `:focus-visible` shows the ring
+- [ ] Modals/sheets trap focus with `aria-modal`
+- [ ] Focus returns to trigger on close
+- [ ] No `tabIndex > 0`
+- [ ] Alt text on non-decorative images
+- [ ] `aria-label` on icon-only buttons
+
+### Components & states
+
+- [ ] All required interaction states implemented
+- [ ] Loading and error states implemented where applicable
+- [ ] Component spec consulted before implementing (components.md)
+
+### Layout & responsive
+
+- [ ] Mobile-first — base styles are mobile, breakpoints layer up
+- [ ] No max-width media queries
+- [ ] Z-index from token scale only
+- [ ] Only one modal/sheet open at a time
+- [ ] Toasts portal to document body
+
+### Performance
+
+- [ ] Lists > 50 items virtualised
+- [ ] React.memo on feed row components
+- [ ] Routes lazy-loaded
+- [ ] Named icon imports only
+- [ ] Explicit width/height on images
+
+### Chat UI
+
+- [ ] `chatTokens` used for all chat-specific values
+- [ ] User messages in bubble, assistant messages plain
+- [ ] No hardcoded Tailwind color classes in chat
+- [ ] No `animate-pulse` — custom CSS class or GSAP for streaming cursor
+- [ ] Mobile: react-native-reanimated used, not `Animated` from React Native core
+- [ ] Message enter animation on mount
+- [ ] Shimmer tweens killed on data resolve
+- [ ] Composer shadow upgrade on focus
+- [ ] Actions row has 44px minimum touch targets
+- [ ] No stub components returning `null`

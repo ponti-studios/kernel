@@ -42,7 +42,7 @@ describe("kernel sync", () => {
     const claudeSkillLink = path.join(homeDir, ".claude", "skills", skillName);
     const codexSkillLink = path.join(homeDir, ".codex", "skills", skillName);
     const copilotSkillLink = path.join(homeDir, ".copilot", "skills", skillName);
-    const opencodeSkillLink = path.join(homeDir, ".config", "opencode", "skills", skillName);
+    const opencodeSkillLink = path.join(homeDir, ".opencode", "skills", skillName);
     const piSkillLink = path.join(homeDir, ".pi", "skills", skillName);
 
     expect((await fs.lstat(claudeSkillLink)).isSymbolicLink()).toBe(true);
@@ -55,7 +55,9 @@ describe("kernel sync", () => {
     expect((await fs.stat(path.join(homeDir, ".claude", "agents", `${agentName}.md`))).isFile()).toBe(true);
     expect((await fs.stat(path.join(homeDir, ".codex", "agents", `${agentName}.toml`))).isFile()).toBe(true);
     expect((await fs.stat(path.join(homeDir, ".copilot", "agents", `${agentName}.agent.md`))).isFile()).toBe(true);
-    expect((await fs.stat(path.join(homeDir, ".config", "opencode", "agents", `${agentName}.md`))).isFile()).toBe(true);
+    expect((await fs.stat(path.join(homeDir, ".opencode", "agents", `${agentName}.md`))).isFile()).toBe(true);
+
+    expect((await fs.stat(path.join(homeDir, ".opencode", "commands", "kernel-sync.md"))).isFile()).toBe(true);
   });
 
   it("removes stale legacy workflow skills and commands from enabled hosts", async () => {
@@ -87,5 +89,6 @@ describe("program", () => {
     expect(commandNames.has("doctor")).toBe(true);
     expect(commandNames.has("host")).toBe(true);
     expect(commandNames.has("work")).toBe(true);
+    expect(program.options.some((option) => option.long === "--json")).toBe(true);
   });
 });

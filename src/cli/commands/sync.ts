@@ -7,6 +7,6 @@ export function registerSyncCommand(program: Command): void {
     .command("sync")
     .description("Sync the local Kernel brain into enabled host directories")
     .action(async () => {
-      printOutput(await syncKernelBrain());
+      printOutput(await syncKernelBrain(), program.opts() as { json?: boolean });
     });
 }

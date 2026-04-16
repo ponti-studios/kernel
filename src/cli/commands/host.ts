@@ -9,6 +9,6 @@ export function registerHostCommand(program: Command): void {
     .command("list")
     .description("List known hosts and whether they are detected and enabled")
     .action(async () => {
-      printOutput(await listHostStatus());
+      printOutput(await listHostStatus(), program.opts() as { json?: boolean });
     });
 }

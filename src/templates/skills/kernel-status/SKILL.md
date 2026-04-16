@@ -4,94 +4,112 @@ kind: skill
 tags:
   - workflow
 profile: core
-description: "Report the current state of work: what is done, in-progress,
-  blocked, and next. Supports cycle/sprint progress, milestone rollups, project
-  board views, and health checks. Use when asking where things stand, what is
-  blocking progress, or what comes next."
+description: "Report the current state of work at any scope: initiatives, projects,
+  milestones, or individual work items. Shows what is done, in-progress, blocked,
+  and next. Use when asking where things stand, what is blocking progress, or what
+  comes next."
 license: MIT
-compatibility: Requires Linear access for issue, cycle, milestone, and project reads.
 metadata:
   author: project
-  version: "1.0"
+  version: "2.0"
   category: Workflow
   tags:
     - workflow
     - status
-    - board
-    - cycle
+    - progress
+    - initiative
+    - project
     - milestone
-    - linear
+    - local
 when:
   - user asks where things stand, what is blocking, or what comes next
   - a status update is needed mid-execution
-  - a milestone has been reached and work should be assessed before continuing
-  - user asks 'what's in this sprint?', 'how's the cycle going?', or 'are we on
-    track?'
+  - a milestone or project has been reached and work should be assessed
+  - user asks 'where are we?', 'what's next?', 'are we on track?', or 'what's
+    blocking us?'
 termination:
-  - Status report delivered with clear recommendation
+  - Status report delivered at the requested scope level
   - All blockers named with recommended resolutions
   - Next action is unambiguous
 outputs:
-  - Status report (on track | at risk | blocked)
-  - Optional Linear document snapshot
+  - Status report (on track | at risk | blocked) with progress metrics
+  - Recommended actions based on current state
 disableModelInvocation: false
-argumentHint: project, milestone, cycle, team, or issue ID to check
+argumentHint: initiative, project, milestone, or work item ID to check status
 allowedTools:
-  - mcp_linear_list_issues
-  - mcp_linear_list_cycles
-  - mcp_linear_list_milestones
-  - mcp_linear_list_projects
-  - mcp_linear_get_project
-  - mcp_linear_create_document
+  - bash
 ---
 
 # kernel-status
 
 Answer: _where are we and what do we need to know right now?_
 
-Reads the current state from Linear and produces a clear, actionable picture. Automatically adapts the view based on what is in scope.
+Reads the current state of work from the kernel filesystem and produces a clear, actionable picture. Automatically adapts the view based on the scope requested.
 
 ---
 
-## Step 1 — Determine the view
+## Step 1 — Determine the view and scope
 
 Ask or infer what the user wants to understand:
 
-| User intent                                         | View mode          |
-| --------------------------------------------------- | ------------------ |
-| "What's in this sprint?" / "How's the cycle going?" | **Cycle view**     |
-| "How far is this milestone / phase?"                | **Milestone view** |
-| "What are we all working on?"                       | **Board view**     |
-| "Are we on track?" / "What's blocking us?"          | **Health check**   |
+| User intent | View mode |
+| --- | --- |
+| "Where are we overall?" | **Initiative overview** |
+| "How's the project going?" / "Are we on track?" | **Project board view** |
+| "What's in this milestone?" / "How much is left?" | **Milestone progress** |
+| "What's next?" / "What should I work on?" | **Next work item** |
+| "What's blocking us?" | **Blocker report** |
 
 Multiple views can be combined in a single response.
 
 ---
 
-## Step 2 — Gather data
+## Step 2 — Gather data using kernel CLI
 
-**Cycle view**
+**Initiative overview**
 
-- `mcp_linear_list_cycles` — find the active cycle for the relevant team
-- Read all issues assigned to the cycle; group by workflow state
-- Calculate: total committed, done, in-progress, remaining, blocked count
+```bash
+kernel initiative status [initiativeId]
+kernel initiative list
+```
 
-**Milestone view**
+Read the initiative goal and brief. Identify linked projects using the filesystem:
+- Check `kernel/projects/` to find projects with matching `initiativeId`
+- For each linked project, get its status and completion
 
-- `mcp_linear_list_milestones` — list milestones for the target project
-- Read issues associated with each milestone; calculate completion percentage
+**Project board view**
 
-**Board view**
+```bash
+kernel project status [projectId]
+kernel milestone list [projectId]  # if implemented; otherwise scan filesystem
+kernel work status                 # to see all work items
+```
 
-- `mcp_linear_list_issues` — filter by project, team, parent, or label as appropriate
-- Group into: `blocked`, `in-progress`, `todo`, `done`, `cancelled`
-- Sort each bucket: priority first, most-recently-updated second, then by issue ID
+Identify all milestones in the project. For each milestone, count work items by status.
+Group work into: `done`, `in-progress`, `todo`, `blocked` buckets.
 
-**Health check**
+**Milestone progress**
 
-- Surface any `blocked` issues with their blocking relations and recommended resolutions
-- Flag `in-progress` issues with no recent activity (stale indicators)
-- Note if the active cycle or a milestone appears at risk of not completing on time
+```bash
+kernel milestone status [milestoneId]
+kernel work status
+```
+
+Read milestone goal. Scan `kernel/work/` for items with matching `milestoneId`.
+Count and calculate: total work items, done, in-progress, remaining, blocked.
+
+**Next work item**
+
+```bash
+kernel work next [milestoneId or projectId]
+```
+
+Show the next unblocked task. If no milestone/project scope given, show next task across all work.
+
+**Blocker report**
+
+Scan through `kernel/work/` items. Identify tasks marked `blocked` in their status.
+For each blocked item, check its description/journal for blocker details.
 
 ---
 
@@ -100,7 +118,7 @@ Multiple views can be combined in a single response.
 Adapt the format to the view selected. Always include:
 
 1. A status verdict: `on track | at risk | blocked`
-2. The data view (cycle breakdown, milestone progress, or board buckets)
+2. The data breakdown (project board, milestone progress, or initiative overview)
 3. Blockers with recommended resolutions — never just describe the blocker without a resolution
 4. A single clear "Next action" recommendation
 
@@ -109,35 +127,49 @@ Adapt the format to the view selected. Always include:
 ```
 ## Status: [on track | at risk | blocked]
 
-**Cycle**: <name> — X of Y done (NN%)           [if cycle scope]
-**Milestone**: <name> — X% complete              [if milestone scope]
+**Scope**: [Initiative / Project / Milestone name]
 
-### Blocked
-- [ID] <title>: <what is blocking it> — [recommended resolution]
+### Progress
+- Total items: X
+- Done: X (NN%)
+- In progress: X
+- Blocked: X
+- Todo: X
+
+### Blocked Items
+- [work-id] <title>: <what is blocking it> — [recommended resolution]
 
 ### In Progress
-- [ID] <title>
+- [work-id] <title>
 
 ### Next Up
-- [ID] <title>
+- [work-id] <title>
 
-### Done (this cycle / since last check)
-- [ID] <title>
-
-**Recommendation**: [One sentence — what should happen next and who owns it]
+**Recommendation**: [One sentence — what should happen next and who should do it]
 ```
 
 ---
 
-## Step 4 — Persist only if explicitly requested
+## Step 4 — Optionally write a status document
 
-If the user asks for a durable snapshot, write the summary to a Linear document using `mcp_linear_create_document`. Otherwise, return the status in chat only.
+If the user asks for a durable snapshot, write the summary to a local markdown file:
+
+```bash
+cat > kernel/work/status-snapshot-YYYY-MM-DD.md <<EOF
+# Status Snapshot — [date]
+
+[Copy the status report from Step 3 here]
+EOF
+```
+
+Otherwise, return the status in chat only.
 
 ---
 
 ## Guardrails
 
-- Report only what can be verified from Linear — do not speculate about progress.
+- Report only what can be verified from the kernel filesystem — do not speculate about progress.
 - Every blocker must have a recommended resolution, not just a description.
-- Do not invent statuses or relations not present in Linear.
+- Count and calculate from actual work items — do not guess at percentages.
 - The recommendation must be actionable: one sentence, one clear direction.
+- If a work item status is unclear (not properly recorded in YAML), flag it and ask for clarification.

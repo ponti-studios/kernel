@@ -21,7 +21,19 @@ async function loadSyncManifest(homePath = os.homedir()): Promise<SyncManifest> 
   if (!(await fileExists(manifestPath))) {
     return { version: 2, scopes: {} };
   }
-  return JSON.parse(await fs.readFile(manifestPath, "utf-8")) as SyncManifest;
+  const parsed = JSON.parse(await fs.readFile(manifestPath, "utf-8")) as
+    | Partial<SyncManifest>
+    | null;
+
+  if (!parsed || typeof parsed !== "object") {
+    return { version: 2, scopes: {} };
+  }
+
+  if (!parsed.scopes || typeof parsed.scopes !== "object") {
+    return { version: 2, scopes: {} };
+  }
+
+  return { version: 2, scopes: parsed.scopes };
 }
 
 async function saveSyncManifest(manifest: SyncManifest, homePath = os.homedir()): Promise<void> {

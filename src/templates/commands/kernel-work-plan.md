@@ -9,6 +9,7 @@ description: Refine the active local work item so brief.md, plan.md, and
 group: workflow
 target: work plan
 argumentHint: optional work id
+backedBySkill: kernel-plan
 ---
 
 Use this after creating a work item or whenever the plan has drifted.
@@ -37,3 +38,5 @@ What to do next:
 
 - Run `kernel-work-next` when the next unchecked task is ready to execute.
 - Run `kernel-work-status` if you only need a quick progress check.
+
+For structured planning across all hierarchy levels (initiatives, projects, milestones, and work items), use the `kernel-plan` skill directly.

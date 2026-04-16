@@ -25,8 +25,8 @@ capabilities:
   - Quality assessment
 availableSkills:
   - kernel-review
-  - kernel-map-codebase
-  - kernel-git-master
+  - kernel-locate
+  - kernel-git
 route: review
 argumentHint: "PR, branch, or code to review (e.g., 'PR #123', 'auth-module')"
 allowedTools:

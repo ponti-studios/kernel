@@ -26,8 +26,8 @@ export const HOST_DESCRIPTORS: HostDescriptor[] = [
   {
     id: "opencode",
     name: "OpenCode",
-    homeDir: path.join(".config", "opencode"),
-    projectMarker: path.join(".config", "opencode"),
+    homeDir: ".opencode",
+    projectMarker: ".opencode",
   },
   {
     id: "pi",
@@ -73,12 +73,6 @@ export async function detectInstalledHosts(
 
 export function mapProjectPathToHome(hostId: HostId, relativePath: string, homePath: string): string {
   const host = getHostDescriptor(hostId);
-  if (hostId === "opencode") {
-    const normalized = relativePath.split(/[\\/]+/).filter(Boolean);
-    if (normalized[0] === ".config" && normalized[1] === "opencode") {
-      return path.join(homePath, ...normalized);
-    }
-  }
   const parts = relativePath.split(/[\\/]+/).filter(Boolean);
   return path.join(homePath, host.homeDir, ...parts.slice(1));
 }

@@ -1,9 +1,10 @@
 import path from "path";
-import type { AgentTemplate, SkillTemplate } from "../templates/types.js";
+import type { AgentTemplate, CommandTemplate, SkillTemplate } from "../templates/types.js";
 import {
   closeSkillFrontmatter,
   formatBaseSkillFrontmatter,
   formatAgentBody,
+  formatCompatibilityCommand,
   escapeYamlValue,
 } from "./shared.js";
 import type { ToolCommandAdapter } from "./types.js";
@@ -14,11 +15,15 @@ export const opencodeAdapter: ToolCommandAdapter = {
   skillsDir: ".opencode",
 
   getAgentPath(agentName: string): string {
-    return path.join(".config", "opencode", "agents", `${agentName}.md`);
+    return path.join(".opencode", "agents", `${agentName}.md`);
   },
 
   getSkillPath(skillName: string): string {
     return path.join(".opencode", "skills", skillName, "SKILL.md");
+  },
+
+  getCommandPath(commandName: string): string {
+    return path.join(".opencode", "commands", `${commandName}.md`);
   },
 
   formatAgent(template: AgentTemplate): string {
@@ -36,5 +41,9 @@ export const opencodeAdapter: ToolCommandAdapter = {
       formatBaseSkillFrontmatter(template, version),
       template.instructions,
     );
+  },
+
+  formatCommand(template: CommandTemplate, version: string): string {
+    return formatCompatibilityCommand(template, version, "OpenCode");
   },
 };

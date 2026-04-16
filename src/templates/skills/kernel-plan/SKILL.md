@@ -4,211 +4,226 @@ kind: skill
 tags:
   - workflow
 profile: core
-description: "Create a structured work plan at any scope level: strategic
-  initiative, project, milestone, or cycle sprint. Interviews the user to
-  understand scope, then creates all Linear artifacts in the correct hierarchy
-  order. Use when proposing new work, planning a sprint, or when users say 'plan
-  this', 'create a project for', or 'break this down'."
+description: "Structure and create work plans at any scope level: strategic initiative,
+  project, milestone, or work item. Guides the user through proposal structuring,
+  interviews to gather requirements, then creates local filesystem artifacts in the
+  correct hierarchy order. Use when planning new work, breaking down goals, or when
+  users say 'plan this', 'create a project for', or 'help me think through this'."
 license: MIT
-compatibility: Requires Linear access for project, issue, milestone, and cycle creation.
 metadata:
   author: project
-  version: "1.0"
+  version: "2.1"
   category: Workflow
   tags:
     - workflow
     - plan
-    - linear
+    - planning
     - project
     - initiative
     - milestone
-    - cycle
+    - local
+    - proposal
 when:
-  - user wants to plan new work, a feature, or a sprint
+  - user wants to plan new work, a feature, or a breakdown
   - user describes a change request, product idea, or strategic goal
-  - a new project, initiative, milestone, or cycle needs to be structured in
-    Linear
-  - user says 'plan this', 'create a project for', 'break this down', or 'set up
-    a sprint'
+  - a rough idea needs to be structured before artifact creation
+  - a new initiative, project, milestone, or work item needs to be created
+  - user says 'plan this', 'create a project for', 'break this down', or 'help me
+    think through'
 termination:
-  - All requested Linear artifacts created in the correct hierarchy
-  - Blocking relations set between phases
-  - Creation summary delivered with Linear IDs and next action
+  - Proposal is reviewed and confirmed by the user
+  - All requested local artifacts created in the correct hierarchy
+  - Brief and plan files written for each scope level
+  - Creation summary delivered with file paths and next actions
 outputs:
-  - Linear project, initiative, milestone, or cycle (depending on scope)
-  - Parent issue and phased sub-issues with blocking relations (for project
-    scope)
-dependencies:
-  - kernel-research
+  - Completed proposal structured according to templates
+  - Initiative, project, milestone, and/or work item directories under kernel/
+  - Brief.md and plan.md files documenting the scope and approach
+  - Proper parent-ID linkage between hierarchy levels
 disableModelInvocation: true
-argumentHint: work to plan — goal, feature, initiative, or sprint description
+argumentHint: work to plan — goal, feature, initiative, or project description
 allowedTools:
-  - mcp_linear_list_teams
-  - mcp_linear_list_projects
-  - mcp_linear_list_issues
-  - mcp_linear_list_milestones
-  - mcp_linear_list_cycles
-  - mcp_linear_save_project
-  - mcp_linear_save_issue
-  - mcp_linear_save_milestone
+  - bash
 ---
 
 # kernel-plan
 
-Structure new work in Linear at the right level of abstraction. Supports all four planning scopes: **initiative** (cross-project strategy), **project** (time-bound deliverable), **milestone** (phase within a project), or **cycle/sprint** (iteration commitment from the backlog). Interviews the user before creating anything.
+Structure and create work plans at any level of abstraction. Supports all four scopes: **initiative** (cross-project strategy), **project** (time-bound deliverable), **milestone** (phase within a project), or **work item** (discrete task). Guides the user through proposal structuring using reference templates, then creates local filesystem artifacts using the kernel CLI. All work is confirmed by the user before artifacts are created.
 
 ---
 
 ## Step 1 — Determine scope
 
-Before asking the user anything, classify the work into one of these scopes:
+Classify the work into one of these scopes:
 
 | If the work…                                                                                   | Scope          |
 | ---------------------------------------------------------------------------------------------- | -------------- |
 | Spans multiple projects or teams, represents a long-term strategic theme, has no firm end date | **Initiative** |
 | Has a defined end state, can be delivered by one team, will contain phases or milestones       | **Project**    |
 | Is a phase or deliverable within an already-created project                                    | **Milestone**  |
-| Is a sprint-sized commitment drawn from an existing backlog                                    | **Cycle**      |
+| Is a discrete task under a milestone or project                                                | **Work Item**  |
 
-If classification is not obvious, ask:
+If the scope is unclear, ask:
 
-> "Is this a new long-term strategic theme (initiative), a time-bound deliverable (project), a phase inside an existing project (milestone), or a sprint commitment (cycle)?"
+> "Is this a long-term strategic theme (initiative), a time-bound deliverable (project), a phase inside an existing project (milestone), or a discrete work task (work item)?"
 
 ---
 
-## Step 2 — Build the information checklist
+## Step 2 — Prepare the proposal framework
 
-Before asking questions, print a to-do list of everything needed for the identified scope so the user can see what is required.
+Based on scope, set up the proposal framework using these reference templates as a guide:
+
+- **Initiative** → use `plan-template.md` as reference (scope, hierarchy, success criteria)
+- **Project** → use `parent-issue-template.md` as reference (problem, goal, success criteria)
+- **Milestone** → use `milestone-template.md` as reference (scope, purpose, deliverables, risks)
+- **Work Item** → use `task-template.md` as reference (title, description, done criteria)
+
+Present a checklist of required information based on scope:
 
 ### Initiative checklist
 
 ```
 - [ ] Initiative name and one-line strategic objective
-- [ ] Which teams or projects it spans
-- [ ] Owner and horizon (quarters, not dates)
-- [ ] Key results or success metrics
+- [ ] Which projects or areas it spans
+- [ ] Success criteria or key results
+- [ ] Any relevant context or open decisions
 ```
 
 ### Project checklist
 
 ```
 - [ ] Project name and one-sentence summary of what it delivers
-- [ ] Priority (urgent / high / medium / low)
-- [ ] Target date (or "no date")
-- [ ] Team and assignee (or "unassigned")
 - [ ] Why now — customer pain or business reason
-- [ ] Phases — rough breakdown (e.g. "schema → API → UI → tests")
-- [ ] Success criteria — how we know the project is done
+- [ ] Target date (or "no date")
+- [ ] Rough phases or breakdown (e.g. "schema → API → UI → tests")
+- [ ] Success criteria — how we know it's done
+- [ ] Key constraints or risks
 ```
 
 ### Milestone checklist
 
 ```
-- [ ] Which project this belongs to
+- [ ] Which project this milestone belongs to
 - [ ] Milestone name and goal
+- [ ] Target date
+- [ ] Key deliverables
 - [ ] Acceptance criteria
-- [ ] Estimated start / target date
+- [ ] Known blockers or dependencies
 ```
 
-### Cycle checklist
+### Work Item checklist
 
 ```
-- [ ] Team and project or backlog to draw from
-- [ ] Cycle start and end dates
-- [ ] Capacity — how many issues to commit to
-- [ ] Any must-have issues to include
+- [ ] Which milestone this work belongs to
+- [ ] Clear title describing the outcome
+- [ ] Description of what needs to happen
+- [ ] Done criteria — what signals completion
+- [ ] Any dependencies or blockers
 ```
 
 ---
 
-## Step 3 — Interview the user
+## Step 3 — Interview the user to build the proposal
 
-Ask for every unchecked item in the checklist. Rules:
+Walk through the checklist. For each item:
 
-- Ask in batches — group related questions together.
-- State reasonable defaults when obvious; ask the user to confirm rather than starting from scratch.
-- Mark items as resolved as the user answers.
-- Do not create anything until all items are resolved or the user explicitly says to proceed.
+- Explain what the section is for
+- Ask the user to provide input
+- Offer examples or defaults when helpful
+- Mark items as completed
+- Do not proceed until all items are resolved or the user explicitly says to skip
 
----
-
-## Step 4 — Confirm before creating
-
-Print a full summary and ask for confirmation:
-
-```
-Here is what I will create in Linear:
-
-[Scope: Initiative / Project / Milestone / Cycle]
-
-<Summary of all artifacts to be created, hierarchy, phases, and blocking relations>
-
-Shall I proceed?
-```
-
-Do not create anything until the user confirms.
+Rules:
+- Ask in batches — group related questions together
+- State reasonable defaults when obvious; ask for confirmation rather than starting from scratch
+- Keep a running checklist visible to the user
 
 ---
 
-## Step 5 — Create Linear artifacts
+## Step 4 — Present the proposal for confirmation
 
-Execute creation in dependency order. Each artifact requires the ID returned by the previous step.
+Render the complete proposal as a markdown document with clear headings and bullets. Show it to the user and ask:
+
+> "Here is the proposal I've structured. Is this complete and ready to create artifacts?"
+
+Make any edits the user requests. Do **not** proceed to artifact creation until the user confirms.
+
+---
+
+## Step 5 — Create local artifacts
+
+Execute creation in dependency order using the kernel CLI.
 
 ### Initiative
 
-1. `mcp_linear_list_teams` — confirm team IDs
-2. `mcp_linear_save_project` with initiative-level scope fields
-3. Link related projects under the initiative
+1. Call `kernel initiative new "<goal>"` to create the initiative
+2. Call `kernel initiative plan <initiativeId>` to set up the brief.md
 
 ### Project
 
-1. `mcp_linear_list_teams` — resolve `teamId`
-2. `mcp_linear_save_project` — create the project with `name`, `description`, `summary`, `priority`, `targetDate`, `teamIds`
-3. `mcp_linear_save_issue` — create the parent issue (problem statement + acceptance criteria), `state: in-progress`, `projectId` from step 2
-4. For each phase in sequence: `mcp_linear_save_issue` with `title: "[Phase N] <name>"`, `state: todo`, `parentId` from step 3
-5. Set blocking relations: call `mcp_linear_save_issue` with `blocks: [<next-phase-id>]` on each phase that must complete before the next
+1. If linked to an initiative, call `kernel project new "<goal>" --initiative <initiativeId>`; otherwise call `kernel project new "<goal>"`
+2. Call `kernel project plan <projectId>` to set up brief.md and plan.md
 
 ### Milestone
 
-1. `mcp_linear_list_projects` — confirm the target project ID
-2. `mcp_linear_save_milestone` with `name`, `description`, `targetDate`, `projectId`
+1. If linked to a project, call `kernel milestone new "<goal>" --project <projectId>`; otherwise call `kernel milestone new "<goal>"`
+2. Call `kernel milestone plan <milestoneId>` to set up the brief.md
 
-### Cycle
+### Work Item
 
-1. `mcp_linear_list_teams` — confirm team ID
-2. `mcp_linear_list_issues` — identify candidate issues from the backlog
-3. Assign selected issues to the cycle using the cycle's issue assignment API
+1. If linked to a milestone, call `kernel work new "<goal>" --milestone <milestoneId>`; otherwise call `kernel work new "<goal>"`
+2. Call `kernel work plan <workId>` to set up brief.md, plan.md, and tasks.md
 
 ---
 
-## Step 6 — Report
+## Step 6 — Confirm before creating
+
+Print a final summary and ask for confirmation:
+
+```
+Here is what I will create:
+
+[Scope: Initiative / Project / Milestone / Work Item]
+
+<Summary of all artifacts to be created with hierarchy and structure>
+
+Shall I proceed with artifact creation?
+```
+
+Do not create anything until the user confirms. If they want to revise the proposal, go back to Step 3.
+
+---
+
+## Step 7 — Report
 
 Return a summary of everything created:
 
 ```
 ## Created
 
-[Scope: <Initiative / Project / Milestone / Cycle>]
+[Scope: <Initiative / Project / Milestone / Work Item>]
 
 **Artifacts**:
-| Linear ID | Title | Type | State |
-| --------- | ----- | ---- | ----- |
-| TEAM-NNN  | <name> | Project | Active |
-| TEAM-NNN  | <parent title> | Issue | In Progress |
-| TEAM-NNN  | [Phase 1] <name> | Sub-issue | Todo |
-| TEAM-NNN  | [Phase 2] <name> | Sub-issue | Todo |
+| ID | Path | Type |
+| --- | --- | --- |
+| <id> | kernel/initiatives/<id> | Initiative |
+| <id> | kernel/projects/<id> | Project |
+| <id> | kernel/milestones/<id> | Milestone |
+| <id> | kernel/work/<id> | Work Item |
 
-**Blocking chain**: Phase 1 → Phase 2 → Phase 3 → …
+**Hierarchy**: Initiative → Project → Milestone → Work Item
 
-**Next action**: <Phase 1 title> — <what "in progress" means for this phase>
+**Next action**: Open the brief.md and plan.md files to refine the scope and approach.
 ```
 
 ---
 
 ## Guardrails
 
-- Never create Linear artifacts before the user confirms the plan in Step 4.
-- Sub-issues must have `parentId` set — orphan issues in a project are not acceptable.
-- Create project before parent issue; parent issue before sub-issues.
-- Set blocking relations between all adjacent phases.
-- Linear is the single source of truth — never create local markdown plans as a substitute.
+- Never skip template sections during proposal structuring — proposals must be complete before artifact creation
+- Never create artifacts before the user confirms the proposal in Step 4 AND the creation plan in Step 6
+- Always create parent artifacts before child artifacts (e.g., project before milestone)
+- The kernel CLI is the source of truth — all plan data lives in the filesystem
+- Link artifacts to their parents using the `--initiative`, `--project`, and `--milestone` flags
+- Work items inherit the hierarchy from their parent milestone
+- Keep proposals focused on **what** and **why**, not **how** — implementation details come later

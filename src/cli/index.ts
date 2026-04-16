@@ -13,6 +13,9 @@ import { fileURLToPath } from "node:url";
 import { registerDoctorCommand } from "./commands/doctor.js";
 import { registerHostCommand } from "./commands/host.js";
 import { registerInitCommand } from "./commands/init.js";
+import { registerInitiativeCommand } from "./commands/initiative.js";
+import { registerMilestoneCommand } from "./commands/milestone.js";
+import { registerProjectCommand } from "./commands/project.js";
 import { registerSyncCommand } from "./commands/sync.js";
 import { registerWorkCommand } from "./commands/work.js";
 
@@ -36,12 +39,16 @@ program
   .name("kernel")
   .description("Local brain and workflow OS for coding agents")
   .version(getVersion())
+  .option("--json", "Emit JSON output instead of human-readable output")
   .showHelpAfterError();
 
 registerInitCommand(program);
 registerSyncCommand(program);
 registerDoctorCommand(program);
 registerHostCommand(program);
+registerInitiativeCommand(program);
+registerProjectCommand(program);
+registerMilestoneCommand(program);
 registerWorkCommand(program);
 
 export { program };

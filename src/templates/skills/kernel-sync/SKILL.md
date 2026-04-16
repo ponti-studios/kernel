@@ -5,86 +5,108 @@ tags:
   - workflow
   - kernel
 profile: core
-description: Reconciles Linear issue tracking with what actually happened —
-  updates stale in-progress issues, marks completed work done, and fills in
-  missing issue records. Use when the board has drifted from reality, work was
-  completed without updates, or users ask to sync or clean up the board.
+description: Reconciles kernel work item tracking with what actually happened —
+  updates stale work items, marks completed work done, and fills in missing work
+  records. Use when work items have drifted from reality, work was completed without
+  updates, or users ask to sync or clean up.
 license: MIT
-compatibility: Requires Linear access for issue reads, comments, and state updates.
 metadata:
   author: project
-  version: "1.0"
+  version: "2.0"
   category: Workflow
   tags:
     - workflow
     - sync
     - tasks
     - reconcile
+    - local
 when:
-  - Issues are stuck in "in-progress" with no recent activity
-  - work was completed without updating issues
-  - the board state does not match the codebase
-  - before starting a new implementation session
+  - Work items are stuck with no recent activity
+  - Work was completed without updating work items
+  - The work item state does not match the codebase
+  - Before starting a new implementation session
 applicability:
-  - Use when Linear issue state has drifted from the actual state of the codebase
-  - Use to audit and reconcile stale, missing, or mis-classified issues
+  - Use when work item state has drifted from the actual state of the codebase
+  - Use to audit and reconcile stale, missing, or mis-classified work items
 termination:
-  - All in-progress issues classified and transitioned correctly
-  - Undocumented work back-filled in Linear
+  - All stale/incomplete work items classified and updated
+  - Undocumented work back-filled in kernel system
   - Sync report delivered
 outputs:
-  - Updated Linear issue statuses and comments
-  - Back-filled Linear issues for undocumented work
+  - Updated kernel work item statuses and journals
+  - Back-filled work items for undocumented work
   - Sync summary report
 disableModelInvocation: true
 allowedTools:
-  - mcp_linear_list_issues
-  - mcp_linear_get_issue
-  - mcp_linear_save_issue
-  - mcp_linear_save_comment
+  - bash
 ---
 
 # kernel-sync
 
-Reconcile Linear issue state with the current state of the codebase. This skill reports drift and presents recommendations — it never auto-creates or auto-transitions issues without the user confirming.
+Reconcile kernel work item state with the current state of the codebase. This skill reports drift and presents recommendations — it never auto-updates items without user confirming.
 
 ---
 
-## Step 1 — Collect current project state
+## Step 1 — Collect current work state
 
-- `mcp_linear_list_issues` with `state: in-progress` — find currently claimed work.
-- `mcp_linear_list_issues` with `state: todo` — find queued work in scope.
+List all work items and check their status:
+
+```bash
+# Find all work items
+ls -la kernel/work/
+
+# Check for recent changes
+for dir in kernel/work/*/; do
+  workId=$(basename "$dir")
+  updatedAt=$(grep "updatedAt:" "$dir/work.yaml" | sed 's/.*: //')
+  echo "$workId: $updatedAt"
+done | sort
+```
 
 ---
 
-## Step 2 — Audit each in-progress issue
+## Step 2 — Audit work items
 
-For every issue currently marked `in-progress`:
+For every work item:
 
-- Read the issue description, comments, and acceptance criteria.
-- Search the codebase for evidence the work is complete (relevant files changed, tests passing, feature present).
+- Read the work item metadata, acceptance criteria, and journal
+- Search the codebase for evidence the work is complete (files changed, tests passing, feature present)
 - Classify as one of:
 
-| Classification            | Criteria                                          |
-| ------------------------- | ------------------------------------------------- |
-| **Done**                  | Work is complete and verified in the codebase     |
-| **Stale**                 | No recent codebase activity; no progress evidence |
-| **Blocked**               | Work started but stopped for a known reason       |
-| **Genuinely In Progress** | Active work is happening; leave as-is             |
+| Classification | Criteria |
+| --- | --- |
+| **Done** | Work is complete and verified in the codebase |
+| **Stale** | No recent codebase activity; no progress evidence |
+| **Blocked** | Work started but stopped for a known reason |
+| **Genuinely In Progress** | Active work is happening; leave as-is |
 
 ---
 
-## Step 3 — Audit the todo queue for orphans
+## Step 3 — Audit for orphaned work items
 
-- Identify any `todo` issues that have no `parentId` but belong to an existing parent or project scope.
-- Note these as candidates for re-parenting.
+Identify any work items with no clear parent or milestone link but that belong to an existing project:
+
+```bash
+# Find work items without milestoneId
+grep -L "milestoneId:" kernel/work/*/work.yaml
+```
+
+Note these as candidates for re-parenting.
 
 ---
 
 ## Step 4 — Surface git drift
 
-- Check recent git commits and changed files for meaningful work with no corresponding Linear issue.
-- Do **not** create issues automatically. Collect the list of undocumented changes and present it to the user.
+Check recent git commits for meaningful work with no corresponding work item:
+
+```bash
+git log --oneline -20 | head -20
+# Check which commits touch which areas
+git diff HEAD~10..HEAD --stat
+```
+
+- Do **not** create work items automatically
+- Collect the list of undocumented changes and present it to the user
 
 ---
 
@@ -95,49 +117,56 @@ Before making any changes, show the user a complete drift report:
 ```
 ## Sync Report
 
-### Recommended transitions
-| Issue ID | Title | Current state | Recommended | Reason |
+### Recommended work item updates
+| Work ID | Title | Current state | Recommended | Reason |
 |---|---|---|---|---|
-| TEAM-NNN | <title> | in-progress | done | Work verified in <file> |
-| TEAM-NNN | <title> | in-progress | todo | No codebase activity found |
-| TEAM-NNN | <title> | in-progress | blocked | Blocker found: <description> |
+| work-123 | <title> | todo | done | Work verified in <file> |
+| work-456 | <title> | todo | blocked | Blocker found: <description> |
 
-### Orphaned issues (no parentId)
-| Issue ID | Title | Suggested parent |
+### Orphaned work items (no milestone)
+| Work ID | Title | Suggested parent |
 |---|---|---|
-| TEAM-NNN | <title> | TEAM-NNN (<parent title>) |
+| work-789 | <title> | milestone-abc |
 
-### Undocumented git activity (no Linear issue found)
+### Undocumented git activity (no work item)
 | Commit / file | Description | Suggested action |
 |---|---|---|
-| <hash> | <commit message> | Create issue? Skip? |
+| <hash> | <message> | Create work item? Skip? |
 
 Shall I apply these changes? (yes / no / select)
 ```
 
-Wait for the user to confirm before applying any transitions.
+Wait for the user to confirm before applying any updates.
 
 ---
 
 ## Step 6 — Apply confirmed changes
 
-For each transition the user approves:
+For each update the user approves:
 
-- `mcp_linear_save_issue` — apply the state transition
-- `mcp_linear_save_comment` — add a brief comment explaining the change
-- For any undocumented work the user wants to capture: `mcp_linear_save_issue` with `state: done`
+```bash
+# Mark work item as done:
+kernel work done <workId>
+
+# Add journal entry to explain the sync:
+echo "- $(date -u +%Y-%m-%dT%H:%M:%SZ): Synced with codebase verification" >> kernel/work/<workId>/journal.md
+
+# For undocumented work the user wants to capture:
+kernel work new "<goal>" --milestone <milestoneId>
+```
 
 ---
 
 ## Step 7 — Final report
 
-Summarise what was changed: how many issues transitioned, any issues re-parented, and any undocumented work captured.
+Summarize what was changed: how many work items transitioned, any work items re-parented, and any undocumented work captured.
 
 ---
 
 ## Guardrails
 
-- Never transition an issue to `done` without codebase evidence.
-- Never auto-create issues for undocumented git activity — present candidates first and let the user decide.
-- Do not delete or cancel issues during sync; flag them for human review.
-- Run before starting a new implementation session to prevent double-claiming work.
+- Never transition a work item to done without codebase evidence
+- Never auto-create work items for undocumented git activity — present candidates first
+- Do not delete or archive work items during sync; flag them for human review
+- Run before starting a new implementation session to prevent double-claiming work
+- Every change must have a journal entry explaining why

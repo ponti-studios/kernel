@@ -4,104 +4,118 @@ kind: skill
 tags:
   - workflow
 profile: core
-description: Execute implementation work from Linear issues one at a time,
-  following priority and blocking order. Updates issue state in Linear before
-  and after every unit of work. Use when tasks are ready for implementation, or
-  when users say 'start on this', 'build', 'implement', or 'do this'.
+description: Execute implementation work from kernel work items one at a time,
+  following priority and parent hierarchy. Updates work item state before and after
+  every unit of work. Use when tasks are ready for implementation, or when users say
+  'start on this', 'build', 'implement', or 'do this'.
 license: MIT
-compatibility: Requires Linear access for issue reads, state updates, and comment writes.
 metadata:
   author: project
-  version: "1.0"
+  version: "2.0"
   category: Workflow
   tags:
     - workflow
     - execute
     - implement
-    - linear
+    - local
     - tasks
 when:
-  - user wants to implement work from an issue or sub-issue
+  - user wants to implement work from a work item or sub-item
   - there is an unblocked task ready for implementation
-  - user says 'work on', 'implement', 'build', 'start', or 'do this' for an issue
+  - user says 'work on', 'implement', 'build', 'start', or 'do this' for a work item
 termination:
-  - All issues in scope implemented, verified, and marked done in Linear
-  - "Issue state reflects reality: done or blocked with comment trail"
+  - All work items in scope implemented, verified, and marked done
+  - Work item state reflects reality (done or blocked with journal trail)
 outputs:
   - Implemented code changes
-  - Updated Linear issue states and completion comments
+  - Updated kernel work item states and completion journal entries
 dependencies:
-  - kernel-research
+  - kernel-investigate
   - kernel-plan
 disableModelInvocation: true
-argumentHint: issue ID, project ID, or scope to execute
+argumentHint: work item ID, milestone ID, or scope to execute
 allowedTools:
-  - mcp_linear_list_teams
-  - mcp_linear_list_issues
-  - mcp_linear_get_issue
-  - mcp_linear_save_issue
-  - mcp_linear_save_comment
+  - bash
 ---
 
 # kernel-execute
 
-Implement work from Linear issues. Work on exactly one issue at a time. Every state change must be written back to Linear immediately.
+Implement work from kernel work items. Work on exactly one item at a time. Every state change must be written to the kernel system immediately.
 
 ---
 
 ## Execution Loop
 
-Repeat this loop for each issue until the selected scope is complete or blocked.
+Repeat this loop for each work item until the selected scope is complete or blocked.
 
-### 0. Orient (first issue only)
+### 0. Orient (first work item only)
 
-- Identify the target scope: a project, parent issue, or single issue ID.
-- Read all `state: todo` issues in scope to confirm the full queue before starting.
-- Confirm the first issue has no unresolved blocking relations. If it does, surface them and stop.
+Identify the target scope — a milestone, project, or single work item ID:
 
-### 1. Select the next issue
+```bash
+# Find all todo work items in scope
+grep -r "done: false" kernel/work/*/work.yaml
+# Or for a specific milestone:
+grep -r "milestoneId: <milestoneId>" kernel/work/*/work.yaml
+```
+
+- Confirm the first work item has no unresolved parent blockers
+- If parent milestone/project is not done, check if that's blocking this work
+- If blockers exist, surface them and stop
+
+### 1. Select the next work item
 
 Use this priority order:
 
-**a. Relations-first (explicit ordering)**
-Read the most recently completed issue. If it has `blocks` relations, those issues are now unblocked — pick the highest-priority one.
+**a. Parent order (explicit sequencing)**
+If working within a milestone, check the work item order in the milestone's plan. Pick the next unblocked item in sequence.
 
-**b. Sibling sub-issues (implicit ordering)**
-If the completed issue has a `parentId`, read sibling child issues with the same parent and `state: todo`. Pick the highest-priority unstarted sibling.
+**b. Sibling work items (implicit ordering)**
+Read sibling work items under the same milestone or parent. Pick the highest-priority unstarted one.
 
-**c. Project backlog fallback**
-Read all `state: todo` issues in the target project, ordered by priority. Pick the top unblocked issue.
+**c. Backlog fallback**
+List all `done: false` work items in scope, ordered by parent priority. Pick the top unblocked one.
 
-Before claiming, re-read the candidate issue to confirm no unresolved blocking relations.
+Before claiming, re-read the candidate work item to confirm no parent-level blockers.
 
-### 2. Claim the issue
+### 2. Claim the work item
 
-- `mcp_linear_save_issue` — transition `state` to `in-progress` before writing a single line of code.
-- Do not start implementation until the state update is confirmed.
+```bash
+kernel work plan <workId>
+```
+
+- This updates the work item's `updatedAt` timestamp
+- Add a journal entry: "Started implementation"
+- Do not start coding until the file update is confirmed
 
 ### 3. Implement and verify
 
-- Implement only what the issue's acceptance criteria describe — nothing more, nothing less.
-- Add or update tests that prove the acceptance criteria are met.
-- Do not refactor surrounding code, add docstrings, or fix unrelated lint. Separate concerns go in a new issue.
-- Run type-check, lint, and tests. All must pass before marking done.
-- If a blocker surfaces mid-implementation: stop, `mcp_linear_save_comment` to explain it, transition to **Blocked** via `mcp_linear_save_issue`, and do not continue.
+- Implement only what the work item's acceptance criteria describe — nothing more, nothing less
+- Add or update tests that prove the acceptance criteria are met
+- Do not refactor surrounding code, add docstrings, or fix unrelated lint. Separate concerns go in a new work item
+- Run type-check, lint, and tests. All must pass before marking done
+- If a blocker surfaces mid-implementation: add a journal entry explaining it, and stop work on this item
 
-### 4. Complete the issue
+### 4. Complete the work item
 
-- `mcp_linear_save_comment` — add a completion note: what changed, why, files touched, follow-up issues if any.
-- `mcp_linear_save_issue` — transition `state` to `done` only after all checks pass.
+```bash
+kernel work done <workId>
+```
 
-### 5. Move to the next issue
+- This marks the task as complete and updates `updatedAt`
+- Add a completion journal entry: what changed, files touched, follow-up work items if any
 
-- Return to Step 1 only after the current issue is `done`.
-- Never hold more than one issue `in-progress` simultaneously.
+### 5. Move to the next work item
+
+- Return to Step 1 only after the current item is marked done
+- Never hold more than one work item in active implementation simultaneously
 
 ---
 
 ## Guardrails
 
-- One issue `in-progress` at a time. Finish or block before starting the next.
-- Claim `in-progress` before coding. Mark `done` only after verification passes.
-- If scope beyond the current issue is discovered, create a new issue — do not expand the current one.
-- Linear is the source of truth — do not track state in chat comments or local notes.
+- One work item at a time. Finish or block before starting the next
+- Use `kernel work plan` to claim. Use `kernel work done` to mark complete
+- If scope beyond the current item is discovered, create a new work item — do not expand the current one
+- The kernel filesystem is the source of truth — do not track state in chat comments or local notes
+- Every state change must be persisted to the filesystem immediately

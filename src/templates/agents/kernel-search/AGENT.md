@@ -26,8 +26,8 @@ capabilities:
   - History analysis
   - Knowledge retrieval
 availableSkills:
-  - kernel-git-master
-  - kernel-map-codebase
+  - kernel-git
+  - kernel-locate
   - kernel-project-setup
 route: research
 argumentHint: what to search for (e.g., 'auth middleware', 'user model', 'API errors')

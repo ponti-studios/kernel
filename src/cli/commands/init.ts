@@ -7,6 +7,6 @@ export function registerInitCommand(program: Command): void {
     .command("init")
     .description("Initialize the local Kernel brain and sync enabled hosts")
     .action(async () => {
-      printOutput(await initializeKernel());
+      printOutput(await initializeKernel(), program.opts() as { json?: boolean });
     });
 }

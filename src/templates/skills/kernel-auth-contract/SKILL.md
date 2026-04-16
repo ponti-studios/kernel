@@ -4,7 +4,6 @@ kind: skill
 tags:
   - backend
   - auth
-  - database
 profile: extended
 description: Defines and enforces the authentication and authorization contract
   for apps and services. Use when implementing login, session management, token

@@ -5,12 +5,7 @@ tags:
   - frontend
   - design
 profile: extended
-description: Enforces the project design system when designing, writing,
-  reviewing, or modifying any frontend UI code - tokens, animations,
-  accessibility, responsive layout, performance, and chat UI. Use when building
-  UI components, styling views, reviewing frontend code for design compliance,
-  or when users ask about design system rules. This skill is prescriptive,
-  standards-heavy, and does not support Next.js.
+description: Design specialist for building production-grade UIs with design system compliance. Maps user flows, implements components, enforces tokens/animations/accessibility, verifies implementation against design specs. Use when building UI components, reviewing designs, or implementing interactive patterns. Prescriptive standards-heavy approach focused on React web and React Native (Next.js not supported).
 license: MIT
 compatibility: "Supported frontend stack: React web and React Native. Next.js is
   not supported."
@@ -37,6 +32,10 @@ metadata:
     - motion
     - chat
 when:
+  - building a new UI component, page, or screen
+  - iterating on design quality and user experience
+  - verifying implementation matches design specs
+  - mapping user flows and edge cases
   - user is building or reviewing UI components
   - user is writing or modifying a React component (web or React Native)
   - user is adding or changing CSS or Tailwind classes
@@ -68,21 +67,35 @@ applicability:
   - Use when implementing any chat UI surface (bubbles, composer, transcript,
     shimmer)
 termination:
+  - Design is production-ready and matches specs
   - Component implemented with all required states and correct tokens
-  - Animation implemented using canonical GSAP sequences with reduced-motion
-    guard
+  - Animation implemented using canonical GSAP sequences with reduced-motion guard
   - Frontend UI is responsive and accessible across supported breakpoints
+  - User flows mapped and edge cases handled
   - Review complete with all checklist items verified
   - Token added to token files if a value was missing
 outputs:
   - React component code (web or native) aligned to the design system
+  - Component hierarchy or flow description
+  - Identified UI issues and accessibility concerns
   - Frontend layout and styling guidance
   - GSAP animation using canonical sequences
   - Token additions in the project token files if a value was missing
   - Review checklist result with pass/fail for each rule
+  - Recommended fixes with concrete guidance
+  - Implementation verified against design specs
 ---
 
-You are enforcing the project design system. This is not a style guide — it is law. You do not separate "design" from "implementation". Component architecture, layout, styling, motion, accessibility, and polish are one job.
+You are the design specialist. Your job is to produce production-grade UI work and enforce the project design system. This is not a style guide — it is law. You do not separate "design" from "implementation". Component architecture, layout, styling, motion, accessibility, and polish are one job.
+
+## Your Workflow
+
+1. **Confirm scope** — Understand the user goal, target platform (web or native), and any design source material.
+2. **Map flows** — Trace user flows and identify edge cases before implementing.
+3. **Build structure** — Implement component structure and architecture before polishing visuals.
+4. **Enforce system** — Apply design tokens, animations, accessibility rules, and responsive patterns.
+5. **Verify quality** — Check accessibility, responsiveness, and match against design specs.
+6. **Report findings** — Call out issues with rationale and provide actionable fixes.
 
 Before writing any UI code, read all six reference files emitted alongside this skill:
 
@@ -219,83 +232,4 @@ Execute with precision. Never produce a layout that looks like a default templat
 
 ---
 
-## Review checklist
-
-Fail the review if any of the following are violated:
-
-### Tokens & values
-
-- [ ] No hardcoded colors, sizes, radii, durations, z-indices, or font values
-- [ ] Platform-correct token keys used (web vs. native)
-- [ ] New token added to token files if a value was missing
-- [ ] Both light and dark mode tokens defined for any new color
-
-### Animation
-
-- [ ] All interactive animations use GSAP canonical sequences
-- [ ] Radix/headless UI states use CSS `void-anim-*` classes only
-- [ ] `reducedMotion()` guard respected
-- [ ] No animation of layout-triggering CSS properties
-- [ ] 60fps achievable on mid-range device
-
-### Typography & copy
-
-- [ ] Composed utility classes used — no raw size/weight combinations
-- [ ] Font weight ≤ 700
-- [ ] Mobile inputs ≥ 16px
-- [ ] Button labels are verb-first, sentence case
-- [ ] Error messages tell the user what to do
-
-### Color & contrast
-
-- [ ] All colors from CSS custom properties — no raw Tailwind palette
-- [ ] Text dimmed via tier token, not opacity
-- [ ] Accent and destructive never swapped
-- [ ] WCAG AA contrast met (4.5:1 body, 3:1 UI components)
-- [ ] Dark mode tested — not just light mode with `dark:` slapped on
-
-### Accessibility
-
-- [ ] Touch targets ≥ 44px × 44px
-- [ ] Focus ring uses `--color-ring`, not accent, with `border-radius: inherit`
-- [ ] `:focus` shows nothing; `:focus-visible` shows the ring
-- [ ] Modals/sheets trap focus with `aria-modal`
-- [ ] Focus returns to trigger on close
-- [ ] No `tabIndex > 0`
-- [ ] Alt text on non-decorative images
-- [ ] `aria-label` on icon-only buttons
-
-### Components & states
-
-- [ ] All required interaction states implemented
-- [ ] Loading and error states implemented where applicable
-- [ ] Component spec consulted before implementing (components.md)
-
-### Layout & responsive
-
-- [ ] Mobile-first — base styles are mobile, breakpoints layer up
-- [ ] No max-width media queries
-- [ ] Z-index from token scale only
-- [ ] Only one modal/sheet open at a time
-- [ ] Toasts portal to document body
-
-### Performance
-
-- [ ] Lists > 50 items virtualised
-- [ ] React.memo on feed row components
-- [ ] Routes lazy-loaded
-- [ ] Named icon imports only
-- [ ] Explicit width/height on images
-
-### Chat UI
-
-- [ ] `chatTokens` used for all chat-specific values
-- [ ] User messages in bubble, assistant messages plain
-- [ ] No hardcoded Tailwind color classes in chat
-- [ ] No `animate-pulse` — custom CSS class or GSAP for streaming cursor
-- [ ] Mobile: react-native-reanimated used, not `Animated` from React Native core
-- [ ] Message enter animation on mount
-- [ ] Shimmer tweens killed on data resolve
-- [ ] Composer shadow upgrade on focus
-- [ ] Actions row has 44px minimum touch targets
-- [ ] No stub components returning `null`
+Run the review checklist in `references/standards.md` before marking any component done.

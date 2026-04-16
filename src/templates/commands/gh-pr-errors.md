@@ -6,7 +6,7 @@ tags:
   - debugging
 description: gh-pr-errors command
 group: specialist
-backedBySkill: kernel-gh-pr-errors
+backedBySkill: kernel-git
 allowedTools:
   - Bash
   - Read
@@ -16,7 +16,7 @@ allowedTools:
 
 Check the latest GitHub Actions errors for the open pull request on the current branch.
 
-Use the `kernel-gh-pr-errors` skill.
+Use the `kernel-git` skill.
 
 After running the skill:
 

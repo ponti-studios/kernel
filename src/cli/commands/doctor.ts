@@ -7,6 +7,6 @@ export function registerDoctorCommand(program: Command): void {
     .command("doctor")
     .description("Diagnose the local Kernel brain and generated host output")
     .action(async () => {
-      printOutput(await doctorKernel());
+      printOutput(await doctorKernel(), program.opts() as { json?: boolean });
     });
 }

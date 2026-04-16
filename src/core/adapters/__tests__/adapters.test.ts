@@ -42,7 +42,7 @@ const testAgentTemplate: AgentTemplate = {
   compatibility: "Works with all workflows",
   metadata: { author: "project", version: "1.0", category: "Orchestration", tags: ["planning"] },
   defaultTools: ["read", "search"],
-  availableSkills: [SKILL_NAMES.GIT_MASTER, SKILL_NAMES.DESIGN],
+  availableSkills: [SKILL_NAMES.GIT, SKILL_NAMES.DESIGN],
 };
 
 const nativeAgentSupport: Record<string, boolean> = {
@@ -130,7 +130,13 @@ describe("OpenCode Adapter", () => {
 
   it("generates correct agent path", () => {
     expect(opencodeAdapter.getAgentPath!(AGENT_NAMES.PLAN)).toBe(
-      ".config/opencode/agents/kernel-plan.md",
+      ".opencode/agents/kernel-plan.md",
+    );
+  });
+
+  it("generates correct command path", () => {
+    expect(opencodeAdapter.getCommandPath!("kernel-sync")).toBe(
+      ".opencode/commands/kernel-sync.md",
     );
   });
 
@@ -139,6 +145,24 @@ describe("OpenCode Adapter", () => {
     expect(result).toContain("description:");
     expect(result).toContain("mode: subagent");
     expect(result).toContain("You are a planning agent.");
+  });
+
+  it("formats compatibility commands", () => {
+    const result = opencodeAdapter.formatCommand!(
+      {
+        name: "kernel-sync",
+        description: "Sync kernel artifacts",
+        instructions: "Run the sync workflow.",
+        target: "sync",
+        kind: "command",
+        tags: ["workflow"],
+      },
+      "1.0.0",
+    );
+
+    expect(result).toContain("native-command: false");
+    expect(result).toContain("tool: OpenCode");
+    expect(result).toContain("kernel sync");
   });
 });
 
@@ -229,7 +253,7 @@ describe("Claude formatAgent", () => {
     const result = claudeAdapter.formatAgent!(testAgentTemplate, "1.0.0");
     const frontmatter = result.split("---")[1];
     expect(frontmatter).toContain("skills:");
-    expect(frontmatter).toContain(SKILL_NAMES.GIT_MASTER);
+    expect(frontmatter).toContain(SKILL_NAMES.GIT);
     expect(frontmatter).toContain(SKILL_NAMES.DESIGN);
   });
 
@@ -300,7 +324,7 @@ describe("Codex formatAgent", () => {
   it("maps availableSkills to [[skills.config]] entries", () => {
     const result = codexAdapter.formatAgent!(testAgentTemplate, "1.0.0");
     expect(result).toContain("[[skills.config]]");
-    expect(result).toContain(`.codex/skills/${SKILL_NAMES.GIT_MASTER}/SKILL.md`);
+    expect(result).toContain(`.codex/skills/${SKILL_NAMES.GIT}/SKILL.md`);
     expect(result).toContain(`.codex/skills/${SKILL_NAMES.DESIGN}/SKILL.md`);
   });
 
@@ -328,8 +352,8 @@ describe("Codex formatAgent", () => {
 
 describe("Codex formatSkill", () => {
   it("uses .codex/skills/<name>/SKILL.md path", () => {
-    expect(codexAdapter.getSkillPath(SKILL_NAMES.GIT_MASTER)).toBe(
-      ".codex/skills/kernel-git-master/SKILL.md",
+    expect(codexAdapter.getSkillPath(SKILL_NAMES.GIT)).toBe(
+      ".codex/skills/kernel-git/SKILL.md",
     );
   });
 
@@ -461,7 +485,7 @@ describe("GitHub Copilot formatAgent", () => {
     const result = githubCopilotAdapter.formatAgent!(testAgentTemplate, "1.0.0");
     const body = result.split("---")[2];
     expect(body).toContain("## Available skills");
-    expect(body).toContain(`- ${SKILL_NAMES.GIT_MASTER}`);
+    expect(body).toContain(`- ${SKILL_NAMES.GIT}`);
     expect(body).toContain(`- ${SKILL_NAMES.DESIGN}`);
   });
 

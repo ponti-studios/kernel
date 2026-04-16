@@ -52,6 +52,9 @@ export async function resolveWorkProject(startDir = process.cwd()): Promise<Work
   return {
     rootDir,
     kernelDir: join(rootDir, "kernel"),
+    initiativeDir: join(rootDir, "kernel", "initiatives"),
+    projectsDir: join(rootDir, "kernel", "projects"),
+    milestonesDir: join(rootDir, "kernel", "milestones"),
     workDir: join(rootDir, "kernel", "work"),
     archiveDir: join(rootDir, "kernel", "work", "archive"),
     dotKernelDir: join(rootDir, ".kernel"),
@@ -60,6 +63,9 @@ export async function resolveWorkProject(startDir = process.cwd()): Promise<Work
 }
 
 async function ensureWorkLayout(project: WorkProject): Promise<void> {
+  await ensureDir(project.initiativeDir);
+  await ensureDir(project.projectsDir);
+  await ensureDir(project.milestonesDir);
   await ensureDir(project.workDir);
   await ensureDir(project.archiveDir);
   await ensureDir(project.dotKernelDir);
@@ -150,8 +156,25 @@ async function resolveWorkId(project: WorkProject, workId?: string): Promise<str
   throw new Error("No active work item found. Run `kernel work new <goal>` or pass `kernel work status <workId>`.");
 }
 
-export async function createWork(goal: string, startDir = process.cwd()) {
-  const project = await resolveWorkProject(startDir);
+export async function createWork(
+  goal: string,
+  optsOrStartDir?: { milestoneId?: string; projectId?: string; initiativeId?: string } | string,
+  startDir?: string,
+) {
+  // Handle backward compatibility: if optsOrStartDir is a string, it's the startDir
+  let resolvedOpts: { milestoneId?: string; projectId?: string; initiativeId?: string } = {};
+  let resolvedStartDir = process.cwd();
+
+  if (typeof optsOrStartDir === "string") {
+    resolvedStartDir = optsOrStartDir;
+  } else if (optsOrStartDir && typeof optsOrStartDir === "object") {
+    resolvedOpts = optsOrStartDir;
+    resolvedStartDir = startDir || process.cwd();
+  }
+
+  const opts = resolvedOpts;
+
+  const project = await resolveWorkProject(resolvedStartDir);
   await ensureWorkLayout(project);
   const baseId = slugify(goal) || "work";
   let workId = baseId;
@@ -166,6 +189,9 @@ export async function createWork(goal: string, startDir = process.cwd()) {
     id: workId,
     goal,
     status: "active",
+    milestoneId: opts.milestoneId,
+    projectId: opts.projectId,
+    initiativeId: opts.initiativeId,
     createdAt: now,
     updatedAt: now,
     tasks: defaultTasks(),
