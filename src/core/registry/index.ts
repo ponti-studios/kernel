@@ -1,9 +1,12 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
+import { z } from "zod";
 import type {
   AgentTemplate,
+  AgentHandoff,
   CommandTemplate,
   SkillTemplate,
+  TemplateProfile,
   TemplateTag,
 } from "../templates/types.js";
 import { VALID_TAGS } from "../templates/types.js";
@@ -52,6 +55,20 @@ const DEFAULT_COMMAND_TARGETS = new Set([
 
 const registryCache = new Map<string, TemplateRegistry>();
 
+const TemplateProfileSchema = z.enum(["core", "extended"] satisfies [TemplateProfile, ...TemplateProfile[]]);
+const CommandGroupSchema = z.enum(["system", "workflow", "specialist", "development"]);
+const PermissionModeSchema = z.enum(["default", "acceptEdits", "dontAsk", "bypassPermissions", "plan"]);
+const SandboxModeSchema = z.enum(["read-only", "workspace-write", "danger-full-access"]);
+const ReasoningEffortSchema = z.enum(["low", "medium", "high"]);
+const MemorySchema = z.enum(["user", "project", "local"]);
+const AgentHandoffSchema = z.object({
+  label: z.string().min(1),
+  agent: z.string().min(1),
+  prompt: z.string().optional(),
+  send: z.boolean().optional(),
+  model: z.string().optional(),
+});
+
 function readString(value: unknown): string | undefined {
   return typeof value === "string" && value.length > 0 ? value : undefined;
 }
@@ -62,6 +79,40 @@ function readStringArray(value: unknown): string[] | undefined {
   }
   const items = value.filter((item): item is string => typeof item === "string" && item.length > 0);
   return items.length > 0 ? items : undefined;
+}
+
+function readRecord(value: unknown): Record<string, unknown> | undefined {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    return undefined;
+  }
+  return value as Record<string, unknown>;
+}
+
+function parseOptionalEnum<T>(
+  schema: z.ZodType<T>,
+  value: unknown,
+  fieldName: string,
+  filePath: string,
+): T | undefined {
+  if (value === undefined) {
+    return undefined;
+  }
+  const parsed = schema.safeParse(value);
+  if (!parsed.success) {
+    throw new Error(`Invalid ${fieldName} in ${filePath}`);
+  }
+  return parsed.data;
+}
+
+function parseOptionalHandoffs(value: unknown, filePath: string): AgentHandoff[] | undefined {
+  if (value === undefined) {
+    return undefined;
+  }
+  const parsed = z.array(AgentHandoffSchema).safeParse(value);
+  if (!parsed.success) {
+    throw new Error(`Invalid handoffs in ${filePath}`);
+  }
+  return parsed.data;
 }
 
 function validateTags(tags: unknown, filePath: string): TemplateTag[] | undefined {
@@ -82,7 +133,7 @@ function validateTags(tags: unknown, filePath: string): TemplateTag[] | undefine
   return validTags.length > 0 ? validTags : undefined;
 }
 
-function parseSkillTemplate(filePath: string, content: string): SkillTemplate {
+export function parseSkillTemplate(filePath: string, content: string): SkillTemplate {
   const { frontmatter, body } = parseFrontmatter<Record<string, unknown>>(content);
   const name = readString(frontmatter.name);
   const description = readString(frontmatter.description);
@@ -93,15 +144,12 @@ function parseSkillTemplate(filePath: string, content: string): SkillTemplate {
     name,
     kind: "skill",
     tags: validateTags(frontmatter.tags, filePath),
-    profile: frontmatter.profile as SkillTemplate["profile"],
+    profile: parseOptionalEnum(TemplateProfileSchema, frontmatter.profile, "profile", filePath),
     description,
     instructions: body,
     license: readString(frontmatter.license),
     compatibility: readString(frontmatter.compatibility),
-    metadata:
-      frontmatter.metadata && typeof frontmatter.metadata === "object"
-        ? (frontmatter.metadata as SkillTemplate["metadata"])
-        : undefined,
+    metadata: readRecord(frontmatter.metadata) as SkillTemplate["metadata"] | undefined,
     when: readStringArray(frontmatter.when),
     applicability: readStringArray(frontmatter.applicability),
     termination: readStringArray(frontmatter.termination),
@@ -120,7 +168,7 @@ function parseSkillTemplate(filePath: string, content: string): SkillTemplate {
   };
 }
 
-function parseAgentTemplate(filePath: string, content: string): AgentTemplate {
+export function parseAgentTemplate(filePath: string, content: string): AgentTemplate {
   const { frontmatter, body } = parseFrontmatter<Record<string, unknown>>(content);
   const name = readString(frontmatter.name);
   const description = readString(frontmatter.description);
@@ -131,15 +179,12 @@ function parseAgentTemplate(filePath: string, content: string): AgentTemplate {
     name,
     kind: "agent",
     tags: validateTags(frontmatter.tags, filePath),
-    profile: frontmatter.profile as AgentTemplate["profile"],
+    profile: parseOptionalEnum(TemplateProfileSchema, frontmatter.profile, "profile", filePath),
     description,
     instructions: body,
     license: readString(frontmatter.license),
     compatibility: readString(frontmatter.compatibility),
-    metadata:
-      frontmatter.metadata && typeof frontmatter.metadata === "object"
-        ? (frontmatter.metadata as AgentTemplate["metadata"])
-        : undefined,
+    metadata: readRecord(frontmatter.metadata) as AgentTemplate["metadata"] | undefined,
     when: readStringArray(frontmatter.when),
     applicability: readStringArray(frontmatter.applicability),
     termination: readStringArray(frontmatter.termination),
@@ -158,19 +203,27 @@ function parseAgentTemplate(filePath: string, content: string): AgentTemplate {
     defaultTools: readStringArray(frontmatter.defaultTools),
     acceptanceChecks: readStringArray(frontmatter.acceptanceChecks),
     model: readString(frontmatter.model),
-    permissionMode: frontmatter.permissionMode as AgentTemplate["permissionMode"],
-    sandboxMode: frontmatter.sandboxMode as AgentTemplate["sandboxMode"],
-    reasoningEffort: frontmatter.reasoningEffort as AgentTemplate["reasoningEffort"],
+    permissionMode: parseOptionalEnum(
+      PermissionModeSchema,
+      frontmatter.permissionMode,
+      "permissionMode",
+      filePath,
+    ),
+    sandboxMode: parseOptionalEnum(SandboxModeSchema, frontmatter.sandboxMode, "sandboxMode", filePath),
+    reasoningEffort: parseOptionalEnum(
+      ReasoningEffortSchema,
+      frontmatter.reasoningEffort,
+      "reasoningEffort",
+      filePath,
+    ),
     disallowedTools: readStringArray(frontmatter.disallowedTools),
     maxTurns: typeof frontmatter.maxTurns === "number" ? frontmatter.maxTurns : undefined,
-    memory: frontmatter.memory as AgentTemplate["memory"],
-    handoffs: Array.isArray(frontmatter.handoffs)
-      ? (frontmatter.handoffs as AgentTemplate["handoffs"])
-      : undefined,
+    memory: parseOptionalEnum(MemorySchema, frontmatter.memory, "memory", filePath),
+    handoffs: parseOptionalHandoffs(frontmatter.handoffs, filePath),
   };
 }
 
-function parseCommandTemplate(filePath: string, content: string): CommandTemplate {
+export function parseCommandTemplate(filePath: string, content: string): CommandTemplate {
   const { frontmatter, body } = parseFrontmatter<Record<string, unknown>>(content);
   const name = readString(frontmatter.name);
   const description = readString(frontmatter.description);
@@ -185,7 +238,7 @@ function parseCommandTemplate(filePath: string, content: string): CommandTemplat
     instructions: body,
     argumentsHint: readString(frontmatter.argumentHint),
     target: readString(frontmatter.target),
-    group: frontmatter.group as CommandTemplate["group"],
+    group: parseOptionalEnum(CommandGroupSchema, frontmatter.group, "group", filePath),
     allowedTools: readStringArray(frontmatter.allowedTools),
     backedBySkill: readString(frontmatter.backedBySkill),
     nativeOnly: frontmatter.nativeOnly === true,
@@ -321,37 +374,25 @@ function loadBundled(): TemplateRegistry {
   const skills: SkillTemplate[] = [];
   for (const [filePath, content] of Object.entries(skillFiles)) {
     const dirName = filePath.split("/").slice(-2, -1)[0];
-    try {
-      const template = parseSkillTemplate(filePath, content as string);
-      template.name = dirName;
-      skills.push(template);
-    } catch (error) {
-      console.error(`Failed to parse skill ${filePath}:`, error);
-    }
+    const template = parseSkillTemplate(filePath, content as string);
+    template.name = dirName;
+    skills.push(template);
   }
 
   const agents: AgentTemplate[] = [];
   for (const [filePath, content] of Object.entries(agentFiles)) {
     const dirName = filePath.split("/").slice(-2, -1)[0];
-    try {
-      const template = parseAgentTemplate(filePath, content as string);
-      template.name = dirName;
-      agents.push(template);
-    } catch (error) {
-      console.error(`Failed to parse agent ${filePath}:`, error);
-    }
+    const template = parseAgentTemplate(filePath, content as string);
+    template.name = dirName;
+    agents.push(template);
   }
 
   const commands: CommandTemplate[] = [];
   for (const [filePath, content] of Object.entries(commandFiles)) {
     const fileName = filePath.split("/").pop()!.replace(".md", "");
-    try {
-      const template = parseCommandTemplate(filePath, content as string);
-      template.name = fileName;
-      commands.push(template);
-    } catch (error) {
-      console.error(`Failed to parse command ${filePath}:`, error);
-    }
+    const template = parseCommandTemplate(filePath, content as string);
+    template.name = fileName;
+    commands.push(template);
   }
 
   return validateRegistry({

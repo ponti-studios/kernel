@@ -11,12 +11,21 @@ import {
 } from "../utils/file-system.js";
 import type { WorkProject, WorkRecord, WorkTask } from "./types.js";
 
+const RECORD_ID_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
 function slugify(value: string): string {
   return value
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "")
     .slice(0, 64);
+}
+
+export function assertValidKernelRecordId(id: string, label = "recordId"): string {
+  if (!RECORD_ID_PATTERN.test(id)) {
+    throw new Error(`Invalid ${label}: ${id}`);
+  }
+  return id;
 }
 
 function defaultTasks(): WorkTask[] {
@@ -112,28 +121,103 @@ async function saveWorkRecord(project: WorkProject, record: WorkRecord): Promise
   const workRoot = join(project.workDir, record.id);
   await ensureDir(workRoot);
   await writeFile(join(workRoot, "work.yaml"), yaml.stringify(record));
-  await writeFile(join(workRoot, "brief.md"), renderBrief(record));
-  await writeFile(join(workRoot, "plan.md"), renderPlan(record));
-  await writeFile(join(workRoot, "tasks.md"), renderTasks(record));
+  if (!(await fileExists(join(workRoot, "brief.md")))) {
+    await writeFile(join(workRoot, "brief.md"), renderBrief(record));
+  }
+  if (!(await fileExists(join(workRoot, "plan.md")))) {
+    await writeFile(join(workRoot, "plan.md"), renderPlan(record));
+  }
+  if (!(await fileExists(join(workRoot, "tasks.md")))) {
+    await writeFile(join(workRoot, "tasks.md"), renderTasks(record));
+  }
   if (!(await fileExists(join(workRoot, "journal.md")))) {
     await writeFile(join(workRoot, "journal.md"), renderJournal(record));
   }
 }
 
-async function loadWorkRecord(project: WorkProject, workId: string): Promise<WorkRecord> {
-  const workPath = join(project.workDir, workId, "work.yaml");
-  const raw = yaml.parse(await readFile(workPath)) as WorkRecord;
+function matchesTaskIdentifier(task: Pick<WorkTask, "id" | "title">, normalizedId: string): boolean {
+  return (
+    task.id === normalizedId ||
+    slugify(task.title) === normalizedId ||
+    task.id.startsWith(normalizedId) ||
+    slugify(task.title).startsWith(normalizedId)
+  );
+}
+
+async function syncTaskMarkdown(project: WorkProject, workId: string, normalizedId: string): Promise<void> {
   const tasksPath = join(project.workDir, workId, "tasks.md");
+  if (!(await fileExists(tasksPath))) {
+    return;
+  }
+
+  const lines = (await readFile(tasksPath)).split("\n");
+  let updated = false;
+  const nextLines = lines.map((line) => {
+    if (updated) {
+      return line;
+    }
+
+    const match = line.match(/^- \[( |x)\] (.+)$/i);
+    if (!match) {
+      return line;
+    }
+
+    const title = match[2];
+    if (!matchesTaskIdentifier({ id: slugify(title), title }, normalizedId)) {
+      return line;
+    }
+
+    updated = true;
+    return `- [x] ${title}`;
+  });
+
+  if (updated) {
+    await writeFile(tasksPath, nextLines.join("\n"));
+  }
+}
+
+async function pathExists(filePath: string): Promise<boolean> {
+  return (await fileExists(filePath)) || (await directoryExists(filePath));
+}
+
+async function resolveUniqueArchiveTarget(project: WorkProject, workId: string): Promise<string> {
+  const baseName = `${new Date().toISOString().slice(0, 10)}-${workId}`;
+  let archiveTarget = join(project.archiveDir, baseName);
+  let index = 2;
+
+  while (await pathExists(archiveTarget)) {
+    archiveTarget = join(project.archiveDir, `${baseName}-${index}`);
+    index += 1;
+  }
+
+  return archiveTarget;
+}
+
+async function loadWorkRecord(project: WorkProject, workId: string): Promise<WorkRecord> {
+  const safeWorkId = assertValidKernelRecordId(workId, "workId");
+  const workPath = join(project.workDir, safeWorkId, "work.yaml");
+  const raw = yaml.parse(await readFile(workPath)) as WorkRecord;
+  const tasksPath = join(project.workDir, safeWorkId, "tasks.md");
   if (await fileExists(tasksPath)) {
+    const storedTasks = new Map(
+      (raw.tasks ?? []).map((task) => [task.id || slugify(task.title), task] satisfies [string, WorkTask]),
+    );
     const parsedTasks = (await readFile(tasksPath))
       .split("\n")
       .map((line) => line.match(/^- \[( |x)\] (.+)$/i))
       .filter((match): match is RegExpMatchArray => match !== null)
-      .map((match) => ({
-        id: slugify(match[2]),
-        title: match[2],
-        done: match[1].toLowerCase() === "x",
-      }));
+      .map((match) => {
+        const title = match[2];
+        const taskId = slugify(title);
+        const storedTask = storedTasks.get(taskId);
+        const done = match[1].toLowerCase() === "x";
+        return {
+          id: storedTask?.id ?? taskId,
+          title,
+          done,
+          completedAt: done ? storedTask?.completedAt : undefined,
+        };
+      });
     if (parsedTasks.length > 0) {
       raw.tasks = parsedTasks;
     }
@@ -143,7 +227,7 @@ async function loadWorkRecord(project: WorkProject, workId: string): Promise<Wor
 
 async function resolveWorkId(project: WorkProject, workId?: string): Promise<string> {
   if (workId) {
-    return workId;
+    return assertValidKernelRecordId(workId, "workId");
   }
   const pointers = await readPointers(project);
   if (pointers.currentWorkId) {
@@ -176,6 +260,24 @@ export async function createWork(
 
   const project = await resolveWorkProject(resolvedStartDir);
   await ensureWorkLayout(project);
+  if (opts.initiativeId) {
+    const initiativeId = assertValidKernelRecordId(opts.initiativeId, "initiativeId");
+    if (!(await fileExists(join(project.initiativeDir, initiativeId, "initiative.yaml")))) {
+      throw new Error(`Unknown initiative: ${initiativeId}`);
+    }
+  }
+  if (opts.projectId) {
+    const projectId = assertValidKernelRecordId(opts.projectId, "projectId");
+    if (!(await fileExists(join(project.projectsDir, projectId, "project.yaml")))) {
+      throw new Error(`Unknown project: ${projectId}`);
+    }
+  }
+  if (opts.milestoneId) {
+    const milestoneId = assertValidKernelRecordId(opts.milestoneId, "milestoneId");
+    if (!(await fileExists(join(project.milestonesDir, milestoneId, "milestone.yaml")))) {
+      throw new Error(`Unknown milestone: ${milestoneId}`);
+    }
+  }
   const baseId = slugify(goal) || "work";
   let workId = baseId;
   const existing = new Set(await listDirs(project.workDir));
@@ -257,12 +359,11 @@ export async function completeWorkTask(taskId: string, workId?: string, startDir
   const resolvedId = await resolveWorkId(project, workId);
   const record = await loadWorkRecord(project, resolvedId);
   const normalized = slugify(taskId);
+  if (!normalized) {
+    throw new Error(`Unknown task: ${taskId}`);
+  }
   const task = record.tasks.find(
-    (entry) =>
-      entry.id === normalized ||
-      slugify(entry.title) === normalized ||
-      entry.id.startsWith(normalized) ||
-      slugify(entry.title).startsWith(normalized),
+    (entry) => matchesTaskIdentifier(entry, normalized),
   );
   if (!task) {
     throw new Error(`Unknown task: ${taskId}`);
@@ -271,6 +372,7 @@ export async function completeWorkTask(taskId: string, workId?: string, startDir
   task.completedAt = new Date().toISOString();
   record.updatedAt = task.completedAt;
   await saveWorkRecord(project, record);
+  await syncTaskMarkdown(project, resolvedId, normalized);
   return {
     workId: resolvedId,
     completedTask: task.title,
@@ -285,10 +387,7 @@ export async function archiveWork(workId?: string, startDir = process.cwd()) {
   record.status = "archived";
   record.updatedAt = new Date().toISOString();
   await saveWorkRecord(project, record);
-  const archiveTarget = join(
-    project.archiveDir,
-    `${new Date().toISOString().slice(0, 10)}-${resolvedId}`,
-  );
+  const archiveTarget = await resolveUniqueArchiveTarget(project, resolvedId);
   await rename(join(project.workDir, resolvedId), archiveTarget);
   const pointers = await readPointers(project);
   if (pointers.currentWorkId === resolvedId) {

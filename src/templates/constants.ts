@@ -1,11 +1,15 @@
 /**
  * Template Constants
  *
- * Single source of truth for all skill names.
- * When updating a skill name, update it here and rebuild.
+ * Single source of truth for all template identifiers.
+ * When updating a name, update it here and rebuild.
+ *
+ * All identifiers include the KERNEL_TEMPLATE_PREFIX and are defined with
+ * full prefix as they appear in generated files.
  *
  * SKILL_NAMES: Complete skill identifiers (includes prefix)
- *   - Defined with full prefix as they appear in generated files
+ * AGENT_NAMES: Complete agent identifiers (includes prefix)
+ * COMMAND_NAMES: Complete command identifiers (includes prefix)
  */
 
 export const KERNEL_TEMPLATE_PREFIX = "kernel-";
@@ -62,8 +66,6 @@ export const SKILL_NAMES = {
   // Ecosystem skills
   SKILL_BUILDER: prefixKernelTemplateName("skill-builder"),
 } as const;
-
-export const EXTENDED_SKILL_NAMES: Record<string, never> = {} as const;
 
 export const AGENT_NAMES = {
   ARCHITECT: prefixKernelTemplateName("architect"),

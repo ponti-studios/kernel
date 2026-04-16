@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { AGENT_NAMES, SKILL_NAMES } from "../../../templates/constants.js";
+import { AGENT_NAMES, COMMAND_NAMES, SKILL_NAMES } from "../../../templates/constants.js";
 import type { AgentTemplate } from "../../templates/types.js";
 import {
     claudeAdapter,
@@ -600,5 +600,28 @@ describe("GitHub Copilot manifest", () => {
     expect(result).toContain("# Skills Index");
     expect(result).toContain("## planner");
     expect(result).toContain("**Description**: Planning agent");
+  });
+});
+
+describe("COMMAND_NAMES", () => {
+  it("all command names have kernel- prefix", () => {
+    const values = Object.values(COMMAND_NAMES);
+    expect(values.length).toBeGreaterThan(0);
+    for (const cmd of values) {
+      expect(cmd).toStartWith("kernel-");
+    }
+  });
+
+  it("all command names are unique", () => {
+    const values = Object.values(COMMAND_NAMES);
+    const unique = new Set(values);
+    expect(unique.size).toBe(values.length);
+  });
+
+  it("expected commands are defined", () => {
+    expect(COMMAND_NAMES.INIT).toBe("kernel-init");
+    expect(COMMAND_NAMES.SYNC).toBe("kernel-sync");
+    expect(COMMAND_NAMES.DOCTOR).toBe("kernel-doctor");
+    expect(COMMAND_NAMES.GH_PR_ERRORS).toBe("kernel-gh-pr-errors");
   });
 });

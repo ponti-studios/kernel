@@ -9,7 +9,7 @@ import {
   writeFile,
 } from "../utils/file-system.js";
 import type { MilestoneRecord, WorkProject } from "../work/types.js";
-import { resolveWorkProject } from "../work/index.js";
+import { assertValidKernelRecordId, resolveWorkProject } from "../work/index.js";
 
 function slugify(value: string): string {
   return value
@@ -30,14 +30,17 @@ async function saveMilestoneRecord(
   const milestoneRoot = join(project.milestonesDir, record.id);
   await ensureDir(milestoneRoot);
   await writeFile(join(milestoneRoot, "milestone.yaml"), yaml.stringify(record));
-  await writeFile(join(milestoneRoot, "brief.md"), renderBrief(record));
+  if (!(await fileExists(join(milestoneRoot, "brief.md")))) {
+    await writeFile(join(milestoneRoot, "brief.md"), renderBrief(record));
+  }
 }
 
 async function loadMilestoneRecord(
   project: WorkProject,
   milestoneId: string,
 ): Promise<MilestoneRecord> {
-  const milestonePath = join(project.milestonesDir, milestoneId, "milestone.yaml");
+  const safeMilestoneId = assertValidKernelRecordId(milestoneId, "milestoneId");
+  const milestonePath = join(project.milestonesDir, safeMilestoneId, "milestone.yaml");
   const raw = yaml.parse(await readFile(milestonePath)) as MilestoneRecord;
   return raw;
 }
@@ -47,7 +50,7 @@ async function resolveMilestoneId(
   milestoneId?: string,
 ): Promise<string> {
   if (milestoneId) {
-    return milestoneId;
+    return assertValidKernelRecordId(milestoneId, "milestoneId");
   }
   const milestoneIds = (await listDirs(project.milestonesDir)).sort();
   if (milestoneIds.length === 1) {
@@ -63,6 +66,12 @@ export async function createMilestone(
 ) {
   const project = await resolveWorkProject(startDir);
   await ensureDir(project.milestonesDir);
+  if (opts.projectId) {
+    const projectId = assertValidKernelRecordId(opts.projectId, "projectId");
+    if (!(await fileExists(join(project.projectsDir, projectId, "project.yaml")))) {
+      throw new Error(`Unknown project: ${projectId}`);
+    }
+  }
   const baseId = slugify(goal) || "milestone";
   let milestoneId = baseId;
   const existing = new Set(await listDirs(project.milestonesDir));

@@ -185,7 +185,7 @@ export interface CommandTemplate {
   target?: string;
 
   /** High-level menu grouping for hosts that expose command catalogs */
-  group?: "system" | "workflow" | "specialist";
+  group?: "system" | "workflow" | "specialist" | "development";
 
   /** Tools this command may use without approval prompts */
   allowedTools?: string[];

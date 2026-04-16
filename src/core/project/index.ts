@@ -9,7 +9,7 @@ import {
   writeFile,
 } from "../utils/file-system.js";
 import type { ProjectRecord, WorkProject } from "../work/types.js";
-import { resolveWorkProject } from "../work/index.js";
+import { assertValidKernelRecordId, resolveWorkProject } from "../work/index.js";
 
 function slugify(value: string): string {
   return value
@@ -34,15 +34,20 @@ async function saveProjectRecord(
   const projectRoot = join(project.projectsDir, record.id);
   await ensureDir(projectRoot);
   await writeFile(join(projectRoot, "project.yaml"), yaml.stringify(record));
-  await writeFile(join(projectRoot, "brief.md"), renderBrief(record));
-  await writeFile(join(projectRoot, "plan.md"), renderPlan(record));
+  if (!(await fileExists(join(projectRoot, "brief.md")))) {
+    await writeFile(join(projectRoot, "brief.md"), renderBrief(record));
+  }
+  if (!(await fileExists(join(projectRoot, "plan.md")))) {
+    await writeFile(join(projectRoot, "plan.md"), renderPlan(record));
+  }
 }
 
 async function loadProjectRecord(
   project: WorkProject,
   projectId: string,
 ): Promise<ProjectRecord> {
-  const projectPath = join(project.projectsDir, projectId, "project.yaml");
+  const safeProjectId = assertValidKernelRecordId(projectId, "projectId");
+  const projectPath = join(project.projectsDir, safeProjectId, "project.yaml");
   const raw = yaml.parse(await readFile(projectPath)) as ProjectRecord;
   return raw;
 }
@@ -52,7 +57,7 @@ async function resolveProjectId(
   projectId?: string,
 ): Promise<string> {
   if (projectId) {
-    return projectId;
+    return assertValidKernelRecordId(projectId, "projectId");
   }
   const projectIds = (await listDirs(project.projectsDir)).sort();
   if (projectIds.length === 1) {
@@ -68,6 +73,12 @@ export async function createProject(
 ) {
   const project = await resolveWorkProject(startDir);
   await ensureDir(project.projectsDir);
+  if (opts.initiativeId) {
+    const initiativeId = assertValidKernelRecordId(opts.initiativeId, "initiativeId");
+    if (!(await fileExists(join(project.initiativeDir, initiativeId, "initiative.yaml")))) {
+      throw new Error(`Unknown initiative: ${initiativeId}`);
+    }
+  }
   const baseId = slugify(goal) || "project";
   let projectId = baseId;
   const existing = new Set(await listDirs(project.projectsDir));
