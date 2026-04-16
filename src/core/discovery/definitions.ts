@@ -1,7 +1,7 @@
 /**
  * Tool definitions
  *
- * Metadata for the 4 supported AI coding assistants.
+ * Metadata for the supported AI coding assistants.
  */
 
 import type { ToolDefinition } from "../config/schema.js";
@@ -11,14 +11,6 @@ import type { ToolDefinition } from "../config/schema.js";
  */
 export const TOOL_DEFINITIONS: ToolDefinition[] = [
   {
-    id: "opencode",
-    name: "OpenCode",
-    skillsDir: ".opencode",
-    available: true,
-    successLabel: "OpenCode",
-    notes: "Primary development platform with full support",
-  },
-  {
     id: "claude",
     name: "Claude Code",
     skillsDir: ".claude",
@@ -27,11 +19,11 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
     notes: "Anthropic CLI tool with superior reasoning capabilities",
   },
   {
-    id: "github-copilot",
-    name: "GitHub Copilot",
+    id: "copilot",
+    name: "Copilot",
     skillsDir: ".github",
     available: true,
-    successLabel: "GitHub Copilot",
+    successLabel: "Copilot",
     notes: "GitHub AI assistant. Commands in .github/prompts/",
   },
   {
@@ -43,20 +35,20 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
     notes: "OpenAI CLI tool with native TOML agent format",
   },
   {
-    id: "gemini",
-    name: "Gemini",
-    skillsDir: ".gemini",
+    id: "opencode",
+    name: "OpenCode",
+    skillsDir: ".opencode",
     available: true,
-    successLabel: "Gemini",
-    notes: "Google Gemini CLI tool",
+    successLabel: "OpenCode",
+    notes: "Open source terminal AI coding agent",
   },
   {
-    id: "cursor",
-    name: "Cursor",
-    skillsDir: ".cursor",
+    id: "pi",
+    name: "Pi",
+    skillsDir: ".pi",
     available: true,
-    successLabel: "Cursor",
-    notes: "VS Code-based AI editor with excellent IDE integration",
+    successLabel: "Pi",
+    notes: "Minimal terminal coding harness with Agent Skills support",
   },
 ];
 

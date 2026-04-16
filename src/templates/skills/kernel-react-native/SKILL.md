@@ -1,16 +1,73 @@
+---
+name: kernel-react-native
+kind: skill
+tags:
+  - mobile
+  - react
+profile: extended
+description: Guides React Native and Expo development across UI patterns, Expo
+  Router conventions, styling, navigation, performance, animations, and state
+  management. Use when building React Native screens, implementing mobile
+  navigation, optimizing list performance, or when users ask about mobile UI,
+  animations, or Expo configuration.
+license: MIT
+compatibility: React Native with Expo Router and Expo SDK.
+metadata:
+  author: project
+  version: "2.0"
+  category: Mobile
+  tags:
+    - react-native
+    - expo
+    - expo-router
+    - mobile
+    - performance
+    - animations
+    - reanimated
+    - lists
+    - navigation
+    - ios
+    - apple-hig
+when:
+  - user is building any React Native or Expo component, screen, or feature
+  - user is implementing Expo Router navigation, routes, tabs, or stacks
+  - user is styling a mobile UI following Apple HIG
+  - user is optimizing list, scroll, or rendering performance
+  - user is implementing animations with Reanimated or gestures
+  - user is working with native controls, media, storage, or device APIs
+  - user is configuring native modules, fonts, or Expo plugins
+  - user is structuring native dependencies in a monorepo
+applicability:
+  - Use for all React Native and Expo app development
+  - Use when implementing any mobile UI, navigation pattern, or screen layout
+  - Use when reviewing mobile code for performance, correctness, or platform
+    conventions
+termination:
+  - Component or screen implemented following Expo Router and Apple HIG
+    conventions
+  - "Performance rules applied: FlashList, memoized items, stable callbacks"
+  - Animations run on UI thread using transform/opacity only
+  - Native navigation stack used instead of JS navigators
+outputs:
+  - React Native component or screen following Expo Router conventions
+  - Navigation layout with correct Stack, NativeTabs, and route structure
+  - Performance-optimized list implementation
+  - Animation using Reanimated on GPU-friendly properties
+---
+
 React Native and Expo standards: UI patterns, Expo Router conventions, performance rules, animation, state management, and monorepo configuration.
 
 ## Toolchain
 
-| Concern | Tool |
-|---|---|
-| Framework | React Native + Expo |
-| Navigation | Expo Router |
-| Builds | EAS (`eas build`, `eas submit`) |
+| Concern    | Tool                                                   |
+| ---------- | ------------------------------------------------------ |
+| Framework  | React Native + Expo                                    |
+| Navigation | Expo Router                                            |
+| Builds     | EAS (`eas build`, `eas submit`)                        |
 | Animations | `react-native-reanimated` — never `Animated` from core |
-| Gestures | `react-native-gesture-handler` |
-| Lists | `FlashList` — never `FlatList` for long lists |
-| Images | `expo-image` |
+| Gestures   | `react-native-gesture-handler`                         |
+| Lists      | `FlashList` — never `FlatList` for long lists          |
+| Images     | `expo-image`                                           |
 
 Never use: React Native CLI (use Expo), `Animated` from React Native core, `FlatList` for long lists, `TouchableOpacity` (use `Pressable`).
 
@@ -50,18 +107,18 @@ Expo Go supports all `expo-*` packages, Expo Router navigation, Reanimated, gest
 
 ## Library Preferences
 
-| Use | Instead of |
-|---|---|
-| `expo-audio` | `expo-av` for audio |
-| `expo-video` | `expo-av` for video |
+| Use                                  | Instead of                             |
+| ------------------------------------ | -------------------------------------- |
+| `expo-audio`                         | `expo-av` for audio                    |
+| `expo-video`                         | `expo-av` for video                    |
 | `expo-image` with `source="sf:name"` | `expo-symbols` or `@expo/vector-icons` |
-| `react-native-safe-area-context` | React Native's built-in `SafeAreaView` |
-| `process.env.EXPO_OS` | `Platform.OS` |
-| `React.use` | `React.useContext` |
-| `expo-image` `<Image>` | intrinsic `<img>` element |
-| `expo-glass-effect` | custom blur implementations |
-| `Pressable` | `TouchableOpacity` |
-| `FlashList` | `FlatList` for long lists |
+| `react-native-safe-area-context`     | React Native's built-in `SafeAreaView` |
+| `process.env.EXPO_OS`                | `Platform.OS`                          |
+| `React.use`                          | `React.useContext`                     |
+| `expo-image` `<Image>`               | intrinsic `<img>` element              |
+| `expo-glass-effect`                  | custom blur implementations            |
+| `Pressable`                          | `TouchableOpacity`                     |
+| `FlashList`                          | `FlatList` for long lists              |
 
 **Never use:** Picker, WebView, SafeAreaView, or AsyncStorage from core React Native — they have been removed. Never use `legacy expo-permissions`.
 
@@ -71,16 +128,16 @@ Expo Go supports all `expo-*` packages, Expo Router navigation, Reanimated, gest
 
 ### Priority Order
 
-| Priority | Category | Impact |
-|---|---|---|
-| 1 | List Performance | CRITICAL |
-| 2 | Animation | HIGH |
-| 3 | Navigation | HIGH |
-| 4 | UI Patterns | HIGH |
-| 5 | State Management | MEDIUM |
-| 6 | Rendering | MEDIUM |
-| 7 | Monorepo | MEDIUM |
-| 8 | Configuration | LOW |
+| Priority | Category         | Impact   |
+| -------- | ---------------- | -------- |
+| 1        | List Performance | CRITICAL |
+| 2        | Animation        | HIGH     |
+| 3        | Navigation       | HIGH     |
+| 4        | UI Patterns      | HIGH     |
+| 5        | State Management | MEDIUM   |
+| 6        | Rendering        | MEDIUM   |
+| 7        | Monorepo         | MEDIUM   |
+| 8        | Configuration    | LOW      |
 
 ### List Performance (CRITICAL)
 
@@ -168,86 +225,7 @@ See `references/expo-route-structure.md` for detailed conventions.
 
 ## Navigation
 
-### Link
-
-```tsx
-import { Link } from 'expo-router';
-
-<Link href="/path" />
-
-// With custom component
-<Link href="/path" asChild>
-  <Pressable>...</Pressable>
-</Link>
-```
-
-Always consider adding `<Link.Preview>` to follow iOS conventions. Add context menus and previews frequently.
-
-### Stack
-
-- Always use `_layout.tsx` files to define stacks
-- Use `Stack` from `'expo-router/stack'` for native navigation stacks
-- Set the page title in `Stack.Screen` options, not with a custom `<Text>` element
-
-### Context Menus
-
-```tsx
-<Link href="/settings" asChild>
-  <Link.Trigger>
-    <Pressable><Card /></Pressable>
-  </Link.Trigger>
-  <Link.Menu>
-    <Link.MenuAction title="Share" icon="square.and.arrow.up" onPress={handleShare} />
-    <Link.MenuAction title="Delete" icon="trash" destructive onPress={handleDelete} />
-  </Link.Menu>
-</Link>
-```
-
-### Modal and Sheet
-
-```tsx
-// Modal
-<Stack.Screen name="modal" options={{ presentation: "modal" }} />
-
-// Form sheet with detents
-<Stack.Screen
-  name="sheet"
-  options={{
-    presentation: "formSheet",
-    sheetGrabberVisible: true,
-    sheetAllowedDetents: [0.5, 1.0],
-    contentStyle: { backgroundColor: "transparent" }, // liquid glass on iOS 26+
-  }}
-/>
-```
-
-### Common Route Structure
-
-```
-app/
-  _layout.tsx               — <NativeTabs />
-  (index,search)/
-    _layout.tsx             — <Stack />
-    index.tsx               — Main list
-    search.tsx              — Search view
-```
-
-```tsx
-// app/_layout.tsx
-import { NativeTabs, Icon, Label } from "expo-router/unstable-native-tabs";
-
-export default function Layout() {
-  return (
-    <NativeTabs>
-      <NativeTabs.Trigger name="(index)">
-        <Icon sf="list.dash" />
-        <Label>Items</Label>
-      </NativeTabs.Trigger>
-      <NativeTabs.Trigger name="(search)" role="search" />
-    </NativeTabs>
-  );
-}
-```
+See `references/navigation.md` for link, stack, modal, sheet, and route-structure conventions.
 
 ---
 
@@ -271,86 +249,8 @@ export default function Layout() {
 
 ## Performance Optimization
 
-This section covers performance optimization for React Native applications, based on Callstack's "Ultimate Guide to React Native Optimization".
-
-### When to Apply
-
-Reference these guidelines when:
-- Debugging slow/janky UI or animations
-- Investigating memory leaks (JS or native)
-- Optimizing app startup time (TTI)
-- Reducing bundle or app size
-- Writing native modules (Turbo Modules)
-- Profiling React Native performance
-- Reviewing React Native code for performance
-
-### Priority Order
-
-| Priority | Category | Impact |
-|----------|----------|--------|
-| 1 | List Performance | CRITICAL |
-| 2 | Bundle Size | CRITICAL |
-| 3 | FPS & Re-renders | CRITICAL |
-| 4 | TTI Optimization | HIGH |
-| 5 | Native Performance | HIGH |
-| 6 | Memory Management | MEDIUM-HIGH |
-| 7 | Animations | MEDIUM |
-
-### Quick Reference
-
-**Profile first:**
-```bash
-# Open React Native DevTools
-# Press 'j' in Metro, or shake device → "Open DevTools"
-```
-
-**Common fixes for slow/janky UI:**
-- Replace ScrollView with FlatList/FlashList for lists
-- Use React Compiler for automatic memoization
-- Use atomic state (Jotai/Zustand) to reduce re-renders
-- Use `useDeferredValue` for expensive computations
-
-**Common fixes for bundle size:**
-- Avoid barrel imports (import directly from source)
-- Remove unnecessary Intl polyfills (Hermes has native support)
-- Enable tree shaking (Expo SDK 52+ or Re.Pack)
-- Enable R8 for Android native code shrinking
-
-**Common fixes for TTI:**
-- Disable JS bundle compression on Android (enables Hermes mmap)
-- Use native navigation (react-native-screens)
-- Preload commonly-used expensive screens before navigating to them
-
-**Common fixes for native performance:**
-- Use background threads for heavy native work
-- Prefer async over sync Turbo Module methods
-- Use C++ for cross-platform performance-critical code
-
-### Performance References
-
-Full documentation with code examples in `references/`:
-
-| Category | Files |
-|----------|-------|
-| JavaScript/React | `js-lists-flatlist-flashlist.md`, `js-profile-react.md`, `js-measure-fps.md`, `js-memory-leaks.md`, `js-atomic-state.md`, `js-concurrent-react.md`, `js-react-compiler.md`, `js-animations-reanimated.md`, `js-uncontrolled-components.md` |
-| Native | `native-turbo-modules.md`, `native-sdks-over-polyfills.md`, `native-measure-tti.md`, `native-threading-model.md`, `native-profiling.md`, `native-platform-setup.md`, `native-view-flattening.md`, `native-memory-patterns.md`, `native-memory-leaks.md`, `native-android-16kb-alignment.md` |
-| Bundling | `bundle-barrel-exports.md`, `bundle-analyze-js.md`, `bundle-tree-shaking.md`, `bundle-analyze-app.md`, `bundle-r8-android.md`, `bundle-hermes-mmap.md`, `bundle-native-assets.md`, `bundle-library-size.md`, `bundle-code-splitting.md` |
-
-### Problem → Skill Mapping
-
-| Problem | Start With |
-|---------|------------|
-| App feels slow/janky | `js-measure-fps.md` → `js-profile-react.md` |
-| Too many re-renders | `js-profile-react.md` → `js-react-compiler.md` |
-| Slow startup (TTI) | `native-measure-tti.md` → `bundle-analyze-js.md` |
-| Large app size | `bundle-analyze-app.md` → `bundle-r8-android.md` |
-| Memory growing | `js-memory-leaks.md` or `native-memory-leaks.md` |
-| Animation drops frames | `js-animations-reanimated.md` |
-| List scroll jank | `js-lists-flatlist-flashlist.md` |
-| TextInput lag | `js-uncontrolled-components.md` |
-| Native module slow | `native-turbo-modules.md` → `native-threading-model.md` |
-| Native library alignment issue | `native-android-16kb-alignment.md` |
+See `references/performance.md` for optimization guidance, common fixes, and problem-to-reference mappings.
 
 ---
 
-*Performance optimization content based on "The Ultimate Guide to React Native Optimization" by Callstack.*
+_Performance optimization content based on "The Ultimate Guide to React Native Optimization" by Callstack._

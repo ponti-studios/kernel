@@ -1,8 +1,3 @@
-commit-msg:
-  commands:
-    commitlint:
-      run: bun x commitlint --edit {1}
-
 pre-commit:
   parallel: true
   commands:

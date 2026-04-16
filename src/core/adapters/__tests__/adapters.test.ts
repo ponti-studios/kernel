@@ -1,26 +1,21 @@
-import { describe, it, expect } from "bun:test";
-import {
-  opencodeAdapter,
-  claudeAdapter,
-  codexAdapter,
-  githubCopilotAdapter,
-  geminiAdapter,
-  cursorAdapter,
-  type ToolCommandAdapter,
-} from "../index.js";
+import { describe, expect, it } from "bun:test";
+import { AGENT_NAMES, COMMAND_NAMES, SKILL_NAMES } from "../../../templates/constants.js";
 import type { AgentTemplate } from "../../templates/types.js";
 import {
-  AGENT_NAMES,
-  SKILL_NAMES,
-} from "../../../templates/constants.js";
+    claudeAdapter,
+    codexAdapter,
+    githubCopilotAdapter,
+    opencodeAdapter,
+    piAdapter,
+    type ToolCommandAdapter,
+} from "../index.js";
 
 const allAdapters: ToolCommandAdapter[] = [
-  opencodeAdapter,
   claudeAdapter,
   codexAdapter,
   githubCopilotAdapter,
-  geminiAdapter,
-  cursorAdapter,
+  opencodeAdapter,
+  piAdapter,
 ];
 
 const testSkillTemplate = {
@@ -39,33 +34,34 @@ const testSkillTemplate = {
 
 const testAgentTemplate: AgentTemplate = {
   name: AGENT_NAMES.PLAN,
+  kind: "agent",
+  tags: ["workflow", "planning"],
   description: "Pre-implementation planning agent",
   instructions: "You are a planning agent.",
   license: "MIT",
   compatibility: "Works with all workflows",
   metadata: { author: "project", version: "1.0", category: "Orchestration", tags: ["planning"] },
   defaultTools: ["read", "search"],
-  availableSkills: [SKILL_NAMES.GIT_MASTER, SKILL_NAMES.DESIGN],
+  availableSkills: [SKILL_NAMES.GIT, SKILL_NAMES.DESIGN],
 };
 
 const nativeAgentSupport: Record<string, boolean> = {
-  opencode: true,
   claude: true,
   codex: true,
-  "github-copilot": true,
-  gemini: true,
-  cursor: false,
+  copilot: true,
+  opencode: true,
+  pi: false,
 };
 
 describe("Adapter Registry", () => {
-  it("has all 6 adapters", () => {
-    expect(allAdapters).toHaveLength(6);
+  it("has all 5 adapters", () => {
+    expect(allAdapters).toHaveLength(5);
   });
 
   it("each adapter has unique toolId", () => {
     const toolIds = allAdapters.map((a) => a.toolId);
     const uniqueIds = new Set(toolIds);
-    expect(uniqueIds.size).toBe(6);
+    expect(uniqueIds.size).toBe(5);
   });
 
   it("native agent support is explicit and consistent", () => {
@@ -82,50 +78,22 @@ describe("Adapter Registry", () => {
   });
 });
 
-describe("OpenCode Adapter", () => {
-  it("uses .opencode directory", () => {
-    expect(opencodeAdapter.skillsDir).toBe(".opencode");
+describe("Pi Adapter", () => {
+  it("uses .pi directory", () => {
+    expect(piAdapter.skillsDir).toBe(".pi");
   });
 
   it("generates correct skill path", () => {
-    const path = opencodeAdapter.getSkillPath("planner");
-    expect(path).toBe(".opencode/skills/planner/SKILL.md");
+    const path = piAdapter.getSkillPath("planner");
+    expect(path).toBe(".pi/skills/planner/SKILL.md");
   });
 
   it("formats skill with frontmatter", () => {
-    const result = opencodeAdapter.formatSkill(testSkillTemplate as any, "1.0.0");
+    const result = piAdapter.formatSkill(testSkillTemplate as any, "1.0.0");
     expect(result).toContain("---");
     expect(result).toContain("name: planner");
+    expect(result).toContain("description: Planning agent");
     expect(result).toContain('generatedBy: "1.0.0"');
-  });
-
-  it("uses .opencode/agents/<name>.md path for agents", () => {
-    expect(opencodeAdapter.getAgentPath!(AGENT_NAMES.PLAN)).toBe(".opencode/agents/kernel-plan.md");
-  });
-
-  it("generates YAML frontmatter with description for agents", () => {
-    const result = opencodeAdapter.formatAgent!(testAgentTemplate, "1.0.0");
-    const frontmatter = result.split("---")[1];
-    expect(frontmatter).toContain("description:");
-    expect(frontmatter).toContain("Pre-implementation planning agent");
-  });
-
-  it("maps availableSkills to ## Available skills in body", () => {
-    const result = opencodeAdapter.formatAgent!(testAgentTemplate, "1.0.0");
-    const body = result.split("---")[2];
-    expect(body).toContain("## Available skills");
-    expect(body).toContain(`- ${SKILL_NAMES.GIT_MASTER}`);
-    expect(body).toContain(`- ${SKILL_NAMES.DESIGN}`);
-  });
-
-  it("omits ## sections when fields are empty", () => {
-    const result = opencodeAdapter.formatAgent!(
-      { ...testAgentTemplate, availableSkills: [] },
-      "1.0.0",
-    );
-    const body = result.split("---")[2];
-    expect(body).not.toContain("## Available commands");
-    expect(body).not.toContain("## Available skills");
   });
 });
 
@@ -151,27 +119,50 @@ describe("GitHub Copilot Adapter", () => {
   });
 });
 
-describe("Cursor Adapter", () => {
-  it("uses .cursor directory", () => {
-    expect(cursorAdapter.skillsDir).toBe(".cursor");
+describe("OpenCode Adapter", () => {
+  it("uses .opencode directory", () => {
+    expect(opencodeAdapter.skillsDir).toBe(".opencode");
   });
 
   it("generates correct skill path", () => {
-    expect(cursorAdapter.getSkillPath("planner")).toBe(".cursor/skills/planner/SKILL.md");
-  });
-});
-
-describe("Gemini Adapter", () => {
-  it("uses .gemini directory", () => {
-    expect(geminiAdapter.skillsDir).toBe(".gemini");
-  });
-
-  it("generates correct skill path", () => {
-    expect(geminiAdapter.getSkillPath("planner")).toBe(".gemini/skills/planner/SKILL.md");
+    expect(opencodeAdapter.getSkillPath("planner")).toBe(".opencode/skills/planner/SKILL.md");
   });
 
   it("generates correct agent path", () => {
-    expect(geminiAdapter.getAgentPath!(AGENT_NAMES.PLAN)).toBe(".gemini/agents/kernel-plan.md");
+    expect(opencodeAdapter.getAgentPath!(AGENT_NAMES.PLAN)).toBe(
+      ".opencode/agents/kernel-plan.md",
+    );
+  });
+
+  it("generates correct command path", () => {
+    expect(opencodeAdapter.getCommandPath!("kernel-sync")).toBe(
+      ".opencode/commands/kernel-sync.md",
+    );
+  });
+
+  it("formats agents with description and subagent mode", () => {
+    const result = opencodeAdapter.formatAgent!(testAgentTemplate, "1.0.0");
+    expect(result).toContain("description:");
+    expect(result).toContain("mode: subagent");
+    expect(result).toContain("You are a planning agent.");
+  });
+
+  it("formats compatibility commands", () => {
+    const result = opencodeAdapter.formatCommand!(
+      {
+        name: "kernel-sync",
+        description: "Sync kernel artifacts",
+        instructions: "Run the sync workflow.",
+        target: "sync",
+        kind: "command",
+        tags: ["workflow"],
+      },
+      "1.0.0",
+    );
+
+    expect(result).toContain("native-command: false");
+    expect(result).toContain("tool: OpenCode");
+    expect(result).toContain("kernel sync");
   });
 });
 
@@ -190,7 +181,10 @@ describe("Claude formatAgent", () => {
   });
 
   it("emits model field only when template specifies one", () => {
-    const withModel = claudeAdapter.formatAgent!({ ...testAgentTemplate, model: "sonnet" }, "1.0.0");
+    const withModel = claudeAdapter.formatAgent!(
+      { ...testAgentTemplate, model: "sonnet" },
+      "1.0.0",
+    );
     expect(withModel).toContain("model: sonnet");
     const withoutModel = claudeAdapter.formatAgent!(testAgentTemplate, "1.0.0");
     expect(withoutModel).not.toContain("model:");
@@ -259,7 +253,7 @@ describe("Claude formatAgent", () => {
     const result = claudeAdapter.formatAgent!(testAgentTemplate, "1.0.0");
     const frontmatter = result.split("---")[1];
     expect(frontmatter).toContain("skills:");
-    expect(frontmatter).toContain(SKILL_NAMES.GIT_MASTER);
+    expect(frontmatter).toContain(SKILL_NAMES.GIT);
     expect(frontmatter).toContain(SKILL_NAMES.DESIGN);
   });
 
@@ -330,7 +324,7 @@ describe("Codex formatAgent", () => {
   it("maps availableSkills to [[skills.config]] entries", () => {
     const result = codexAdapter.formatAgent!(testAgentTemplate, "1.0.0");
     expect(result).toContain("[[skills.config]]");
-    expect(result).toContain(`.codex/skills/${SKILL_NAMES.GIT_MASTER}/SKILL.md`);
+    expect(result).toContain(`.codex/skills/${SKILL_NAMES.GIT}/SKILL.md`);
     expect(result).toContain(`.codex/skills/${SKILL_NAMES.DESIGN}/SKILL.md`);
   });
 
@@ -358,7 +352,9 @@ describe("Codex formatAgent", () => {
 
 describe("Codex formatSkill", () => {
   it("uses .codex/skills/<name>/SKILL.md path", () => {
-    expect(codexAdapter.getSkillPath(SKILL_NAMES.GIT_MASTER)).toBe(".codex/skills/kernel-git-master/SKILL.md");
+    expect(codexAdapter.getSkillPath(SKILL_NAMES.GIT)).toBe(
+      ".codex/skills/kernel-git/SKILL.md",
+    );
   });
 
   it("includes name and description in frontmatter", () => {
@@ -383,12 +379,18 @@ describe("Codex formatSkill", () => {
 
 describe("formatSkill — userInvocable field", () => {
   it("emits user-invocable: false when userInvocable is false", () => {
-    const result = claudeAdapter.formatSkill({ ...testSkillTemplate, userInvocable: false } as any, "1.0.0");
+    const result = claudeAdapter.formatSkill(
+      { ...testSkillTemplate, userInvocable: false } as any,
+      "1.0.0",
+    );
     expect(result).toContain("user-invocable: false");
   });
 
   it("does not emit user-invocable when userInvocable is true", () => {
-    const result = claudeAdapter.formatSkill({ ...testSkillTemplate, userInvocable: true } as any, "1.0.0");
+    const result = claudeAdapter.formatSkill(
+      { ...testSkillTemplate, userInvocable: true } as any,
+      "1.0.0",
+    );
     expect(result).not.toContain("user-invocable");
   });
 
@@ -396,16 +398,14 @@ describe("formatSkill — userInvocable field", () => {
     const result = claudeAdapter.formatSkill(testSkillTemplate as any, "1.0.0");
     expect(result).not.toContain("user-invocable");
   });
-
-  it("opencode also emits user-invocable: false", () => {
-    const result = opencodeAdapter.formatSkill({ ...testSkillTemplate, userInvocable: false } as any, "1.0.0");
-    expect(result).toContain("user-invocable: false");
-  });
 });
 
 describe("formatSkill — argumentHint field", () => {
   it("emits argument-hint when argumentHint is set", () => {
-    const result = claudeAdapter.formatSkill({ ...testSkillTemplate, argumentHint: "issue URL or description" } as any, "1.0.0");
+    const result = claudeAdapter.formatSkill(
+      { ...testSkillTemplate, argumentHint: "issue URL or description" } as any,
+      "1.0.0",
+    );
     expect(result).toContain("argument-hint: issue URL or description");
   });
 
@@ -413,32 +413,28 @@ describe("formatSkill — argumentHint field", () => {
     const result = claudeAdapter.formatSkill(testSkillTemplate as any, "1.0.0");
     expect(result).not.toContain("argument-hint");
   });
-
-  it("opencode also emits argument-hint", () => {
-    const result = opencodeAdapter.formatSkill({ ...testSkillTemplate, argumentHint: "feature description" } as any, "1.0.0");
-    expect(result).toContain("argument-hint: feature description");
-  });
 });
 
 describe("formatSkill — allowedTools field", () => {
   it("emits allowed-tools as comma-separated list", () => {
-    const result = claudeAdapter.formatSkill({ ...testSkillTemplate, allowedTools: ["Read", "Grep", "Glob"] } as any, "1.0.0");
+    const result = claudeAdapter.formatSkill(
+      { ...testSkillTemplate, allowedTools: ["Read", "Grep", "Glob"] } as any,
+      "1.0.0",
+    );
     expect(result).toContain("allowed-tools: Read, Grep, Glob");
   });
 
   it("does not emit allowed-tools when allowedTools is empty array", () => {
-    const result = claudeAdapter.formatSkill({ ...testSkillTemplate, allowedTools: [] } as any, "1.0.0");
+    const result = claudeAdapter.formatSkill(
+      { ...testSkillTemplate, allowedTools: [] } as any,
+      "1.0.0",
+    );
     expect(result).not.toContain("allowed-tools");
   });
 
   it("does not emit allowed-tools when allowedTools is undefined", () => {
     const result = claudeAdapter.formatSkill(testSkillTemplate as any, "1.0.0");
     expect(result).not.toContain("allowed-tools");
-  });
-
-  it("opencode also emits allowed-tools", () => {
-    const result = opencodeAdapter.formatSkill({ ...testSkillTemplate, allowedTools: ["Read"] } as any, "1.0.0");
-    expect(result).toContain("allowed-tools: Read");
   });
 });
 
@@ -453,15 +449,6 @@ describe("formatSkill — field ordering", () => {
     expect(dmiPos).toBeLessThan(uiPos);
   });
 
-  it("cursor adapter does not emit new behavioral fields", () => {
-    const result = cursorAdapter.formatSkill(
-      { ...testSkillTemplate, userInvocable: false, argumentHint: "hint", allowedTools: ["Read"] } as any,
-      "1.0.0",
-    );
-    expect(result).not.toContain("user-invocable");
-    expect(result).not.toContain("argument-hint");
-    expect(result).not.toContain("allowed-tools");
-  });
 });
 
 describe("GitHub Copilot formatAgent", () => {
@@ -498,7 +485,7 @@ describe("GitHub Copilot formatAgent", () => {
     const result = githubCopilotAdapter.formatAgent!(testAgentTemplate, "1.0.0");
     const body = result.split("---")[2];
     expect(body).toContain("## Available skills");
-    expect(body).toContain(`- ${SKILL_NAMES.GIT_MASTER}`);
+    expect(body).toContain(`- ${SKILL_NAMES.GIT}`);
     expect(body).toContain(`- ${SKILL_NAMES.DESIGN}`);
   });
 
@@ -519,6 +506,53 @@ describe("GitHub Copilot formatAgent", () => {
     expect(result).toContain("## Acceptance checks");
     expect(result).toContain("- All tasks done");
     expect(result).toContain("- Tests pass");
+  });
+
+  it("emits tools as YAML array when allowedTools is set", () => {
+    const result = githubCopilotAdapter.formatAgent!(
+      { ...testAgentTemplate, allowedTools: ["Read", "Grep", "Glob"] },
+      "1.0.0",
+    );
+    const frontmatter = result.split("---")[1];
+    expect(frontmatter).toContain("tools: [Read, Grep, Glob]");
+    expect(frontmatter).not.toContain("allowed-tools:");
+  });
+
+  it("omits tools when allowedTools is empty", () => {
+    const result = githubCopilotAdapter.formatAgent!(
+      { ...testAgentTemplate, allowedTools: [] },
+      "1.0.0",
+    );
+    const frontmatter = result.split("---")[1];
+    expect(frontmatter).not.toContain("tools:");
+  });
+
+  it("emits handoffs when defined", () => {
+    const result = githubCopilotAdapter.formatAgent!(
+      {
+        ...testAgentTemplate,
+        handoffs: [
+          {
+            label: "Start Execution",
+            agent: "kernel-do",
+            prompt: "Execute the plan.",
+            send: false,
+          },
+        ],
+      },
+      "1.0.0",
+    );
+    const frontmatter = result.split("---")[1];
+    expect(frontmatter).toContain("handoffs:");
+    expect(frontmatter).toContain("label: Start Execution");
+    expect(frontmatter).toContain("agent: kernel-do");
+    expect(frontmatter).toContain("prompt: Execute the plan.");
+    expect(frontmatter).toContain("send: false");
+  });
+
+  it("omits handoffs when not defined", () => {
+    const result = githubCopilotAdapter.formatAgent!(testAgentTemplate, "1.0.0");
+    expect(result).not.toContain("handoffs:");
   });
 });
 
@@ -562,12 +596,32 @@ describe("GitHub Copilot manifest", () => {
   });
 
   it("generates manifest content", () => {
-    const result = githubCopilotAdapter.formatManifest!(
-      [testSkillTemplate as any],
-      "1.0.0",
-    );
+    const result = githubCopilotAdapter.formatManifest!([testSkillTemplate as any], "1.0.0");
     expect(result).toContain("# Skills Index");
     expect(result).toContain("## planner");
     expect(result).toContain("**Description**: Planning agent");
+  });
+});
+
+describe("COMMAND_NAMES", () => {
+  it("all command names have kernel- prefix", () => {
+    const values = Object.values(COMMAND_NAMES);
+    expect(values.length).toBeGreaterThan(0);
+    for (const cmd of values) {
+      expect(cmd).toStartWith("kernel-");
+    }
+  });
+
+  it("all command names are unique", () => {
+    const values = Object.values(COMMAND_NAMES);
+    const unique = new Set(values);
+    expect(unique.size).toBe(values.length);
+  });
+
+  it("expected commands are defined", () => {
+    expect(COMMAND_NAMES.INIT).toBe("kernel-init");
+    expect(COMMAND_NAMES.SYNC).toBe("kernel-sync");
+    expect(COMMAND_NAMES.DOCTOR).toBe("kernel-doctor");
+    expect(COMMAND_NAMES.GH_PR_ERRORS).toBe("kernel-gh-pr-errors");
   });
 });

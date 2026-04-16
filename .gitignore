@@ -4,6 +4,9 @@ node_modules/
 # Build output
 dist/
 
+# Generated template bundles (regenerated at build time)
+src/templates/.generated/
+
 # Block ALL binaries in packages bin directories
 packages/*/bin/*
 !packages/*/bin/.gitkeep
@@ -30,4 +33,3 @@ yarn.lock
 test-injection/
 notepad.md
 oauth-success.html
-.opencode-export

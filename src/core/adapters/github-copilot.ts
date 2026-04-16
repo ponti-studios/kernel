@@ -34,18 +34,19 @@
  */
 
 import path from "path";
-import type { AgentTemplate, SkillTemplate } from "../templates/types.js";
+import type { AgentTemplate, CommandTemplate, SkillTemplate } from "../templates/types.js";
 import {
-    closeSkillFrontmatter,
-    escapeYamlValue,
-    formatAgentBody,
-    formatFullSkillFrontmatter,
-    formatManifestContent,
+  closeSkillFrontmatter,
+  escapeYamlValue,
+  formatAgentBody,
+  formatCompatibilityCommand,
+  formatFullSkillFrontmatter,
+  formatManifestContent,
 } from "./shared.js";
 import type { ToolCommandAdapter } from "./types.js";
 
 export const githubCopilotAdapter: ToolCommandAdapter = {
-  toolId: "github-copilot",
+  toolId: "copilot",
   toolName: "GitHub Copilot",
   skillsDir: ".github",
 
@@ -55,6 +56,10 @@ export const githubCopilotAdapter: ToolCommandAdapter = {
 
   getSkillPath(skillName: string): string {
     return path.join(".github", "skills", skillName, "SKILL.md");
+  },
+
+  getCommandPath(commandName: string): string {
+    return path.join(".github", "commands", `${commandName}.md`);
   },
 
   formatAgent(template: AgentTemplate, _version: string): string {
@@ -76,17 +81,31 @@ export const githubCopilotAdapter: ToolCommandAdapter = {
       frontmatterLines.push(`argument-hint: ${escapeYamlValue(template.argumentHint)}`);
     }
     if (template.allowedTools && template.allowedTools.length > 0) {
-      frontmatterLines.push(`allowed-tools: ${template.allowedTools.join(", ")}`);
+      frontmatterLines.push(`tools: [${template.allowedTools.join(", ")}]`);
     }
-    if (template.availableSkills && template.availableSkills.length > 0) {
-      frontmatterLines.push(`agents: ${template.availableSkills.join(", ")}`);
+    if (template.handoffs && template.handoffs.length > 0) {
+      const handoffLines = template.handoffs.map((h) => {
+        const parts = [`  - label: ${escapeYamlValue(h.label)}`, `    agent: ${h.agent}`];
+        if (h.prompt) parts.push(`    prompt: ${escapeYamlValue(h.prompt)}`);
+        if (h.send !== undefined) parts.push(`    send: ${h.send}`);
+        if (h.model) parts.push(`    model: ${escapeYamlValue(h.model)}`);
+        return parts.join("\n");
+      });
+      frontmatterLines.push(`handoffs:\n${handoffLines.join("\n")}`);
     }
 
     return `---\n${frontmatterLines.join("\n")}\n---\n\n${formatAgentBody(template)}`;
   },
 
   formatSkill(template: SkillTemplate, version: string): string {
-    return closeSkillFrontmatter(formatFullSkillFrontmatter(template, version), template.instructions);
+    return closeSkillFrontmatter(
+      formatFullSkillFrontmatter(template, version),
+      template.instructions,
+    );
+  },
+
+  formatCommand(template: CommandTemplate, version: string): string {
+    return formatCompatibilityCommand(template, version, "GitHub Copilot");
   },
 
   getManifestPath(): string {

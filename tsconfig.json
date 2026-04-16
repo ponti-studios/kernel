@@ -21,7 +21,6 @@
     "src/cli/**/*.ts",
     "src/core/**/*.ts",
     "src/templates/**/*.ts",
-    "src/templates/.generated/**/*.ts",
     "src/types/**/*.ts"
   ],
   "exclude": ["node_modules", "dist"]

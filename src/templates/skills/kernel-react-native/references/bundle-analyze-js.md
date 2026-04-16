@@ -36,11 +36,13 @@ EXPO_UNSTABLE_ATLAS=true npx expo export --platform ios && npx expo-atlas
 ## Understanding Hermes Bytecode
 
 Modern React Native (0.70+) uses Hermes bytecode, not raw JavaScript:
+
 - Skips parsing at runtime
 - Still benefits from smaller bundles
 - Heavy imports still execute on startup
 
 **Impact of bundle size:**
+
 - Larger bytecode = longer download from store
 - More imports on init path = slower TTI
 
@@ -81,9 +83,10 @@ Opens browser with treemap visualization:
 ![Bundle Treemap from source-map-explorer](images/bundle-treemap-source-map-explorer.png)
 
 The treemap shows:
+
 - **Hierarchy**: `node_modules/` → `react-native/` → `Libraries/` → individual files
 - **Size**: Box area proportional to file size (KB shown in labels)
-- **Major components visible**: 
+- **Major components visible**:
   - `react-native` (724.18 KB, 80.5%)
   - `Renderer` (208.44 KB) - ReactNativeRenderer-prod.js, ReactFabric-prod.js
   - `Components` (125.29 KB) - Touchable, ScrollView, etc.
@@ -151,12 +154,10 @@ npx bundle-stats --html --json stats.json
 
 ```javascript
 // rspack.config.js
-const { RsdoctorRspackPlugin } = require('@rsdoctor/rspack-plugin');
+const { RsdoctorRspackPlugin } = require("@rsdoctor/rspack-plugin");
 
 module.exports = {
-  plugins: [
-    process.env.RSDOCTOR && new RsdoctorRspackPlugin(),
-  ].filter(Boolean),
+  plugins: [process.env.RSDOCTOR && new RsdoctorRspackPlugin()].filter(Boolean),
 };
 ```
 
@@ -170,13 +171,13 @@ RSDOCTOR=true npx react-native start
 
 ### Red Flags
 
-| Finding | Problem | Solution |
-|---------|---------|----------|
-| Entire library imported | Barrel exports | Use direct imports |
-| Duplicate packages | Multiple versions | Dedupe in package.json |
-| Dev dependencies in bundle | Incorrect imports | Check conditional imports |
-| Large polyfills | Unnecessary for Hermes | Remove (see native-sdks-over-polyfills.md) |
-| Moment.js with locales | Bloated date library | Switch to date-fns or dayjs |
+| Finding                    | Problem                | Solution                                   |
+| -------------------------- | ---------------------- | ------------------------------------------ |
+| Entire library imported    | Barrel exports         | Use direct imports                         |
+| Duplicate packages         | Multiple versions      | Dedupe in package.json                     |
+| Dev dependencies in bundle | Incorrect imports      | Check conditional imports                  |
+| Large polyfills            | Unnecessary for Hermes | Remove (see native-sdks-over-polyfills.md) |
+| Moment.js with locales     | Bloated date library   | Switch to date-fns or dayjs                |
 
 ### Common Offenders
 
@@ -191,12 +192,12 @@ RSDOCTOR=true npx react-native start
 
 ```tsx
 // BAD: Imports entire library through barrel
-import { format } from 'date-fns';
+import { format } from "date-fns";
 
 // In bundle: All of date-fns loaded
 
 // GOOD: Direct import
-import format from 'date-fns/format';
+import format from "date-fns/format";
 
 // In bundle: Only format function
 ```
@@ -236,7 +237,7 @@ npx react-native bundle \
   --minify true && \
 npx source-map-explorer ios-bundle.js --no-border-checks
 
-# Android bundle analysis  
+# Android bundle analysis
 npx react-native bundle \
   --entry-file index.js \
   --bundle-output android-bundle.js \

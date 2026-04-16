@@ -1,6 +1,6 @@
 {
   "$schema": "https://unpkg.com/knip@5/schema.json",
-  "ignoreFiles": ["**/*.test.ts", "**/test-setup.ts", ".opencode/plugins/**"],
+  "ignoreFiles": ["**/*.test.ts", "**/test-setup.ts"],
   "ignoreExportsUsedInFile": true,
   "ignoreDependencies": ["detect-libc", "lint-staged", "oxfmt", "oxlint"]
 }

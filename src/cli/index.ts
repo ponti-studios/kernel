@@ -10,7 +10,14 @@ import { Command } from "commander";
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { executeSync } from "./sync.js";
+import { registerDoctorCommand } from "./commands/doctor.js";
+import { registerHostCommand } from "./commands/host.js";
+import { registerInitCommand } from "./commands/init.js";
+import { registerInitiativeCommand } from "./commands/initiative.js";
+import { registerMilestoneCommand } from "./commands/milestone.js";
+import { registerProjectCommand } from "./commands/project.js";
+import { registerSyncCommand } from "./commands/sync.js";
+import { registerWorkCommand } from "./commands/work.js";
 
 function getVersion(): string {
   const metaPath = fileURLToPath(import.meta.url);
@@ -30,14 +37,18 @@ const program = new Command();
 
 program
   .name("kernel")
-  .description("AI-native development workflows for any coding assistant")
-  .version(getVersion());
+  .description("Local brain and workflow OS for coding agents")
+  .version(getVersion())
+  .option("--json", "Emit JSON output instead of human-readable output")
+  .showHelpAfterError();
 
-program
-  .command("sync")
-  .description("Install agents and skills to user-level directories")
-  .action(async () => {
-    await executeSync({});
-  });
+registerInitCommand(program);
+registerSyncCommand(program);
+registerDoctorCommand(program);
+registerHostCommand(program);
+registerInitiativeCommand(program);
+registerProjectCommand(program);
+registerMilestoneCommand(program);
+registerWorkCommand(program);
 
 export { program };

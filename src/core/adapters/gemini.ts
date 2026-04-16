@@ -20,11 +20,12 @@
 
 import path from "path";
 import type { ToolCommandAdapter } from "./types.js";
-import type { AgentTemplate, SkillTemplate } from "../templates/types.js";
+import type { AgentTemplate, CommandTemplate, SkillTemplate } from "../templates/types.js";
 import {
   escapeYamlValue,
   formatBaseSkillFrontmatter,
   closeSkillFrontmatter,
+  formatCompatibilityCommand,
   formatAgentBody,
 } from "./shared.js";
 
@@ -41,6 +42,10 @@ export const geminiAdapter: ToolCommandAdapter = {
     return path.join(".gemini", "skills", skillName, "SKILL.md");
   },
 
+  getCommandPath(commandName: string): string {
+    return path.join(".gemini", "commands", `${commandName}.md`);
+  },
+
   formatAgent(template: AgentTemplate, _version: string): string {
     const frontmatterLines = [
       `name: ${template.name}`,
@@ -53,6 +58,13 @@ export const geminiAdapter: ToolCommandAdapter = {
   },
 
   formatSkill(template: SkillTemplate, version: string): string {
-    return closeSkillFrontmatter(formatBaseSkillFrontmatter(template, version), template.instructions);
+    return closeSkillFrontmatter(
+      formatBaseSkillFrontmatter(template, version),
+      template.instructions,
+    );
+  },
+
+  formatCommand(template: CommandTemplate, version: string): string {
+    return formatCompatibilityCommand(template, version, "Gemini");
   },
 };

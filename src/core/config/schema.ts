@@ -7,36 +7,10 @@
 import { z } from "zod";
 
 /**
- * Profile determines which commands/skills are installed
- * - core: Essential workflows only
- * - extended: All workflows
- * - custom: User-selected subset
- */
-export const ProfileSchema = z.enum(["core", "extended", "custom"]);
-export type Profile = z.infer<typeof ProfileSchema>;
-
-/**
- * Delivery mode: what gets installed
- * - skills: Skills only
- * - both: Skills plus native agents where the selected tool supports them
- *
- * @deprecated 'commands' — removed in favour of skill-first delivery.
- */
-export const DeliverySchema = z.enum(["skills", "both"]);
-export type Delivery = z.infer<typeof DeliverySchema>;
-
-/**
  * Supported AI tool identifiers
  * This list covers the AI coding tools currently supported by the project.
  */
-export const ToolIdSchema = z.enum([
-  "opencode",
-  "claude",
-  "codex",
-  "github-copilot",
-  "gemini",
-  "cursor",
-]);
+export const ToolIdSchema = z.enum(["claude", "codex", "copilot", "opencode", "pi"]);
 export type ToolId = z.infer<typeof ToolIdSchema>;
 
 /**
@@ -49,15 +23,6 @@ export const ConfigSchema = z.object({
 
   /** Which AI tools to configure */
   tools: z.array(ToolIdSchema).min(1, "At least one tool must be configured"),
-
-  /** Which profile of commands/skills to install */
-  profile: ProfileSchema.default("core"),
-
-  /** Custom workflows (when profile is 'custom') */
-  customWorkflows: z.array(z.string()).optional(),
-
-  /** What to install: skills or both (skills + agents) */
-  delivery: DeliverySchema.default("both"),
 
   /**
    * Path to the personal knowledge vault containing .codex/skills/.

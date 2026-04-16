@@ -1,13 +1,65 @@
+---
+name: kernel-auth-contract
+kind: skill
+tags:
+  - backend
+  - auth
+profile: extended
+description: Defines and enforces the authentication and authorization contract
+  for apps and services. Use when implementing login, session management, token
+  handling, protected routes, inter-service auth, or when users ask how auth
+  should work.
+license: MIT
+compatibility: Any full-stack project with authentication requirements.
+metadata:
+  author: project
+  version: "1.0"
+  category: Security
+  tags:
+    - auth
+    - authentication
+    - authorization
+    - jwt
+    - session
+    - tokens
+    - middleware
+    - protected-routes
+    - rbac
+when:
+  - user is implementing login, logout, or registration
+  - user is managing sessions, JWTs, or refresh tokens
+  - user is adding auth middleware to an API
+  - user is implementing protected routes in the frontend
+  - user is designing role-based access control
+  - user is implementing inter-service authentication
+applicability:
+  - Use when implementing any authentication or authorization flow
+  - Use when reviewing token storage, expiry, or rotation strategy
+  - Use when adding an auth guard to a frontend route
+  - Use when designing inter-service credential passing
+termination:
+  - Session contract is defined and typed
+  - Token lifecycle (access + refresh) is implemented per spec
+  - API middleware verifies session before handler executes
+  - Frontend auth guard handles loading, authenticated, and unauthenticated
+    states
+outputs:
+  - Session type definition
+  - Token verification middleware
+  - Frontend auth guard component
+  - Logout implementation that revokes server-side
+---
+
 Authentication and authorization contract for apps and services. Better-Auth owns all authentication — never implement custom session handling, JWT issuance, or password hashing.
 
 ## Toolchain
 
-| Concern | Tool |
-|---|---|
-| Auth provider | Better-Auth |
-| Session hook (React) | `better-auth/react` → `useSession()` |
-| Server middleware | Better-Auth Hono plugin |
-| Inter-service auth | Short-lived signed tokens (custom — Better-Auth doesn't cover s2s) |
+| Concern              | Tool                                                               |
+| -------------------- | ------------------------------------------------------------------ |
+| Auth provider        | Better-Auth                                                        |
+| Session hook (React) | `better-auth/react` → `useSession()`                               |
+| Server middleware    | Better-Auth Hono plugin                                            |
+| Inter-service auth   | Short-lived signed tokens (custom — Better-Auth doesn't cover s2s) |
 
 Never use: custom JWT libraries, Passport.js, NextAuth, Lucia, or hand-rolled session logic.
 
@@ -22,8 +74,8 @@ export const auth = betterAuth({
   database: db,
   emailAndPassword: { enabled: true },
   session: {
-    expiresIn: 60 * 60 * 24 * 7,        // 7 days
-    updateAge: 60 * 60 * 24,             // refresh if older than 24h
+    expiresIn: 60 * 60 * 24 * 7, // 7 days
+    updateAge: 60 * 60 * 24, // refresh if older than 24h
     cookieCache: { enabled: true, maxAge: 5 * 60 },
   },
   trustedOrigins: [process.env.APP_URL!],

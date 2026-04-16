@@ -1,7 +1,7 @@
 {
   "name": "@hackefeller/kernel",
-  "version": "0.0.5",
-  "description": "Upgrade an AI agent with stronger workflows, templates, and execution guidance.",
+  "version": "0.0.6",
+  "description": "Local brain and workflow OS for coding agents.",
   "keywords": [
     "agent",
     "ai",
@@ -27,26 +27,21 @@
   ],
   "type": "module",
   "scripts": {
-    "generate:template-refs": "bun ./src/templates/.generated/generate.ts",
-    "build": "bun run generate:template-refs && bun build ./src/cli/main.ts --compile --outfile ./dist/kernel && cp ./package.json ./dist/",
-    "build:bin": "bun run generate:template-refs && bun build ./src/cli/main.ts --compile --outfile ./dist/kernel && cp ./package.json ./dist/",
-    "build:dev": "bun run generate:template-refs && bun build ./src/cli/main.ts --compile --outfile ./dist/kernel-dev && cp ./package.json ./dist/",
+    "build": "rm -rf dist && bun build ./src/cli/main.ts --compile --outfile ./dist/kernel",
     "dev:cli": "bun ./src/cli/main.ts",
-    "link:dev": "ln -sf $PWD/dist/kernel-dev /usr/local/bin/kernel-dev",
-    "test": "bun run generate:template-refs && bun test",
-    "test:vault": "bun test src/core/vault/__tests__",
-    "typecheck": "bun run generate:template-refs && bun --bun tsc --noEmit",
+    "link": "ln -sf $PWD/dist/kernel /usr/local/bin/kernel",
+    "test": "bun test",
+    "typecheck": "bun --bun tsc --noEmit",
     "lefthook": "lefthook",
     "prepare": "lefthook install"
   },
   "dependencies": {
+    "chalk": "^5.6.2",
     "commander": "^14.0.2",
     "yaml": "^2.8.0",
     "zod": "^4.1.8"
   },
   "devDependencies": {
-    "@commitlint/cli": "^20.5.0",
-    "@commitlint/config-conventional": "^20.5.0",
     "@changesets/cli": "^2.30.0",
     "bun-types": "latest",
     "knip": "^5.85.0",

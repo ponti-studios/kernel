@@ -14,7 +14,7 @@ async function mkTmpDir(): Promise<string> {
 describe("Tool Definitions", () => {
   it("has tools defined", async () => {
     const { TOOL_DEFINITIONS } = await import("../definitions.js");
-    expect(TOOL_DEFINITIONS.length).toBe(6);
+    expect(TOOL_DEFINITIONS.length).toBe(5);
   });
 
   it("each tool has unique id", async () => {
@@ -29,13 +29,6 @@ describe("Tool Definitions", () => {
     for (const tool of TOOL_DEFINITIONS) {
       expect(tool.skillsDir).toBeDefined();
     }
-  });
-
-  it("opencode tool exists", async () => {
-    const { TOOL_DEFINITIONS } = await import("../definitions.js");
-    const opencode = TOOL_DEFINITIONS.find((t: any) => t.id === "opencode");
-    expect(opencode).toBeDefined();
-    expect(opencode!.skillsDir).toBe(".opencode");
   });
 
   it("codex tool exists", async () => {
@@ -62,7 +55,7 @@ describe("Adapter Registry", () => {
     const registry = createPopulatedAdapterRegistry();
     const adapters = registry.getAll();
     expect(Array.isArray(adapters)).toBe(true);
-    expect(adapters.length).toBe(6);
+    expect(adapters.length).toBe(5);
   });
 
   it("throws on unknown tool", async () => {
@@ -75,12 +68,11 @@ describe("Adapter Registry", () => {
     const { createPopulatedAdapterRegistry } = await import("../../adapters/index.js");
     const registry = createPopulatedAdapterRegistry();
     const ids = registry.getRegisteredToolIds();
-    expect(ids).toContain("opencode");
     expect(ids).toContain("claude");
     expect(ids).toContain("codex");
-    expect(ids).toContain("github-copilot");
-    expect(ids).toContain("gemini");
-    expect(ids).toContain("cursor");
+    expect(ids).toContain("copilot");
+    expect(ids).toContain("opencode");
+    expect(ids).toContain("pi");
   });
 });
 
@@ -122,37 +114,40 @@ describe("detectAvailableTools — filesystem detection", () => {
     expect(result).toEqual([]);
   });
 
-  it("detects opencode when .opencode/ directory exists", async () => {
+  it("detects pi when .pi/ directory exists", async () => {
     const { detectAvailableTools } = await import("../detector.js");
-    await fs.mkdir(path.join(tmpDir, ".opencode"), { recursive: true });
+    await fs.mkdir(path.join(tmpDir, ".pi"), { recursive: true });
     const result = await detectAvailableTools(tmpDir);
-    expect(result).toContain("opencode");
+    expect(result).toContain("pi");
   });
 
   it("detects multiple tools when multiple directories exist", async () => {
     const { detectAvailableTools } = await import("../detector.js");
+    await fs.mkdir(path.join(tmpDir, ".pi"), { recursive: true });
+    await fs.mkdir(path.join(tmpDir, ".github"), { recursive: true });
     await fs.mkdir(path.join(tmpDir, ".opencode"), { recursive: true });
-    await fs.mkdir(path.join(tmpDir, ".cursor"), { recursive: true });
     await fs.mkdir(path.join(tmpDir, ".claude"), { recursive: true });
     const result = await detectAvailableTools(tmpDir);
+    expect(result).toContain("pi");
+    expect(result).toContain("copilot");
     expect(result).toContain("opencode");
-    expect(result).toContain("cursor");
     expect(result).toContain("claude");
   });
 
   it("ignores a file at a skillsDir path (not a directory)", async () => {
     const { detectAvailableTools } = await import("../detector.js");
-    // Create a file named .opencode instead of a directory
-    await fs.writeFile(path.join(tmpDir, ".opencode"), "not a dir", "utf-8");
+    // Create a file named .pi instead of a directory
+    await fs.writeFile(path.join(tmpDir, ".pi"), "not a dir", "utf-8");
     const result = await detectAvailableTools(tmpDir);
-    expect(result).not.toContain("opencode");
+    expect(result).not.toContain("pi");
   });
 
   it("does not detect tools whose directories are absent", async () => {
     const { detectAvailableTools } = await import("../detector.js");
-    await fs.mkdir(path.join(tmpDir, ".opencode"), { recursive: true });
+    await fs.mkdir(path.join(tmpDir, ".pi"), { recursive: true });
     const result = await detectAvailableTools(tmpDir);
-    expect(result).not.toContain("cursor");
+    expect(result).not.toContain("copilot");
+    expect(result).not.toContain("opencode");
     expect(result).not.toContain("claude");
   });
 });
@@ -180,21 +175,21 @@ describe("isToolAvailable — filesystem detection", () => {
 
   it("returns false when directory is absent", async () => {
     const { isToolAvailable } = await import("../detector.js");
-    const result = await isToolAvailable(tmpDir, "opencode");
+    const result = await isToolAvailable(tmpDir, "pi");
     expect(result).toBe(false);
   });
 
   it("returns true when directory is present", async () => {
     const { isToolAvailable } = await import("../detector.js");
-    await fs.mkdir(path.join(tmpDir, ".opencode"), { recursive: true });
-    const result = await isToolAvailable(tmpDir, "opencode");
+    await fs.mkdir(path.join(tmpDir, ".pi"), { recursive: true });
+    const result = await isToolAvailable(tmpDir, "pi");
     expect(result).toBe(true);
   });
 
   it("returns false when path is a file instead of directory", async () => {
     const { isToolAvailable } = await import("../detector.js");
-    await fs.writeFile(path.join(tmpDir, ".opencode"), "file not dir", "utf-8");
-    const result = await isToolAvailable(tmpDir, "opencode");
+    await fs.writeFile(path.join(tmpDir, ".pi"), "file not dir", "utf-8");
+    const result = await isToolAvailable(tmpDir, "pi");
     expect(result).toBe(false);
   });
 });

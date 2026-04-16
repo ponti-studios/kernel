@@ -26,12 +26,7 @@ config.transformer.getTransformOptions = async () => ({
 ```javascript
 // babel.config.js (non-Expo projects must set `disableImportExportTransform`)
 module.exports = {
-  presets: [
-    [
-      'module:@react-native/babel-preset',
-      { disableImportExportTransform: true },
-    ],
-  ],
+  presets: [["module:@react-native/babel-preset", { disableImportExportTransform: true }]],
 };
 ```
 
@@ -56,7 +51,7 @@ module.exports = {
 
 ```javascript
 // metro.config.js
-const { getDefaultConfig } = require('expo/metro-config');
+const { getDefaultConfig } = require("expo/metro-config");
 
 const config = getDefaultConfig(__dirname);
 
@@ -112,13 +107,13 @@ Code inside `Platform.OS` and `Platform.select` checks is removed for other plat
 
 ```tsx
 // IMPORTANT: import Platform directly from 'react-native'
-import { Platform } from 'react-native';
+import { Platform } from "react-native";
 
-if (Platform.OS === 'ios') {
+if (Platform.OS === "ios") {
   // Removed from Android bundle
 }
 
-if (Platform.select({ ios: true, android: false }) === 'ios') {
+if (Platform.select({ ios: true, android: false }) === "ios") {
   // Removed from Android bundle
 }
 ```
@@ -126,8 +121,8 @@ if (Platform.select({ ios: true, android: false }) === 'ios') {
 **Critical**: Must use direct import. This does NOT work:
 
 ```tsx
-import * as RN from 'react-native';
-if (RN.Platform.OS === 'ios') {
+import * as RN from "react-native";
+if (RN.Platform.OS === "ios") {
   // NOT removed - optimization fails
 }
 ```
@@ -135,6 +130,7 @@ if (RN.Platform.OS === 'ios') {
 For non-Expo projects, requires both `experimentalImportSupport: true` in Metro config and `disableImportExportTransform: true` in Babel config.
 
 Impact: Savings from enabling platform shaking on a bare React Native Community CLI project are:
+
 - 5% smaller Hermes bytecode (2.79 MB → 2.64 MB)
 - 15% smaller minified JS bundle (1 MB → 0.85 MB)
 
@@ -144,10 +140,10 @@ Impact: Savings from enabling platform shaking on a bare React Native Community 
 
 ```tsx
 // ✅ ESM - Tree shakeable
-import { foo } from './module';
+import { foo } from "./module";
 
 // ❌ CommonJS - Not tree shakeable
-const { foo } = require('./module');
+const { foo } = require("./module");
 ```
 
 ### Side Effects Declaration
@@ -190,11 +186,11 @@ Or specify files with side effects:
 
 ```tsx
 // test-treeshake.js
-export const usedFunction = () => 'used';
-export const unusedFunction = () => 'unused'; // Should be removed
+export const usedFunction = () => "used";
+export const unusedFunction = () => "unused"; // Should be removed
 
 // app.js
-import { usedFunction } from './test-treeshake';
+import { usedFunction } from "./test-treeshake";
 ```
 
 After building, search bundle for `unusedFunction`. Should not exist.

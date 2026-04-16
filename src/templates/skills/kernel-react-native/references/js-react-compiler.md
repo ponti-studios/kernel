@@ -98,15 +98,15 @@ For non-Expo React Native projects, configure Babel manually:
 ```javascript
 // babel.config.js
 const ReactCompilerConfig = {
-  target: '19', // Use '18' for React Native < 0.78
+  target: "19", // Use '18' for React Native < 0.78
 };
 
 module.exports = function (api) {
   api.cache(true);
   return {
-    presets: ['module:@react-native/babel-preset'],
+    presets: ["module:@react-native/babel-preset"],
     plugins: [
-      ['babel-plugin-react-compiler', ReactCompilerConfig], // Must run first!
+      ["babel-plugin-react-compiler", ReactCompilerConfig], // Must run first!
       // ... other plugins
     ],
   };
@@ -130,15 +130,15 @@ Configure ESLint:
 
 ```javascript
 // .eslintrc.js
-const { defineConfig } = require('eslint/config');
-const expoConfig = require('eslint-config-expo/flat');
-const reactCompiler = require('eslint-plugin-react-compiler');
+const { defineConfig } = require("eslint/config");
+const expoConfig = require("eslint-config-expo/flat");
+const reactCompiler = require("eslint-plugin-react-compiler");
 
 module.exports = defineConfig([
   expoConfig,
   reactCompiler.configs.recommended,
   {
-    ignores: ['dist/*'],
+    ignores: ["dist/*"],
   },
 ]);
 ```
@@ -158,12 +158,12 @@ Open React DevTools. Optimized components show a `Memo ✨` badge.
 You can also verify by checking build output—compiled code includes automatic memoization:
 
 ```javascript
-import { c as _c } from 'react/compiler-runtime';
+import { c as _c } from "react/compiler-runtime";
 
 export default function MyApp() {
   const $ = _c(1);
   let t0;
-  if ($[0] === Symbol.for('react.memo_cache_sentinel')) {
+  if ($[0] === Symbol.for("react.memo_cache_sentinel")) {
     t0 = <div>Hello World</div>;
     $[0] = t0;
   } else {
@@ -192,11 +192,11 @@ module.exports = function (api) {
   return {
     presets: [
       [
-        'babel-preset-expo',
+        "babel-preset-expo",
         {
-          'react-compiler': {
+          "react-compiler": {
             sources: (filename) => {
-              return filename.includes('src/path/to/dir');
+              return filename.includes("src/path/to/dir");
             },
           },
         },
@@ -211,17 +211,17 @@ module.exports = function (api) {
 ```javascript
 // babel.config.js
 const ReactCompilerConfig = {
-  target: '19',
+  target: "19",
   sources: (filename) => {
-    return filename.includes('src/path/to/dir');
+    return filename.includes("src/path/to/dir");
   },
 };
 
 module.exports = function (api) {
   api.cache(true);
   return {
-    presets: ['module:@react-native/babel-preset'],
-    plugins: [['babel-plugin-react-compiler', ReactCompilerConfig]],
+    presets: ["module:@react-native/babel-preset"],
+    plugins: [["babel-plugin-react-compiler", ReactCompilerConfig]],
   };
 };
 ```
@@ -242,7 +242,7 @@ Use the `"use no memo"` directive to skip optimization for specific components o
 
 ```jsx
 function ProblematicComponent() {
-  'use no memo';
+  "use no memo";
 
   return <Text>Will not be optimized</Text>;
 }
@@ -258,27 +258,23 @@ The compiler transforms your code to automatically cache values:
 
 ```jsx
 export default function MyApp() {
-  const [value, setValue] = useState('');
-  return (
-    <TextInput onChangeText={() => setValue(value)}>Hello World</TextInput>
-  );
+  const [value, setValue] = useState("");
+  return <TextInput onChangeText={() => setValue(value)}>Hello World</TextInput>;
 }
 ```
 
 **After (compiled output):**
 
 ```jsx
-import { c as _c } from 'react/compiler-runtime';
+import { c as _c } from "react/compiler-runtime";
 
 export default function MyApp() {
   const $ = _c(2); // Cache with 2 slots
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
 
   let t0;
   if ($[0] !== value) {
-    t0 = (
-      <TextInput onChangeText={() => setValue(value)}>Hello World</TextInput>
-    );
+    t0 = <TextInput onChangeText={() => setValue(value)}>Hello World</TextInput>;
     $[0] = value;
     $[1] = t0;
   } else {
@@ -306,7 +302,7 @@ const Button = ({ onPress, label }) => (
 
 // Callbacks - auto-cached (no useCallback needed)
 const handlePress = () => {
-  console.log('pressed');
+  console.log("pressed");
 };
 
 // Expensive computations - auto-cached (no useMemo needed)
@@ -318,14 +314,14 @@ const filtered = items.filter((item) => item.active);
 ```jsx
 // BAD: Mutating props
 const BadComponent = ({ items }) => {
-  items.push('new item'); // Mutation!
+  items.push("new item"); // Mutation!
   return <List data={items} />;
 };
 
 // BAD: Mutating during render
 const BadMutation = () => {
   const [items, setItems] = useState([]);
-  items.push('new'); // Mutation during render!
+  items.push("new"); // Mutation during render!
   return <List data={items} />;
 };
 

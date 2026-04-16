@@ -5,7 +5,7 @@
  * Import from here — never reimplement locally in an adapter.
  */
 
-import type { AgentTemplate, SkillTemplate } from "../templates/types.js";
+import type { AgentTemplate, CommandTemplate, SkillTemplate } from "../templates/types.js";
 
 // ─── YAML helpers ─────────────────────────────────────────────────────────────
 
@@ -57,7 +57,7 @@ export function formatBaseSkillFrontmatter(template: SkillTemplate, version: str
  * Full skill frontmatter including lifecycle fields (when, applicability,
  * termination, outputs, dependencies) and the optional Claude-specific
  * disable-model-invocation flag. Used by adapters that surface these fields
- * to the AI (Claude Code, OpenCode).
+ * to the AI (Claude Code).
  */
 export function formatFullSkillFrontmatter(template: SkillTemplate, version: string): string[] {
   const lines = formatBaseSkillFrontmatter(template, version);
@@ -100,11 +100,73 @@ export function closeSkillFrontmatter(lines: string[], instructions: string): st
   return [...lines, "---", "", instructions].join("\n");
 }
 
+// ─── Command formatting ───────────────────────────────────────────────────────
+
+export function formatCommandFrontmatter(template: CommandTemplate, version: string): string[] {
+  const lines = [
+    "---",
+    `name: ${template.name}`,
+    `description: ${escapeYamlValue(template.description)}`,
+    "metadata:",
+    "  author: project",
+    `  generatedBy: "${version}"`,
+  ];
+
+  if (template.tags && template.tags.length > 0) {
+    lines.push(`tags: [${template.tags.join(", ")}]`);
+  }
+  if (template.backedBySkill) {
+    lines.push(`backed-by-skill: ${template.backedBySkill}`);
+  }
+  if (template.argumentsHint) {
+    lines.push(`argument-hint: ${escapeYamlValue(template.argumentsHint)}`);
+  }
+  if (template.target) {
+    lines.push(`target: ${escapeYamlValue(template.target)}`);
+  }
+  if (template.group) {
+    lines.push(`group: ${template.group}`);
+  }
+  if (template.allowedTools && template.allowedTools.length > 0) {
+    lines.push(`allowed-tools: ${template.allowedTools.join(", ")}`);
+  }
+
+  return lines;
+}
+
+export function closeCommandFrontmatter(lines: string[], instructions: string): string {
+  return [...lines, "---", "", instructions].join("\n");
+}
+
+export function formatCompatibilityCommand(
+  template: CommandTemplate,
+  version: string,
+  toolName: string,
+): string {
+  const lines = formatCommandFrontmatter(template, version);
+  lines.push("native-command: false");
+  lines.push(`tool: ${escapeYamlValue(toolName)}`);
+
+  let body = template.instructions.trim();
+  if (template.target || template.backedBySkill) {
+    const routingLines: string[] = [];
+    if (template.target) {
+      routingLines.push(`- Preferred CLI target: \`kernel ${template.target}\``);
+    }
+    if (template.backedBySkill) {
+      routingLines.push(`- Preferred backing skill: ${template.backedBySkill}`);
+    }
+    body += `\n\n## Kernel Routing\n\n${routingLines.join("\n")}`;
+  }
+
+  return closeCommandFrontmatter(lines, body);
+}
+
 // ─── Agent body ───────────────────────────────────────────────────────────────
 
 /**
  * Shared agent body for tools that support an `## Available skills` section
- * (OpenCode, GitHub Copilot, Gemini). Skills are NOT preloaded — the section
+ * (GitHub Copilot, Gemini). Skills are NOT preloaded — the section
  * is informational only.
  */
 export function formatAgentBody(template: AgentTemplate): string {
@@ -129,7 +191,7 @@ export function formatAgentBody(template: AgentTemplate): string {
 
 /**
  * Shared skills-index manifest body used by adapters that emit a discovery
- * manifest (Claude Code, OpenCode). The path is handled by each adapter's
+ * manifest (Claude Code). The path is handled by each adapter's
  * getManifestPath(); only the content is shared here.
  */
 export function formatManifestContent(skills: SkillTemplate[], version: string): string {

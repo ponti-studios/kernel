@@ -1,11 +1,15 @@
 /**
  * Template Constants
  *
- * Single source of truth for all skill names.
- * When updating a skill name, update it here and rebuild.
+ * Single source of truth for all template identifiers.
+ * When updating a name, update it here and rebuild.
+ *
+ * All identifiers include the KERNEL_TEMPLATE_PREFIX and are defined with
+ * full prefix as they appear in generated files.
  *
  * SKILL_NAMES: Complete skill identifiers (includes prefix)
- *   - Defined with full prefix as they appear in generated files
+ * AGENT_NAMES: Complete agent identifiers (includes prefix)
+ * COMMAND_NAMES: Complete command identifiers (includes prefix)
  */
 
 export const KERNEL_TEMPLATE_PREFIX = "kernel-";
@@ -19,37 +23,41 @@ export function prefixKernelTemplateName(name: string): string {
 // =============================================================================
 export const SKILL_NAMES = {
   // Git skills
-  GIT_MASTER: prefixKernelTemplateName("git-master"),
+  GIT: prefixKernelTemplateName("git"),
 
   // Engineering skills
   PROJECT_SETUP: prefixKernelTemplateName("project-setup"),
-  DOCS_WORKFLOW: prefixKernelTemplateName("docs-workflow"),
+  DOCS: prefixKernelTemplateName("docs"),
   PROJECT_INIT: prefixKernelTemplateName("project-init"),
   BUILD: prefixKernelTemplateName("build"),
-  DEPLOY: prefixKernelTemplateName("deploy"),
-  MAP_CODEBASE: prefixKernelTemplateName("map-codebase"),
+  LOCATE: prefixKernelTemplateName("locate"),
 
   // Workflow skills
-  CHECK: prefixKernelTemplateName("check"),
-  REVIEW: prefixKernelTemplateName("review"),
-  PROPOSE: prefixKernelTemplateName("propose"),
-  EXPLORE: prefixKernelTemplateName("explore"),
   APPLY: prefixKernelTemplateName("apply"),
   ARCHIVE: prefixKernelTemplateName("archive"),
+  BOARD: prefixKernelTemplateName("board"),
+  CLOSE: prefixKernelTemplateName("close"),
+  EXECUTE: prefixKernelTemplateName("execute"),
+  INTAKE: prefixKernelTemplateName("intake"),
+  PLAN: prefixKernelTemplateName("plan"),
+  PROPOSE: prefixKernelTemplateName("propose"),
+  INVESTIGATE: prefixKernelTemplateName("investigate"),
+  REVIEW: prefixKernelTemplateName("review"),
+  SHIP: prefixKernelTemplateName("ship"),
+  STATUS: prefixKernelTemplateName("status"),
   SYNC: prefixKernelTemplateName("sync"),
   TRIAGE: prefixKernelTemplateName("triage"),
   UNBLOCK: prefixKernelTemplateName("unblock"),
-  BOARD: prefixKernelTemplateName("board"),
   // Specialist skills
-  API_ENGINEERING: prefixKernelTemplateName("api-engineering"),
+  API_ARCHITECTURE: prefixKernelTemplateName("api-architecture"),
   ASSET_INTEGRATION_SECURITY: prefixKernelTemplateName("asset-integration-security"),
   AUTH_CONTRACT: prefixKernelTemplateName("auth-contract"),
-  DATABASE_WORKFLOW: prefixKernelTemplateName("database-workflow"),
-  DOCKER_WORKFLOW: prefixKernelTemplateName("docker-workflow"),
+  DATABASE: prefixKernelTemplateName("database"),
+  DOCKER: prefixKernelTemplateName("docker"),
   PDF: prefixKernelTemplateName("pdf"),
-  REACT_PATTERNS: prefixKernelTemplateName("react-patterns"),
-  TESTING_STANDARDS: prefixKernelTemplateName("testing-standards"),
-  TYPE_ARCHITECTURE: prefixKernelTemplateName("type-architecture"),
+  REACT: prefixKernelTemplateName("react"),
+  TESTING: prefixKernelTemplateName("testing"),
+  TYPESCRIPT_ARCHITECTURE: prefixKernelTemplateName("typescript-architecture"),
   // Mobile skills
   REACT_NATIVE: prefixKernelTemplateName("react-native"),
 
@@ -58,8 +66,6 @@ export const SKILL_NAMES = {
   // Ecosystem skills
   SKILL_BUILDER: prefixKernelTemplateName("skill-builder"),
 } as const;
-
-export const EXTENDED_SKILL_NAMES: Record<string, never> = {} as const;
 
 export const AGENT_NAMES = {
   ARCHITECT: prefixKernelTemplateName("architect"),
@@ -70,4 +76,32 @@ export const AGENT_NAMES = {
   PLAN: prefixKernelTemplateName("plan"),
   REVIEW: prefixKernelTemplateName("review"),
   SEARCH: prefixKernelTemplateName("search"),
+} as const;
+
+export const COMMAND_NAMES = {
+  INIT: prefixKernelTemplateName("init"),
+  SYNC: prefixKernelTemplateName("sync"),
+  DOCTOR: prefixKernelTemplateName("doctor"),
+  GH_PR_ERRORS: prefixKernelTemplateName("gh-pr-errors"),
+  INITIATIVE_NEW: prefixKernelTemplateName("initiative-new"),
+  INITIATIVE_PLAN: prefixKernelTemplateName("initiative-plan"),
+  INITIATIVE_STATUS: prefixKernelTemplateName("initiative-status"),
+  INITIATIVE_LIST: prefixKernelTemplateName("initiative-list"),
+  INITIATIVE_DONE: prefixKernelTemplateName("initiative-done"),
+  PROJECT_NEW: prefixKernelTemplateName("project-new"),
+  PROJECT_PLAN: prefixKernelTemplateName("project-plan"),
+  PROJECT_STATUS: prefixKernelTemplateName("project-status"),
+  PROJECT_LIST: prefixKernelTemplateName("project-list"),
+  PROJECT_DONE: prefixKernelTemplateName("project-done"),
+  MILESTONE_NEW: prefixKernelTemplateName("milestone-new"),
+  MILESTONE_PLAN: prefixKernelTemplateName("milestone-plan"),
+  MILESTONE_STATUS: prefixKernelTemplateName("milestone-status"),
+  MILESTONE_LIST: prefixKernelTemplateName("milestone-list"),
+  MILESTONE_DONE: prefixKernelTemplateName("milestone-done"),
+  WORK_NEW: prefixKernelTemplateName("work-new"),
+  WORK_PLAN: prefixKernelTemplateName("work-plan"),
+  WORK_NEXT: prefixKernelTemplateName("work-next"),
+  WORK_DONE: prefixKernelTemplateName("work-done"),
+  WORK_STATUS: prefixKernelTemplateName("work-status"),
+  WORK_ARCHIVE: prefixKernelTemplateName("work-archive"),
 } as const;

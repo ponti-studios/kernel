@@ -1,8 +1,59 @@
+---
+name: kernel-project-setup
+kind: skill
+tags:
+  - project
+  - setup
+profile: extended
+description: "Manages the full lifecycle of a local development environment:
+  initial setup, daily workflow, health diagnostics, cleanup, and
+  backup/restore. Use when onboarding to a project for the first time, the dev
+  environment feels broken, dependencies are stale, or when users ask how to set
+  up, reset, or diagnose their local environment."
+license: MIT
+compatibility: Works with any development environment
+metadata:
+  author: project
+  version: "2.0"
+  category: Engineering
+  tags:
+    - environment
+    - setup
+    - onboarding
+    - cleanup
+    - health
+    - backup
+    - maintenance
+    - monorepo
+    - docker
+when:
+  - user is setting up a project for the first time on a new machine
+  - user is onboarding a new developer to the project
+  - the development environment has a health issue to diagnose
+  - user needs to clean up build artifacts, caches, or temporary files
+  - user needs to reset or restore a broken local environment
+  - user needs to back up project files before a risky change
+applicability:
+  - Use for any first-time or fresh-clone project setup
+  - "Use for environment hygiene: diagnosing, cleaning, backing up, or restoring"
+  - Use when setup documentation is missing or the README instructions fail
+termination:
+  - Development server starts and serves the application
+  - All required environment variables are configured
+  - Environment cleaned and verified functional
+  - Health check completed with issues identified and remediation steps provided
+outputs:
+  - Working local development environment with running dev server
+  - Health report with diagnosed issues and remediation steps
+  - Clean workspace or restored project state
+---
+
 Get an existing project running on your local machine.
 
 ## Prerequisites
 
 Before cloning:
+
 - Bun installed (`curl -fsSL https://bun.sh/install | bash`)
 - Docker Desktop running (for local infrastructure)
 - Git with SSH key configured
@@ -56,6 +107,7 @@ bun run dev
 ```
 
 Before pushing:
+
 ```bash
 bun run typecheck && bun run lint && bun test
 ```
@@ -64,16 +116,16 @@ bun run typecheck && bun run lint && bun test
 
 Run in order. Stop at the first failure — later checks depend on earlier ones passing.
 
-| Area | Command | Healthy signal |
-|------|---------|---------------|
-| Runtime | `bun --version` | Returns a version ≥ 1.0 |
-| Docker | `docker compose ps` | All infrastructure services show "Up (healthy)" |
-| Dependencies | `bun install --frozen-lockfile` | Exits 0 with no warnings |
-| Environment | `diff <(grep -oP '^[A-Z_]+' .env.example) <(grep -oP '^[A-Z_]+' .env.local)` | No missing keys |
-| Type check | `bun run typecheck` | Exits 0 |
-| Build | `bun run build` | Exits 0, output in `dist/` |
-| Tests | `bun test` | All pass |
-| Lint | `bun run lint` | Exits 0 |
+| Area         | Command                                                                      | Healthy signal                                  |
+| ------------ | ---------------------------------------------------------------------------- | ----------------------------------------------- |
+| Runtime      | `bun --version`                                                              | Returns a version ≥ 1.0                         |
+| Docker       | `docker compose ps`                                                          | All infrastructure services show "Up (healthy)" |
+| Dependencies | `bun install --frozen-lockfile`                                              | Exits 0 with no warnings                        |
+| Environment  | `diff <(grep -oP '^[A-Z_]+' .env.example) <(grep -oP '^[A-Z_]+' .env.local)` | No missing keys                                 |
+| Type check   | `bun run typecheck`                                                          | Exits 0                                         |
+| Build        | `bun run build`                                                              | Exits 0, output in `dist/`                      |
+| Tests        | `bun test`                                                                   | All pass                                        |
+| Lint         | `bun run lint`                                                               | Exits 0                                         |
 
 **Report format:** `healthy` | `degraded (specific issues)` | `broken (remediation steps)`.
 

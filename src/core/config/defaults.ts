@@ -10,8 +10,6 @@ import type { Config } from "./schema.js";
  */
 export const DEFAULT_CONFIG: Omit<Config, "tools"> = {
   version: "1.0.0",
-  profile: "core",
-  delivery: "both",
 };
 
 /**

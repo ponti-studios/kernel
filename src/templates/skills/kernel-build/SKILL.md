@@ -1,14 +1,48 @@
+---
+name: kernel-build
+kind: skill
+tags:
+  - infrastructure
+  - tooling
+profile: extended
+description: Runs and diagnoses the build, type-check, test, and lint pipeline
+  using Bun, Vite, tsgo, and Vitest. Use when a build fails, tests are broken,
+  CI is failing, or when running the full pipeline before a deploy or merge.
+license: MIT
+compatibility: Bun + Vite + TypeScript 7 projects.
+metadata:
+  author: project
+  version: "2.0"
+  category: Engineering
+when:
+  - running a production build
+  - running tests or debugging a test failure
+  - diagnosing a CI failure that doesn't reproduce locally
+  - debugging a build failure after a dependency or config change
+applicability:
+  - Use when building or testing a project
+  - Use when a build or test is failing and the root cause is unknown
+termination:
+  - Build succeeds with zero errors and zero suppressed warnings
+  - All tests pass
+  - Root cause of any failure is identified and fixed
+outputs:
+  - Passing build and test suite
+  - Root cause analysis if a failure was diagnosed
+argumentHint: package name or test filter (optional)
+---
+
 Run builds, type-checks, and tests using the prescribed toolchain. Diagnose and fix failures.
 
 ## Prescribed Toolchain
 
-| Concern | Tool |
-|---|---|
-| Runtime | Bun |
-| Build | Vite (`bun run build`) |
+| Concern    | Tool                       |
+| ---------- | -------------------------- |
+| Runtime    | Bun                        |
+| Build      | Vite (`bun run build`)     |
 | Type-check | tsgo (`bun run typecheck`) |
-| Test | Vitest (`bun test`) |
-| Lint | ESLint (`bun run lint`) |
+| Test       | Vitest (`bun test`)        |
+| Lint       | ESLint (`bun run lint`)    |
 
 Never use: `npm`, `npx`, `yarn`, `pnpm`, `tsc` (use tsgo), Jest, Webpack, or any other substitute.
 
@@ -56,12 +90,12 @@ bun test --project packages/db
 
 ### CI vs. local differences
 
-| Symptom | Likely cause |
-|---|---|
+| Symptom                     | Likely cause                                                                            |
+| --------------------------- | --------------------------------------------------------------------------------------- |
 | Passes locally, fails in CI | Missing env var; lockfile drift (`bun install --frozen-lockfile`); case-sensitive paths |
-| Fails locally, passes in CI | Stale local artifacts — clean and rebuild |
-| Flaky test | Timing assumption or shared state — isolate the test |
-| Type error only in CI | tsgo version mismatch — check `package.json` |
+| Fails locally, passes in CI | Stale local artifacts — clean and rebuild                                               |
+| Flaky test                  | Timing assumption or shared state — isolate the test                                    |
+| Type error only in CI       | tsgo version mismatch — check `package.json`                                            |
 
 ## Guardrails
 

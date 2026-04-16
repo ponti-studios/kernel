@@ -28,15 +28,15 @@ On mobile: react-native-reanimated worklets. Never the Animated API from React N
 
 Never reimplement these locally. Import from the project's sequences file.
 
-| Sequence | Function signature | When |
-|----------|--------------------|------|
-| Component arrives | `playFocusExpand(el, onComplete?)` | Sheet open, panel reveal, form mount |
-| Component leaves | `playFocusCollapse(el, onComplete?)` | Sheet dismiss, form close |
-| In-place mode switch | `playContextSwitch(el or el[])` | Label/content swap on context change |
-| Submit confirmation | `playSubmitPulse(btnEl, inputEl, onComplete?)` | Form submit before clear |
-| List row arrives | `playEnterRow(el, delay?)` | New item in feed, sidebar, or list |
-| List row leaves | `playExitRow(el, onComplete?)` | Item removal |
-| Loading skeleton | `playShimmer(el)` → returns tween | Skeleton states; `.kill()` on data resolve |
+| Sequence             | Function signature                             | When                                       |
+| -------------------- | ---------------------------------------------- | ------------------------------------------ |
+| Component arrives    | `playFocusExpand(el, onComplete?)`             | Sheet open, panel reveal, form mount       |
+| Component leaves     | `playFocusCollapse(el, onComplete?)`           | Sheet dismiss, form close                  |
+| In-place mode switch | `playContextSwitch(el or el[])`                | Label/content swap on context change       |
+| Submit confirmation  | `playSubmitPulse(btnEl, inputEl, onComplete?)` | Form submit before clear                   |
+| List row arrives     | `playEnterRow(el, delay?)`                     | New item in feed, sidebar, or list         |
+| List row leaves      | `playExitRow(el, onComplete?)`                 | Item removal                               |
+| Loading skeleton     | `playShimmer(el)` → returns tween              | Skeleton states; `.kill()` on data resolve |
 
 ---
 
@@ -44,23 +44,23 @@ Never reimplement these locally. Import from the project's sequences file.
 
 Never hardcode duration values. Use the tokens from `motion.ts`.
 
-| Constant | GSAP value | CSS equivalent |
-|----------|-----------|----------------|
-| durations.enter | 0.15 | 150ms |
-| durations.exit | 0.12 | 120ms |
-| durations.standard | 0.12 | 120ms |
-| durations.breezy | 1.8 | 1800ms (loop/wave animations) |
+| Constant           | GSAP value | CSS equivalent                |
+| ------------------ | ---------- | ----------------------------- |
+| durations.enter    | 0.15       | 150ms                         |
+| durations.exit     | 0.12       | 120ms                         |
+| durations.standard | 0.12       | 120ms                         |
+| durations.breezy   | 1.8        | 1800ms (loop/wave animations) |
 
 ---
 
 ## Easing
 
-| Role | GSAP | CSS cubic-bezier |
-|------|------|-----------------|
-| Arriving elements | power2.out | cubic-bezier(0.0, 0.0, 0.2, 1) |
-| Departing elements | power2.in | cubic-bezier(0.4, 0.0, 1, 1) |
-| In-place transitions | power2.inOut | cubic-bezier(0.4, 0, 0.2, 1) |
-| Gesture snap (spring) | elastic.out(1, 0.5) | — (not achievable in CSS) |
+| Role                  | GSAP                | CSS cubic-bezier               |
+| --------------------- | ------------------- | ------------------------------ |
+| Arriving elements     | power2.out          | cubic-bezier(0.0, 0.0, 0.2, 1) |
+| Departing elements    | power2.in           | cubic-bezier(0.4, 0.0, 1, 1)   |
+| In-place transitions  | power2.inOut        | cubic-bezier(0.4, 0, 0.2, 1)   |
+| Gesture snap (spring) | elastic.out(1, 0.5) | — (not achievable in CSS)      |
 
 Spring/elastic easing only for physical gesture completion (swipe snap, drag release).
 Use sparingly — maximum one elastic animation per user interaction.
@@ -69,9 +69,9 @@ Use sparingly — maximum one elastic animation per user interaction.
 
 ## Translate distances
 
-| Direction | Enter | Exit |
-|-----------|-------|------|
-| Y (vertical) | 6px from below | 4px upward |
+| Direction      | Enter             | Exit              |
+| -------------- | ----------------- | ----------------- |
+| Y (vertical)   | 6px from below    | 4px upward        |
 | X (horizontal) | 6px from the side | 4px toward origin |
 
 Always use transform — never animate top/left/right/bottom.
@@ -92,7 +92,7 @@ Never use CSS animations for product surfaces where the reduced motion handling 
 ## Stagger pattern
 
 ```ts
-elements.forEach((el, i) => playEnterRow(el, i * 0.04))
+elements.forEach((el, i) => playEnterRow(el, i * 0.04));
 ```
 
 Maximum cascade: 5 items × 40ms = 200ms total.
@@ -104,12 +104,12 @@ Sidebar stagger for new items: GSAP fromTo `x: -6 → 0, opacity: 0 → 1, durat
 
 ## Animation decision table
 
-| Case | Tool |
-|------|------|
-| Enter/exit, context switches, submit pulse | GSAP (project sequences file) |
+| Case                                            | Tool                                 |
+| ----------------------------------------------- | ------------------------------------ |
+| Enter/exit, context switches, submit pulse      | GSAP (project sequences file)        |
 | Hover background, focus ring, color transitions | CSS `transition-colors duration-150` |
-| List row stagger on data load | GSAP fromTo |
-| Mobile swipe snap | GSAP (local, not shared sequences) |
+| List row stagger on data load                   | GSAP fromTo                          |
+| Mobile swipe snap                               | GSAP (local, not shared sequences)   |
 
 `prefers-reduced-motion`: always guard GSAP animations. CSS transitions are suppressed by the global `transition-duration: 0.01ms !important` rule in the reduced-motion media query.
 
@@ -118,6 +118,7 @@ Sidebar stagger for new items: GSAP fromTo `x: -6 → 0, opacity: 0 → 1, durat
 ## Forbidden animation targets
 
 Never animate these CSS properties — they trigger layout recalculation:
+
 - width, height
 - top, left, right, bottom
 - margin, padding
@@ -131,6 +132,7 @@ Always animate: transform (translate, scale, rotate), opacity.
 
 Only Radix UI (or equivalent headless component library) component state transitions
 via `data-[state=open/closed]` attribute selectors. Examples:
+
 - Dialog open/close
 - Popover open/close
 - DropdownMenu open/close
@@ -143,6 +145,7 @@ via `data-[state=open/closed]` attribute selectors. Examples:
 ## Mobile animation (React Native)
 
 Use react-native-reanimated exclusively:
+
 - `useSharedValue` + `useAnimatedStyle` for value-driven animations
 - `withTiming` (equivalent to GSAP tween) with `Easing.out(Easing.quad)`
 - `withSpring` for gesture snap/release
@@ -150,18 +153,19 @@ Use react-native-reanimated exclusively:
 - `runOnJS()` when callbacks must execute on the JS thread
 
 Never use:
+
 - `Animated` from react-native
 - `LayoutAnimation`
 - CSS transitions or keyframes in React Native
 
 ### Mobile gesture thresholds
 
-| Gesture | Threshold |
-|---------|-----------|
+| Gesture                  | Threshold                                       |
+| ------------------------ | ----------------------------------------------- |
 | Swipe to dismiss (sheet) | velocity > 500 px/s OR distance > 30% of height |
-| Swipe to navigate | velocity > 300 px/s AND distance > 60px |
-| Long press | 500ms |
-| Double tap window | 300ms between taps |
+| Swipe to navigate        | velocity > 300 px/s AND distance > 60px         |
+| Long press               | 500ms                                           |
+| Double tap window        | 300ms between taps                              |
 
 ---
 

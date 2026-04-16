@@ -38,12 +38,14 @@
  */
 
 import path from "path";
-import type { AgentTemplate, SkillTemplate } from "../templates/types.js";
+import type { AgentTemplate, CommandTemplate, SkillTemplate } from "../templates/types.js";
 import {
-    closeSkillFrontmatter,
-    escapeYamlValue,
-    formatFullSkillFrontmatter,
-    formatManifestContent,
+  closeSkillFrontmatter,
+  closeCommandFrontmatter,
+  escapeYamlValue,
+  formatCommandFrontmatter,
+  formatFullSkillFrontmatter,
+  formatManifestContent,
 } from "./shared.js";
 import type { ToolCommandAdapter } from "./types.js";
 
@@ -78,6 +80,10 @@ export const claudeAdapter: ToolCommandAdapter = {
 
   getSkillPath(skillName: string): string {
     return path.join(".claude", "skills", skillName, "SKILL.md");
+  },
+
+  getCommandPath(commandName: string): string {
+    return path.join(".claude", "commands", "kernel", `${commandName}.md`);
   },
 
   formatAgent(template: AgentTemplate, version: string): string {
@@ -116,7 +122,16 @@ export const claudeAdapter: ToolCommandAdapter = {
   },
 
   formatSkill(template: SkillTemplate, version: string): string {
-    return closeSkillFrontmatter(formatFullSkillFrontmatter(template, version), template.instructions);
+    return closeSkillFrontmatter(
+      formatFullSkillFrontmatter(template, version),
+      template.instructions,
+    );
+  },
+
+  formatCommand(template: CommandTemplate, version: string): string {
+    const lines = formatCommandFrontmatter(template, version);
+    lines.push("native-command: true");
+    return closeCommandFrontmatter(lines, template.instructions);
   },
 
   getManifestPath(): string {

@@ -1,49 +1,94 @@
-import { afterEach, beforeEach, describe, expect, it, spyOn } from "bun:test";
+import { afterEach, beforeEach, describe, expect, it } from "bun:test";
 import * as fs from "fs/promises";
 import * as os from "os";
 import * as path from "path";
-import { getDefaultSkillTemplates } from "../../templates/catalog.js";
+import { getBuiltInCatalog } from "../../core/brain/catalog.js";
+import { saveBrainConfig } from "../../core/brain/config.js";
+import { syncKernelBrain } from "../../core/brain/sync.js";
+import { getDefaultAgentTemplates } from "../../templates/catalog.js";
 
 async function mkTmpDir(): Promise<string> {
   return fs.mkdtemp(path.join(os.tmpdir(), "cli-test-"));
 }
 
-describe("executeSync", () => {
-  let tmpDir: string;
-  let configRootDir: string;
+describe("kernel sync", () => {
   let homeDir: string;
-  let logs: string[];
 
   beforeEach(async () => {
-    tmpDir = await mkTmpDir();
-    configRootDir = await mkTmpDir();
     homeDir = await mkTmpDir();
-    logs = [];
-    spyOn(console, "log").mockImplementation((...args: any[]) => {
-      logs.push(args.join(" "));
-    });
+    await saveBrainConfig({ version: "2.0.0", hosts: ["claude", "codex", "copilot", "opencode", "pi"] }, homeDir);
   });
 
   afterEach(async () => {
-    await fs.rm(tmpDir, { recursive: true, force: true });
-    await fs.rm(configRootDir, { recursive: true, force: true });
     await fs.rm(homeDir, { recursive: true, force: true });
-    spyOn(console, "log").mockImplementation((...args: any[]) => console.log(...args));
   });
 
-  it("installs global skills and agents with symlinks to tools", async () => {
-    const { executeSync } = await import("../sync.js");
-    await executeSync({ homePath: homeDir });
-    expect(logs.some((l) => l.includes("~/.agents/skills/"))).toBe(true);
-    expect(logs.some((l) => l.includes("agents to:"))).toBe(true);
-    expect(logs.some((l) => l.includes("Linked skills to:"))).toBe(true);
+  it("syncs canonical .agents catalog and enabled hosts", async () => {
+    const result = await syncKernelBrain(homeDir);
 
-    const skillName = getDefaultSkillTemplates("extended")[0].name;
-    const agentsSkillDir = path.join(homeDir, ".agents", "skills", skillName);
+    expect(result.catalogPath).toBe(path.join(homeDir, ".agents"));
+
+    const skillName = getBuiltInCatalog().skills[0]!.name;
+    const agentName = getDefaultAgentTemplates()[0]!.name;
+
+    const canonicalSkillPath = path.join(homeDir, ".agents", "skills", skillName, "SKILL.md");
+    const canonicalAgentPath = path.join(homeDir, ".agents", "agents", agentName, "AGENT.md");
+    const canonicalCommandPath = path.join(homeDir, ".agents", "commands", "kernel-sync.yaml");
+
+    expect((await fs.stat(canonicalSkillPath)).isFile()).toBe(true);
+    expect((await fs.stat(canonicalAgentPath)).isFile()).toBe(true);
+    expect((await fs.stat(canonicalCommandPath)).isFile()).toBe(true);
+
     const claudeSkillLink = path.join(homeDir, ".claude", "skills", skillName);
-    const stats = await fs.lstat(claudeSkillLink);
+    const codexSkillLink = path.join(homeDir, ".codex", "skills", skillName);
+    const copilotSkillLink = path.join(homeDir, ".copilot", "skills", skillName);
+    const opencodeSkillLink = path.join(homeDir, ".opencode", "skills", skillName);
+    const piSkillLink = path.join(homeDir, ".pi", "skills", skillName);
 
-    expect(stats.isSymbolicLink()).toBe(true);
-    expect(await fs.readlink(claudeSkillLink)).toBe(agentsSkillDir);
+    expect((await fs.lstat(claudeSkillLink)).isSymbolicLink()).toBe(true);
+    expect(await fs.readlink(claudeSkillLink)).toBe(path.join(homeDir, ".agents", "skills", skillName));
+    expect((await fs.lstat(codexSkillLink)).isSymbolicLink()).toBe(true);
+    expect((await fs.lstat(copilotSkillLink)).isSymbolicLink()).toBe(true);
+    expect((await fs.lstat(opencodeSkillLink)).isSymbolicLink()).toBe(true);
+    expect((await fs.lstat(piSkillLink)).isSymbolicLink()).toBe(true);
+
+    expect((await fs.stat(path.join(homeDir, ".claude", "agents", `${agentName}.md`))).isFile()).toBe(true);
+    expect((await fs.stat(path.join(homeDir, ".codex", "agents", `${agentName}.toml`))).isFile()).toBe(true);
+    expect((await fs.stat(path.join(homeDir, ".copilot", "agents", `${agentName}.agent.md`))).isFile()).toBe(true);
+    expect((await fs.stat(path.join(homeDir, ".opencode", "agents", `${agentName}.md`))).isFile()).toBe(true);
+
+    expect((await fs.stat(path.join(homeDir, ".opencode", "commands", "kernel-sync.md"))).isFile()).toBe(true);
+  });
+
+  it("removes stale legacy workflow skills and commands from enabled hosts", async () => {
+    const staleSkillDir = path.join(homeDir, ".claude", "skills");
+    const staleCommandDir = path.join(homeDir, ".claude", "commands", "kernel");
+    await fs.mkdir(staleSkillDir, { recursive: true });
+    await fs.mkdir(staleCommandDir, { recursive: true });
+    await fs.symlink(
+      path.join(homeDir, ".agents", "skills", "kernel-openspec-explore"),
+      path.join(staleSkillDir, "kernel-openspec-explore"),
+      "dir",
+    );
+    await fs.writeFile(path.join(staleCommandDir, "kernel-spec-plan.md"), "legacy", "utf-8");
+
+    await syncKernelBrain(homeDir);
+
+    await expect(fs.lstat(path.join(staleSkillDir, "kernel-openspec-explore"))).rejects.toThrow();
+    await expect(fs.lstat(path.join(staleCommandDir, "kernel-spec-plan.md"))).rejects.toThrow();
+  });
+});
+
+describe("program", () => {
+  it("registers the kernel workflow command surface", async () => {
+    const { program } = await import("../index.js");
+    const commandNames = new Set(program.commands.map((command) => command.name()));
+
+    expect(commandNames.has("init")).toBe(true);
+    expect(commandNames.has("sync")).toBe(true);
+    expect(commandNames.has("doctor")).toBe(true);
+    expect(commandNames.has("host")).toBe(true);
+    expect(commandNames.has("work")).toBe(true);
+    expect(program.options.some((option) => option.long === "--json")).toBe(true);
   });
 });

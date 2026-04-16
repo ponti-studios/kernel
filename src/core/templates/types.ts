@@ -11,15 +11,59 @@
  * - "extended": full skill set, installed for "extended" and "custom" profiles
  */
 export type TemplateProfile = "core" | "extended";
+export type TemplateKind = "skill" | "agent" | "command";
+
+export const VALID_TAGS = [
+  "workflow",
+  "git",
+  "review",
+  "frontend",
+  "mobile",
+  "backend",
+  "infrastructure",
+  "docs",
+  "exploration",
+  "project",
+  "testing",
+  "meta",
+  "api",
+  "typescript",
+  "security",
+  "auth",
+  "database",
+  "devops",
+  "architecture",
+  "planning",
+  "quality",
+  "debugging",
+  "deployment",
+  "setup",
+  "sync",
+  "diagnostics",
+  "kernel",
+  "react",
+  "design",
+  "tooling",
+] as const;
+
+export type TemplateTag = (typeof VALID_TAGS)[number];
+
+interface BaseTemplate {
+  /** Stable identifier shared across catalog, package resolution, and host rendering */
+  name: string;
+
+  /** Template kind used by runtime discovery and validation */
+  kind: TemplateKind;
+
+  /** Tags for categorizing and discovering templates */
+  tags?: TemplateTag[];
+}
 
 /**
  * Skill template - defines reusable skill content
  * Skills are installed to <tool>/skills/<name>/SKILL.md
  */
-export interface SkillTemplate {
-  /** Unique skill identifier (e.g., 'kernel-git-master') */
-  name: string;
-
+export interface SkillTemplate extends BaseTemplate {
   /** Distribution tier — omit to include in all profiles */
   profile?: TemplateProfile;
 
@@ -104,14 +148,56 @@ export interface SkillTemplate {
 }
 
 /**
- * Additional markdown files emitted alongside a skill or agent template.
+ * Additional reference files emitted alongside a skill or agent template.
  */
 export interface TemplateReference {
-  /** Reference path relative to the generated template file, e.g. 'references/common/python.md' */
+  /** Reference path relative to the generated template file, e.g. 'references/common/example.md' */
   relativePath: string;
 
   /** File content */
   content: string;
+}
+
+/**
+ * Command template - defines a command entrypoint or compatibility shim.
+ * Commands are installed through the global sync catalog under ~/.agents/commands/.
+ */
+export interface CommandTemplate {
+  /** Stable command identifier (e.g. 'kernel-work-plan' or 'kernel-sync') */
+  name: string;
+
+  /** Template kind used by runtime discovery and validation */
+  kind: "command";
+
+  /** Tags for categorizing and discovering commands */
+  tags?: TemplateTag[];
+
+  /** Human-readable description */
+  description: string;
+
+  /** Full instructions for the command */
+  instructions: string;
+
+  /** Optional guidance for command arguments */
+  argumentsHint?: string;
+
+  /** CLI target to route to when this command maps directly to a kernel subcommand */
+  target?: string;
+
+  /** High-level menu grouping for hosts that expose command catalogs */
+  group?: "system" | "workflow" | "specialist" | "development";
+
+  /** Tools this command may use without approval prompts */
+  allowedTools?: string[];
+
+  /** Additional reference files emitted alongside the command */
+  references?: TemplateReference[];
+
+  /** Skill this command routes to or wraps, when applicable */
+  backedBySkill?: string;
+
+  /** True when this command should only be emitted on tools with native support */
+  nativeOnly?: boolean;
 }
 
 /**
@@ -169,4 +255,27 @@ export interface AgentTemplate extends SkillTemplate {
    * user | project | local
    */
   memory?: "user" | "project" | "local";
+
+  /**
+   * Handoffs define guided transitions to other agents after this agent completes.
+   * VS Code renders these as clickable buttons after the agent's response.
+   */
+  handoffs?: AgentHandoff[];
+}
+
+/**
+ * A handoff transitions the user to another agent with pre-filled context.
+ * VS Code renders handoffs as interactive buttons after an agent response.
+ */
+export interface AgentHandoff {
+  /** Button label shown to the user */
+  label: string;
+  /** Target agent name to switch to */
+  agent: string;
+  /** Optional prompt pre-filled for the target agent */
+  prompt?: string;
+  /** If true, auto-submits the prompt without user confirmation. Default: false */
+  send?: boolean;
+  /** Optional model override for the handoff. Format: "Model Name (vendor)" */
+  model?: string;
 }

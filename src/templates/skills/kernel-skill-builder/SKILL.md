@@ -1,3 +1,56 @@
+---
+name: kernel-skill-builder
+kind: skill
+tags:
+  - meta
+  - kernel
+profile: extended
+description: Creates, audits, and improves kernel skills against established
+  quality standards. Use when creating a new skill, auditing existing skills for
+  quality, identifying merge candidates across a skill directory, or when a
+  skill's description, body structure, or behavioral fields need improvement.
+license: MIT
+compatibility: Works with kernel skills in this repository.
+metadata:
+  author: project
+  version: "1.0"
+  category: Ecosystem
+  tags:
+    - skills
+    - quality
+    - audit
+    - standards
+    - meta
+    - skill-builder
+when:
+  - user is creating a new kernel skill
+  - user wants to audit one or more existing skills for quality
+  - user asks whether two skills should be merged
+  - a skill description is not in third-person or lacks trigger language
+  - a skill body exceeds 300 lines and needs reference files extracted
+  - a skill contains project-specific package names or proprietary commands
+applicability:
+  - Use when authoring any new skill in the kernel template system
+  - Use when reviewing an existing skill for description quality, body length,
+    or behavioral field coverage
+  - Use when scanning a directory of skills to find merge candidates or
+    systematic issues
+termination:
+  - Each audited skill has a specific, actionable finding or a pass
+  - Merge candidates identified with a concrete action plan
+  - New skill has a passing description, correct body structure, and appropriate
+    behavioral fields set
+outputs:
+  - Per-skill audit report with findings in standard format
+  - Merge candidate report with reason and action plan
+  - Improved skill with updated description, body, and template.ts
+argumentHint: skill name or directory path to audit
+allowedTools:
+  - Read
+  - Grep
+  - Glob
+---
+
 # Skill Builder
 
 Creates, audits, and improves kernel skills against the quality standards of this system. Skills are general-purpose, standards-driven artifacts — not project customizations.
@@ -15,6 +68,7 @@ The description is the ONLY content always in context. It must answer two questi
 **Pattern:** `"{Does X in third-person}. Use when {trigger-1}, {trigger-2}, or when users ask about {X}."`
 
 Rules:
+
 - Third-person subject: "Enforces...", "Guides...", "Provides...", "Manages...", "Diagnoses..."
 - Never starts with "Use when" or "I can" or imperative form ("Enforce...")
 - Includes key user terms users would naturally say ("is this ready to ship?", "break this down", "clean up")
@@ -22,6 +76,7 @@ Rules:
 - Covers WHAT it does AND WHEN to invoke it
 
 **Failure patterns:**
+
 - `"Use when validating production readiness..."` → missing third-person subject
 - `"Code review, formatting, refactoring..."` → noun phrase, no trigger language
 - `"Advanced git workflows..."` → describes content, not behavior or trigger
@@ -31,12 +86,14 @@ Rules:
 Target: under 300 lines. Hard limit: 500 lines. Above 300 lines, extract code examples to reference files.
 
 Canonical section order:
+
 1. One-sentence role statement (no heading)
 2. `## Rule` or `## Standards` — the authoritative constraints
 3. `## Process` or `## Steps` — numbered workflow (if procedural)
 4. `## Guardrails` — must/never list, always last
 
 Rules:
+
 - No project-specific package names (use `@your-org/auth`, not your actual org name)
 - No project-specific commands (`bun run lint` is fine; `bun run validate-db-imports` is not)
 - No team names, repo names, or proprietary tool names
@@ -47,16 +104,17 @@ Rules:
 
 Set these in `template.ts` — they control how platforms invoke the skill:
 
-| Field | When to set |
-|---|---|
-| `disableModelInvocation: true` | Skill has side effects: deploys code, modifies issue state, archives work, creates PRs |
-| `userInvocable: false` | Model-only auto-invoke; never a direct slash command (e.g. `kernel-conventions`) |
-| `argumentHint: "..."` | Skill benefits from a user-supplied argument (`kernel-triage`, `kernel-explore`, `kernel-propose`) |
-| `allowedTools: [...]` | Skill needs specific tools without per-use approval |
+| Field                          | When to set                                                                                        |
+| ------------------------------ | -------------------------------------------------------------------------------------------------- |
+| `disableModelInvocation: true` | Skill has side effects: deploys code, modifies issue state, archives work, creates PRs             |
+| `userInvocable: false`         | Model-only auto-invoke; never a direct slash command (e.g. `kernel-conventions`)                   |
+| `argumentHint: "..."`          | Skill benefits from a user-supplied argument (`kernel-triage`, `kernel-investigate`, `kernel-propose`) |
+| `allowedTools: [...]`          | Skill needs specific tools without per-use approval                                                |
 
 ### 4. Merge Candidates
 
 Two skills are merge candidates when:
+
 - Their `when:` trigger conditions overlap significantly
 - One is a subset of the other's domain
 - Both fire in the same user context
@@ -68,14 +126,15 @@ Merge rule: keep the broader, more general name. Fold the narrower skill in as a
 
 Use `references/` when a skill has substantial code examples, migration guides, or violation catalogs. Reference files are loaded on demand — keep them deep, keep the body shallow.
 
-Structure: `references/<topic>.md` — descriptive, not namespaced.
+Structure: `references/<topic>` — descriptive, not namespaced. Any file type supported.
 
 In `template.ts`:
+
 ```typescript
 references: getSkillReferences(
   SKILL_NAMES.YOUR_SKILL,
-  "references/patterns.md",
-  "references/migration.md",
+  "references/patterns",
+  "references/migration",
 ),
 ```
 
