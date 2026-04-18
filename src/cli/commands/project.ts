@@ -17,9 +17,10 @@ export function registerProjectCommand(program: Command): void {
     .command("new <goal>")
     .description("Create a new project")
     .option("--initiative <initiativeId>", "Initiative ID")
-    .action(async (goal: string, options: { initiative?: string }) => {
+    .option("--target-date <date>", "Target completion date (e.g. 2025-06-30)")
+    .action(async (goal: string, options: { initiative?: string; targetDate?: string }) => {
       printOutput(
-        await createProject(goal, { initiativeId: options.initiative }),
+        await createProject(goal, { initiativeId: options.initiative, targetDate: options.targetDate }),
         program.opts() as { json?: boolean },
       );
     });

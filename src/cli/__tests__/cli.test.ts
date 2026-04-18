@@ -6,7 +6,7 @@ import packageJson from "../../../package.json";
 import { getBuiltInCatalog } from "../../core/brain/catalog.js";
 import { saveBrainConfig } from "../../core/brain/config.js";
 import { syncKernelBrain } from "../../core/brain/sync.js";
-import { getDefaultAgentTemplates } from "../../templates/catalog.js";
+
 
 async function mkTmpDir(): Promise<string> {
   return fs.mkdtemp(path.join(os.tmpdir(), "cli-test-"));
@@ -30,14 +30,11 @@ describe("kernel sync", () => {
     expect(result.catalogPath).toBe(path.join(homeDir, ".agents"));
 
     const skillName = getBuiltInCatalog().skills[0]!.name;
-    const agentName = getDefaultAgentTemplates()[0]!.name;
 
     const canonicalSkillPath = path.join(homeDir, ".agents", "skills", skillName, "SKILL.md");
-    const canonicalAgentPath = path.join(homeDir, ".agents", "agents", agentName, "AGENT.md");
     const canonicalCommandPath = path.join(homeDir, ".agents", "commands", "kernel-sync.yaml");
 
     expect((await fs.stat(canonicalSkillPath)).isFile()).toBe(true);
-    expect((await fs.stat(canonicalAgentPath)).isFile()).toBe(true);
     expect((await fs.stat(canonicalCommandPath)).isFile()).toBe(true);
 
     const claudeSkillLink = path.join(homeDir, ".claude", "skills", skillName);
@@ -51,9 +48,10 @@ describe("kernel sync", () => {
     expect((await fs.lstat(copilotSkillLink)).isSymbolicLink()).toBe(true);
     expect((await fs.lstat(piSkillLink)).isSymbolicLink()).toBe(true);
 
-    expect((await fs.stat(path.join(homeDir, ".claude", "agents", `${agentName}.md`))).isFile()).toBe(true);
-    expect((await fs.stat(path.join(homeDir, ".codex", "agents", `${agentName}.toml`))).isFile()).toBe(true);
-    expect((await fs.stat(path.join(homeDir, ".copilot", "agents", `${agentName}.agent.md`))).isFile()).toBe(true);
+    // agents directory is intentionally empty — all former agents are now commands
+    const agentsDir = path.join(homeDir, ".agents", "agents");
+    const agentEntries = await fs.readdir(agentsDir).catch(() => []);
+    expect(agentEntries).toHaveLength(0);
   });
 
   it("removes stale legacy workflow skills and commands from enabled hosts", async () => {

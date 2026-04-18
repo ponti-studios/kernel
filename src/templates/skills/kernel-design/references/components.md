@@ -1,6 +1,6 @@
 # Design System — Component Specifications
 
-All components use tokens from `foundations.md`. Never hardcode values. All colors resolve per color mode (light/dark) via CSS custom properties.
+All components use tokens from `foundations.md`. Never hardcode values. All colors resolve via dark-mode CSS custom properties.
 
 ## Button
 
@@ -203,7 +203,7 @@ Accent badge (counts, notifications): accent-subtle background, accent text, no 
 Destructive badge (errors, alerts): destructive-subtle background, destructive text.
 Never use badges for long text — truncate at 24 characters maximum.
 
-Note: badges no longer use solid filled backgrounds with white text. The subtle background + colored text pattern is more refined and works better in both color modes.
+Note: badges no longer use solid filled backgrounds with white text. The subtle background + colored text pattern is more refined and keeps the UI consistent in dark mode.
 
 ---
 

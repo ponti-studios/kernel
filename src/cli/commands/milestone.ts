@@ -17,9 +17,10 @@ export function registerMilestoneCommand(program: Command): void {
     .command("new <goal>")
     .description("Create a new milestone")
     .option("--project <projectId>", "Project ID")
-    .action(async (goal: string, options: { project?: string }) => {
+    .option("--target-date <date>", "Target completion date (e.g. 2025-06-30)")
+    .action(async (goal: string, options: { project?: string; targetDate?: string }) => {
       printOutput(
-        await createMilestone(goal, { projectId: options.project }),
+        await createMilestone(goal, { projectId: options.project, targetDate: options.targetDate }),
         program.opts() as { json?: boolean },
       );
     });

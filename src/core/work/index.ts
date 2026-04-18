@@ -1,4 +1,4 @@
-import { rename } from "fs/promises";
+import { cp, rename } from "fs/promises";
 import { dirname, join, relative, resolve } from "node:path";
 import * as yaml from "yaml";
 import {
@@ -7,19 +7,13 @@ import {
   fileExists,
   listDirs,
   readFile,
+  removeDir,
   writeFile,
 } from "../utils/file-system.js";
+import { slugify } from "../utils/slugify.js";
 import type { WorkProject, WorkRecord, WorkTask } from "./types.js";
 
 const RECORD_ID_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
-
-function slugify(value: string): string {
-  return value
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 64);
-}
 
 export function assertValidKernelRecordId(id: string, label = "recordId"): string {
   if (!RECORD_ID_PATTERN.test(id)) {
@@ -101,11 +95,127 @@ async function readPointers(project: WorkProject): Promise<{ currentWorkId: stri
 }
 
 function renderBrief(record: WorkRecord): string {
-  return `# Work Brief\n\n## Goal\n\n${record.goal}\n\n## Success Criteria\n\n- Define what done looks like before implementation starts.\n`;
+  return `# Work Brief
+
+## Goal
+
+${record.goal}
+
+## Context
+
+<!-- Why is this work being done? What problem does it solve or what opportunity does it capture? -->
+<!-- What is the current state, and what will be different when this is done? -->
+
+## Scope
+
+### In scope
+
+- <!-- Specific capability, change, or fix being delivered -->
+- <!-- Add more as needed -->
+
+### Out of scope
+
+- <!-- What is explicitly NOT included — prevents scope creep -->
+- <!-- If it comes up during execution, add a new work item instead -->
+
+## Success Criteria
+
+The work is complete when all of the following are true:
+
+- [ ] <!-- Specific, observable criterion — something a reviewer can verify without asking -->
+- [ ] <!-- Another criterion — behavior, performance, API contract, or test result -->
+- [ ] All tasks in tasks.md are checked off
+- [ ] The implementation has been reviewed and no blockers remain
+
+<!-- Each criterion must be testable. "It works" is not a criterion. -->
+<!-- "A user can submit the form and see a confirmation message" is. -->
+
+## Constraints
+
+<!-- Technical, time, or compatibility constraints that affect how this must be implemented. -->
+<!-- Examples: must not break the public API, must complete in under 200ms, must support Node 18+ -->
+
+## Dependencies
+
+<!-- External work, decisions, or systems that must be in place before this can start or ship. -->
+<!-- Unresolved dependencies are blockers — record them in journal.md if discovered during execution. -->
+
+## Related Work
+
+<!-- Parent: kernel/milestones/<id>/ or kernel/projects/<id>/ -->
+<!-- Blocks: <!-- other work items that cannot start until this is done --> -->
+<!-- Blocked by: <!-- other work items that must finish first --> -->
+`;
 }
 
 function renderPlan(record: WorkRecord): string {
-  return `# Implementation Plan\n\n## Goal\n\n${record.goal}\n\n## Approach\n\n- Start with the simplest vertical slice.\n- Keep the plan concrete and testable.\n\n## Risks\n\n- Capture hidden dependencies and sequencing risks here.\n\n## Validation\n\n- Define the checks that prove the work is done.\n`;
+  return `# Implementation Plan
+
+## Goal
+
+${record.goal}
+
+## Approach
+
+<!-- Describe the overall implementation strategy in 2–5 sentences. -->
+<!-- Which layer are you starting from — data model, API, UI? -->
+<!-- Why this approach over alternatives? What is the key design decision? -->
+
+## Key Decisions
+
+| Decision | Choice | Rationale | Alternative Considered |
+|----------|--------|-----------|----------------------|
+| <!-- e.g. storage backend --> | <!-- e.g. PostgreSQL --> | <!-- e.g. already in infra --> | <!-- e.g. SQLite → no concurrent writes --> |
+
+## Implementation Steps
+
+### 1. Clarify scope and success criteria
+
+- Read brief.md and confirm every success criterion is specific and testable
+- Identify any ambiguities or missing information and resolve them before writing code
+- Confirm all dependencies from brief.md are in place
+- If scope is unclear, update brief.md before proceeding
+
+### 2. Implement the core path
+
+- <!-- Name the files, modules, or APIs you expect to create or modify -->
+- <!-- Describe the sequence: data model → business logic → API → UI, or whichever applies -->
+- <!-- Call out any tricky parts or areas that need extra care -->
+- <!-- Write the smallest implementation that satisfies the success criteria -->
+
+### 3. Verify behavior with tests
+
+- <!-- What tests will be written or updated? -->
+- <!-- Unit tests for isolated logic, integration tests for cross-boundary behavior -->
+- <!-- Edge cases to cover: empty input, concurrent access, failure modes, large payloads -->
+- <!-- Manual verification steps if automated tests cannot cover everything -->
+
+### 4. Capture follow-up work
+
+- <!-- Known improvements deferred out of scope -->
+- <!-- Technical debt being accepted, and why -->
+- <!-- Observations or discoveries that should feed into the next work item -->
+
+## Risks
+
+| Risk | Likelihood | Impact | Mitigation |
+|------|-----------|--------|------------|
+| <!-- e.g. third-party API is unstable --> | <!-- High / Med / Low --> | <!-- High / Med / Low --> | <!-- e.g. add retry with exponential backoff --> |
+| <!-- e.g. migration is slow on large tables --> | <!-- Med --> | <!-- High --> | <!-- e.g. run in batches with a progress log --> |
+
+## Validation
+
+How to verify this work is correct:
+
+- **Automated:** \`<!-- test command, e.g. bun test src/auth/ -->\`
+- **Manual:** <!-- step-by-step check a reviewer can follow without guidance -->
+- **Regression:** <!-- what existing behavior must still work after this change -->
+
+## Rollback
+
+<!-- How to undo this change if it causes problems after shipping. -->
+<!-- e.g. revert the commit, disable the feature flag, run the down migration -->
+`;
 }
 
 function renderTasks(record: WorkRecord): string {
@@ -138,13 +248,11 @@ async function saveWorkRecord(project: WorkProject, record: WorkRecord): Promise
 function matchesTaskIdentifier(task: Pick<WorkTask, "id" | "title">, normalizedId: string): boolean {
   return (
     task.id === normalizedId ||
-    slugify(task.title) === normalizedId ||
-    task.id.startsWith(normalizedId) ||
-    slugify(task.title).startsWith(normalizedId)
+    slugify(task.title) === normalizedId
   );
 }
 
-async function syncTaskMarkdown(project: WorkProject, workId: string, normalizedId: string): Promise<void> {
+async function syncTaskMarkdown(project: WorkProject, workId: string, completedTask: WorkTask): Promise<void> {
   const tasksPath = join(project.workDir, workId, "tasks.md");
   if (!(await fileExists(tasksPath))) {
     return;
@@ -163,7 +271,8 @@ async function syncTaskMarkdown(project: WorkProject, workId: string, normalized
     }
 
     const title = match[2];
-    if (!matchesTaskIdentifier({ id: slugify(title), title }, normalizedId)) {
+    // Match by exact title or by matching the task id against the title slug
+    if (title !== completedTask.title && slugify(title) !== completedTask.id) {
       return line;
     }
 
@@ -174,6 +283,16 @@ async function syncTaskMarkdown(project: WorkProject, workId: string, normalized
   if (updated) {
     await writeFile(tasksPath, nextLines.join("\n"));
   }
+}
+
+async function appendJournal(project: WorkProject, workId: string, entry: string): Promise<void> {
+  const journalPath = join(project.workDir, workId, "journal.md");
+  if (!(await fileExists(journalPath))) {
+    return;
+  }
+  const now = new Date().toISOString();
+  const current = await readFile(journalPath);
+  await writeFile(journalPath, current.trimEnd() + "\n" + `- ${now}: ${entry}` + "\n");
 }
 
 async function pathExists(filePath: string): Promise<boolean> {
@@ -199,9 +318,17 @@ async function loadWorkRecord(project: WorkProject, workId: string): Promise<Wor
   const raw = yaml.parse(await readFile(workPath)) as WorkRecord;
   const tasksPath = join(project.workDir, safeWorkId, "tasks.md");
   if (await fileExists(tasksPath)) {
-    const storedTasks = new Map(
-      (raw.tasks ?? []).map((task) => [task.id || slugify(task.title), task] satisfies [string, WorkTask]),
-    );
+    // Index by both task.id and slugify(task.title) so tasks.md titles
+    // correctly re-link with stored metadata even when the id differs from the title slug.
+    const storedTasks = new Map<string, WorkTask>();
+    for (const task of raw.tasks ?? []) {
+      const idKey = task.id || slugify(task.title);
+      storedTasks.set(idKey, task);
+      const titleKey = slugify(task.title);
+      if (titleKey && !storedTasks.has(titleKey)) {
+        storedTasks.set(titleKey, task);
+      }
+    }
     const parsedTasks = (await readFile(tasksPath))
       .split("\n")
       .map((line) => line.match(/^- \[( |x)\] (.+)$/i))
@@ -234,10 +361,33 @@ async function resolveWorkId(project: WorkProject, workId?: string): Promise<str
     return pointers.currentWorkId;
   }
   const workIds = (await listDirs(project.workDir)).filter((entry) => entry !== "archive").sort();
+  if (workIds.length === 0) {
+    throw new Error("No work items found. Run `kernel work new <goal>` to create one.");
+  }
   if (workIds.length === 1) {
+    await writePointers(project, workIds[0]);
     return workIds[0];
   }
-  throw new Error("No active work item found. Run `kernel work new <goal>` or pass `kernel work status <workId>`.");
+  // Multiple items, no pointer — return the most recently updated active item
+  const records = await Promise.all(
+    workIds.map(async (id) => {
+      try {
+        return await loadWorkRecord(project, id);
+      } catch {
+        return null;
+      }
+    }),
+  );
+  const active = records
+    .filter((r): r is WorkRecord => r !== null && r.status === "active")
+    .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+  if (active.length > 0) {
+    await writePointers(project, active[0].id);
+    return active[0].id;
+  }
+  throw new Error(
+    `Multiple work items found but none are active. Run \`kernel work list\` to see available items, then pass an explicit work ID.`,
+  );
 }
 
 export async function createWork(
@@ -372,7 +522,8 @@ export async function completeWorkTask(taskId: string, workId?: string, startDir
   task.completedAt = new Date().toISOString();
   record.updatedAt = task.completedAt;
   await saveWorkRecord(project, record);
-  await syncTaskMarkdown(project, resolvedId, normalized);
+  await syncTaskMarkdown(project, resolvedId, task);
+  await appendJournal(project, resolvedId, `Completed task: ${task.title}`);
   return {
     workId: resolvedId,
     completedTask: task.title,
@@ -380,21 +531,158 @@ export async function completeWorkTask(taskId: string, workId?: string, startDir
   };
 }
 
+export async function listWork(startDir = process.cwd()) {
+  const project = await resolveWorkProject(startDir);
+  await ensureWorkLayout(project);
+  const workIds = (await listDirs(project.workDir)).filter((entry) => entry !== "archive").sort();
+  const items = await Promise.all(
+    workIds.map(async (id) => {
+      try {
+        const record = await loadWorkRecord(project, id);
+        const complete = record.tasks.filter((t) => t.done).length;
+        return {
+          id: record.id,
+          goal: record.goal,
+          status: record.status,
+          milestoneId: record.milestoneId,
+          projectId: record.projectId,
+          progress: { total: record.tasks.length, complete, remaining: record.tasks.length - complete },
+        };
+      } catch {
+        return { id, goal: "(unreadable)", status: "unknown" as const, progress: { total: 0, complete: 0, remaining: 0 } };
+      }
+    }),
+  );
+  const pointers = await readPointers(project);
+  return {
+    currentWorkId: pointers.currentWorkId,
+    items,
+  };
+}
+
 export async function archiveWork(workId?: string, startDir = process.cwd()) {
   const project = await resolveWorkProject(startDir);
   const resolvedId = await resolveWorkId(project, workId);
   const record = await loadWorkRecord(project, resolvedId);
+  const incompleteTasks = record.tasks.filter((t) => !t.done).map((t) => t.title);
+  const now = new Date().toISOString();
   record.status = "archived";
-  record.updatedAt = new Date().toISOString();
+  record.doneAt = now;
+  record.updatedAt = now;
   await saveWorkRecord(project, record);
   const archiveTarget = await resolveUniqueArchiveTarget(project, resolvedId);
-  await rename(join(project.workDir, resolvedId), archiveTarget);
+  const sourceDir = join(project.workDir, resolvedId);
+  await appendJournal(project, resolvedId, incompleteTasks.length > 0
+    ? `Archived with ${incompleteTasks.length} incomplete task(s): ${incompleteTasks.join(", ")}`
+    : "Archived work item");
+  try {
+    await rename(sourceDir, archiveTarget);
+  } catch (err: unknown) {
+    if ((err as NodeJS.ErrnoException).code === "EXDEV") {
+      await cp(sourceDir, archiveTarget, { recursive: true });
+      await removeDir(sourceDir);
+    } else {
+      throw err;
+    }
+  }
+  // Advance pointer to the next available active work item
+  const remaining = (await listDirs(project.workDir))
+    .filter((entry) => entry !== "archive")
+    .sort();
   const pointers = await readPointers(project);
-  if (pointers.currentWorkId === resolvedId) {
-    await writePointers(project, null);
+  if (pointers.currentWorkId === resolvedId || pointers.currentWorkId === null) {
+    await writePointers(project, remaining.length > 0 ? remaining[0] : null);
   }
   return {
     workId: resolvedId,
     archivedTo: relative(project.rootDir, archiveTarget),
+    nextWorkId: remaining.length > 0 ? remaining[0] : null,
+    warnings:
+      incompleteTasks.length > 0
+        ? [`${incompleteTasks.length} incomplete task(s) were archived: ${incompleteTasks.join(", ")}`]
+        : undefined,
+  };
+}
+
+export async function listArchivedWork(startDir = process.cwd()) {
+  const project = await resolveWorkProject(startDir);
+  await ensureDir(project.archiveDir);
+  const archiveDirs = await listDirs(project.archiveDir);
+  const items = await Promise.all(
+    archiveDirs.map(async (dirName) => {
+      try {
+        const yamlPath = join(project.archiveDir, dirName, "work.yaml");
+        const raw = yaml.parse(await readFile(yamlPath)) as WorkRecord;
+        const complete = (raw.tasks ?? []).filter((t) => t.done).length;
+        return {
+          id: raw.id,
+          goal: raw.goal,
+          status: raw.status,
+          doneAt: raw.doneAt,
+          archivedDir: relative(project.rootDir, join(project.archiveDir, dirName)),
+          progress: { total: (raw.tasks ?? []).length, complete, remaining: (raw.tasks ?? []).length - complete },
+        };
+      } catch {
+        return {
+          id: dirName,
+          goal: "(unreadable)",
+          status: "archived" as const,
+          doneAt: undefined,
+          archivedDir: relative(project.rootDir, join(project.archiveDir, dirName)),
+          progress: { total: 0, complete: 0, remaining: 0 },
+        };
+      }
+    }),
+  );
+  return { items };
+}
+
+export async function restoreWork(workId: string, startDir = process.cwd()) {
+  const safeId = assertValidKernelRecordId(workId, "workId");
+  const project = await resolveWorkProject(startDir);
+  await ensureDir(project.archiveDir);
+  const archiveDirs = await listDirs(project.archiveDir);
+  let foundDir: string | null = null;
+  for (const dirName of archiveDirs) {
+    try {
+      const yamlPath = join(project.archiveDir, dirName, "work.yaml");
+      const raw = yaml.parse(await readFile(yamlPath)) as WorkRecord;
+      if (raw.id === safeId) {
+        foundDir = dirName;
+        break;
+      }
+    } catch {
+      // skip unreadable entries
+    }
+  }
+  if (!foundDir) {
+    throw new Error(`No archived work item found with id: ${workId}`);
+  }
+  const sourceDir = join(project.archiveDir, foundDir);
+  const destDir = join(project.workDir, safeId);
+  if (await directoryExists(destDir)) {
+    throw new Error(`Work item ${workId} already exists in the active work directory.`);
+  }
+  try {
+    await rename(sourceDir, destDir);
+  } catch (err: unknown) {
+    if ((err as NodeJS.ErrnoException).code === "EXDEV") {
+      await cp(sourceDir, destDir, { recursive: true });
+      await removeDir(sourceDir);
+    } else {
+      throw err;
+    }
+  }
+  const now = new Date().toISOString();
+  const record = yaml.parse(await readFile(join(destDir, "work.yaml"))) as WorkRecord;
+  record.status = "active";
+  delete record.doneAt;
+  record.updatedAt = now;
+  await writeFile(join(destDir, "work.yaml"), yaml.stringify(record));
+  await appendJournal(project, safeId, "Restored from archive");
+  await writePointers(project, safeId);
+  return {
+    workId: safeId,
+    restoredTo: relative(project.rootDir, destDir),
   };
 }

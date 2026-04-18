@@ -9,6 +9,7 @@ export interface InitiativeRecord {
   id: string;
   goal: string;
   status: "active" | "done" | "archived";
+  doneAt?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -19,6 +20,7 @@ export interface ProjectRecord {
   status: "active" | "done" | "archived";
   initiativeId?: string;
   targetDate?: string;
+  doneAt?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -29,6 +31,7 @@ export interface MilestoneRecord {
   status: "active" | "done" | "archived";
   projectId?: string;
   targetDate?: string;
+  doneAt?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -36,10 +39,11 @@ export interface MilestoneRecord {
 export interface WorkRecord {
   id: string;
   goal: string;
-  status: "active" | "archived";
+  status: "active" | "done" | "archived";
   initiativeId?: string;
   projectId?: string;
   milestoneId?: string;
+  doneAt?: string;
   createdAt: string;
   updatedAt: string;
   tasks: WorkTask[];

@@ -3,8 +3,11 @@ import {
   archiveWork,
   completeWorkTask,
   createWork,
+  listArchivedWork,
+  listWork,
   nextWorkTask,
   planWork,
+  restoreWork,
   workStatus,
 } from "../../core/work/index.js";
 import { printOutput } from "./output.js";
@@ -61,9 +64,28 @@ export function registerWorkCommand(program: Command): void {
     });
 
   work
+    .command("list")
+    .description("List local work items")
+    .option("--archived", "List archived items instead of active ones")
+    .action(async (options: { archived?: boolean }) => {
+      if (options.archived) {
+        printOutput(await listArchivedWork(), program.opts() as { json?: boolean });
+      } else {
+        printOutput(await listWork(), program.opts() as { json?: boolean });
+      }
+    });
+
+  work
     .command("archive [workId]")
     .description("Archive a completed local work item")
     .action(async (workId?: string) => {
       printOutput(await archiveWork(workId), program.opts() as { json?: boolean });
+    });
+
+  work
+    .command("restore <workId>")
+    .description("Restore an archived work item to active")
+    .action(async (workId: string) => {
+      printOutput(await restoreWork(workId), program.opts() as { json?: boolean });
     });
 }

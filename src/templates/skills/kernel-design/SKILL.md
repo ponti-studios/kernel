@@ -115,9 +115,9 @@ Token files are the authoritative source of values. Never use a value that isn't
 
 ## Identity
 
-This design system serves a product that is **Vercel for personal life management, powered by Anthropic Claude**. The aesthetic fuses Vercel's engineering precision and dark-mode-first identity with Claude's warmth, approachability, and quiet intelligence.
+This design system serves product experiences that need to feel precise, calm, and highly usable. The aesthetic balances engineering clarity with a human, approachable tone.
 
-The result: interfaces that feel like they were built by someone who reads both Hacker News and poetry. Technically uncompromising. Emotionally resonant. Never cold, never cute.
+The result: interfaces that feel intentional, fast, and composed. Technically uncompromising. Emotionally readable. Never cold, never cute.
 
 ---
 
@@ -143,9 +143,9 @@ Deviation from this spec requires explicit justification, a concrete tradeoff, a
 
 ### Color mode
 
-- **Dark mode is a first-class citizen**, not an afterthought. Both light and dark tokens are defined in `references/foundations.md`.
-- Use CSS custom properties that resolve per-mode. Never branch with `dark:` utility classes for color — use semantic tokens that swap automatically.
-- Light mode is warm-neutral (stone palette). Dark mode is near-black (Vercel-inspired). Both share the same warm accent.
+- **Dark mode is the only supported color mode.** All tokens are defined in `references/foundations.md` for the dark theme.
+- Use CSS custom properties that resolve to dark-mode values. Never branch with `dark:` utility classes for color — use semantic tokens directly.
+- Use the same dark palette consistently across surfaces, borders, text, and emphasis.
 
 ### Animation
 

@@ -26,3 +26,5 @@ When to use:
 Next steps:
 - Run `kernel-project-status` to review the project
 - Run `kernel-milestone-new --project <id>` to create a milestone
+
+To plan an entire hierarchy (initiative → project → milestone → work items) in one guided flow, invoke the `kernel-plan` skill directly.

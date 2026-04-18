@@ -162,7 +162,7 @@ Never remove cursor feedback from disabled elements — users need to know why t
 }
 ```
 
-Uses the accent-subtle token so selection color matches the warm amber palette in both color modes.
+Uses the accent-subtle token so selection color matches the warm amber palette.
 
 ---
 
@@ -242,14 +242,14 @@ export default function FocusView() {
 
 ### Implementation
 
-- Color mode is controlled by a `data-theme="light|dark"` attribute on `<html>`.
-- All color tokens resolve via CSS custom properties that change per `data-theme`.
-- Never use Tailwind `dark:` variants for colors — they create maintenance burden and miss edge cases.
-- `dark:` variants are acceptable only for non-color properties (e.g., `dark:border` for structural border that only appears in dark mode).
+- Color mode is fixed to `data-theme="dark"` on `<html>`.
+- All color tokens resolve via CSS custom properties for the dark theme.
+- Never use Tailwind `dark:` variants for colors — use the dark tokens directly.
+- Avoid theme variants for non-color properties unless they are required for a specific implementation detail.
 
 ### Visual adjustments in dark mode
 
-- Borders carry more structural weight than shadows. Add `border-subtle` to elevated surfaces that rely only on shadow in light mode.
+- Borders carry more structural weight than shadows. Add `border-subtle` to elevated surfaces that rely only on shadow.
 - Accent color (`#D4A574`) remains the same — it naturally reads warmer against dark backgrounds.
 - Never invert colors (e.g., white → black) — use the defined dark mode token.
 - Images: consider `brightness(0.9)` filter on user-uploaded images to reduce glare in dark mode.

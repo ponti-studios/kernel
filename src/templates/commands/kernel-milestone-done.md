@@ -11,11 +11,14 @@ argumentHint: optional milestone id
 
 Mark a milestone as done.
 
-This updates the milestone status to "done" and records the completion time.
+Before marking complete:
 
-Use when:
-- The milestone deliverable is complete
-- All acceptance criteria have been met
-- Ready to close out the milestone
+- Confirm that all work items under this milestone are archived or explicitly deferred.
+- Use `kernel-milestone-status` to check linked work items.
 
-Note: This does not delete the milestone — it remains accessible in the archive for history.
+This updates the milestone status to "done" and records the completion time. The milestone directory is preserved — it is not deleted.
+
+What to do next:
+
+- Check whether the parent project is now complete — if all its milestones are done, run `kernel-project-done`.
+- Run `kernel-milestone-list` to see remaining active milestones.

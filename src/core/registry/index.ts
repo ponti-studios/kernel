@@ -51,6 +51,8 @@ const DEFAULT_COMMAND_TARGETS = new Set([
   "work done",
   "work status",
   "work archive",
+  "work list",
+  "work restore",
 ]);
 
 const registryCache = new Map<string, TemplateRegistry>();
@@ -308,10 +310,14 @@ function loadFromFilesystem(): TemplateRegistry {
       if (entry.isDirectory()) {
         const filePath = path.join(skillsDir, entry.name, "SKILL.md");
         if (existsSync(filePath)) {
-          const content = readFileSync(filePath, "utf-8");
-          const template = parseSkillTemplate(filePath, content);
-          template.name = entry.name;
-          skills.push(template);
+          try {
+            const content = readFileSync(filePath, "utf-8");
+            const template = parseSkillTemplate(filePath, content);
+            template.name = entry.name;
+            skills.push(template);
+          } catch (err) {
+            console.warn(`[registry] Skipping invalid skill template at ${filePath}: ${(err as Error).message}`);
+          }
         }
       }
     }
@@ -323,10 +329,14 @@ function loadFromFilesystem(): TemplateRegistry {
       if (entry.isDirectory()) {
         const filePath = path.join(agentsDir, entry.name, "AGENT.md");
         if (existsSync(filePath)) {
-          const content = readFileSync(filePath, "utf-8");
-          const template = parseAgentTemplate(filePath, content);
-          template.name = entry.name;
-          agents.push(template);
+          try {
+            const content = readFileSync(filePath, "utf-8");
+            const template = parseAgentTemplate(filePath, content);
+            template.name = entry.name;
+            agents.push(template);
+          } catch (err) {
+            console.warn(`[registry] Skipping invalid agent template at ${filePath}: ${(err as Error).message}`);
+          }
         }
       }
     }
@@ -337,10 +347,14 @@ function loadFromFilesystem(): TemplateRegistry {
     for (const entry of readdirSync(commandsDir, { withFileTypes: true })) {
       if (entry.isFile() && entry.name.endsWith(".md")) {
         const filePath = path.join(commandsDir, entry.name);
-        const content = readFileSync(filePath, "utf-8");
-        const template = parseCommandTemplate(filePath, content);
-        template.name = entry.name.replace(".md", "");
-        commands.push(template);
+        try {
+          const content = readFileSync(filePath, "utf-8");
+          const template = parseCommandTemplate(filePath, content);
+          template.name = entry.name.replace(".md", "");
+          commands.push(template);
+        } catch (err) {
+          console.warn(`[registry] Skipping invalid command template at ${filePath}: ${(err as Error).message}`);
+        }
       }
     }
   }
@@ -374,25 +388,37 @@ function loadBundled(): TemplateRegistry {
   const skills: SkillTemplate[] = [];
   for (const [filePath, content] of Object.entries(skillFiles)) {
     const dirName = filePath.split("/").slice(-2, -1)[0];
-    const template = parseSkillTemplate(filePath, content as string);
-    template.name = dirName;
-    skills.push(template);
+    try {
+      const template = parseSkillTemplate(filePath, content as string);
+      template.name = dirName;
+      skills.push(template);
+    } catch (err) {
+      console.warn(`[registry] Skipping invalid skill template at ${filePath}: ${(err as Error).message}`);
+    }
   }
 
   const agents: AgentTemplate[] = [];
   for (const [filePath, content] of Object.entries(agentFiles)) {
     const dirName = filePath.split("/").slice(-2, -1)[0];
-    const template = parseAgentTemplate(filePath, content as string);
-    template.name = dirName;
-    agents.push(template);
+    try {
+      const template = parseAgentTemplate(filePath, content as string);
+      template.name = dirName;
+      agents.push(template);
+    } catch (err) {
+      console.warn(`[registry] Skipping invalid agent template at ${filePath}: ${(err as Error).message}`);
+    }
   }
 
   const commands: CommandTemplate[] = [];
   for (const [filePath, content] of Object.entries(commandFiles)) {
     const fileName = filePath.split("/").pop()!.replace(".md", "");
-    const template = parseCommandTemplate(filePath, content as string);
-    template.name = fileName;
-    commands.push(template);
+    try {
+      const template = parseCommandTemplate(filePath, content as string);
+      template.name = fileName;
+      commands.push(template);
+    } catch (err) {
+      console.warn(`[registry] Skipping invalid command template at ${filePath}: ${(err as Error).message}`);
+    }
   }
 
   return validateRegistry({

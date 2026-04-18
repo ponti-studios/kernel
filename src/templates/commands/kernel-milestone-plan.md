@@ -26,3 +26,5 @@ When to use:
 Next steps:
 - Run `kernel-milestone-status` to review the milestone
 - Run `kernel-work-new --milestone <id>` to create a work item
+
+To plan an entire hierarchy (initiative → project → milestone → work items) in one guided flow, invoke the `kernel-plan` skill directly.

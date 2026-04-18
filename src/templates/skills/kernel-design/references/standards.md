@@ -124,7 +124,7 @@ Fail the review if any of the following are violated:
 - [ ] No hardcoded colors, sizes, radii, durations, z-indices, or font values
 - [ ] Platform-correct token keys used (web vs. native)
 - [ ] New token added to token files if a value was missing
-- [ ] Both light and dark mode tokens defined for any new color
+- [ ] Dark-mode token defined for any new color
 
 ### Animation
 
@@ -148,7 +148,7 @@ Fail the review if any of the following are violated:
 - [ ] Text dimmed via tier token, not opacity
 - [ ] Accent and destructive never swapped
 - [ ] WCAG AA contrast met (4.5:1 body, 3:1 UI components)
-- [ ] Dark mode tested — not just light mode with `dark:` slapped on
+- [ ] Dark mode tested end to end, with no ad hoc color inversion
 
 ### Accessibility
 

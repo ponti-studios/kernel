@@ -28,4 +28,5 @@ When to archive:
 What to do next:
 
 - Start the next item with `kernel-work-new`.
+- Check whether the parent milestone is now complete — if all its work items are done, run `kernel-milestone-done`.
 - Use the archived record later for review, follow-up planning, or historical context.

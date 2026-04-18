@@ -30,6 +30,11 @@ What good output looks like:
 - The work item is active.
 - The user can immediately open `brief.md`, `plan.md`, and `tasks.md`.
 
+Options:
+
+- `--milestone <milestoneId>` — Link this work item to a milestone
+- `--project <projectId>` — Link this work item directly to a project
+
 What to do next:
 
 - Run `kernel-work-plan` to tighten scope, risks, acceptance criteria, and task sequencing before implementation.

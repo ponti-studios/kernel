@@ -11,11 +11,14 @@ argumentHint: optional project id
 
 Mark a project as done.
 
-This updates the project status to "done" and records the completion time.
+Before marking complete:
 
-Use when:
-- The project deliverable is complete
-- All success criteria have been met
-- Ready to close out the project
+- Confirm that all milestones under this project are done or explicitly deferred.
+- Use `kernel-milestone-list` to check the status of linked milestones.
 
-Note: This does not delete the project — it remains accessible in the archive for history.
+This updates the project status to "done" and records the completion time. The project directory is preserved — it is not deleted.
+
+What to do next:
+
+- Check whether the parent initiative is now complete — if all its projects are done, run `kernel-initiative-done`.
+- Run `kernel-project-list` to see remaining active projects.

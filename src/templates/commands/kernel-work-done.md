@@ -28,3 +28,4 @@ What to do next:
 
 - Run `kernel-work-next` to pick up the next task.
 - Run `kernel-work-status` if you want to inspect the remaining plan before continuing.
+- Run `kernel-work-archive` if this was the last task and the work item is complete.

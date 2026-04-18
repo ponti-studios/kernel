@@ -42,62 +42,62 @@ Rules:
 
 ## Color
 
-The color system uses warm stone neutrals in light mode and near-black in dark mode, unified by a warm amber accent inspired by Claude's personality.
+The color system is dark-mode only: near-black surfaces, warm stone neutrals for structure, and a warm amber accent.
 
-All colors are defined as CSS custom properties that resolve per color mode. Never use raw hex values or Tailwind palette classes in component code.
+All colors are defined as CSS custom properties for the dark theme. Never use raw hex values or Tailwind palette classes in component code.
 
 ### Backgrounds
 
-| Token       | Light                | Dark              | Usage                               |
-| ----------- | -------------------- | ----------------- | ----------------------------------- |
-| bg-base     | `#fafaf9`            | `#0a0a0a`         | Page root, feed background          |
-| bg-surface  | `#f5f5f0`            | `#141414`         | Cards, panels, sidebar              |
-| bg-elevated | `#ffffff`            | `#1c1c1c`         | Modals, popovers, command palette   |
-| bg-inset    | `#eeedea`            | `#0f0f0f`         | Recessed areas, code blocks, inputs |
-| bg-overlay  | `rgba(28,25,23,0.6)` | `rgba(0,0,0,0.7)` | Backdrop behind modals and sheets   |
+| Token       | Value            | Usage                               |
+| ----------- | ---------------- | ----------------------------------- |
+| bg-base     | `#0a0a0a`        | Page root, feed background          |
+| bg-surface  | `#141414`        | Cards, panels, sidebar              |
+| bg-elevated | `#1c1c1c`        | Modals, popovers, command palette   |
+| bg-inset    | `#0f0f0f`        | Recessed areas, code blocks, inputs |
+| bg-overlay  | `rgba(0,0,0,0.7)` | Backdrop behind modals and sheets   |
 
 ### Text
 
-| Token          | Light     | Dark      | Min contrast vs bg-base        |
-| -------------- | --------- | --------- | ------------------------------ |
-| text-primary   | `#1c1917` | `#fafaf9` | 15:1                           |
-| text-secondary | `#57534e` | `#a8a29e` | 7:1                            |
-| text-tertiary  | `#a8a29e` | `#78716c` | 4.5:1                          |
-| text-disabled  | `#d6d3d1` | `#44403c` | Not required (not interactive) |
+| Token          | Value     | Min contrast vs bg-base        |
+| -------------- | --------- | ------------------------------ |
+| text-primary   | `#fafaf9` | 15:1                           |
+| text-secondary | `#a8a29e` | 7:1                            |
+| text-tertiary  | `#78716c` | 4.5:1                          |
+| text-disabled  | `#44403c` | Not required (not interactive) |
 
 ### Borders
 
-| Token          | Light                 | Dark                     | Usage                        |
-| -------------- | --------------------- | ------------------------ | ---------------------------- |
-| border-subtle  | `rgba(28,25,23,0.06)` | `rgba(250,250,249,0.06)` | Hairlines, section dividers  |
-| border-default | `rgba(28,25,23,0.12)` | `rgba(250,250,249,0.12)` | Standard container borders   |
-| border-strong  | `rgba(28,25,23,0.20)` | `rgba(250,250,249,0.20)` | Focused input base, emphasis |
+| Token          | Value                  | Usage                        |
+| -------------- | ---------------------- | ---------------------------- |
+| border-subtle  | `rgba(250,250,249,0.06)` | Hairlines, section dividers  |
+| border-default | `rgba(250,250,249,0.12)` | Standard container borders   |
+| border-strong  | `rgba(250,250,249,0.20)` | Focused input base, emphasis |
 
 ### Accent and semantic
 
-| Purpose            | Light                    | Dark                     | Usage                                        |
-| ------------------ | ------------------------ | ------------------------ | -------------------------------------------- |
-| Accent             | `#D4A574`                | `#D4A574`                | CTAs, active state, links — NOT focus rings  |
-| Accent hover       | `#C4956A`                | `#E0B68A`                | Interactive hover on accent elements         |
-| Accent subtle      | `rgba(212,165,116,0.12)` | `rgba(212,165,116,0.15)` | Selected backgrounds, accent badges          |
-| Ring               | `#78716c`                | `#a8a29e`                | Focus rings only — never use accent for this |
-| Destructive        | `#EF4444`                | `#F87171`                | Delete, error, danger                        |
-| Destructive subtle | `rgba(239,68,68,0.08)`   | `rgba(248,113,113,0.12)` | Error backgrounds                            |
-| Success            | `#22C55E`                | `#4ADE80`                | Confirmed, completed                         |
-| Warning            | `#F59E0B`                | `#FBBF24`                | Caution, degraded state                      |
+| Purpose            | Value                  | Usage                                        |
+| ------------------ | ---------------------- | -------------------------------------------- |
+| Accent             | `#D4A574`              | CTAs, active state, links — NOT focus rings  |
+| Accent hover       | `#E0B68A`              | Interactive hover on accent elements         |
+| Accent subtle      | `rgba(212,165,116,0.15)` | Selected backgrounds, accent badges          |
+| Ring               | `#a8a29e`              | Focus rings only — never use accent for this |
+| Destructive        | `#F87171`              | Delete, error, danger                        |
+| Destructive subtle | `rgba(248,113,113,0.12)` | Error backgrounds                            |
+| Success            | `#4ADE80`              | Confirmed, completed                         |
+| Warning            | `#FBBF24`              | Caution, degraded state                      |
 
 ### Emphasis scale
 
 9 opacity levels (emphasis.highest → emphasis.faint):
 
-| Token            | Light                 | Dark                     |
-| ---------------- | --------------------- | ------------------------ |
-| emphasis.highest | `rgba(28,25,23,0.9)`  | `rgba(250,250,249,0.9)`  |
-| emphasis.high    | `rgba(28,25,23,0.7)`  | `rgba(250,250,249,0.7)`  |
-| emphasis.medium  | `rgba(28,25,23,0.5)`  | `rgba(250,250,249,0.5)`  |
-| emphasis.low     | `rgba(28,25,23,0.3)`  | `rgba(250,250,249,0.3)`  |
-| emphasis.subtle  | `rgba(28,25,23,0.15)` | `rgba(250,250,249,0.15)` |
-| emphasis.faint   | `rgba(28,25,23,0.07)` | `rgba(250,250,249,0.07)` |
+| Token            | Value                  |
+| ---------------- | ---------------------- |
+| emphasis.highest | `rgba(250,250,249,0.9)`  |
+| emphasis.high    | `rgba(250,250,249,0.7)`  |
+| emphasis.medium  | `rgba(250,250,249,0.5)`  |
+| emphasis.low     | `rgba(250,250,249,0.3)`  |
+| emphasis.subtle  | `rgba(250,250,249,0.15)` |
+| emphasis.faint   | `rgba(250,250,249,0.07)` |
 
 Used for hover overlays, pressed states, and layered surfaces — never for text.
 
@@ -107,7 +107,7 @@ Used for hover overlays, pressed states, and layered surfaces — never for text
 - Large text (display, heading-1–2): **3:1 minimum**
 - UI components and borders: **3:1 minimum**
 - Aim for AAA (7:1) on primary body text wherever possible
-- **Test both light and dark mode** — dark mode is not an afterthought
+- **Test the dark mode token set end to end** — no alternate theme fallbacks
 
 ### Rules
 
@@ -116,7 +116,7 @@ Used for hover overlays, pressed states, and layered surfaces — never for text
 - Never use raw Tailwind gray-_/amber-_/red-\* palette classes directly
 - Focus rings use `--color-ring` (warm gray), not accent
 - border-default at full opacity for interactive surfaces (composer cards, buttons)
-- Dark mode colors are specified in the token table — use them, don't invert light mode values with `dark:` utilities
+- Dark mode colors are specified in the token table — do not invert or synthesize alternate values with `dark:` utilities
 
 ---
 
@@ -144,7 +144,7 @@ Exception: 1px for hairline borders only. No other values permitted.
 
 Elevation = shadow tier + surface token together. Never mismatch.
 
-Shadows in light mode are warm-tinted and extremely subtle. In dark mode, borders carry more structural weight than shadows.
+Shadows are warm-tinted and extremely subtle. Borders carry more structural weight than shadows.
 
 | Level | Shadow token   | Surface token | Use case                        |
 | ----- | -------------- | ------------- | ------------------------------- |
@@ -153,17 +153,7 @@ Shadows in light mode are warm-tinted and extremely subtle. In dark mode, border
 | 2     | shadows.medium | bg-elevated   | Dropdowns, tooltips, popovers   |
 | 3     | shadows.high   | bg-elevated   | Modals, sheets, command palette |
 
-### Shadow values — Light
-
-| Token          | Value                                                             |
-| -------------- | ----------------------------------------------------------------- |
-| shadows.low    | `0 1px 3px rgba(28,25,23,0.04), 0 1px 2px rgba(28,25,23,0.02)`    |
-| shadows.medium | `0 4px 16px rgba(28,25,23,0.06), 0 2px 4px rgba(28,25,23,0.03)`   |
-| shadows.high   | `0 12px 40px rgba(28,25,23,0.08), 0 4px 12px rgba(28,25,23,0.04)` |
-
-### Shadow values — Dark
-
-In dark mode, shadows are deeper but still not heavy. Borders do more of the structural work.
+### Shadow values
 
 | Token          | Value                                                     |
 | -------------- | --------------------------------------------------------- |

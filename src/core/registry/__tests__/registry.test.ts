@@ -5,16 +5,18 @@ import { resolveCatalog } from "../resolver.js";
 describe("template registry", () => {
   const registry = loadTemplateRegistry();
 
-  it("discovers skills, agents, and commands from disk", () => {
+  it("discovers skills and commands from disk", () => {
     expect(registry.skills.some((template) => template.name === "kernel-review")).toBe(true);
-    expect(registry.agents.some((template) => template.name === "kernel-plan")).toBe(true);
+    // kernel-plan is now a command, not an agent
+    expect(registry.commands.some((template) => template.name === "kernel-plan")).toBe(true);
     expect(registry.commands.some((template) => template.name === "kernel-work-plan")).toBe(true);
+    expect(registry.agents).toHaveLength(0);
   });
 
   it("resolves catalog with all templates", () => {
     const catalog = resolveCatalog(registry);
     expect(catalog.skills.length).toBeGreaterThan(0);
-    expect(catalog.agents.length).toBeGreaterThan(0);
+    expect(catalog.agents).toHaveLength(0);
     expect(catalog.commands.length).toBeGreaterThan(0);
   });
 

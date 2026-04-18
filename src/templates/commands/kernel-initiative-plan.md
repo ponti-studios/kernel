@@ -25,3 +25,5 @@ When to use:
 Next steps:
 - Run `kernel-initiative-status` to review the initiative
 - Run `kernel-project-new --initiative <id>` to create a project under this initiative
+
+To plan an entire hierarchy (initiative → project → milestone → work items) in one guided flow, invoke the `kernel-plan` skill directly.
