@@ -4,8 +4,9 @@ kind: skill
 tags:
   - docs
 profile: extended
-description: Use when tasks involve reading, creating, or reviewing PDF files
-  where rendering and layout matter.
+description: Handles PDF reading, creation, and review tasks where rendering and
+  layout fidelity matter. Use when generating PDFs programmatically, extracting
+  content from a PDF, or verifying PDF rendering output.
 license: Apache-2.0
 compatibility: PDF creation, review, and rendering workflows.
 metadata:

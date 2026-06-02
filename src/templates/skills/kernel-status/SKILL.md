@@ -4,7 +4,7 @@ kind: skill
 tags:
   - workflow
 profile: core
-description: "Report current state from the repo .kernel project memory: goals,
+description: "Reports current state from the repo .kernel project memory: goals,
   tasks, blockers, and recommended next actions. Use when asking where things
   stand, what is blocking progress, or what comes next."
 license: MIT

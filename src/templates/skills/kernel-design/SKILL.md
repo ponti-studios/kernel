@@ -5,7 +5,10 @@ tags:
   - frontend
   - design
 profile: extended
-description: Design specialist for building production-grade UIs with design system compliance. Maps user flows, implements components, enforces tokens/animations/accessibility, verifies implementation against design specs. Use when building UI components, reviewing designs, or implementing interactive patterns. Prescriptive standards-heavy approach focused on React web and React Native (Next.js not supported).
+description: Builds production-grade UIs with design system compliance by mapping
+  user flows, implementing components, and enforcing tokens, animations, and
+  accessibility. Use when building UI components, reviewing designs, or implementing
+  interactive patterns in React web or React Native.
 license: MIT
 compatibility: "Supported frontend stack: React web and React Native. Next.js is
   not supported."

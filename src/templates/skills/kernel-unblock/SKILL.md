@@ -4,8 +4,9 @@ kind: skill
 tags:
   - workflow
 profile: core
-description: Diagnose blocked .kernel tasks and decide whether to resolve, defer,
-  split, or re-plan them.
+description: Diagnoses blocked .kernel tasks and decides whether to resolve, defer,
+  split, or re-plan them. Use when implementation is blocked or a .kernel task
+  cannot proceed.
 license: MIT
 metadata:
   author: project

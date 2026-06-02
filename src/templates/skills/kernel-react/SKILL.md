@@ -5,11 +5,11 @@ tags:
   - frontend
   - react
 profile: extended
-description: Provides React patterns and component architecture guidance for app
-  and monorepo work. Use when building React components, writing query or
-  mutation hooks, managing state, composing hooks, handling async data,
-  reviewing React code for correctness, or when adding code to a shared UI
-  package that must stay presentational.
+description: Provides React web patterns and component architecture guidance for
+  app and monorepo work. Use when building React web components, writing query or
+  mutation hooks, managing state, composing hooks, handling async data, reviewing
+  React web code for correctness, or when adding code to a shared UI package that
+  must stay presentational. For React Native, use kernel-react-native.
 license: MIT
 compatibility: Any React application (web or React Native).
 metadata:

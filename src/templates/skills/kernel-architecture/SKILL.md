@@ -4,7 +4,7 @@ kind: skill
 tags:
   - architecture
 profile: core
-description: Architecture specialist for reviewing design decisions, identifying patterns and anti-patterns, and ensuring scalable maintainable structure. Use during planning and building when architectural guidance is needed.
+description: Reviews design decisions, identifies patterns and anti-patterns, and ensures scalable maintainable structure. Use during planning and building when architectural guidance is needed.
 license: MIT
 metadata:
   author: project

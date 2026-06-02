@@ -5,8 +5,8 @@ tags:
   - workflow
   - kernel
 profile: core
-description: Reconcile .kernel project memory records with what actually happened in
-  the codebase. Use when task state, linked knowledge, or documentation has drifted.
+description: Reconciles .kernel project memory records with what actually happened
+  in the codebase. Use when task state, linked knowledge, or documentation has drifted.
 license: MIT
 metadata:
   author: project

@@ -5,9 +5,10 @@ tags:
   - workflow
   - planning
 profile: core
-description: "Turn a spark into structured work in repo-local .kernel: investigate,
-  clarify, decide structure, and break down into concrete tasks. The primary planning
-  entrypoint for goals, tasks, and knowledge records."
+description: "Turns a spark into structured work in repo-local .kernel by
+  investigating, clarifying, and breaking down into concrete tasks. Use when
+  describing a new idea, feature, bug, or direction, or when users need to plan
+  work before executing."
 license: MIT
 metadata:
   author: project

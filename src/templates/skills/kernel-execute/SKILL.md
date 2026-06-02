@@ -4,9 +4,7 @@ kind: skill
 tags:
   - workflow
 profile: core
-description: Execute work from .kernel tasks by implementing acceptance criteria,
-  validating results, and updating state. Use when a task is ready for implementation
-  or when users say start, build, implement, or do this.
+description: Executes work from .kernel tasks by implementing acceptance criteria, validating results, and updating state. Use when a task is ready for implementationor when users say start, build, implement, or do this.
 license: MIT
 metadata:
   author: project

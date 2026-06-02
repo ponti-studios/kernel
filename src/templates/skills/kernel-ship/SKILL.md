@@ -5,7 +5,7 @@ tags:
   - infrastructure
   - deployment
 profile: extended
-description: Validate production readiness, confirm with the user, then deploy
+description: Validates production readiness, confirms with the user, then deploys
   with the correct strategy for the change. Use when deploying services,
   releasing a feature, coordinating database migrations, managing mobile builds,
   or diagnosing a deployment failure.

@@ -5,8 +5,9 @@ tags:
   - workflow
   - exploration
 profile: core
-description: Investigate unknowns, tradeoffs, and risks for .kernel tasks, goals,
-  or knowledge records. Write durable findings back to linked knowledge.
+description: Investigates unknowns, tradeoffs, and risks for .kernel tasks, goals,
+  or knowledge records, then writes durable findings to linked knowledge. Use when
+  planning or execution needs deeper investigation.
 license: MIT
 metadata:
   author: project
