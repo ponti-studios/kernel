@@ -11,8 +11,8 @@ description: "Manages the full database migration lifecycle: schema design,
   migrations need to be applied or rolled back, or generated types are out of
   sync."
 license: MIT
-compatibility: Any PostgreSQL project using Goose for migrations and
-  kysely-codegen for type generation.
+compatibility: PostgreSQL + Goose (migrations) + Kysely + kysely-codegen
+  (queries and type generation).
 metadata:
   author: project
   version: "2.0"
@@ -242,13 +242,13 @@ If you are working on a greenfield baseline track, use the project’s fresh-dat
 **Mandatory after any schema-changing migration.**
 
 ```bash
-make db-generate-types
-make db-verify-types
+make db-generate-types   # runs kysely-codegen against dev DB
+make db-verify-types     # asserts output matches live schema
 pnpm lint
 pnpm typecheck
 ```
 
-Never leave a migration merged with stale generated types.
+Never leave a migration merged with stale generated types. See **kysely-codegen.md** for setup, configuration, and query patterns.
 
 ### Step 8 — Verify Behavior
 
@@ -280,6 +280,7 @@ Always tell the user:
 - **schema-design.md** — table conventions, column rules, index rules, constraints
 - **migration-patterns.md** — expand/backfill/contract, rollback, production deployments, destructive changes, schema drift
 - **goose-workflow.md** — make targets and direct Goose commands quick reference
+- **kysely-codegen.md** — codegen setup, configuration, generated type shapes, Kysely query patterns, and `Selectable`/`Insertable`/`Updateable` usage
 
 ## Guardrails
 
