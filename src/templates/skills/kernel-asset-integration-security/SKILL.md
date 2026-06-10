@@ -1,10 +1,5 @@
 ---
 name: kernel-asset-integration-security
-kind: skill
-tags:
-  - frontend
-  - security
-profile: extended
 description: Enforces security requirements for third-party assets and external
   integrations. Use when adding scripts, fonts, analytics, embeds, CDN
   resources, or any external dependency to a frontend.

@@ -1,10 +1,5 @@
 ---
 name: kernel-skill-builder
-kind: skill
-tags:
-  - meta
-  - kernel
-profile: extended
 description: Creates, audits, and improves kernel skills against established
   quality standards. Use when creating a new skill, auditing existing skills for
   quality, identifying merge candidates across a skill directory, or when a
@@ -108,7 +103,7 @@ Set these in `template.ts` — they control how platforms invoke the skill:
 | ------------------------------ | -------------------------------------------------------------------------------------------------- |
 | `disableModelInvocation: true` | Skill has side effects: deploys code, modifies issue state, archives work, creates PRs             |
 | `userInvocable: false`         | Model-only auto-invoke; never a direct slash command (e.g. `kernel-conventions`)                   |
-| `argumentHint: "..."`          | Skill benefits from a user-supplied argument (`kernel-triage`, `kernel-investigate`, `kernel-propose`) |
+| `argumentHint: "..."`          | Skill benefits from a user-supplied argument (e.g., `kernel-review`, `kernel-docker`, `kernel-git`) |
 | `allowedTools: [...]`          | Skill needs specific tools without per-use approval                                                |
 
 ### 4. Merge Candidates

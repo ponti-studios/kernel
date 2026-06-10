@@ -1,9 +1,5 @@
 ---
 name: kernel-docs
-kind: skill
-tags:
-  - docs
-profile: extended
 description: "Manages Vitepress documentation workflows: deploys docs via
   Vercel, creates versioned releases, records feature demos, and validates doc
   sites. Use when publishing or updating documentation, cutting a release with

@@ -26,5 +26,5 @@ When to use it:
 
 What to do next:
 
-- Run `kernel-sync` if the issue is simple drift.
+- Run `kernel sync` if the issue is simple drift.
 - Update the underlying template or config if the doctor output points to a real mismatch.

@@ -1,10 +1,5 @@
 ---
 name: kernel-project
-kind: skill
-tags:
-  - project
-  - setup
-profile: extended
 description: "Defines and enforces the non-negotiable project stack and the
   two project workflows: bootstrapping a new codebase and getting an existing
   codebase running locally. Use when starting a repo, onboarding to one, or

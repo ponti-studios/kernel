@@ -1,10 +1,5 @@
 ---
 name: kernel-build
-kind: skill
-tags:
-  - infrastructure
-  - tooling
-profile: extended
 description: Runs and diagnoses the build, type-check, test, and lint pipeline
   using Node.js, pnpm, Vite, tsgo, and Vitest. Use when a build fails, tests are broken,
   CI is failing, or when running the full pipeline before a deploy or merge.

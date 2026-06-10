@@ -1,10 +1,5 @@
 ---
 name: kernel-react-native
-kind: skill
-tags:
-  - mobile
-  - react
-profile: extended
 description: Guides React Native and Expo development across UI patterns, Expo
   Router conventions, styling, navigation, performance, animations, and state
   management. Use when building React Native screens, implementing mobile

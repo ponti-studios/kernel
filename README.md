@@ -113,3 +113,8 @@ just publish confirm=true
 - Durable knowledge is linked, not copied
 - Host-specific behavior stays in small adapters/materializers
 - Local work state should be visible in the repo, not hidden in chat
+
+## Metadata References
+
+- [Skill metadata compatibility matrix](docs/skill-metadata-compatibility-matrix.md)
+- [Supported skill metadata by provider](docs/skill-metadata-reference.md)

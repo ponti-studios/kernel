@@ -34,7 +34,7 @@ describe("kernel sync", () => {
       const skillName = getBuiltInCatalog().skills[0]!.name;
 
       const canonicalSkillPath = path.join(homeDir, ".agents", "skills", skillName, "SKILL.md");
-      const canonicalCommandPath = path.join(homeDir, ".agents", "commands", "kernel-sync.yaml");
+      const canonicalCommandPath = path.join(homeDir, ".agents", "commands", "kernel-doctor.yaml");
       const unrelatedFile = path.join(homeDir, ".claude", "notes.txt");
 
       await fs.mkdir(path.dirname(canonicalSkillPath), { recursive: true });
@@ -49,7 +49,7 @@ describe("kernel sync", () => {
       expect((await fs.stat(canonicalSkillPath)).isFile()).toBe(true);
       expect(await fs.readFile(canonicalSkillPath, "utf-8")).not.toBe(staleSkillContents);
       expect((await fs.stat(canonicalCommandPath)).isFile()).toBe(true);
-      const claudeKernelCommandPath = path.join(homeDir, ".claude", "commands", "kernel", "kernel-sync.md");
+      const claudeKernelCommandPath = path.join(homeDir, ".claude", "commands", "kernel", "kernel-doctor.md");
       expect((await fs.stat(claudeKernelCommandPath)).isFile()).toBe(true);
       expect(await fs.readFile(unrelatedFile, "utf-8")).toBe("keep me");
 
@@ -133,16 +133,13 @@ describe("kernel sync", () => {
 });
 
 describe("program", () => {
-  it("registers the kernel workflow command surface", async () => {
+  it("registers the kernel command surface", async () => {
     const { program } = await import("../index.js");
     const commandNames = new Set(program.commands.map((command) => command.name()));
 
     expect(commandNames.has("sync")).toBe(true);
     expect(commandNames.has("doctor")).toBe(true);
     expect(commandNames.has("host")).toBe(true);
-    expect(commandNames.has("goal")).toBe(true);
-    expect(commandNames.has("task")).toBe(true);
-    expect(commandNames.has("knowledge")).toBe(true);
     expect(program.options.some((option) => option.long === "--json")).toBe(true);
     expect(
       program.commands

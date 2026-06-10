@@ -1,10 +1,5 @@
 ---
 name: kernel-database
-kind: skill
-tags:
-  - backend
-  - database
-profile: extended
 description: "Manages the full database migration lifecycle: schema design,
   authoring, validation, multi-environment apply, type generation, rollback, and
   production deployment coordination. Use whenever a schema change is required,

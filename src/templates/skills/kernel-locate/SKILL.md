@@ -1,9 +1,5 @@
 ---
 name: kernel-locate
-kind: skill
-tags:
-  - exploration
-profile: extended
 description: Maps an unfamiliar codebase by tracing data flows, identifying
   module boundaries, and locating where to make changes. Use when onboarding to
   a new project, investigating an area before making changes, or when users ask

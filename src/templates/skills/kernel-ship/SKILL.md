@@ -1,10 +1,5 @@
 ---
 name: kernel-ship
-kind: skill
-tags:
-  - infrastructure
-  - deployment
-profile: extended
 description: Validates production readiness, confirms with the user, then deploys
   with the correct strategy for the change. Use when deploying services,
   releasing a feature, coordinating database migrations, managing mobile builds,
@@ -26,7 +21,7 @@ when:
   - A deployment needs readiness validation before proceeding
   - User says 'ship', 'deploy', 'release', or 'push to production'
 termination:
-  - Readiness verdict delivered (optionally written to the linked `.kernel` task)
+  - Readiness verdict delivered
   - Deployment executed with chosen strategy
   - Post-deploy verification complete
 outputs:
@@ -95,15 +90,6 @@ Ship to any environment safely. Validates production readiness first, then execu
 - [ ] No known regressions introduced
 
 ### 3. Deliver verdict and prompt
-
-Write the verdict to a deployment record or associated `.kernel` task (optional):
-
-```bash
-# Optional: Capture deployment procedure as a knowledge note
-kernel knowledge new "Deployment validation for <feature>"
-```
-
-Or, if associated with a task, record deployment validation in `.kernel/work/tasks/active/<taskId>/task.md` under `## Journal`.
 
 - **FAIL** — list each blocking item with a description. Stop — do not proceed to deployment.
 - **PASS** — all items satisfied. Then ask:

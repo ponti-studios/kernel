@@ -1,11 +1,5 @@
 ---
 name: kernel-api-architecture
-kind: skill
-tags:
-  - frontend
-  - api
-  - typescript
-profile: extended
 description: Provides best practices for building type-safe APIs. Use when
   designing, implementing, or reviewing API endpoints, RPC definitions,
   request/response schemas, middleware, error handling, or API versioning.

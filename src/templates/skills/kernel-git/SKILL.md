@@ -1,9 +1,5 @@
 ---
 name: kernel-git
-kind: skill
-tags:
-  - git
-profile: core
 description: Guides advanced git workflows, branch management, history
   rewriting, and collaboration patterns. Also inspects GitHub Actions CI status
   for the current pull request. Use when branching, merging, rebasing, resolving

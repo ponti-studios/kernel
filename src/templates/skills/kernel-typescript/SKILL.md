@@ -1,11 +1,5 @@
 ---
 name: kernel-typescript
-kind: skill
-tags:
-  - typescript
-  - types
-  - patterns
-profile: extended
 description: "Enforces TypeScript correctness, type safety, and idiomatic
   patterns across all code. Use when writing or reviewing types, generics,
   utility types, narrowing logic, async patterns, error handling, Zod schemas,

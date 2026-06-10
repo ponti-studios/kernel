@@ -1,10 +1,5 @@
 ---
 name: kernel-docker
-kind: skill
-tags:
-  - infrastructure
-  - devops
-profile: extended
 description: Manages Docker workflows for local development infrastructure and
   production container packaging. Use when writing Dockerfiles, configuring
   compose services, debugging container issues, optimizing image size, or when

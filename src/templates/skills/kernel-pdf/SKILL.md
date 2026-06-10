@@ -1,9 +1,5 @@
 ---
 name: kernel-pdf
-kind: skill
-tags:
-  - docs
-profile: extended
 description: Handles PDF reading, creation, and review tasks where rendering and
   layout fidelity matter. Use when generating PDFs programmatically, extracting
   content from a PDF, or verifying PDF rendering output.

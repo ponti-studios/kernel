@@ -1,11 +1,5 @@
 ---
 name: kernel-better-auth
-kind: skill
-tags:
-  - backend
-  - auth
-  - security
-profile: extended
 description: Defines and enforces the authentication and authorization contract
   for apps and services using Better Auth as the sole auth authority. Use when
   implementing login, session management, token handling, protected routes,

@@ -1,9 +1,5 @@
 ---
 name: kernel-review
-kind: skill
-tags:
-  - review
-profile: core
 description: Assesses completed deliverables for correctness, completeness,
   quality, security, performance, and standards compliance. Also covers
   refactoring, formatting, linting, and performance optimization. Use after
@@ -27,7 +23,6 @@ metadata:
     - optimize
 when:
   - a deliverable is complete and ready for sign-off
-  - a goal or task checkpoint has been reached and work should be reviewed before continuing
   - before handing off, deploying, or merging
   - user asks to review, refactor, format, or optimize code
   - there are lint violations, style inconsistencies, or performance issues
@@ -46,7 +41,6 @@ termination:
 outputs:
   - Review report with recommendation
   - Prioritised findings list
-  - Updated local `.kernel` status or follow-up notes
   - Refactored code with unchanged behaviour
   - Lint-clean, formatted code
 disableModelInvocation: true
@@ -63,10 +57,10 @@ Answer: _is this done well enough to move forward?_
 
 ## Steps
 
-### 1. Read the local plan
+### 1. Establish context
 
-- Read the relevant `.kernel` task or goal markdown to retrieve the goal and acceptance criteria.
-- Identify the goal and what "done" means for this work.
+- If provided, use the acceptance criteria or scope from the user.
+- Otherwise, infer what "done" means for this work based on the deliverable.
 
 ### 2. Examine the output
 

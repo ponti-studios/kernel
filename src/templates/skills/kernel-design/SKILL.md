@@ -1,10 +1,5 @@
 ---
 name: kernel-design
-kind: skill
-tags:
-  - frontend
-  - design
-profile: extended
 description: Builds production-grade UIs with design system compliance by mapping
   user flows, implementing components, and enforcing tokens, animations, and
   accessibility. Use when building UI components, reviewing designs, or implementing

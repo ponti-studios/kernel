@@ -1,10 +1,5 @@
 ---
 name: kernel-react
-kind: skill
-tags:
-  - frontend
-  - react
-profile: extended
 description: Provides React web patterns and component architecture guidance for
   app and monorepo work. Use when building React web components, writing query or
   mutation hooks, managing state, composing hooks, handling async data, reviewing
@@ -79,6 +74,9 @@ Keep components small and single-responsibility. If a component needs more than 
 - Presentational components receive data via props — no data fetching inside them
 - Data-fetching components (containers) focus on fetching and pass data down
 - Never define a component inside another component's render — it remounts on every render
+- Always use the project `cn` utility for conditional or composed `className`
+  values. Do not build class names with template literals, string
+  concatenation, `.join(" ")`, or inline arrays when `cn` is available.
 
 ## State Management
 

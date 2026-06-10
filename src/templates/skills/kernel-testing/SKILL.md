@@ -1,10 +1,5 @@
 ---
 name: kernel-testing
-kind: skill
-tags:
-  - testing
-  - quality
-profile: extended
 description: Provides testing guidance for test files and test strategy
   decisions across unit, integration, and end-to-end layers. Use when writing
   new tests, reviewing test coverage, deciding where a test should live, or when
