@@ -1,6 +1,6 @@
 ---
 name: kernel-database
-description: Enforces the required database change workflow for this project: PostgreSQL schema design, Goose migrations, generated type sync, and rollout safety. Use whenever changing schema, applying or rolling back migrations, evaluating modeling choices, or reconciling generated DB types with the live database.
+description: "Enforces the required database change workflow for this project: PostgreSQL schema design, Goose migrations, generated type sync, and rollout safety. Use whenever changing schema, applying or rolling back migrations, evaluating modeling choices, or reconciling generated DB types with the live database."
 license: MIT
 compatibility: PostgreSQL + Goose (migrations) + Kysely + kysely-codegen.
 metadata:

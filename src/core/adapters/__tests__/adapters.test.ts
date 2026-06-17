@@ -49,7 +49,7 @@ const testAgentTemplate: AgentTemplate = {
   compatibility: "Works with all workflows",
   metadata: { author: "project", version: "1.0", category: "Orchestration", tags: ["planning"] },
   defaultTools: ["read", "search"],
-  availableSkills: ["kernel-review", "kernel-design"],
+  availableSkills: ["kernel-review", "kernel-ui-design"],
 };
 
 const nativeAgentSupport: Record<string, boolean> = {
@@ -227,7 +227,7 @@ describe("Claude formatAgent", () => {
     const frontmatter = result.split("---")[1];
     expect(frontmatter).toContain("skills:");
     expect(frontmatter).toContain("kernel-review");
-    expect(frontmatter).toContain("kernel-design");
+    expect(frontmatter).toContain("kernel-ui-design");
   });
 
   it("does not add ## Available skills section to agent body", () => {
@@ -298,7 +298,7 @@ describe("Codex formatAgent", () => {
     const result = codexAdapter.formatAgent!(testAgentTemplate, "1.0.0");
     expect(result).toContain("[[skills.config]]");
     expect(result).toContain(".codex/skills/kernel-review/SKILL.md");
-    expect(result).toContain(".codex/skills/kernel-design/SKILL.md");
+    expect(result).toContain(".codex/skills/kernel-ui-design/SKILL.md");
   });
 
   it("emits model_reasoning_effort when reasoningEffort is set", () => {
@@ -459,7 +459,7 @@ describe("GitHub Copilot formatAgent", () => {
     const body = result.split("---")[2];
     expect(body).toContain("## Available skills");
     expect(body).toContain("- kernel-review");
-    expect(body).toContain("- kernel-design");
+    expect(body).toContain("- kernel-ui-design");
   });
 
   it("omits ## Available skills when availableSkills is empty", () => {

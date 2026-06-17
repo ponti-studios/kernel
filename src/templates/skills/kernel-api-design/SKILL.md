@@ -1,6 +1,6 @@
 ---
 name: kernel-api-design
-description: Designs and reviews the inbound API boundary: routes, RPC contracts, request/response schemas, middleware, validation, and error handling. Use when shaping how external requests enter the system through server endpoints or typed RPC surfaces.
+description: "Designs and reviews the inbound API boundary: routes, RPC contracts, request/response schemas, middleware, validation, and error handling. Use when shaping how external requests enter the system through server endpoints or typed RPC surfaces."
 license: MIT
 compatibility: Any TypeScript server project with HTTP endpoints, server actions, or typed RPC boundaries.
 metadata:
