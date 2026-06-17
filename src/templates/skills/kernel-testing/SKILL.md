@@ -1,9 +1,6 @@
 ---
 name: kernel-testing
-description: Provides testing guidance for test files and test strategy
-  decisions across unit, integration, and end-to-end layers. Use when writing
-  new tests, reviewing test coverage, deciding where a test should live, or when
-  users ask about testing patterns, test structure, or what to test.
+description: Guides test strategy, test structure, and assertion quality across unit, integration, and end-to-end layers. Use when writing new tests, reviewing coverage or flaky tests, deciding where a test should live, or improving how a repo verifies behavior.
 license: MIT
 compatibility: Any TypeScript project using Vitest, Jest, or a compatible test runner.
 metadata:
@@ -33,7 +30,7 @@ applicability:
 termination:
   - Tests describe behavior, not implementation
   - Each test cleans up after itself
-  - Integration tests use a real database, not mocks
+  - The chosen test layer matches the confidence needed
 outputs:
   - Unit tests for pure business logic
   - Integration tests for API routes or service boundaries
@@ -42,16 +39,19 @@ outputs:
 
 Tests verify behavior, not implementation. A test that passes when behavior is broken is worse than no test.
 
-## Toolchain
+## Standards
 
-| Concern                 | Tool                               |
-| ----------------------- | ---------------------------------- |
-| Test runner             | Vitest (`pnpm test`)               |
-| Component testing       | `@testing-library/react` + Vitest  |
-| API/integration testing | Hono's `app.request()` test client |
-| E2E                     | Playwright (`pnpm test:e2e`)       |
+Use the repo's actual test runner, helpers, and conventions unless the task is explicitly about changing them.
 
-Never use Jest, Mocha, Jasmine, or any other test runner. Vitest is the only prescribed runner.
+This skill owns test design and test quality:
+
+- what kind of test to write
+- where the test should live
+- what behavior the test should assert
+- how to choose between mocks, fakes, and real dependencies
+- how to make tests reliable, readable, and maintainable
+
+`kernel-build` owns pipeline execution and first-pass failure triage. `kernel-testing` owns whether the tests themselves are well-designed.
 
 ## Test Pyramid
 
@@ -62,6 +62,8 @@ Never use Jest, Mocha, Jasmine, or any other test runner. Vitest is the only pre
 | E2E         | Critical user flows end-to-end                   | Slow (seconds)   | Few      |
 
 Write tests at the lowest level that gives meaningful confidence.
+
+Choose the smallest test that can catch the real risk. Escalate to integration or E2E only when unit coverage would miss the behavior that matters.
 
 ## File Organization
 
@@ -115,7 +117,7 @@ describe("POST /api/users", () => {
 
 ## Unit Tests
 
-Test pure functions with direct assertions. Avoid mocking internal modules.
+Test pure functions and narrowly scoped business logic with direct assertions. Avoid mocking internal modules unless a seam is truly required.
 
 ```typescript
 import { calculateDiscount } from "./pricing";
@@ -135,7 +137,9 @@ describe("calculateDiscount", () => {
 
 ## Integration Tests
 
-Test at the HTTP boundary. Use a real database — not a mock.
+Test meaningful boundaries: HTTP handlers, persistence, queues, or service composition.
+
+Prefer real infrastructure for integration tests when the behavior depends on it. Use test doubles only when the real dependency would make the test slower, less reliable, or harder to understand without adding confidence.
 
 ```typescript
 import { createTestApp } from "@/test/helpers";
@@ -196,13 +200,13 @@ export function makeUser(overrides: Partial<User> = {}): User {
 
 ## Mocking
 
-Mock only at system boundaries:
+Mock at system boundaries when the boundary itself is not the subject of the test:
 
 - External HTTP APIs — use `msw` or `nock`
 - Email/SMS providers — mock the provider client
 - Payment processors — use sandbox environments, not mocks
 
-Never mock internal modules, the database, or business logic.
+Avoid mocking internal business logic. Mocking the database or internal modules is a tradeoff, not a default: use it only when the test is intentionally unit-level and the abstraction boundary is clear.
 
 ## Coverage
 
@@ -217,4 +221,4 @@ Never mock internal modules, the database, or business logic.
 - Tests that always pass regardless of behavior are worse than no tests — validate the failure path
 - Do not use `setTimeout` or `sleep` in tests — use proper async patterns or fake timers
 - Each test must clean up after itself — no test should depend on another test's side effects
-- Flaky tests are bugs — fix or delete them; do not skip them with `it.skip`
+- Treat flaky tests as real defects in the test or system; fix, quarantine with an explicit note, or remove them deliberately rather than silently normalizing them

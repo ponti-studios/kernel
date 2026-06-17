@@ -1,12 +1,8 @@
 ---
 name: kernel-react
-description: Provides React web patterns and component architecture guidance for
-  app and monorepo work. Use when building React web components, writing query or
-  mutation hooks, managing state, composing hooks, handling async data, reviewing
-  React web code for correctness, or when adding code to a shared UI package that
-  must stay presentational. For React Native, use kernel-react-native.
+description: Enforces React web component boundaries, state ownership, shared UI package purity, and approved async data patterns. Use when building or reviewing React web components, hooks, query or mutation flows, or shared UI code that must stay presentational and environment-agnostic.
 license: MIT
-compatibility: Any React application (web or React Native).
+compatibility: React web applications in this project structure. For React Native, use kernel-react-native.
 metadata:
   author: project
   version: "1.0"
@@ -16,270 +12,108 @@ metadata:
     - components
     - hooks
     - state
-    - performance
-    - patterns
-    - suspense
-    - typescript
     - monorepo
     - package-boundaries
     - tanstack-query
     - data-fetching
-    - mutations
+    - ui
 when:
-  - user is building a React component or custom hook
-  - user is deciding where to put state or how to share it between components
-  - user is implementing async data loading or error handling in React
-  - user is reviewing React code for correctness or performance issues
-  - user is working with lists, keys, or memoization
-  - user is writing a query hook, mutation hook, or wiring up Suspense for data
-    loading
-  - user is implementing pagination, infinite scroll, or optimistic updates
-  - user is adding code to a shared UI package (packages/ui or equivalent)
-  - a component is importing from auth, API, or routing packages and should not
-    be
+  - user is building or reviewing a React web component or custom hook
+  - user is deciding where state or async data logic should live
+  - user is wiring query, mutation, pagination, or optimistic update flows
+  - user is adding code to a shared UI package that must stay presentational
+  - a component is importing from auth, API, routing, or database layers and may be crossing a boundary
+  - user is fixing React code that stores derived state, fetches data in the wrong place, or mixes concerns
 applicability:
-  - Use when building any React component that handles state, data, or side
-    effects
-  - Use when reviewing React code for anti-patterns or performance issues
-  - Use when deciding on component composition or hook design
+  - Use when enforcing React component and hook boundaries
+  - Use when reviewing shared UI package purity and app/package separation
+  - Use when enforcing approved server-state and typed API-client flow
+  - Use when deciding the correct ownership of local, shared UI, and remote state
 termination:
-  - Component has single responsibility and correct key usage
-  - State lives at the appropriate level — no derived state stored in useState
-  - Async data handled via query hooks with Suspense or explicit loading states
+  - Component and hook responsibilities are clearly separated
+  - State is owned at the correct level with no duplicated derived state
+  - Shared UI code is presentational and environment-agnostic
+  - Remote data flows through the approved query/mutation boundary
 outputs:
-  - React component following single-responsibility principle
-  - Custom hook with isolated, testable logic
-  - Correct async data pattern (Suspense or inline loading state)
+  - Boundary-correct React component or hook structure
+  - Shared UI purity findings and required fixes
+  - Approved server-state flow for the feature
+  - State ownership decision and rationale
 ---
 
-# React Patterns
+Enforce the React structure this project expects. This skill exists to stop the LLM from mixing presentation, data fetching, routing, and domain logic into the wrong layer.
 
-Canonical patterns for building correct, performant React components.
+## Non-Negotiables
 
-## Component Design
+- Presentational components receive data via props; they do not fetch their own data.
+- Shared UI packages stay presentational and environment-agnostic.
+- Remote data flows through query or mutation hooks and the typed API client, not direct component fetches.
+- Derived state is computed, not stored.
+- Hooks and components each have a single responsibility.
 
-Keep components small and single-responsibility. If a component needs more than ~150 lines, it is doing too much.
+Forbidden behavior:
 
-```
-<Page>               ← layout and data orchestration only
-  <Header />
-  <UserList>         ← renders a list; handles empty/loading states
-    <UserCard />     ← renders a single item; no data fetching
-  </UserList>
-</Page>
-```
+- Do not import auth, API, routing, or database code into shared UI package components.
+- Do not fetch remote data directly inside presentational components.
+- Do not store server state in `useState`.
+- Do not use `useEffect` to derive state that can be computed inline.
+- Do not import from another package's private internals to make a component "just work."
 
-**Rules:**
+## Boundary Rules
 
-- Presentational components receive data via props — no data fetching inside them
-- Data-fetching components (containers) focus on fetching and pass data down
-- Never define a component inside another component's render — it remounts on every render
-- Always use the project `cn` utility for conditional or composed `className`
-  values. Do not build class names with template literals, string
-  concatenation, `.join(" ")`, or inline arrays when `cn` is available.
+Use this layering model:
 
-## State Management
+- app-level containers own data fetching, routing, and business orchestration
+- shared UI components own rendering, interaction, and styling
+- feature hooks own reusable domain or screen logic
+- query and mutation hooks own remote data access
 
-| State type             | Tool                                   |
-| ---------------------- | -------------------------------------- |
-| Server data (remote)   | TanStack Query                         |
-| Shared client UI state | Zustand or Context                     |
-| Local component state  | `useState`                             |
-| Derived values         | Compute inline — do not store in state |
+All remote data should follow this path:
 
-```typescript
-// ✅ derive — do not store derived values in state
-const fullName = `${user.firstName} ${user.lastName}`;
+`component -> query or mutation hook -> typed API client -> server boundary`
 
-// ❌ storing derived state — will go stale
-const [fullName, setFullName] = useState(`${user.firstName} ${user.lastName}`);
-```
+Apps never import the database layer directly.
 
-## useEffect Rules
+## State Ownership
 
-`useEffect` is for synchronizing with external systems — not for reacting to state changes.
+Choose the narrowest correct owner for each kind of state:
 
-```typescript
-// ✅ sync with an external system
-useEffect(() => {
-  const subscription = store.subscribe(callback);
-  return () => subscription.unsubscribe(); // always clean up
-}, [store]);
+- local UI state: component-level state
+- shared UI state: local shared store or context where justified
+- remote server state: query library
+- derived values: compute from source data
 
-// ❌ deriving state in an effect — compute inline instead
-useEffect(() => {
-  setFullName(`${firstName} ${lastName}`);
-}, [firstName, lastName]);
-```
+When state feels duplicated, prefer deleting the copy and deriving it from the authoritative source.
 
-If you find yourself writing `useEffect` to update state when other state changes, compute the derived value directly instead.
+## Shared UI Package Rules
 
-## Custom Hooks
+`packages/ui` (or the equivalent shared UI package) must remain reusable outside any one app context.
 
-Extract reusable logic into custom hooks. A hook should have a single responsibility.
+Checklist:
 
-```typescript
-// useDisclosure.ts — manages open/close state
-export function useDisclosure(initial = false) {
-  const [isOpen, setIsOpen] = useState(initial);
-  const open = useCallback(() => setIsOpen(true), []);
-  const close = useCallback(() => setIsOpen(false), []);
-  const toggle = useCallback(() => setIsOpen((v) => !v), []);
-  return { isOpen, open, close, toggle };
-}
-```
+- no auth imports
+- no API or RPC imports
+- no routing hooks
+- no direct environment variable access
+- no direct remote data fetching
+- no database imports
 
-Rules:
+If a component needs any of those, it belongs in an app or feature package, not in shared UI.
 
-- Hooks start with `use` — always
-- A hook that fetches data should not also manage UI state
-- A hook that manages form state should not also submit the form
+## Async Data Rules
 
-## Async Patterns
+- Remote reads go through query hooks.
+- Remote writes go through mutation hooks.
+- Query keys must be structured and include all variables that affect the result.
+- Mutation success must update or invalidate affected query state deliberately.
+- Suspense, inline loading, and error handling should follow the repo's established pattern for that surface.
 
-For required data, use Suspense + ErrorBoundary:
-
-```tsx
-<ErrorBoundary fallback={<ErrorState />}>
-  <Suspense fallback={<Skeleton />}>
-    <UserProfile userId={id} />
-  </Suspense>
-</ErrorBoundary>
-```
-
-For optional or secondary data, handle loading/error inline:
-
-```tsx
-function UserAvatar({ userId }: { userId: string }) {
-  const { data, isLoading, error } = useUser(userId);
-  if (isLoading) return <AvatarSkeleton />;
-  if (error || !data) return <DefaultAvatar />;
-  return <img src={data.avatarUrl} alt={data.name} />;
-}
-```
-
-## Performance
-
-```typescript
-// Memoize expensive computations
-const sorted = useMemo(
-  () => items.sort((a, b) => a.name.localeCompare(b.name)),
-  [items]
-);
-
-// Stabilize callbacks passed to memoized children
-const handleClick = useCallback((id: string) => {
-  onSelect(id);
-}, [onSelect]);
-
-// Memoize components that receive stable props
-const ExpensiveList = memo(function ExpensiveList({ items }: Props) {
-  return <ul>{items.map(item => <li key={item.id}>{item.name}</li>)}</ul>;
-});
-```
-
-Only memoize when you have measured a performance problem. Premature memoization adds complexity without benefit.
-
-## Keys
-
-Use stable, unique IDs as list keys — never array indices.
-
-```tsx
-// ✅ stable identity
-items.map((item) => <Card key={item.id} {...item} />);
-
-// ❌ index as key — causes incorrect reconciliation on reorder/delete
-items.map((item, i) => <Card key={i} {...item} />);
-```
-
-## Error Boundaries
-
-Every route and every async data boundary needs an `<ErrorBoundary>`. Uncaught errors crash the entire React tree.
-
-```tsx
-// Wrap at the route level
-<ErrorBoundary
-  fallback={({ error, resetErrorBoundary }) => (
-    <ErrorPage error={error} onRetry={resetErrorBoundary} />
-  )}
->
-  <Route />
-</ErrorBoundary>
-```
-
-## Server State
-
-All remote data flows through the API layer — apps never import from the database package directly.
-
-```
-app component
-  → query/mutation hook
-    → typed API client (RPC)
-      → API service
-        → database
-```
-
-Use TanStack Query (or equivalent server-state library) for all remote data:
-
-| Need                    | Hook                            |
-| ----------------------- | ------------------------------- |
-| Read data               | `useQuery` / `useSuspenseQuery` |
-| Write data              | `useMutation`                   |
-| Infinite scroll / feeds | `useInfiniteQuery`              |
-
-**Query key rules:**
-
-- Must be an array — never a plain string
-- Must include every variable that affects the result (e.g. `["users", userId]`)
-- `staleTime` must be set explicitly; the default `0` causes excessive refetches
-
-**Mutation rule:** always invalidate or update affected query keys on `onSuccess`.
-
-See `references/data-fetching.md` for query hook, mutation hook, suspense, pagination, optimistic update, and API contract type examples.
-
-## Monorepo Package Boundaries
-
-In a monorepo, `packages/ui` (or equivalent) must stay presentational and environment-agnostic. It is a shared component library that should work in any context — web, mobile, Storybook — without knowing about data sources or routing.
-
-| Layer                     | Location             | Responsibilities                       |
-| ------------------------- | -------------------- | -------------------------------------- |
-| Presentational components | `packages/ui`        | Rendering, interactions, styling       |
-| Container components      | `apps/`              | Data fetching, routing, business logic |
-| Feature hooks             | `packages/<feature>` | Reusable domain logic                  |
-
-**Hook location rules:**
-
-| Hook type                             | Location                       |
-| ------------------------------------- | ------------------------------ |
-| Pure UI (`useHover`, `useMediaQuery`) | `packages/ui/src/hooks`        |
-| Web routing (`useComposerMode`)       | `apps/<web-app>/src/hooks`     |
-| Auth (`useSession`)                   | `packages/auth/src/hooks`      |
-| API/RPC                               | `packages/rpc/src`             |
-| Feature-specific                      | `packages/<feature>/src/hooks` |
-
-**Checklist for shared UI package changes:**
-
-- [ ] No imports from auth, API/RPC, or database packages
-- [ ] No routing hooks (`useNavigate`, `useSearchParams`, `useRouter`)
-- [ ] No direct API calls or mutation hooks
-- [ ] Props accept data — components don't fetch it
-- [ ] Works in Storybook without mock providers for data
-- [ ] No `import.meta.env` or `process.env` access
-- [ ] No `console.log` statements
-
-See reference files for code examples, migration steps, and common violations.
+See `references/data-fetching.md` for concrete query, mutation, suspense, pagination, and optimistic update patterns.
 
 ## Guardrails
 
-- Never mutate props or state directly — always produce a new value
-- Never call hooks conditionally — hooks must run in the same order every render
-- Never use array index as a key for lists that can be reordered or filtered
-- Never define a component inside another component
-- Never fetch data directly in `useEffect` — use a query hook
-- Never store server state in `useState` — that is what TanStack Query is for
-- Never call `fetch` directly from a component — always through the typed API client
-- Never import the database package in app packages
-- Never construct query keys as plain strings — use arrays
-- Never use `dangerouslySetInnerHTML` with user-supplied content
-- Never import from auth, API, or database packages inside `packages/ui`
-- Never use routing hooks inside a shared UI package component
+- Never mix fetching, routing, and presentation in a shared component.
+- Never keep a component generic by hiding a forbidden dependency behind a convenience helper.
+- Never use array index keys for reorderable or filterable lists.
+- Never call hooks conditionally.
+- Never let shared UI code depend on app-only providers or runtime context unless that dependency is passed in explicitly as a prop boundary.

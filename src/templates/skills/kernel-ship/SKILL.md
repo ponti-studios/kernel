@@ -1,9 +1,6 @@
 ---
 name: kernel-ship
-description: Validates production readiness, confirms with the user, then deploys
-  with the correct strategy for the change. Use when deploying services,
-  releasing a feature, coordinating database migrations, managing mobile builds,
-  or diagnosing a deployment failure.
+description: Coordinates deployment preflight, release execution, post-deploy verification, and rollback when needed. Use when approved work is ready to deploy, when a release needs operational checks before execution, or when diagnosing or reversing a bad deployment.
 license: MIT
 metadata:
   author: project
@@ -14,18 +11,17 @@ metadata:
     - ship
     - deploy
     - release
-    - local
 when:
-  - User wants to deploy a service, release a feature, or ship a build
-  - A PR or branch is ready for production
-  - A deployment needs readiness validation before proceeding
-  - User says 'ship', 'deploy', 'release', or 'push to production'
+  - user wants to deploy a service, release a feature, or ship a build
+  - approved work is ready for a real deployment
+  - a deployment needs operational preflight checks before proceeding
+  - user says 'ship', 'deploy', 'release', or 'push to production'
 termination:
-  - Readiness verdict delivered
-  - Deployment executed with chosen strategy
+  - Deployment preflight verdict delivered
+  - Deployment executed with the chosen documented strategy
   - Post-deploy verification complete
 outputs:
-  - Readiness verdict (PASS / FAIL) report
+  - Deployment preflight verdict (PASS / FAIL) report
   - Deployed release in target environment
   - Post-deploy verification summary
 dependencies:
@@ -36,9 +32,9 @@ allowedTools:
   - bash
 ---
 
-# kernel-ship
+Ship approved work safely. This skill owns deploy preflight, execution, post-deploy verification, and rollback coordination.
 
-Ship to any environment safely. Validates production readiness first, then executes the deployment with the right strategy for the change.
+It does not replace `kernel-review`. Assume the work itself has already been reviewed for correctness and approval. This skill answers a different question: _can we release this safely right now, and if we do, what happens next?_
 
 ---
 
@@ -47,47 +43,23 @@ Ship to any environment safely. Validates production readiness first, then execu
 ### 1. Identify scope
 
 - Determine what is being deployed: a PR, branch, feature, or full release.
-- Ask for the associated Linear issue or project if not provided — the verdict will be written back to it.
+- Identify the target environment and the documented deployment path for that target.
 
 ### 2. Run the readiness checklist
 
-**Code Quality**
+**Approval and validation**
 
-- [ ] No `console.log` or debug statements left in production paths
-- [ ] No hardcoded secrets, tokens, or environment-specific values in source
-- [ ] Error handling is present at all external boundaries (API calls, user input, file I/O)
-- [ ] TypeScript types are correct and there are no `any` casts masking real errors
-
-**Testing**
-
-- [ ] Unit tests pass
-- [ ] Integration tests pass
-- [ ] Manual testing completed for the changed user flows
-- [ ] Edge cases and error paths are covered
-
-**Security**
-
-- [ ] All user input is validated and sanitized
-- [ ] Authentication and authorization enforced on all protected routes
-- [ ] No OWASP Top 10 issues introduced
-- [ ] Secrets are not in source code or committed files
-
-**Performance**
-
-- [ ] No memory leaks or unbounded resource allocations
-- [ ] No N+1 queries or unindexed lookups on hot paths
+- [ ] Work has an explicit review outcome or approval signal
+- [ ] Required CI / validation checks are green for the artifact being deployed
+- [ ] Any required manual QA or release sign-off has been completed
 
 **Deployment**
 
 - [ ] All required environment variables are configured in the target environment
-- [ ] Database migrations are backward-compatible and ready to run
+- [ ] Database migrations, if any, are understood and ready to run
 - [ ] Dependent services are compatible with this release
-- [ ] CI is green on the branch being deployed
-
-**Scope completeness**
-
-- [ ] Feature is complete per the issue description and acceptance criteria
-- [ ] No known regressions introduced
+- [ ] The deploy or release steps are documented and available
+- [ ] Rollback or roll-forward strategy is known before starting
 
 ### 3. Deliver verdict and prompt
 
@@ -103,14 +75,14 @@ If the user says **yes**: proceed to Phase 2.
 
 ## Phase 2 — Strategy
 
-Choose the deployment strategy automatically based on the nature of the change. State the strategy with a one-line rationale before proceeding.
+Choose from the deployment strategies the project actually supports. State the selected strategy with a one-line rationale before proceeding.
 
 | Signal                                             | Strategy                                                           |
 | -------------------------------------------------- | ------------------------------------------------------------------ |
-| Change touches auth, payments, or a data migration | **Canary** — route 5–10% first, monitor 10 min before full rollout |
+| Change is high risk and progressive rollout exists | **Canary** — release gradually and monitor before full rollout     |
 | New feature with a feature flag                    | **Feature flag** — deploy dark, enable incrementally               |
 | Routine release, no schema changes, low risk       | **Blue-Green** — zero-downtime swap                                |
-| Capacity constraints prevent blue-green            | **Rolling** — last resort only                                     |
+| Capacity constraints prevent blue-green            | **Rolling** — update instances incrementally                       |
 
 ---
 
@@ -128,34 +100,7 @@ Choose the deployment strategy automatically based on the nature of the change. 
 
 Never deploy application code before its migrations have applied.
 
-### Service deployment (Fly.io)
-
-```bash
-fly deploy --app <app-name>
-fly status --app <app-name>
-fly logs --app <app-name>
-```
-
-### Database migration coordination
-
-```bash
-# Run migrations before deploying application code
-fly ssh console --app <app-name> -C "pnpm db:migrate"
-fly ssh console --app <app-name> -C "pnpm db:status"
-# If migration fails: do NOT deploy application code
-```
-
-### Mobile builds (EAS / TestFlight)
-
-```bash
-eas build --platform ios --profile preview
-eas submit --platform ios --latest
-```
-
-| Profile      | Purpose                                 |
-| ------------ | --------------------------------------- |
-| `preview`    | Internal QA — TestFlight internal group |
-| `production` | App Store / external TestFlight group   |
+Use the repo's documented deployment commands and environment-specific runbooks. Do not invent deployment steps from memory when the project already defines them.
 
 ---
 
@@ -164,8 +109,8 @@ eas submit --platform ios --latest
 Immediately after deploying:
 
 1. **Health checks** — confirm all services respond to their health endpoints
-2. **Error rates** — compare against pre-deploy baseline; target < 0.1%
-3. **Latency** — p95 should be within 20% of baseline
+2. **Error rates** — compare against the repo's defined baseline or SLO
+3. **Latency** — compare against the repo's defined baseline or SLO
 4. **Key user flows** — manually verify: login, core action, critical path
 5. **Logs** — scan for unexpected errors not present before
 
@@ -175,28 +120,22 @@ Immediately after deploying:
 
 If error rates spike, health checks fail, or user reports arrive — roll back immediately. Do not attempt a hot-fix on a broken production deployment.
 
-```bash
-fly deploy --image <previous-image> --app <app-name>
-# For database rollback:
-fly ssh console --app <app-name> -C "pnpm db:rollback"
-# Order: application first, then migration (reverse of deploy order)
-```
-
 1. Roll back immediately.
 2. Preserve evidence — capture logs and metrics before anything changes.
 3. Diagnose offline — understand the root cause before re-deploying.
 4. Re-deploy with the fix verified — run Phase 1 again.
 
-Decide within 10 minutes whether to roll forward or roll back.
+Use the documented rollback path for the environment. If none exists, stop and surface that as a release risk before proceeding with future deployments.
 
 ---
 
 ## Guardrails
 
 - Every checklist item must be explicitly confirmed or noted as not-applicable — no silent skips.
-- A PASS verdict with unresolved security or testing items is never acceptable.
+- A PASS verdict with unresolved deployment blockers is never acceptable.
 - Never deploy without a PASS verdict from Phase 1.
-- Never deploy directly from a local machine to production — use the CI/CD pipeline.
+- Never treat ship readiness as a substitute for code review or product sign-off.
+- Never deploy directly from a local machine to production unless the documented release process explicitly requires it and the user approves it.
 - Never deploy application code before its migrations have applied.
 - Roll back first, fix second — always.
 - Monitor error rates after every production deployment — do not walk away immediately.

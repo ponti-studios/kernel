@@ -1,59 +1,61 @@
 ---
-name: kernel-api-architecture
-description: Provides best practices for building type-safe APIs. Use when
-  designing, implementing, or reviewing API endpoints, RPC definitions,
-  request/response schemas, middleware, error handling, or API versioning.
+name: kernel-api-design
+description: Designs and reviews the inbound API boundary: routes, RPC contracts, request/response schemas, middleware, validation, and error handling. Use when shaping how external requests enter the system through server endpoints or typed RPC surfaces.
 license: MIT
-compatibility: Any TypeScript API project using Hono, Express, or a similar HTTP framework.
+compatibility: Any TypeScript server project with HTTP endpoints, server actions, or typed RPC boundaries.
 metadata:
   author: project
   version: "1.0"
   category: Engineering
   tags:
     - api
+    - boundary
+    - server
     - rpc
     - http
     - typescript
-    - hono
     - rest
     - openapi
     - error-handling
     - middleware
 when:
-  - user is designing a new API endpoint or route
-  - user is implementing request validation or error handling
-  - user is reviewing API code for correctness or security
-  - user is working with RPC definitions or API contract types
-  - user is adding authentication or authorization to an API route
-  - user is implementing middleware
+  - user is designing a new API endpoint, route, server action, or RPC contract
+  - user is implementing request validation or boundary error handling
+  - user is reviewing server boundary code for correctness or security
+  - user is working with request/response schemas, RPC definitions, or middleware
+  - user is adding authentication or authorization to an inbound server boundary
 applicability:
-  - Use when implementing any API endpoint, route handler, or middleware
+  - Use when implementing any endpoint handler, route handler, or server boundary middleware
   - Use when writing request/response schemas or API contract types
-  - Use when reviewing API code for security, correctness, or maintainability
-  - Use when designing the error response envelope for an API
+  - Use when reviewing boundary code for security, correctness, or maintainability
+  - Use when designing the error response envelope for an API surface
 termination:
-  - API endpoint implemented with validation, error handling, and auth
+  - Boundary implementation has validation, explicit auth requirements, and consistent error handling
   - "Route handler is thin: validate → service → respond"
   - Tests cover happy path, validation rejection, and auth boundary
 outputs:
-  - Type-safe API route with schema validation
+  - Type-safe boundary route or action with schema validation
   - Consistent error response envelope
   - Auth-aware middleware chain
   - Integration tests for happy path, 422, and 401/403
 ---
 
-Build type-safe, contract-first APIs with consistent error handling, explicit auth, and thin route handlers.
+Design the inbound server boundary so external requests enter the system through clear contracts, thin handlers, and explicit validation/auth rules.
 
-## Toolchain
+## Standards
 
-| Concern           | Tool                                     |
-| ----------------- | ---------------------------------------- |
-| HTTP framework    | Hono                                     |
-| Schema validation | Zod                                      |
-| RPC client        | Hono RPC (`hc<typeof AppRouter>`)        |
-| Auth middleware   | Better-Auth (via `kernel-better-auth`) |
+Use the repo's actual framework and boundary primitives. Prefer the project's documented routing, schema, and middleware patterns over generic defaults.
 
-Never use: Express, Fastify, Koa, tRPC, or any other HTTP framework.
+This skill owns the inbound boundary:
+
+- request parsing and validation
+- route or action shape
+- middleware ordering
+- auth/authz at the boundary
+- response envelope consistency
+- handoff from transport layer to service layer
+
+It does not own end-to-end subsystem tracing (`kernel-trace`), auth system design (`kernel-better-auth`), test strategy (`kernel-testing`), or general type-system rules (`kernel-typescript`).
 
 ## Design Principles
 
@@ -62,7 +64,7 @@ Never use: Express, Fastify, Koa, tRPC, or any other HTTP framework.
 - **Fail loudly**: invalid input → 422 immediately; never silently coerce bad data
 - **Explicit errors**: every error has a stable code, human message, and HTTP status
 
-## Route File Structure
+## Boundary File Structure
 
 ```
 routes/
@@ -72,6 +74,8 @@ routes/
     schema.ts      ← Zod schemas for request and response
     service.ts     ← business logic: no HTTP concerns
 ```
+
+This is a model, not a mandatory folder layout. Match the repo's existing structure if one already exists.
 
 ## Request Validation
 
@@ -139,7 +143,7 @@ app.use("/api/admin/*", requireRole("admin"));
 
 - Derive the client type from the router type: `type ApiClient = hc<typeof AppRouter>`
 - Treat the contract as immutable: version breaking changes with `/v2/` prefix
-- Client never calls `fetch` directly — always through the typed RPC client
+- Prefer a typed client or shared contract when the stack supports it instead of duplicating request shapes manually
 
 ## Testing Requirements
 
@@ -179,6 +183,6 @@ describe("POST /api/users", () => {
 
 - No HTTP concerns (status codes, headers) in the service layer
 - No `any` in schemas — if the shape is unknown, use `z.unknown()` and document it
-- Every endpoint must have an explicit auth requirement (even if it's `public`)
+- Every endpoint or action must have an explicit auth requirement (even if it's `public`)
 - Never log request bodies that may contain PII or credentials
 - Validate path params and query params with the same strictness as body params

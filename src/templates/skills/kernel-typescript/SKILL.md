@@ -1,9 +1,6 @@
 ---
 name: kernel-typescript
-description: "Enforces TypeScript correctness, type safety, and idiomatic
-  patterns across all code. Use when writing or reviewing types, generics,
-  utility types, narrowing logic, async patterns, error handling, Zod schemas,
-  or when making structural decisions about where types should live."
+description: Enforces strict TypeScript behavior, type ownership, and derived-type patterns across the codebase. Use when adding or reviewing types, schemas, generics, async boundaries, tsconfig settings, or shared package types where full type safety must be preserved.
 license: MIT
 compatibility: TypeScript 5+ / TypeScript 7 (tsgo).
 metadata:
@@ -13,154 +10,96 @@ metadata:
   tags:
     - typescript
     - types
-    - generics
-    - narrowing
-    - utility-types
-    - async
-    - error-handling
-    - zod
-    - schemas
     - type-safety
+    - schemas
+    - zod
     - monorepo
     - tsconfig
+    - boundaries
 when:
-  - user is writing or reviewing TypeScript types, interfaces, or generics
-  - user is narrowing types or handling discriminated unions
-  - user is writing utility types or mapped types
-  - user is defining a schema with Zod and needs to derive types
-  - user is handling async code or error types
+  - user is adding or reviewing TypeScript types, interfaces, or generics
+  - user is defining a schema and needs types to stay aligned with it
   - user is deciding where a shared type should live in the package graph
-  - user is configuring tsconfig.json or resolving a circular type dependency
-  - user asks why a type is not what they expected, or why an assertion fails
+  - user is configuring tsconfig.json or resolving shared type boundaries
+  - user asks why a type is wider, duplicated, or less safe than expected
+  - user is introducing assertions, ignores, or escape hatches to bypass a type error
 applicability:
-  - Use when adding any TypeScript type, generic, or schema to the codebase
-  - Use when reviewing code for type safety regressions or `any` leakage
-  - Use when a type needs to be shared across packages
-  - Use when tsconfig or project references need to be set up or fixed
+  - Use when enforcing strict type safety in application or shared code
+  - Use when reviewing for duplicated type definitions or `any` leakage
+  - Use when deriving types from schemas, generated output, or existing source types
+  - Use when a type needs clear ownership in a monorepo or package graph
 termination:
-  - All types have a single source of truth with clear ownership
-  - No `any` in exported or shared types — only `unknown` with explicit narrowing
-  - Schemas are Zod-first with derived types — no parallel definitions
-  - Async functions return typed results; errors are typed, not swallowed
+  - Types have a clear single source of truth
+  - No unsafe widening or duplicated parallel type definitions remain
+  - Boundary types are derived from authoritative schemas or source types
+  - Strictness settings and package boundaries remain intact
 outputs:
-  - Correctly typed functions, generics, or utility types
-  - Zod schema with inferred TypeScript type
-  - tsconfig.json with correct project references (see references/architecture.md)
+  - Tightened type ownership and derivation plan
+  - Corrected shared or exported types
+  - Schema-derived or source-derived type definitions
+  - Type-safety findings and required fixes
 ---
 
-Enforces type safety, idiomatic patterns, and structural correctness across TypeScript code.
+Enforce full TypeScript strictness and keep types derived, owned, and non-duplicated. This skill exists to stop the LLM from weakening the type system or creating parallel truth.
 
-## Type Safety Rules
+## Non-Negotiables
 
-- Never use `any` in exported or shared types — use `unknown` and narrow explicitly
-- Never use type assertions (`as Foo`) to paper over a type error — fix the root mismatch
-- Never silence errors with `@ts-ignore` without a comment explaining why and a plan to remove it
-- Prefer `interface` for object shapes that will be extended; prefer `type` for unions, intersections, and aliases
-- Mark properties optional only when `undefined` is a meaningful value — absent vs. undefined are different things
+- Do not use `any` in exported, shared, or boundary-facing types.
+- Do not silence type errors with `@ts-ignore`, unsafe assertions, or widening casts unless the user explicitly approves a temporary exception.
+- Do not create parallel type definitions when a type can be derived from a schema, generated artifact, or existing source type.
+- Do not hand-edit generated type files.
+- Do not weaken strict compiler settings to make code compile.
 
-## Narrowing
+Required strictness:
 
-Use discriminated unions and exhaustive checks instead of boolean flags or `typeof` chains.
+- `strict`
+- `exactOptionalPropertyTypes`
+- `noUncheckedIndexedAccess`
 
-```typescript
-type Result<T> =
-  | { ok: true; value: T }
-  | { ok: false; error: string };
+## Ownership Rules
 
-function handle<T>(r: Result<T>): T {
-  if (!r.ok) throw new Error(r.error);
-  return r.value;
-}
-```
+Every important type must have one authoritative source.
 
-For exhaustive switch coverage:
+Prefer deriving types from:
 
-```typescript
-function assertNever(x: never): never {
-  throw new Error(`Unhandled case: ${JSON.stringify(x)}`);
-}
-```
+- Zod schemas
+- generated database or API artifacts
+- existing exported source types
+- function return types or object literals when that preserves a single source of truth
 
-## Generics
+Do not maintain:
 
-Write constraints that communicate intent, not just `T`.
+- one runtime schema and a second handwritten TypeScript type for the same shape
+- one server type and a second manually synchronized client copy when a shared or derived contract exists
+- one generated type and a second "cleaned up" alias that silently drifts
 
-```typescript
-// Too loose — T could be anything
-function first<T>(arr: T[]): T | undefined { return arr[0]; }
+A type belongs in the lowest-level package that truly owns it. Do not hoist a type to a shared package until more than one consumer genuinely needs it.
 
-// Constrained — caller knows what's expected
-function getById<T extends { id: string }>(items: T[], id: string): T | undefined {
-  return items.find(item => item.id === id);
-}
-```
+## Enforcement Focus
 
-Avoid generic overreach — if a function works on two or three known types, a union is cleaner than a generic.
+Use this skill to enforce:
 
-## Utility Types
+- full strictness instead of convenience escapes
+- derivation instead of duplication
+- narrow exported contracts instead of widened internal shapes
+- package-boundary correctness instead of direct `src/` imports
+- explicit boundary typing for async results, schemas, and shared contracts
 
-Prefer built-in utility types over hand-rolled equivalents:
-
-| Need                              | Use                         |
-| --------------------------------- | --------------------------- |
-| Subset of an object's keys        | `Pick<T, K>`                |
-| Object without certain keys       | `Omit<T, K>`                |
-| All properties optional           | `Partial<T>`                |
-| All properties required           | `Required<T>`               |
-| Read-only properties              | `Readonly<T>`               |
-| Return type of a function         | `ReturnType<typeof fn>`     |
-| Unwrap a Promise                  | `Awaited<T>`                |
-| Values of an object               | `T[keyof T]`                |
-
-## Async and Error Handling
-
-Type errors explicitly — do not catch and return `undefined`.
-
-```typescript
-// Prefer typed result over thrown errors at boundaries
-async function fetchUser(id: string): Promise<Result<User>> {
-  try {
-    const user = await db.users.findById(id);
-    return user ? { ok: true, value: user } : { ok: false, error: "Not found" };
-  } catch (e) {
-    return { ok: false, error: String(e) };
-  }
-}
-```
-
-- Always `await` Promises — never let them float without a `.catch()` or `void` annotation
-- Use `Awaited<ReturnType<typeof fn>>` to derive async return types
-
-## Zod Schemas
-
-Define once, derive the type — never maintain a parallel `type` definition.
-
-```typescript
-import { z } from "zod";
-
-export const UserSchema = z.object({
-  id: z.string().uuid(),
-  email: z.string().email(),
-  role: z.enum(["admin", "member"]).default("member"),
-});
-
-export type User = z.infer<typeof UserSchema>;
-```
-
-Parse at boundaries (API responses, form input, environment variables). Trust typed data downstream.
+When a type error appears, fix the mismatch at the source of truth instead of layering casts on top of it.
 
 ## Structural Decisions
 
 See `references/architecture.md` for:
-- Where types should live in a monorepo package graph
-- tsconfig project references setup
-- Package `exports` field configuration
-- Anti-patterns for circular dependencies and codegen output
+
+- type ownership in a monorepo package graph
+- tsconfig project references
+- package exports boundaries
+- circular dependency avoidance for shared types and generated output
 
 ## Guardrails
 
-- Never use `any` in exported types — it propagates unsafety to every consumer
-- Never import from a package's `src/` directly — always from its published exports
-- Never hand-edit generated type files (DB codegen, OpenAPI, GraphQL)
-- A type belongs in the lowest-level package that needs it — do not hoist to shared until two packages need it
-- `exactOptionalPropertyTypes` and `noUncheckedIndexedAccess` must be enabled — they catch real bugs
+- Never use `any` where `unknown` plus narrowing would preserve safety.
+- Never duplicate a type shape just because it is inconvenient to derive.
+- Never import from another package's `src/` directly; use published exports.
+- Never widen a boundary contract to avoid fixing upstream typing.
+- Never let schema, generated types, and exported contracts drift apart.

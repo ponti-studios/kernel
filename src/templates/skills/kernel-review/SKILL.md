@@ -1,11 +1,6 @@
 ---
 name: kernel-review
-description: Assesses completed deliverables for correctness, completeness,
-  quality, security, performance, and standards compliance. Also covers
-  refactoring, formatting, linting, and performance optimization. Use after
-  implementation to evaluate whether work meets acceptance criteria, before
-  handoff, merge, or deployment, or when asked to refactor, clean up, or improve
-  code quality.
+description: Reviews completed work for correctness, completeness, risk, and readiness to move forward. Use after implementation, before merge or handoff, or when the user asks for a review of code, docs, or another deliverable.
 license: MIT
 compatibility: Use after implementation is complete, before handoff, merge, or deployment.
 metadata:
@@ -17,32 +12,25 @@ metadata:
     - review
     - quality
     - post-completion
-    - refactor
-    - lint
-    - format
-    - optimize
+    - sign-off
+    - readiness
 when:
   - a deliverable is complete and ready for sign-off
   - before handing off, deploying, or merging
-  - user asks to review, refactor, format, or optimize code
-  - there are lint violations, style inconsistencies, or performance issues
+  - user asks to review code, docs, or another completed artifact
+  - there are concerns about correctness, regressions, or missing acceptance criteria
 applicability:
   - Use to formally assess whether completed work meets its acceptance criteria
   - Use to surface must-fix issues before the work moves downstream
-  - "Use for any code quality task: review, refactor, lint, format, or
-    performance work"
+  - Use when a clear go / no-go recommendation is needed
 termination:
   - All evaluation dimensions covered
   - Findings prioritised as must-fix, should-fix, or consider
   - "Clear recommendation delivered: approve | approve with changes | needs
     rework"
-  - Refactoring complete with tests still passing
-  - Lint and format checks pass
 outputs:
   - Review report with recommendation
   - Prioritised findings list
-  - Refactored code with unchanged behaviour
-  - Lint-clean, formatted code
 disableModelInvocation: true
 userInvocable: false
 argumentHint: task, PR link, or file/directory to review (optional)
@@ -54,6 +42,8 @@ allowedTools:
 ---
 
 Answer: _is this done well enough to move forward?_
+
+This skill owns evaluation and recommendation, not implementation. Use narrower execution skills when the work needs to be changed rather than assessed.
 
 ## Steps
 
@@ -109,12 +99,6 @@ Weight each dimension by what matters most for this work:
 [Clear direction: what happens next and who owns it]
 ```
 
-### 6. Update the local work state
-
-- If approved: mark the task ready to move forward.
-- If needs rework: keep the task open and attach the must-fix list to the local work notes.
-- If approve with changes: record the should-fix list and decide whether the work can still advance.
-
 ## Review Principles
 
 - **Review against the goal, not your preferences.** The question is whether the work achieves its stated intent.
@@ -132,77 +116,3 @@ Before delivering the review:
 - [ ] The recommendation is clear and unambiguous
 - [ ] The report distinguishes between fact and opinion
 - [ ] Nothing important was omitted to avoid an uncomfortable conversation
-
-## Refactoring
-
-Follow this process for any refactoring task:
-
-### 1. Intent Gate
-
-- Classify the request: rename, extract, inline, move, simplify, or restructure
-- Identify the target clearly and scope the impact
-
-### 2. Codebase Analysis
-
-- Map all call sites and usages of affected code
-- Identify type boundaries, test coverage, and established patterns
-- Check for side effects and hidden dependencies
-
-### 3. Plan
-
-- Write the exact sequence of atomic, independently verifiable steps
-- Each step must leave the codebase in a passing state
-
-### 4. Execute
-
-- Apply changes one step at a time
-- Run type-check and tests after each step
-- Never proceed with a failing build
-
-### 5. Final Verification
-
-- Full test suite passes
-- Type-check clean
-- Lint clean
-- Behaviour is unchanged (tests are the proof)
-
-### Refactoring Rules
-
-- NEVER skip diagnostics or proceed with failing tests
-- NEVER use `as any` or `@ts-ignore` as workarounds
-- NEVER delete tests to make the build pass
-- NEVER change behaviour inside a refactoring commit — separate it
-
-## Code Formatting
-
-1. Confirm the formatter the project uses (prettier, eslint, rustfmt, biome, etc.)
-2. Run the formatter on changed files
-3. Review the diff — formatting changes should be pure whitespace/style
-4. Commit formatting separately from logic changes
-
-## Linting
-
-Supported linters by language:
-
-- JavaScript/TypeScript: eslint, oxlint
-- Ruby: RuboCop, StandardRB, Fasterer
-- Rust: clippy
-
-Process:
-
-1. Run linter on the target scope
-2. Auto-fix safe fixable violations
-3. Review remaining violations — distinguish errors from warnings
-4. Manual-fix remaining issues, document exceptions with rationale
-
-## Performance Optimization
-
-Profile before optimizing:
-
-- **Algorithm** — choose better data structures, reduce time complexity
-- **Memory** — reduce allocations, fix leaks, improve GC pressure
-- **CPU** — cache-friendly access patterns, avoid repeated computation
-- **Network** — batch requests, reduce payload, use compression
-- **Build** — lazy loading, code splitting, tree-shaking
-
-Measure before and after with realistic data. Never sacrifice correctness for micro-optimizations.
