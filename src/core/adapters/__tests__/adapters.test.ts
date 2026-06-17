@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { AGENT_NAMES, COMMAND_NAMES, SKILL_NAMES } from "../../../templates/constants.js";
+import { AGENT_NAMES, COMMAND_NAMES } from "../../../templates/constants.js";
 import type { AgentTemplate, CommandTemplate, SkillTemplate } from "../../templates/types.js";
 import { claudeAdapter } from "../claude.js";
 import { codexAdapter } from "../codex.js";
@@ -49,7 +49,7 @@ const testAgentTemplate: AgentTemplate = {
   compatibility: "Works with all workflows",
   metadata: { author: "project", version: "1.0", category: "Orchestration", tags: ["planning"] },
   defaultTools: ["read", "search"],
-  availableSkills: [SKILL_NAMES.GIT, SKILL_NAMES.DESIGN],
+  availableSkills: ["kernel-review", "kernel-design"],
 };
 
 const nativeAgentSupport: Record<string, boolean> = {
@@ -226,8 +226,8 @@ describe("Claude formatAgent", () => {
     const result = claudeAdapter.formatAgent!(testAgentTemplate, "1.0.0");
     const frontmatter = result.split("---")[1];
     expect(frontmatter).toContain("skills:");
-    expect(frontmatter).toContain(SKILL_NAMES.GIT);
-    expect(frontmatter).toContain(SKILL_NAMES.DESIGN);
+    expect(frontmatter).toContain("kernel-review");
+    expect(frontmatter).toContain("kernel-design");
   });
 
   it("does not add ## Available skills section to agent body", () => {
@@ -297,8 +297,8 @@ describe("Codex formatAgent", () => {
   it("maps availableSkills to [[skills.config]] entries", () => {
     const result = codexAdapter.formatAgent!(testAgentTemplate, "1.0.0");
     expect(result).toContain("[[skills.config]]");
-    expect(result).toContain(`.codex/skills/${SKILL_NAMES.GIT}/SKILL.md`);
-    expect(result).toContain(`.codex/skills/${SKILL_NAMES.DESIGN}/SKILL.md`);
+    expect(result).toContain(".codex/skills/kernel-review/SKILL.md");
+    expect(result).toContain(".codex/skills/kernel-design/SKILL.md");
   });
 
   it("emits model_reasoning_effort when reasoningEffort is set", () => {
@@ -325,8 +325,8 @@ describe("Codex formatAgent", () => {
 
 describe("Codex formatSkill", () => {
   it("uses .codex/skills/<name>/SKILL.md path", () => {
-    expect(codexAdapter.getSkillPath(SKILL_NAMES.GIT)).toBe(
-      ".codex/skills/kernel-git/SKILL.md",
+    expect(codexAdapter.getSkillPath("kernel-review")).toBe(
+      ".codex/skills/kernel-review/SKILL.md",
     );
   });
 
@@ -458,8 +458,8 @@ describe("GitHub Copilot formatAgent", () => {
     const result = githubCopilotAdapter.formatAgent!(testAgentTemplate, "1.0.0");
     const body = result.split("---")[2];
     expect(body).toContain("## Available skills");
-    expect(body).toContain(`- ${SKILL_NAMES.GIT}`);
-    expect(body).toContain(`- ${SKILL_NAMES.DESIGN}`);
+    expect(body).toContain("- kernel-review");
+    expect(body).toContain("- kernel-design");
   });
 
   it("omits ## Available skills when availableSkills is empty", () => {
@@ -594,6 +594,8 @@ describe("COMMAND_NAMES", () => {
   it("expected commands are defined", () => {
     expect(COMMAND_NAMES.SYNC).toBe("kernel-sync");
     expect(COMMAND_NAMES.DOCTOR).toBe("kernel-doctor");
-    expect(COMMAND_NAMES.GH_PR_ERRORS).toBe("kernel-gh-pr-errors");
+    expect(COMMAND_NAMES.GOAL_DONE).toBe("kernel-goal-done");
+    expect(COMMAND_NAMES.TASK_DONE).toBe("kernel-task-done");
+    expect(COMMAND_NAMES.TASK_STATUS).toBe("kernel-task-status");
   });
 });

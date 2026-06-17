@@ -1,75 +1,67 @@
 # Kernel
 
-`kernel` is a local-first catalog and workspace for coding agents.
+Kernel is a **skill and agent publishing tool**. You author skills and agents once, in a neutral format, and kernel deploys them to whatever AI tools you use — Claude Code, Codex, GitHub Copilot, Pi.
 
-It gives you one canonical place on your machine to define skills, agents, and commands, then syncs that catalog into the dot-directories your agent hosts already use.
+## The Big Idea
 
-It also gives each repo a committed `.kernel/` directory that acts as the full living project memory for the project: goals, tasks, research, runbooks, concepts, learnings, and local runtime state.
+Most AI tools have their own directory for skills and agents — `.claude/skills/`, `.codex/skills/`, etc. Each expects a slightly different format. Without kernel, you'd have to maintain separate copies for each tool and keep them in sync manually.
 
-## What It Does
+Kernel gives you **one source of truth** and handles the rest.
 
-- Stores your canonical agent catalog in `~/.kernel/catalog/`
-- Syncs that catalog into enabled hosts like `.codex`, `.claude`, `.copilot`, and `.pi`
-- Keeps host-specific formatting at the edge through small materializers
-- Manages repo-local project memory in `.kernel/`
-- Uses one markdown file with frontmatter per trackable record
-- Keeps `.kernel/state.json` ignored for local pointers and runtime state
-
-## Layout
-
-### User Catalog
-
-```text
-~/.kernel/
-  config.yaml
-  catalog/
-    skills/<id>/SKILL.md
-    agents/<id>/AGENT.md
-    commands/<id>.yaml
-  state/
-    sync-manifest.json
+```
+src/templates/skills/kernel-review/  →  discover  →  render per tool  →  ~/.claude/skills/kernel-review/SKILL.md
+                                                                        →  ~/.codex/skills/kernel-review/SKILL.md
 ```
 
-### Repo Workspace
+## How It Works
+
+### 1. You write templates
+
+Skills and agents live in `src/templates/skills/` and `src/templates/agents/`. Each is a directory with a `SKILL.md` or `AGENT.md` file — a neutral description of what the skill does, independent of any specific AI tool.
+
+### 2. Kernel discovers them automatically
+
+No manifest, no registration. Add a folder with a `SKILL.md` inside, and `kernel sync` picks it up.
+
+### 3. Kernel detects which AI tools you have installed
+
+It checks your home directory for `.claude`, `.codex`, `.copilot`, `.pi`. If the folder exists, that tool gets the skills.
+
+### 4. Kernel renders each template for each tool
+
+Each AI tool has an **adapter** — a small translator that knows the format that tool expects. The Claude adapter writes `SKILL.md` files with specific frontmatter. The Codex adapter writes `.toml` files. Copilot gets `.agent.md` files. Same content, different format.
+
+### 5. Kernel writes and cleans up
+
+Output files are written into the tool directories. Kernel also maintains a sync manifest so it can remove files whose templates have been deleted — no orphans left behind.
+
+## Repo Workspace
+
+Each repo can also have a `.kernel/` directory — a committed project memory for goals, tasks, and knowledge that lives in the repo itself rather than in chat history.
 
 ```text
 .kernel/
-  README.md
-  .gitignore
   work/
-    goals/<id>/
-      goal.md
-    tasks/
-      active/<id>/
-        task.md
-      archived/<date>-<id>/
-        task.md
+    goals/<id>/goal.md
+    tasks/active/<id>/task.md
+    tasks/archived/<date>-<id>/task.md
   knowledge/
-    notes/<id>/
-      note.md
-    guides/<id>/
-      guide.md
-    reference/<id>/
-      reference.md
-    learnings/<slug>.md
+    notes/
+    guides/
+    learnings/
   state.json
 ```
 
 ## CLI
 
-```text
-kernel sync
-kernel doctor
-kernel host list
-kernel goal new "<title>"
-kernel task new "<title>" --goal <goalId>
-kernel task status [id]
-kernel task done <checklist-item>
-kernel task archive [id]
+```bash
+kernel sync                              # deploy all skills/agents to installed tools
+kernel doctor                            # check what's installed and what's out of sync
+kernel goal new "make onboarding fast"
+kernel task new "write setup guide" --goal <id>
+kernel task status
+kernel task done <item>
 kernel knowledge list
-kernel research new "<title>"
-kernel runbook new "<title>"
-kernel concept new "<title>"
 ```
 
 ## Quick Start
@@ -78,22 +70,17 @@ kernel concept new "<title>"
 npm install -g @hackefeller/kernel
 kernel sync
 kernel goal new "make onboarding effortless"
-kernel goal new "document setup path"
-kernel task new "write setup guide" --goal document-setup-path
+kernel task new "write setup guide" --goal make-onboarding-effortless
 kernel task status
 ```
 
-## Local Workflows
-
-This repo uses `just` as the local source of truth for development and release workflows. GitHub Actions call these same recipes.
+## Local Development
 
 ```bash
-just ci                 # typecheck, test, build, and compiled-binary validation
-just validate-binary    # smoke test dist/kernel in isolated temp fixtures
-just install            # build and install kernel to ~/bin/kernel
+just ci                 # typecheck, test, build, binary validation
+just validate-binary    # smoke test the compiled dist/kernel
+just install            # build and install to ~/bin/kernel
 ```
-
-Release and publish commands are dry-run by default unless explicitly confirmed:
 
 ```bash
 just version-dry-run patch
@@ -107,14 +94,13 @@ just publish confirm=true
 
 ## Design Principles
 
-- Define once locally, sync everywhere
-- `.kernel` is the repo's committed project memory
+- Define once, deploy everywhere
+- No manifests — discovery is filesystem-based
+- Host-specific behavior lives in adapters, not templates
+- `.kernel/` is the repo's committed project memory
 - One markdown file per record; frontmatter is metadata
-- Durable knowledge is linked, not copied
-- Host-specific behavior stays in small adapters/materializers
-- Local work state should be visible in the repo, not hidden in chat
 
-## Metadata References
+## References
 
 - [Skill metadata compatibility matrix](docs/skill-metadata-compatibility-matrix.md)
 - [Supported skill metadata by provider](docs/skill-metadata-reference.md)

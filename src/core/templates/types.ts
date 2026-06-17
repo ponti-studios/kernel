@@ -44,6 +44,22 @@ export const VALID_TAGS = [
   "react",
   "design",
   "tooling",
+  "creative",
+  "art",
+  "image-generation",
+  "monotone",
+  "product-photography",
+  "music",
+  "songwriting",
+  "production",
+  "writing",
+  "essay",
+  "style",
+  "literary",
+  "content",
+  "character",
+  "video",
+  "3d",
 ] as const;
 
 export type TemplateTag = (typeof VALID_TAGS)[number];

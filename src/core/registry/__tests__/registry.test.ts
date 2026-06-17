@@ -14,11 +14,6 @@ describe("template registry", () => {
 
   it("discovers skills and commands from disk", () => {
     expect(registry.skills.some((template) => template.name === "kernel-review")).toBe(true);
-    expect(
-      registry.skills.find((template) => template.name === "kernel-project")?.references?.some(
-        (reference) => reference.relativePath === "references/scaffold.md",
-      ),
-    ).toBe(true);
     expect(registry.agents).toHaveLength(0);
   });
 
@@ -72,11 +67,6 @@ body`;
     try {
       const registry = loadTemplateRegistry();
       expect(registry.skills.some((template) => template.name === "kernel-review")).toBe(true);
-      expect(
-        registry.skills.find((template) => template.name === "kernel-project")?.references?.some(
-          (reference) => reference.relativePath === "references/scaffold.md",
-        ),
-      ).toBe(true);
       expect(registry.agents).toHaveLength(0);
     } finally {
       process.chdir(originalCwd);

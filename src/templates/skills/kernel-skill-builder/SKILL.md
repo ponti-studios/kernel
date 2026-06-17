@@ -103,7 +103,7 @@ Set these in `template.ts` — they control how platforms invoke the skill:
 | ------------------------------ | -------------------------------------------------------------------------------------------------- |
 | `disableModelInvocation: true` | Skill has side effects: deploys code, modifies issue state, archives work, creates PRs             |
 | `userInvocable: false`         | Model-only auto-invoke; never a direct slash command (e.g. `kernel-conventions`)                   |
-| `argumentHint: "..."`          | Skill benefits from a user-supplied argument (e.g., `kernel-review`, `kernel-docker`, `kernel-git`) |
+| `argumentHint: "..."`          | Skill benefits from a user-supplied argument (e.g., `kernel-review`, `kernel-docker`, `kernel-typescript`) |
 | `allowedTools: [...]`          | Skill needs specific tools without per-use approval                                                |
 
 ### 4. Merge Candidates

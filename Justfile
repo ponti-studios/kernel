@@ -66,12 +66,12 @@ ci: check build validate-binary
 fix: ci
 
 install: build
-    mkdir -p "$HOME/bin"
-    cp "{{kernel}}" "$HOME/bin/kernel"
-    rm -rf "$HOME/bin/templates"
-    cp -R "{{root}}/dist/templates" "$HOME/bin/templates"
-    chmod +x "$HOME/bin/kernel"
-    printf 'installed=%s\n' "$HOME/bin/kernel"
+    mkdir -p "$HOME/.local/bin"
+    cp "{{kernel}}" "$HOME/.local/bin/kernel"
+    rm -rf "$HOME/.local/bin/templates"
+    cp -R "{{root}}/dist/templates" "$HOME/.local/bin/templates"
+    chmod +x "$HOME/.local/bin/kernel"
+    printf 'installed=%s\n' "$HOME/.local/bin/kernel"
 
 version-dry-run bump="patch":
     #!/usr/bin/env bash

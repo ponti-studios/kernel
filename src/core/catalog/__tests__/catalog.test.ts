@@ -31,16 +31,6 @@ describe("catalog v2", () => {
     const skillPath = path.join(homeDir, ".agents", "skills", "kernel-build", "SKILL.md");
     expect(await fs.stat(skillPath)).toBeDefined();
 
-    const projectReferencePath = path.join(
-      homeDir,
-      ".agents",
-      "skills",
-      "kernel-project",
-      "references",
-      "scaffold.md",
-    );
-    expect(await fs.readFile(projectReferencePath, "utf-8")).toContain("Project Scaffold");
-
     const linkedSkillPath = path.join(homeDir, ".codex", "skills", "kernel-build");
     const linkStats = await fs.lstat(linkedSkillPath);
     expect(linkStats.isSymbolicLink()).toBe(true);

@@ -1,10 +1,8 @@
 ---
 name: kernel-build
-description: Runs and diagnoses the build, type-check, test, and lint pipeline
-  using Node.js, pnpm, Vite, tsgo, and Vitest. Use when a build fails, tests are broken,
-  CI is failing, or when running the full pipeline before a deploy or merge.
+description: Runs the repo's build, type-check, test, and lint pipeline, diagnoses failures, and verifies fixes. Use when CI is failing, a local build or test is broken, or before merge or deploy when the validation pipeline must pass.
 license: MIT
-compatibility: Node.js LTS + pnpm + Vite + TypeScript 7 projects.
+compatibility: Any project with a defined local build, type-check, test, or lint workflow.
 metadata:
   author: project
   version: "2.0"
@@ -14,87 +12,69 @@ when:
   - running tests or debugging a test failure
   - diagnosing a CI failure that doesn't reproduce locally
   - debugging a build failure after a dependency or config change
+  - running the full validation pipeline before merge or deploy
 applicability:
-  - Use when building or testing a project
+  - Use when running or debugging the repo's validation pipeline
   - Use when a build or test is failing and the root cause is unknown
 termination:
-  - Build succeeds with zero errors and zero suppressed warnings
-  - All tests pass
+  - The relevant validation commands succeed with no unreviewed warnings or suppressed errors
+  - The failing step is reproduced locally or the CI-only cause is identified
   - Root cause of any failure is identified and fixed
 outputs:
-  - Passing build and test suite
+  - Passing validation pipeline
   - Root cause analysis if a failure was diagnosed
 argumentHint: package name or test filter (optional)
 ---
 
-Run builds, type-checks, and tests using the prescribed toolchain. Diagnose and fix failures.
+Run the repo's validation pipeline, diagnose failures, and verify the fix.
 
-## Prescribed Toolchain
+## Standards
 
-| Concern    | Tool                       |
-| ---------- | -------------------------- |
-| Runtime    | Node.js LTS                |
-| Build      | Vite (`pnpm build`)        |
-| Type-check | tsgo (`pnpm typecheck`)    |
-| Test       | Vitest (`pnpm test`)       |
-| Lint       | ESLint (`pnpm lint`)       |
+Use the commands and package manager the repo actually defines. Prefer the project's documented workflow over generic defaults.
 
-Never use: `npm`, `npx`, `yarn`, alternate JavaScript runtimes, `tsc` (use tsgo), Jest, Webpack, or any other substitute.
+The validation job owned by this skill is operational:
 
-## Standard Commands
+- discover the relevant build, type-check, test, and lint commands
+- run the failing step or full pipeline as appropriate
+- classify the failure accurately
+- fix the root cause or hand off to a narrower specialist when needed
+- rerun the relevant checks to verify the fix
 
-```bash
-# Full pipeline — run in this order
-pnpm typecheck   # TypeScript 7 / tsgo — zero errors required
-pnpm build       # Vite production build — zero errors, zero warnings-as-errors
-pnpm test        # Vitest — all tests must pass
-pnpm lint        # ESLint — zero violations
-```
+Do not invent a new pipeline if the repo already has one. Read `package.json`, workspace scripts, CI config, or repo docs first.
 
-### Monorepo — targeting a specific package
+If a failure is clearly domain-specific, keep ownership of the pipeline run but use the narrower skill for the fix:
 
-```bash
-pnpm --filter @your-org/api build
-pnpm --filter @your-org/web typecheck
-pnpm --filter @your-org/db test
-```
+- `kernel-typescript` for type-system issues
+- `kernel-testing` for test design, flaky tests, or coverage questions
+- `kernel-react` / `kernel-react-native` for UI-layer failures
+- `kernel-database` for migration or schema failures
 
-### Before building
+## Process
 
-- Confirm dependencies are installed: `pnpm install`
-- Clean previous artifacts if stale: `rm -rf dist/ .vite/ .turbo/`
-- Ensure `NODE_ENV=production` for production builds
+1. Inspect the repo's defined scripts and CI entrypoints before running commands.
+2. Reproduce the failing step with the narrowest command that still exposes the problem.
+3. Classify the failure:
+   - **Type error**: fix the type issue; do not suppress it.
+   - **Build/config error**: inspect the relevant config and dependency graph.
+   - **Test failure**: determine whether the bug is in production code, test setup, or the test itself.
+   - **Lint failure**: fix the underlying code or configuration mismatch.
+   - **CI-only failure**: compare environment, lockfile, OS/path behavior, and missing secrets or services.
+4. Fix the root cause or route to the correct specialist skill if deeper domain work is needed.
+5. Rerun the failing step first, then rerun the broader validation pipeline needed for confidence.
+6. Report what failed, what changed, and what verification now passes.
 
-### After building
-
-- Verify artifacts exist in `dist/` and sizes are plausible
-- Run a smoke test or preview: `pnpm preview`
-- Check build logs for warnings — treat all warnings as errors
-
-## Debugging a Failure
-
-1. Read the full error — the actual message is usually at the bottom, not the top.
-2. Classify the failure:
-   - **Type error** — fix the type; never use `as any` or `@ts-ignore` to suppress
-  - **Missing module** — run `pnpm install`; check the import path and `tsconfig.json` paths
-   - **Config error** — check `vite.config.ts`, `tsconfig.json`, or the relevant config file
-   - **Logic failure** — read the test assertion; fix the code, not the test
-3. Check if the failure is local-only or reproducible in CI.
-4. Fix the root cause — never suppress errors or skip tests to make the pipeline pass.
-5. Re-run the full pipeline to confirm the fix didn't introduce a new failure.
-
-### CI vs. local differences
+## CI vs. Local Differences
 
 | Symptom                     | Likely cause                                                                            |
 | --------------------------- | --------------------------------------------------------------------------------------- |
 | Passes locally, fails in CI | Missing env var; lockfile drift (`pnpm install --frozen-lockfile`); case-sensitive paths |
 | Fails locally, passes in CI | Stale local artifacts — clean and rebuild                                               |
 | Flaky test                  | Timing assumption or shared state — isolate the test                                    |
-| Type error only in CI       | tsgo version mismatch — check `package.json`                                            |
+| Type error only in CI       | Version mismatch, different build flags, or stale generated artifacts                   |
 
 ## Guardrails
 
-- Never use `as any`, `@ts-ignore`, or `// eslint-disable` to make a pipeline pass — fix the root cause.
-- Never skip or mark a test as expected-failing to unblock a build — fix or explicitly delete the test with a comment.
-- Never deploy from a build that produced warnings unless each one is reviewed and accepted.
-- Always run the full pipeline (`typecheck → build → test → lint`) before declaring a fix complete.
+- Never use `as any`, `@ts-ignore`, or `// eslint-disable` to make a pipeline pass unless the user explicitly approves a temporary exception.
+- Never skip a failing test just to get green CI without naming the tradeoff and intended follow-up.
+- Never silently normalize warnings, flaky behavior, or environment drift as "good enough."
+- Never claim a fix is complete without rerunning the relevant verification commands.
