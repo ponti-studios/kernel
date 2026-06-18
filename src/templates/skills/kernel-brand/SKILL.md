@@ -3,8 +3,8 @@ name: kernel-brand
 kind: skill
 tags:
   - design
-  - branding
-  - copy
+  - content
+  - style
 description: >
   Enforces brand identity, voice, palette, and product doctrine for Ponti
   Studios and Hakumi. Use when making brand, copy, naming, theming, or visual

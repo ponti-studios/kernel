@@ -4,7 +4,7 @@ kind: skill
 tags:
   - design
   - production
-  - print
+  - docs
 description: >
   Enforces physical production, archival print, and technical dossier standards.
   Use when writing or reviewing print specs, conservation language, framing or

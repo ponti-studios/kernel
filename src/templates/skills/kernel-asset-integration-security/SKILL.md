@@ -1,8 +1,6 @@
 ---
 name: kernel-asset-integration-security
-description: Enforces security requirements for third-party assets and external
-  integrations. Use when adding scripts, fonts, analytics, embeds, CDN
-  resources, or any external dependency to a frontend.
+description: Enforces security review rules for third-party frontend assets and external integrations. Use when adding scripts, fonts, analytics, embeds, CDN resources, public API keys, or any browser-loaded dependency that could expand the attack surface.
 license: MIT
 compatibility: Any web frontend project.
 metadata:
@@ -28,141 +26,77 @@ when:
   - user is loading any external resource not self-hosted
 applicability:
   - Use before adding any external dependency to a frontend bundle or HTML page
-  - Use when reviewing CSP headers or CORS configuration
+  - Use when reviewing CSP headers or CORS configuration related to frontend integrations
   - Use when evaluating whether a third-party tool is safe to integrate
 termination:
   - External resource includes SRI hash or is self-hosted
-  - CSP header configured and tested
-  - No secret API keys embedded in the frontend bundle
+  - CSP expectations are configured and tested
+  - No secret API keys are embedded in the frontend bundle
 outputs:
-  - CSP header configuration
-  - SRI hash for CDN-loaded resource
+  - Integration security decision
+  - CSP or SRI requirements for the integration
   - Security checklist result for the integration
 ---
 
-# Asset Integration Security
+Treat every external frontend resource as untrusted until proven otherwise. This skill exists to stop the LLM from casually adding third-party scripts, embeds, fonts, or public credentials without a security review.
 
-Every external resource is untrusted. A compromised CDN or third-party vendor can inject arbitrary code into your users' sessions. Apply these controls before adding any external dependency.
+## Non-Negotiables
+
+- Prefer self-hosting over browser-loading a third-party asset when practical.
+- If a CDN asset is loaded directly, it must be version-pinned and integrity-protected when the source supports it.
+- Secret keys never belong in the frontend bundle.
+- Frontend integrations must respect the project's CSP and embed policy.
+- External widgets and scripts are allowed only with explicit scope and review.
+
+Forbidden behavior:
+
+- Do not add `@latest` or floating CDN references.
+- Do not embed server-side secrets or unrestricted credentials in browser code.
+- Do not use wildcard CSP or CORS settings as a shortcut for integration pain.
+- Do not add iframe or script permissions more broadly than the integration needs.
+- Do not normalize risky third-party code just because it is common or convenient.
 
 ## Threat Model
 
-| Threat              | Vector                                                           |
-| ------------------- | ---------------------------------------------------------------- |
-| Supply-chain attack | CDN resource replaced with malicious version                     |
-| Credential theft    | Secret API key embedded in the frontend bundle                   |
-| XSS via embed       | Malicious iframe or widget executes in your origin               |
-| Data exfiltration   | Third-party script reads cookies or localStorage and phones home |
+The main risks are:
 
-## Subresource Integrity (SRI)
+- supply-chain compromise of a remote asset
+- credential exposure in the frontend bundle
+- XSS or data exfiltration through embeds and scripts
+- over-broad browser permissions through CSP, CORS, or iframe allowances
 
-Add `integrity` and `crossorigin` to every CDN-loaded script and stylesheet.
+## Required Review
 
-```html
-<script
-  src="https://cdn.example.com/lib@1.2.3/dist/lib.min.js"
-  integrity="sha384-<base64-hash>"
-  crossorigin="anonymous"
-></script>
+Before approving the integration, answer:
 
-<link
-  rel="stylesheet"
-  href="https://cdn.example.com/lib@1.2.3/dist/lib.min.css"
-  integrity="sha384-<base64-hash>"
-  crossorigin="anonymous"
-/>
-```
+- Is the integration necessary?
+- Can it be self-hosted or proxied instead?
+- Is the exact version pinned?
+- Is SRI available or otherwise replaced with a stronger trust boundary?
+- What CSP, iframe, or origin allowances are required?
+- Does the integration need a public key, and if so, is that key restricted correctly?
+- What user data can the integration read or transmit?
 
-Generate the hash:
+## Enforcement Rules
 
-```bash
-curl -s https://cdn.example.com/lib@1.2.3/dist/lib.min.js \
-  | openssl dgst -sha384 -binary | openssl base64 -A
-```
-
-Prefer self-hosting the asset over CDN loading when SRI is not available.
-
-## Content Security Policy
-
-Start from `default-src 'none'` and add only what is required.
-
-```
-Content-Security-Policy:
-  default-src 'none';
-  script-src 'self' https://cdn.example.com;
-  style-src 'self' https://fonts.googleapis.com;
-  font-src 'self' https://fonts.gstatic.com;
-  img-src 'self' data: https:;
-  connect-src 'self' https://api.example.com;
-  frame-src https://trusted-embed.example.com;
-  report-uri /csp-report;
-```
-
-Never use:
-
-- `unsafe-inline` (use a nonce if inline scripts are absolutely required)
-- `unsafe-eval`
-- Wildcard `*` in any directive
-
-Test your CSP with the browser console and the `report-uri` endpoint before deploying.
-
-## Third-Party Script Checklist
-
-Before adding any script:
-
-- [ ] Is this integration necessary? (prefer fewer integrations)
-- [ ] Is a specific version pinned (not `@latest`)?
-- [ ] Does it load `async` or `defer`?
-- [ ] Is its DOM access scoped to a container element?
-- [ ] Does the vendor have a published security program or bug bounty?
-- [ ] Is SRI available for this resource?
-
-## API Keys in the Frontend
-
-| Rule                            | Rationale                                          |
-| ------------------------------- | -------------------------------------------------- |
-| Never embed server secrets      | Any key in the bundle is public                    |
-| Restrict public keys by domain  | Configure in the provider dashboard                |
-| Rotate exposed keys immediately | Treat an exposed key as compromised                |
-| Prefer server-side proxies      | Keep secrets server-side; proxy calls from the API |
-
-```typescript
-// ✅ public key, restricted in provider dashboard by origin
-const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
-
-// ❌ never — secret key in the browser
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-```
-
-## CORS
-
-- CORS is a server-side control — configure it on the API, not in the browser
-- Never use wildcard (`*`) on authenticated or credentialed endpoints
-- `credentials: 'include'` only for explicitly trusted origins
-- Allowlist is maintained in the API config — not in frontend code
-
-## iFrames and Embeds
-
-```html
-<iframe
-  src="https://trusted-embed.example.com/widget"
-  sandbox="allow-scripts allow-same-origin"
-  allow="payment"
-  loading="lazy"
-  title="Payment widget"
-></iframe>
-```
-
-- Always use the `sandbox` attribute; add permissions one by one
-- Add `X-Frame-Options: DENY` to your own pages unless embedding is required
-- Never embed `srcdoc` with user-supplied content
+- CDN scripts and styles should use `integrity` and `crossorigin` when supported.
+- CSP should start narrow and expand only to the exact required origins and capabilities.
+- Public frontend keys must be restricted by origin or equivalent provider controls.
+- CORS decisions belong on the server boundary; never pretend the browser can secure an unsafe backend allowlist.
+- Embeds must use the minimum viable sandbox and permissions.
 
 ## Pre-Ship Checklist
 
-- [ ] SRI hash added for every CDN resource
-- [ ] CSP header configured, tested, and enforced (not report-only)
-- [ ] No secret keys in the frontend bundle (`NEXT_PUBLIC_` or equivalent only)
-- [ ] Public keys restricted by domain in the provider dashboard
-- [ ] Third-party scripts load `async` or `defer`
-- [ ] iFrames use `sandbox` with minimal permissions
-- [ ] CORS allowlist reviewed and does not include `*` for credentialed requests
-- [ ] `report-uri` endpoint exists and is monitored
+- [ ] version pinning is explicit
+- [ ] SRI or self-hosting decision is documented
+- [ ] CSP changes are specific and tested
+- [ ] no secret keys are present in the frontend bundle
+- [ ] public keys are restricted appropriately
+- [ ] iframe or widget permissions are minimal
+- [ ] data access and transmission risks are understood
+
+## Guardrails
+
+- Never approve a third-party frontend integration without a security rationale.
+- Never let a marketing, analytics, or convenience tool bypass the same review as executable code.
+- Never trade away key restriction, CSP narrowness, or embed isolation just to make an integration work faster.
