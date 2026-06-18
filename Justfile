@@ -40,6 +40,11 @@ validate-binary:
     TMP_ROOT="${TMP_ROOT%/}"
     HOME_FIXTURE="$(mktemp -d "$TMP_ROOT/kernel-home-validation.XXXXXX")"
     FIXTURE="$(mktemp -d "$TMP_ROOT/kernel-cli-validation.XXXXXX")"
+    cleanup() {
+      rm -rf "$HOME_FIXTURE" "$FIXTURE"
+      rm -f /tmp/kernel-help-output.txt
+    }
+    trap cleanup EXIT
     printf 'home=%s\n' "$HOME_FIXTURE"
     printf 'fixture=%s\n' "$FIXTURE"
 
@@ -56,14 +61,14 @@ validate-binary:
     printf 'doctor=passed\n'
 
     # Test host command
-    HOME="$HOME_FIXTURE" "$KERNEL" host list 2>/dev/null || true
+    HOME="$HOME_FIXTURE" "$KERNEL" host list >/dev/null
     printf 'host=passed\n'
 
     printf 'validation=passed\n'
 
 ci: check build validate-binary
 
-fix: ci
+verify: ci
 
 install: build
     mkdir -p "$HOME/.local/bin"
