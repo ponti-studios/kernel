@@ -3,107 +3,77 @@
   "notGrouped": "bottom",
   "groupings": [
     {
-      "title": "Writing & Content",
-      "description": "Skills for producing essays, scripts, transcripts, lyrics, and structured documents.",
+      "title": "Writing",
+      "description": "Skills for producing structured documents, essays, transcripts, workshops, and content pipeline outputs.",
       "skills": [
-        "write-essay",
-        "write-video",
-        "write-transcript",
-        "write-rap",
-        "write-song",
-        "write-doc"
+        "kernel-write-doc",
+        "kernel-write-dossier",
+        "kernel-write-essay",
+        "kernel-write-extract-posts",
+        "kernel-write-video",
+        "kernel-write-transcript",
+        "kernel-write-workshop"
       ]
     },
     {
-      "title": "Art & Visual",
+      "title": "Music",
+      "description": "Skills for writing technically structured rap lyrics and full song drafts.",
+      "skills": [
+        "kernel-music-rap",
+        "kernel-music-song"
+      ]
+    },
+    {
+      "title": "Image",
       "description": "Skills for generating 3D renders, fine art, product photography, and character design.",
       "skills": [
-        "art-3d",
-        "art-abstract",
-        "art-kadosabi",
-        "art-product"
+        "kernel-image-3d",
+        "kernel-image-abstract",
+        "kernel-image-kadosabi",
+        "kernel-image-product"
       ]
     },
     {
-      "title": "Workshops & Strategy",
-      "description": "Skills for designing workshops, writing dossiers, and facilitating working sessions.",
+      "title": "Development",
+      "description": "Skills for application architecture, auth, frontend, backend, testing, and build workflows.",
       "skills": [
-        "write-workshop",
-        "write-dossier"
+        "kernel-dev-api",
+        "kernel-dev-auth",
+        "kernel-dev-build",
+        "kernel-dev-database",
+        "kernel-dev-docker",
+        "kernel-dev-react",
+        "kernel-dev-react-native",
+        "kernel-dev-testing",
+        "kernel-dev-typescript"
       ]
     },
     {
-      "title": "API & Architecture",
-      "description": "Skills for API design, auth, and full-stack patterns.",
-      "skills": [
-        "kernel-api-design",
-        "kernel-better-auth"
-      ]
-    },
-    {
-      "title": "React & React Native",
-      "description": "Skills for React web components and React Native / Expo mobile development.",
-      "skills": [
-        "kernel-react",
-        "kernel-react-native"
-      ]
-    },
-    {
-      "title": "TypeScript & Testing",
-      "description": "Skills for strict TypeScript, testing, and code quality.",
-      "skills": [
-        "kernel-typescript",
-        "kernel-testing",
-        "kernel-build"
-      ]
-    },
-    {
-      "title": "Database & Docker",
-      "description": "Skills for PostgreSQL schema design, migrations, and Docker workflows.",
-      "skills": [
-        "kernel-database",
-        "kernel-docker"
-      ]
-    },
-    {
-      "title": "UI Design & Brand",
+      "title": "UI & Brand",
       "description": "Skills for design systems, UI components, motion, accessibility, and brand identity.",
       "skills": [
-        "kernel-ui-design",
-        "kernel-brand"
-      ]
-    },
-    {
-      "title": "Production & Publishing",
-      "description": "Skills for physical production, print specs, content extraction, and documentation publishing.",
-      "skills": [
-        "kernel-production",
-        "kernel-extract-posts",
-        "kernel-docs-publish"
-      ]
-    },
-    {
-      "title": "Security & Integration",
-      "description": "Skills for security review, third-party asset scrutiny, and external integration safety.",
-      "skills": [
-        "kernel-asset-integration-security",
-        "kernel-review"
-      ]
-    },
-    {
-      "title": "Operations & Workflow",
-      "description": "Skills for deployment, shipping, and tracing subsystem boundaries.",
-      "skills": [
-        "kernel-ship",
-        "kernel-trace"
+        "kernel-ui",
+        "kernel-brand-governance"
       ]
     },
     {
       "title": "Audit",
-      "description": "Skills for auditing monorepos, SwiftUI codebases, and evaluating structural risks.",
+      "description": "Skills for review, tracing, and structural audits across codebases and integrations.",
       "skills": [
-        "monorepo-audit",
-        "swiftui-audit"
+        "kernel-audit-integration-security",
+        "kernel-audit-monorepo",
+        "kernel-audit-review",
+        "kernel-audit-swiftui",
+        "kernel-audit-trace"
+      ]
+    },
+    {
+      "title": "Operations",
+      "description": "Skills for publishing, shipping, and production readiness workflows.",
+      "skills": [
+        "kernel-ops-docs-publish",
+        "kernel-ops-production",
+        "kernel-ops-ship"
       ]
     }
   ]

@@ -2,7 +2,7 @@
 
 [![skills.sh](https://skills.sh/b/ponti-studios/kernel)](https://skills.sh/ponti-studios/kernel)
 
-A collection of agent skills for software development and content production. 31 skills covering API design, React/React Native, TypeScript, databases, UI design, writing, art generation, and more.
+A collection of agent skills for software development and content production. 32 skills covering development, audit, UI, brand, writing, music, image generation, and release workflows.
 
 ## Install
 
@@ -11,47 +11,32 @@ A collection of agent skills for software development and content production. 31
 npx skills add ponti-studios/kernel --all --yes
 
 # Specific skills
-npx skills add ponti-studios/kernel --skill write-essay --yes
-npx skills add ponti-studios/kernel --skill kernel-react-native --yes
+npx skills add ponti-studios/kernel --skill kernel-write-essay --yes
+npx skills add ponti-studios/kernel --skill kernel-dev-react-native --yes
 ```
 
 ## Skills
 
-### Writing & Content
-`write-essay` `write-video` `write-transcript` `write-rap` `write-song` `write-doc`
+### Writing
+`kernel-write-doc` `kernel-write-dossier` `kernel-write-essay` `kernel-write-extract-posts` `kernel-write-transcript` `kernel-write-video` `kernel-write-workshop`
 
-### Art & Visual
-`art-3d` `art-abstract` `art-kadosabi` `art-product`
+### Music
+`kernel-music-rap` `kernel-music-song`
 
-### Workshops & Strategy
-`write-workshop` `write-dossier`
+### Image
+`kernel-image-3d` `kernel-image-abstract` `kernel-image-kadosabi` `kernel-image-product`
 
-### API & Architecture
-`kernel-api-design` `kernel-better-auth`
+### Development
+`kernel-dev-api` `kernel-dev-auth` `kernel-dev-build` `kernel-dev-database` `kernel-dev-docker` `kernel-dev-react` `kernel-dev-react-native` `kernel-dev-testing` `kernel-dev-typescript`
 
-### React & React Native
-`kernel-react` `kernel-react-native`
-
-### TypeScript & Testing
-`kernel-typescript` `kernel-testing` `kernel-build`
-
-### Database & Docker
-`kernel-database` `kernel-docker`
-
-### UI Design & Brand
-`kernel-ui-design` `kernel-brand`
-
-### Production & Publishing
-`kernel-production` `kernel-docs-publish`
-
-### Security & Integration
-`kernel-asset-integration-security` `kernel-review`
-
-### Operations & Workflow
-`kernel-ship` `kernel-trace`
+### UI & Brand
+`kernel-ui` `kernel-brand-governance`
 
 ### Audit
-`monorepo-audit` `swiftui-audit`
+`kernel-audit-integration-security` `kernel-audit-monorepo` `kernel-audit-review` `kernel-audit-swiftui` `kernel-audit-trace`
+
+### Operations
+`kernel-ops-docs-publish` `kernel-ops-production` `kernel-ops-ship`
 
 ---
 
