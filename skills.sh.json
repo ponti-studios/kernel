@@ -75,9 +75,10 @@
     },
     {
       "title": "Production & Publishing",
-      "description": "Skills for physical production, print specs, and documentation publishing.",
+      "description": "Skills for physical production, print specs, content extraction, and documentation publishing.",
       "skills": [
         "kernel-production",
+        "kernel-extract-posts",
         "kernel-docs-publish"
       ]
     },
