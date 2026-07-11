@@ -7,14 +7,12 @@ A collection of agent skills for software development and content production. 31
 ## Install
 
 ```bash
-npx skills add ponti-studios/kernel
-```
+# All skills
+npx skills add ponti-studios/kernel --all --yes
 
-Install specific skills:
-
-```bash
-npx skills add ponti-studios/kernel --skill write-essay
-npx skills add ponti-studios/kernel --skill kernel-react-native
+# Specific skills
+npx skills add ponti-studios/kernel --skill write-essay --yes
+npx skills add ponti-studios/kernel --skill kernel-react-native --yes
 ```
 
 ## Skills
