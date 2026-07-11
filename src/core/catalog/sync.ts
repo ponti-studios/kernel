@@ -90,7 +90,7 @@ interface CleanupResult {
   removedPaths: string[];
 }
 
-function isKernelManagedHostPath(hostId: HostId, homePath: string, entryPath: string): boolean {
+function isKernelManagedHostPath(hostId: HostId, homePath: string, entryPath: string, managedSkillNames?: Set<string>): boolean {
   const host = getHostDescriptor(hostId);
   const adapter = getHostAdapter(hostId);
   const hostBase = path.join(homePath, host.homeDir);
@@ -116,7 +116,9 @@ function isKernelManagedHostPath(hostId: HostId, homePath: string, entryPath: st
 
   if (topLevel === "skills") {
     const skillName = segments[1];
-    return typeof skillName === "string" && skillName.startsWith(KERNEL_TEMPLATE_PREFIX);
+    if (typeof skillName !== "string") return false;
+    if (managedSkillNames && managedSkillNames.has(skillName)) return true;
+    return skillName.startsWith(KERNEL_TEMPLATE_PREFIX);
   }
 
   return path.parse(path.basename(entryPath)).name.startsWith(KERNEL_TEMPLATE_PREFIX);
@@ -127,6 +129,7 @@ async function cleanupHostOrphans(
   homePath: string,
   tracked: Set<string>,
   options: { verbose?: boolean } = {},
+  managedSkillNames?: Set<string>,
 ): Promise<CleanupResult> {
   const host = getHostDescriptor(hostId);
   const adapter = getHostAdapter(hostId);
@@ -157,7 +160,16 @@ async function cleanupHostOrphans(
         }
         continue;
       }
-      if (!tracked.has(entryPath) && isKernelManagedHostPath(hostId, homePath, entryPath)) {
+      if (entry.isSymbolicLink()) {
+        // All symlinks in skills/ are kernel-created; clean up if not tracked
+        if (!tracked.has(entryPath)) {
+          await fs.rm(entryPath, { force: true });
+          removed += 1;
+          if (options.verbose) removedPaths.push(entryPath);
+        }
+        continue;
+      }
+      if (!tracked.has(entryPath) && isKernelManagedHostPath(hostId, homePath, entryPath, managedSkillNames)) {
         await fs.rm(entryPath, { force: true, recursive: true });
         removed += 1;
         if (options.verbose) {
@@ -188,6 +200,15 @@ async function syncHost(
   options: { verbose?: boolean } = {},
 ): Promise<{ result: SyncHostResult; tracked: SyncManifestEntry[] }> {
   const source = await loadCatalogSource(homePath);
+  const previousSkillNames = new Set(
+    previous
+      .filter((e) => e.path.includes(`${path.sep}skills${path.sep}`))
+      .map((e) => path.basename(path.dirname(e.path))),
+  );
+  const managedSkillNames = new Set([
+    ...source.catalog.skills.map((s) => s.name),
+    ...previousSkillNames,
+  ]);
   const outputs = renderHostOutputs(source.catalog, hostId, homePath, "2.0.0");
   const plan = planSync(hostId, outputs, previous);
   const result = await applySyncPlan(plan, options);
@@ -196,6 +217,7 @@ async function syncHost(
     homePath,
     new Set(plan.tracked.map((entry) => entry.path)),
     options,
+    managedSkillNames,
   );
   result.removed += cleanup.removed;
   if (options.verbose && cleanup.removedPaths.length > 0) {
