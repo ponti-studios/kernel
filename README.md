@@ -1,5 +1,7 @@
 # Kernel
 
+[![skills.sh](https://skills.sh/b/ponti-studios/kernel)](https://skills.sh/ponti-studios/kernel)
+
 Kernel is a **skill and agent publishing tool**. You author skills and agents once, in a neutral format, and kernel deploys them to whatever AI tools you use — Claude Code, Codex, GitHub Copilot, Pi.
 
 ## The Big Idea
