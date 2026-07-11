@@ -1,4 +1,0 @@
-interface:
-  display_name: "Monorepo Architect"
-  short_description: "Audit and refactor TS monorepos"
-  default_prompt: "Use $monorepo-architect to audit this TypeScript monorepo and propose a behavior-preserving refactor plan."
