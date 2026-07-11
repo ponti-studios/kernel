@@ -1,0 +1,109 @@
+{
+  "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
+  "notGrouped": "bottom",
+  "groupings": [
+    {
+      "title": "Writing & Content",
+      "description": "Skills for producing essays, scripts, transcripts, lyrics, and structured documents.",
+      "skills": [
+        "write-essay",
+        "write-video",
+        "write-transcript",
+        "write-rap",
+        "write-song",
+        "write-doc"
+      ]
+    },
+    {
+      "title": "Art & Visual",
+      "description": "Skills for generating 3D renders, fine art, product photography, and character design.",
+      "skills": [
+        "art-3d",
+        "art-abstract",
+        "art-kadosabi",
+        "art-product"
+      ]
+    },
+    {
+      "title": "Workshops & Strategy",
+      "description": "Skills for designing workshops, writing dossiers, and facilitating working sessions.",
+      "skills": [
+        "write-workshop",
+        "write-dossier"
+      ]
+    },
+    {
+      "title": "API & Architecture",
+      "description": "Skills for API design, auth, and full-stack patterns.",
+      "skills": [
+        "kernel-api-design",
+        "kernel-better-auth"
+      ]
+    },
+    {
+      "title": "React & React Native",
+      "description": "Skills for React web components and React Native / Expo mobile development.",
+      "skills": [
+        "kernel-react",
+        "kernel-react-native"
+      ]
+    },
+    {
+      "title": "TypeScript & Testing",
+      "description": "Skills for strict TypeScript, testing, and code quality.",
+      "skills": [
+        "kernel-typescript",
+        "kernel-testing",
+        "kernel-build"
+      ]
+    },
+    {
+      "title": "Database & Docker",
+      "description": "Skills for PostgreSQL schema design, migrations, and Docker workflows.",
+      "skills": [
+        "kernel-database",
+        "kernel-docker"
+      ]
+    },
+    {
+      "title": "UI Design & Brand",
+      "description": "Skills for design systems, UI components, motion, accessibility, and brand identity.",
+      "skills": [
+        "kernel-ui-design",
+        "kernel-brand"
+      ]
+    },
+    {
+      "title": "Production & Publishing",
+      "description": "Skills for physical production, print specs, and documentation publishing.",
+      "skills": [
+        "kernel-production",
+        "kernel-docs-publish"
+      ]
+    },
+    {
+      "title": "Security & Integration",
+      "description": "Skills for security review, third-party asset scrutiny, and external integration safety.",
+      "skills": [
+        "kernel-asset-integration-security",
+        "kernel-review"
+      ]
+    },
+    {
+      "title": "Operations & Workflow",
+      "description": "Skills for deployment, shipping, and tracing subsystem boundaries.",
+      "skills": [
+        "kernel-ship",
+        "kernel-trace"
+      ]
+    },
+    {
+      "title": "Audit",
+      "description": "Skills for auditing monorepos, SwiftUI codebases, and evaluating structural risks.",
+      "skills": [
+        "monorepo-audit",
+        "swiftui-audit"
+      ]
+    }
+  ]
+}
