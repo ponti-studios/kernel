@@ -1,5 +1,6 @@
 ---
 name: write-rap
+license: MIT
 kind: skill
 tags:
   - creative

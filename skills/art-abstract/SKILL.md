@@ -1,5 +1,6 @@
 ---
 name: art-abstract
+license: MIT
 kind: skill
 tags:
   - creative

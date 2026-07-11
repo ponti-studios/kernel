@@ -1,5 +1,6 @@
 ---
 name: art-kadosabi
+license: MIT
 kind: skill
 tags:
   - creative

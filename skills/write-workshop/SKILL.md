@@ -1,5 +1,6 @@
 ---
 name: write-workshop
+license: MIT
 kind: skill
 tags:
   - planning

@@ -1,5 +1,6 @@
 ---
 name: write-essay
+license: MIT
 kind: skill
 tags:
   - writing

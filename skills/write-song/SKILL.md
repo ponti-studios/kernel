@@ -1,5 +1,6 @@
 ---
 name: write-song
+license: MIT
 kind: skill
 tags:
   - creative

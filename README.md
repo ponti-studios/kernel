@@ -44,7 +44,7 @@ npx skills add ponti-studios/kernel --skill kernel-react-native --yes
 ### Production & Publishing
 `kernel-production` `kernel-docs-publish`
 
-### Security & Review
+### Security & Integration
 `kernel-asset-integration-security` `kernel-review`
 
 ### Operations & Workflow
@@ -54,5 +54,7 @@ npx skills add ponti-studios/kernel --skill kernel-react-native --yes
 `monorepo-audit` `swiftui-audit`
 
 ---
+
+Licensed under the MIT License.
 
 Skills authored by [Ponti Studios](https://github.com/ponti-studios).

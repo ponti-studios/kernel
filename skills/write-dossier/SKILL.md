@@ -1,5 +1,6 @@
 ---
 name: write-dossier
+license: MIT
 kind: skill
 tags:
   - planning

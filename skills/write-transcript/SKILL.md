@@ -1,5 +1,6 @@
 ---
 name: write-transcript
+license: MIT
 kind: skill
 tags:
   - docs

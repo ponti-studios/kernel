@@ -1,5 +1,6 @@
 ---
 name: write-video
+license: MIT
 kind: skill
 tags:
   - writing

@@ -1,5 +1,6 @@
 ---
 name: monorepo-audit
+license: MIT
 kind: skill
 tags:
   - architecture

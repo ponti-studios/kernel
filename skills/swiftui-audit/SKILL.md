@@ -1,5 +1,6 @@
 ---
 name: swiftui-audit
+license: MIT
 kind: skill
 tags:
   - mobile

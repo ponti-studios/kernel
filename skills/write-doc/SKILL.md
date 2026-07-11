@@ -1,5 +1,6 @@
 ---
 name: write-doc
+license: MIT
 kind: skill
 tags:
   - docs

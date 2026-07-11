@@ -1,5 +1,6 @@
 ---
 name: art-product
+license: MIT
 kind: skill
 tags:
   - creative

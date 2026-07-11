@@ -1,5 +1,6 @@
 ---
 name: art-3d
+license: MIT
 kind: skill
 tags:
   - creative
