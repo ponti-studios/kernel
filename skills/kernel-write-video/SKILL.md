@@ -7,17 +7,16 @@ tags:
   - video
 description: >
   Writes camera-ready short-form video scripts from rough ideas or essays.
-  Voice rules come from kernel-voice. This skill handles video script structure
-  and visual direction only.
+  Self-contained prompt — load and run. No CLI additions needed.
 when:
   - user wants a video script from an idea or essay
   - user needs visual cues, captions, or production guidance
-  - user invokes /kernel-write-video
 outputs:
-  - Short-form video script (40-60 seconds) with visual cues and captions
-  - Long-form expansion notes if applicable
+  - Short-form video script (40-60 seconds) with visual cues, captions, and hooks
 termination:
-  - Script is camera-ready with hook, visual cues, captions, and alternate hooks
+  - Hook lands in first 3 seconds
+  - Visual cues every 10-15 seconds
+  - Script is spoken, not read — fragments, contractions, natural pauses
 allowedTools:
   - Read
   - Write
@@ -26,15 +25,15 @@ argumentHint: video topic, rough idea, or essay file
 
 # Write Video — Creator Script
 
-Writes camera-ready video scripts. Voice rules are provided separately by the kernel-voice skill. This skill handles video script structure and visual direction only.
+Writes camera-ready short-form video scripts. Voice rules are provided separately by the kernel-voice skill. This skill handles video script structure and visual direction.
 
 ---
 
-## Mode: Shorts-First (default)
+## Mode: Shorts-First
 
 Default output: 40-60 seconds (~100-160 spoken words). Shorts are self-contained arguments, not cut-downs. One idea. One metaphor. One visual anchor.
 
-If the source material is strong enough for long-form, note it under `## Long-Form Potential` — but don't write the long script unless asked.
+If the source material is strong enough for long-form, note it under `## Long-Form Potential`.
 
 ---
 
@@ -42,30 +41,34 @@ If the source material is strong enough for long-form, note it under `## Long-Fo
 
 | Section | Time | Words | What it does |
 |---|---|---|---|
-| Hook | 3 sec | 5-10 | Creates tension or contradiction. Must survive the scroll-past. |
+| Hook | 3 sec | 5-10 | Creates tension. Survives the scroll-past. |
 | Thesis | 10 sec | 15-25 | States the claim. Names what most people get wrong. |
-| Body | 20 sec | 60-90 | One or two points with visual support. Concrete, not abstract. |
-| Turn | 10 sec | 15-25 | A reversal, hidden incentive, or personal realization. |
+| Body | 20 sec | 60-90 | One or two points with visual support. Concrete. |
+| Turn | 10 sec | 15-25 | A reversal, hidden thing, or personal realization. |
 | Close | 5 sec | 5-15 | A strike. Lands and stops. Not a question. |
 
 ---
 
 ## Visual Cues
 
-Every 10-15 seconds of speech needs a visual change. Include `[VISUAL: ...]` markers inline in the script. Types:
-- **A-roll change:** different framing, closer/longer shot, move position
+Every 10-15 seconds needs a visual change. Include `[VISUAL: ...]` markers inline. Types:
+- **A-roll change:** different framing, closer/longer shot
 - **B-roll:** specific footage to shoot or source
-- **On-screen text:** exact words to overlay with timing
+- **On-screen text:** exact words with timing
 - **Diagram/prop:** what to show and when
 - **Screen recording:** what to capture
 
-Never let a single shot run more than 15 seconds. Even a slight push-in counts.
+Never let a single shot run more than 15 seconds.
 
 ---
 
-## Required Output
+## Execution
 
-```markdown
+Below is source material — an idea or an essay. Turn it into a camera-ready short-form video script following every rule above.
+
+Output only the finished script. Format:
+
+```
 # [Title]
 
 ## Hook (first 3 seconds)
@@ -76,7 +79,6 @@ Never let a single shot run more than 15 seconds. Even a slight push-in counts.
 
 [VERBAL]
 The full spoken script with inline [VISUAL: ...] cues.
-
 Keep language spoken — contractions, fragments, natural pauses.
 [END VERBAL]
 
@@ -102,3 +104,5 @@ Keep language spoken — contractions, fragments, natural pauses.
 
 [One sentence. If strong enough for 3-5 min, what expansion looks like?]
 ```
+
+No commentary. No "here's your script." No markdown fences around the output. Just the script.

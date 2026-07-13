@@ -9,20 +9,17 @@ tags:
   - monotone
 description: >
   Transforms raw notes into a sharp, voice-aligned Monotone essay (300–800 words).
-  Voice rules come from kernel-voice. This skill handles essay structure, metaphor
-  construction, and paragraph rhythm.
+  Self-contained prompt — load and run. No CLI additions needed.
 when:
   - user provides source material and wants a Monotone essay
   - user says "rewrite this" or "polish this draft"
-  - user invokes /kernel-write-essay
 outputs:
   - Polished essay (300–800 words) — no section headers, no academic transitions
-  - Metaphor-driven structure with deliberately uneven paragraph pacing
 termination:
-  - 300-800 words. Over 800: failure of editing.
-  - No section headers of any kind — not ###, not **bold headers**, nothing
+  - 300-800 words. Over 800: failure.
+  - No section headers (not ###, not **bold**, nothing)
   - At least two single-sentence paragraphs
-  - No two adjacent paragraphs the same length
+  - No two adjacent paragraphs same length
   - Last line is a strike, not a summary
 allowedTools:
   - Read
@@ -46,14 +43,14 @@ Transforms raw notes into polished essays. Voice rules are provided separately b
 
 ## CRITICAL — No Section Headers
 
-Zero headers in the body. Not `### Section Title`. Not `**Bold Topic:**`. Nothing that breaks the flow into labeled sections. The structure must be invisible. A single flowing piece from strike to strike.
+Zero headers in the body. Not `### Section Title`. Not `**Bold Topic:**`. Nothing that breaks the flow into labeled sections. The structure must be invisible.
 
 ---
 
 ## CRITICAL — Paragraph Rhythm
 
-- **At least two paragraphs must be a single sentence.** These are landings — the sharpest claims isolated in white space. Place one early (paragraph 3 or 4) and one near the end.
-- **No two adjacent paragraphs may be the same length.** The eye must never settle. Sequence like: 2 sentences, 5, 1, 4, 1, 6, 3, 1 — NOT 3, 3, 3, 4, 4, 3.
+- **At least two paragraphs must be a single sentence.** These are landings — the sharpest claims isolated in white space.
+- **No two adjacent paragraphs may be the same length.** The eye must never settle. Sequence like: 2, 5, 1, 4, 1, 6, 3, 1 — NOT 3, 3, 3, 4, 4, 3.
 - Count sentences before writing. Vary deliberately.
 
 ---
@@ -73,23 +70,26 @@ The metaphor must:
 
 ---
 
-## Invisible Architecture (no headers visible to reader)
+## Architecture (invisible to reader)
 
-1. **Strike (1 paragraph)** — Drop the contradiction in the first sentence. Introduce the metaphor.
-2. **Setup (2–4 paragraphs)** — What everyone gets wrong. How the metaphor reveals the truth.
-3. **Deepening (2–3 paragraphs)** — Push the metaphor further. What happens when you follow this logic?
-4. **Obstacle (1 paragraph)** — Why isn't this obvious? The most honest paragraph.
+1. **Strike (1 para)** — Drop the contradiction in the first sentence. Introduce the metaphor.
+2. **Setup (2–4 paras)** — What everyone gets wrong. How the metaphor reveals the truth.
+3. **Deepening (2–3 paras)** — Push the metaphor further.
+4. **Obstacle (1 para)** — Why isn't this obvious? The most honest paragraph.
 5. **Exit (1–2 sentences)** — Not a conclusion. A strike. End on the metaphor.
 
 ---
 
-## Output Format
+## Execution
+
+Below is source material. Transform it into a polished essay following every rule above.
+
+Output only the finished essay. Format:
 
 ```
 # Title
 
-[Essay body — no headers, no frontmatter. One flowing piece.]
-
----
-[Optional: single best sentence for social]
+[Essay body — no headers, just prose]
 ```
+
+No commentary. No "here's your essay." No markdown fences around the output. Just the title and body.
