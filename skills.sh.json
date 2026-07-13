@@ -3,6 +3,13 @@
   "notGrouped": "bottom",
   "groupings": [
     {
+      "title": "Voice",
+      "description": "Single source of truth for voice DNA across all creative output.",
+      "skills": [
+        "kernel-voice"
+      ]
+    },
+    {
       "title": "Writing",
       "description": "Skills for producing structured documents, essays, transcripts, workshops, and content pipeline outputs.",
       "skills": [
