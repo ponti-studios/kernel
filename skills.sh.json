@@ -57,9 +57,8 @@
     },
     {
       "title": "UI & Brand",
-      "description": "Skills for design systems, UI components, motion, accessibility, and brand identity.",
+      "description": "Skills for brand identity. General UI/design-system skills are covered by anthropics/skills (frontend-design) and plugin87/ux-ui-agent-skills instead of a kernel-authored one.",
       "skills": [
-        "kernel-ui",
         "kernel-brand-governance"
       ]
     },
