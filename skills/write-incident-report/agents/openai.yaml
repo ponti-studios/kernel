@@ -1,0 +1,4 @@
+interface:
+  display_name: "Write Incident Reports"
+  short_description: "Create consistent, complete incident reports"
+  default_prompt: "Use $write-incident-report to document this incident in the repository's strict format."
