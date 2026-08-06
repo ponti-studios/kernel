@@ -32,10 +32,21 @@ Close-up of one key feature — texture, material quality, binding, edge, label,
 **3. Lifestyle / Environmental Shot**
 Product in a styled context that reflects the brand world or intended buyer's environment. Specific props, surfaces, and lighting that suggest a point of view.
 
-## MØNØTØNÉ Districts
+## MØNØTØNÉ
 
-If the user specifies MØNØTØNÉ or the Districts book series:
+If the user specifies MØNØTØNÉ (any product, not just Districts books):
 
-1. Load `monotone.md` for the master prompt and visual language.
-2. The three prompts should follow the book-on-plinth aesthetic and minimalist studio direction from that reference.
-3. Apply the variation patterns table from the reference to differentiate the three shots.
+1. Load `monotone/design-system.md` first, always — this governs brand
+   thesis, neighborhood naming, palette, typography/marking, motif, and
+   material-honesty rules for every MØNØTØNÉ product regardless of
+   category.
+2. Then load the category file matching what the product actually is:
+   `monotone/books.md` (books), `monotone/objects.md` (home goods/desk
+   objects), `monotone/tech.md` (tech accessories), or `monotone/leather.md`
+   (bags/small leather goods). If the product doesn't clearly fit one of
+   these, default to `monotone/objects.md` as the general case, or ask the
+   user.
+3. Compile the three prompts (Hero / Detail / Lifestyle, per this doc's
+   Output section) using the design-system rules from step 1 plus the
+   category file's staging template and variation-patterns table from
+   step 2.
