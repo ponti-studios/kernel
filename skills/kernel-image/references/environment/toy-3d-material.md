@@ -3,10 +3,10 @@
 Premium toy-like 3D material/geometry rendering — Pixar-level polish blended
 with Apple product rendering: simple, friendly, controlled. This is a
 **material** environment (how objects/creatures are built and surfaced), as
-opposed to a lighting environment (`tenebrism.md`, `soft-studio.md`,
-`graphic-flat.md`) — it's usually paired with `soft-studio.md` for lighting
-unless the user asks to blend a different one in (e.g. dramatic tenebrist
-lighting on a toy-3D object).
+opposed to a lighting environment (`tenebrism.md`, or `lighting.md`'s Soft
+Studio and Graphic Flat sections) — it's usually paired with `lighting.md`'s
+Soft Studio section unless the user asks to blend a different one in (e.g.
+dramatic tenebrist lighting on a toy-3D object).
 
 Applies to non-human subjects only: creatures, mascots, objects, packaging,
 sneakers. Per the skill's Universal Human Rendering Rule, any human figure

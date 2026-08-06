@@ -10,7 +10,7 @@ they've already answered it with specificity.
 1. **Purpose/use-case** — wallpaper, print, gift, brand asset, social post, book cover, something else?
 2. **Subject/concept** — what is actually depicted? Get concrete nouns, not themes. If the subject needs a stylized human figure that isn't a specific real person, the brief stage will prefer matching them to an existing character in `references/characters/` over inventing a new one — see `SKILL.md`'s Named Characters section. No extra question needed here; just don't lock in throwaway physical details that would conflict with an existing character's fixed identity.
 3. **Style/medium** — large-scale fine art, product photography, or a plain object/creature render (toy-like 3D, etc.)? See `SKILL.md`'s Modes And Plain Renders table. This governs materials for non-character elements, not a named character's own rendering — see Named Characters. If the subject is a named character, this question still applies to the rest of the scene/materials around them.
-4. **Fine-art mode** (only if style is fine art) — Baroque, Pop-Symbolist, or Vaggio? See the Fine-Art Mode Selection table.
+4. **Fine-art mode** (only if style is fine art) — Baroque or Vaggio? See the Fine-Art Mode Selection table.
 5. **Mood/emotional tone** — what should the viewer feel?
 6. **Color palette** — dominant colors, warm/cool, muted/saturated, any colors to avoid?
 7. **Composition/framing** — aspect ratio, focal point, negative space, close-up vs. wide?

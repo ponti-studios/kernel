@@ -10,22 +10,20 @@ anything else.
 
 - **Material** — how non-character objects/creatures/surfaces are built and
   surfaced (e.g. `toy-3d-material.md`). Fine-art modes
-  (`references/abstract/pop-symbolist.md`, or `tenebrism.md`'s Baroque Mode
-  and Vaggio Mode sections) and product photography
+  (`tenebrism.md`'s Baroque Mode and Vaggio Mode sections) and product photography
   (`references/product/product-photography.md`) define their own material
   treatment internally (oil paint, lacquer, photographic) and don't need a
   material environment file layered on top.
 - **Lighting** — light source count/direction, contrast, shadow behavior,
-  mood (e.g. `tenebrism.md`, `soft-studio.md`, `graphic-flat.md`). Always
-  applies, regardless of which material is in play.
+  mood (e.g. `tenebrism.md`, or `lighting.md`'s Soft Studio and Graphic
+  Flat sections). Always applies, regardless of which material is in play.
 
 ## Composable Axes
 
 A prompt is built from up to three independent layers:
 
 1. **Subject's rendering source** — either a fine-art mode
-   (`references/abstract/pop-symbolist.md`, or `tenebrism.md`'s Baroque Mode
-   / Vaggio Mode sections), product photography
+   (`tenebrism.md`'s Baroque Mode / Vaggio Mode sections), product photography
    (`references/product/product-photography.md`), or, for a plain
    object/creature with no fine-art or product framing, a material
    environment file from this directory (default: `toy-3d-material.md` for
@@ -44,7 +42,7 @@ logic, `tenebrism.md` supplies the light.
 Every fine-art mode and `toy-3d-material.md` has a default lighting
 environment baked into its own identity (e.g. Baroque and Vaggio are built
 around tenebrism; `toy-3d-material.md` and clean product shots default to
-soft studio lighting). Use the default unless the user explicitly asks to
+`lighting.md`'s Soft Studio section). Use the default unless the user explicitly asks to
 blend — e.g. "3D render but dramatically lit," "toy version of the Vaggio
 piece." When blending, the material source still governs surfaces; only the
 lighting/mood comes from the requested environment file instead of the
@@ -56,5 +54,5 @@ default.
 |---|---|---|---|
 | `toy-3d-material.md` | Material | Toy-like premium 3D geometry/surfacing | Plain object/creature renders ("3D render," "Pixar-style") |
 | `tenebrism.md` | Lighting (+ bundles the full Baroque/Vaggio material contracts) | Single dramatic light source, near-black negative space | Baroque, Vaggio |
-| `soft-studio.md` | Lighting | Soft, diffused, multi-light, no drama | `toy-3d-material.md`, clean-studio Product shots |
-| `graphic-flat.md` | Lighting | Crisp, evenly lit, high-contrast, shadow-minimal, built for iconic clarity | Pop-Symbolist |
+| `lighting.md` — Soft Studio section | Lighting | Soft, diffused, multi-light, no drama | `toy-3d-material.md`, clean-studio Product shots |
+| `lighting.md` — Graphic Flat section | Lighting | Crisp, evenly lit, high-contrast, shadow-minimal, built for iconic clarity | None (opt-in blend for a bold, poster-like read) |

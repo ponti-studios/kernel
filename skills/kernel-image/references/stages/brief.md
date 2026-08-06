@@ -9,8 +9,8 @@ prompt, and get the user's explicit sign-off before spending on generation.
    intake answers, per `SKILL.md`'s Modes And Plain Renders and Fine-Art
    Mode Selection tables. This governs the environment/scene only, never a
    named character's own rendering.
-2. Load the matching material reference (`references/abstract/pop-symbolist.md`,
-   `references/environment/tenebrism.md`'s Baroque Mode or Vaggio Mode section,
+2. Load the matching material reference (`references/environment/tenebrism.md`'s
+   Baroque Mode or Vaggio Mode section,
    `references/product/product-photography.md`,
    or, for a plain object/creature render, `references/environment/toy-3d-material.md`)
    and fold its style contract into the prompt for materials and any
@@ -55,10 +55,10 @@ prompt, and get the user's explicit sign-off before spending on generation.
    `references/anime/style-guide.md` on top of the type's reference — this
    is unconditional, not something the user has to request. It applies even
    when the base mode's own reference dictates its own figure or skin
-   treatment (e.g. Baroque's dirty realism, Pop-Symbolist's figure
-   rendering, a Vaggio oil-painting scene) — the anime contract supersedes
-   that specific figure/skin/face guidance while the rest of the mode's
-   reference (environment, lighting, palette, materials) still applies.
+   treatment (e.g. Baroque's dirty realism, a Vaggio oil-painting scene) —
+   the anime contract supersedes that specific figure/skin/face guidance
+   while the rest of the mode's reference (environment, lighting, palette,
+   materials) still applies.
 6. Compile a single final prompt covering: subject, style/medium, mood,
    palette, composition, lighting, detail level, and any reference/inspiration
    cues — in the prose style the target model expects (dense, descriptive,

@@ -9,7 +9,7 @@ tags:
 description: >
   Interrogates the user in depth about the artwork they want, then generates and
   saves an actual image via OpenRouter. Covers large-scale fine art
-  (pop-symbolist / baroque / vaggio) and product photography as full modes,
+  (baroque / vaggio) and product photography as full modes,
   plain object/creature renders (toy-like 3D, etc.) built from the
   `references/environment/` library, and a fixed-style named-character cast
   (Lucy, Wyatt, Benny, Void). Use when the user wants a 3D render, says
@@ -19,7 +19,7 @@ when:
   - user wants a toy-like 3D character or object render
   - user says "premium character render," "Pixar-style," or "CGI"
   - user wants a large-scale fine-art piece or says "make art" in a non-character context
-  - user wants Caravaggio-style or pop-symbolist visual output
+  - user wants Caravaggio-style visual output
   - user says "vaggio" or wants Old Master tenebrism applied to an ordinary, modern scene
   - user mentions Lucy, Wyatt, Benny, or Void
   - user wants product photography for a physical product
@@ -78,9 +78,9 @@ is composed directly from `references/environment/`.
 
 | Source | Use when | Reference | Default lighting | Human figures |
 |---|---|---|---|---|
-| **Fine art** | Large-scale, emotionally charged art; "make art" in a non-character context | `references/abstract/pop-symbolist.md` (Pop-Symbolist), or `references/environment/tenebrism.md` (Baroque, Vaggio — bundles material and lighting together in one file) | `references/environment/graphic-flat.md` (Pop-Symbolist only; Baroque/Vaggio lighting is built into `tenebrism.md`) | `references/anime/style-guide.md` |
-| **Product** | Product photography for any physical object; MØNØTØNÉ Districts | `references/product/product-photography.md` | `references/environment/soft-studio.md` (clean studio) | `references/anime/style-guide.md` if a model appears |
-| **Plain object/creature render** | Anything else — toy-like 3D render, "Pixar-style," "premium CGI," or no style specified for a non-character subject | `references/environment/toy-3d-material.md` (material) | `references/environment/soft-studio.md` | `references/anime/style-guide.md` |
+| **Fine art** | Large-scale, emotionally charged art; "make art" in a non-character context | `references/environment/tenebrism.md` (Baroque, Vaggio — bundles material and lighting together in one file) | Built into `tenebrism.md` | `references/anime/style-guide.md` |
+| **Product** | Product photography for any physical object; MØNØTØNÉ Districts | `references/product/product-photography.md` | `references/environment/lighting.md`'s Soft Studio section (clean studio) | `references/anime/style-guide.md` if a model appears |
+| **Plain object/creature render** | Anything else — toy-like 3D render, "Pixar-style," "premium CGI," or no style specified for a non-character subject | `references/environment/toy-3d-material.md` (material) | `references/environment/lighting.md`'s Soft Studio section | `references/anime/style-guide.md` |
 
 A plain object/creature render isn't a distinct "type" with its own
 directory — it's just a material environment file plus a lighting
@@ -131,9 +131,7 @@ inference.
 | "Vaggio" | Vaggio — Old Master tenebrism applied to an ordinary, contemporary scene; modern objects/brands stay legible |
 | "Caravaggio," "Baroque," "dark oil painting," "tenebrism" (no modern scene/objects implied) | Baroque |
 | People in physical scenes, portraits with psychological weight, figurative drama | Baroque (default) |
-| Objects, symbols, surreal compositions, conceptual ideas | Pop-Symbolist (default) |
-| "Abstract," "large-scale," no style specified with a non-figurative subject | Pop-Symbolist |
-| "Pop-symbolist," "lacquered," "graphic," "high-gloss" | Pop-Symbolist |
+| Objects, symbols, surreal compositions, conceptual ideas, "abstract," "large-scale" with no style specified | Baroque (default) |
 
 Vaggio mode locks style/mood/palette/lighting to its bundled contract in
 `references/environment/tenebrism.md`'s Vaggio Mode section — during
