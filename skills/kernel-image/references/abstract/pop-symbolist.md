@@ -81,6 +81,13 @@ Objects are emotional actors, not passive props. A mirror = fracture/vanity/surv
 
 ## Technical Constraints
 
+### Lighting
+
+Environment: `references/environment/graphic-flat.md` — this mode's
+default. Load a different environment file only if the user explicitly
+asks to blend (e.g. `references/environment/tenebrism.md` for a
+pop-symbolist piece with dramatic negative-space lighting).
+
 ### Surface & Texture
 **Use:** lacquer, enamel, gloss, resin, chrome, glass, polished acrylic, Ben-Day dots, halftone fields, crisp reflective highlights, clean flat color
 
@@ -96,7 +103,22 @@ Confident, crisp, bold, graphic. Varies in thickness but never accidental. No sc
 
 ## What to Avoid
 
-Generic comic-book art · horror poster language · painterly neo-expressionism · fantasy illustration · street art / graffiti · anime · pure photorealism · shabby vintage nostalgia · messy surrealism · low-detail vector minimalism · uncoded realism
+Generic comic-book art · horror poster language · painterly neo-expressionism · fantasy illustration · street art / graffiti · pure photorealism · shabby vintage nostalgia · messy surrealism · low-detail vector minimalism · uncoded realism
+
+**Exception — human figures**: per the skill's Universal Human Rendering
+Rule, any human figure is the one deliberate exception to this avoid-list —
+it renders per `references/anime/style-guide.md`'s flat cel-shaded anime
+treatment, not the lacquered/graphic-reduction figure language described
+above. Objects, environments, materials, and composition still follow this
+file's rules in full; only the human figure itself is anime.
+
+## Named Characters Do Not Follow This File
+
+If the subject is a named character from `references/characters/` (Wyatt,
+Benny, Lucy, Void), their entire rendering — face, body, clothing —
+follows `references/anime/style-guide.md` instead, not this file's lacquered
+graphic-reduction language. This file still governs the environment and any
+non-character elements in the scene.
 
 ## Quality Check
 

@@ -1,0 +1,13 @@
+{
+  "name": "kernel-image-scripts",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate": "bun run scripts/generate-image.ts",
+    "turnaround": "bun run scripts/generate-turnaround.ts",
+    "test": "bun test"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  }
+}

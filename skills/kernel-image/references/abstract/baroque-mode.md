@@ -14,21 +14,25 @@ Preserve basic subject positioning, but translate the environment and emotional 
 
 ## Core Directives
 
-### Lighting: Tenebrism
+### Lighting
 
-- Discard original light sources.
-- Use a single unseen high-angle light source, like a cellar window.
-- Make light brutal and directional.
-- Catch highlights on face, hands, and fabric folds.
-- Let the rest dissolve into a velvety pitch-black void.
+Environment: `references/environment/tenebrism.md` — this mode's default,
+classical/historical framing (an unseen high-angle source, like a cellar
+window; brutal and directional). Discard the scene's original light
+sources entirely.
 
 ### Dirty Realism
 
-- Avoid idealized beauty.
-- Render subjects with deathly physical realism.
-- Include visible pores, weathered wrinkles, dirty fingernails, and subtle sweat sheen when appropriate.
-- Avoid digital smoothness.
-- Make bodies feel visceral and physically present.
+- Avoid idealized beauty in the environment and materials — weathered
+  surfaces, grime, dirt, wear.
+- Avoid digital smoothness anywhere in the piece.
+- **Exception — human figures**: per the skill's Universal Human Rendering
+  Rule, do not apply pore-level physical realism, weathered wrinkles, or
+  sweat sheen to a human figure's skin — the figure renders per
+  `references/anime/style-guide.md`'s flat cel-shaded anime treatment
+  instead, set against this mode's tenebrist, physically-grimy environment.
+  "Bodies feel visceral and physically present" now applies to posture,
+  gesture, and psychological weight, not skin-level realism.
 
 ### Action-Stasis
 
@@ -53,6 +57,14 @@ Preserve basic subject positioning, but translate the environment and emotional 
 - Apply aged oil on heavy linen canvas.
 - Use subtle impasto on the highest highlights.
 - Add faint natural craquelure in the darkest shadows.
+
+## Named Characters Do Not Follow This File
+
+If the subject is a named character from `references/characters/` (Wyatt,
+Benny, Lucy, Void), their entire rendering — face, body, clothing —
+follows `references/anime/style-guide.md` instead, not this file's oil-paint
+technique. This file still governs the environment and any non-character
+elements in the scene.
 
 ## Negative Constraints
 
