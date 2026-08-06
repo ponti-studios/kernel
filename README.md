@@ -2,7 +2,7 @@
 
 [![skills.sh](https://skills.sh/b/ponti-studios/kernel)](https://skills.sh/ponti-studios/kernel)
 
-A collection of agent skills for software development and content production. 31 skills covering development, audit, brand, writing, music, image generation, and release workflows.
+A collection of agent skills for software development and content production. 32 skills covering development, audit, brand, writing, music, image generation, and release workflows.
 
 ## Install
 
@@ -18,27 +18,52 @@ npx skills add ponti-studios/kernel --skill kernel-dev-react-native --yes
 ## Skills
 
 ### Writing
-`kernel-write-doc` `kernel-write-dossier` `kernel-write-essay` `kernel-write-extract-posts` `kernel-write-transcript` `kernel-write-video` `kernel-write-workshop`
+- `kernel-write-doc`
+- `kernel-write-dossier`
+- `kernel-write-essay`
+- `kernel-write-extract-posts`
+- `kernel-write-transcript`
+- `kernel-write-video`
+- `kernel-write-workshop`
 
 ### Music
-`kernel-music-rap` `kernel-music-song`
+- `kernel-music-rap`
+- `kernel-music-song`
 
 ### Image
-`kernel-image-3d` `kernel-image-abstract` `kernel-image-kadosabi` `kernel-image-product`
+- `kernel-image-3d`
+- `kernel-image-abstract`
+- `kernel-image-kadosabi`
+- `kernel-image-product`
 
 ### Development
-`kernel-dev-api` `kernel-dev-auth` `kernel-dev-build` `kernel-dev-database` `kernel-dev-docker` `kernel-dev-react` `kernel-dev-react-native` `kernel-dev-testing` `kernel-dev-typescript`
+- `kernel-dev-api` 
+- `kernel-dev-auth`
+- `kernel-dev-build`
+- `kernel-dev-database`
+- `kernel-dev-docker`
+- `kernel-dev-react`
+- `kernel-dev-react-native`
+- `kernel-dev-testing`
+- `kernel-dev-typescript`
+- `kernel-git-commit`
 
 ### Brand
-`kernel-brand-governance`
+- `kernel-brand-governance`
 
 General UI/design-system guidance isn't a kernel skill — use [anthropics/skills](https://github.com/anthropics/skills) (`frontend-design`) and [plugin87/ux-ui-agent-skills](https://github.com/plugin87/ux-ui-agent-skills) instead.
 
 ### Audit
-`kernel-audit-integration-security` `kernel-audit-monorepo` `kernel-audit-review` `kernel-audit-swiftui` `kernel-audit-trace`
+- `kernel-audit-integration-security`
+- `kernel-audit-monorepo`
+- `kernel-audit-review`
+- `kernel-audit-swiftui`
+- `kernel-audit-trace`
 
 ### Operations
-`kernel-ops-docs-publish` `kernel-ops-production` `kernel-ops-ship`
+- `kernel-ops-docs-publish`
+- `kernel-ops-production`
+- `kernel-ops-ship`
 
 ---
 

@@ -42,11 +42,12 @@
     },
     {
       "title": "Development",
-      "description": "Skills for application architecture, auth, frontend, backend, testing, and build workflows.",
+      "description": "Skills for application architecture, auth, frontend, backend, testing, build, and commit workflows.",
       "skills": [
         "kernel-dev-api",
         "kernel-dev-auth",
         "kernel-dev-build",
+        "kernel-git-commit",
         "kernel-dev-database",
         "kernel-dev-docker",
         "kernel-dev-react",
