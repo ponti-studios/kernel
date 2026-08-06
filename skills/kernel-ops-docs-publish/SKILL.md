@@ -34,7 +34,7 @@ disableModelInvocation: true
 
 Publish documentation as media. This skill owns the documentation release package: video-first artifacts, optional slides, publishing metadata, YouTube release steps, and verification.
 
-It does not replace the craft skills used to make the artifacts. Use `kernel-write-video` for script and production-plan work. Use the appropriate slides/deck workflow when slides are required.
+It does not replace the craft skills used to make the artifacts. Use `kernel-write` for script and production-plan work. Use the appropriate slides/deck workflow when slides are required.
 
 ## Non-Negotiables
 
@@ -51,7 +51,7 @@ It does not replace the craft skills used to make the artifacts. Use `kernel-wri
    - optional slides
    - title, description, tags, timestamps, and link metadata
    - release notes or supporting links if needed
-3. If the video script or production plan does not exist, route that work to `kernel-write-video`.
+3. If the video script or production plan does not exist, route that work to `kernel-write`.
 4. If slides are required, route that work to the appropriate slides/deck workflow.
 5. Assemble the publishing package for YouTube:
    - final title

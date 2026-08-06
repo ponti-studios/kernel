@@ -1,4 +1,0 @@
-interface:
-  display_name: "Conversation To Document"
-  short_description: "Turn transcripts into documents"
-  default_prompt: "Use $kernel-write-transcript to turn this raw chat transcript into a structured research document."

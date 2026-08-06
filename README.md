@@ -2,7 +2,7 @@
 
 [![skills.sh](https://skills.sh/b/ponti-studios/kernel)](https://skills.sh/ponti-studios/kernel)
 
-A collection of agent skills for software development and content production. 32 skills covering development, audit, brand, writing, music, image generation, and release workflows.
+A collection of agent skills for software development and content production. 23 skills covering development, audit, brand, writing, music, image generation, and release workflows.
 
 ## Install
 
@@ -11,30 +11,21 @@ A collection of agent skills for software development and content production. 32
 npx skills add ponti-studios/kernel --all --yes
 
 # Specific skills
-npx skills add ponti-studios/kernel --skill kernel-write-essay --yes
+npx skills add ponti-studios/kernel --skill kernel-write --yes
 npx skills add ponti-studios/kernel --skill kernel-dev-react-native --yes
 ```
 
 ## Skills
 
 ### Writing
-- `kernel-write-doc`
-- `kernel-write-dossier`
-- `kernel-write-essay`
-- `kernel-write-extract-posts`
-- `kernel-write-transcript`
-- `kernel-write-video`
-- `kernel-write-workshop`
+- `kernel-write`
 
 ### Music
 - `kernel-music-rap`
 - `kernel-music-song`
 
 ### Image
-- `kernel-image-3d`
-- `kernel-image-abstract`
-- `kernel-image-kadosabi`
-- `kernel-image-product`
+- `kernel-image`
 
 ### Development
 - `kernel-dev-api` 

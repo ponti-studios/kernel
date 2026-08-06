@@ -11,15 +11,9 @@
     },
     {
       "title": "Writing",
-      "description": "Skills for producing structured documents, essays, transcripts, workshops, and content pipeline outputs.",
+      "description": "Skill for producing structured documents, dossiers, essays, extracted posts, transcripts, video scripts, and workshops.",
       "skills": [
-        "kernel-write-doc",
-        "kernel-write-dossier",
-        "kernel-write-essay",
-        "kernel-write-extract-posts",
-        "kernel-write-video",
-        "kernel-write-transcript",
-        "kernel-write-workshop"
+        "kernel-write"
       ]
     },
     {
@@ -32,12 +26,9 @@
     },
     {
       "title": "Image",
-      "description": "Skills for generating 3D renders, fine art, product photography, and character design.",
+      "description": "Skill for generating AI image prompts: 3D renders, fine art, product photography, and character design.",
       "skills": [
-        "kernel-image-3d",
-        "kernel-image-abstract",
-        "kernel-image-kadosabi",
-        "kernel-image-product"
+        "kernel-image"
       ]
     },
     {
