@@ -3,9 +3,13 @@
 This is the mandatory, unconditional default for every human figure
 kernel-image generates — not something the user has to ask for. It applies
 regardless of which top-level image type or mode (3D, Fine Art, Vaggio,
-Product) is otherwise active. Anime and Pixar/3D-CGI both use large eyes,
-but they are opposite rendering languages — this contract exists because
-that similarity causes drift toward Pixar if left unstated.
+Product) is otherwise active, and regardless of whether the figure was
+explicitly described in the prompt — an incidental or background human the
+model adds on its own (e.g. a driver in a car scene that wasn't otherwise
+specified) still renders anime, not photoreal or painterly, per whichever
+mode's material governs the rest of the scene. Anime and Pixar/3D-CGI both
+use large eyes, but they are opposite rendering languages — this contract
+exists because that similarity causes drift toward Pixar if left unstated.
 
 It is also the **only** rendering style for the named cast in
 `references/characters/` — human (Lucy) and non-human (Wyatt, Benny, Void)

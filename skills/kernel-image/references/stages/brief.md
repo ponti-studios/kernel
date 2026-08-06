@@ -10,7 +10,8 @@ prompt, and get the user's explicit sign-off before spending on generation.
    Mode Selection tables. This governs the environment/scene only, never a
    named character's own rendering.
 2. Load the matching material reference (`references/abstract/pop-symbolist.md`,
-   `baroque-mode.md`, or `vaggio-mode.md`, `references/product/product-photography.md`,
+   `references/environment/tenebrism.md`'s Baroque Mode or Vaggio Mode section,
+   `references/product/product-photography.md`,
    or, for a plain object/creature render, `references/environment/toy-3d-material.md`)
    and fold its style contract into the prompt for materials and any
    non-character elements.
@@ -19,7 +20,10 @@ prompt, and get the user's explicit sign-off before spending on generation.
    reference's own Lighting section) unless the user explicitly asked to
    blend a different one from `references/environment/`. Fold it into the
    prompt on top of the material rules — environment changes only light
-   source/contrast/shadow behavior, never materials.
+   source/contrast/shadow behavior, never materials. For Baroque/Vaggio this
+   step is already satisfied by step 2 — `tenebrism.md` bundles its own
+   lighting (see that file's Core Lighting Directives and Framing By Mode
+   sections) unless the user asked to blend a different environment in.
 4. If the subject includes a named character (Lucy, Wyatt, Benny, Void),
    load `references/characters/<name>.md` and
    `references/anime/style-guide.md`, and use those exclusively for the
@@ -60,7 +64,14 @@ prompt, and get the user's explicit sign-off before spending on generation.
    cues — in the prose style the target model expects (dense, descriptive,
    no bullet lists inside the prompt itself). This exact prompt text is what
    gets reused verbatim across all 3 generation calls — never regenerate or
-   rephrase the prompt between the 3 runs.
+   rephrase the prompt between the 3 runs. When a named character is in the
+   scene, explicitly state that this is a single unified image with one
+   camera framing and one pose — not a multi-view turnaround/reference
+   sheet — since a character's identity file describes fixed traits the
+   same way a turnaround prompt does, which otherwise biases the model
+   toward generating a multi-panel character sheet instead of the requested
+   scene (this showed up repeatedly in testing for non-human named
+   characters against plain or minimal backgrounds).
 7. Write a short brief summary (the intake answers, condensed) — this becomes
    the sidecar file content, not just the prompt.
 

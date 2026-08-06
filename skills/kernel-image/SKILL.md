@@ -78,7 +78,7 @@ is composed directly from `references/environment/`.
 
 | Source | Use when | Reference | Default lighting | Human figures |
 |---|---|---|---|---|
-| **Fine art** | Large-scale, emotionally charged art; "make art" in a non-character context | `references/abstract/pop-symbolist.md`, `references/abstract/baroque-mode.md`, or `references/abstract/vaggio-mode.md` | `references/environment/graphic-flat.md` (Pop-Symbolist) or `references/environment/tenebrism.md` (Baroque, Vaggio) | `references/anime/style-guide.md` |
+| **Fine art** | Large-scale, emotionally charged art; "make art" in a non-character context | `references/abstract/pop-symbolist.md` (Pop-Symbolist), or `references/environment/tenebrism.md` (Baroque, Vaggio — bundles material and lighting together in one file) | `references/environment/graphic-flat.md` (Pop-Symbolist only; Baroque/Vaggio lighting is built into `tenebrism.md`) | `references/anime/style-guide.md` |
 | **Product** | Product photography for any physical object; MØNØTØNÉ Districts | `references/product/product-photography.md` | `references/environment/soft-studio.md` (clean studio) | `references/anime/style-guide.md` if a model appears |
 | **Plain object/creature render** | Anything else — toy-like 3D render, "Pixar-style," "premium CGI," or no style specified for a non-character subject | `references/environment/toy-3d-material.md` (material) | `references/environment/soft-studio.md` | `references/anime/style-guide.md` |
 
@@ -135,10 +135,10 @@ inference.
 | "Abstract," "large-scale," no style specified with a non-figurative subject | Pop-Symbolist |
 | "Pop-symbolist," "lacquered," "graphic," "high-gloss" | Pop-Symbolist |
 
-Vaggio mode locks style/mood/palette to `references/abstract/vaggio-mode.md`
-and lighting to its default environment (`references/environment/tenebrism.md`) —
-during intake, skip those categories and only ask what's needed to pin down
-the specific scene (see that file's Intake Shortcut section).
+Vaggio mode locks style/mood/palette/lighting to its bundled contract in
+`references/environment/tenebrism.md`'s Vaggio Mode section — during
+intake, skip those categories and only ask what's needed to pin down the
+specific scene (see that section's Intake Shortcut).
 
 ## Workflow
 

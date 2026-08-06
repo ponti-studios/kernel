@@ -10,7 +10,8 @@ anything else.
 
 - **Material** — how non-character objects/creatures/surfaces are built and
   surfaced (e.g. `toy-3d-material.md`). Fine-art modes
-  (`references/abstract/*.md`) and product photography
+  (`references/abstract/pop-symbolist.md`, or `tenebrism.md`'s Baroque Mode
+  and Vaggio Mode sections) and product photography
   (`references/product/product-photography.md`) define their own material
   treatment internally (oil paint, lacquer, photographic) and don't need a
   material environment file layered on top.
@@ -23,7 +24,8 @@ anything else.
 A prompt is built from up to three independent layers:
 
 1. **Subject's rendering source** — either a fine-art mode
-   (`references/abstract/*.md`), product photography
+   (`references/abstract/pop-symbolist.md`, or `tenebrism.md`'s Baroque Mode
+   / Vaggio Mode sections), product photography
    (`references/product/product-photography.md`), or, for a plain
    object/creature with no fine-art or product framing, a material
    environment file from this directory (default: `toy-3d-material.md` for
@@ -53,6 +55,6 @@ default.
 | Environment | Kind | Feel | Default for |
 |---|---|---|---|
 | `toy-3d-material.md` | Material | Toy-like premium 3D geometry/surfacing | Plain object/creature renders ("3D render," "Pixar-style") |
-| `tenebrism.md` | Lighting | Single dramatic light source, near-black negative space | Baroque, Vaggio |
+| `tenebrism.md` | Lighting (+ bundles the full Baroque/Vaggio material contracts) | Single dramatic light source, near-black negative space | Baroque, Vaggio |
 | `soft-studio.md` | Lighting | Soft, diffused, multi-light, no drama | `toy-3d-material.md`, clean-studio Product shots |
 | `graphic-flat.md` | Lighting | Crisp, evenly lit, high-contrast, shadow-minimal, built for iconic clarity | Pop-Symbolist |

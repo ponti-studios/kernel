@@ -51,7 +51,7 @@ confirming is their environment, body position, outfit, and any other
 scene-specific details (setting, other subjects).
 
 **Vaggio requests are the one explicit shortcut**: if the user says "vaggio,"
-style/mood/palette are locked by `references/abstract/vaggio-mode.md` and
-lighting by its default environment (`references/environment/tenebrism.md`)
-— skip categories 3-9 above and only ask about subject/scene, the modern
-object or brand detail to keep legible, and orientation.
+style/mood/palette/lighting are all locked by the Vaggio Mode section of
+`references/environment/tenebrism.md` — skip categories 3-9 above and only
+ask about subject/scene, the modern object or brand detail to keep legible,
+and orientation.

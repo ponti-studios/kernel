@@ -22,7 +22,13 @@ user can only change its environment and body position (Void has no
 ## Ability / Visual Effect (fixed)
 
 Drains color from its surroundings — nearby background/environment colors
-fade toward gray in a radius around it.
+fade toward gray in a radius around it. Render this as a visibly desaturated
+halo/gradient in the environment immediately around Void's silhouette,
+distinct from whatever the scene's own lighting/material is doing — don't
+rely on the scene's existing shadow or falloff to imply it. This needs to
+read clearly even in flat, evenly-lit, or brightly-colored environments
+(e.g. Pop-Symbolist, toy-3D material) where there's no natural darkness or
+falloff for the effect to piggyback on.
 
 ## Bearing
 
