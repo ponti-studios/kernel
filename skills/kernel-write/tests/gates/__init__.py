@@ -11,5 +11,8 @@ STAGES = {
 }
 
 
-def check(stage, text, baseline=None):
-    return STAGES[stage].check(text, baseline=baseline)
+def check(stage, text, baseline=None, output_dir=None):
+    kwargs = {"baseline": baseline}
+    if stage in ("approve", "transform"):
+        kwargs["output_dir"] = output_dir
+    return STAGES[stage].check(text, **kwargs)
