@@ -9,8 +9,8 @@ prompt, and get the user's explicit sign-off before spending on generation.
    intake answers, per `SKILL.md`'s Modes And Plain Renders and Fine-Art
    Mode Selection tables. This governs the environment/scene only, never a
    named character's own rendering.
-2. Load the matching material reference (`references/environment/tenebrism.md`'s
-   Baroque Mode or Vaggio Mode section,
+2. Load the matching material reference (`references/environment/dramatic-spotlight.md`'s
+   Classical Oil Painting Mode or Modern Oil Painting Mode section,
    `references/product/product-photography.md`,
    or, for a plain object/creature render, `references/environment/toy-3d-material.md`)
    and fold its style contract into the prompt for materials and any
@@ -20,8 +20,9 @@ prompt, and get the user's explicit sign-off before spending on generation.
    reference's own Lighting section) unless the user explicitly asked to
    blend a different one from `references/environment/`. Fold it into the
    prompt on top of the material rules — environment changes only light
-   source/contrast/shadow behavior, never materials. For Baroque/Vaggio this
-   step is already satisfied by step 2 — `tenebrism.md` bundles its own
+   source/contrast/shadow behavior, never materials. For Classical/Modern
+   Oil Painting this step is already satisfied by step 2 —
+   `dramatic-spotlight.md` bundles its own
    lighting (see that file's Core Lighting Directives and Framing By Mode
    sections) unless the user asked to blend a different environment in.
 4. If the subject includes a named character (Lucy, Wyatt, Benny, Void),
@@ -55,7 +56,8 @@ prompt, and get the user's explicit sign-off before spending on generation.
    `references/anime/style-guide.md` on top of the type's reference — this
    is unconditional, not something the user has to request. It applies even
    when the base mode's own reference dictates its own figure or skin
-   treatment (e.g. Baroque's dirty realism, a Vaggio oil-painting scene) —
+   treatment (e.g. Classical Oil Painting's dirty realism, a Modern Oil
+   Painting scene) —
    the anime contract supersedes that specific figure/skin/face guidance
    while the rest of the mode's reference (environment, lighting, palette,
    materials) still applies.

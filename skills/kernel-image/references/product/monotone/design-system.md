@@ -99,8 +99,8 @@ list before treating it as on-brand.
 ## Photography Direction
 
 The reusable studio system for all MØNØTØNÉ photography, across every
-category — see `references/environment/lighting.md`'s Soft Studio section
-for the base lighting reference this builds on:
+category — see `references/environment/lighting.md`'s Soft Diffused Studio
+section for the base lighting reference this builds on:
 
 - Soft, diffused studio lighting with gentle, realistic shadows that
   accentuate material texture (cloth grain, leather grain, metal brushing)

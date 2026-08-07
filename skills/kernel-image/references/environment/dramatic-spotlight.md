@@ -1,13 +1,14 @@
-# Environment: Tenebrism
+# Environment: Dramatic Spotlight
 
 Single-source dramatic lighting derived from Old Master oil painting
 (Caravaggio's tenebrism). This file is also the full style contract for the
-two fine-art modes built on it — **Baroque** and **Vaggio**, below —
-bundling each mode's material/technique/palette rules together with the
-tenebrism lighting they both default to. It can also be loaded as pure
-lighting on its own, blended alongside any other material/mode when the
-user asks to blend ("a dramatically-lit 3D render," "toy version of the
-Vaggio piece") without pulling in either mode's material rules.
+two fine-art modes built on it — **Classical Oil Painting** and **Modern
+Oil Painting**, below — bundling each mode's material/technique/palette
+rules together with the dramatic-spotlight lighting they both default to.
+It can also be loaded as pure lighting on its own, blended alongside any
+other material/mode when the user asks to blend ("a dramatically-lit 3D
+render," "toy version of the Modern Oil Painting piece") without pulling in
+either mode's material rules.
 
 ## Core Lighting Directives
 
@@ -26,19 +27,21 @@ falloff, bright ambient fill that softens the blacks.
 
 ## Framing By Mode
 
-- **Classical/historical framing** (Baroque mode's default): an unseen
-  high-angle source, like a cellar window — brutal and directional.
-- **Modern framing** (Vaggio mode's default): a recognizable modern light
-  source — a window, a car's ambient interior glow, a table lamp — warm in
-  color.
+- **Classical/historical framing** (Classical Oil Painting mode's
+  default): an unseen high-angle source, like a cellar window — brutal and
+  directional.
+- **Modern framing** (Modern Oil Painting mode's default): a recognizable
+  modern light source — a window, a car's ambient interior glow, a table
+  lamp — warm in color.
 - **Blended with another material** (e.g. `toy-3d-material.md`): keep the
   single-source falloff and near-black negative space, but let the light
   itself read as a clean studio spotlight rather than a literal window or
   lamp, so it stays consistent with that material's own logic.
 
-## Baroque Mode
+## Classical Oil Painting Mode
 
-Use this mode for Caravaggio-style image prompts.
+Use this mode for Caravaggio-style image prompts — a "Baroque" request
+maps here.
 
 ### Core Goal
 
@@ -71,9 +74,9 @@ the scene's original light sources entirely.
   Rule, do not apply pore-level physical realism, weathered wrinkles, or
   sweat sheen to a human figure's skin — the figure renders per
   `references/anime/style-guide.md`'s flat cel-shaded anime treatment
-  instead, set against this mode's tenebrist, physically-grimy environment.
-  "Bodies feel visceral and physically present" now applies to posture,
-  gesture, and psychological weight, not skin-level realism.
+  instead, set against this mode's dramatic-spotlight, physically-grimy
+  environment. "Bodies feel visceral and physically present" now applies
+  to posture, gesture, and psychological weight, not skin-level realism.
 
 #### Action-Stasis
 
@@ -102,13 +105,13 @@ the scene's original light sources entirely.
 - Use subtle impasto on the highest highlights.
 - Add faint natural craquelure in the darkest shadows.
 
-### Named Characters Do Not Follow Baroque's Material Rules
+### Named Characters Do Not Follow Classical Oil Painting's Material Rules
 
 If the subject is a named character from `references/characters/` (Wyatt,
 Benny, Lucy, Void), their entire rendering — face, body, clothing —
-follows `references/anime/style-guide.md` instead, not Baroque's oil-paint
-technique. Baroque mode still governs the environment and any non-character
-elements in the scene.
+follows `references/anime/style-guide.md` instead, not this mode's
+oil-paint technique. Classical Oil Painting mode still governs the
+environment and any non-character elements in the scene.
 
 ### Negative Constraints
 
@@ -123,10 +126,10 @@ Avoid:
 - modern fabrics unless the user explicitly asks to preserve them
 - flat lighting
 
-## Vaggio Mode
+## Modern Oil Painting Mode
 
-Use this mode when the user says "vaggio" or wants Old Master oil-painting
-tenebrism applied to an ordinary, contemporary scene.
+Use this mode when the user says "vaggio" or wants Old Master
+oil-painting technique applied to an ordinary, contemporary scene.
 
 ### Core Goal
 
@@ -140,9 +143,9 @@ matter, objects, and branding.
 
 Act as an Old Master oil painter in the Caravaggisti tradition. Paint the
 given contemporary scene exactly as described — same subjects, same
-setting, same modern objects — using 17th-century tenebrism and technique.
-Do not update the scene into a historical setting; the modernity stays,
-only the rendering changes.
+setting, same modern objects — using 17th-century dramatic-spotlight
+lighting and technique. Do not update the scene into a historical setting;
+the modernity stays, only the rendering changes.
 
 ### Core Directives
 
@@ -156,8 +159,9 @@ color).
 
 - Keep modern clothing, technology, interiors, and any visible brand text or
   logos (rideshare interiors, athletic wear, appliances) exactly as given.
-  This inverts Baroque mode's guardrail against modern objects — in Vaggio
-  mode, the modern object staying legible is the whole point.
+  This inverts Classical Oil Painting mode's guardrail against modern
+  objects — in Modern Oil Painting mode, the modern object staying legible
+  is the whole point.
 - Keep the scene mundane and specific: a kiss in the back of a car, a person
   holding a coffee cup, someone putting on socks — not myth, not allegory.
 
@@ -211,13 +215,13 @@ Avoid:
 - glossy digital rendering
 - cheerful or neutral color grading
 
-### Named Characters Do Not Follow Vaggio's Material Rules
+### Named Characters Do Not Follow Modern Oil Painting's Material Rules
 
 If the subject is a named character from `references/characters/` (Wyatt,
 Benny, Lucy, Void), their entire rendering — face, body, clothing —
-follows `references/anime/style-guide.md` instead, not Vaggio's oil-paint
-technique. Vaggio mode still governs the environment and any non-character
-elements in the scene.
+follows `references/anime/style-guide.md` instead, not this mode's
+oil-paint technique. Modern Oil Painting mode still governs the environment
+and any non-character elements in the scene.
 
 ### Intake Shortcut
 

@@ -2,7 +2,7 @@
 
 This is the mandatory, unconditional default for every human figure
 kernel-image generates — not something the user has to ask for. It applies
-regardless of which top-level image type or mode (3D, Fine Art, Vaggio,
+regardless of which top-level image type or mode (3D, Fine Art, Modern Oil Painting,
 Product) is otherwise active, and regardless of whether the figure was
 explicitly described in the prompt — an incidental or background human the
 model adds on its own (e.g. a driver in a car scene that wasn't otherwise
@@ -75,7 +75,7 @@ medium is (photoreal, oil painting, etc.).
 ## Hybrid Scenes (Anime Figure In A Painterly/Photoreal Environment)
 
 When an anime-styled figure appears inside a painterly or photoreal scene
-(e.g. a Vaggio oil-painting background), keep the figure's rendering flat
+(e.g. a Modern Oil Painting background), keep the figure's rendering flat
 and cel-shaded even as the environment around it stays painterly. The
 contrast between a graphic, flat-shaded anime figure and a richly painted
 environment is intentional — do not blend the figure toward the

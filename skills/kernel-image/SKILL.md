@@ -9,7 +9,7 @@ tags:
 description: >
   Interrogates the user in depth about the artwork they want, then generates and
   saves an actual image via OpenRouter. Covers large-scale fine art
-  (baroque / vaggio) and product photography as full modes,
+  (Classical Oil Painting / Modern Oil Painting) and product photography as full modes,
   plain object/creature renders (toy-like 3D, etc.) built from the
   `references/environment/` library, and a fixed-style named-character cast
   (Lucy, Wyatt, Benny, Void). Use when the user wants a 3D render, says
@@ -20,7 +20,7 @@ when:
   - user says "premium character render," "Pixar-style," or "CGI"
   - user wants a large-scale fine-art piece or says "make art" in a non-character context
   - user wants Caravaggio-style visual output
-  - user says "vaggio" or wants Old Master tenebrism applied to an ordinary, modern scene
+  - user says "vaggio" or wants Old Master painting technique applied to an ordinary, modern scene
   - user mentions Lucy, Wyatt, Benny, or Void
   - user wants product photography for a physical product
   - user asks for MØNØTØNÉ Districts book photography
@@ -78,9 +78,9 @@ is composed directly from `references/environment/`.
 
 | Source | Use when | Reference | Default lighting | Human figures |
 |---|---|---|---|---|
-| **Fine art** | Large-scale, emotionally charged art; "make art" in a non-character context | `references/environment/tenebrism.md` (Baroque, Vaggio — bundles material and lighting together in one file) | Built into `tenebrism.md` | `references/anime/style-guide.md` |
-| **Product** | Product photography for any physical object; MØNØTØNÉ Districts | `references/product/product-photography.md` | `references/environment/lighting.md`'s Soft Studio section (clean studio) | `references/anime/style-guide.md` if a model appears |
-| **Plain object/creature render** | Anything else — toy-like 3D render, "Pixar-style," "premium CGI," or no style specified for a non-character subject | `references/environment/toy-3d-material.md` (material) | `references/environment/lighting.md`'s Soft Studio section | `references/anime/style-guide.md` |
+| **Fine art** | Large-scale, emotionally charged art; "make art" in a non-character context | `references/environment/dramatic-spotlight.md` (Classical Oil Painting, Modern Oil Painting — bundles material and lighting together in one file) | Built into `dramatic-spotlight.md` | `references/anime/style-guide.md` |
+| **Product** | Product photography for any physical object; MØNØTØNÉ Districts | `references/product/product-photography.md` | `references/environment/lighting.md`'s Soft Diffused Studio section (clean studio) | `references/anime/style-guide.md` if a model appears |
+| **Plain object/creature render** | Anything else — toy-like 3D render, "Pixar-style," "premium CGI," or no style specified for a non-character subject | `references/environment/toy-3d-material.md` (material) | `references/environment/lighting.md`'s Soft Diffused Studio section | `references/anime/style-guide.md` |
 
 A plain object/creature render isn't a distinct "type" with its own
 directory — it's just a material environment file plus a lighting
@@ -93,7 +93,8 @@ Lighting, contrast, shadow behavior, and mood are a separate axis from the
 material/mode in play — see `references/environment/README.md`. Each
 mode/material has a default lighting environment (table above); use it
 unless the user explicitly asks to blend a different one in (e.g. "a
-dramatically-lit 3D render," "toy version of the Vaggio piece"). Blending
+dramatically-lit 3D render," "toy version of the Modern Oil Painting
+piece"). Blending
 changes only the lighting/mood — the material rules (`toy-3d-material.md`,
 a fine-art mode's paint/lacquer technique) still apply in full.
 
@@ -128,15 +129,16 @@ inference.
 
 | Signal | Mode |
 |---|---|
-| "Vaggio" | Vaggio — Old Master tenebrism applied to an ordinary, contemporary scene; modern objects/brands stay legible |
-| "Caravaggio," "Baroque," "dark oil painting," "tenebrism" (no modern scene/objects implied) | Baroque |
-| People in physical scenes, portraits with psychological weight, figurative drama | Baroque (default) |
-| Objects, symbols, surreal compositions, conceptual ideas, "abstract," "large-scale" with no style specified | Baroque (default) |
+| "Vaggio" | Modern Oil Painting — Old Master painting technique applied to an ordinary, contemporary scene; modern objects/brands stay legible |
+| "Caravaggio," "Baroque," "dark oil painting," "tenebrism" (no modern scene/objects implied) | Classical Oil Painting |
+| People in physical scenes, portraits with psychological weight, figurative drama | Classical Oil Painting (default) |
+| Objects, symbols, surreal compositions, conceptual ideas, "abstract," "large-scale" with no style specified | Classical Oil Painting (default) |
 
-Vaggio mode locks style/mood/palette/lighting to its bundled contract in
-`references/environment/tenebrism.md`'s Vaggio Mode section — during
-intake, skip those categories and only ask what's needed to pin down the
-specific scene (see that section's Intake Shortcut).
+Modern Oil Painting mode locks style/mood/palette/lighting to its bundled
+contract in `references/environment/dramatic-spotlight.md`'s Modern Oil
+Painting Mode section — during intake, skip those categories and only ask
+what's needed to pin down the specific scene (see that section's Intake
+Shortcut).
 
 ## Workflow
 
@@ -157,7 +159,7 @@ specific scene (see that section's Intake Shortcut).
 ## Cross-Type Guardrails
 
 - **Named characters have one fixed style, no exceptions.** Wyatt, Benny, Lucy, and Void always render per `references/anime/style-guide.md` regardless of which mode, material, or environment the rest of the piece uses. The user can change their environment, body position, and outfit — never their rendering style. Don't apply a mode's own character-design rules (`toy-3d-material.md`'s Object/Creature Design, a fine-art mode's figure language) to a named character.
-- **Material and lighting are independent.** A mode/material's default lighting environment applies unless the user explicitly asks to blend a different one — never silently swap a mode's signature lighting (e.g. don't drop tenebrism from a Vaggio piece without being asked).
+- **Material and lighting are independent.** A mode/material's default lighting environment applies unless the user explicitly asks to blend a different one — never silently swap a mode's signature lighting (e.g. don't drop dramatic-spotlight lighting from a Modern Oil Painting piece without being asked).
 - **Product intake.** For product photography, establish product, surface, lighting mood, and brand reference before generating — ask only for what the user hasn't provided.
 - **Never generate before confirmation.** The brief stage's gate exists because generation costs money — always get an explicit yes on the final prompt first.
 - **Humans render anime, always.** See Universal Human Rendering Rule above and the Modes And Plain Renders table's Human figures column. Never blend the anime figure's flat cel-shaded rendering toward the surrounding medium (painterly, photoreal, ink) — the contrast is intentional.

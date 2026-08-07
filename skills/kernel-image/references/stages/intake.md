@@ -10,11 +10,11 @@ they've already answered it with specificity.
 1. **Purpose/use-case** — wallpaper, print, gift, brand asset, social post, book cover, something else?
 2. **Subject/concept** — what is actually depicted? Get concrete nouns, not themes. If the subject needs a stylized human figure that isn't a specific real person, the brief stage will prefer matching them to an existing character in `references/characters/` over inventing a new one — see `SKILL.md`'s Named Characters section. No extra question needed here; just don't lock in throwaway physical details that would conflict with an existing character's fixed identity.
 3. **Style/medium** — large-scale fine art, product photography, or a plain object/creature render (toy-like 3D, etc.)? See `SKILL.md`'s Modes And Plain Renders table. This governs materials for non-character elements, not a named character's own rendering — see Named Characters. If the subject is a named character, this question still applies to the rest of the scene/materials around them.
-4. **Fine-art mode** (only if style is fine art) — Baroque or Vaggio? See the Fine-Art Mode Selection table.
+4. **Fine-art mode** (only if style is fine art) — Classical Oil Painting or Modern Oil Painting? See the Fine-Art Mode Selection table.
 5. **Mood/emotional tone** — what should the viewer feel?
 6. **Color palette** — dominant colors, warm/cool, muted/saturated, any colors to avoid?
 7. **Composition/framing** — aspect ratio, focal point, negative space, close-up vs. wide?
-8. **Lighting** — direction, hardness, time of day, studio vs. natural? Each mode/material has a default lighting environment (`references/environment/README.md`) — only ask this if the user might want to blend a different one in (e.g. dramatic tenebrist lighting on a toy-3D object); otherwise the default applies without asking.
+8. **Lighting** — direction, hardness, time of day, studio vs. natural? Each mode/material has a default lighting environment (`references/environment/README.md`) — only ask this if the user might want to blend a different one in (e.g. dramatic-spotlight lighting on a toy-3D object); otherwise the default applies without asking.
 9. **Level of detail/complexity** — minimal and graphic, or dense and intricate?
 10. **References/inspirations** — specific artists, brands, or existing images to echo?
 11. **Technical constraints** — final resolution/orientation, where it'll be displayed?
@@ -51,7 +51,7 @@ confirming is their environment, body position, outfit, and any other
 scene-specific details (setting, other subjects).
 
 **Vaggio requests are the one explicit shortcut**: if the user says "vaggio,"
-style/mood/palette/lighting are all locked by the Vaggio Mode section of
-`references/environment/tenebrism.md` — skip categories 3-9 above and only
-ask about subject/scene, the modern object or brand detail to keep legible,
-and orientation.
+style/mood/palette/lighting are all locked by the Modern Oil Painting Mode
+section of `references/environment/dramatic-spotlight.md` — skip categories
+3-9 above and only ask about subject/scene, the modern object or brand
+detail to keep legible, and orientation.

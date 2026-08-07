@@ -27,7 +27,7 @@ halo/gradient in the environment immediately around Void's silhouette,
 distinct from whatever the scene's own lighting/material is doing — don't
 rely on the scene's existing shadow or falloff to imply it. This needs to
 read clearly even in flat, evenly-lit, or brightly-colored environments
-(e.g. toy-3D material, graphic-flat lighting) where there's no natural darkness or
+(e.g. toy-3D material, Poster Graphic lighting) where there's no natural darkness or
 falloff for the effect to piggyback on.
 
 ## Bearing

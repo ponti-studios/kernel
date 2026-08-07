@@ -10,12 +10,12 @@ Before generating, establish these four points. Infer from context when the user
 2. **Surface** — what does it sit on or against? (concrete, marble, linen, raw oak, brushed steel, etc.)
 3. **Lighting mood** — clean studio / editorial / environmental / atmospheric / dramatic.
    "Clean studio" maps to `references/environment/lighting.md`'s Soft
-   Studio section; "dramatic" maps to `references/environment/tenebrism.md`.
+   Diffused Studio section; "dramatic" maps to `references/environment/dramatic-spotlight.md`.
    Editorial/environmental/atmospheric don't need an environment file —
    describe them directly in the prompt.
 4. **Brand reference** — any specific color palette, visual language, or existing brand to honor?
 
-If the user hasn't specified a brand, generate in a clean editorial studio aesthetic by default (`references/environment/lighting.md`'s Soft Studio section).
+If the user hasn't specified a brand, generate in a clean editorial studio aesthetic by default (`references/environment/lighting.md`'s Soft Diffused Studio section).
 
 **Human models:** if any shot includes a human model (e.g. a lifestyle shot), the model renders per the skill's Universal Human Rendering Rule (`references/anime/style-guide.md`) — the product itself stays photographic/realistic. This is the one deliberate departure from "clean editorial studio" photography.
 
