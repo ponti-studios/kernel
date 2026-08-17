@@ -1,0 +1,258 @@
+#!/usr/bin/env python3
+"""agent-inventory - locate and view every installed skill, agent, and command.
+
+Scans the per-agent config directories under ~ and ~/.config for the well-known
+skills/, commands/, and agents/ subdirectories, resolves symlinks, and flags
+broken ones. Output is grouped by agent (human) or emitted as JSON (--json) so
+other agents can consume it programmatically.
+
+Examples:
+    agent-inventory                  # full listing, grouped by agent
+    agent-inventory --summary        # counts only
+    agent-inventory --json           # machine-readable output
+    agent-inventory --broken         # only broken symlinks
+    agent-inventory --agent claude --skills
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+
+HOME = os.path.expanduser("~")
+
+# name, config path under $HOME, skill subdirs, commands subdir, agents subdir, website
+AGENTS = [
+    # ---- master host ----
+    ("skills",      ".agents",                ("skills",),                 "commands", "agents", "https://skills.sh"),
+    # ---- terminal / CLI agents ----
+    ("claude",      ".claude",                ("skills",),                 "commands", "agents", "https://code.claude.com"),
+    ("codex",       ".codex",                 ("skills",),                 "commands", "agents", "https://developers.openai.com/codex"),
+    ("gemini",      ".gemini",                ("skills", "config/skills"), None,       "agents", "https://ai.google.dev/gemini-api/docs/gemini-cli"),
+    ("antigravity", ".gemini",                ("antigravity/skills",),     None,       None,     "https://antigravity.google"),
+    ("antigravity-cli", ".gemini",            ("antigravity-cli/skills",), None,       None,     "https://antigravity.google"),
+    ("grok",        ".grok",                  ("skills",),                 None,       None,     "https://x.ai"),
+    ("opencode",    ".config/opencode",       ("skills",),                 None,       None,     "https://opencode.ai"),
+    ("openhands",   ".openhands",             ("skills",),                 None,       None,     "https://www.openhands.dev"),
+    ("ori",         ".ori",                   (),                          None,       None,     "https://pi.dev"),
+    ("openclaw",    ".openclaw",              ("skills",),                 None,       "agents", "https://openclaw.ai"),
+    ("cline",       ".cline",                 (),                          None,       None,     "https://cline.bot"),
+    ("copilot",     ".copilot",               ("skills",),                 "commands", None,     "https://github.com/features/copilot"),
+    ("windsurf",    ".codeium",               ("windsurf/skills",),        None,       None,     "https://windsurf.com"),
+    ("continue",    ".continue",              ("skills",),                 None,       None,     "https://www.continue.dev"),
+    ("roo",         ".roo",                   ("skills",),                 None,       None,     "https://roocode.com"),
+    ("tabnine",     ".tabnine",               ("agent/skills",),           None,       None,     "https://www.tabnine.com"),
+    ("supermaven",  ".supermaven",            (),                          None,       None,     "https://supermaven.com"),
+    ("pi",          ".pi",                    ("agent/skills",),           None,       None,     "https://pi.dev"),
+    ("hermes",      ".hermes",                ("skills",),                 None,       None,     ""),
+    ("astrbot",     ".astrbot",               ("data/skills",),            None,       None,     "https://astrbot.app"),
+    ("autohand",    ".autohand",              ("skills",),                 None,       None,     ""),
+    ("bob",         ".bob",                   ("skills",),                 None,       None,     ""),
+    ("codearts",    ".codeartsdoer",          ("skills",),                 None,       None,     ""),
+    ("codemaker",   ".codemaker",             ("skills",),                 None,       None,     ""),
+    ("codestudio",  ".codestudio",            ("skills",),                 None,       None,     ""),
+    ("command-code",".commandcode",           ("skills",),                 None,       None,     ""),
+    ("cortex",      ".snowflake",             ("cortex/skills",),          None,       None,     ""),
+    ("crush",       ".config",                ("crush/skills",),           None,       None,     ""),
+    ("deepagents",  ".deepagents",            ("agent/skills",),           None,       None,     ""),
+    ("droid",       ".factory",               ("skills",),                 None,       None,     "https://docs.factory.ai"),
+    ("firebender",  ".firebender",            ("skills",),                 None,       None,     ""),
+    ("inference-sh",".inferencesh",           ("skills",),                 None,       None,     "https://inference.sh"),
+    ("jazz",        ".jazz",                  ("skills",),                 None,       None,     ""),
+    ("iflow",       ".iflow",                 ("skills",),                 None,       None,     ""),
+    ("kimchi",      ".config",                ("kimchi/harness/skills",),  None,       None,     ""),
+    ("kiro",        ".kiro",                  ("skills",),                 None,       None,     ""),
+    ("kode",        ".kode",                  ("skills",),                 None,       None,     ""),
+    ("lingma",      ".lingma",                ("skills",),                 None,       None,     ""),
+    ("mcpjam",      ".mcpjam",                ("skills",),                 None,       None,     ""),
+    ("minimax",     ".minimax",               ("skills",),                 None,       None,     ""),
+    ("mistral-vibe",".vibe",                  ("skills",),                 None,       None,     ""),
+    ("moxby",       ".moxby",                 ("skills",),                 None,       None,     ""),
+    ("mux",         ".mux",                   ("skills",),                 None,       None,     ""),
+    ("ona",         ".ona",                   ("skills",),                 None,       None,     ""),
+    ("qoder-cn",    ".qoder-cn",              ("skills",),                 None,       None,     "https://qoder.com"),
+    ("reasonix",    ".reasonix",              ("skills",),                 None,       None,     ""),
+    ("rovodev",     ".rovodev",               ("skills",),                 None,       None,     ""),
+    ("terramind",   ".terramind",             ("skills",),                 None,       None,     ""),
+    ("tinycloud",   ".tinycloud",             ("skills",),                 None,       None,     ""),
+    ("trae-cn",     ".trae-cn",               ("skills",),                 None,       None,     "https://trae.ai"),
+    ("neovate",     ".neovate",               ("skills",),                 None,       None,     ""),
+    ("pochi",       ".pochi",                 ("skills",),                 None,       None,     ""),
+    ("adal",        ".adal",                  ("skills",),                 None,       None,     ""),
+    # ---- IDE / GUI agents ----
+    ("cursor",      ".cursor",                ("skills", "skills-cursor"), None,       "agents", "https://www.cursor.com"),
+    ("junie",       ".junie",                 ("skills",),                 None,       None,     "https://www.jetbrains.com/junie/"),
+    ("augment",     ".augment",               ("skills",),                 None,       None,     "https://www.augmentcode.com"),
+    ("trae",        ".trae",                  ("skills",),                 None,       None,     "https://www.trae.ai"),
+    ("kilocode",    ".kilocode",              ("skills",),                 None,       None,     "https://kilo.ai"),
+    ("codebuddy",   ".codebuddy",             ("skills",),                 None,       None,     "https://www.codebuddy.ai"),
+    ("qoder",       ".qoder",                 ("skills",),                 None,       None,     "https://qoder.com"),
+    ("qwen",        ".qwen",                  ("skills",),                 None,       None,     "https://qwen.ai"),
+    ("zcode",       ".zcode",                 ("skills",),                 None,       None,     "https://zcode.z.ai"),
+    ("zencoder",    ".zencoder",              ("skills",),                 None,       None,     "https://www.zencoder.ai"),
+    ("aider-desk",  ".aider-desk",            ("skills",),                 None,       None,     "https://aiderdesk.hotovo.com"),
+    ("forgecode",   ".forge",                 ("skills",),                 None,       None,     "https://useforge.ai"),
+    # ---- shared-path groups (same global dir) ----
+    ("amp/replit/universal", ".config",       ("agents/skills",),          None,       None,     "https://ampcode.com"),
+    ("cline/dexto/kimi/loaf/warp/zed", ".agents", ("skills",),            None,       None,     "https://cline.bot"),
+    # ---- ~/.config agents ----
+    ("goose",       ".config/goose",          ("skills",),                 None,       None,     "https://block.github.io/goose"),
+    ("devin",       ".config/devin",          ("skills",),                 None,       None,     "https://devin.ai"),
+    ("github-copilot", ".config/github-copilot", (),                      None,       None,     "https://github.com/features/copilot"),
+    ("openspec",    ".config/openspec",       (),                          None,       None,     "https://openspec.dev"),
+]
+
+
+def scan_entries(base_dir, rel, keep_files):
+    """List entries under base_dir/rel. Returns entry dicts.
+
+    - ``keep_files=False`` (skills): only dirs and symlinks are kept, so lock
+      files like SECURITY-SKILLS.lock.json are excluded.
+    - ``keep_files=True`` (commands/agents): every entry is kept.
+    """
+    path = os.path.join(base_dir, rel) if rel else base_dir
+    if not os.path.isdir(path):
+        return []
+    entries = []
+    for name in sorted(os.listdir(path)):
+        if name.startswith("."):
+            continue
+        full = os.path.join(path, name)
+        is_link = os.path.islink(full)
+        exists = os.path.exists(full)
+        broken = is_link and not exists
+        if not is_link:
+            kind = "dir" if os.path.isdir(full) else "file"
+        else:
+            kind = "broken" if broken else "symlink"
+        if kind == "file" and not keep_files:
+            continue
+        e = {
+            "name": name,
+            "path": os.path.abspath(full),
+            "kind": kind,
+            "target": os.path.realpath(full) if is_link else None,
+            "skill_md": False,
+        }
+        if exists and os.path.isdir(full):
+            e["skill_md"] = os.path.isfile(os.path.join(full, "SKILL.md"))
+        entries.append(e)
+    return entries
+
+
+def scan_agent(name, rel, skill_dirs, commands_dir, agents_dir, website):
+    base = os.path.join(HOME, rel)
+    rec = {
+        "name": name,
+        "path": base,
+        "website": website,
+        "present": os.path.isdir(base),
+        "skills": [],
+        "commands": [],
+        "agents": [],
+    }
+    if not rec["present"]:
+        return rec
+    for s in skill_dirs:
+        rec["skills"].extend(scan_entries(base, s, keep_files=False))
+    if commands_dir:
+        rec["commands"].extend(scan_entries(base, commands_dir, keep_files=True))
+    if agents_dir:
+        rec["agents"].extend(scan_entries(base, agents_dir, keep_files=True))
+    return rec
+
+
+def tilde(path):
+    return os.path.join("~", os.path.relpath(path, HOME))
+
+
+def state_label(e):
+    if e["kind"] == "broken":
+        return f"BROKEN -> {e['target']}"
+    if e["kind"] == "symlink":
+        return f"-> {e['target']}"
+    if e["kind"] == "dir":
+        return "ok" if e["skill_md"] else "ok (no SKILL.md)"
+    return "ok"
+
+
+def totals(records):
+    sk = cm = ag = br = 0
+    for rec in records:
+        sk += len(rec["skills"])
+        cm += len(rec["commands"])
+        ag += len(rec["agents"])
+        for col in ("skills", "commands", "agents"):
+            br += sum(1 for e in rec[col] if e["kind"] == "broken")
+    return sk, cm, ag, br
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser(
+        prog="agent-inventory",
+        description="Locate and view all installed skills, agents, and commands on this host.",
+    )
+    ap.add_argument("-a", "--agent", nargs="+", metavar="NAME", help="only scan these agents (e.g. claude codex)")
+    ap.add_argument("--skills", action="store_true", help="only show the skills collection")
+    ap.add_argument("--commands", action="store_true", help="only show the commands collection")
+    ap.add_argument("--agents", action="store_true", help="only show the agents collection")
+    ap.add_argument("--broken", action="store_true", help="only show broken symlinks")
+    ap.add_argument("--summary", action="store_true", help="counts only")
+    ap.add_argument("--json", action="store_true", help="machine-readable JSON output")
+    ap.add_argument("--version", action="version", version="agent-inventory 1.0.0")
+    args = ap.parse_args(argv)
+
+    if args.skills or args.commands or args.agents:
+        want = {c for c, f in (("skills", args.skills), ("commands", args.commands), ("agents", args.agents)) if f}
+    else:
+        want = {"skills", "commands", "agents"}
+
+    records = []
+    for name, rel, skill_dirs, commands_dir, agents_dir, website in AGENTS:
+        if args.agent and name not in args.agent:
+            continue
+        rec = scan_agent(name, rel, skill_dirs, commands_dir, agents_dir, website)
+        for col in ("skills", "commands", "agents"):
+            if col not in want:
+                rec[col] = []
+            elif args.broken:
+                rec[col] = [e for e in rec[col] if e["kind"] == "broken"]
+        records.append(rec)
+
+    if args.json:
+        print(json.dumps({"home": HOME, "agents": records}, indent=2))
+        return 0
+
+    print(f"agent-inventory — AI agent host on {HOME}\n")
+    if args.summary:
+        for rec in records:
+            line = f"{rec['name']:<16} {len(rec['skills']):>3} skills, {len(rec['commands']):>2} commands, {len(rec['agents']):>2} agents"
+            if not rec["present"]:
+                line += "   (config dir not present)"
+            print(line)
+    else:
+        for rec in records:
+            header = f"{rec['name']}  ({rec['website']})" if rec["website"] else rec["name"]
+            print(header)
+            print(f"  {tilde(rec['path'])}")
+            if not rec["present"]:
+                print("  (config dir not present)\n")
+                continue
+            for col, label in (("skills", "skills"), ("commands", "commands"), ("agents", "agents")):
+                items = rec[col]
+                if not items:
+                    print(f"  {label}: none")
+                    continue
+                print(f"  {label} ({len(items)}):")
+                width = max(len(e["name"]) for e in items)
+                for e in items:
+                    print(f"    {e['name']:<{width}}  {tilde(e['path'])}  {state_label(e)}")
+            print()
+
+    sk, cm, ag, br = totals(records)
+    print(f"totals: {sk} skills, {cm} commands, {ag} agents, {br} broken symlinks")
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
