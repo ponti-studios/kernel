@@ -48,10 +48,20 @@
       ]
     },
     {
-      "title": "UI & Brand",
-      "description": "Skills for brand identity. General UI/design-system skills are covered by anthropics/skills (frontend-design) and plugin87/ux-ui-agent-skills instead of a kernel-authored one.",
+      "title": "Hominem",
+      "description": "Skills for working with the Hominem monorepo: database schema changes and API resource authoring.",
       "skills": [
-        "kernel-brand-governance"
+        "kernel-hominem-database",
+        "kernel-hominem-resource"
+      ]
+    },
+    {
+      "title": "UI & Brand",
+      "description": "Skills for Apple-style interface design, motion, and brand identity.",
+      "skills": [
+        "kernel-brand-governance",
+        "kernel-animate",
+        "kernel-ui"
       ]
     },
     {

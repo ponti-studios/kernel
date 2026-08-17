@@ -2,7 +2,7 @@
 
 [![skills.sh](https://skills.sh/b/ponti-studios/kernel)](https://skills.sh/ponti-studios/kernel)
 
-A collection of agent skills for software development and content production. 23 skills covering development, audit, brand, writing, music, image generation, and release workflows.
+A collection of agent skills for software development and content production. 24 skills covering development, audit, brand, writing, music, image generation, and release workflows.
 
 ## Install
 
@@ -41,8 +41,14 @@ npx skills add ponti-studios/kernel --skill kernel-dev-react-native --yes
 
 ### Brand
 - `kernel-brand-governance`
+- `kernel-animate` (consolidated: build, Emil's craft philosophy, vocabulary, opportunities, improve, review, recipes, standards)
+- `kernel-ui` (consolidated: Apple design, a11y audit, brandkit, token build, Figma, image-to-code, design-system interop, performance, redesign, UX writing)
 
 General UI/design-system guidance isn't a kernel skill — use [anthropics/skills](https://github.com/anthropics/skills) (`frontend-design`) and [plugin87/ux-ui-agent-skills](https://github.com/plugin87/ux-ui-agent-skills) instead.
+
+### Hominem
+- `kernel-hominem-database`
+- `kernel-hominem-resource`
 
 ### Audit
 - `kernel-audit-integration-security`
