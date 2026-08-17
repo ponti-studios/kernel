@@ -5,32 +5,22 @@
     {
       "title": "Voice",
       "description": "Single source of truth for voice DNA across all creative output.",
-      "skills": [
-        "kernel-voice"
-      ]
+      "skills": ["kernel-voice"]
     },
     {
       "title": "Writing",
       "description": "Skill for producing structured documents, dossiers, essays, extracted posts, transcripts, video scripts, and workshops.",
-      "skills": [
-        "kernel-write",
-        "write-incident-report"
-      ]
+      "skills": ["kernel-write", "write-incident-report"]
     },
     {
       "title": "Music",
       "description": "Skills for writing technically structured rap lyrics and full song drafts.",
-      "skills": [
-        "kernel-music-rap",
-        "kernel-music-song"
-      ]
+      "skills": ["kernel-music-rap", "kernel-music-song"]
     },
     {
       "title": "Image",
       "description": "Skill for generating AI image prompts: 3D renders, fine art, product photography, and character design.",
-      "skills": [
-        "kernel-image"
-      ]
+      "skills": ["kernel-image"]
     },
     {
       "title": "Development",
@@ -52,20 +42,12 @@
     {
       "title": "Hominem",
       "description": "Skills for working with the Hominem monorepo: database schema changes, API resource authoring, and development workflow.",
-      "skills": [
-        "kernel-hominem-database",
-        "kernel-hominem-resource",
-        "kernel-hominem-workflow"
-      ]
+      "skills": ["kernel-hominem-database", "kernel-hominem-resource", "kernel-hominem-workflow"]
     },
     {
       "title": "UI & Brand",
       "description": "Skills for Apple-style interface design, motion, and brand identity.",
-      "skills": [
-        "kernel-brand-governance",
-        "kernel-animate",
-        "kernel-ui"
-      ]
+      "skills": ["kernel-animate", "kernel-ui"]
     },
     {
       "title": "Audit",
@@ -81,11 +63,7 @@
     {
       "title": "Operations",
       "description": "Skills for publishing, shipping, and production readiness workflows.",
-      "skills": [
-        "kernel-ops-docs-publish",
-        "kernel-ops-production",
-        "kernel-ops-ship"
-      ]
+      "skills": ["kernel-ops-docs-publish", "kernel-ops-production", "kernel-ops-ship"]
     }
   ]
 }

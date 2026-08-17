@@ -8,7 +8,10 @@ Stand up the *foundation* (one token system everything renders from) before any 
 2. **Primitives** — generate the brand color ramp in **OKLCH** (11 shades, consistent chroma) + a neutral ramp; verify the 500 shade ≥ 4.5:1 on white (text) and 600 ≥ 3:1 (UI) per CLAUDE.md Color Generation.
 3. **Semantic layer** — map roles to primitives: `action.primary`/`-hover`/`destructive`, `text.{primary,secondary,on-action,link}`, `surface.{page,card,raised}`, `border.{default,strong}`, `feedback.{success,warning,error,info}` — and the **dark** overrides (designed, not inverted).
 4. **Scales** — Major Third type scale + composite text styles, 4px spacing scale, radius tiers, elevation, and `tokens/motion.json`-style durations/easings.
-5. **Emit** the DTCG `tokens/*.json` (3-tier) + a single `theme.css` (the one shared source, `[data-theme="dark"]` overrides). Optionally feed the token-build pipeline (`token-build` skill) for other platforms.
+5. **Consume or update** the canonical DTCG source in
+	[`@ponti-studios/ui/src/styles/tokens/source/`](https://github.com/ponti-studios/ui/tree/main/src/styles/tokens/source)
+	(3-tier) and generate the shared theme through the UI repository's token
+	build. Do not create a competing local source.
 
 ## Verification (definition of done)
 - `python3 scripts/validate_tokens.py` — valid JSON, all aliases resolve.

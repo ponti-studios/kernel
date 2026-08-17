@@ -42,9 +42,8 @@ npx skills add ponti-studios/kernel --skill kernel-dev-react-native --yes
 - `kernel-clean-code` (consolidated: AI-slop removal, code smells, branch deslop, tech-debt audit)
 
 ### Brand
-- `kernel-brand-governance`
 - `kernel-animate` (consolidated: build, Emil's craft philosophy, vocabulary, opportunities, improve, review, recipes, standards)
-- `kernel-ui` (consolidated: Apple design, a11y audit, brandkit, token build, Figma, image-to-code, design-system interop, library selection, performance, redesign, UX writing)
+- `kernel-ui` (consolidated: Apple design, brand governance, a11y audit, brandkit, token build, Figma, image-to-code, design-system interop, library selection, performance, redesign, UX writing)
 
 General UI/design-system guidance isn't a kernel skill — use [anthropics/skills](https://github.com/anthropics/skills) (`frontend-design`) and [plugin87/ux-ui-agent-skills](https://github.com/plugin87/ux-ui-agent-skills) instead.
 

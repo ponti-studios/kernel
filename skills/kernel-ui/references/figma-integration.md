@@ -1,7 +1,9 @@
 
 # Skill: Figma Integration
 
-Bridge design (Figma) and code (this repo) in both directions. The token JSON stays the source of truth; Figma Variables mirror it.
+Bridge design (Figma) and code in both directions. The canonical token JSON
+source is [`@ponti-studios/ui/src/styles/tokens/source/`](https://github.com/ponti-studios/ui/tree/main/src/styles/tokens/source);
+Figma Variables mirror it.
 
 ## Steps
 1. Read `workflows/figma-integration.md` (token↔Variable mapping, sync directions, MCP usage, parity).
@@ -11,7 +13,8 @@ Bridge design (Figma) and code (this repo) in both directions. The token JSON st
 5. Check component parity: Figma variants/properties must cover our variants + sizes + the 8 states; flag gaps.
 
 ## Verification (definition of done)
-- Every Figma Variable resolves to a token in `tokens/*.json` (no orphan hex in designs).
+- Every Figma Variable resolves to a token in the canonical UI token source (no
+	orphan hex in designs).
 - One authoritative direction; the generated side has zero hand edits.
 - Variant sets cover all 8 states; Code Connect points to the right `components/*` file.
 - After any token import: `python3 scripts/validate_tokens.py` passes.

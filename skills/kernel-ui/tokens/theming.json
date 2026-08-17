@@ -1,0 +1,9 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "theme": {
+    "mode": {
+      "light": { "$type": "string", "$value": "light" },
+      "dark": { "$type": "string", "$value": "dark" }
+    }
+  }
+}

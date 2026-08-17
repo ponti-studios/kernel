@@ -1,0 +1,11 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "ratio": {
+    "video": { "$type": "number", "$value": 1.7777777778 },
+    "square": { "$type": "number", "$value": 1 }
+  },
+  "target": {
+    "minimum": { "$type": "dimension", "$value": "24px" },
+    "comfortable": { "$type": "dimension", "$value": "44px" }
+  }
+}
