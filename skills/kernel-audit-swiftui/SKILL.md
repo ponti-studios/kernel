@@ -5,6 +5,14 @@ kind: skill
 tags:
   - mobile
   - review
+when:
+  - reviewing SwiftUI views, navigation, state, or UIKit interop
+  - auditing accessibility, async behavior, performance, or previews in Apple UI code
+outputs:
+  - Severity-ordered SwiftUI audit findings with evidence and recommended fixes
+termination:
+  - Representative UI, navigation, state, and design-system files were inspected
+  - Findings are grounded in the review rubric with concrete file references
 description: Perform deep best-practices audits of SwiftUI and iOS UI code. Use when reviewing SwiftUI views, view models, navigation, state management, UIKit interop, async UI behavior, accessibility, performance, previews, design-system usage, or maintainability risks in an iOS/macOS SwiftUI codebase.
 ---
 

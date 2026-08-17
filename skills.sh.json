@@ -13,7 +13,8 @@
       "title": "Writing",
       "description": "Skill for producing structured documents, dossiers, essays, extracted posts, transcripts, video scripts, and workshops.",
       "skills": [
-        "kernel-write"
+        "kernel-write",
+        "write-incident-report"
       ]
     },
     {
@@ -44,15 +45,17 @@
         "kernel-dev-react",
         "kernel-dev-react-native",
         "kernel-dev-testing",
-        "kernel-dev-typescript"
+        "kernel-dev-typescript",
+        "kernel-clean-code"
       ]
     },
     {
       "title": "Hominem",
-      "description": "Skills for working with the Hominem monorepo: database schema changes and API resource authoring.",
+      "description": "Skills for working with the Hominem monorepo: database schema changes, API resource authoring, and development workflow.",
       "skills": [
         "kernel-hominem-database",
-        "kernel-hominem-resource"
+        "kernel-hominem-resource",
+        "kernel-hominem-workflow"
       ]
     },
     {

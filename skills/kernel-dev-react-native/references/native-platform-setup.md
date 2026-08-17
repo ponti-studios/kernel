@@ -106,4 +106,4 @@ npx expo prebuild                      # Generate native projects
 
 - [native-profiling.md](./native-profiling.md) - Use IDE profilers
 - [native-turbo-modules.md](./native-turbo-modules.md) - Build native modules
-- [upgrading-react-native.md](../../upgrading-react-native/references/upgrading-react-native.md) - Upgrade React Native safely
+- [React Native upgrading guide](https://reactnative.dev/docs/upgrading) - Upgrade React Native safely

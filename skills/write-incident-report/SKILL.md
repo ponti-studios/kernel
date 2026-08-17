@@ -1,5 +1,19 @@
 ---
 name: write-incident-report
+license: MIT
+kind: skill
+tags:
+  - operations
+  - incidents
+  - reliability
+when:
+  - documenting a production issue, outage, regression, security event, or data problem
+  - updating an existing incident report or incident index
+outputs:
+  - Evidence-backed incident report and updated incident index entry
+termination:
+  - Filename, ID, frontmatter, required sections, and index linkage are validated
+  - Observed facts, inferences, unknowns, fix, and verification status are separated
 description: Create or update repository incident reports in docs/incidents using the required numbered filename, strict YAML frontmatter, complete evidence-based sections, and incident-index entry. Use whenever an agent documents a production issue, outage, regression, security event, data problem, or operational failure.
 ---
 

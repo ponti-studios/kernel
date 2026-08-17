@@ -6,6 +6,16 @@ tags:
   - architecture
   - tooling
   - typescript
+when:
+  - auditing or refactoring a TypeScript monorepo
+  - reviewing package boundaries, workspace tooling, or cross-package dependencies
+  - planning a behavior-preserving monorepo-wide structural change
+outputs:
+  - Evidence-based monorepo audit
+  - Prioritized refactor plan or implemented structural change
+termination:
+  - Actual workspace files and package boundaries were inspected
+  - Findings cite concrete evidence and the proposed change preserves behavior
 description: Audit, simplify, and refactor TypeScript monorepos using Turborepo, pnpm workspaces, Expo/React Native, web apps, Hono API/RPC, Drizzle, Postgres, TanStack Query, and ArkType. Use when reviewing package boundaries, reducing duplicated code, proposing behavior-preserving refactor plans, reorganizing workspace architecture, enforcing layer boundaries, or implementing monorepo-wide structural changes.
 ---
 

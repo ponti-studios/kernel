@@ -13,8 +13,9 @@ description: >
   A consolidated UI skill covering the full interface lifecycle: accessibility
   audits (WCAG 2.2 + ARIA), brand/design-token foundations, token build and CI,
   Figma integration, image-to-code reconstruction, external design-system
-  interop/migration, performance against Core Web Vitals, redesign, and UX
-  writing. Load the relevant reference below rather than a standalone skill.
+  interop/migration, performance against Core Web Vitals, redesign, UX
+  writing, and library selection. Load the relevant reference below rather than
+  a standalone skill.
 when:
   - auditing a UI or component for WCAG 2.2 / ARIA conformance
   - generating a brand/design token foundation or themeable token kit
@@ -25,6 +26,7 @@ when:
   - improving LCP/INP/CLS or fixing jank and layout shift
   - upgrading or polishing an existing UI without breaking it
   - writing or reviewing interface copy, errors, and empty states
+  - picking a battle-tested library for a frontend task
 outputs:
   - Guidance and artifacts per the loaded reference's workflow and gates
 termination:
@@ -37,8 +39,8 @@ argumentHint: the UI task or screen to work on
 
 # Kernel UI — consolidated UI/design skill
 
-One skill routing across the ten reference workflows. Pick the reference that
-matches the task and follow it end-to-end.
+One skill routing across the consolidated reference workflows. Pick the
+reference that matches the task and follow it end-to-end.
 
 ## References
 
@@ -57,6 +59,7 @@ matches the task and follow it end-to-end.
 | Audit-first redesign, single-theme | `references/redesign.md` |
 | Token build pipeline + CI | `references/token-build.md` |
 | UI copy, errors, empty states | `references/ux-writing.md` |
+| Pick the right library for a frontend task | `references/pick-ui-library.md` |
 
 ## Cross-cutting rules
 

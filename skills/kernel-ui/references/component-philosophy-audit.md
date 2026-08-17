@@ -1,6 +1,6 @@
 # Component Philosophy Audit
 
-Audit the requested component against both repository evidence and the user's design philosophy. Read [references/component-philosophy.md](references/component-philosophy.md) before reviewing.
+Audit the requested component against both repository evidence and the user's stated design philosophy before reviewing.
 
 ## Establish the standard
 
