@@ -42,7 +42,7 @@
     {
       "title": "Hominem",
       "description": "Skills for working with the Hominem monorepo: database schema changes, API resource authoring, and development workflow.",
-      "skills": ["kernel-hominem-database", "kernel-hominem-resource", "kernel-hominem-workflow"]
+      "skills": ["kernel-hominem-resource", "kernel-hominem-workflow"]
     },
     {
       "title": "UI & Brand",

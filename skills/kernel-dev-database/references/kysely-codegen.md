@@ -1,6 +1,6 @@
 # kysely-codegen
 
-`kysely-codegen` introspects a live PostgreSQL database and generates a `Database` interface that Kysely uses for fully typed queries. Run it after every migration — never hand-edit the output.
+`kysely-codegen` introspects a live PostgreSQL database and generates a `Database` interface that Kysely uses for fully typed queries. Run it after every schema phase — never hand-edit the output.
 
 ## Setup
 
@@ -131,3 +131,15 @@ Use `Selectable<T>`, `Insertable<T>`, and `Updateable<T>` from Kysely to derive 
 - Never import from the generated file across package boundaries — re-export `Selectable<T>` wrappers from the db package's public API
 - Always regenerate types after every schema-changing migration before committing
 - `db-verify-types` must pass in CI — a stale type file is a broken contract
+
+## Staged rollout compatibility
+
+Generated types describe the database selected for code generation; they do not make old application binaries compatible with a new schema. During expand/contract work:
+
+- generate types after each schema phase and review the diff for nullability, defaults, renamed objects, and insert/update behavior;
+- keep application queries compatible with both schemas until the contract phase is complete;
+- do not delete old generated fields merely because a new field exists;
+- regenerate from the intended environment, never from an accidentally drifted local database;
+- verify that package exports and downstream consumers compile against the staged shape.
+
+After a production migration, compare migration status, live catalog assertions, generated output, and application typecheck. A generated file matching the wrong or drifted database is not successful verification.

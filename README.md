@@ -2,7 +2,7 @@
 
 [![skills.sh](https://skills.sh/b/ponti-studios/kernel)](https://skills.sh/ponti-studios/kernel)
 
-A collection of 31 independently installable agent skills for software development and content production. The repository structure and catalog are validated by `scripts/validate_skills.py`.
+A collection of 29 independently installable agent skills for software development and content production. The repository structure and catalog are validated by `scripts/validate_skills.py`.
 
 ## Install
 
@@ -48,7 +48,7 @@ npx skills add ponti-studios/kernel --skill kernel-dev-react-native --yes
 General UI/design-system guidance isn't a kernel skill — use [anthropics/skills](https://github.com/anthropics/skills) (`frontend-design`) and [plugin87/ux-ui-agent-skills](https://github.com/plugin87/ux-ui-agent-skills) instead.
 
 ### Hominem
-- `kernel-hominem-database`
+- Hominem database workflows are included in `kernel-dev-database` under its Hominem-specific references.
 - `kernel-hominem-resource`
 - `kernel-hominem-workflow` (pre-push validation + commit scopes)
 

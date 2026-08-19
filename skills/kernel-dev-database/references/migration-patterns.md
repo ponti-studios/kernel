@@ -1,125 +1,52 @@
-# Migration Patterns
+# Migration Strategy and Compatibility Patterns
 
-## Expand → Backfill → Contract
+Use this file to choose the migration shape. Use [operation-playbooks.md](operation-playbooks.md) for SQL-level procedures and [production-runbook.md](production-runbook.md) before applying anything to a durable environment.
 
-For any change that would require backfilling existing rows or risks a table lock:
+## Operation routing
 
-```
-Migration 1 — Expand: add new column as nullable
-  ALTER TABLE users ADD COLUMN display_name TEXT;
+| Change | Default strategy | Main hazards |
+| --- | --- | --- |
+| New table | One transactional migration for bounded DDL; separate large indexes/backfills | Missing ownership, keys, timestamps, indexes, or grants |
+| Add nullable column | Direct expand migration | Lock acquisition and code assuming presence too early |
+| Add required column | Nullable expand → backfill → `NOT NULL` contract | Rewrite/scan, null races, old application versions |
+| Rename column/table | Compatibility alias or dual read/write → backfill → contract | Old binaries, raw SQL, views, functions, jobs, generated types |
+| Change type | Shadow column → dual write/backfill → validate → swap/contract | Lossy casts, defaults, indexes, locks, overflow |
+| Add FK/check/not-null | Add enforcement without blocking where possible → validate → tighten | Existing violations and long validation scans |
+| Add index | Concurrent production build on existing tables | No transaction, invalid index after failure, resource load |
+| Drop column/table | Deprecate → prove no reads/writes → backup/recovery review → drop | Irreversible data loss and hidden dependencies |
+| Split/merge fields or tables | Expand both shapes → dual write/read → backfill → cut over → contract | Divergence, ordering, retries, partial writes |
 
-Migration 2 — Backfill: populate existing rows (run as a data migration or app-layer job)
-  UPDATE users SET display_name = name WHERE display_name IS NULL;
+## Expand → compatible rollout → backfill → contract
 
-Migration 3 — Contract: enforce the constraint, drop the old column
-  ALTER TABLE users ALTER COLUMN display_name SET NOT NULL;
-  ALTER TABLE users DROP COLUMN name;
-```
+Use separate migrations or separately operated phases whenever more than one application version may run, existing rows need work, or a statement can scan/rewrite a large relation.
 
-Never combine steps. Each is a separate file. Deploy each step independently to avoid table locks on large datasets.
+1. **Expand:** add new nullable columns/tables/indexes or unenforced constraints. Preserve the old contract.
+2. **Compatible application rollout:** deploy code that works with both old and new schemas. For renames/splits, use dual reads with an explicit precedence rule and dual writes or a trigger only when the write path is fully understood.
+3. **Backfill/validate:** use a resumable operational job for large data. Measure remaining rows, violations, lag, runtime, and errors. Make retries idempotent.
+4. **Cut over:** switch reads and writes only after parity and freshness checks pass.
+5. **Contract:** remove compatibility code, old columns, old indexes, or temporary constraints in a later reviewed migration.
 
-**When required:**
+Do not combine all phases because a single transaction makes rollback appear easy while increasing lock duration, deployment coupling, and failure blast radius.
 
-- Adding `NOT NULL` to an existing column without a default
-- Renaming a column
-- Splitting or merging columns
-- Changing a column's type in a way that requires a cast
+## Direct DDL decision
 
-## Rollback
+Direct DDL is acceptable only after recording:
 
-```bash
-# Roll back latest migration on dev + test, then regenerate types
-make db-rollback-sync
+- object size and expected scan/rewrite cost;
+- required lock level and acceptable wait time;
+- current and previous application compatibility;
+- existing values, duplicates, nulls, or orphan rows;
+- dependent objects and generated-code impact;
+- tested recovery if the statement fails halfway or times out.
 
-# Roll back on dev only
-make db-rollback
-# or: pnpm db:rollback
+Prefer a staged migration if any answer is unknown.
 
-# Roll back on test only
-make db-rollback-test
+## Rollback policy
 
-# Roll back both without type sync
-make db-rollback-all
+- `Down` must be tested on disposable databases and should restore the previous schema shape when data loss is not involved.
+- Treat production rollback as a decision among forward fix, data repair, point-in-time recovery, or restore. Do not blindly run `Down` after a destructive or data-transforming phase.
+- Record whether the phase is reversible, whether new data has entered the new shape, and whether the old application can still operate.
 
-# Check status after rollback
-make db-status
-```
+## Idempotency and failure
 
-After rollback, always verify types are still consistent:
-
-```bash
-make db-verify-types
-pnpm typecheck
-```
-
-## Production Deployments
-
-### Migration-Before-Deploy Rule
-
-Migrations always run **before** the application code that requires them. Never deploy application code and migrations simultaneously.
-
-```
-1. Run migration against production database
-2. Wait for success
-3. Deploy application code
-4. Smoke test
-5. Monitor error rates
-```
-
-### Online vs Offline DDL
-
-| Operation                                | Risk                       | Mitigation                       |
-| ---------------------------------------- | -------------------------- | -------------------------------- |
-| `CREATE TABLE`                           | None                       | Safe online                      |
-| `ADD COLUMN` with default (Postgres 11+) | None                       | Safe online                      |
-| `ADD COLUMN NOT NULL` without default    | Table lock on old Postgres | Use expand pattern               |
-| `CREATE INDEX`                           | Table lock                 | Use `CREATE INDEX CONCURRENTLY`  |
-| `DROP INDEX`                             | Brief lock                 | Use `DROP INDEX CONCURRENTLY`    |
-| `ALTER COLUMN TYPE`                      | Table rewrite              | Use expand → backfill → contract |
-| `DROP TABLE` / `DROP COLUMN`             | Irreversible               | Requires explicit review         |
-
-### Production Apply Commands
-
-```bash
-DATABASE_URL=$PROD_DATABASE_URL pnpm --filter @your-pkg/db goose:status
-DATABASE_URL=$PROD_DATABASE_URL pnpm --filter @your-pkg/db goose:up
-```
-
-Always check status before applying. Confirm the pending migration count matches expectations.
-
-## Destructive Changes
-
-These require explicit review and sign-off before proceeding:
-
-- `DROP TABLE`
-- `DROP COLUMN`
-- `TRUNCATE`
-- Incompatible type rewrites (e.g., `TEXT` → `INTEGER`)
-- Removing a constraint that is relied upon for data integrity
-
-For each, document in the migration file:
-
-```sql
--- DESTRUCTIVE: drops the legacy_tokens table.
--- Data cannot be recovered after this migration applies.
--- Verified safe: no application code reads legacy_tokens as of 2024-03-15.
--- Reviewed by: @author on 2024-03-14.
-```
-
-## Schema Drift Detection
-
-If you suspect the live schema and the generated types are out of sync:
-
-```bash
-# Check migration status — are there unapplied migrations?
-make db-status
-
-# Regenerate and compare
-make db-generate-types
-make db-verify-types
-
-# If diff found, apply missing migrations
-make db-migrate-sync
-```
-
-Schema drift usually means either a migration was applied directly via psql, or a type regeneration step was skipped. Never fix drift by editing generated type files — always fix the underlying schema.
+Migrations normally fail loudly when their expected predecessor state is absent. Use `IF EXISTS`/`IF NOT EXISTS` only when repeatability is intentional, the no-op state is safe, and verification proves the desired definition—not merely object existence. A retry must not silently leave an incomplete index, partial backfill, missing constraint, or divergent dual-write state.

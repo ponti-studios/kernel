@@ -1,11 +1,11 @@
 ---
 name: kernel-dev-database
-description: "Enforces the required database change workflow for this project: PostgreSQL schema design, Goose migrations, generated type sync, and rollout safety. Use whenever changing schema, applying or rolling back migrations, evaluating modeling choices, or reconciling generated DB types with the live database."
+description: "Enforces production-safe PostgreSQL schema evolution with Goose migrations, Kysely type synchronization, expand/contract rollouts, dependency analysis, backfill safety, and rollback planning. Use whenever changing, reviewing, applying, or rolling back tables, columns, indexes, constraints, defaults, data migrations, or generated database types."
 license: MIT
 compatibility: PostgreSQL + Goose (migrations) + Kysely + kysely-codegen.
 metadata:
   author: project
-  version: "2.0"
+  version: "3.0"
   category: Database
   tags:
     - database
@@ -16,124 +16,73 @@ metadata:
     - schema
     - kysely
     - codegen
-    - types
-    - ddl
+    - rollout
 when:
-  - user needs to add, modify, or remove a table, column, index, or constraint
-  - user needs to create, inspect, apply, or roll back a migration
+  - user needs to add, modify, rename, or remove a table, column, index, or constraint
+  - user needs to create, inspect, apply, validate, or roll back a migration
   - a feature requires a schema change before application code can be written safely
-  - user asks about migration status, pending migrations, schema drift, or stale generated DB types
-  - a destructive or hard-to-reverse DDL change is being considered
-  - a schema change needs to be coordinated with a deployment
-  - user needs to evaluate whether the persistence model is correct
+  - user asks about migration status, schema drift, generated types, or live database state
+  - a destructive, lock-sensitive, long-running, or hard-to-reverse DDL change is being considered
+  - a schema change needs to be coordinated across application versions or deployments
 applicability:
-  - Use for every schema change in this project
-  - Use when reviewing a migration for safety, reversibility, or modeling quality
+  - Use for every schema or persistence change in this project
+  - Use when reviewing migrations for safety, reversibility, compatibility, or modeling quality
   - Use when planning expand → backfill → contract changes
-  - Use when diagnosing schema drift between live database state and generated types
+  - Use when diagnosing drift between live PostgreSQL state, migration history, and generated types
 termination:
-  - The modeling decision is explained
-  - Migration workflow is followed in the required order
+  - The modeling and migration strategy is explicit
+  - Migration state and live schema assumptions are verified
   - Generated DB types are synchronized and verified
-  - Rollout and rollback risks are documented
+  - Rollout, monitoring, rollback, and residual risks are documented
 outputs:
   - Schema modeling decision
   - Safe migration plan or authored migration
-  - Verified type-generation status
-  - Rollout risk assessment
+  - Preflight and verification evidence
+  - Generated type status
+  - Rollout and recovery risk assessment
 disableModelInvocation: true
 ---
 
-Enforce the database change protocol and preserve the project's data-modeling philosophy. This skill exists to stop unsafe or off-contract database work.
+# Production Database Change Protocol
 
-## Non-Negotiables
+Use PostgreSQL as the persistence source of truth, Goose as the only schema-change mechanism, and generated Kysely types as a checked-in consumer contract. Read the focused references below before acting; do not improvise a production migration from a DDL snippet alone. When working in the Hominem monorepo, use the Hominem-specific references and script without weakening the general safety gates.
 
-This project's database workflow is mandatory:
+## Non-negotiables
 
-- PostgreSQL is the source of truth for persistence behavior.
-- Goose migrations are the only supported schema-change mechanism.
-- Migration history must stay aligned with the Goose migration log.
-- Generated DB types must be regenerated and verified after every schema change.
-- Destructive or rollout-sensitive changes must be called out explicitly before they ship.
+- Never apply schema DDL through ad hoc `psql`, a GUI, or a manual production session.
+- Never edit a migration that has run in a durable environment.
+- Never hand-edit generated database types.
+- Never use `CASCADE` until every dependent object and data impact is enumerated.
+- Never run a long or resumable backfill as an unbounded Goose DDL migration.
+- Never assume `Down` is a safe production rollback after data has changed.
+- Never deploy code that requires a schema contract before the compatible migration phase is understood.
 
-Forbidden behavior:
+## Required workflow
 
-- Do not use another schema or migration framework.
-- Do not apply schema changes ad hoc through raw `psql`, GUI clients, or manual DDL outside the migration workflow.
-- Do not edit a migration that has already been applied to any non-disposable environment.
-- Do not hand-edit generated type files.
-- Do not ship application code that depends on a schema change before the migration path is understood and verified.
+1. Classify the request as model-only, schema DDL, data/backfill, or a combined change.
+2. Identify the operating state: greenfield disposable baseline, durable non-production schema, or production/applied schema. Applied migrations are immutable.
+3. Explain the durable product concept and invariants before writing SQL.
+4. Inspect the live schema, migration status, dependent objects, data shape, row volume, and likely lock impact. Migration history alone is not live-state evidence.
+5. Assign a risk class: metadata-only, table-scanning, table-rewriting, lock-sensitive, data-destructive, or irreversible/restore-dependent.
+6. Select direct DDL only when compatibility, lock, data, and deployment checks justify it. Otherwise use expand → compatible application rollout → backfill/validation → contract.
+7. Scaffold the migration through the approved Goose command. Keep one coherent concern per file and write explicit, named constraints and indexes.
+8. Write and test `Up` and `Down` for disposable environments. If production recovery needs a forward fix, data repair, or restore, document that separately.
+9. Rehearse on a representative database. Verify SQL behavior, existing-data compatibility, dependency behavior, lock/timeout behavior, and retry/failure handling.
+10. Apply through the approved workflow with one migration runner, explicit timeouts, and an observed stop/cancel plan.
+11. Regenerate and verify Kysely types, run affected lint/typecheck/tests, and verify the live schema after application.
+12. Report commands, environments, observed results, rollout sequencing, monitoring, rollback/recovery, and unverified assumptions.
 
-The workflow has two modes:
+## Reference routing
 
-- **Applied-schema mode**: the migration has run anywhere durable; migrations are immutable.
-- **Greenfield baseline mode**: the baseline has only touched disposable databases; baseline refinement may still be allowed.
+- Operation selection and compatibility phases: [migration-patterns.md](references/migration-patterns.md)
+- Concrete table/column/constraint/index procedures: [operation-playbooks.md](references/operation-playbooks.md)
+- Production preflight, rollout, monitoring, and recovery: [production-runbook.md](references/production-runbook.md)
+- Hominem live schema inspection: [hominem-schema-inspection.md](references/hominem-schema-inspection.md), using [pull-hominem-schema.sh](scripts/pull-hominem-schema.sh)
+- Hominem repository migration commands: [hominem-workflow.md](references/hominem-workflow.md)
+- Repository commands and Goose transaction behavior: [goose-workflow.md](references/goose-workflow.md)
+- Modeling, lifecycle, dependency, and naming standards: [schema-design.md](references/schema-design.md)
+- Generated Kysely type synchronization: [kysely-codegen.md](references/kysely-codegen.md)
 
-Treat those modes differently and report which one you are in.
+## Required verification
 
-## Modeling Principles
-
-Model the database from durable product meaning, not from transient screen structure.
-
-Before writing DDL, identify the primary concept:
-
-- **entity**: a durable object with identity over time
-- **event**: an immutable fact that happened at a time or over an interval
-- **link**: an explicit semantic relationship between objects
-- **space**: a collaborative or ownership boundary
-- **tag**: flexible cross-domain organization
-- **source**: provenance and synchronization state from elsewhere
-
-Additional rules:
-
-- Prefer one strong primitive over multiple overlapping abstractions.
-- Use relational constraints where the database can enforce the real invariant.
-- Keep authored truth, derived analysis, and provenance distinct.
-- Use `jsonb` only for bounded provider payloads or intentionally schemaless metadata.
-- Preserve meaningful user customization fields when they are part of product semantics.
-- Prefer additive evolution: expand → backfill → contract.
-
-Prefer modern PostgreSQL features when they clearly improve correctness or performance, not for novelty.
-
-## Required Workflow
-
-1. Confirm whether the change is schema-level or only app-layer.
-2. Identify the operating mode: applied-schema or greenfield baseline.
-3. Explain the modeling choice before authoring DDL.
-4. Scaffold or update the correct migration target using the project-approved Goose workflow.
-5. Write `Up` and `Down` blocks, or explicitly document why reversal is impossible.
-6. Validate the migration for naming conflicts, reversibility, compatibility with existing data, and invariant correctness.
-7. Apply the migration through the project-approved workflow.
-8. Regenerate and verify generated DB types.
-9. Run the required lint/typecheck validation affected by the schema change.
-10. Report what changed, what ran, what passed, and what rollout risks remain.
-
-## Required Verification
-
-No database change is complete until all relevant checks are true:
-
-- migration set is internally consistent
-- migration applies cleanly in the intended environment(s)
-- generated DB types match the live schema
-- application lint/typecheck still pass
-- destructive, irreversible, or rollout-sensitive aspects are called out
-
-Prefer schema-level verification for schema behavior. Do not rely only on app-layer tests to prove DB invariants.
-
-## References
-
-Use these references for concrete commands and patterns:
-
-- `schema-design.md` for table, column, index, and constraint conventions
-- `migration-patterns.md` for expand/backfill/contract, rollback, destructive changes, and production rollout patterns
-- `goose-workflow.md` for Goose commands and migration execution workflow
-- `kysely-codegen.md` for generated type synchronization and Kysely type usage
-
-## Guardrails
-
-- Never choose convenience over migration-log correctness.
-- Never merge a schema change with stale generated types.
-- Never treat database modeling as a byproduct of handler or UI work.
-- Never collapse distinct concepts into one table without an explicit product reason.
-- Never apply a destructive migration without a documented data impact assessment.
-- Never proceed to deploy-dependent work if the migration or type sync step is failing.
+A change is incomplete until the relevant checks pass: migration files validate; expected migration state is reached; schema assertions and invariants pass; generated types match the live schema; downstream typecheck/lint/tests pass; and destructive, irreversible, lock-sensitive, or rollout-sensitive aspects are called out explicitly.
