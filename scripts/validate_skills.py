@@ -14,6 +14,8 @@ SKILLS_DIR = ROOT / "skills"
 MANIFEST = ROOT / "skills.sh.json"
 REQUIRED_FRONTMATTER = {"name", "description", "license", "when", "outputs", "termination"}
 LOCAL_LINK = re.compile(r"\[[^]]+\]\(([^)#]+)(?:#[^)]+)?\)")
+CODE_SPAN = re.compile(r"`[^`]*`")
+VENDORED_DATA_SEGMENT = "/data/"
 
 
 def frontmatter(path: Path) -> tuple[set[str], dict[str, str], list[str]]:
@@ -39,7 +41,16 @@ def frontmatter(path: Path) -> tuple[set[str], dict[str, str], list[str]]:
 
 def local_link_errors(path: Path) -> list[str]:
     errors: list[str] = []
-    for target in LOCAL_LINK.findall(path.read_text(encoding="utf-8")):
+    # Vendored datasets (OWASP ASVS/MASVS/MASTG exports) reference upstream
+    # repository pages that are intentionally not shipped; skip link checking.
+    if VENDORED_DATA_SEGMENT in path.relative_to(ROOT).as_posix():
+        return errors
+    text = path.read_text(encoding="utf-8")
+    # Strip fenced code blocks and inline code spans: their contents are code,
+    # not navigation links.
+    text = re.sub(r"```.*?```", "", text, flags=re.DOTALL)
+    text = CODE_SPAN.sub("", text)
+    for target in LOCAL_LINK.findall(text):
         if target.startswith(("http://", "https://", "mailto:")):
             continue
         # Reference documents intentionally contain example placeholders and

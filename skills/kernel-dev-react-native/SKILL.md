@@ -97,11 +97,19 @@ See the performance references for concrete list, animation, and rendering patte
 
 ## References
 
-Use the references for project-specific implementation details:
+Load only the references for the task at hand. For any performance work, start with `performance.md` (priority-ordered overview), then load its topic references below:
 
-- `references/expo-route-structure.md` for route layout conventions
-- `references/navigation.md` for navigation, modal, and link patterns
-- `references/performance.md` for list, rendering, and animation optimization guidance
+- **Routing & navigation**: `expo-route-structure.md`, `navigation.md`, `navigation-native-navigators.md`, `expo-tabs.md`, `expo-search.md`, `expo-form-sheet.md`, `expo-toolbar-and-headers.md`, `expo-zoom-transitions.md`
+- **Lists & scroll performance**: `js-lists-flatlist-flashlist.md`, `list-performance-virtualize.md`, `list-performance-item-memo.md`, `list-performance-item-types.md`, `list-performance-item-expensive.md`, `list-performance-callbacks.md`, `list-performance-function-references.md`, `list-performance-inline-objects.md`, `list-performance-images.md`
+- **Animation & gestures**: `animation-derived-value.md`, `animation-gesture-detector-press.md`, `animation-gpu-properties.md`, `js-animations-reanimated.md`, `react-compiler-reanimated-shared-values.md`, `expo-animations.md`
+- **State & re-render control**: `state-ground-truth.md`, `react-state-minimize.md`, `react-state-dispatcher.md`, `react-state-fallback.md`, `js-atomic-state.md`, `js-concurrent-react.md`, `js-uncontrolled-components.md`, `scroll-position-no-state.md`
+- **Rendering rules**: `rendering-text-in-text-component.md`, `rendering-no-falsy-and.md`
+- **React Compiler**: `js-react-compiler.md`, `react-compiler-destructure-functions.md`
+- **UI primitives & design system**: `ui-pressable.md`, `ui-menus.md`, `ui-styling.md`, `ui-measure-views.md`, `ui-image-gallery.md`, `ui-expo-image.md`, `ui-native-modals.md`, `ui-safe-area-scroll.md`, `ui-scrollview-content-inset.md`, `design-system-compound-components.md`, `imports-design-system-folder.md`, `expo-controls.md`, `expo-gradients.md`
+- **Media, icons, effects, storage**: `expo-icons.md`, `expo-media.md`, `expo-visual-effects.md`, `expo-webgpu-three.md`, `images.md`, `expo-storage.md`
+- **Native modules & platform config**: `native-platform-setup.md`, `native-threading-model.md`, `native-turbo-modules.md`, `native-view-flattening.md`, `native-sdks-over-polyfills.md`, `native-android-16kb-alignment.md`, `monorepo-native-deps-in-app.md`, `monorepo-single-dependency-versions.md`, `fonts-config-plugin.md`
+- **Profiling & memory**: `js-profile-react.md`, `js-measure-fps.md`, `native-profiling.md`, `native-measure-tti.md`, `native-memory-leaks.md`, `native-memory-patterns.md`, `js-memory-leaks.md`
+- **Bundle size & startup**: `bundle-analyze-app.md`, `bundle-analyze-js.md`, `bundle-barrel-exports.md`, `bundle-code-splitting.md`, `bundle-tree-shaking.md`, `bundle-library-size.md`, `bundle-native-assets.md`, `bundle-r8-android.md`, `bundle-hermes-mmap.md`, `js-hoist-intl.md`
 
 ## Guardrails
 

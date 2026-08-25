@@ -1,0 +1,26 @@
+name: validate-skills
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "skills/**"
+      - "skills.sh.json"
+      - "scripts/validate_skills.py"
+      - ".github/workflows/validate-skills.yml"
+  pull_request:
+    paths:
+      - "skills/**"
+      - "skills.sh.json"
+      - "scripts/validate_skills.py"
+      - ".github/workflows/validate-skills.yml"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - run: python3 scripts/validate_skills.py

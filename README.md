@@ -2,7 +2,7 @@
 
 [![skills.sh](https://skills.sh/b/ponti-studios/kernel)](https://skills.sh/ponti-studios/kernel)
 
-A collection of 29 independently installable agent skills for software development and content production. The repository structure and catalog are validated by `scripts/validate_skills.py`.
+A collection of 26 independently installable agent skills for software development and content production. The repository structure and catalog are validated by `scripts/validate_skills.py`.
 
 ## Install
 
@@ -11,14 +11,13 @@ A collection of 29 independently installable agent skills for software developme
 npx skills add ponti-studios/kernel --all --yes
 
 # Specific skills
-npx skills add ponti-studios/kernel --skill kernel-write --yes
+npx skills add ponti-studios/kernel --skill kernel-ui --yes
 npx skills add ponti-studios/kernel --skill kernel-dev-react-native --yes
 ```
 
 ## Skills
 
 ### Writing
-- `kernel-write`
 - `write-incident-report`
 
 ### Music
@@ -47,13 +46,9 @@ npx skills add ponti-studios/kernel --skill kernel-dev-react-native --yes
 
 General UI/design-system guidance isn't a kernel skill — use [anthropics/skills](https://github.com/anthropics/skills) (`frontend-design`) and [plugin87/ux-ui-agent-skills](https://github.com/plugin87/ux-ui-agent-skills) instead.
 
-### Hominem
-- Hominem database workflows are included in `kernel-dev-database` under its Hominem-specific references.
-- `kernel-hominem-resource`
-- `kernel-hominem-workflow` (pre-push validation + commit scopes)
-
 ### Audit
 - `kernel-audit-integration-security`
+- `kernel-audit-security` (consolidated: OWASP domain reviews + exploit-evidence offensive audit methodology)
 - `kernel-audit-monorepo`
 - `kernel-audit-review`
 - `kernel-audit-swiftui`

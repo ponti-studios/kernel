@@ -97,10 +97,10 @@ authoring. They are not required by the portable specification.
 | Field | Purpose | Current use | Agent support |
 | --- | --- | --- | --- |
 | `applicability` | More precise scope statements after the broader `when` triggers | Specialist engineering and workflow skills | Kernel convention; other agents may read it as prose |
-| `kind` | Distinguishes a normal `skill` from a reusable `reference` | Routing/reference entries such as `kernel-voice` | Kernel convention |
+| `kind` | Distinguishes a normal `skill` from a reusable `reference` | Routing/reference entries such as `kernel-music-rap` | Kernel convention |
 | `tags` | Top-level tag list for discovery | Older and consolidated Kernel skills | Custom; prefer `metadata.tags` for new portable skills |
 | `dependencies` | Lists another skill or runtime dependency | Used by `kernel-ops-ship` for a skill dependency | Provider-specific/custom; do not assume automatic loading |
-| `allowedTools` | YAML list of permitted tool names | Used by Kernel skills such as `kernel-write` and `kernel-ui` | Kernel/Codex project convention; not the same field as standard `allowed-tools` |
+| `allowedTools` | YAML list of permitted tool names | Used by Kernel skills such as `kernel-animate` and `kernel-ui` | Kernel/Codex project convention; not the same field as standard `allowed-tools` |
 | `argumentHint` | Short hint for the argument expected at explicit invocation | Used by interactive Kernel skills | Codex-style UI/routing convention; other agents may ignore it |
 | `disableModelInvocation` | Prevents automatic model-triggered invocation | Used for review, audit, shipping, and reference-only skills | Claude-style concept represented with Kernel camelCase; verify target client before relying on it |
 | `userInvocable` | Controls whether a skill is exposed for direct user invocation | Used by `kernel-audit-review` | Claude-style concept represented with Kernel camelCase; verify target client before relying on it |

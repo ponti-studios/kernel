@@ -3,14 +3,9 @@
   "notGrouped": "bottom",
   "groupings": [
     {
-      "title": "Voice",
-      "description": "Single source of truth for voice DNA across all creative output.",
-      "skills": ["kernel-voice"]
-    },
-    {
       "title": "Writing",
-      "description": "Skill for producing structured documents, dossiers, essays, extracted posts, transcripts, video scripts, and workshops.",
-      "skills": ["kernel-write", "write-incident-report"]
+      "description": "Skill for producing structured incident reports grounded in evidence.",
+      "skills": ["write-incident-report"]
     },
     {
       "title": "Music",
@@ -40,11 +35,6 @@
       ]
     },
     {
-      "title": "Hominem",
-      "description": "Skills for working with the Hominem monorepo: database schema changes, API resource authoring, and development workflow.",
-      "skills": ["kernel-hominem-resource", "kernel-hominem-workflow"]
-    },
-    {
       "title": "UI & Brand",
       "description": "Skills for Apple-style interface design, motion, and brand identity.",
       "skills": ["kernel-animate", "kernel-ui"]
@@ -54,6 +44,7 @@
       "description": "Skills for review, tracing, and structural audits across codebases and integrations.",
       "skills": [
         "kernel-audit-integration-security",
+        "kernel-audit-security",
         "kernel-audit-monorepo",
         "kernel-audit-review",
         "kernel-audit-swiftui",

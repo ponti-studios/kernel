@@ -22,6 +22,7 @@ npm-debug.log*
 # Temporary files
 .tmp/
 .worktrees/
+__pycache__/
 
 # Lock files (use bun.lock instead)
 package-lock.json
