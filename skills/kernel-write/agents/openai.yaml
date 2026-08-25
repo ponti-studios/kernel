@@ -1,7 +1,0 @@
-interface:
-  display_name: "Kernel Write"
-  short_description: "Strict writing pipeline: essay draft → critique → edit → approve → transform into posts and video scripts."
-  default_prompt: "Use $kernel-write to run the writing pipeline on this material — intake and direction first, then draft, critique, edit, approve, and transform — or to produce a standalone document, dossier, transcript, or workshop."
-
-policy:
-  allow_implicit_invocation: true
