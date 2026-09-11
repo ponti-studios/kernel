@@ -18,6 +18,7 @@ npx skills add ponti-studios/kernel --skill kernel-dev-react-native --yes
 ## Skills
 
 ### Writing
+- `kernel-docs`
 - `write-incident-report`
 
 ### Music
@@ -58,7 +59,6 @@ General UI/design-system guidance isn't a kernel skill — use [anthropics/skill
 - `kernel-audit-trace`
 
 ### Operations
-- `kernel-ops-docs-publish`
 - `kernel-ops-production`
 - `kernel-ops-ship`
 

@@ -4,8 +4,8 @@
   "groupings": [
     {
       "title": "Writing",
-      "description": "Skill for producing structured incident reports grounded in evidence.",
-      "skills": ["write-incident-report"]
+      "description": "Skills for writing structured documentation: repo docs, PRDs, task plans, audit reports, runbooks, and incident reports.",
+      "skills": ["kernel-docs", "write-incident-report"]
     },
     {
       "title": "Music",
@@ -59,7 +59,7 @@
     {
       "title": "Operations",
       "description": "Skills for publishing, shipping, and production readiness workflows.",
-      "skills": ["kernel-ops-docs-publish", "kernel-ops-production", "kernel-ops-ship"]
+      "skills": ["kernel-ops-production", "kernel-ops-ship"]
     }
   ]
 }
