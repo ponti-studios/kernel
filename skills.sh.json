@@ -35,11 +35,6 @@
       ]
     },
     {
-      "title": "Hominem",
-      "description": "Skills for operating the Hominem monorepo: PostgreSQL schema evolution and production database operations.",
-      "skills": ["hominem-database"]
-    },
-    {
       "title": "UI & Brand",
       "description": "Skills for Apple-style interface design, motion, and brand identity.",
       "skills": ["kernel-animate", "kernel-ui"]

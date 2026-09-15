@@ -1,6 +1,6 @@
 ---
 name: kernel-dev-database
-description: "Enforces production-safe PostgreSQL schema evolution with Goose migrations, Kysely type synchronization, expand/contract rollouts, dependency analysis, backfill safety, and rollback planning. Use whenever changing, reviewing, applying, or rolling back tables, columns, indexes, constraints, defaults, data migrations, or generated database types. For the Hominem repo specifically, use hominem-database instead."
+description: "Enforces production-safe PostgreSQL schema evolution with Goose migrations, Kysely type synchronization, expand/contract rollouts, dependency analysis, backfill safety, and rollback planning. Use whenever changing, reviewing, applying, or rolling back tables, columns, indexes, constraints, defaults, data migrations, or generated database types."
 license: MIT
 compatibility: PostgreSQL + Goose (migrations) + Kysely + kysely-codegen.
 metadata:

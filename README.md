@@ -18,18 +18,22 @@ npx skills add ponti-studios/kernel --skill kernel-dev-react-native --yes
 ## Skills
 
 ### Writing
+
 - `kernel-docs`
 - `write-incident-report`
 
 ### Music
+
 - `kernel-music-rap`
 - `kernel-music-song`
 
 ### Image
+
 - `kernel-image`
 
 ### Development
-- `kernel-dev-api` 
+
+- `kernel-dev-api`
 - `kernel-dev-auth`
 - `kernel-dev-build`
 - `kernel-dev-database`
@@ -41,16 +45,15 @@ npx skills add ponti-studios/kernel --skill kernel-dev-react-native --yes
 - `kernel-git-commit`
 - `kernel-clean-code` (consolidated: AI-slop removal, code smells, branch deslop, tech-debt audit)
 
-### Hominem
-- `hominem-database`
-
 ### Brand
+
 - `kernel-animate` (consolidated: build, Emil's craft philosophy, vocabulary, opportunities, improve, review, recipes, standards)
 - `kernel-ui` (consolidated: Apple design, brand governance, a11y audit, brandkit, token build, Figma, image-to-code, design-system interop, library selection, performance, redesign, UX writing)
 
 General UI/design-system guidance isn't a kernel skill — use [anthropics/skills](https://github.com/anthropics/skills) (`frontend-design`) and [plugin87/ux-ui-agent-skills](https://github.com/plugin87/ux-ui-agent-skills) instead.
 
 ### Audit
+
 - `kernel-audit-integration-security`
 - `kernel-audit-security` (consolidated: OWASP domain reviews + exploit-evidence offensive audit methodology)
 - `kernel-audit-monorepo`
@@ -59,6 +62,7 @@ General UI/design-system guidance isn't a kernel skill — use [anthropics/skill
 - `kernel-audit-trace`
 
 ### Operations
+
 - `kernel-ops-production`
 - `kernel-ops-ship`
 
