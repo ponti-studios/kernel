@@ -55,6 +55,11 @@
       "title": "Operations",
       "description": "Skills for publishing, shipping, and production readiness workflows.",
       "skills": ["kernel-ops-production", "kernel-ops-ship"]
+    },
+    {
+      "title": "Studio",
+      "description": "Skills for Ponti Studios content, vault, film, and project operations migrated from Documents/agents.",
+      "skills": ["content-pipeline", "conversation-analysis", "direct-video", "document-authoring", "dossier-builder", "film-production", "inbox-triage", "longform-essay", "note-distillation", "plan-to-tasks", "project-operations", "share-import", "transcript-to-brief", "vault-maintenance", "workshop-design"]
     }
   ]
 }
