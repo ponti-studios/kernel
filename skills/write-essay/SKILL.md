@@ -1,6 +1,6 @@
 ---
 name: write-essay
-description: Develop an approved short-form content essay through direction, draft, critique, edit, approval, and derivation into posts or video. Use only when the requested output is essay-first or derived from an approved essay; not for direct-to-camera scripts (write-video-script) or vault essays (write-vault-essay).
+description: Develop an approved short-form content essay through direction, draft, critique, edit, approval, and derivation into posts or video. Use only when the requested output is essay-first or derived from an approved essay; not for direct-to-camera scripts (write-video-script).
 license: MIT
 when:
   - developing an approved essay through direction, draft, critique, edit, and approval
@@ -23,7 +23,7 @@ This workflow owns the approved-essay trunk. Run the stages in order and load on
 2. Draft, critique, edit, and approve: the corresponding stage references.
 3. Derive self-contained posts or video only after approval: `references/extract-posts.md`, `references/video.md`, and `references/video-production.md`.
 
-For a raw thought-to-camera script, use `write-video-script`. For a 900–1200 word vault essay, use `write-vault-essay`.
+For a raw thought-to-camera script, use `write-video-script`.
 
 ## Canon (inlined)
 

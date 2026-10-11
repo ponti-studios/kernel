@@ -8,10 +8,8 @@
       "skills": [
         "write-docs",
         "write-essay",
-        "write-vault-essay",
         "write-video-script",
         "write-brief",
-        "write-notes",
         "write-incident-report"
       ]
     },
@@ -84,15 +82,6 @@
         "plan-to-tasks",
         "project-operations",
         "workshop-design"
-      ]
-    },
-    {
-      "title": "Vault",
-      "description": "Skills for vault knowledge work: inbox triage, share imports, and vault maintenance.",
-      "skills": [
-        "inbox-triage",
-        "share-import",
-        "vault-maintenance"
       ]
     }
   ]
