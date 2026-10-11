@@ -13,7 +13,7 @@ termination:
 argumentHint: the conversation transcript or export to analyze
 ---
 
-# Conversation Analysis
+# Write Analysis
 
 Read `references/full-prompt.md`. Produce the requested narrative and retrieval artifacts without changing the source's intellectual position.
 

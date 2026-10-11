@@ -13,7 +13,7 @@ termination:
 argumentHint: the capture, transcript, or draft to distill
 ---
 
-# Note Distillation
+# Write Notes
 
 Read `references/distillation-process.md` before work. Find an existing canonical home before creating a note, preserve the author's intellectual ownership, account for every extracted unit, and validate the result with `scripts/check_distillation.py`.
 

@@ -15,7 +15,7 @@ termination:
 argumentHint: the essay goal and source material
 ---
 
-# Content Pipeline
+# Write Essay
 
 This workflow owns the approved-essay trunk. Run the stages in order and load only the stage needed next.
 

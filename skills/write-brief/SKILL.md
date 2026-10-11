@@ -13,7 +13,7 @@ termination:
 argumentHint: the transcript to convert
 ---
 
-# Transcript to Brief
+# Write Brief
 
 Read `references/transcript.md` and `references/document-contract.md`. Preserve decisions, disagreements, evidence, open questions, and next actions without converting the source into a lyrical analysis.
 

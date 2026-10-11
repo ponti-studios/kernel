@@ -13,7 +13,7 @@ termination:
 argumentHint: the raw thought to turn into video
 ---
 
-# Direct Video
+# Write Video Script
 
 Read `references/full-playbook.md`. Keep the Hook / Point / Wrap structure and optimize for low-friction recording; do not require an essay-first workflow.
 

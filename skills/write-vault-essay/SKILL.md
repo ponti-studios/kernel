@@ -13,7 +13,7 @@ termination:
 argumentHint: the source material to rewrite
 ---
 
-# Longform Essay
+# Write Vault Essay
 
 Read the longform contract, rewrite process, and voice contract before drafting. Keep one claim and metaphor per essay, use only source-supported evidence, run `scripts/check_essay.py`, and archive only the source material the workflow consumes.
 
