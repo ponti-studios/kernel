@@ -25,6 +25,7 @@
         "kernel-dev-auth",
         "kernel-dev-build",
         "kernel-git-commit",
+        "conventional-commit",
         "kernel-dev-database",
         "kernel-dev-docker",
         "kernel-dev-react",
@@ -37,7 +38,7 @@
     {
       "title": "UI & Brand",
       "description": "Skills for Apple-style interface design, motion, and brand identity.",
-      "skills": ["kernel-animate", "kernel-ui"]
+      "skills": ["kernel-animate", "kernel-ui", "design-style-rules"]
     },
     {
       "title": "Audit",

@@ -1,0 +1,190 @@
+---
+name: design-style-rules
+description: Charles's personal design style rules, shared by every Claude on this machine. Load before designing, changing, or reviewing any screen, header, list, or layout in any project, so new work follows rules already decided. Rules are added as Charles states them.
+license: MIT
+when:
+  - designing, changing, or reviewing any screen, header, list, or layout
+  - choosing header style, vertical spacing, UI copy, or color treatment
+  - updating the design canvas alongside a UI change
+outputs:
+  - UI change that follows the recorded style rules
+  - new rule entry with rule, why, and how to apply when Charles states one
+termination:
+  - the change follows every applicable recorded rule without re-litigation
+  - a newly stated preference is recorded with reason for future work
+---
+
+# Design Style Rules
+
+Rules Charles has stated while building. This skill is sourced from the
+kernel repo (`skills/design-style-rules/`) and installed on this machine,
+so every Claude follows the same rules. Follow them in every design and layout
+change, and do not re-litigate them. When Charles states a new design
+preference or corrects a layout, add it here right away, with the reason, so
+it applies to future work. Edit this one file; do not copy rules into a repo.
+
+## How to add a rule
+
+One entry per rule: the rule, **Why**, and **How to apply**. Keep it to what
+Charles decided; do not invent preferences. Group by area.
+
+## Headers and vertical space
+
+### Use an inline header title, not a large title
+
+Tab and screen titles go in the standard inline native header (centered in the
+top bar). Do not set `headerLargeTitle`.
+
+**Why:** a large title spends a band of vertical space on a name the tab bar
+already shows; Charles wants that space for content.
+
+**How to apply:** in a stack `_layout.tsx`, give `Stack.Screen` a `title` and
+header buttons only. Omit `headerLargeTitle`. Status: applied to the
+Chat, Notes and Tasks tabs in Omiro, and to their boards on the Omiro design
+canvas. The old "Monday / Oct 5" date header on the capture boards is a
+different header and was left alone.
+
+### A list under a native header must adjust for it
+
+When a screen's main content is a scroll view under a native header, make that
+scroll view the screen's content and set
+`contentInsetAdjustmentBehavior="automatic"` on it. Put any top spacing in the
+list's content container, not in a padded wrapper `View`, or the header covers
+the first rows.
+
+**Why:** a wrapper `View` with its own top padding stops the system from
+insetting the list, so the header hides the top of the scroll view (Tasks
+bug).
+
+**How to apply:** in the Omiro app (React Native, Expo Router), see
+`TaskList`'s `adjustForHeader` prop and `InboxTabScreen`.
+Keep `adjustForHeader` off for lists inside sheets.
+
+## Custom UI is fine
+
+Do not default to a native control just because it is native. Charles finds many
+native elements poor, so a designed custom component (such as Omiro's
+`ActionSheet`) is acceptable. Keep native navigation chrome that already works
+(`NativeTabs`, native stack headers via `useNativeHeaderOptions`) unless he
+asks otherwise.
+
+## UI copy and quiet interfaces
+
+Copied from the Thames `chase-review` skill. Charles's preferences as inferred
+from how he steered that work, not a style guide he wrote; what he says in the
+moment wins, and this file should be updated.
+
+### UI says less
+
+- Hint and subtext lines are one line. They must never wrap to a second line.
+- A state that is obvious from colour or an icon has no subtext (Ready,
+  Listening, and Sending while offline had none in Thames).
+- Wording is calm: "No service", "Saved · waiting for service". A lost
+  connection is never "Failed" or "Error". Red is for real failures.
+- Every title the app can show exists on the design canvas, and the reverse.
+
+**Why:** a quiet interface keeps attention on the content; alarming or wordy
+states make normal conditions feel like problems.
+
+**How to apply:** when writing a status, hint, or empty-state string, cut it
+to one line and drop it entirely if colour or an icon already says it.
+
+### Use a symbol instead of button text
+
+When a recognised symbol or icon can stand for a button's or label's text,
+use the symbol and not the word. Keep the word as the accessibility label
+(`accessibilityLabel`), so screen readers still say it.
+
+**Why:** symbols are quieter, take less room and read faster. The word still
+matters to people who can't see the symbol.
+
+**How to apply:** Done becomes a checkmark; female and male become ♀ and ♂
+(with the text glyph selector U+FE0E so iOS doesn't draw the emoji). Give
+every such control an accessibility label with the word ("Done", "Female
+voices"). Use a symbol only where it is a well-known one; if no standard
+symbol exists, keep the word. Status: applied to the Thames voice picker
+design (checkmark for Done, ♀ ♂ filter).
+
+### Design and code match
+
+- When the project keeps a design canvas or design doc, it is a complete,
+  trustworthy reference. A UI change updates it in the same change, and a
+  design is not invented ahead of what the app can show (Thames example: a
+  saved offline turn shows "Voice turn", not its words, because the words need
+  service).
+- Check designs against the app's real behaviour (titles, states, hints), not
+  memory.
+
+**How to apply:** before finishing a UI change, look for a design canvas
+(Thames: `docs/design`, generated by `gen.py`) and update it with the code.
+
+### Error and status messages settle in and out, and clear on edit
+
+Every message about a form field (a problem, a hint that appears on demand) uses the
+"Settle" motion Charles chose for Thames sign-in:
+
+- Enter: 300 ms ease-out, fade in with an 8 px drop while the space it needs opens
+  (height animates, so what is below moves smoothly, not with a jump).
+- Exit: 250 ms ease-in, fade out while the space closes. The message stays mounted until
+  the exit finishes, and is kept if the problem comes back mid-exit.
+- Reduce Motion: a 150 ms fade only, no drop or height change.
+- The field edge (and every box of a code field) warms to the destructive red only for
+  real failures. Calm messages (no service, too many tries, signed out) do not tint it;
+  they use the calm blue text.
+- The message clears as soon as the person changes the input it is about (typing in the
+  field, editing the code) and when the sheet closes. Never leave a stale error up.
+- Every message has a board on the design canvas, and the motion spec lives on the Designs
+  page.
+
+**Why:** an error that pops in, lingers after the person fixes the input, or paints a
+normal condition red feels harsh. Charles picked this over two other motions.
+
+**How to apply:** Thames reference implementation: `src/ui/FormMessage.tsx`
+(`useMessageMotion`, `tintedBorder`, `FormMessage`), used in `src/ui/MemorySheets.tsx`;
+state clearing is `MemoryAccount.clearProblem()`. Copy the pattern for new error states
+in any app, and test with fake timers (enter, stays during exit, removed after, calm
+does not tint).
+
+## Styling mechanics
+
+- No inline styles in React Native: every style lives in a
+  `useStyles(makeStyles)` StyleSheet. Compute a dynamic value into a named
+  variable first. Keep `react-native/no-inline-styles` clean.
+- When a pattern exists (a themed `makeStyles`, a shared component), new UI
+  uses it instead of a local variant.
+
+**Note:** Omiro's current code still has some inline style objects (for
+example in `TaskList`); this rule came from Thames. Apply it to new work and
+confirm with Charles before sweeping existing Omiro code.
+
+## Design canvas conventions
+
+### No label means built and deployed
+
+On a design canvas, a board title carries a label only for what is not yet
+shipped: `[In PR]` while a change is open, `[Partial]`, `[Not built]`,
+`[Notes]`. A board that is built and deployed has no label.
+
+**Why:** Charles wants the canvas to show what is left to do, not repeat that
+most things are done.
+
+**How to apply:** when a change merges and ships, delete its boards' labels in
+the same pass, and update the canvas's status note. Do not add `[Built]`.
+
+## Color
+
+### The composer does not change with appearance
+
+The composer is the same dark bar in light and dark mode: `#14121F`, white text
+and icons, violet `#6C4DFF` Chat chip. It does not use the theme's inverted
+`ink` / `inkForeground` tokens, which flip with the color scheme. On a dark
+ground it carries a 1px white 10% ring so its edge reads; on a light ground the
+ring is invisible, so there is one style.
+
+**Why:** Charles wants the composer to look identical whatever the appearance.
+
+**How to apply:** the same fixed bar applies to the surfaces that take the
+composer's place in the dock (the chat search bar), the Notes tool bar, and
+the dark toasts ("Saved to Notes", "Task added") that sit above the composer.
+Use fixed composer colors, never the flipping tokens, for these. The ink
+circles inside the lime bars are not part of the set.
