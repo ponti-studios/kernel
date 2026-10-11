@@ -4,11 +4,11 @@
 Keep the system consistent as it grows. Apply versioning, contribution, and deprecation rules.
 
 ## Steps
-1. Read `workflows/governance.md` (SemVer table, contribution workflow, deprecation policy, change comms).
+1. Read `../workflows/governance.md` (SemVer table, contribution workflow, deprecation policy, change comms).
 2. Classify the change: **major** (breaking — renamed/removed token or prop, changed anatomy/default), **minor** (additive — new token/component/variant/optional prop), **patch** (fix — contrast/bug/doc/value tweak in tolerance).
-3. For a **new** component/token: confirm it serves a real, repeated need (≥ 2 places) before promoting product → candidate → core. Design it to the full quality bar (CLAUDE.md Component Quality Bar).
-4. For a **deprecation**: mark with reason + replacement + removal version; keep working ≥ 1 minor cycle; provide a migration map (`design-systems/crosswalk.md` style); remove only in a major.
-5. Wire any new file into `CLAUDE.md` (File Reference Map + relevant table/router) and add a changelog entry.
+3. For a **new** component/token: confirm it serves a real, repeated need (≥ 2 places) before promoting product → candidate → core. Design it to the full quality bar (all 8 states + a11y + token mapping).
+4. For a **deprecation**: mark with reason + replacement + removal version; keep working ≥ 1 minor cycle; provide a migration map (`../design-systems/crosswalk.md` style); remove only in a major.
+5. Wire any new file into the consuming project's skill/router docs (when it keeps one) and add a changelog entry.
 
 ## Verification (definition of done)
 - Change has a SemVer level **and** a changelog entry.

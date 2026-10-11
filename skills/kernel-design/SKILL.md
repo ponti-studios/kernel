@@ -1,10 +1,10 @@
 ---
 name: kernel-design
-description: "UI lifecycle plus Charles's personal design rules: accessibility, brand, design tokens, Figma, image-to-code, performance, UX writing, headers, copy, and canvas conventions. Use for interfaces, tokens, redesigns, or any screen, header, list, or layout change."
+description: "UI lifecycle router plus Charles's personal design rules. Pick the reference workflow for accessibility, brand, tokens, Figma, image-to-code, performance, UX writing, or any screen, header, list, or layout change — recorded style rules win over generic defaults."
 license: MIT
 metadata:
   author: project
-  version: "2.0"
+  version: "3.0"
   category: Design
   tags:
     - design
@@ -15,43 +15,46 @@ metadata:
     - performance
     - writing
     - style-rules
-when:
-  - auditing a UI or component for WCAG 2.2 / ARIA conformance
-  - choosing or reviewing studio brand voice, naming, palette, typography, or theming
-  - designing or reviewing product identity within the shared UI system
-  - generating a brand/design token foundation or themeable token kit
-  - building tokens for multiple platforms or wiring token CI
-  - syncing tokens/components between Figma and code
-  - turning a screenshot or mockup into token-driven code
-  - bridging to or from an external design system (M3, HIG, shadcn/ui, …)
-  - improving LCP/INP/CLS or fixing jank and layout shift
-  - upgrading or polishing an existing UI without breaking it
-  - writing or reviewing interface copy, errors, and empty states
-  - picking a battle-tested library for a frontend task
-  - designing, changing, or reviewing any screen, header, list, or layout
-  - choosing header style, vertical spacing, UI copy, or color treatment
-  - updating the design canvas alongside a UI change
-outputs:
-  - Guidance and artifacts per the loaded reference's workflow and gates
-  - Brand decisions mapped to this skill or exported @ponti-studios/ui tokens and components
-  - UI change that follows the recorded personal style rules
-  - New rule entry with rule, why, and how to apply when Charles states one
-termination:
-  - The applicable reference's definition-of-done checks pass for the task
-  - Brand decisions have a stated scope, applicable rule, and UI export when relevant
-  - The change follows every applicable personal style rule without re-litigation
-  - A newly stated preference is recorded with reason for future work
-allowedTools:
-  - Read
-  - Write
-argumentHint: the UI task or screen to work on
+allowed-tools: Read Write
 ---
 
 # Kernel Design — consolidated UI, brand, and personal style skill
 
 One skill routing across the consolidated reference workflows plus Charles's
-recorded style rules. Pick the reference that matches the task and follow it
-end-to-end.
+recorded style rules. Invoke with the UI task or screen to work on. Pick the
+reference that matches the task and follow it end-to-end.
+
+## When to use
+
+- Auditing a UI or component for WCAG 2.2 / ARIA conformance
+- Choosing or reviewing studio brand voice, naming, palette, typography, or theming
+- Designing or reviewing product identity within the shared UI system
+- Generating a brand/design token foundation or themeable token kit
+- Building tokens for multiple platforms or wiring token CI
+- Syncing tokens/components between Figma and code
+- Turning a screenshot or mockup into token-driven code
+- Bridging to or from an external design system (M3, HIG, shadcn/ui, …)
+- Improving LCP/INP/CLS or fixing jank and layout shift
+- Upgrading or polishing an existing UI without breaking it
+- Writing or reviewing interface copy, errors, and empty states
+- Picking a battle-tested library for a frontend task
+- Designing, changing, or reviewing any screen, header, list, or layout
+- Choosing header style, vertical spacing, UI copy, or color treatment
+- Updating the design canvas alongside a UI change
+
+## Outputs
+
+- Guidance and artifacts per the loaded reference's workflow and gates
+- Brand decisions mapped to this skill or exported @ponti-studios/ui tokens and components
+- UI change that follows the recorded personal style rules
+- New rule entry with rule, why, and how to apply when Charles states one
+
+## Definition of done
+
+- The applicable reference's definition-of-done checks pass for the task
+- Brand decisions have a stated scope, applicable rule, and UI export when relevant
+- The change follows every applicable personal style rule without re-litigation
+- A newly stated preference is recorded with reason for future work
 
 ## Studio Brand Governance
 
@@ -133,14 +136,11 @@ validate the canonical source with `python3 scripts/fetch_ui_tokens.py --ref
 Preferred examples: `This looks overdue.`, `I found three related notes.`,
 and `Want to move this to tomorrow?`
 
-### Product Profile
+### Product Scope
 
-- Product model: notes, calendars, AI conversations, and goals in one system.
-- Product voice: calm, minimal, and efficient.
-- Product priorities: low-friction capture, reliable retrieval, low-noise
-  calendar awareness, calm goal progress, and AI that preserves user agency.
-- Do not use product-specific metaphorical language as visible copy unless the
-  task explicitly requests product narrative.
+- This skill defines no product identity of its own. Product copy, naming,
+  and product-specific behavior defer to the consuming product's own profile
+  or brief — do not invent a product palette, voice, or metaphor.
 - Do not replace the shared UI identity with a separate product palette.
 - Use semantic colors exported by `@ponti-studios/ui` for urgent, destructive,
   completion, milestone, suggestion, and active-processing states. Pair color
@@ -179,9 +179,17 @@ to apply, so it governs future work.
 | Audit-first redesign, single-theme                      | `references/redesign.md`                   |
 | Token build pipeline + CI                               | `references/token-build.md`                |
 | UI copy, errors, empty states                           | `references/ux-writing.md`                 |
+| Voice principles, tone, pre-ship checklist              | `content/voice-tone.md`                    |
+| Design taste, variance mandate, banned defaults         | `taste/design-taste.md`                    |
+| Visual direction archetypes                             | `taste/aesthetic-systems.md`               |
+| Motion choreography, reduced motion                     | `taste/motion-choreography.md`             |
 | Pick the right library for a frontend task              | `references/ui-libraries.md`               |
 
 ## Cross-cutting rules
+
+- **Motion boundary with `kernel-animate`.** This skill decides motion values,
+  tokens, and reduced-motion behavior; `kernel-animate` implements and audits
+  animation code. Neither duplicates the other.
 
 - **Tokens, never hardcoded values.** Every color/size/radius/shadow/motion/font
   traces to a DTCG token; one shared theme, no per-page palettes.

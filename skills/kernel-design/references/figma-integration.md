@@ -6,8 +6,8 @@ source is [`@ponti-studios/ui/src/styles/tokens/source/`](https://github.com/pon
 Figma Variables mirror it.
 
 ## Steps
-1. Read `workflows/figma-integration.md` (token↔Variable mapping, sync directions, MCP usage, parity).
-2. Map the 3-tier hierarchy → three Figma collections (Primitives → Semantic → Component) with aliasing; dark/brand/density → Figma **Modes** (`tokens/theming.json`).
+1. Read `../workflows/figma-integration.md` (token↔Variable mapping, sync directions, MCP usage, parity).
+2. Map the 3-tier hierarchy → three Figma collections (Primitives → Semantic → Component) with aliasing; dark/brand/density → Figma **Modes** (`../tokens/theming.json`).
 3. Choose ONE authoritative sync direction (code→Figma publish, or Figma→code extract via Tokens Studio / Variables REST API). The other side is generated — never hand-edit both.
 4. **If a Figma MCP server is connected:** prefer its tools/skills (load its mandatory prerequisite skill first). Use it to read frames/variables/screenshots into code, build Variables/components from our tokens, or wire Code Connect to `components/*`.
 5. Check component parity: Figma variants/properties must cover our variants + sizes + the 8 states; flag gaps.

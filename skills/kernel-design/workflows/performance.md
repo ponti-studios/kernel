@@ -88,7 +88,7 @@ Classify the bottleneck before selecting a fix:
 4. Use CSS for simple state styling. Do not use JavaScript to animate hover,
    focus, selected, or pressed states.
 5. Virtualize long lists and tables. Use the approved library in
-   `references/ui-libraries.md` when the task requires virtualization.
+   `../references/ui-libraries.md` when the task requires virtualization.
 6. Import shared UI components and utilities per component where supported so
    unused code can be tree-shaken.
 
