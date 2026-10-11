@@ -10,7 +10,7 @@ accessibility, or the shared token system.
 - Keep content more prominent than chrome.
 - Use one dominant surface family, one primary action role, and at most one
   supporting accent role.
-- Use the shared tokens and components from `@ponti-studios/ui`.
+- Use the project's shared tokens and components.
 - Do not introduce a palette, font, radius, shadow, or motion value locally.
 
 ## Anti-Defaults

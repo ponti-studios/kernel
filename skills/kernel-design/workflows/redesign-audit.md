@@ -10,7 +10,7 @@ Record:
 - Routes and screens in scope.
 - Framework and rendering model.
 - Styling method and current token/theme source.
-- Shared components and `@ponti-studios/ui` primitives in use.
+- Shared components and primitives in use.
 - User flows, routes, data contracts, and semantics that must not change.
 - Existing light/dark, responsive, keyboard, and reduced-motion behavior.
 - Current screenshots or measurements for comparison.
@@ -37,7 +37,7 @@ a defect.
 Choose the smallest visual direction that fits the brief and existing product.
 Then define the target before changing code:
 
-- One shared theme from `@ponti-studios/ui`.
+- One shared theme from the project's token source.
 - Semantic tokens for color, type, spacing, radius, elevation, and motion.
 - Layout and responsive rules.
 - Component states and interaction behavior.

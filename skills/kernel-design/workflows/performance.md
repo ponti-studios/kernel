@@ -75,8 +75,7 @@ Classify the bottleneck before selecting a fix:
    space.
 4. Keep borders, focus rings, selected states, and loading indicators paint-only
    when the same information can be conveyed without changing dimensions.
-5. Use the spacing, sizing, and component tokens exported by
-   `@ponti-studios/ui`; do not introduce local layout values to mask movement.
+5. Use the spacing, sizing, and component tokens from the shared source; do not introduce local layout values to mask movement.
 
 ### Interaction and INP
 
@@ -95,7 +94,7 @@ Classify the bottleneck before selecting a fix:
 ### Animation
 
 - Animate only `transform` and `opacity` for repeated or interactive motion.
-- Use the motion tokens exported by `@ponti-studios/ui` where available.
+- Use the motion tokens from the shared source where available.
 - Keep transitions within 100-300ms unless a documented interaction requires
   another duration.
 - Do not use `will-change` by default. Add it only for a measured compositor
@@ -107,7 +106,7 @@ Classify the bottleneck before selecting a fix:
 
 ### Shared UI Runtime Cost
 
-- Use `@ponti-studios/ui` components and tokens as the visual source of truth.
+- Use shared components and tokens as the visual source of truth.
 - Check that the selected component does not initialize expensive behavior
   before it is visible or interactive.
 - Avoid importing a full icon, chart, editor, or animation package when a

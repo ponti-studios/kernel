@@ -1,24 +1,17 @@
 # Token Build Workflow
 
-Use this workflow to generate platform outputs from the canonical
-[`@ponti-studios/ui` token source](https://github.com/ponti-studios/ui/tree/main/src/styles/tokens/source).
+Use this workflow to generate platform outputs from the project's canonical
+token source.
 Tokens are authored once; platform files are generated.
 
-To validate the canonical source directly from this repository, run:
-
-```bash
-python3 scripts/fetch_ui_tokens.py --ref main
-```
-
-Use `--ref` with a release tag or commit for reproducible validation. Use
-`--output ./tmp/ui-tokens` when the downloaded files need to be inspected.
+To validate the canonical source, run the project's token checks or this
+skill's `validate_tokens.py` against a local copy of the source.
 
 ## 1. Establish the Source
 
 Record:
 
-- Token source directory and format. For Ponti Studios UI, use
-  `src/styles/tokens/source/*.tokens.json` in the UI repository.
+- Record the token source directory and format (e.g. `*.tokens.json` DTCG files).
 - Tool: Style Dictionary, Tokens Studio, W3C DTCG tooling, or a repository
   script.
 - Output platforms and committed artifact paths.
@@ -26,8 +19,8 @@ Record:
 - Validation and generation commands available in the consuming project.
 
 Use DTCG-compatible token data. Do not edit generated platform files as a
-source of truth. Generated files in the UI repository are produced by
-`pnpm run tokens:build` and checked by `pnpm run tokens:check`.
+source of truth. Generated files are produced by the project's token build
+and checked by its token check command.
 
 ## 2. Validate the Token Model
 
@@ -46,7 +39,7 @@ Check that:
 - Dark, brand, and density modes contain deltas only.
 - Semantic colors preserve their meaning across modes.
 - Components consume semantic or component tokens, not raw primitives.
-- `@ponti-studios/ui` remains the shared UI source of truth for consuming apps;
+- The project's shared UI remains the visual source of truth for consuming apps;
   this skill's local `tokens/` files are validation fixtures only.
 
 ## 3. Generate Outputs
@@ -72,8 +65,7 @@ On token-source changes, run:
 4. Generation and a clean-artifact comparison.
 5. Component tests or a focused UI build.
 
-Use the UI repository's actual token commands when operating on its source. Use
-`fetch_ui_tokens.py` when the source is not checked out locally. If a command or script does not
+Use the project's actual token commands when operating on its source. If a command or script does not
 exist, report it as unavailable and do not substitute a passing result.
 
 ## 5. Review Changes

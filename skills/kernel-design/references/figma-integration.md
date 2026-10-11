@@ -2,7 +2,7 @@
 # Skill: Figma Integration
 
 Bridge design (Figma) and code in both directions. The canonical token JSON
-source is [`@ponti-studios/ui/src/styles/tokens/source/`](https://github.com/ponti-studios/ui/tree/main/src/styles/tokens/source);
+source is the project's shared token source;
 Figma Variables mirror it.
 
 ## Steps

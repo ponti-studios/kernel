@@ -36,7 +36,7 @@ Map the shared token hierarchy to Figma collections:
 Map light, dark, brand, and density variants to Figma Modes. Preserve aliases;
 do not flatten semantic tokens into copied literals.
 
-Every UI value must resolve to an exported token from `@ponti-studios/ui` or to
+Every UI value must resolve to a shared token or to
 a project token that is explicitly mapped to it. Do not introduce orphan hex,
 font, spacing, radius, shadow, or motion values in Figma.
 

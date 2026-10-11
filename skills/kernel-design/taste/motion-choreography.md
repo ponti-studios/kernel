@@ -7,7 +7,7 @@ clarity and reduced-motion support are mandatory.
 
 - Prefer CSS transitions for simple state changes.
 - Animate only `transform` and `opacity` for frequent interactions.
-- Use motion tokens from `@ponti-studios/ui` when available.
+- Use motion tokens from the shared source when available.
 - Keep interaction transitions within 100-300ms unless the interaction requires
   a documented longer duration.
 - Do not block input during transitions.

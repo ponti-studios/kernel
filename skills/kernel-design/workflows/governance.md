@@ -19,7 +19,7 @@ major. Record the decision before implementation.
 For a new shared component or token:
 
 1. Identify at least two real consuming surfaces or repeated use cases.
-2. Confirm the behavior belongs in `@ponti-studios/ui`, not an app or feature
+2. Confirm the behavior belongs in the shared component library, not an app or feature
    package.
 3. Check existing primitives, tokens, variants, and comparable components.
 4. Prefer extension of an existing primitive over a parallel abstraction.
