@@ -1,27 +1,12 @@
----
-name: design-style-rules
-description: Charles's personal design style rules, shared by every Claude on this machine. Load before designing, changing, or reviewing any screen, header, list, or layout in any project, so new work follows rules already decided. Rules are added as Charles states them.
-license: MIT
-when:
-  - designing, changing, or reviewing any screen, header, list, or layout
-  - choosing header style, vertical spacing, UI copy, or color treatment
-  - updating the design canvas alongside a UI change
-outputs:
-  - UI change that follows the recorded style rules
-  - new rule entry with rule, why, and how to apply when Charles states one
-termination:
-  - the change follows every applicable recorded rule without re-litigation
-  - a newly stated preference is recorded with reason for future work
----
+# Personal Style Rules
 
-# Design Style Rules
-
-Rules Charles has stated while building. This skill is sourced from the
-kernel repo (`skills/design-style-rules/`) and installed on this machine,
-so every Claude follows the same rules. Follow them in every design and layout
-change, and do not re-litigate them. When Charles states a new design
-preference or corrects a layout, add it here right away, with the reason, so
-it applies to future work. Edit this one file; do not copy rules into a repo.
+Rules Charles has stated while building. This reference is sourced from the
+kernel repo (`skills/kernel-design/references/personal-style-rules.md`) and
+installed on this machine, so every agent follows the same rules. Follow them
+in every design and layout change, and do not re-litigate them. When Charles
+states a new design preference or corrects a layout, add it here right away,
+with the reason, so it applies to future work. Edit this reference; do not
+copy rules into a consuming repo.
 
 ## How to add a rule
 

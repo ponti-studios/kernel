@@ -1,10 +1,10 @@
 ---
-name: kernel-ui
-description: "UI lifecycle: accessibility, brand, design tokens, Figma, image-to-code, performance, UX writing. Use for interfaces, tokens, or redesigns."
+name: kernel-design
+description: "UI lifecycle plus Charles's personal design rules: accessibility, brand, design tokens, Figma, image-to-code, performance, UX writing, headers, copy, and canvas conventions. Use for interfaces, tokens, redesigns, or any screen, header, list, or layout change."
 license: MIT
 metadata:
   author: project
-  version: "1.0"
+  version: "2.0"
   category: Design
   tags:
     - design
@@ -14,6 +14,7 @@ metadata:
     - tokens
     - performance
     - writing
+    - style-rules
 when:
   - auditing a UI or component for WCAG 2.2 / ARIA conformance
   - choosing or reviewing studio brand voice, naming, palette, typography, or theming
@@ -27,22 +28,30 @@ when:
   - upgrading or polishing an existing UI without breaking it
   - writing or reviewing interface copy, errors, and empty states
   - picking a battle-tested library for a frontend task
+  - designing, changing, or reviewing any screen, header, list, or layout
+  - choosing header style, vertical spacing, UI copy, or color treatment
+  - updating the design canvas alongside a UI change
 outputs:
   - Guidance and artifacts per the loaded reference's workflow and gates
   - Brand decisions mapped to this skill or exported @ponti-studios/ui tokens and components
+  - UI change that follows the recorded personal style rules
+  - New rule entry with rule, why, and how to apply when Charles states one
 termination:
   - The applicable reference's definition-of-done checks pass for the task
   - Brand decisions have a stated scope, applicable rule, and UI export when relevant
+  - The change follows every applicable personal style rule without re-litigation
+  - A newly stated preference is recorded with reason for future work
 allowedTools:
   - Read
   - Write
 argumentHint: the UI task or screen to work on
 ---
 
-# Kernel UI — consolidated UI and brand skill
+# Kernel Design — consolidated UI, brand, and personal style skill
 
-One skill routing across the consolidated reference workflows. Pick the
-reference that matches the task and follow it end-to-end.
+One skill routing across the consolidated reference workflows plus Charles's
+recorded style rules. Pick the reference that matches the task and follow it
+end-to-end.
 
 ## Studio Brand Governance
 
@@ -142,9 +151,20 @@ and `Want to move this to tomorrow?`
 For each brand decision, record the scope, applicable rule, UI exports used,
 decision, validation results, and any missing export or required approval.
 
+## Personal Style Rules
+
+Charles's recorded preferences live in `references/personal-style-rules.md`.
+Load it before designing, changing, or reviewing any screen, header, list, or
+layout. Where a recorded rule speaks to the task, it wins over a generic
+default — do not re-litigate it. When Charles states a new preference or
+corrects a layout, record it there right away with the rule, the why, and how
+to apply, so it governs future work.
+
 ## References
 
 | Task                                                    | Reference                                  |
+| ------------------------------------------------------- | ------------------------------------------ |
+| Charles's recorded style rules, headers, copy, canvas   | `references/personal-style-rules.md`       |
 | ------------------------------------------------------- | ------------------------------------------ |
 | Apple-style fluid motion, springs, gesture UI           | `references/apple.md`                      |
 | Distinctive visual direction, typography, layout        | `references/frontend-design.md`            |
