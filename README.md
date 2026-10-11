@@ -25,7 +25,6 @@ npx skills add ponti-studios/kernel --skill kernel-dev-react-native --yes
 - `write-video-script` (direct idea-to-camera scripts)
 - `write-brief` (transcript → operational research brief)
 - `write-notes` (capture → cross-linked vault notes)
-- `write-analysis` (reflective conversation analysis)
 - `write-incident-report`
 
 ### Studio Ops

@@ -1,6 +1,6 @@
 ---
 name: write-notes
-description: Distill a substantial capture, transcript, or draft into durable, cross-linked vault notes. Use for structural knowledge extraction; not inbox-triage routing, write-analysis, or essay writing.
+description: Distill a substantial capture, transcript, or draft into durable, cross-linked vault notes. Use for structural knowledge extraction; not inbox-triage routing or essay writing.
 license: MIT
 when:
   - distilling a substantial capture, transcript, or draft into durable vault notes

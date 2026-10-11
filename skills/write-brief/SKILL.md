@@ -1,6 +1,6 @@
 ---
 name: write-brief
-description: Convert a raw meeting or working transcript into a structured, decision-useful research brief. Use for an operational brief; use write-analysis for reflective thematic analysis.
+description: Convert a raw meeting or working transcript into a structured, decision-useful research brief. Use for an operational brief, not a lyrical narrative.
 license: MIT
 when:
   - converting a meeting or working transcript into a structured research brief
