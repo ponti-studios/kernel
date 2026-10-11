@@ -2,17 +2,6 @@
 name: native-ios-builder
 description: Build and improve native iOS apps with SwiftUI, emphasizing fast product iteration, test-first implementation, reliable Apple framework integrations, and polished interaction design.
 license: MIT
-compatibility: Native iOS projects using Swift and Xcode.
-when:
-  - building a new native iOS app or feature in SwiftUI
-  - improving an existing iOS app's design, architecture, or tests
-  - debugging app behavior involving Apple platform frameworks or project configuration
-outputs:
-  - Implemented and verified native iOS app changes
-  - Test and device verification summary with known limitations
-termination:
-  - The requested app behavior is implemented and relevant validation passes
-  - A reproducible platform limitation or external dependency is documented with its impact
 ---
 
 # Native iOS Builder

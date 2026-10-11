@@ -6,12 +6,14 @@ on:
     paths:
       - "skills/**"
       - "skills.sh.json"
+      - "tests/**"
       - "scripts/validate_skills.py"
       - ".github/workflows/validate-skills.yml"
   pull_request:
     paths:
       - "skills/**"
       - "skills.sh.json"
+      - "tests/**"
       - "scripts/validate_skills.py"
       - ".github/workflows/validate-skills.yml"
 
@@ -24,3 +26,4 @@ jobs:
         with:
           python-version: "3.x"
       - run: python3 scripts/validate_skills.py
+      - run: python3 -m unittest discover -s tests

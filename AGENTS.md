@@ -9,8 +9,15 @@ This repo has no build or release step — the git repository itself is the depl
 1. **Validate locally.**
    ```bash
    python3 scripts/validate_skills.py
+   python3 -m unittest discover -s tests
    ```
-   This enforces the installable-skill contract: every top-level `skills/*/SKILL.md` must have `name`, `description`, `license`, `when`, `outputs`, `termination` in its frontmatter; `name` must match the directory name; no duplicate names; no dead local markdown links; and every skill directory must have exactly one matching entry in [skills.sh.json](skills.sh.json) (no orphans in either direction).
+   The validator enforces standard Agent Skills fields, known-field handling,
+   skill names, local links, and catalog parity. Existing kernel-only fields
+   (`when`, `outputs`, `termination`, and related extensions) warn during the
+   migration period. New skills should use standard frontmatter and put
+   instructions in the Markdown body. Run
+   `python3 scripts/validate_skills.py --strict-frontmatter` to see whether
+   the catalog is ready to reject all legacy fields.
 
 2. **Commit and push to `main`.**
    ```bash
