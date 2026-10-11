@@ -1,6 +1,6 @@
 ---
 name: kernel-git-commit
-description: Crafts every git commit to the Conventional Commits spec (https://www.conventionalcommits.org/en/v1.0.0/#specification). Use before staging, committing, or pushing code changes in any repository.
+description: "Write Conventional Commits messages. Use before staging, committing, or pushing code changes."
 license: MIT
 compatibility: Any git repository that expects Conventional Commits messages.
 metadata:

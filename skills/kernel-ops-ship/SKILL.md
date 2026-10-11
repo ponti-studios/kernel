@@ -1,6 +1,6 @@
 ---
 name: kernel-ops-ship
-description: Coordinates deployment preflight, release execution, post-deploy verification, and rollback when needed. Use when approved work is ready to deploy, when a release needs operational checks before execution, or when diagnosing or reversing a bad deployment.
+description: "Deployment preflight, release, verification, and rollback. Use when approved work is ready to deploy or a release needs checks."
 license: MIT
 metadata:
   author: project

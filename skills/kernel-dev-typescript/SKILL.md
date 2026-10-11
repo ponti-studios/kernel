@@ -1,6 +1,6 @@
 ---
 name: kernel-dev-typescript
-description: Enforces strict TypeScript behavior, type ownership, and derived-type patterns across the codebase. Use when adding or reviewing types, schemas, generics, async boundaries, tsconfig settings, or shared package types where full type safety must be preserved.
+description: "Strict TypeScript: type ownership, derived types, generics, async boundaries. Use for types, schemas, tsconfig, and shared packages."
 license: MIT
 compatibility: TypeScript 5+ / TypeScript 7 (tsgo).
 metadata:

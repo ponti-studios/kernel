@@ -1,6 +1,6 @@
 ---
 name: kernel-dev-build
-description: Runs the repo's build, type-check, test, and lint pipeline, diagnoses failures, and verifies fixes. Use when CI is failing, a local build or test is broken, or before merge or deploy when the validation pipeline must pass.
+description: "Run and fix build, type-check, test, and lint pipeline. Use when CI fails, local build breaks, or before merge and deploy."
 license: MIT
 compatibility: Any project with a defined local build, type-check, test, or lint workflow.
 metadata:

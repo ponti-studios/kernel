@@ -1,6 +1,6 @@
 ---
 name: kernel-dev-auth
-description: Defines the authentication contract for apps that use Better Auth as the sole auth authority. Use when choosing auth surfaces for web, mobile, CLI, or server clients, configuring Better Auth plugins, protecting routes, or migrating away from custom auth code.
+description: "Define auth with Better Auth as sole authority. Use for login, sessions, plugins, route protection, or replacing custom JWT/session code."
 license: MIT
 compatibility: Any full-stack project using Better Auth for authentication.
 metadata:

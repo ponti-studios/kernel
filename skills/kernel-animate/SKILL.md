@@ -1,11 +1,6 @@
 ---
 name: kernel-animate
-description: >
-  A consolidated motion skill covering the full animation lifecycle: building
-  from scratch, Emil Kowalski's design-engineering philosophy, finding places
-  that don't animate but should, auditing a codebase's motion and writing fix
-  plans, strict review of a diff, a ready-made recipe library, and a naming
-  glossary. Load the relevant reference below rather than a standalone skill.
+description: "Build, audit, and review UI motion: animations, gestures, transitions, and fix plans. Use when adding motion or fixing stutter, jank, or missing animation."
 license: MIT
 metadata:
   author: project

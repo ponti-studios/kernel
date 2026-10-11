@@ -1,6 +1,6 @@
 ---
 name: kernel-audit-review
-description: Reviews completed work for correctness, completeness, risk, and readiness to move forward. Use after implementation, before merge or handoff, or when the user asks for a review of code, docs, or another deliverable.
+description: "Review completed work for correctness, completeness, risk, and readiness. Use after implementation, before merge, handoff, or deploy."
 license: MIT
 compatibility: Use after implementation is complete, before handoff, merge, or deployment.
 metadata:

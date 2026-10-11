@@ -1,10 +1,6 @@
 ---
 name: kernel-ops-production
-description: >
-  Enforces physical production, archival print, and technical dossier standards.
-  Use when writing or reviewing print specs, conservation language, framing or
-  substrate requirements, edition data, authentication language, or archival art
-  documentation.
+description: "Physical production, print, and dossier standards: specs, conservation, framing, editions. Use for print specs or archival documentation."
 license: MIT
 compatibility: Physical production, archival print, and documentation work.
 metadata:

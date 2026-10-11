@@ -1,9 +1,6 @@
 ---
 name: kernel-clean-code
-description: >
-  A consolidated code-health skill covering AI-slop removal, code-smell
-  detection, branch-level deslop, and full tech-debt audits. Load the relevant
-  reference below rather than a standalone skill.
+description: "Remove AI slop, code smells, and tech debt. Use when cleaning a branch diff, reviewing hygiene, or auditing codebase health."
 license: MIT
 metadata:
   author: project

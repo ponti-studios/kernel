@@ -1,6 +1,6 @@
 ---
 name: kernel-dev-react
-description: Enforces React web component boundaries, state ownership, shared UI package purity, and approved async data patterns. Use when building or reviewing React web components, hooks, query or mutation flows, or shared UI code that must stay presentational and environment-agnostic.
+description: "React web boundaries: components, state ownership, shared UI purity, async data. Use for web components, hooks, and query/mutation flows."
 license: MIT
 compatibility: React web applications in this project structure. For React Native, use kernel-dev-react-native.
 metadata:

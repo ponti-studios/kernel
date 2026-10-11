@@ -1,6 +1,6 @@
 ---
 name: kernel-audit-integration-security
-description: Enforces security review rules for third-party frontend assets and external integrations. Use when adding scripts, fonts, analytics, embeds, CDN resources, public API keys, or any browser-loaded dependency that could expand the attack surface.
+description: "Review third-party frontend integrations for security: scripts, fonts, analytics, embeds, CDN, public keys. Use when adding browser-loaded dependencies."
 license: MIT
 compatibility: Any web frontend project.
 metadata:

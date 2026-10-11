@@ -1,6 +1,6 @@
 ---
 name: kernel-audit-monorepo
-description: Audit, simplify, and refactor TypeScript monorepos using Turborepo, pnpm workspaces, Expo/React Native, web apps, Hono API/RPC, Drizzle, Postgres, TanStack Query, and ArkType. Use when reviewing package boundaries, reducing duplicated code, proposing behavior-preserving refactor plans, reorganizing workspace architecture, enforcing layer boundaries, or implementing monorepo-wide structural changes. For tracing a single feature or subsystem end-to-end rather than auditing workspace-wide structure, use kernel-audit-trace instead.
+description: "Audit TypeScript monorepo structure: package boundaries, duplication, layer violations. Use for workspace-wide refactors; single-feature tracing uses kernel-audit-trace."
 license: MIT
 metadata:
   author: project

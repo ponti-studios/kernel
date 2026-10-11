@@ -1,11 +1,6 @@
 ---
 name: kernel-docs
-description: >
-  A consolidated documentation skill covering repo docs (docs/*), PRDs and
-  product briefs, executor-ready task plans, evidence-dense audit reports, and
-  operational runbooks — one shared voice plus a per-type reference with
-  templates and checklists. Load the relevant reference below rather than a
-  standalone skill.
+description: "Write repo docs, PRDs, task plans, audit reports, and runbooks in one voice. Use with templates and checklists for structured documentation."
 license: MIT
 metadata:
   author: project

@@ -1,6 +1,6 @@
 ---
 name: kernel-dev-testing
-description: Guides test strategy, test structure, and assertion quality across unit, integration, and end-to-end layers. Use when writing new tests, reviewing coverage or flaky tests, deciding where a test should live, or improving how a repo verifies behavior.
+description: "Test strategy and structure across unit, integration, and e2e. Use when writing tests, fixing flaky tests or coverage gaps, or placing tests."
 license: MIT
 compatibility: Any TypeScript project using Vitest, Jest, or a compatible test runner.
 metadata:

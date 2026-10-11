@@ -1,6 +1,6 @@
 ---
 name: kernel-audit-trace
-description: Analyzes a feature or subsystem end-to-end to identify boundaries, dependency flow, structural risks, and refactoring opportunities. Use when tracing how something works across UI, API, data, and infrastructure, or when evaluating whether a design will hold up as the system grows. For workspace-wide package boundaries and monorepo tooling instead of a single feature, use kernel-audit-monorepo instead.
+description: "Trace a feature end-to-end across UI, API, data, and infra for boundaries and risks. Use to understand how something works; workspace audits use kernel-audit-monorepo."
 license: MIT
 metadata:
   author: project

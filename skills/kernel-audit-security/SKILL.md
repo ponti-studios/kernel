@@ -1,6 +1,6 @@
 ---
 name: kernel-audit-security
-description: Security review for code — quick OWASP-grounded reviews (API, web, mobile, IaC, secrets, dependencies) and deep offensive audits that hunt exploitable vulnerabilities with proof. Use when asked to find security bugs, do a security review, audit for vulnerabilities, or pen-test the code.
+description: "OWASP-grounded code security reviews and offensive audits with exploit proof. Use to find bugs, pen-test, or audit API, web, mobile, IaC, secrets, dependencies."
 license: MIT
 metadata:
   author: project

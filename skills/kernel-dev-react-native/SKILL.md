@@ -1,6 +1,6 @@
 ---
 name: kernel-dev-react-native
-description: Enforces Expo and React Native implementation boundaries, navigation conventions, native dependency placement, and mobile performance rules. Use when building or reviewing mobile screens, routes, animations, lists, native integrations, or shared code that must remain compatible with the Expo-based app structure.
+description: "Expo and React Native boundaries: navigation, native deps, lists, performance. Use for mobile screens, routes, or shared Expo-compatible code."
 license: MIT
 compatibility: React Native with Expo Router and the project's Expo-based mobile stack.
 metadata:

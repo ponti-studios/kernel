@@ -1,6 +1,6 @@
 ---
 name: kernel-dev-docker
-description: Enforces Docker workflow boundaries for local infrastructure and production image packaging. Use when writing or reviewing Dockerfiles, configuring Compose services, defining container networking/readiness, or preventing unsafe containerization patterns.
+description: "Docker and Compose boundaries for local infra and prod images. Use for Dockerfiles, Compose, networking, readiness, and packaging."
 license: MIT
 compatibility: Projects using Docker for local infrastructure or production packaging.
 metadata:

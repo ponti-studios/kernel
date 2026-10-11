@@ -1,6 +1,6 @@
 ---
 name: write-incident-report
-description: Create or update repository incident reports in docs/incidents using the required numbered filename, strict YAML frontmatter, complete evidence-based sections, and incident-index entry. Use whenever an agent documents a production issue, outage, regression, security event, data problem, or operational failure.
+description: "Create docs/incidents reports with numbered filename, frontmatter, evidence sections, and index. Use for outages, regressions, security or data issues."
 license: MIT
 metadata:
   author: project

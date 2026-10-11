@@ -1,13 +1,6 @@
 ---
 name: kernel-ui
-description: >
-  A consolidated UI skill covering the full interface lifecycle: accessibility
-  audits (WCAG 2.2 + ARIA), studio brand governance, design-token foundations,
-  token build and CI,
-  Figma integration, image-to-code reconstruction, external design-system
-  interop/migration, performance against Core Web Vitals, redesign, UX
-  writing, and library selection. Load the relevant reference below rather than
-  a standalone skill.
+description: "UI lifecycle: accessibility, brand, design tokens, Figma, image-to-code, performance, UX writing. Use for interfaces, tokens, or redesigns."
 license: MIT
 metadata:
   author: project

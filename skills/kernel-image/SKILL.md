@@ -1,14 +1,6 @@
 ---
 name: kernel-image
-description: >
-  Interrogates the user in depth about the artwork they want, then generates and
-  saves an actual image via OpenRouter. Covers large-scale fine art
-  (Classical Oil Painting / Modern Oil Painting) and product photography as full modes,
-  plain object/creature renders (toy-like 3D, etc.) built from the
-  `references/environment/` library, and a fixed-style named-character cast
-  (Lucy, Wyatt, Benny, Void). Use when the user wants a 3D render, says
-  "make art," mentions one of the named characters, wants product photography
-  for a physical object, or asks to generate any AI image.
+description: "Generate AI images: 3D renders, fine art, product photos, named characters. Use when user says 'make art', wants a render, or product photography."
 license: MIT
 metadata:
   author: project
