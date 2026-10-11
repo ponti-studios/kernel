@@ -37,6 +37,6 @@ applies_to:
 
 ## Routing
 
-- `inbox-triage` routes discrete captures. `note-distillation` extracts durable knowledge from substantial sources.
-- `longform-essay`, `content-pipeline`, `direct-video`, and transcript specialists own transformation work.
+- `inbox-triage` routes discrete captures. `write-notes` extracts durable knowledge from substantial sources.
+- `write-vault-essay`, `write-essay`, `write-video-script`, and transcript specialists own transformation work.
 - Use the canonical scripts in `vault-maintenance/scripts/` for vault and knowledge-index validation.

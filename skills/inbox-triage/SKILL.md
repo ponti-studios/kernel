@@ -8,14 +8,14 @@ when:
 outputs:
   - each inbox item routed to its canonical home with metadata updated
 termination:
-  - every item has a canonical home or is preserved for note-distillation
+  - every item has a canonical home or is preserved for write-notes
   - no material is silently discarded and routed items are removed from inbox
 argumentHint: the inbox item or batch to triage
 ---
 
 # Inbox Triage
 
-Process one item at a time into the existing canonical home. Preserve a long or multi-topic capture for `note-distillation`; do not silently discard material. Update the destination's metadata according to vault canon, then remove only the routed inbox item.
+Process one item at a time into the existing canonical home. Preserve a long or multi-topic capture for `write-notes`; do not silently discard material. Update the destination's metadata according to vault canon, then remove only the routed inbox item.
 
 ## Canon (inlined)
 

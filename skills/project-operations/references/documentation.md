@@ -11,7 +11,7 @@ applies_to: []
 ---
 # Ponti Studios Documentation System
 
-> **Boundary with content-pipeline:** this reference owns WHAT documentation must exist and where (structure, naming, one-home-per-fact). content-pipeline's `references/doc/` system owns HOW to write a document once you know it's needed (choosing shapes, filling content). Structure questions come here; writing-craft questions go there.
+> **Boundary with write-essay:** this reference owns WHAT documentation must exist and where (structure, naming, one-home-per-fact). write-essay's `references/doc/` system owns HOW to write a document once you know it's needed (choosing shapes, filling content). Structure questions come here; writing-craft questions go there.
 
 This is the canonical rule set for structuring documentation. Its two goals, in order:
 

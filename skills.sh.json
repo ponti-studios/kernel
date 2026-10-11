@@ -4,9 +4,17 @@
   "groupings": [
     {
       "title": "Writing",
-      "description": "Skills for writing structured documentation: repo docs, PRDs, task plans, audit reports, runbooks, and incident reports.",
+      "description": "Skills for writing: repo docs, standalone documents, dossiers, essays, briefs, notes, analysis, video scripts, and incident reports.",
       "skills": [
-        "kernel-docs",
+        "write-docs",
+        "write-document",
+        "write-dossier",
+        "write-essay",
+        "write-vault-essay",
+        "write-video-script",
+        "write-brief",
+        "write-notes",
+        "write-analysis",
         "write-incident-report"
       ]
     },
@@ -72,24 +80,22 @@
       ]
     },
     {
-      "title": "Studio",
-      "description": "Skills for Ponti Studios content, vault, film, and project operations migrated from Documents/agents.",
+      "title": "Studio Ops",
+      "description": "Skills for Ponti Studios film, project, task, and workshop operations.",
       "skills": [
-        "content-pipeline",
-        "conversation-analysis",
-        "direct-video",
-        "document-authoring",
-        "dossier-builder",
         "film-production",
-        "inbox-triage",
-        "longform-essay",
-        "note-distillation",
         "plan-to-tasks",
         "project-operations",
-        "share-import",
-        "transcript-to-brief",
-        "vault-maintenance",
         "workshop-design"
+      ]
+    },
+    {
+      "title": "Vault",
+      "description": "Skills for vault knowledge work: inbox triage, share imports, and vault maintenance.",
+      "skills": [
+        "inbox-triage",
+        "share-import",
+        "vault-maintenance"
       ]
     }
   ]
