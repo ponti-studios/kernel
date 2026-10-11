@@ -30,6 +30,7 @@
         "kernel-dev-docker",
         "kernel-dev-react",
         "kernel-dev-react-native",
+        "native-ios-builder",
         "kernel-dev-testing",
         "kernel-dev-typescript",
         "kernel-clean-code"
