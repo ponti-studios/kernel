@@ -2,7 +2,7 @@
 
 [![skills.sh](https://skills.sh/b/ponti-studios/kernel)](https://skills.sh/ponti-studios/kernel)
 
-A collection of 27 independently installable agent skills for software development and content production. The repository structure and catalog are validated by `scripts/validate_skills.py`.
+A collection of independently installable agent skills for software development and content production. The repository structure and catalog are validated by `scripts/validate_skills.py`.
 
 ## Install
 
