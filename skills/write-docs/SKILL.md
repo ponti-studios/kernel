@@ -1,6 +1,6 @@
 ---
 name: write-docs
-description: "Write repo docs, PRDs, task plans, audit reports, and runbooks in one voice. Use with templates and checklists for structured documentation; not for standalone business documents (write-document) or incident reports (write-incident-report)."
+description: "Write repo docs, PRDs, task plans, audit reports, and runbooks in one voice. Use with templates and checklists for structured documentation; not for incident reports (write-incident-report)."
 license: MIT
 metadata:
   author: project

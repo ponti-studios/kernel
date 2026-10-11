@@ -20,8 +20,6 @@ npx skills add ponti-studios/kernel --skill kernel-dev-react-native --yes
 ### Writing
 
 - `write-docs` (repo docs, PRDs, task plans, audit reports, runbooks)
-- `write-document` (standalone business/product/project documents)
-- `write-dossier` (multi-section business dossiers)
 - `write-essay` (approval-driven short-form essays → posts/video)
 - `write-vault-essay` (900–1200 word vault essays)
 - `write-video-script` (direct idea-to-camera scripts)
