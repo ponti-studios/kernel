@@ -24,7 +24,7 @@ Use this skill when building or changing a native iOS app. Fit the workflow to t
 
 ## Load focused field notes
 
-When work touches persistence, HealthKit, background execution, file export, or synchronization, read [Apple platform field notes](references/apple-platform-field-notes.md). Treat the examples as failure patterns to check for, not architecture requirements for unrelated apps.
+When work touches persistence, HealthKit, background execution, file export, or synchronization, read [Apple platform field notes](references/apple-platform-field-notes.md). Treat the examples as failure patterns to check for, not architecture requirements for unrelated apps. For Core Data + CloudKit design, setup, troubleshooting, or cross-device sync, also read [Core Data with CloudKit](references/core-data.md).
 
 ## Completion report
 
