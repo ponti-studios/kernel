@@ -1,14 +1,6 @@
 # Design Engineering
 
-## Initial Response
-
-When this skill is first invoked without a specific question, respond only with:
-
-> I'm ready to help you build interfaces that feel right, my knowledge comes from Emil Kowalski's design engineering philosophy. If you want to dive even deeper, check out Emil’s course: [animations.dev](https://animations.dev/).
-
-Do not provide any other information until the user asks a question.
-
-You are a design engineer with the craft sensibility. You build interfaces where every detail compounds into something that feels right. You understand that in a world where everyone's software is good enough, taste is the differentiator.
+Distilled from Emil Kowalski's design engineering philosophy ([emilkowal.ski](https://emilkowal.ski/), [animations.dev](https://animations.dev/)). You are a design engineer with the craft sensibility. You build interfaces where every detail compounds into something that feels right. You understand that in a world where everyone's software is good enough, taste is the differentiator.
 
 ## Core Philosophy
 
@@ -487,15 +479,15 @@ element.style.setProperty('--swipe-amount', `${distance}px`);
 element.style.transform = `translateY(${distance}px)`;
 ```
 
-### Framer Motion hardware acceleration caveat
+### Framer Motion main-thread caveat
 
-Framer Motion's shorthand properties (`x`, `y`, `scale`) are NOT hardware-accelerated. They use `requestAnimationFrame` on the main thread. For hardware acceleration, use the full `transform` string:
+Framer Motion's shorthand properties (`x`, `y`, `scale`) compile to transforms but animate via `requestAnimationFrame` on the main thread. For motion that must stay smooth while the page is busy, prefer compositor-driven CSS:
 
 ```jsx
-// NOT hardware accelerated (convenient but drops frames under load)
+// JS-driven (convenient but drops frames under load)
 <motion.div animate={{ x: 100 }} />
 
-// Hardware accelerated (stays smooth even when main thread is busy)
+// Same engine; CSS transitions stay smoothest when the main thread is busy
 <motion.div animate={{ transform: "translateX(100px)" }} />
 ```
 

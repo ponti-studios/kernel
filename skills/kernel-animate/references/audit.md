@@ -72,7 +72,7 @@ Hunt for: `@keyframes` on toasts/toggles/rapidly-triggered UI, gesture handlers 
 
 - **Animate `transform` and `opacity` only.** `width`/`height`/`margin`/`padding`/`top`/`left` trigger layout + paint + composite.
 - **`transition: all`** animates unintended properties off-GPU — always a finding.
-- **Framer Motion `x`/`y`/`scale` shorthands are not hardware-accelerated** — they run on the main thread and drop frames under load. Target: the full transform string, `animate={{ transform: "translateX(100px)" }}`.
+- **Framer Motion `x`/`y`/`scale` shorthands are JS-driven** — rAF on the main thread, so they drop frames under load. Target: compositor-driven CSS for motion on busy pages (the full transform string still runs through Motion's JS engine).
 - **Don't drive child transforms via a CSS variable on the parent** — it recalcs styles for all children. Set `transform` directly on the element.
 - CSS (and WAAPI) beat rAF-based JS under load — use CSS for predetermined motion, JS/springs for dynamic and gesture-driven motion.
 - Keep transition-time `filter: blur()` under 20px — heavy blur is expensive, especially in Safari.

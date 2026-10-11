@@ -43,7 +43,7 @@ Find curves at [easing.dev](https://easing.dev/) or [easings.co](https://easings
 | Button press feedback | 100–160ms |
 | Tooltips, small popovers | 125–200ms |
 | Dropdowns, selects | 150–250ms |
-| Modals, drawers | 200–500ms |
+| Modals, drawers | 200–300ms (up to 500 only with a stated reason) |
 | Marketing / explanatory | Can be longer |
 
 **Rule: UI animations stay under 300ms.** A 180ms dropdown feels more responsive than a 400ms one. Faster spinners make load feel faster (same actual time). Instant tooltips after the first (skip delay + animation) make a toolbar feel faster.
@@ -115,10 +115,10 @@ Slow where the user is deciding, fast where the system responds.
   element.style.setProperty('--swipe-amount', `${d}px`); // bad: recalc on all children
   element.style.transform = `translateY(${d}px)`;        // good: only this element
   ```
-- **Framer Motion shorthands are NOT hardware-accelerated.** `x`/`y`/`scale` run on the main thread via rAF and drop frames under load. Use the full transform string:
+- **Framer Motion shorthands are JS-driven.** `x`/`y`/`scale` compile to transforms but animate via rAF on the main thread, so they can drop frames under load. For motion that runs while the page is busy, prefer compositor-driven CSS:
   ```jsx
-  <motion.div animate={{ x: 100 }} />                          // drops frames under load
-  <motion.div animate={{ transform: "translateX(100px)" }} />  // hardware accelerated
+  <motion.div animate={{ x: 100 }} />                          // JS-driven: can jank under load
+  <motion.div animate={{ transform: "translateX(100px)" }} />  // same engine; CSS transitions stay smoothest under load
   ```
 - **CSS animations beat JS under load** — they run off the main thread; rAF-based animations stutter while the browser loads/scripts/paints. Use CSS for predetermined motion, JS for dynamic/interruptible.
 - **WAAPI** gives JS control with CSS performance (hardware-accelerated, interruptible, no library):
