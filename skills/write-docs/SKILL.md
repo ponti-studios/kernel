@@ -90,7 +90,7 @@ Say the fact first, then the reason if the reason is non-obvious. Don't warm up.
 | --- | --- |
 | Write or edit repo docs (`docs/*`) against the FORMAT.md contract | `references/repo-docs.md` |
 | Write a PRD, feature spec, or product brief | `references/prd.md` |
-| Turn audit findings into self-contained implementation plans | `references/task-plan.md` |
+| Turn audit findings into self-contained implementation plans | `references/task-plan.md` (one plan per finding — the plan shape; for decomposing a plan into dependency-ordered tasks, route to `plan-to-tasks`) |
 | Produce an audit report or evidence-dense deliverable | `references/audit-report.md` |
 | Write a runbook, checklist, or operational guide | `references/runbook.md` |
 
@@ -102,6 +102,7 @@ instead of re-authoring the format:
 | Artifact | Skill |
 | --- | --- |
 | Incident reports (`docs/incidents/NNN-*.md`) | `write-incident-report` |
+| Decomposing a plan/spec/PRD into dependency-ordered task files | `plan-to-tasks` |
 | Print / archival / technical-dossier docs | `kernel-ops-production` |
 | Commit messages | `kernel-git-commit` |
 | Review verdicts on completed work | `kernel-audit-review` |
