@@ -4,7 +4,7 @@
   "groupings": [
     {
       "title": "Writing",
-      "description": "Skills for writing: repo docs, standalone documents, dossiers, essays, briefs, notes, analysis, video scripts, and incident reports.",
+      "description": "Skills for writing: repo docs, essays, briefs, video scripts, and incident reports.",
       "skills": [
         "write-docs",
         "write-essay",

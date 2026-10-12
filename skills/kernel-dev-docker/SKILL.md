@@ -14,26 +14,30 @@ metadata:
     - dockerfile
     - infrastructure
     - devops
-when:
-  - user is writing or reviewing a Dockerfile
-  - user is configuring Docker Compose for local development infrastructure
-  - user is debugging container startup, readiness, or inter-service communication issues
-  - user is packaging an application image for production
-  - user is setting up local databases, caches, or queues via containers
-applicability:
-  - Use when enforcing Dockerfile or Compose correctness
-  - Use when separating host-run app workflows from containerized infrastructure
-  - Use when reviewing image hygiene, readiness, or runtime safety
-  - Use when preventing unsafe or non-portable container patterns
-termination:
-  - Local infrastructure boundaries are correct
-  - Production image packaging follows the required rules
-  - Networking, readiness, and runtime safety rules are satisfied
-outputs:
-  - Correct Dockerfile or Compose boundary decision
-  - Container workflow findings and required fixes
-  - Production packaging or local infrastructure recommendation
 ---
+## When to use
+
+- user is writing or reviewing a Dockerfile
+- user is configuring Docker Compose for local development infrastructure
+- user is debugging container startup, readiness, or inter-service communication issues
+- user is packaging an application image for production
+- user is setting up local databases, caches, or queues via containers
+- Use when enforcing Dockerfile or Compose correctness
+- Use when separating host-run app workflows from containerized infrastructure
+- Use when reviewing image hygiene, readiness, or runtime safety
+- Use when preventing unsafe or non-portable container patterns
+
+## Outputs
+
+- Correct Dockerfile or Compose boundary decision
+- Container workflow findings and required fixes
+- Production packaging or local infrastructure recommendation
+
+## Definition of done
+
+- Local infrastructure boundaries are correct
+- Production image packaging follows the required rules
+- Networking, readiness, and runtime safety rules are satisfied
 
 Enforce the container workflow this project expects. This skill exists to stop the LLM from using Docker as a generic hammer, blurring local infrastructure with app runtime, or shipping unsafe container packaging.
 

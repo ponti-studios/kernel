@@ -17,29 +17,33 @@ metadata:
     - tanstack-query
     - data-fetching
     - ui
-when:
-  - user is building or reviewing a React web component or custom hook
-  - user is deciding where state or async data logic should live
-  - user is wiring query, mutation, pagination, or optimistic update flows
-  - user is adding code to a shared UI package that must stay presentational
-  - a component is importing from auth, API, routing, or database layers and may be crossing a boundary
-  - user is fixing React code that stores derived state, fetches data in the wrong place, or mixes concerns
-applicability:
-  - Use when enforcing React component and hook boundaries
-  - Use when reviewing shared UI package purity and app/package separation
-  - Use when enforcing approved server-state and typed API-client flow
-  - Use when deciding the correct ownership of local, shared UI, and remote state
-termination:
-  - Component and hook responsibilities are clearly separated
-  - State is owned at the correct level with no duplicated derived state
-  - Shared UI code is presentational and environment-agnostic
-  - Remote data flows through the approved query/mutation boundary
-outputs:
-  - Boundary-correct React component or hook structure
-  - Shared UI purity findings and required fixes
-  - Approved server-state flow for the feature
-  - State ownership decision and rationale
 ---
+## When to use
+
+- user is building or reviewing a React web component or custom hook
+- user is deciding where state or async data logic should live
+- user is wiring query, mutation, pagination, or optimistic update flows
+- user is adding code to a shared UI package that must stay presentational
+- a component is importing from auth, API, routing, or database layers and may be crossing a boundary
+- user is fixing React code that stores derived state, fetches data in the wrong place, or mixes concerns
+- Use when enforcing React component and hook boundaries
+- Use when reviewing shared UI package purity and app/package separation
+- Use when enforcing approved server-state and typed API-client flow
+- Use when deciding the correct ownership of local, shared UI, and remote state
+
+## Outputs
+
+- Boundary-correct React component or hook structure
+- Shared UI purity findings and required fixes
+- Approved server-state flow for the feature
+- State ownership decision and rationale
+
+## Definition of done
+
+- Component and hook responsibilities are clearly separated
+- State is owned at the correct level with no duplicated derived state
+- Shared UI code is presentational and environment-agnostic
+- Remote data flows through the approved query/mutation boundary
 
 Enforce the React structure this project expects. This skill exists to stop the LLM from mixing presentation, data fetching, routing, and domain logic into the wrong layer.
 

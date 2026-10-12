@@ -18,27 +18,31 @@ metadata:
     - openapi
     - error-handling
     - middleware
-when:
-  - user is designing a new API endpoint, route, server action, or RPC contract
-  - user is implementing request validation or boundary error handling
-  - user is reviewing server boundary code for correctness or security
-  - user is working with request/response schemas, RPC definitions, or middleware
-  - user is adding authentication or authorization to an inbound server boundary
-applicability:
-  - Use when implementing any endpoint handler, route handler, or server boundary middleware
-  - Use when writing request/response schemas or API contract types
-  - Use when reviewing boundary code for security, correctness, or maintainability
-  - Use when designing the error response envelope for an API surface
-termination:
-  - Boundary implementation has validation, explicit auth requirements, and consistent error handling
-  - "Route handler is thin: validate → service → respond"
-  - Tests cover happy path, validation rejection, and auth boundary
-outputs:
-  - Type-safe boundary route or action with schema validation
-  - Consistent error response envelope
-  - Auth-aware middleware chain
-  - Integration tests for happy path, 422, and 401/403
 ---
+## When to use
+
+- user is designing a new API endpoint, route, server action, or RPC contract
+- user is implementing request validation or boundary error handling
+- user is reviewing server boundary code for correctness or security
+- user is working with request/response schemas, RPC definitions, or middleware
+- user is adding authentication or authorization to an inbound server boundary
+- Use when implementing any endpoint handler, route handler, or server boundary middleware
+- Use when writing request/response schemas or API contract types
+- Use when reviewing boundary code for security, correctness, or maintainability
+- Use when designing the error response envelope for an API surface
+
+## Outputs
+
+- Type-safe boundary route or action with schema validation
+- Consistent error response envelope
+- Auth-aware middleware chain
+- Integration tests for happy path, 422, and 401/403
+
+## Definition of done
+
+- Boundary implementation has validation, explicit auth requirements, and consistent error handling
+- "Route handler is thin: validate → service → respond"
+- Tests cover happy path, validation rejection, and auth boundary
 
 Design the inbound server boundary so external requests enter the system through clear contracts, thin handlers, and explicit validation/auth rules.
 

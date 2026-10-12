@@ -9,17 +9,23 @@ metadata:
   tags:
     - mobile
     - review
-when:
-  - reviewing SwiftUI views, navigation, state, or UIKit interop
-  - auditing accessibility, async behavior, performance, or previews in Apple UI code
-outputs:
-  - Severity-ordered SwiftUI audit findings with evidence and recommended fixes
-termination:
-  - Representative UI, navigation, state, and design-system files were inspected
-  - Findings are grounded in the review rubric with concrete file references
 ---
 
 # SwiftUI View Auditor
+
+## When to use
+
+- reviewing SwiftUI views, navigation, state, or UIKit interop
+- auditing accessibility, async behavior, performance, or previews in Apple UI code
+
+## Outputs
+
+- Severity-ordered SwiftUI audit findings with evidence and recommended fixes
+
+## Definition of done
+
+- Representative UI, navigation, state, and design-system files were inspected
+- Findings are grounded in the review rubric with concrete file references
 
 ## Workflow
 

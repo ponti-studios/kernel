@@ -14,20 +14,25 @@ metadata:
     - code-review
     - secrets
     - dependencies
-when:
-  - user asks to find security bugs, do a security review, or audit code for vulnerabilities
-  - user asks for a pen-test or an exploit-evidence security audit of a codebase
-  - user is reviewing API, web, mobile, or infrastructure-as-code surfaces for security risk
-  - user wants secrets, dependency, or supply-chain security checked before merge or deploy
-  - user wants OWASP Top 10, ASVS, or MASVS coverage applied to a feature or repo
-termination:
-  - Every finding cites file and line evidence plus a concrete attack scenario
-  - Findings carry severity justified by likelihood and impact, not checklist deviation
-  - Review mode names the play followed; audit mode produces REPORT.md and findings.json
-outputs:
-  - Prioritized findings report with evidence, attack scenario, impact, confidence, remediation
-  - Mode-appropriate artifact: review findings or full audit package (REPORT.md, FINDINGS-DETAIL.md, findings.json)
 ---
+## When to use
+
+- user asks to find security bugs, do a security review, or audit code for vulnerabilities
+- user asks for a pen-test or an exploit-evidence security audit of a codebase
+- user is reviewing API, web, mobile, or infrastructure-as-code surfaces for security risk
+- user wants secrets, dependency, or supply-chain security checked before merge or deploy
+- user wants OWASP Top 10, ASVS, or MASVS coverage applied to a feature or repo
+
+## Outputs
+
+- Prioritized findings report with evidence, attack scenario, impact, confidence, remediation
+- Mode-appropriate artifact: review findings or full audit package (REPORT.md, FINDINGS-DETAIL.md, findings.json)
+
+## Definition of done
+
+- Every finding cites file and line evidence plus a concrete attack scenario
+- Findings carry severity justified by likelihood and impact, not checklist deviation
+- Review mode names the play followed; audit mode produces REPORT.md and findings.json
 
 Security work in two modes. Pick by request intent; if ambiguous, ask one question.
 

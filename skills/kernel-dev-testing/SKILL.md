@@ -17,25 +17,29 @@ metadata:
     - tdd
     - coverage
     - factories
-when:
-  - user is writing tests for a new feature or bug fix
-  - user is deciding what type of test to write (unit vs integration vs E2E)
-  - user is reviewing tests for correctness, coverage, or naming
-  - user is structuring test files or choosing test tooling
-  - user is investigating a flaky or ineffective test
-applicability:
-  - Use when writing any automated test
-  - Use when reviewing tests for behavior coverage vs implementation coverage
-  - Use when establishing the test strategy for a new module or feature
-termination:
-  - Tests describe behavior, not implementation
-  - Each test cleans up after itself
-  - The chosen test layer matches the confidence needed
-outputs:
-  - Unit tests for pure business logic
-  - Integration tests for API routes or service boundaries
-  - Test factory functions for repeatable test data
 ---
+## When to use
+
+- user is writing tests for a new feature or bug fix
+- user is deciding what type of test to write (unit vs integration vs E2E)
+- user is reviewing tests for correctness, coverage, or naming
+- user is structuring test files or choosing test tooling
+- user is investigating a flaky or ineffective test
+- Use when writing any automated test
+- Use when reviewing tests for behavior coverage vs implementation coverage
+- Use when establishing the test strategy for a new module or feature
+
+## Outputs
+
+- Unit tests for pure business logic
+- Integration tests for API routes or service boundaries
+- Test factory functions for repeatable test data
+
+## Definition of done
+
+- Tests describe behavior, not implementation
+- Each test cleans up after itself
+- The chosen test layer matches the confidence needed
 
 Tests verify behavior, not implementation. A test that passes when behavior is broken is worse than no test.
 

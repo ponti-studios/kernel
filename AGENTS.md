@@ -12,12 +12,16 @@ This repo has no build or release step — the git repository itself is the depl
    python3 -m unittest discover -s tests
    ```
    The validator enforces standard Agent Skills fields, known-field handling,
-   skill names, local links, and catalog parity. Existing kernel-only fields
-   (`when`, `outputs`, `termination`, and related extensions) warn during the
-   migration period. New skills should use standard frontmatter and put
-   instructions in the Markdown body. Run
-   `python3 scripts/validate_skills.py --strict-frontmatter` to see whether
-   the catalog is ready to reject all legacy fields.
+   skill names, local links, and catalog parity. Frontmatter is limited to
+   the standard fields (`name`, `description`, `license`, `compatibility`,
+   `metadata`, `allowed-tools`); legacy kernel-only fields (`when`,
+   `outputs`, `termination`, and related extensions) are rejected — that
+   content lives in the Markdown body under `When to use` / `Outputs` /
+   `Definition of done` instead. New skills should use standard frontmatter
+   and put instructions in the Markdown body. Both
+   `python3 scripts/validate_skills.py` and
+   `python3 scripts/validate_skills.py --strict-frontmatter` must pass
+   (CI runs both).
 
 2. **Commit and push to `main`.**
    ```bash

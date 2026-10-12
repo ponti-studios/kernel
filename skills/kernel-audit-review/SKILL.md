@@ -2,6 +2,7 @@
 name: kernel-audit-review
 description: "Review completed work for correctness, completeness, risk, and readiness. Use after implementation, before merge, handoff, or deploy."
 license: MIT
+allowed-tools: Read Grep Glob Bash
 compatibility: Use after implementation is complete, before handoff, merge, or deployment.
 metadata:
   author: project
@@ -14,31 +15,30 @@ metadata:
     - post-completion
     - sign-off
     - readiness
-when:
-  - a deliverable is complete and ready for sign-off
-  - before handing off, deploying, or merging
-  - user asks to review code, docs, or another completed artifact
-  - there are concerns about correctness, regressions, or missing acceptance criteria
-applicability:
-  - Use to formally assess whether completed work meets its acceptance criteria
-  - Use to surface must-fix issues before the work moves downstream
-  - Use when a clear go / no-go recommendation is needed
-termination:
-  - All evaluation dimensions covered
-  - Findings prioritised as must-fix, should-fix, or consider
-  - "Clear recommendation delivered: approve | approve with changes | needs
-    rework"
-outputs:
-  - Review report with recommendation
-  - Prioritised findings list
-disableModelInvocation: true
-argumentHint: task, PR link, or file/directory to review (optional)
-allowedTools:
-  - Read
-  - Grep
-  - Glob
-  - Bash
 ---
+> Invoke with: task, PR link, or file/directory to review (optional).
+> Explicit invocation only — do not auto-activate on related context; wait for a direct request.
+
+## When to use
+
+- a deliverable is complete and ready for sign-off
+- before handing off, deploying, or merging
+- user asks to review code, docs, or another completed artifact
+- there are concerns about correctness, regressions, or missing acceptance criteria
+- Use to formally assess whether completed work meets its acceptance criteria
+- Use to surface must-fix issues before the work moves downstream
+- Use when a clear go / no-go recommendation is needed
+
+## Outputs
+
+- Review report with recommendation
+- Prioritised findings list
+
+## Definition of done
+
+- All evaluation dimensions covered
+- Findings prioritised as must-fix, should-fix, or consider
+- "Clear recommendation delivered: approve | approve with changes | needs rework"
 
 Answer: _is this done well enough to move forward?_
 

@@ -18,29 +18,33 @@ metadata:
     - rbac
     - migration
     - multi-client
-when:
-  - user is implementing login, logout, registration, or session handling
-  - user is choosing auth surfaces for web, mobile, CLI, desktop, or SDK clients
-  - user is adding auth middleware or protected routes
-  - user is configuring Better Auth plugins or auth-related route behavior
-  - user is migrating from custom JWT, refresh-token, or session code to Better Auth
-  - user is separating authentication concerns from authorization concerns
-applicability:
-  - Use when implementing any authentication flow backed by Better Auth
-  - Use when reviewing token, session, or client-surface choices
-  - Use when aligning route middleware with Better Auth session or bearer state
-  - Use when ripping out a custom auth layer in favor of Better Auth
-termination:
-  - The auth surface for each client type is chosen and justified
-  - Better Auth is the sole authentication authority; custom auth code is removed or explicitly rejected
-  - Boundary rules for auth, authz, middleware, and client usage are clear
-  - The relevant implementation or migration reference has been applied
-outputs:
-  - Auth surface decision for each client type
-  - Better Auth configuration plan
-  - Route and middleware auth contract
-  - Migration plan away from custom auth code
 ---
+## When to use
+
+- user is implementing login, logout, registration, or session handling
+- user is choosing auth surfaces for web, mobile, CLI, desktop, or SDK clients
+- user is adding auth middleware or protected routes
+- user is configuring Better Auth plugins or auth-related route behavior
+- user is migrating from custom JWT, refresh-token, or session code to Better Auth
+- user is separating authentication concerns from authorization concerns
+- Use when implementing any authentication flow backed by Better Auth
+- Use when reviewing token, session, or client-surface choices
+- Use when aligning route middleware with Better Auth session or bearer state
+- Use when ripping out a custom auth layer in favor of Better Auth
+
+## Outputs
+
+- Auth surface decision for each client type
+- Better Auth configuration plan
+- Route and middleware auth contract
+- Migration plan away from custom auth code
+
+## Definition of done
+
+- The auth surface for each client type is chosen and justified
+- Better Auth is the sole authentication authority; custom auth code is removed or explicitly rejected
+- Boundary rules for auth, authz, middleware, and client usage are clear
+- The relevant implementation or migration reference has been applied
 
 Define the auth contract so Better Auth is the single source of truth for authentication across clients and server boundaries.
 

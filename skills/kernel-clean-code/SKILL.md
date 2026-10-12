@@ -2,6 +2,7 @@
 name: kernel-clean-code
 description: "Remove AI slop, code smells, and tech debt. Use when cleaning a branch diff, reviewing hygiene, or auditing codebase health."
 license: MIT
+allowed-tools: Read Write
 metadata:
   author: project
   version: "1.0"
@@ -10,21 +11,25 @@ metadata:
     - refactoring
     - code-quality
     - tech-debt
-when:
-  - removing AI-generated slop from working code or a branch diff
-  - spotting code smells (long methods, duplication, coupling, primitive obsession)
-  - auditing a codebase's health and architecture into TECH_DEBT_AUDIT.md
-outputs:
-  - Cleaned code, smell findings, or TECH_DEBT_AUDIT.md per the loaded reference's workflow
-termination:
-  - The applicable reference's definition-of-done checks pass for the task
-allowedTools:
-  - Read
-  - Write
-argumentHint: the code-health task (deslop, smells, or debt audit)
 ---
 
 # Kernel Clean Code — consolidated code-health skill
+
+> Invoke with: the code-health task (deslop, smells, or debt audit).
+
+## When to use
+
+- removing AI-generated slop from working code or a branch diff
+- spotting code smells (long methods, duplication, coupling, primitive obsession)
+- auditing a codebase's health and architecture into TECH_DEBT_AUDIT.md
+
+## Outputs
+
+- Cleaned code, smell findings, or TECH_DEBT_AUDIT.md per the loaded reference's workflow
+
+## Definition of done
+
+- The applicable reference's definition-of-done checks pass for the task
 
 One skill routing across four code-health workflows. Pick the reference that
 matches the task and follow it end-to-end.

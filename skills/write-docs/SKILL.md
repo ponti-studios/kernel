@@ -2,6 +2,7 @@
 name: write-docs
 description: "Write repo docs, PRDs, task plans, audit reports, and runbooks in one voice. Use with templates and checklists for structured documentation; not for incident reports (write-incident-report)."
 license: MIT
+allowed-tools: Read Write Bash
 metadata:
   author: project
   version: "1.0"
@@ -13,28 +14,31 @@ metadata:
     - tasks
     - runbooks
     - voice
-when:
-  - writing or editing any document in a repo's docs/ directory
-  - writing a PRD, feature spec, product brief, or requirements artifact
-  - turning findings into implementation plans for another agent to execute
-  - producing an audit report, review report, or evidence-dense deliverable
-  - writing a runbook, checklist, or operational guide
-  - reviewing whether existing docs match the repo's format contract
-outputs:
-  - The requested documentation artifact per the loaded reference's workflow
-  - Validated frontmatter, links, and voice per the reference's checklist
-termination:
-  - The loaded reference's definition-of-done checks pass for the artifact
-  - Artifact claims are verified against code, not asserted from memory
-  - Frontmatter and internal links validate against the reference's rules
-allowedTools:
-  - Read
-  - Write
-  - Bash
-argumentHint: the documentation task (write/edit X, or audit docs/ against FORMAT.md)
 ---
 
 # Write Docs — consolidated documentation skill
+
+> Invoke with: the documentation task (write/edit X, or audit docs/ against FORMAT.md).
+
+## When to use
+
+- writing or editing any document in a repo's docs/ directory
+- writing a PRD, feature spec, product brief, or requirements artifact
+- turning findings into implementation plans for another agent to execute
+- producing an audit report, review report, or evidence-dense deliverable
+- writing a runbook, checklist, or operational guide
+- reviewing whether existing docs match the repo's format contract
+
+## Outputs
+
+- The requested documentation artifact per the loaded reference's workflow
+- Validated frontmatter, links, and voice per the reference's checklist
+
+## Definition of done
+
+- The loaded reference's definition-of-done checks pass for the artifact
+- Artifact claims are verified against code, not asserted from memory
+- Frontmatter and internal links validate against the reference's rules
 
 One skill routing across five documentation workflows plus a shared voice.
 Every artifact this skill produces obeys the voice below, then the shape in the

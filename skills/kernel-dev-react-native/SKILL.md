@@ -17,29 +17,33 @@ metadata:
     - navigation
     - native-dependencies
     - lists
-when:
-  - user is building or reviewing a React Native or Expo screen, component, or feature
-  - user is implementing navigation, routes, tabs, stacks, or mobile UI flow
-  - user is adding animations, gestures, media, storage, or device integrations
-  - user is optimizing list, scroll, or render performance on mobile
-  - user is configuring native modules, Expo plugins, fonts, or monorepo native dependency placement
-  - mobile code is mixing shared code, app code, and native dependencies incorrectly
-applicability:
-  - Use for all Expo / React Native mobile implementation work in this project
-  - Use when enforcing mobile navigation, performance, and native dependency constraints
-  - Use when reviewing whether a mobile feature belongs in shared code or app-specific code
-  - Use when choosing the approved mobile implementation path instead of ad hoc native work
-termination:
-  - Mobile feature follows Expo-based project boundaries
-  - Navigation and route ownership are correct
-  - Native dependencies are placed in the correct app layer
-  - Performance-sensitive UI follows the required mobile rules
-outputs:
-  - Boundary-correct mobile component or screen structure
-  - Native dependency placement decision
-  - Mobile performance findings and required fixes
-  - Navigation or route structure decision
 ---
+## When to use
+
+- user is building or reviewing a React Native or Expo screen, component, or feature
+- user is implementing navigation, routes, tabs, stacks, or mobile UI flow
+- user is adding animations, gestures, media, storage, or device integrations
+- user is optimizing list, scroll, or render performance on mobile
+- user is configuring native modules, Expo plugins, fonts, or monorepo native dependency placement
+- mobile code is mixing shared code, app code, and native dependencies incorrectly
+- Use for all Expo / React Native mobile implementation work in this project
+- Use when enforcing mobile navigation, performance, and native dependency constraints
+- Use when reviewing whether a mobile feature belongs in shared code or app-specific code
+- Use when choosing the approved mobile implementation path instead of ad hoc native work
+
+## Outputs
+
+- Boundary-correct mobile component or screen structure
+- Native dependency placement decision
+- Mobile performance findings and required fixes
+- Navigation or route structure decision
+
+## Definition of done
+
+- Mobile feature follows Expo-based project boundaries
+- Navigation and route ownership are correct
+- Native dependencies are placed in the correct app layer
+- Performance-sensitive UI follows the required mobile rules
 
 Enforce the mobile implementation contract for this project. This skill exists to stop the LLM from choosing the wrong mobile stack path, placing native dependencies in the wrong layer, or writing mobile UI that violates the required performance and navigation rules.
 

@@ -10,17 +10,23 @@ metadata:
     - operations
     - incidents
     - reliability
-when:
-  - documenting a production issue, outage, regression, security event, or data problem
-  - updating an existing incident report or incident index
-outputs:
-  - Evidence-backed incident report and updated incident index entry
-termination:
-  - Filename, ID, frontmatter, required sections, and index linkage are validated
-  - Observed facts, inferences, unknowns, fix, and verification status are separated
 ---
 
 # Write Incident Report
+
+## When to use
+
+- documenting a production issue, outage, regression, security event, or data problem
+- updating an existing incident report or incident index
+
+## Outputs
+
+- Evidence-backed incident report and updated incident index entry
+
+## Definition of done
+
+- Filename, ID, frontmatter, required sections, and index linkage are validated
+- Observed facts, inferences, unknowns, fix, and verification status are separated
 
 Create a finished, evidence-backed incident report for this repository. Reports
 are operational records, not task summaries: distinguish observed facts from

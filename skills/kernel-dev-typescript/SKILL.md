@@ -16,29 +16,33 @@ metadata:
     - monorepo
     - tsconfig
     - boundaries
-when:
-  - user is adding or reviewing TypeScript types, interfaces, or generics
-  - user is defining a schema and needs types to stay aligned with it
-  - user is deciding where a shared type should live in the package graph
-  - user is configuring tsconfig.json or resolving shared type boundaries
-  - user asks why a type is wider, duplicated, or less safe than expected
-  - user is introducing assertions, ignores, or escape hatches to bypass a type error
-applicability:
-  - Use when enforcing strict type safety in application or shared code
-  - Use when reviewing for duplicated type definitions or `any` leakage
-  - Use when deriving types from schemas, generated output, or existing source types
-  - Use when a type needs clear ownership in a monorepo or package graph
-termination:
-  - Types have a clear single source of truth
-  - No unsafe widening or duplicated parallel type definitions remain
-  - Boundary types are derived from authoritative schemas or source types
-  - Strictness settings and package boundaries remain intact
-outputs:
-  - Tightened type ownership and derivation plan
-  - Corrected shared or exported types
-  - Schema-derived or source-derived type definitions
-  - Type-safety findings and required fixes
 ---
+## When to use
+
+- user is adding or reviewing TypeScript types, interfaces, or generics
+- user is defining a schema and needs types to stay aligned with it
+- user is deciding where a shared type should live in the package graph
+- user is configuring tsconfig.json or resolving shared type boundaries
+- user asks why a type is wider, duplicated, or less safe than expected
+- user is introducing assertions, ignores, or escape hatches to bypass a type error
+- Use when enforcing strict type safety in application or shared code
+- Use when reviewing for duplicated type definitions or `any` leakage
+- Use when deriving types from schemas, generated output, or existing source types
+- Use when a type needs clear ownership in a monorepo or package graph
+
+## Outputs
+
+- Tightened type ownership and derivation plan
+- Corrected shared or exported types
+- Schema-derived or source-derived type definitions
+- Type-safety findings and required fixes
+
+## Definition of done
+
+- Types have a clear single source of truth
+- No unsafe widening or duplicated parallel type definitions remain
+- Boundary types are derived from authoritative schemas or source types
+- Strictness settings and package boundaries remain intact
 
 Enforce full TypeScript strictness and keep types derived, owned, and non-duplicated. This skill exists to stop the LLM from weakening the type system or creating parallel truth.
 

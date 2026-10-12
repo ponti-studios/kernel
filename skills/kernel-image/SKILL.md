@@ -2,6 +2,7 @@
 name: kernel-image
 description: "Generate AI images: 3D renders, fine art, product photos, named characters. Use when user says 'make art', wants a render, or product photography."
 license: MIT
+allowed-tools: Read Bash
 metadata:
   author: project
   version: "1.0"
@@ -10,31 +11,34 @@ metadata:
     - creative
     - art
     - image-generation
-when:
-  - user wants a toy-like 3D character or object render
-  - user says "premium character render," "Pixar-style," or "CGI"
-  - user wants a large-scale fine-art piece or says "make art" in a non-character context
-  - user wants Caravaggio-style visual output
-  - user says "vaggio" or wants Old Master painting technique applied to an ordinary, modern scene
-  - user mentions Lucy, Wyatt, Benny, or Void
-  - user wants product photography for a physical product
-  - user asks for MØNØTØNÉ Districts book photography
-  - user invokes /kernel-image
-outputs:
-  - 3 output folders on the user's Desktop, one per generated image
-  - Each folder holds that variant's image file and a sidecar brief recording
-    the full Q&A and final prompt used
-termination:
-  - Intake gate passed (10+ specific answers across all required categories)
-  - Brief confirmed by the user before any generation call
-  - All 3 output folders (image + sidecar brief each) saved to the Desktop
-allowedTools:
-  - Read
-  - Bash
-argumentHint: subject, character, product, or image-type request
 ---
 
 # Kernel Image — Grill, Brief, Generate
+
+> Invoke with: subject, character, product, or image-type request.
+
+## When to use
+
+- user wants a toy-like 3D character or object render
+- user says "premium character render," "Pixar-style," or "CGI"
+- user wants a large-scale fine-art piece or says "make art" in a non-character context
+- user wants Caravaggio-style visual output
+- user says "vaggio" or wants Old Master painting technique applied to an ordinary, modern scene
+- user mentions Lucy, Wyatt, Benny, or Void
+- user wants product photography for a physical product
+- user asks for MØNØTØNÉ Districts book photography
+- user invokes /kernel-image
+
+## Outputs
+
+- 3 output folders on the user's Desktop, one per generated image
+- Each folder holds that variant's image file and a sidecar brief recording the full Q&A and final prompt used
+
+## Definition of done
+
+- Intake gate passed (10+ specific answers across all required categories)
+- Brief confirmed by the user before any generation call
+- All 3 output folders (image + sidecar brief each) saved to the Desktop
 
 Grills the user on exactly what artwork they want, compiles a final prompt, then
 actually generates and saves the image via OpenRouter — it does not just hand

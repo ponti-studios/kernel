@@ -2,6 +2,7 @@
 name: kernel-audit-trace
 description: "Trace a feature end-to-end across UI, API, data, and infra for boundaries and risks. Use to understand how something works; workspace audits use kernel-audit-monorepo."
 license: MIT
+allowed-tools: Read Grep Glob
 metadata:
   author: project
   version: "2.0"
@@ -12,26 +13,21 @@ metadata:
     - architecture
     - boundaries
     - dependencies
-when:
-  - tracing a feature from user interaction through backend and storage
-  - understanding how a subsystem works end-to-end before changing it
-  - evaluating boundary flow, dependency flow, or structural risks across multiple layers
-  - identifying handoff problems, hidden coupling, or misplaced responsibilities in an existing feature
-termination:
-  - End-to-end flow traced with concrete file and boundary references
-  - Structural concerns clarified with file and line references
-  - Refactoring roadmap produced, ordered by impact
-outputs:
-  - End-to-end trace of the feature or subsystem
-  - Boundary and dependency analysis
-  - Refactoring recommendations
-  - Roadmap ordered by impact
-disableModelInvocation: true
-allowedTools:
-  - Read
-  - Grep
-  - Glob
 ---
+> Explicit invocation only — do not auto-activate on related context; wait for a direct request.
+
+## When to use
+
+- tracing a feature from user interaction through backend and storage
+- understanding how a subsystem works end-to-end before changing it
+- evaluating boundary flow, dependency flow, or structural risks across multiple layers
+- identifying handoff problems, hidden coupling, or misplaced responsibilities in an existing feature
+
+## Definition of done
+
+- End-to-end flow traced with concrete file and boundary references
+- Structural concerns clarified with file and line references
+- Refactoring roadmap produced, ordered by impact
 
 Trace a feature or subsystem from top to bottom, identify where responsibilities and handoffs live, and recommend durable structural changes. Do not implement code.
 

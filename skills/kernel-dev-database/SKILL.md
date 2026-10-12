@@ -17,33 +17,39 @@ metadata:
     - kysely
     - codegen
     - rollout
-when:
-  - user needs to add, modify, rename, or remove a table, column, index, or constraint
-  - user needs to create, inspect, apply, validate, or roll back a migration
-  - a feature requires a schema change before application code can be written safely
-  - user asks about migration status, schema drift, generated types, or live database state
-  - a destructive, lock-sensitive, long-running, or hard-to-reverse DDL change is being considered
-  - a schema change needs to be coordinated across application versions or deployments
-applicability:
-  - Use for every schema or persistence change in this project
-  - Use when reviewing migrations for safety, reversibility, compatibility, or modeling quality
-  - Use when planning expand → backfill → contract changes
-  - Use when diagnosing drift between live PostgreSQL state, migration history, and generated types
-termination:
-  - The modeling and migration strategy is explicit
-  - Migration state and live schema assumptions are verified
-  - Generated DB types are synchronized and verified
-  - Rollout, monitoring, rollback, and residual risks are documented
-outputs:
-  - Schema modeling decision
-  - Safe migration plan or authored migration
-  - Preflight and verification evidence
-  - Generated type status
-  - Rollout and recovery risk assessment
-disableModelInvocation: true
 ---
 
 # Production Database Change Protocol
+
+> Explicit invocation only — do not auto-activate on related context; wait for a direct request.
+
+## When to use
+
+- user needs to add, modify, rename, or remove a table, column, index, or constraint
+- user needs to create, inspect, apply, validate, or roll back a migration
+- a feature requires a schema change before application code can be written safely
+- user asks about migration status, schema drift, generated types, or live database state
+- a destructive, lock-sensitive, long-running, or hard-to-reverse DDL change is being considered
+- a schema change needs to be coordinated across application versions or deployments
+- Use for every schema or persistence change in this project
+- Use when reviewing migrations for safety, reversibility, compatibility, or modeling quality
+- Use when planning expand → backfill → contract changes
+- Use when diagnosing drift between live PostgreSQL state, migration history, and generated types
+
+## Outputs
+
+- Schema modeling decision
+- Safe migration plan or authored migration
+- Preflight and verification evidence
+- Generated type status
+- Rollout and recovery risk assessment
+
+## Definition of done
+
+- The modeling and migration strategy is explicit
+- Migration state and live schema assumptions are verified
+- Generated DB types are synchronized and verified
+- Rollout, monitoring, rollback, and residual risks are documented
 
 Use PostgreSQL as the persistence source of truth, Goose as the only schema-change mechanism, and generated Kysely types as a checked-in consumer contract. Read the focused references below before acting; do not improvise a production migration from a DDL snippet alone. When working in the Hominem monorepo, use the Hominem-specific references and script without weakening the general safety gates.
 

@@ -10,19 +10,25 @@ metadata:
     - architecture
     - tooling
     - typescript
-when:
-  - auditing or refactoring a TypeScript monorepo
-  - reviewing package boundaries, workspace tooling, or cross-package dependencies
-  - planning a behavior-preserving monorepo-wide structural change
-outputs:
-  - Evidence-based monorepo audit
-  - Prioritized refactor plan or implemented structural change
-termination:
-  - Actual workspace files and package boundaries were inspected
-  - Findings cite concrete evidence and the proposed change preserves behavior
 ---
 
 # Monorepo Architect
+
+## When to use
+
+- auditing or refactoring a TypeScript monorepo
+- reviewing package boundaries, workspace tooling, or cross-package dependencies
+- planning a behavior-preserving monorepo-wide structural change
+
+## Outputs
+
+- Evidence-based monorepo audit
+- Prioritized refactor plan or implemented structural change
+
+## Definition of done
+
+- Actual workspace files and package boundaries were inspected
+- Findings cite concrete evidence and the proposed change preserves behavior
 
 ## Modes
 

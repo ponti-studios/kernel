@@ -2,6 +2,7 @@
 name: kernel-ops-ship
 description: "Deployment preflight, release, verification, and rollback. Use when approved work is ready to deploy or a release needs checks."
 license: MIT
+allowed-tools: Bash
 metadata:
   author: project
   version: "2.0"
@@ -11,26 +12,29 @@ metadata:
     - ship
     - deploy
     - release
-when:
-  - user wants to deploy a service, release a feature, or ship a build
-  - approved work is ready for a real deployment
-  - a deployment needs operational preflight checks before proceeding
-  - user says 'ship', 'deploy', 'release', or 'push to production'
-termination:
-  - Deployment preflight verdict delivered
-  - Deployment executed with the chosen documented strategy
-  - Post-deploy verification complete
-outputs:
-  - Deployment preflight verdict (PASS / FAIL) report
-  - Deployed release in target environment
-  - Post-deploy verification summary
-dependencies:
-  - kernel-audit-review
-disableModelInvocation: true
-argumentHint: branch, PR, feature, or task to ship
-allowedTools:
-  - bash
 ---
+> Invoke with: branch, PR, feature, or task to ship.
+> Explicit invocation only — do not auto-activate on related context; wait for a direct request.
+> Related skills: `kernel-audit-review`.
+
+## When to use
+
+- user wants to deploy a service, release a feature, or ship a build
+- approved work is ready for a real deployment
+- a deployment needs operational preflight checks before proceeding
+- user says 'ship', 'deploy', 'release', or 'push to production'
+
+## Outputs
+
+- Deployment preflight verdict (PASS / FAIL) report
+- Deployed release in target environment
+- Post-deploy verification summary
+
+## Definition of done
+
+- Deployment preflight verdict delivered
+- Deployment executed with the chosen documented strategy
+- Post-deploy verification complete
 
 Ship approved work safely. This skill owns deploy preflight, execution, post-deploy verification, and rollback coordination.
 

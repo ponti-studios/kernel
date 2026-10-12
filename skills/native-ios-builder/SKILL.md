@@ -1,6 +1,6 @@
 ---
 name: native-ios-builder
-description: Build and improve native iOS apps with SwiftUI, emphasizing fast product iteration, test-first implementation, reliable Apple framework integrations, and polished interaction design.
+description: Build and improve native iOS apps with SwiftUI, emphasizing fast product iteration, test-first implementation, reliable Apple framework integrations, and polished interaction design. Use when building or changing a native iOS app; not for web, backend, or cross-platform work.
 license: MIT
 ---
 

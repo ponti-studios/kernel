@@ -2,23 +2,33 @@
 name: workshop-design
 description: Design a facilitation-ready product, strategy, design, technical, or alignment workshop. Use for workshop outcomes and agendas; not for ordinary meeting notes or project planning.
 license: MIT
-when:
-  - designing a facilitation-ready product, strategy, design, technical, or alignment workshop
-  - choosing the right workshop format for a decision or alignment problem
-  - producing a workshop agenda with timeboxes, exercises, and ownership
-  - planning pre-work, facilitation notes, deliverables, or follow-up for a session
-outputs:
-  - facilitation-ready agenda with timeboxed blocks, exercises, and materials
-  - named decisions, owners, pre-work assignments, and follow-up plan
-termination:
-  - outcome, participants, decisions, and format are explicit
-  - every agenda block has a purpose and a tangible output
-  - the agenda uses the closest workshop playbook
-  - unresolved decisions and risks are named, not buried
-argumentHint: the workshop to design
+metadata:
+  author: project
+  version: "1.0"
 ---
 
 # Workshop Design
+
+> Invoke with: the workshop to design.
+
+## When to use
+
+- designing a facilitation-ready product, strategy, design, technical, or alignment workshop
+- choosing the right workshop format for a decision or alignment problem
+- producing a workshop agenda with timeboxes, exercises, and ownership
+- planning pre-work, facilitation notes, deliverables, or follow-up for a session
+
+## Outputs
+
+- facilitation-ready agenda with timeboxed blocks, exercises, and materials
+- named decisions, owners, pre-work assignments, and follow-up plan
+
+## Definition of done
+
+- outcome, participants, decisions, and format are explicit
+- every agenda block has a purpose and a tangible output
+- the agenda uses the closest workshop playbook
+- unresolved decisions and risks are named, not buried
 
 Design workshops that produce decisions and artifacts, not discussion. A
 workshop earns the room only if it must end with a decision made or an

@@ -17,26 +17,30 @@ metadata:
     - sri
     - assets
     - integrations
-when:
-  - user is adding a third-party script, font, or stylesheet from a CDN
-  - user is integrating an analytics, tracking, or marketing tool
-  - user is embedding an iframe or external widget
-  - user is configuring a Content Security Policy
-  - user is adding an API key or integration credential to the frontend
-  - user is loading any external resource not self-hosted
-applicability:
-  - Use before adding any external dependency to a frontend bundle or HTML page
-  - Use when reviewing CSP headers or CORS configuration related to frontend integrations
-  - Use when evaluating whether a third-party tool is safe to integrate
-termination:
-  - External resource includes SRI hash or is self-hosted
-  - CSP expectations are configured and tested
-  - No secret API keys are embedded in the frontend bundle
-outputs:
-  - Integration security decision
-  - CSP or SRI requirements for the integration
-  - Security checklist result for the integration
 ---
+## When to use
+
+- user is adding a third-party script, font, or stylesheet from a CDN
+- user is integrating an analytics, tracking, or marketing tool
+- user is embedding an iframe or external widget
+- user is configuring a Content Security Policy
+- user is adding an API key or integration credential to the frontend
+- user is loading any external resource not self-hosted
+- Use before adding any external dependency to a frontend bundle or HTML page
+- Use when reviewing CSP headers or CORS configuration related to frontend integrations
+- Use when evaluating whether a third-party tool is safe to integrate
+
+## Outputs
+
+- Integration security decision
+- CSP or SRI requirements for the integration
+- Security checklist result for the integration
+
+## Definition of done
+
+- External resource includes SRI hash or is self-hosted
+- CSP expectations are configured and tested
+- No secret API keys are embedded in the frontend bundle
 
 Treat every external frontend resource as untrusted until proven otherwise. This skill exists to stop the LLM from casually adding third-party scripts, embeds, fonts, or public credentials without a security review.
 

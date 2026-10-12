@@ -2,18 +2,28 @@
 name: project-operations
 description: Create, maintain, and operate Ponti Studios projects under `ponti-studios/`, including lifecycle metadata, work tracking, documentation, staffing, and project decisions. Do not use for general vault organization or standalone writing.
 license: MIT
-when:
-  - creating, maintaining, or operating Ponti Studios projects under ponti-studios/
-  - changing project lifecycle, work tracking, documentation, or staffing
-outputs:
-  - project change per the matching reference (frontmatter, work-tracking, docs, ops)
-termination:
-  - project frontmatter and identity-map contracts validate
-  - work-tracking state (planned, active, archived) is consistent
-argumentHint: the project operation to perform
+metadata:
+  author: project
+  version: "1.0"
 ---
 
 # Project Operations
+
+> Invoke with: the project operation to perform.
+
+## When to use
+
+- creating, maintaining, or operating Ponti Studios projects under ponti-studios/
+- changing project lifecycle, work tracking, documentation, or staffing
+
+## Outputs
+
+- project change per the matching reference (frontmatter, work-tracking, docs, ops)
+
+## Definition of done
+
+- project frontmatter and identity-map contracts validate
+- work-tracking state (planned, active, archived) is consistent
 
 Read the matching reference before changing a project. Project identity, lifecycle, and work tracking are binding; documents and operations use the specific reference that matches the request.
 

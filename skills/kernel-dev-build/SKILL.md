@@ -7,24 +7,29 @@ metadata:
   author: project
   version: "2.0"
   category: Engineering
-when:
-  - running a production build
-  - running tests or debugging a test failure
-  - diagnosing a CI failure that doesn't reproduce locally
-  - debugging a build failure after a dependency or config change
-  - running the full validation pipeline before merge or deploy
-applicability:
-  - Use when running or debugging the repo's validation pipeline
-  - Use when a build or test is failing and the root cause is unknown
-termination:
-  - The relevant validation commands succeed with no unreviewed warnings or suppressed errors
-  - The failing step is reproduced locally or the CI-only cause is identified
-  - Root cause of any failure is identified and fixed
-outputs:
-  - Passing validation pipeline
-  - Root cause analysis if a failure was diagnosed
-argumentHint: package name or test filter (optional)
 ---
+> Invoke with: package name or test filter (optional).
+
+## When to use
+
+- running a production build
+- running tests or debugging a test failure
+- diagnosing a CI failure that doesn't reproduce locally
+- debugging a build failure after a dependency or config change
+- running the full validation pipeline before merge or deploy
+- Use when running or debugging the repo's validation pipeline
+- Use when a build or test is failing and the root cause is unknown
+
+## Outputs
+
+- Passing validation pipeline
+- Root cause analysis if a failure was diagnosed
+
+## Definition of done
+
+- The relevant validation commands succeed with no unreviewed warnings or suppressed errors
+- The failing step is reproduced locally or the CI-only cause is identified
+- Root cause of any failure is identified and fixed
 
 Run the repo's validation pipeline, diagnose failures, and verify the fix.
 

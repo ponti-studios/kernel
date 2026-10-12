@@ -11,17 +11,22 @@ metadata:
     - design
     - production
     - docs
-when:
-  - writing or reviewing physical production and print specs
-  - documenting an archival print edition or generating a technical dossier
-  - writing certification, authentication, or conservation language for a physical artwork
-termination:
-  - Output matches the relevant production reference
-  - Physical production language is technically and archivally aligned
-outputs:
-  - Physical production language aligned to references
-  - Technical dossier or authentication guidance aligned to references
 ---
+## When to use
+
+- writing or reviewing physical production and print specs
+- documenting an archival print edition or generating a technical dossier
+- writing certification, authentication, or conservation language for a physical artwork
+
+## Outputs
+
+- Physical production language aligned to references
+- Technical dossier or authentication guidance aligned to references
+
+## Definition of done
+
+- Output matches the relevant production reference
+- Physical production language is technically and archivally aligned
 
 Enforce the physical production and archival documentation standards. This skill exists to stop the LLM from improvising print, conservation, or certification language outside the approved production references.
 

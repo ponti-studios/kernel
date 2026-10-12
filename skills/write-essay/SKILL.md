@@ -2,20 +2,30 @@
 name: write-essay
 description: Develop an approved short-form content essay through direction, draft, critique, edit, approval, and derivation into posts or video. Use only when the requested output is essay-first or derived from an approved essay; not for direct-to-camera scripts (write-video-script).
 license: MIT
-when:
-  - developing an approved essay through direction, draft, critique, edit, and approval
-  - deriving posts or video from an approved essay
-  - working essay-first rather than thought-to-camera
-outputs:
-  - approved essay artifact per the stage references
-  - derived posts or video script only after approval
-termination:
-  - approval stage checks pass
-  - derivations are self-contained and traceable to the approved essay
-argumentHint: the essay goal and source material
+metadata:
+  author: project
+  version: "1.0"
 ---
 
 # Write Essay
+
+> Invoke with: the essay goal and source material.
+
+## When to use
+
+- developing an approved essay through direction, draft, critique, edit, and approval
+- deriving posts or video from an approved essay
+- working essay-first rather than thought-to-camera
+
+## Outputs
+
+- approved essay artifact per the stage references
+- derived posts or video script only after approval
+
+## Definition of done
+
+- approval stage checks pass
+- derivations are self-contained and traceable to the approved essay
 
 This workflow owns the approved-essay trunk. Run the stages in order and load only the stage needed next.
 
