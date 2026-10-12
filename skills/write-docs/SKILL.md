@@ -34,7 +34,7 @@ allowedTools:
 argumentHint: the documentation task (write/edit X, or audit docs/ against FORMAT.md)
 ---
 
-# Kernel Docs — consolidated documentation skill
+# Write Docs — consolidated documentation skill
 
 One skill routing across five documentation workflows plus a shared voice.
 Every artifact this skill produces obeys the voice below, then the shape in the
