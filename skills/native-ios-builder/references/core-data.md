@@ -309,3 +309,60 @@ passes. Health-derived data in iCloud remains a distribution-policy concern:
 the current Apple App Review Guidelines prohibit storing personal health
 information in iCloud, so this architecture is prototype-only unless that
 policy constraint is resolved.
+
+## Large-history query and UI boundary
+
+A virtualized SwiftUI `List` does not make eager data preparation lazy. The
+failed Mac design fetched every managed object, decoded every route's JSON,
+serialized GPX for every row, and retained the payloads before the list could
+virtualize its views. At 2,786 routes this path occupied the main thread in
+`JSONDecoder.decode`, saturated a core, and reached roughly 2.3 GB physical
+footprint. Treat the expensive work as a data-flow problem, not a choice
+between `List` and `LazyVStack`.
+
+For a large archive:
+
+- Build the month/year index from dates and counts only. Query one selected
+  month using a stable keyset cursor ordered by `(startDate, UUID)`; include the
+  UUID tie-breaker so equal timestamps cannot skip or duplicate rows.
+- Fetch summary projections (`id`, dates, route state, small display fields)
+  through a background context. Do not include the encoded route blob in
+  summary fetches. A small `fetchBatchSize` is not enough if code then touches
+  every fault and retains every decoded route.
+- Load the selected route only, off the UI-critical path. Cancel or ignore
+  stale detail loads when selection changes; preserve selection by stable
+  domain UUID and rebind a value-type selection to the fresh summary after a
+  remote update.
+- Generate GPX only after explicit export. A row's context menu/action should
+  retain the ID and load the payload when invoked, not precompute `Data` for
+  every row.
+- Keep maps out of thousands of rows. Static snapshots still incur route
+  loading, camera/layout work, and tile requests; lazy view creation does not
+  prevent asynchronous snapshot tasks from repeatedly starting as rows enter
+  and leave view. Prefer one native interactive map for the selected detail.
+  If thumbnails are a real product requirement, make snapshot generation
+  bounded and cache by stable route/content identity with an explicit invalidation
+  policy; verify that scrolling/revisiting does not flash or request tiles
+  repeatedly.
+
+Tests should prove that summary queries can read metadata even when
+`locationsData` contains invalid JSON, that page boundaries are stable when
+dates tie, and that month changes/search do not decode route payloads. Profile
+the realistic archive; small fixtures can hide both memory scaling and UI
+stalls.
+
+## Derived iCloud Drive publication
+
+Treat a manifest as a derived index over the authoritative local store, not a
+second database. Reconcile summaries in pages and load only a small bounded
+batch of routes for serialization at a time. Do not retain the full archive's
+route blobs or GPX `Data` in memory. Stage/write the generated files, finish a
+complete authoritative scan, and only then replace the manifest and prune
+stale app-owned files. If any page or write fails, keep the previous manifest
+and files so readers never see a manifest that points at a partially replaced
+archive. Keep imported user files outside app-owned pruning.
+
+Keep CloudKit mirroring and iCloud Drive publication as distinct pipelines:
+they have different destinations, completion evidence, retry behavior, and
+user-facing progress. A GPX file existing locally does not prove iCloud Drive
+uploaded it; a CloudKit export event does not prove the Mac imported it.

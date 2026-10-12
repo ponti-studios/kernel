@@ -24,7 +24,14 @@ Use this skill when building or changing a native iOS app. Fit the workflow to t
 
 ## Load focused field notes
 
-When work touches persistence, HealthKit, background execution, file export, or synchronization, read [Apple platform field notes](references/apple-platform-field-notes.md). Treat the examples as failure patterns to check for, not architecture requirements for unrelated apps. For Core Data + CloudKit design, setup, troubleshooting, or cross-device sync, also read [Core Data with CloudKit](references/core-data.md).
+Load focused field notes only for the relevant boundary:
+
+- For HealthKit, background work, route retries, or file export, read [Apple platform field notes](references/apple-platform-field-notes.md).
+- For Core Data + CloudKit design, existing-store adoption, cross-device delivery, or large local archives, read [Core Data with CloudKit](references/core-data.md).
+- For a React Native app with a Swift core, native views or modules, live audio, SwiftUI hosted in RN, or device installs including a Watch, read [React Native + iOS field notes](references/react-native-ios-field-notes.md).
+- Before running hosted simulator tests or installing/relaunching on a device or Mac, read [Apple app validation](references/apple-app-validation.md).
+
+Treat project-specific examples as failure patterns to check for, not architecture requirements for unrelated apps.
 
 ## Completion report
 

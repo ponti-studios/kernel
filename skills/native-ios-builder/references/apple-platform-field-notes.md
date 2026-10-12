@@ -37,6 +37,64 @@ when an API detail matters.
   small real-device smoke check for the actual permission prompt and framework
   data path, since simulator fixtures cannot prove those behaviors.
 
+### Route availability, backfills, and retry policy
+
+HealthKit workout discovery and HealthKit route discovery are separate data
+problems. Persist a workout summary even when it has no readable route, and
+represent route availability explicitly instead of dropping the workout or
+using a missing location blob as an ambiguous signal. This keeps the archive
+complete while allowing route retrieval to happen independently.
+
+Do not put every route-less workout into an unconditional “pending” set that
+is replayed on every launch. First classify the outcome of route lookup:
+
+- **Available:** validate and durably save the route; subsequent syncs should
+  skip route reads for this workout.
+- **Completed query returns no route:** persist that the route is unavailable
+  to the app for now. Keep its summary visible, but do not query it on ordinary
+  launches. Because HealthKit read visibility is opaque, this is not proof that
+  no route exists in Health. A deliberate retry (for example, user-requested
+  repair or a policy-controlled future recheck) may make it eligible again.
+- **Transient query failure, cancellation, or incomplete callback sequence:**
+  preserve retry eligibility. Do not record a permanent negative result, and
+  do not advance a checkpoint past data that was not safely represented.
+- **Route data present but invalid or too short:** retain an explicit invalid /
+  unusable result and diagnostic rather than retrying the same deterministic
+  payload forever. Define product-specific minimum geometry; do not silently
+  fabricate a line.
+
+Only classify the lookup as “completed, no usable route returned” after the
+route query completed normally and all callback batches/series were accounted
+for. A timeout, thrown error, or cancellation is a failed lookup, not a negative
+route result. Even a clean empty result is not proof that no route exists in
+Health: read authorization is intentionally opaque. User-facing copy should
+describe what the app could read, not assert that the user's Health database has
+no route data.
+
+Make retry state durable and bounded. Store per-workout outcome/eligibility
+alongside the local workout record (or another transactional store), including
+enough distinction to recover after interruption. If using a retry schedule,
+track attempt count and next eligible time, use backoff, and provide a
+user-triggered retry for historical repair. Keep successfully saved routes
+out of retry batches even if stale queue state remains. Apply deletions to
+both the workout and its retry metadata. Stable workout UUIDs should make a
+later route upgrade update the same summary rather than insert a duplicate.
+
+Backfills must be resumable and separate from normal incremental sync. Do not
+re-read every already-valid route just because an anchor is absent or a repair
+is requested. Page lightweight workout metadata, process only missing or
+explicitly retryable routes, save each result before advancing its checkpoint,
+and make a failed/interrupted page safe to replay. Normal launch and library
+scrolling should never trigger a full route scan or decode GPS data; load route
+geometry only for selected detail or bounded sync work.
+
+Tests should exercise the outcome matrix (route found, completed empty result,
+query error, cancellation, malformed/short route), restart persistence,
+eligibility/backoff, deleted workouts, late route arrival under the same UUID,
+and the invariant that stable no-route workouts are not queried again on every
+ordinary launch. Simulator fakes validate policy; a signed physical-device
+check is still needed for actual HealthKit callback and permission behavior.
+
 ## Background work and progress
 
 - Treat background execution as opportunistic unless the platform guarantees

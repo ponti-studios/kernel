@@ -32,11 +32,6 @@ npx skills add ponti-studios/kernel --skill kernel-dev-react-native --yes
 - `project-operations`
 - `workshop-design`
 
-### Music
-
-- `kernel-music-rap`
-- `kernel-music-song`
-
 ### Image
 
 - `kernel-image`
