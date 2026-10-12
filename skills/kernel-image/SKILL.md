@@ -64,10 +64,10 @@ before the next stage.
 
 | # | Stage | Action | Load | Gate |
 |---|---|---|---|---|
-| 0 | **Intake** | Grill the user, 10+ specific answers | `references/stages/intake.md` | every required category answered with specificity |
-| 1 | **Brief** | Compile answers + style contract into one final prompt | `references/stages/brief.md` | no contradictions, user confirms before spending |
-| 2 | **Generate** | Run `scripts/generate-image.ts` via bun, 3 times | `references/stages/generate.md` | all 3 runs exit 0, image + sidecar written each |
-| 3 | **Deliver** | Confirm paths, offer iteration | `references/stages/deliver.md` | user has file paths, knows how to iterate |
+| 0 | **Intake** | Grill the user, 10+ specific answers | `references/stage-intake.md` | every required category answered with specificity |
+| 1 | **Brief** | Compile answers + style contract into one final prompt | `references/stage-brief.md` | no contradictions, user confirms before spending |
+| 2 | **Generate** | Run `scripts/generate-image.ts` via bun, 3 times | `references/stage-generate.md` | all 3 runs exit 0, image + sidecar written each |
+| 3 | **Deliver** | Confirm paths, offer iteration | `references/stage-deliver.md` | user has file paths, knows how to iterate |
 
 ## Modes And Plain Renders
 
@@ -119,7 +119,7 @@ generated variants than freshly-written descriptive language, which drifts
 between independent generation calls even when it's meant to describe the
 same person. Only compose a brand-new custom figure when no existing
 character fits and the user hasn't given a specific real-person likeness —
-see `references/stages/brief.md` step 5 for the full procedure.
+see `references/stage-brief.md` step 5 for the full procedure.
 
 ## Fine-Art Mode Selection
 

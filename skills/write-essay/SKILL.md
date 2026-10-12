@@ -29,8 +29,8 @@ metadata:
 
 This workflow owns the approved-essay trunk. Run the stages in order and load only the stage needed next.
 
-1. Intake and direction: `references/stages/intake.md`, `references/stages/direction.md`.
-2. Draft, critique, edit, and approve: the corresponding stage references.
+1. Intake and direction: `references/stage-intake.md`, `references/stage-direction.md`.
+2. Draft, critique, edit, and approve: the corresponding `references/stage-*.md` reference.
 3. Derive self-contained posts or video only after approval: `references/extract-posts.md`, `references/video.md`, and `references/video-production.md`.
 
 For a raw thought-to-camera script, use `write-video-script`.

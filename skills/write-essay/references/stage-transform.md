@@ -27,9 +27,9 @@ Seventh stage. Derive secondary artifacts from the approved essay.
 
 | Derived artifact | Load | Written as |
 |---|---|---|
-| Long-form X post + TikTok clip ideas | `../extract-posts.md` | `<slug>-v<version>-x-post.md`, `<slug>-v<version>-tiktok-clips.md` |
-| Short-form video script | `../video.md` (fuller: `../creator-contract.md`) | `<slug>-v<version>-video-script.md` |
-| Production plan for recorded scripts | `../video-production.md` | — (not written; internal planning only) |
+| Long-form X post + TikTok clip ideas | `./extract-posts.md` | `<slug>-v<version>-x-post.md`, `<slug>-v<version>-tiktok-clips.md` |
+| Short-form video script | `./video.md` (fuller: `./creator-contract.md`) | `<slug>-v<version>-video-script.md` |
+| Production plan for recorded scripts | `./video-production.md` | — (not written; internal planning only) |
 
 ## Gate
 

@@ -1,6 +1,6 @@
 ---
 name: kernel-design
-description: "UI lifecycle router plus Charles's personal design rules. Pick the reference workflow for accessibility, brand, tokens, Figma, image-to-code, performance, UX writing, or any screen, header, list, or layout change — recorded style rules win over generic defaults."
+description: "Route UI work to the right design workflow, applying Charles's recorded style rules over generic defaults. Use when changing screens, headers, lists, or layouts, or for accessibility, brand, tokens, Figma, image-to-code, performance, or UX writing; not for motion (kernel-animate)."
 license: MIT
 metadata:
   author: project

@@ -50,4 +50,4 @@ the same person. A detailed, fixed identity spec is far more constraining.
 This is why the brief stage prefers matching a requested human figure to an
 existing character here before writing new one-off descriptive language,
 even when the user didn't ask for a specific named character by name — see
-`references/stages/brief.md` step 5.
+`references/stage-brief.md` step 5.
