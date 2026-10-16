@@ -14,13 +14,6 @@
       ]
     },
     {
-      "title": "Image",
-      "description": "Skill for generating AI image prompts: 3D renders, fine art, product photography, and character design.",
-      "skills": [
-        "kernel-image"
-      ]
-    },
-    {
       "title": "Development",
       "description": "Skills for application architecture, auth, frontend, backend, testing, build, and commit workflows.",
       "skills": [
@@ -41,10 +34,7 @@
     {
       "title": "UI & Brand",
       "description": "Skills for Apple-style interface design, motion, and brand identity.",
-      "skills": [
-        "kernel-animate",
-        "kernel-design"
-      ]
+      "skills": ["kernel-animate", "kernel-design"]
     },
     {
       "title": "Audit",
@@ -61,20 +51,12 @@
     {
       "title": "Operations",
       "description": "Skills for publishing, shipping, and production readiness workflows.",
-      "skills": [
-        "kernel-ops-production",
-        "kernel-ops-ship"
-      ]
+      "skills": ["kernel-ops-production", "kernel-ops-ship"]
     },
     {
       "title": "Studio Ops",
       "description": "Skills for Ponti Studios film, project, task, and workshop operations.",
-      "skills": [
-        "film-production",
-        "plan-to-tasks",
-        "project-operations",
-        "workshop-design"
-      ]
+      "skills": ["film-production", "plan-to-tasks", "project-operations", "workshop-design"]
     }
   ]
 }

@@ -32,10 +32,6 @@ npx skills add ponti-studios/kernel --skill kernel-dev-react-native --yes
 - `project-operations`
 - `workshop-design`
 
-### Image
-
-- `kernel-image`
-
 ### Development
 
 - `kernel-dev-api`
