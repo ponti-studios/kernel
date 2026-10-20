@@ -37,9 +37,10 @@
 - Validate at the edge with a schema; return typed errors. No trusting the client.
 - Reply costs, rate limits and paid calls are visible in code and docs; say what a live test costs.
 - Models and vendors: keep the model list in one place, check live model availability and
-  deprecation dates before choosing, and prefer cheap fast defaults. Never an Anthropic model in
-  Thames's picker (word, 2026-10-13). A saved choice that is no longer listed falls back to the
-  default.
+  deprecation dates before choosing, and prefer cheap fast defaults. Any vendor is allowed in
+  Thames's picker, Anthropic included (word, 2026-10-20; it was banned 2026-10-13). Benchmark
+  candidates with the app's real request before picking, and confirm each passes the live test. A
+  saved choice that is no longer listed falls back to the default.
 
 ## Dev services
 - You may start local dev services (Metro, `pnpm dev`, API, workers, databases, Docker) to verify a
