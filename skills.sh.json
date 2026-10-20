@@ -44,6 +44,7 @@
         "kernel-audit-security",
         "kernel-audit-monorepo",
         "kernel-audit-review",
+    "chase-review",
         "kernel-audit-swiftui",
         "kernel-audit-trace"
       ]
