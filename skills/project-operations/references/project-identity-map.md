@@ -65,7 +65,7 @@ Project state belongs in metadata, not in the path. Every canonical project gets
 | `charlesponti` | Charles Ponti | Personal site / identity surface | Personal studio surface | active | `projects/charlesponti/` | medium |
 | `common-goods` | Common Goods | Los Angeles, clothing, food, home goods | Ponti Studios venture / brand | active | `projects/common-goods/` (`series: los-angeles`) | high |
 | `commune` | Commune | — | Ponti Studios product | active | `projects/commune/` | high |
-| `earth` | Meridian | Earth, Rocco, Cartograph | Ponti Studios product | active | `projects/meridian/` | medium |
+| `earth` | Meridian | Earth, Rocco | Ponti Studios product | active | `projects/meridian/` | medium |
 | `filekit` | FileKit | — | Toolbox product surface | active | `projects/toolbox/` | high |
 | `foundation` | Foundation | Shared infrastructure | Ponti Studios platform | active | `projects/foundation/` | high |
 | `health` | Health | — | Ponti Studios product | active | `projects/health/` | high |
@@ -89,7 +89,7 @@ Project state belongs in metadata, not in the path. Every canonical project gets
 
 ### Earth / Meridian
 
-The folder is `earth`, but its documents identify the product as Meridian and describe Rocco and Cartograph as earlier or adjacent identities. The canonical project should be `meridian`; `earth`, `rocco`, and `cartograph` remain aliases until the product history is documented.
+The folder is `earth`, but its documents identify the product as Meridian and describe Rocco as an earlier or adjacent identity. The canonical project should be `meridian`; `earth` and `rocco` remain aliases until the product history is documented.
 
 ### Common Goods / Los Angeles
 
