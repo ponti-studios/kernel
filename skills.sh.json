@@ -63,7 +63,8 @@
       "skills": [
         "kernel-ops-production",
         "kernel-ops-ship",
-        "dependabot-batch"
+        "dependabot-batch",
+        "ship-ios"
       ]
     },
     {
@@ -73,7 +74,8 @@
         "film-production",
         "plan-to-tasks",
         "project-operations",
-        "workshop-design"
+        "workshop-design",
+        "studio-dev"
       ]
     },
     {
