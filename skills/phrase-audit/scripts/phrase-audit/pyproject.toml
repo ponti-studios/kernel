@@ -1,0 +1,37 @@
+[project]
+name = "phrase-audit"
+version = "0.3.0"
+description = "Phrase-rate audit over a personal writing corpus: find stock phrases and their rates."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Charles Ponti" }]
+keywords = ["writing", "style", "nlp", "corpus"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Text Processing :: Linguistic",
+]
+dependencies = []
+
+[project.scripts]
+phrase-audit = "phrase_audit.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/charlesponti/phrase-audit"
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/phrase_audit"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
