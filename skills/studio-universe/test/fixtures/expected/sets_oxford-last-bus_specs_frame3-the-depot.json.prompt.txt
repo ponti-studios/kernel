@@ -1,0 +1,73 @@
+FRAME 3 — THE DEPOT. The Last Bus set, animated-cel register. Master 1640x2048, 4:5 portrait.
+
+SCENE — from the depot mouth at standing height, looking into the bus wash bay where the Routemaster is trapped. DEPOT: a disused bus garage under the pedestrianisation works, concrete floor, oil stains, scaffolding. BUS WASH: a wide wash bay with huge rotating brushes on both sides, its red warning light on. ROUTEMASTER: the ghost bus inside the wash bay, angled, its rear platform open. DEPOT MOUTH: the open roll-up door behind the camera, new bollards risen across it. STOCK CRATES: a stack of wooden crates and folded shop fittings against the left wall.
+
+STAGING — the Conductor: stands on the Routemaster's roof hatch, one white-gloved hand on the hatch rim, the other holding the brass ticket punch; his porcelain mask lit from below by the bus's amber interior; coat tails snapping in the wash's wind; he looks down at Wyatt [ROUTEMASTER — on the bus's roof, mid-escape; gaze on Wyatt]
+
+STAGING — Wyatt, in the black cardigan, white t-shirt, black cargo trousers and black wool overcoat; never the black tee, black jeans and black wool overcoat; never the navy work apron over cream blouse and charcoal skirt: stands at the depot mouth with both hands on a grey steel control box, throwing the brass lever down; the new bollards rise across the opening behind the bus; his masked face turned up toward the Conductor [DEPOT MOUTH — foreground, at the bollard control box; gaze on the Conductor]
+
+STAGING — Lucy, in the black tee, black jeans and black wool overcoat; never the black cardigan, white t-shirt, black cargo trousers and black wool overcoat; never the navy work apron over cream blouse and charcoal skirt: stands at the wash bay's grey control panel, her right hand on the red start lever, her left hand holding the folded route map; she looks up at the Conductor [BUS WASH — frame-left, at the wash bay's control panel; gaze on the Conductor]
+
+STAGING — Cyndi: sits beside the crates, both front paws on the concrete, head up, barking at the Conductor [STOCK CRATES — low in frame, beside the crates; gaze on the Conductor]
+
+STAGING — Ada Bell, in the navy work apron over cream blouse and charcoal skirt; never the black cardigan, white t-shirt, black cargo trousers and black wool overcoat; never the black tee, black jeans and black wool overcoat: sits on a crate with the red ledger clutched to her chest in both hands, her spectacles askew, her apron dirty, her chin up; she looks at Lucy [STOCK CRATES — midground, seated on a crate beside Cyndi; gaze on Lucy]
+
+PROP — routemaster: the same 1956 Routemaster, deep bus red, black destination blind with a single white ring, warm amber interior; the huge wash brushes press against its sides; the rear platform open; the driver's cab dark and empty, its seat bare [owner: the Conductor; anchor: BUS WASH]
+
+STATE — routemaster: the bus is trapped inside the wash bay; the brushes press against both sides; the new bollards have risen across the depot mouth; the Conductor is on the roof, outside the bus; the bus is a solid prop vehicle standing on its wheels
+
+PROP — mannequin passengers: six display mannequins, jointed wooden-and-plaster figures with blank faces, dressed in 2026 coats, stacked and seated on the crates, one leaning against another [owner: the Conductor; anchor: STOCK CRATES]
+
+STATE — mannequin passengers: the mannequins are cargo, sitting perfectly still
+
+PROP — red ledger: a thick red leather ledger with a brass clasp and a tiny embossed bell on the cover; the pages are blank [owner: Ada Bell; anchor: STOCK CRATES]
+
+STATE — red ledger: the ledger is Ada's; it is out of the bus and in her hands; it is the only red ledger in the frame
+
+PROP — bollard control: a grey steel control box with a single brass lever, its face plain [owner: Wyatt; anchor: DEPOT MOUTH]
+
+STATE — bollard control: Wyatt's both hands are on the lever; the bollards are up
+
+PROP — wash control: a grey steel wash control panel with a single red lever and a red warning lamp, its face plain [owner: Lucy; anchor: BUS WASH]
+
+STATE — wash control: Lucy's right hand is on the red lever; the wash brushes are closing on the bus
+
+PROP — ticket punch: a heavy brass ticket punch on a chain, jaws open [owner: the Conductor; anchor: ROUTEMASTER]
+
+MOMENT — The trap closes in the depot: the Routemaster is wedged in the wash bay, the brushes pressing on both sides, the new bollards risen across the mouth. The Conductor stands on the roof, ticket punch raised, already escaping. Ada is safe on the crates with the ledger; the mannequins are stacked like evidence.
+
+ENVIRONMENT INVENTORY: a disused bus garage under the Oxford Street works: concrete floor, oil stains, scaffolding, hanging work lights, a wide bus wash with huge brushes, red warning light, a stack of wooden crates and folded shop fittings, a red leather ledger, six blank-faced mannequins, the open roll-up door showing the dark street and the risen bollards, every surface plain and unlettered.
+
+LIGHTING: hard work lights from above, the wash bay's red warning light, the bus's warm amber interior, the Conductor's mask lit from below; long shadows across the concrete; the brushes throwing moving shadows.
+
+COLOUR: full colour — concrete grey, oil black, bus red, warm amber, the wash warning light red; the red ledger in Ada's hands; the rest of the depot near-monochrome.
+
+NEGATIVES: the ledger, control box, signs and tickets are plain blank panels of colour; the Routemaster is a 1956 London Transport bus: half-cab front, open rear platform, curved roof and chrome-trimmed livery; the bus is a solid prop vehicle standing on its wheels, opaque painted metal; the mannequins are jointed display figures with blank featureless faces and bare fibreglass joints; the bus cab is dark and empty, its driver's seat bare; clean costumes, undamaged props and safe set dressing throughout; Wyatt's hands are clean bare skin, his only tattoos the king and queen on his neck; the Conductor's porcelain mask is a blank white oval whose only feature is a single punched circular hole; Wyatt's mask is a smooth matte-black shield covering his whole face from hairline to chin, its surface plain black with two round eye holes; the white porcelain mask belongs to the Conductor, the black mask to Wyatt; Cyndi is a tan Belgian Malinois-type shepherd with a black muzzle, erect ears, dark eyes, a lean athletic build and a short coat; Ada Bell is a 78-year-old adult woman standing upright, with a compact sturdy build; exactly one red ledger appears in the frame, the one in Ada's hands.
+
+THE CONDUCTOR (verbatim block): The Conductor is a tall, narrow figure about 196cm high: a black London Transport bus conductor's double-breasted coat with silver buttons, a high collar and long skirts to the ankle; a white shirt and black tie; black trousers with a thin red side stripe; raised black leather boots; white cotton gloves; and a tall black peaked cap with a polished patent visor and a blank oval badge. The face is a smooth porcelain oval mask the colour of a blank ticket, its only opening a single clean circular punch hole where the mouth would sit, and its surface blank ticket-white everywhere beyond that — plainly a theatrical costume mask. A heavy brass ticket punch hangs from a chain at the belt. It is a person in a bus conductor's costume: a solid figure standing on its own feet, the coat dense opaque wool, dressed for a harmless theatrical fright.
+
+WYATT (verbatim block): Wyatt is an adult man in flat painterly cel animation, drawn EXACTLY as in his cel reference sheet — the same man. He is 153cm tall and exactly 5 heads in proportion: his head, hair and mask together are one fifth of his height, with a grown man's construction throughout and legs about half his height. His hair is voluminous black curls, medium length. On his neck sit two portrait tattoos facing inward toward the throat: a crowned bearded KING on his left side, and a crowned QUEEN — a woman — on his right.
+
+WYATT'S MASK (verbatim, mandatory): The mask is a tall smooth shield of matte black covering his whole face in one piece, from the hairline above his brow down past his jaw and chin, edge to edge across both cheeks. Its surface is plain matte black throughout. It carries two round holes, one at each eye, and those two holes are its only openings: each one opens onto flat empty blackness. The mask reads as a single unbroken black form from forehead to chin, with both round eye holes always present and open.
+
+WYATT'S OUTFIT — wyatt.oxford_night: a black knit button cardigan (5 buttons, patch pockets) worn open over a plain white crew-neck t-shirt; black cargo trousers with side flap pockets; a black wool overcoat worn open over the cardigan; black Adidas Samba sneakers with white side stripes, gum-brown soles and a small blue heel tab.
+
+LUCY (verbatim block): Lucy is a Puerto Rican woman with a wide, slightly flattened oval face, a defined angular jawline softer at the cheeks, a light dusting of freckles across her nose and cheeks, and skin in a light warm tan. Her eyes are large vertical ovals with green irises and a heavy lower lash line: the lid line sweeps smoothly from inner to outer corner, and each iris fills its opening with clear green. She is 5 feet 4 inches tall with a very slim, willowy build — narrow shoulders and ribcage, a small waist, slim hips, thin arms and long legs (inseam about 48% of her height, natural waist at about 60%) — and a full, generous F bust. Her hair is long loose waves to mid-back, centre-parted, black with graphic sculptural clumps. Everything she wears is black and white; coral is her design signature — it lives in her work as ink and paper, while her skin and face stay clean, bare and untouched.
+
+LUCY'S OUTFIT — lucy.oxford_night: a plain black t-shirt tucked into black jeans, a black wool overcoat worn open, white socks, plain black leather loafers, her two gold hoop earrings.
+
+CYNDI (verbatim block): Cyndi is a lean, athletic medium-sized mixed-breed dog with a short uniform golden-tan coat, a long muzzle that is BLACK with a little grey around the mouth, large upright pointed ears with dark backs, dark brown eyes, a small white patch on her chest and white tips on her paws, and a straight medium-length tail carried low with a dark tip. Her build is that of a grown athletic mixed breed with normal leg length for her size: a long straight tail, a lean foxy muzzle and a short smooth coat, exactly the adult dog shown in her attached reference images.
+
+ADA BELL (verbatim block): Ada Bell is a 78-year-old London shopkeeper, 160cm tall, with a compact, sturdy upright build and a spry, robust carriage: silver-white hair pinned in a low bun, deep laugh lines, sharp dark eyes behind brass-rimmed half-moon spectacles, a straight nose, and a small mole on her left cheek. Her hands are square and capable, with short clean nails and a faint ink stain on her right forefinger. She reads as a human woman of seventy-eight with an adult's proportions, standing tall and straight.
+
+ADA BELL'S OUTFIT — ada.workwear: a navy-blue cotton work apron with a breast pocket over a cream blouse with rolled sleeves and a charcoal wool skirt; brown lace-up shoes; brass-rimmed half-moon spectacles; a red enamel thimble on a chain at her neck; a cloth tape measure around her neck.
+
+SCALE: the Conductor is 196cm — the tallest in this frame; Lucy (163cm), Ada Bell (160cm), Wyatt (153cm), Cyndi (58cm).
+
+The black cardigan, white t-shirt, black cargo trousers and black wool overcoat appears exactly once in this frame, on Wyatt.
+
+The black tee, black jeans and black wool overcoat appears exactly once in this frame, on Lucy.
+
+The navy work apron over cream blouse and charcoal skirt appears exactly once in this frame, on Ada Bell.
+
+RENDER GRADE — ANIMATED (verbatim in every frame): Flat painterly cel animation — bold clean ink outlines, flat colour fills with soft cel shading, the look of a hand-drawn animated feature film: a classic cartoon mystery adventure retold as an animated film still. Cinematic composition, dramatic motivated lighting rendered in cel tones. 4:5 portrait composition. Absolutely no text, no lettering, no captions, no logos and no watermark anywhere in the image.

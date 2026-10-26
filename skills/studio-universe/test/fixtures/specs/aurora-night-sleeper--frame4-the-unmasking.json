@@ -1,0 +1,127 @@
+{
+  "frame": 4,
+  "title": "THE UNMASKING",
+  "set": "The Aurora Night Sleeper",
+  "set_slug": "aurora",
+  "register": "animated-cel",
+  "master": {
+    "width": 1640,
+    "height": 2048,
+    "aspect_ratio": "4:5"
+  },
+  "floorplan": {
+    "camera": "from the engine end of the open observation deck at standing height, dawn ahead",
+    "anchors": {
+      "OBSERVATION DECK": "open brass-railed deck at the train's tail, boards underfoot",
+      "RAIL": "the brass stern rail the gang stands along",
+      "LAGOON": "still dawn water on both sides, the train's wake trailing",
+      "VENICE SKYLINE": "far ahead, domes and a campanile in silhouette, shapes only",
+      "ENGINE END": "the camera end, deck lamps still lit"
+    }
+  },
+  "cast": [
+    {
+      "character": "void",
+      "outfit_id": null,
+      "anchor": "OBSERVATION DECK",
+      "depth": "deck-centre, revealed at his full height",
+      "action": "stands revealed at his full height in the middle of the collapsed greatcoat, black body fully visible above the heap, perfectly still, hose arms at his sides, round head unbowed \u2014 standing perfectly still and silent",
+      "gaze_target": "the lagoon, past everyone"
+    },
+    {
+      "character": "grey-passenger",
+      "outfit_id": null,
+      "anchor": "OBSERVATION DECK",
+      "depth": "collapsed heap on the boards",
+      "in_scale": false,
+      "action": "lies collapsed where it stands revealed \u2014 the greatcoat heaped, the stilt frame snapped inside it, an empty costume",
+      "gaze_target": "the costume's empty interior of cloth"
+    },
+    {
+      "character": "wyatt",
+      "outfit_id": "wyatt.city",
+      "anchor": "OBSERVATION DECK",
+      "depth": "frame-left of Void",
+      "action": "holds the grey peaked cap HIGH in his raised right hand for all to see, his left arm hanging at his side, his own black mask still on his face \u2014 the masked man holding the fake's hat",
+      "gaze_target": "the culprit"
+    },
+    {
+      "character": "lucy",
+      "outfit_id": "lucy.tee_jeans",
+      "anchor": "OBSERVATION DECK",
+      "depth": "in the foreground, a full step closer to the camera than anyone",
+      "action": "holds the real diamond up in both hands at shoulder height, raised like a trophy, lagoon dawn firing blue-white through the stone, her face turned up toward it with a small satisfied smile \u2014 the detective with the prize",
+      "gaze_target": "the diamond"
+    },
+    {
+      "character": "akane",
+      "outfit_id": "akane.tailored_dress",
+      "anchor": "OBSERVATION DECK",
+      "depth": "deck-right, half a step behind Lucy's line",
+      "action": "stands slightly bent at the waist, presenting Cyndi with an enormous bare marrow bone, unwrapped: the bone is in Cyndi's mouth between her front paws, and Akane's left hand steadies it as she presents it \u2014 the green-dial Rolex on that wrist catching the dawn \u2014 her other hand resting at her hip, an expression of pure deadpan on her face",
+      "gaze_target": "Cyndi"
+    },
+    {
+      "character": "cyndi",
+      "outfit_id": null,
+      "anchor": "OBSERVATION DECK",
+      "depth": "in front of Akane, up on her hind legs",
+      "action": "sits up tall in a begging pose, front paws holding the enormous bone, ears up, eyes fixed on it \u2014 the happiest person on the train",
+      "gaze_target": "the bone"
+    }
+  ],
+  "props": [
+    {
+      "item": "real_diamond",
+      "owner": "lucy",
+      "anchor": "OBSERVATION DECK: held aloft in her hands, dawn firing through the stone",
+      "description": "the real Aurora Diamond, a clear brilliant-cut gem the size of a pigeon's egg, held up in Lucy's fingers by its edges"
+    },
+    {
+      "item": "peaked_cap",
+      "owner": "wyatt",
+      "anchor": "OBSERVATION DECK: held high in his raised hand, cracked visor catching light",
+      "description": "the Grey Passenger's tall grey peaked cap with a cracked patent visor"
+    },
+    {
+      "item": "marrow_bone",
+      "owner": "cyndi",
+      "anchor": "OBSERVATION DECK: enormous bare marrow bone, unwrapped, in her mouth between her paws",
+      "description": "an enormous bare marrow bone, unwrapped and bare"
+    }
+  ],
+  "moment": "The reveal at dawn, caught a breath after the capture \u2014 every gaze is on the cap, the culprit, the stone, or each other. The conductor applauds alone at the deck's engine-end edge, the only audience the gang needs.",
+  "environment": "open deck boards; the brass stern rail; the train's wake creasing the still lagoon; the Venice, Italy skyline ahead in soft silhouette \u2014 St Mark's campanile, domes and moored gondolas on lagoon water, unmistakably Venice; deck lamps still burning warm; a dropped ticket lying face-down showing only blank paper.",
+  "lighting": "rose-gold dawn key from dead ahead behind the skyline, rimming the group; warm deck lamps low fill; soft long shadows up the boards.",
+  "colour": "full, rich, celebratory colour everywhere in the generation \u2014 rose dawn, gold lamps, blue lagoon.",
+  "negatives": [
+    "the skyline, the ticket and the stone carry blank surfaces",
+    "a calm aftermath: everyone whole, free and unhurt, with clean costumes and undamaged props",
+    "Void stands upright, free and whole",
+    "Akane's hands stay busy in her lap or at her sides",
+    "the far shore is Venice, Italy: lagoon, domes, campanile and gondolas",
+    "Wyatt's hands are clean bare skin, his only tattoos the king and queen on his neck"
+  ],
+  "block_overrides": {
+    "grey-passenger": "unmasking"
+  },
+  "block_edits": {
+    "void": {
+      "omit_sentences": [
+        "Around Void the world's colour drains toward grey within a radius of about one of its own heights, fully desaturated at its silhouette and fading back to full colour at the edge of the radius."
+      ]
+    }
+  },
+  "denylist": [
+    "frame-centre",
+    "in the middle of it",
+    "tall in the frame",
+    "the standing men"
+  ],
+  "references": [
+    "bibles/lucy/turnaround.webp",
+    "bibles/wyatt/turnaround.webp",
+    "bibles/akane/turnaround.webp",
+    "bibles/cyndi/turnaround.webp"
+  ]
+}

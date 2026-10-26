@@ -1,0 +1,62 @@
+FRAME 3 — THE TRAP. The Phantom of the Picture Palace set, animated-cel register. Master 1640x2048, 4:5 portrait.
+
+SCENE — ENTRANCE_END of the centre aisle at standing height, looking along the aisle toward SCREEN_END. ENTRANCE_END: camera position, bottom-centre of frame. SCREEN_END: far end of frame, huge glowing screen. LEFT_SEAT_BLOCK: bank of red velvet seats flanking the aisle on the camera-left side. RIGHT_SEAT_BLOCK: bank of red velvet seats flanking the aisle on the camera-right side. AISLE: straight carpeted strip running bottom-centre to screen.
+
+STAGING — the phantom: stands IN THE AISLE facing the camera, caught mid-lunge inside the dropped bunting net: the mesh hangs over his raised arms and shoulders, its near edge at his waist and its far edge at his knees, his sleeves caught in the mesh, LEFT sleeve slipped back revealing a black rubber-hose four-fingered jointless hand [AISLE — midground-centre, six metres from camera; gaze on akane (her seat, down the aisle toward camera)]
+
+STAGING — Akane, in the deep-red wrap dress; never the black cardigan, white t-shirt and black cargo trousers; never the plain black t-shirt and black jeans: sits in the END SEAT OF THE BACK ROW, aisle carpet immediately to her right, row continuing to her left; legs crossed at knee, one hand in lap, other holding a nail file paused mid-stroke; heavy-lidded, almost bored [LEFT_SEAT_BLOCK — near, end seat of the back row; gaze on phantom (watches it fall into the net, heavy-lidded and utterly calm)]
+
+STAGING — Lucy, in the plain black t-shirt and black jeans; never the black cardigan, white t-shirt and black cargo trousers; never the deep-red wrap dress: hauls the net's draw rope down and back with both hands, body leaned into the pull; rope runs diagonally up and forward to the net's near-left corner [AISLE — foreground frame-left, on the aisle's left edge, feet braced against the back seat row; gaze on net]
+
+STAGING — Wyatt, in the black cardigan, white t-shirt and black cargo trousers; never the deep-red wrap dress; never the plain black t-shirt and black jeans: holds the just-yanked release rope slack in both hands, weight thrown back, one foot stepped behind him, masked face turned toward the phantom [AISLE — foreground frame-right, on the aisle's right edge; gaze on phantom]
+
+PROP — film canister: a round metal film canister, lid off, a coil of old film strip spilling out [owner: Akane; anchor: LEFT_SEAT_BLOCK]
+
+PROP — draw rope: a thick hemp draw-rope, taut from Lucy's hands up to the net's near-left corner [owner: Lucy; anchor: AISLE]
+
+PROP — release rope: a slack hemp release-rope from Wyatt's hands up through the right ceiling pulley block [owner: Wyatt; anchor: AISLE]
+
+PROP — bunting net: a rectangular knotted-rope net as wide as the aisle, woven with gold tinsel garlands and red ribbon; wide open mesh with large visible gaps [owner: Wyatt; anchor: AISLE]
+
+STATE — bunting net: the net hangs in a U over the phantom; his raised arms and shoulders are inside it, the mesh pressing his sleeves to his body; the near edge is at his waist, the far edge at his knees; the net hangs free of his hands
+
+CONTAINS — bunting net: the phantom is inside it.
+
+PROP — phantom robe: the phantom's floor-length layered grey-white gauze robe, pale dust bursting at the hem [owner: the phantom; anchor: AISLE]
+
+MOMENT — The trap has sprung mid-action, everyone in motion. The phantom is caught mid-lunge inside the dropped net as it hangs around its raised arms. Lucy hauls the draw rope; Wyatt has yanked the release rope. Akane sits as bait, unbothered, filing her nails.
+
+ENVIRONMENT INVENTORY: raked rows of deep-red velvet seats with brass row-ends both sides of the carpeted centre aisle; two ceiling pulley blocks above the aisle edges with ropes to the net corners; bunting net of gold tinsel garlands, red ribbon and knotted rope; huge screen glowing soft white-gold at far end with abstract blurred light shapes of soft colour; projector beam cone through dust from behind camera; warm wall sconces; dropped popcorn tub in the aisle; paper bats and paper pumpkin garland on balcony rail, shapes only.
+
+LIGHTING: screen glow from the far end rims the phantom and falling net; projector beam shafts over the scene; warm sconce fill on the gang; dramatic cel contrast, net shadow striping the aisle.
+
+COLOUR: full, rich colour — red velvet, gold bunting, warm light; the phantom dusty grey-white at the centre.
+
+NEGATIVES: all signage, tickets and screens are plain blank surfaces; clean costumes, undamaged props and safe set dressing throughout; the phantom stays a costume: the rubber-hose hand is a costume detail; Akane watches with heavy-lidded calm, her hands busy in her lap or at her sides; Wyatt's hands are clean bare skin, his only tattoos the king and queen on his neck.
+
+THE PHANTOM (verbatim block): The phantom is a towering figure about 230cm tall: a floor-length hooded robe of layered dusty grey-white sheet gauze that pools and trails at the floor; a smooth blank oval face of matte light grey, featureless except two deep hollow black oval eyes and a small dark open oval mouth — plainly a theatrical costume mask; very long draped sleeves that completely hide the hands; a faint haze of pale grey dust around its hem. It is a person in a Halloween costume: a solid figure standing on its own feet, the robe dense opaque cloth with its hem resting on the floor, dressed for a harmless theatrical fright. IN THIS FRAME ONLY: as it twists in the net, one long sleeve slips back to reveal a black rubber-hose hand with four fingers — the jointless hand of a costume, shaped like a glove.
+
+AKANE (verbatim block): Akane is a petite Japanese woman, 153cm tall and 5 heads in proportion, with pale porcelain skin, blue eyes, and long black hair worn mostly straight with loose waves at the ends and a full straight fringe across her forehead. Her legs are natural in length and proportion, in keeping with her five-head build. She carries herself with the manner of a temptress — a heavy-lidded, knowing gaze, languid and magnetic, self-assured, arms folded or one hand on her hip, her hands busy and active at her hip or her sides. She is self-contained and absorbed in her own action, with a lively, expressive face. She is rendered in a painterly cel style, more softly modelled than flat cel animation.
+
+AKANE'S OUTFIT — akane.tailored_dress: a deep-red matte wrap dress with a shirt collar, a belted waist, three-quarter sleeves and a knee-to-midi skirt, in matte crepe, sheer black tights, black loafers with tan fur trim and a gold horsebit, a gold Cartier Love bangle on her right wrist and a gold Rolex watch with a deep green dial on her left wrist.
+
+LUCY (verbatim block): Lucy is a Puerto Rican woman with a wide, slightly flattened oval face, a defined angular jawline softer at the cheeks, a light dusting of freckles across her nose and cheeks, and skin in a light warm tan. Her eyes are large vertical ovals with green irises and a heavy lower lash line: the lid line sweeps smoothly from inner to outer corner, and each iris fills its opening with clear green. She is 5 feet 4 inches tall with a very slim, willowy build — narrow shoulders and ribcage, a small waist, slim hips, thin arms and long legs (inseam about 48% of her height, natural waist at about 60%) — and a full, generous F bust. Her hair is long loose waves to mid-back, centre-parted, black with graphic sculptural clumps. Everything she wears is black and white; coral is her design signature — it lives in her work as ink and paper, while her skin and face stay clean, bare and untouched.
+
+LUCY'S OUTFIT — lucy.tee_jeans: a plain black t-shirt tucked in at the waist, black jeans cuffed at the ankle, white socks, plain black leather loafers, her two gold hoop earrings.
+
+WYATT (verbatim block): Wyatt is an adult man in flat painterly cel animation, drawn EXACTLY as in his cel reference sheet — the same man. He is 153cm tall and exactly 5 heads in proportion: his head, hair and mask together are one fifth of his height, with a grown man's construction throughout and legs about half his height. His hair is voluminous black curls, medium length. On his neck sit two portrait tattoos facing inward toward the throat: a crowned bearded KING on his left side, and a crowned QUEEN — a woman — on his right.
+
+WYATT'S MASK (verbatim, mandatory): The mask is a tall smooth shield of matte black covering his whole face in one piece, from the hairline above his brow down past his jaw and chin, edge to edge across both cheeks. Its surface is plain matte black throughout. It carries two round holes, one at each eye, and those two holes are its only openings: each one opens onto flat empty blackness. The mask reads as a single unbroken black form from forehead to chin, with both round eye holes always present and open.
+
+WYATT'S OUTFIT — wyatt.city: a black knit button cardigan (5 buttons, patch pockets) worn open over a plain white crew-neck t-shirt; black cargo pants with side flap pockets; black Adidas Samba sneakers with white side stripes, gum-brown soles and a small blue heel tab.
+
+SCALE: the phantom is 230cm — the tallest in this frame; Lucy (163cm), Akane (153cm), Wyatt (153cm).
+Akane and Wyatt stand at exactly the same height (153cm).
+
+The deep-red wrap dress appears exactly once in this frame, on Akane.
+
+The plain black t-shirt and black jeans appears exactly once in this frame, on Lucy.
+
+The black cardigan, white t-shirt and black cargo trousers appears exactly once in this frame, on Wyatt.
+
+RENDER GRADE — ANIMATED (verbatim in every frame): Flat painterly cel animation — bold clean ink outlines, flat colour fills with soft cel shading, the look of a hand-drawn animated feature film: a classic cartoon mystery adventure retold as an animated film still. Cinematic composition, dramatic motivated lighting rendered in cel tones. 4:5 portrait composition. Absolutely no text, no lettering, no captions, no logos and no watermark anywhere in the image.

@@ -1,0 +1,19 @@
+ada-bell turnaround sheet — generation record
+========================================
+
+Date: 2026-10-24
+Model: qwen/qwen-image-2.1-turbo
+Aspect ratio: 16:9      Resolution: 2K (returns 2048x1152)
+Candidates: 2, $0.0184 each
+Selected: candidate 1 — chosen by Charles, 2026-10-24
+Source render: /Users/charlesponti/Pictures/imagegen/_inbox/turnaround-batch-20261024/ada-bell-c1.png
+Installed: bibles/ada-bell/turnaround.webp (WebP q92)
+Reference: none — generated from the canon block alone
+
+Prompt
+------
+Character turnaround sheet for a 2D animated film: five views of one character arranged in a single row on a plain warm light-grey background — front view, three-quarter view, left profile, back view, and a head close-up as the fifth panel.
+
+Ada Bell is a 78-year-old London shopkeeper, 160cm tall, with a compact, sturdy upright build and a spry, robust carriage: silver-white hair pinned in a low bun, deep laugh lines, sharp dark eyes behind brass-rimmed half-moon spectacles, a straight nose, and a small mole on her left cheek. Her hands are square and capable, with short clean nails and a faint ink stain on her right forefinger. She reads as a human woman of seventy-eight with an adult's proportions, standing tall and straight.
+
+Every panel shows the same individual with identical proportions, wardrobe and markings, standing square, facing forward, arms relaxed at the sides. Plain light-grey studio backdrop with even light, an empty background and no scenery. Bold clean ink outlines, flat colour fills, soft cel shading, classic 2D hand-drawn animated film character reference sheet.

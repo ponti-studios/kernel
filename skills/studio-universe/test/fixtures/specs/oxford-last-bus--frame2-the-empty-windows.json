@@ -1,0 +1,106 @@
+{
+  "frame": 2,
+  "title": "THE EMPTY WINDOWS",
+  "set": "The Last Bus",
+  "set_slug": "lastbus",
+  "register": "animated-cel",
+  "master": {
+    "width": 1640,
+    "height": 2048,
+    "aspect_ratio": "4:5"
+  },
+  "floorplan": {
+    "camera": "on the pavement outside Bell's Umbrellas at dawn, looking along the shopfront toward the empty department-store windows across the street",
+    "anchors": {
+      "BELL'S SHOP": "the narrow Victorian shopfront of Bell's Umbrellas, its deep-red door ajar, its window empty",
+      "DEPARTMENT STORE WINDOWS": "the long display windows across the street, lit but empty, their mannequins gone",
+      "PAVEMENT": "the wet pavement between the shop and the kerb",
+      "PEDESTRIANISATION WORKS": "the new bollards and barriers along the kerb"
+    }
+  },
+  "cast": [
+    {
+      "character": "lucy",
+      "outfit_id": "lucy.oxford_night",
+      "anchor": "BELL'S SHOP",
+      "depth": "foreground, crouched at the shop's threshold",
+      "action": "crouches at the half-open shop door in profile, her face turned down to the punched ticket and away from the camera, her expression serious; her right hand holds the ticket up to the grey light, her left hand flat on the door frame; the folded route map open on her knee; her coat collar up",
+      "gaze_target": "the punched ticket"
+    },
+    {
+      "character": "wyatt",
+      "outfit_id": "wyatt.oxford_night",
+      "anchor": "DEPARTMENT STORE WINDOWS",
+      "depth": "midground, at the empty window across the street",
+      "action": "stands at the empty department-store window in profile, his right palm flat on the glass, his left hand at his side; the black mask covers his whole face from hairline to chin; his masked face is turned to the empty display stands",
+      "gaze_target": "the empty display stands"
+    },
+    {
+      "character": "cyndi",
+      "outfit_id": null,
+      "anchor": "PAVEMENT",
+      "depth": "foreground low, at the shop door",
+      "action": "sits at the shop door, both front paws on the pavement around a pale mannequin's hand, head cocked, ears up, tail still; she looks up at Lucy",
+      "gaze_target": "Lucy"
+    }
+  ],
+  "props": [
+    {
+      "item": "punched_ticket",
+      "owner": "lucy",
+      "anchor": "BELL'S SHOP: held up in Lucy's right hand",
+      "description": "a stiff card bus ticket, blank except for a single clean circular punch hole",
+      "state": "the ticket is the only thing left at the shop door; it carries a single punched circle"
+    },
+    {
+      "item": "mannequin_hand",
+      "owner": "cyndi",
+      "anchor": "PAVEMENT: between Cyndi's front paws",
+      "description": "a jointed wooden-and-plaster display mannequin's hand and wrist, pale and blank, with a brass cuff at the wrist; a mannequin part",
+      "state": "the hand is a mannequin's hand lying on the pavement"
+    },
+    {
+      "item": "brass_umbrella_handle",
+      "owner": "wyatt",
+      "anchor": "DEPARTMENT STORE WINDOWS: on the empty display ledge inside the glass",
+      "description": "a detached curved brass umbrella handle with a short ragged length of black silk umbrella fabric still attached, lying on the display ledge behind the glass; a tiny bell shape engraved on the brass",
+      "state": "the handle is Ada's; it was left on the empty display ledge; it is a detached handle alone"
+    },
+    {
+      "item": "route_map",
+      "owner": "lucy",
+      "anchor": "BELL'S SHOP: open on Lucy's knee",
+      "description": "a folded London bus route map, its route lines blank except for a single hand-drawn circle around a route that ends at a blank space",
+      "state": "the map shows a route that has been retired; the circle is the only mark"
+    }
+  ],
+  "moment": "The first car-free dawn lands on an empty street: the department-store mannequins are gone, Bell's Umbrellas is cleared out, and Ada is missing. Cyndi finds a mannequin's hand; Lucy holds a punched ticket; Wyatt lifts a brass umbrella handle from the empty window.",
+  "environment": "the first traffic-free morning on Oxford Street: wet pavement, new bollards, barriers stacked at the kerb, the long department-store windows dark and empty with bare display stands, Bell's Umbrellas' shutters half up, the shop dark inside, an overturned brass umbrella stand, blank repair tags, the door bell hanging still; a quiet pavement, every surface plain and unlettered, blank hoardings.",
+  "lighting": "flat grey dawn, cold blue; one sodium lamp still burning at the corner; the shop's interior a dark rectangle; the empty windows reflecting the grey sky; the ticket and the brass handle the only bright things.",
+  "colour": "near-monochrome grey and wet black; cream ticket, brass handle, the deep-red door of Bell's the only strong colour; the palette built from shop greys and timber browns.",
+  "negatives": [
+    "tickets, route maps, timetables, shop signs and repair tags are plain blank panels of colour",
+    "the mannequin hand is a jointed display hand, its fibreglass wrist socket visible",
+    "the department-store windows hold bare glass and empty display platforms",
+    "clean costumes, undamaged props and safe set dressing throughout",
+    "Wyatt's hands are clean bare skin, his only tattoos the king and queen on his neck",
+    "Wyatt's mask is a smooth matte-black shield covering his whole face from hairline to chin, its surface plain black with two round eye holes",
+    "Wyatt's black mask covers his whole face edge to edge, hairline to chin",
+    "Wyatt faces the empty window",
+    "the only umbrella part in the frame is a detached curved brass handle with a scrap of black silk, lying on the display ledge",
+    "Lucy's face is turned down to the ticket, her expression intent",
+    "Cyndi is a tan Belgian Malinois-type shepherd with a black muzzle, erect ears, dark eyes, a lean athletic build and a short coat",
+    "the shop is a real independent umbrella shop with a narrow Victorian shopfront of bowed glass and worn dark timber"
+  ],
+  "denylist": [
+    "frame-centre",
+    "in the middle of it",
+    "tall in the frame",
+    "the standing men"
+  ],
+  "references": [
+    "bibles/lucy/turnaround.webp",
+    "bibles/wyatt/turnaround.webp",
+    "bibles/cyndi/turnaround.webp"
+  ]
+}

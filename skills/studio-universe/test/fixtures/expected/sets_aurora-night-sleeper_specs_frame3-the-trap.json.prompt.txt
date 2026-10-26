@@ -1,0 +1,62 @@
+FRAME 3 — THE TRAP. The Aurora Night Sleeper set, animated-cel register. Master 1640x2048, 4:5 portrait.
+
+SCENE — from the Venice end of the dining car at standing height, looking its full length toward the kitchen. DINING CAR: a grand restaurant car, laid tables down both sides of a carpeted aisle. KITCHEN END: the far end, double doors with round porthole windows. VENICE END: the camera end, velvet curtains drawn on night glass. TABLE ROW: the nearside row of laid tables, white cloths and silver domes. LUGGAGE RACK: brass overhead racks running the car's length.
+
+STAGING — the Grey Passenger: lies on his back inside the fallen baggage net mid-car, short of Akane's table — the mesh closed around him but open over his face and chest, his ash-grey greatcoat and tall peaked cap still on him, his blank oval face and two hollow black eyes visible through the squares, straining against the net, his lantern arm tangled at his side with the lantern dangling from its sleeve cord, still lit [DINING CAR — mid-car, low on the carpet in the mesh bundle; gaze on Akane's table]
+
+STAGING — Akane, in the deep-red wrap dress; never the black cardigan, white t-shirt and black cargo trousers; never the plain black t-shirt and black jeans: sits at a laid table for one on Lucy's side of the car with the replica at her throat on a black velvet ribbon, turning an untouched champagne coupe slowly by its stem with her right hand and her left resting on the table, watching the doors with a heavy-lidded, almost bored expression — she was the bait, and she is early for dessert [TABLE ROW — near, seated at a laid table for one; gaze on the Grey Passenger, level and unbothered]
+
+STAGING — Lucy, in the plain black t-shirt and black jeans; never the black cardigan, white t-shirt and black cargo trousers; never the deep-red wrap dress: grips the bundle's drag-ropes with both hands, hauling the trussed passenger across the carpet toward the kitchen doors, body leaned into the pull, one foot braced against a table leg [DINING CAR — foreground frame-left, braced at the aisle's edge; gaze on the drag-ropes in her hands, eyes down]
+
+STAGING — Wyatt, in the black cardigan, white t-shirt and black cargo trousers; never the deep-red wrap dress; never the plain black t-shirt and black jeans: grips the bundle's drag-ropes with both hands, hauling the trussed passenger across the carpet toward the kitchen doors, weight thrown back, one foot stepped behind him, masked face turned toward the bundle [DINING CAR — foreground frame-right, braced at the aisle's edge; gaze on the drag-ropes in his hands, eyes down]
+
+PROP — replica necklace: the paste replica of the Aurora Diamond on a black velvet ribbon at Akane's throat [owner: Akane; anchor: TABLE ROW]
+
+PROP — drop net: a wide baggage net of knotted rope with large open squares, bunched around the Grey Passenger; the squares are wide enough to see the ash-grey coat, peaked cap and blank oval face inside [owner: Wyatt; anchor: LUGGAGE RACK]
+
+STATE — drop net: the net is closed around the Grey Passenger; he is inside it, on his back, his ash-grey greatcoat and tall peaked cap still on him, his blank oval face and two hollow black eyes visible through an open square of mesh; his shoulders and raised arms are under the mesh, the lantern arm tangled at his side; the net hangs clear of Lucy's and Wyatt's hands
+
+CONTAINS — drop net: the Grey Passenger is inside it.
+
+PROP — left drag rope: a thick hemp drag-rope, taut from Lucy's hands to the bundle's near-left corner [owner: Lucy; anchor: DINING CAR]
+
+PROP — right drag rope: a thick hemp drag-rope, taut from Wyatt's hands to the bundle's near-right corner [owner: Wyatt; anchor: DINING CAR]
+
+PROP — lantern: a dim green-shaded inspector's lantern, still lit [owner: the Grey Passenger; anchor: KITCHEN END]
+
+MOMENT — The trap has sprung mid-action, everyone in motion. Dessert stands abandoned: the passenger's lunge tripped the release and the net took him mid-car, and now Lucy and Wyatt haul the bundled ghost across the carpet toward the kitchen doors while he strains against the mesh — then the chandeliers blast back on and the dining car sees its ghost caught. Exactly four figures in this frame — the passenger, Akane, Lucy and Wyatt, and that is the full frame.
+
+ENVIRONMENT INVENTORY: laid tables with white cloths, silver domes and guttering candles down both sides of the carpeted aisle; every table on Wyatt's side stands cleared and empty, chairs pushed in; swaying crystal chandeliers; night windows turned black mirrors; swaying coat hangers; a dropped dessert spoon glinting mid-aisle.
+
+LIGHTING: candle warmth guttering into a beat of true blackout, then the chandeliers blasting back on full — the passenger rim-lit and netted; the net's shadow striping the aisle carpet.
+
+COLOUR: full, rich colour — cream cloths, gold chandelier light, red carpet; the passenger ash-grey at the centre of it all.
+
+NEGATIVES: menus, tickets and labels are blank unmarked cards; clean costumes, undamaged props and safe set dressing throughout; the passenger stays a costume: the rubber-hose hand is a costume detail; Akane watches with heavy-lidded calm, her hands busy in her lap or at her sides; Wyatt's hands are clean bare skin, his only tattoos the king and queen on his neck; Wyatt wears his black cardigan, white t-shirt and black cargo trousers, while the ash-grey greatcoat, peaked cap and lantern belong to the figure inside the net.
+
+THE GREY PASSENGER (verbatim block): The Grey Passenger is a gaunt figure about 225cm tall: a floor-length greatcoat of layered ash-grey railway wool with a high collar, brass buttons dull with age, and a long ticket-punch chain at the belt; a smooth blank oval face of matte light grey, featureless except two deep hollow black oval eyes and a small dark open oval mouth — plainly a theatrical costume mask; a tall grey peaked cap with a cracked patent visor; very long draped sleeves that completely hide the hands; one hand always raised carrying a dim green-shaded inspector's lantern; a faint haze of coal dust around its hem. It is a person in a railway costume: a solid figure standing on its own feet, the greatcoat dense opaque wool with its hem resting on the ground, dressed for a harmless theatrical fright.
+
+AKANE (verbatim block): Akane is a petite Japanese woman, 153cm tall and 5 heads in proportion, with pale porcelain skin, blue eyes, and long black hair worn mostly straight with loose waves at the ends and a full straight fringe across her forehead. Her legs are natural in length and proportion, in keeping with her five-head build. She carries herself with the manner of a temptress — a heavy-lidded, knowing gaze, languid and magnetic, self-assured, arms folded or one hand on her hip, her hands busy and active at her hip or her sides. She is self-contained and absorbed in her own action, with a lively, expressive face. She is rendered in a painterly cel style, more softly modelled than flat cel animation.
+
+AKANE'S OUTFIT — akane.tailored_dress: a deep-red matte wrap dress with a shirt collar, a belted waist, three-quarter sleeves and a knee-to-midi skirt, in matte crepe, sheer black tights, black loafers with tan fur trim and a gold horsebit, a gold Cartier Love bangle on her right wrist and a gold Rolex watch with a deep green dial on her left wrist.
+
+LUCY (verbatim block): Lucy is a Puerto Rican woman with a wide, slightly flattened oval face, a defined angular jawline softer at the cheeks, a light dusting of freckles across her nose and cheeks, and skin in a light warm tan. Her eyes are large vertical ovals with green irises and a heavy lower lash line: the lid line sweeps smoothly from inner to outer corner, and each iris fills its opening with clear green. She is 5 feet 4 inches tall with a very slim, willowy build — narrow shoulders and ribcage, a small waist, slim hips, thin arms and long legs (inseam about 48% of her height, natural waist at about 60%) — and a full, generous F bust. Her hair is long loose waves to mid-back, centre-parted, black with graphic sculptural clumps. Everything she wears is black and white; coral is her design signature — it lives in her work as ink and paper, while her skin and face stay clean, bare and untouched.
+
+LUCY'S OUTFIT — lucy.tee_jeans: a plain black t-shirt tucked in at the waist, black jeans cuffed at the ankle, white socks, plain black leather loafers, her two gold hoop earrings.
+
+WYATT (verbatim block): Wyatt is an adult man in flat painterly cel animation, drawn EXACTLY as in his cel reference sheet — the same man. He is 153cm tall and exactly 5 heads in proportion: his head, hair and mask together are one fifth of his height, with a grown man's construction throughout and legs about half his height. His hair is voluminous black curls, medium length. On his neck sit two portrait tattoos facing inward toward the throat: a crowned bearded KING on his left side, and a crowned QUEEN — a woman — on his right.
+
+WYATT'S MASK (verbatim, mandatory): The mask is a tall smooth shield of matte black covering his whole face in one piece, from the hairline above his brow down past his jaw and chin, edge to edge across both cheeks. Its surface is plain matte black throughout. It carries two round holes, one at each eye, and those two holes are its only openings: each one opens onto flat empty blackness. The mask reads as a single unbroken black form from forehead to chin, with both round eye holes always present and open.
+
+WYATT'S OUTFIT — wyatt.city: a black knit button cardigan (5 buttons, patch pockets) worn open over a plain white crew-neck t-shirt; black cargo pants with side flap pockets; black Adidas Samba sneakers with white side stripes, gum-brown soles and a small blue heel tab.
+
+SCALE: the Grey Passenger is 225cm — the tallest in this frame; Lucy (163cm), Akane (153cm), Wyatt (153cm).
+Akane and Wyatt stand at exactly the same height (153cm).
+
+The deep-red wrap dress appears exactly once in this frame, on Akane.
+
+The plain black t-shirt and black jeans appears exactly once in this frame, on Lucy.
+
+The black cardigan, white t-shirt and black cargo trousers appears exactly once in this frame, on Wyatt.
+
+RENDER GRADE — ANIMATED (verbatim in every frame): Flat painterly cel animation — bold clean ink outlines, flat colour fills with soft cel shading, the look of a hand-drawn animated feature film: a classic cartoon mystery adventure retold as an animated film still. Cinematic composition, dramatic motivated lighting rendered in cel tones. 4:5 portrait composition. Absolutely no text, no lettering, no captions, no logos and no watermark anywhere in the image.

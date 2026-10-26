@@ -1,0 +1,137 @@
+{
+  "frame": 3,
+  "title": "THE DEPOT",
+  "set": "The Last Bus",
+  "set_slug": "lastbus",
+  "register": "animated-cel",
+  "master": {
+    "width": 1640,
+    "height": 2048,
+    "aspect_ratio": "4:5"
+  },
+  "floorplan": {
+    "camera": "from the depot mouth at standing height, looking into the bus wash bay where the Routemaster is trapped",
+    "anchors": {
+      "DEPOT": "a disused bus garage under the pedestrianisation works, concrete floor, oil stains, scaffolding",
+      "BUS WASH": "a wide wash bay with huge rotating brushes on both sides, its red warning light on",
+      "ROUTEMASTER": "the ghost bus inside the wash bay, angled, its rear platform open",
+      "DEPOT MOUTH": "the open roll-up door behind the camera, new bollards risen across it",
+      "STOCK CRATES": "a stack of wooden crates and folded shop fittings against the left wall"
+    }
+  },
+  "cast": [
+    {
+      "character": "conductor",
+      "outfit_id": null,
+      "anchor": "ROUTEMASTER",
+      "depth": "on the bus's roof, mid-escape",
+      "action": "stands on the Routemaster's roof hatch, one white-gloved hand on the hatch rim, the other holding the brass ticket punch; his porcelain mask lit from below by the bus's amber interior; coat tails snapping in the wash's wind; he looks down at Wyatt",
+      "gaze_target": "Wyatt"
+    },
+    {
+      "character": "wyatt",
+      "outfit_id": "wyatt.oxford_night",
+      "anchor": "DEPOT MOUTH",
+      "depth": "foreground, at the bollard control box",
+      "action": "stands at the depot mouth with both hands on a grey steel control box, throwing the brass lever down; the new bollards rise across the opening behind the bus; his masked face turned up toward the Conductor",
+      "gaze_target": "the Conductor"
+    },
+    {
+      "character": "lucy",
+      "outfit_id": "lucy.oxford_night",
+      "anchor": "BUS WASH",
+      "depth": "frame-left, at the wash bay's control panel",
+      "action": "stands at the wash bay's grey control panel, her right hand on the red start lever, her left hand holding the folded route map; she looks up at the Conductor",
+      "gaze_target": "the Conductor"
+    },
+    {
+      "character": "cyndi",
+      "outfit_id": null,
+      "anchor": "STOCK CRATES",
+      "depth": "low in frame, beside the crates",
+      "action": "sits beside the crates, both front paws on the concrete, head up, barking at the Conductor",
+      "gaze_target": "the Conductor"
+    },
+    {
+      "character": "ada-bell",
+      "outfit_id": "ada.workwear",
+      "anchor": "STOCK CRATES",
+      "depth": "midground, seated on a crate beside Cyndi",
+      "action": "sits on a crate with the red ledger clutched to her chest in both hands, her spectacles askew, her apron dirty, her chin up; she looks at Lucy",
+      "gaze_target": "Lucy"
+    }
+  ],
+  "props": [
+    {
+      "item": "routemaster",
+      "owner": "conductor",
+      "anchor": "BUS WASH: inside the wash bay, the brushes closed on both sides",
+      "description": "the same 1956 Routemaster, deep bus red, black destination blind with a single white ring, warm amber interior; the huge wash brushes press against its sides; the rear platform open; the driver's cab dark and empty, its seat bare",
+      "state": "the bus is trapped inside the wash bay; the brushes press against both sides; the new bollards have risen across the depot mouth; the Conductor is on the roof, outside the bus; the bus is a solid prop vehicle standing on its wheels"
+    },
+    {
+      "item": "mannequin_passengers",
+      "owner": "conductor",
+      "anchor": "STOCK CRATES: stacked and seated on the crates",
+      "description": "six display mannequins, jointed wooden-and-plaster figures with blank faces, dressed in 2026 coats, stacked and seated on the crates, one leaning against another",
+      "state": "the mannequins are cargo, sitting perfectly still"
+    },
+    {
+      "item": "red_ledger",
+      "owner": "ada-bell",
+      "anchor": "STOCK CRATES: clutched to Ada's chest",
+      "description": "a thick red leather ledger with a brass clasp and a tiny embossed bell on the cover; the pages are blank",
+      "state": "the ledger is Ada's; it is out of the bus and in her hands; it is the only red ledger in the frame"
+    },
+    {
+      "item": "bollard_control",
+      "owner": "wyatt",
+      "anchor": "DEPOT MOUTH: in Wyatt's hands",
+      "description": "a grey steel control box with a single brass lever, its face plain",
+      "state": "Wyatt's both hands are on the lever; the bollards are up"
+    },
+    {
+      "item": "wash_control",
+      "owner": "lucy",
+      "anchor": "BUS WASH: at the control panel beside the bay",
+      "description": "a grey steel wash control panel with a single red lever and a red warning lamp, its face plain",
+      "state": "Lucy's right hand is on the red lever; the wash brushes are closing on the bus"
+    },
+    {
+      "item": "ticket_punch",
+      "owner": "conductor",
+      "anchor": "ROUTEMASTER: in his raised hand",
+      "description": "a heavy brass ticket punch on a chain, jaws open"
+    }
+  ],
+  "moment": "The trap closes in the depot: the Routemaster is wedged in the wash bay, the brushes pressing on both sides, the new bollards risen across the mouth. The Conductor stands on the roof, ticket punch raised, already escaping. Ada is safe on the crates with the ledger; the mannequins are stacked like evidence.",
+  "environment": "a disused bus garage under the Oxford Street works: concrete floor, oil stains, scaffolding, hanging work lights, a wide bus wash with huge brushes, red warning light, a stack of wooden crates and folded shop fittings, a red leather ledger, six blank-faced mannequins, the open roll-up door showing the dark street and the risen bollards, every surface plain and unlettered.",
+  "lighting": "hard work lights from above, the wash bay's red warning light, the bus's warm amber interior, the Conductor's mask lit from below; long shadows across the concrete; the brushes throwing moving shadows.",
+  "colour": "full colour \u2014 concrete grey, oil black, bus red, warm amber, the wash warning light red; the red ledger in Ada's hands; the rest of the depot near-monochrome.",
+  "negatives": [
+    "the ledger, control box, signs and tickets are plain blank panels of colour",
+    "the Routemaster is a 1956 London Transport bus: half-cab front, open rear platform, curved roof and chrome-trimmed livery",
+    "the bus is a solid prop vehicle standing on its wheels, opaque painted metal",
+    "the mannequins are jointed display figures with blank featureless faces and bare fibreglass joints",
+    "the bus cab is dark and empty, its driver's seat bare",
+    "clean costumes, undamaged props and safe set dressing throughout",
+    "Wyatt's hands are clean bare skin, his only tattoos the king and queen on his neck",
+    "the Conductor's porcelain mask is a blank white oval whose only feature is a single punched circular hole",
+    "Wyatt's mask is a smooth matte-black shield covering his whole face from hairline to chin, its surface plain black with two round eye holes",
+    "the white porcelain mask belongs to the Conductor, the black mask to Wyatt",
+    "Cyndi is a tan Belgian Malinois-type shepherd with a black muzzle, erect ears, dark eyes, a lean athletic build and a short coat",
+    "Ada Bell is a 78-year-old adult woman standing upright, with a compact sturdy build",
+    "exactly one red ledger appears in the frame, the one in Ada's hands"
+  ],
+  "denylist": [
+    "frame-centre",
+    "in the middle of it",
+    "tall in the frame",
+    "the standing men"
+  ],
+  "references": [
+    "bibles/lucy/turnaround.webp",
+    "bibles/wyatt/turnaround.webp",
+    "bibles/conductor/turnaround.webp"
+  ]
+}

@@ -1,0 +1,19 @@
+void turnaround sheet — generation record
+========================================
+
+Date: 2026-10-24
+Model: qwen/qwen-image-2.1-turbo
+Aspect ratio: 16:9      Resolution: 2K (returns 2048x1152)
+Candidates: 2, $0.0184 each
+Selected: candidate 1 — chosen by Charles, 2026-10-24
+Source render: /Users/charlesponti/Pictures/imagegen/_inbox/turnaround-batch-20261024/void-c1.png
+Installed: bibles/void/turnaround.webp (WebP q92)
+Reference: none — generated from the canon block alone
+
+Prompt
+------
+Character turnaround sheet for a 2D animated film: five views of one character arranged in a single row on a plain warm light-grey background — front view, three-quarter view, left profile, back view, and a head close-up as the fifth panel.
+
+Void is a 1930s rubberhose cartoon character rendered as a slim humanoid silhouette in flat, pure matte black, with a perfectly round ball head — a clean black circle from every angle — whose diameter is one fifth of its total height. Its head carries one smooth unbroken black surface: a blank face, plain and unornamented, and that same flat matte black continues over its whole body as a single textureless surface. Its neck is short and narrow. Its arms and legs are jointless rubber hoses of NORMAL human length that hang in smooth continuous curves, all elbowless and kneeless, curving rather than angling; its hands reach mid-thigh and end in simple black four-fingered hose hands, with large rounded bulbous black rubberhose shoe-feet below. Around Void the world's colour drains toward grey within a radius of about one of its own heights, fully desaturated at its silhouette and fading back to full colour at the edge of the radius. Void stands upright and motionless, still and unbending — a rubberhose character that keeps perfectly still; its stillness is its threat.
+
+Every panel shows the same individual with identical proportions, wardrobe and markings, standing square, facing forward, arms relaxed at the sides. Plain light-grey studio backdrop with even light, an empty background and no scenery. Bold clean ink outlines, flat colour fills, soft cel shading, classic 2D hand-drawn animated film character reference sheet.

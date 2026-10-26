@@ -1,0 +1,40 @@
+timestamp,set,model,description,ref_count,output_file,dimensions,tokens_in,tokens_out,tokens_total,cost_usd,response_s,status,verdict
+2026-10-20T20:04:41,scooby-halloween,qwen/qwen-image-2.1-turbo,frame 3 THE TRAP,3,scooby-frame3-the-trap-compiled-v1.webp,1640x2048,2303,4175,6478,,47.5,ok,PENDING REVIEW
+2026-10-20T21:36:58,aurora-night-sleeper,qwen/qwen-image-2.1-turbo,frame 1 THE BOARDING,4,aurora-frame1-the-boarding-compiled-v1.webp,1640x2048,2482,4175,6657,,48.1,ok,PENDING REVIEW
+2026-10-20T21:38:02,aurora-night-sleeper,qwen/qwen-image-2.1-turbo,frame 2 THE CLUE,3,aurora-frame2-the-clue-compiled-v1.webp,1640x2048,1662,4175,5837,,63.6,ok,PENDING REVIEW
+2026-10-20T21:38:59,aurora-night-sleeper,qwen/qwen-image-2.1-turbo,frame 3 THE TRAP,3,aurora-frame3-the-trap-compiled-v1.webp,1640x2048,2255,4175,6430,,53.9,ok,PENDING REVIEW
+2026-10-20T21:40:17,aurora-night-sleeper,qwen/qwen-image-2.1-turbo,frame 4 THE UNMASKING,4,aurora-frame4-the-unmasking-compiled-v1.webp,1640x2048,2779,4175,6954,,78.0,ok,PENDING REVIEW
+2026-10-20T22:04:03,aurora-night-sleeper,qwen/qwen-image-2.1-turbo,frame 3 THE TRAP,3,,,,,,,300.2,failed: TimeoutError: The read operation timed out,
+2026-10-20T22:05:25,aurora-night-sleeper,qwen/qwen-image-2.1-turbo,frame 3 THE TRAP,3,aurora-frame3-the-trap-compiled-v2.webp,1640x2048,2365,4175,6540,,57.9,ok,PENDING REVIEW
+2026-10-21T07:37:12,aurora-night-sleeper,qwen/qwen-image-2.1-turbo,frame 3 THE TRAP,3,aurora-frame3-the-trap-compiled-v3.webp,1640x2048,2414,4175,6589,,45.4,ok,PENDING REVIEW
+2026-10-21T07:57:22,aurora-night-sleeper,qwen/qwen-image-2.1-turbo,frame 3 THE TRAP,3,aurora-frame3-the-trap-compiled-v4.webp,1640x2048,2391,4175,6566,,72.2,ok,PENDING REVIEW
+2026-10-21T09:37:30,aurora-night-sleeper,qwen/qwen-image-2.1-turbo,frame 3 THE TRAP,3,aurora-frame3-the-trap-compiled-v5.webp,1640x2048,2475,4175,6650,,64.6,ok,PENDING REVIEW
+2026-10-21T09:40:06,aurora-night-sleeper,qwen/qwen-image-2.1-turbo,frame 3 THE TRAP,3,aurora-frame3-the-trap-compiled-v6.webp,1640x2048,2533,4175,6708,,54.5,ok,PENDING REVIEW
+2026-10-21T11:54:39,aurora-night-sleeper,qwen/qwen-image-2.1-turbo,frame 3 THE TRAP,4,aurora-frame3-the-trap-compiled-v7-p0.webp,1640x2048,2586,4175,6761,,35.7,ok,PENDING REVIEW
+2026-10-21T11:57:11,aurora-night-sleeper,qwen/qwen-image-2.1-turbo,frame 3 THE TRAP,4,aurora-frame3-the-trap-compiled-v8-p0.webp,1640x2048,2740,4175,6915,,37.5,ok,PENDING REVIEW
+2026-10-21T11:58:17,aurora-night-sleeper,qwen/qwen-image-2.1-turbo,frame 3 THE TRAP,4,aurora-frame3-the-trap-compiled-v9-p0.webp,1640x2048,2740,4175,6915,,45.1,ok,PENDING REVIEW
+2026-10-21T11:59:40,aurora-night-sleeper,qwen/qwen-image-2.1-turbo,frame 4 THE UNMASKING,4,aurora-frame4-the-unmasking-compiled-v5-p0.webp,1640x2048,2896,4175,7071,,36.2,ok,PENDING REVIEW
+2026-10-21T12:01:40,aurora-night-sleeper,qwen/qwen-image-2.1-turbo,frame 3 THE TRAP,3,aurora-frame3-the-trap-compiled-v10-p0.webp,1640x2048,2740,4175,6915,,47.1,ok,PENDING REVIEW
+2026-10-21T12:02:44,aurora-night-sleeper,qwen/qwen-image-2.1-turbo,frame 4 THE UNMASKING,4,aurora-frame4-the-unmasking-compiled-v6-p0.webp,1640x2048,2896,4175,7071,,45.5,ok,PENDING REVIEW
+2026-10-21T13:12:39,aurora-night-sleeper,qwen/qwen-image-2.1-turbo,frame 2 THE EMPTY CASE,3,aurora-frame2-the-empty-case-compiled-v1.webp,1640x2048,2162,4175,6337,,41.5,ok,PENDING REVIEW
+2026-10-21T13:20:39,aurora-night-sleeper,qwen/qwen-image-2.1-turbo,frame 2 THE EMPTY CASE,3,aurora-frame2-the-empty-case-compiled-v2.webp,1640x2048,2275,4175,6450,,44.0,ok,APPROVED
+2026-10-21T13:44:32,oxford-last-bus,qwen/qwen-image-2.1-turbo,frame 1 THE LAST BUS,4,lastbus-frame1-the-last-bus-compiled-v1.webp,1640x2048,3077,4175,7252,,56.9,ok,PENDING REVIEW
+2026-10-21T13:46:38,oxford-last-bus,qwen/qwen-image-2.1-turbo,frame 1 THE LAST BUS,4,lastbus-frame1-the-last-bus-compiled-v2.webp,1640x2048,3367,4175,7542,,62.2,ok,PENDING REVIEW
+2026-10-21T13:49:29,oxford-last-bus,qwen/qwen-image-2.1-turbo,frame 1 THE LAST BUS,4,lastbus-frame1-the-last-bus-compiled-v3.webp,1640x2048,3501,4175,7676,,66.2,ok,PENDING REVIEW
+2026-10-21T13:51:23,oxford-last-bus,qwen/qwen-image-2.1-turbo,frame 1 THE LAST BUS,4,lastbus-frame1-the-last-bus-compiled-v4.webp,1640x2048,3620,4175,7795,,60.9,ok,PENDING REVIEW
+2026-10-21T13:53:20,oxford-last-bus,qwen/qwen-image-2.1-turbo,frame 2 THE EMPTY WINDOWS,3,lastbus-frame2-the-empty-windows-compiled-v1.webp,1640x2048,2319,4175,6494,,58.7,ok,PENDING REVIEW
+2026-10-21T13:54:56,oxford-last-bus,qwen/qwen-image-2.1-turbo,frame 3 THE DEPOT,3,lastbus-frame3-the-depot-compiled-v1.webp,1640x2048,3092,4175,7267,,57.6,ok,PENDING REVIEW
+2026-10-21T13:56:48,oxford-last-bus,qwen/qwen-image-2.1-turbo,frame 4 THE FIRST MORNING,4,lastbus-frame4-the-first-morning-compiled-v1.webp,1640x2048,4000,4175,8175,,61.0,ok,PENDING REVIEW
+2026-10-21T13:59:13,oxford-last-bus,qwen/qwen-image-2.1-turbo,frame 4 THE FIRST MORNING,4,lastbus-frame4-the-first-morning-compiled-v2.webp,1640x2048,4188,4175,8363,,57.5,ok,PENDING REVIEW
+2026-10-21T14:01:27,oxford-last-bus,qwen/qwen-image-2.1-turbo,frame 4 THE FIRST MORNING,4,,,,,,,43.9,failed: HTTPError: HTTP Error 400: Bad Request,
+2026-10-21T14:02:22,oxford-last-bus,qwen/qwen-image-2.1-turbo,frame 4 THE FIRST MORNING,4,lastbus-frame4-the-first-morning-compiled-v3.webp,1640x2048,4285,4175,8460,,39.5,ok,PENDING REVIEW
+2026-10-21T14:04:28,oxford-last-bus,qwen/qwen-image-2.1-turbo,frame 4 THE FIRST MORNING,4,lastbus-frame4-the-first-morning-compiled-v4.webp,1640x2048,4358,4175,8533,,47.6,ok,PENDING REVIEW
+2026-10-21T14:07:20,oxford-last-bus,qwen/qwen-image-2.1-turbo,frame 4 THE FIRST MORNING,4,lastbus-frame4-the-first-morning-compiled-v5.webp,1640x2048,4442,4175,8617,,45.5,ok,PENDING REVIEW
+2026-10-21T14:11:45,oxford-last-bus,qwen/qwen-image-2.1-turbo,frame 4 THE FIRST MORNING,3,lastbus-frame4-the-first-morning-compiled-v6.webp,1640x2048,3640,4175,7815,,41.1,ok,PENDING REVIEW
+2026-10-21T14:14:30,oxford-last-bus,qwen/qwen-image-2.1-turbo,frame 4 THE FIRST MORNING,3,lastbus-frame4-the-first-morning-compiled-v7.webp,1640x2048,3725,4175,7900,,48.2,ok,PENDING REVIEW
+2026-10-21T14:15:34,oxford-last-bus,qwen/qwen-image-2.1-turbo,frame 2 THE EMPTY WINDOWS,3,lastbus-frame2-the-empty-windows-compiled-v2.webp,1640x2048,2435,4175,6610,,45.0,ok,PENDING REVIEW
+2026-10-21T14:16:34,oxford-last-bus,qwen/qwen-image-2.1-turbo,frame 3 THE DEPOT,3,lastbus-frame3-the-depot-compiled-v2.webp,1640x2048,3191,4175,7366,,46.0,ok,PENDING REVIEW
+2026-10-21T14:23:16,oxford-last-bus,qwen/qwen-image-2.1-turbo,frame 3 THE DEPOT,3,lastbus-frame3-the-depot-compiled-v3.webp,1640x2048,3191,4175,7366,,42.4,ok,PENDING REVIEW
+2026-10-21T14:23:37,oxford-last-bus,qwen/qwen-image-2.1-turbo,frame 2 THE EMPTY WINDOWS,3,,,,,,,64.7,failed: HTTPError: HTTP Error 502: Bad Gateway,
+2026-10-21T14:24:43,oxford-last-bus,qwen/qwen-image-2.1-turbo,frame 2 THE EMPTY WINDOWS,3,lastbus-frame2-the-empty-windows-compiled-v3.webp,1640x2048,2466,4175,6641,,51.1,ok,PENDING REVIEW
+2026-10-21T14:24:50,oxford-last-bus,qwen/qwen-image-2.1-turbo,frame 1 THE LAST BUS,4,lastbus-frame1-the-last-bus-compiled-v5.webp,1640x2048,3620,4175,7795,,58.5,ok,PENDING REVIEW

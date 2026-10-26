@@ -1,0 +1,148 @@
+{
+  "frame": 4,
+  "title": "THE FIRST MORNING",
+  "set": "The Last Bus",
+  "set_slug": "lastbus",
+  "register": "animated-cel",
+  "master": {
+    "width": 1640,
+    "height": 2048,
+    "aspect_ratio": "4:5"
+  },
+  "floorplan": {
+    "camera": "at Oxford Circus at dawn, looking down the car-free street toward Bell's Umbrellas, the community bus parked at the kerb",
+    "anchors": {
+      "OXFORD CIRCUS": "the wide crossing at the top of the car-free street, its traffic signals dark, new bollards along the kerb",
+      "BELL'S SHOP": "the narrow Victorian shopfront of Bell's Umbrellas at the kerb, its deep-red door open",
+      "COMMUNITY BUS": "the Routemaster parked at the kerb outside Bell's, its rear platform open, a brass tea urn and shelves of books inside",
+      "PAVEMENT": "the wet pavement between the shop and the bus",
+      "DAWN STREET": "the empty car-free roadway running away from the camera, wet and lit by a rising sun"
+    }
+  },
+  "cast": [
+    {
+      "character": "void",
+      "outfit_id": null,
+      "anchor": "OXFORD CIRCUS",
+      "depth": "in the open street between Wyatt and Lucy, a few steps ahead of the shop",
+      "action": "stands perfectly still in the open street between Wyatt and Lucy, fully visible from head to feet, clear of the figures in front: an ordinary adult height of 165cm, the same height as Lucy; a solid black body with the build of a slim adult, a rounded torso, hips, thighs and calves; thick rubberhose arms hanging at its sides; a large round black sphere for a head; flat oval feet; a plain featureless surface and a short narrow neck; standing perfectly still and silent",
+      "gaze_target": "the dawn, past everyone"
+    },
+    {
+      "character": "conductor",
+      "outfit_id": null,
+      "anchor": "OXFORD CIRCUS",
+      "depth": "collapsed heap on the pavement",
+      "in_scale": false,
+      "action": "lies collapsed where it stands revealed \u2014 the black conductor's coat and white gloves heaped on the wet pavement, an empty costume; the porcelain mask sits out of frame beyond the edge",
+      "gaze_target": "the costume's empty interior of cloth"
+    },
+    {
+      "character": "wyatt",
+      "outfit_id": "wyatt.oxford_night",
+      "anchor": "OXFORD CIRCUS",
+      "depth": "frame-left of Void",
+      "action": "holds the black peaked cap HIGH in his raised right hand, his left hand loose at his side; his own black mask still on \u2014 the masked man holding the fake's cap",
+      "gaze_target": "Void"
+    },
+    {
+      "character": "lucy",
+      "outfit_id": "lucy.oxford_night",
+      "anchor": "OXFORD CIRCUS",
+      "depth": "foreground, in the open street a few steps from Void",
+      "action": "stands in the open street in profile, her face turned toward Void and away from the camera, her expression serious; the punched ticket is held up in her right hand, her left hand at her side; her black coat open; her wavy shoulder-length hair and gold hoop earrings catch the dawn, her throat bare",
+      "gaze_target": "Void"
+    },
+    {
+      "character": "cyndi",
+      "outfit_id": null,
+      "anchor": "COMMUNITY BUS",
+      "depth": "low, on the bus's rear platform",
+      "action": "sits on the community bus's rear platform beside a brass tea urn, front paws together, tail sweeping the boards, ears up; she looks at Ada",
+      "gaze_target": "Ada"
+    },
+    {
+      "character": "ada-bell",
+      "outfit_id": "ada.workwear",
+      "anchor": "COMMUNITY BUS",
+      "depth": "at the community bus's open rear platform, beside Cyndi",
+      "action": "stands at the community bus's rear platform with both hands clutching the red ledger to her chest, her chin up, her spectacles catching the dawn; the shop door is behind her; she looks at Void",
+      "gaze_target": "Void"
+    }
+  ],
+  "props": [
+    {
+      "item": "routemaster",
+      "owner": "ada-bell",
+      "anchor": "COMMUNITY BUS: parked at the kerb outside Bell's, rear platform open",
+      "description": "the same 1956 Routemaster, deep bus red, the rear destination blind replaced by a plain black metal plate, warm amber interior; the rear platform open; a brass tea urn and a shelf of books inside; a small brass hand bell on the counter; the bus is a community bus now, its surfaces plain",
+      "state": "the bus is stationary and safe; the engine is off; the interior lights are warm; the bus is a solid community bus standing on its wheels; its destination plate is plain black"
+    },
+    {
+      "item": "peaked_cap",
+      "owner": "wyatt",
+      "anchor": "OXFORD CIRCUS: held high in Wyatt's raised right hand",
+      "description": "the Conductor's black peaked cap with a polished patent visor and a blank oval badge"
+    },
+    {
+      "item": "red_ledger",
+      "owner": "ada-bell",
+      "anchor": "COMMUNITY BUS: clutched to Ada's chest",
+      "description": "the thick red leather ledger with a brass clasp and a tiny embossed bell; pages blank",
+      "state": "the ledger is Ada's evidence; it is in her hands"
+    },
+    {
+      "item": "punched_ticket",
+      "owner": "lucy",
+      "anchor": "OXFORD CIRCUS: held up in Lucy's right hand",
+      "description": "the stiff card bus ticket with a single clean circular punch hole"
+    }
+  ],
+  "moment": "The unmasking at dawn on the first morning the street belongs to people: the costume is empty, Void stands revealed, Wyatt holds the cap high, Ada holds the ledger, and the community bus waits outside Bell's. The first pedestrians are already on the pavement, keeping their distance.",
+  "environment": "Oxford Circus at dawn: the car-free street wet and empty of traffic, the traffic signals dark, new bollards along the kerb, the department-store windows lit but quiet, Bell's Umbrellas' deep-red door open, the Routemaster parked at the kerb with its rear platform open, a brass tea urn and shelves of books inside, steam rising; the first pedestrians \u2014 a nurse in scrubs, a cleaner with a mop, a cyclist walking a bike, a dog walker \u2014 small in the background, shapes only, every surface plain and unlettered, blank hoardings.",
+  "lighting": "rose-gold dawn from the east down the empty street, sodium lamps fading, the bus's warm amber interior, long shadows and wet reflections; Void a flat black silhouette, crisp against the dawn; the brass cap badge and the red ledger catching the first light.",
+  "colour": "full colour \u2014 rose dawn, charcoal wet asphalt, deep bus red, warm amber; Akane's deep-red scarf and the red ledger the only other reds; Void pure flat black.",
+  "negatives": [
+    "destination blinds, tickets, the ledger, shop signs, badges and book spines are plain blank panels of colour",
+    "the street is in full colour throughout the frame, right up to Void's silhouette",
+    "Void stands upright, free and whole",
+    "the Conductor's costume lies collapsed and empty on the ground, the coat folded in on itself and the mask detached",
+    "the Routemaster is a solid community bus standing on its wheels, painted opaque",
+    "a calm aftermath: everyone whole, free and unhurt, with clean costumes and undamaged props",
+    "Wyatt's hands are clean bare skin, his only tattoos the king and queen on his neck",
+    "Wyatt's mask is a smooth matte-black shield covering his whole face from hairline to chin, its surface plain black with two round eye holes",
+    "Lucy has wavy shoulder-length hair and gold hoop earrings",
+    "Lucy's face is turned to Void, her expression intent",
+    "the bus's destination plate is plain black",
+    "Cyndi is a tan Belgian Malinois-type shepherd with a black muzzle, erect ears, dark eyes, a lean athletic build and a short coat",
+    "Ada Bell is a 78-year-old adult woman standing upright, with a compact sturdy build",
+    "Void is a 165cm rubberhose figure: a solid black body with the mass of a slim adult, a round sphere for a head proportionate to his body, thick flexible hose arms, a short narrow neck and flat oval feet",
+    "Void has a solid black body with real volume, rounded and sculptural in three dimensions",
+    "Void stands shorter than the bus, which is the tallest object in the frame",
+    "Void is a separate living figure standing between Wyatt and Lucy, his own body distinct from the collapsed costume",
+    "the tea urn and books sit inside the community bus, and the shop window behind them shows bare glass",
+    "the book spines are blank coloured cloth",
+    "the shop fascia is plain dark red paint"
+  ],
+  "block_overrides": {
+    "conductor": "unmasking"
+  },
+  "block_edits": {
+    "void": {
+      "omit_sentences": [
+        "Around Void the world's colour drains toward grey within a radius of about one of its own heights, fully desaturated at its silhouette and fading back to full colour at the edge of the radius."
+      ]
+    }
+  },
+  "denylist": [
+    "frame-centre",
+    "in the middle of it",
+    "tall in the frame",
+    "the standing men"
+  ],
+  "references": [
+    "bibles/lucy/turnaround.webp",
+    "bibles/wyatt/turnaround.webp",
+    "bibles/cyndi/turnaround.webp"
+  ]
+}

@@ -1,0 +1,19 @@
+phantom turnaround sheet — generation record
+========================================
+
+Date: 2026-10-24
+Model: qwen/qwen-image-2.1-turbo
+Aspect ratio: 16:9      Resolution: 2K (returns 2048x1152)
+Candidates: 2, $0.0184 each
+Selected: candidate 1 — chosen by Charles, 2026-10-24
+Source render: /Users/charlesponti/Pictures/imagegen/_inbox/turnaround-batch-20261024/phantom-c1.png
+Installed: bibles/phantom/turnaround.webp (WebP q92)
+Reference: none — generated from the canon block alone
+
+Prompt
+------
+Character turnaround sheet for a 2D animated film: five views of one character arranged in a single row on a plain warm light-grey background — front view, three-quarter view, left profile, back view, and a head close-up as the fifth panel.
+
+The phantom is a towering figure about 230cm tall: a floor-length hooded robe of layered dusty grey-white sheet gauze that pools and trails at the floor; a smooth blank oval face of matte light grey, featureless except two deep hollow black oval eyes and a small dark open oval mouth — plainly a theatrical costume mask; very long draped sleeves that completely hide the hands; a faint haze of pale grey dust around its hem. It is a person in a Halloween costume: a solid figure standing on its own feet, the robe dense opaque cloth with its hem resting on the floor, dressed for a harmless theatrical fright.
+
+Every panel shows the same individual with identical proportions, wardrobe and markings, standing square, facing forward, arms relaxed at the sides. Plain light-grey studio backdrop with even light, an empty background and no scenery. Bold clean ink outlines, flat colour fills, soft cel shading, classic 2D hand-drawn animated film character reference sheet.

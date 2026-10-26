@@ -1,0 +1,127 @@
+{
+  "frame": 1,
+  "title": "THE LAST BUS",
+  "set": "The Last Bus",
+  "set_slug": "lastbus",
+  "register": "animated-cel",
+  "master": {
+    "width": 1640,
+    "height": 2048,
+    "aspect_ratio": "4:5"
+  },
+  "floorplan": {
+    "camera": "on the pavement at standing height, looking west along Oxford Street toward Oxford Circus, the ghost bus in the near lane",
+    "anchors": {
+      "OXFORD STREET": "the wide wet roadway running from the foreground to Oxford Circus, empty of traffic",
+      "ROUTEMASTER": "the ghost bus in the near lane, a 1956 London Transport Routemaster, its rear open platform level with the pavement",
+      "DEPARTMENT STORE WINDOWS": "the long lit shop windows along the right-hand pavement, mannequins posed inside",
+      "BUS STOP": "a temporary bus stop on the left-hand pavement, its timetable blank",
+      "PEDESTRIANISATION WORKS": "barriers, exposed paving and a row of new bollards along the left-hand kerb"
+    }
+  },
+  "cast": [
+    {
+      "character": "conductor",
+      "outfit_id": null,
+      "anchor": "ROUTEMASTER",
+      "depth": "inside the bus's open rear platform recess at pavement level, midground frame-right, the bus roof rising high above him",
+      "action": "stands inside the bus's open rear platform recess with both boots on the platform floor at pavement level, one white-gloved hand on the vertical grab pole, the other raised with the brass ticket punch; the red body of the bus frames him on both sides; his porcelain mask catches the sodium light; the long coat tails hang still; he looks down the pavement toward Wyatt",
+      "gaze_target": "Wyatt"
+    },
+    {
+      "character": "akane",
+      "outfit_id": "akane.oxford_night",
+      "anchor": "DEPARTMENT STORE WINDOWS",
+      "depth": "midground frame-right, under the store awning",
+      "action": "leans against the department-store window with her right hand tucked under her left arm and her left hand resting on her right sleeve, one eyebrow raised, watching the bus with heavy-lidded boredom; the deep-red scarf draped loosely around her throat, one end hanging",
+      "gaze_target": "the Conductor, with utter boredom"
+    },
+    {
+      "character": "lucy",
+      "outfit_id": "lucy.oxford_night",
+      "anchor": "BUS STOP",
+      "depth": "foreground frame-left at the bus stop",
+      "action": "holds a small black notebook open in her right hand and a pencil in her left, looking up at the bus's black destination blind, her coat collar up, one foot on the bus stop's kerb",
+      "gaze_target": "the bus's black destination blind"
+    },
+    {
+      "character": "wyatt",
+      "outfit_id": "wyatt.oxford_night",
+      "anchor": "OXFORD STREET",
+      "depth": "foreground, a step into the roadway between the bus and the others",
+      "action": "stands between the bus and the others, left arm extended sideways at waist height, palm open \u2014 a barrier \u2014 his right hand loose at his side, masked face tilted up toward the rear platform",
+      "gaze_target": "the Conductor"
+    },
+    {
+      "character": "cyndi",
+      "outfit_id": null,
+      "anchor": "BUS STOP",
+      "depth": "low in frame at Lucy's heels",
+      "action": "stands rigid at Lucy's heels, nose lifted high scenting the wet street toward the bus, ears pricked, tail low and still",
+      "gaze_target": "the Conductor"
+    }
+  ],
+  "props": [
+    {
+      "item": "routemaster",
+      "owner": "conductor",
+      "anchor": "ROUTEMASTER: in the near lane, its rear open platform level with the pavement",
+      "description": "a 1956 London Transport Routemaster in deep bus red, seen from the rear: a rounded roof, a deep open rear platform recess with a step, a vertical grab pole from floor to ceiling and a staircase behind it; the destination blind black with a single white ring; a small black rear route blind above the open platform shows the same single white ring; warm amber interior lights behind steamed windows; through the rear lower window the pale blank face and shoulders of one seated mannequin are clearly visible, the others dark shapes behind it; the Conductor stands inside the open platform recess; the driver's cab dark and empty; the bus is a solid prop vehicle standing on its wheels",
+      "state": "the bus is silent, its engine off, its interior lights on; the mannequin passengers sit inside, one pale blank face visible through the rear lower window; the driver's seat bare; the white ring on the rear route blind is the only mark; the Conductor's boots are on the platform floor inside the recess"
+    },
+    {
+      "item": "mannequin_passengers",
+      "owner": "conductor",
+      "anchor": "ROUTEMASTER: seated inside behind the steamed windows",
+      "description": "six display mannequins, jointed wooden-and-plaster figures with blank faces, dressed in 2026 high-street coats, seated upright, each holding a closed black umbrella",
+      "state": "the mannequins are display figures sitting perfectly still, their blank faces turned slightly toward the windows"
+    },
+    {
+      "item": "ticket_punch",
+      "owner": "conductor",
+      "anchor": "ROUTEMASTER: raised in his white-gloved hand",
+      "description": "a heavy brass bus conductor's ticket punch on a chain, its jaws open"
+    },
+    {
+      "item": "notebook",
+      "owner": "lucy",
+      "anchor": "BUS STOP: open in Lucy's right hand",
+      "description": "a small black pocket notebook, open, its pages blank; a pencil in her left hand"
+    }
+  ],
+  "moment": "The last night buses have gone; the street is empty except for a Routemaster with a black blind and a white ring. The Conductor raises his punch. In the department-store windows, the mannequins seem to turn. Wyatt steps into the road.",
+  "environment": "Oxford Street at one in the morning: wet charcoal asphalt, closed shopfronts, long department-store windows lit from within, a temporary bus stop pole on the left pavement topped by a blank white disc atop a plain pole, a row of stubby black bollards along the near left kerb with their bases ringed by temporary yellow tape, blank grey barrier panels stacked behind them, a single street sweeper's cart far down the pavement, the Routemaster the only vehicle in motion; the store windows are full of mannequins in 2026 coats; every surface plain and unlettered, with blank hoardings.",
+  "lighting": "sodium-amber street lamps and cold blue night; the bus's warm amber interior glowing through steamed windows; wet asphalt doubling the lights; the Conductor's porcelain mask lit from below by the bus; long shadows across the empty lane.",
+  "colour": "full colour \u2014 charcoal wet asphalt, sodium amber, deep London bus red, warm amber interior; Akane's deep-red scarf the only other red; the rest of the palette near-monochrome.",
+  "negatives": [
+    "destination blinds, timetables, tickets, shop signs and badges are plain blank panels of colour",
+    "the Routemaster is a 1956 London Transport bus: half-cab front, open rear platform, curved roof and chrome-trimmed livery",
+    "the bus is a solid prop vehicle standing on its wheels, opaque painted metal",
+    "the mannequins are jointed display figures with blank featureless faces and bare fibreglass joints",
+    "the bus cab is dark and empty, its driver's seat bare",
+    "clean costumes, undamaged props and safe set dressing throughout",
+    "Akane's hands stay busy in her lap or at her sides",
+    "Wyatt's hands are clean bare skin, his only tattoos the king and queen on his neck",
+    "Wyatt's mask is a smooth matte-black shield covering his whole face from hairline to chin, its surface plain black with two round eye holes",
+    "the Conductor's porcelain mask is a blank white oval with a single punched circular hole near the chin, its surface otherwise smooth blank porcelain",
+    "the white porcelain mask belongs to the Conductor, the black mask to Wyatt",
+    "the white porcelain mask belongs to the Conductor, the black mask to Wyatt",
+    "Akane is an adult woman, her deep-red scarf a loose silk neck scarf draped at the throat",
+    "Cyndi is a tan Belgian Malinois-type shepherd with a black muzzle, erect ears, dark eyes, a lean athletic build and a short coat",
+    "the bus stop is a plain pole carrying a blank white disc",
+    "the Conductor's boots are planted on the platform floor inside the open rear recess",
+    "the upper half of the Conductor's white mask is pure blank porcelain, evenly lit"
+  ],
+  "denylist": [
+    "frame-centre",
+    "in the middle of it",
+    "tall in the frame",
+    "the standing men"
+  ],
+  "references": [
+    "bibles/lucy/turnaround.webp",
+    "bibles/wyatt/turnaround.webp",
+    "bibles/akane/turnaround.webp",
+    "bibles/conductor/turnaround.webp"
+  ]
+}

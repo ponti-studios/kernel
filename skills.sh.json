@@ -28,13 +28,20 @@
         "native-ios-builder",
         "kernel-dev-testing",
         "kernel-dev-typescript",
-        "kernel-clean-code"
+        "kernel-clean-code",
+        "pr-comments",
+        "react-doctor",
+        "charlie-standing-rules"
       ]
     },
     {
       "title": "UI & Brand",
       "description": "Skills for Apple-style interface design, motion, and brand identity.",
-      "skills": ["kernel-animate", "kernel-design"]
+      "skills": [
+        "kernel-animate",
+        "kernel-design",
+        "brand-asset-sourcing"
+      ]
     },
     {
       "title": "Audit",
@@ -44,20 +51,59 @@
         "kernel-audit-security",
         "kernel-audit-monorepo",
         "kernel-audit-review",
-    "chase-review",
+        "chase-review",
         "kernel-audit-swiftui",
-        "kernel-audit-trace"
+        "kernel-audit-trace",
+        "deep-repo-code-scan"
       ]
     },
     {
       "title": "Operations",
       "description": "Skills for publishing, shipping, and production readiness workflows.",
-      "skills": ["kernel-ops-production", "kernel-ops-ship"]
+      "skills": [
+        "kernel-ops-production",
+        "kernel-ops-ship",
+        "dependabot-batch"
+      ]
     },
     {
       "title": "Studio Ops",
       "description": "Skills for Ponti Studios film, project, task, and workshop operations.",
-      "skills": ["film-production", "plan-to-tasks", "project-operations", "workshop-design"]
+      "skills": [
+        "film-production",
+        "plan-to-tasks",
+        "project-operations",
+        "workshop-design"
+      ]
+    },
+    {
+      "title": "Studio",
+      "description": "Skills for Ponti Studios creative production: scripts, scenes, clips, images, and series canon.",
+      "skills": [
+        "studio-core",
+        "studio-script",
+        "studio-scenes",
+        "studio-clips",
+        "studio-essay",
+        "studio-social",
+        "studio-video",
+        "studio-imagegen",
+        "studio-mediagen",
+        "studio-podcastgen",
+        "studio-ledger",
+        "studio-universe"
+      ]
+    },
+    {
+      "title": "Media & Data",
+      "description": "Skills for media generation, file management, structured extraction, and machine setup.",
+      "skills": [
+        "image-model-craft",
+        "programmatic-video",
+        "llm-structured-extraction",
+        "file-organization",
+        "macos-complete-uninstall"
+      ]
     }
   ]
 }

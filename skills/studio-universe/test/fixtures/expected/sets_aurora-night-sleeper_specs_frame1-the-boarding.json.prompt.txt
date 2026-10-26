@@ -1,0 +1,60 @@
+FRAME 1 — THE BOARDING. The Aurora Night Sleeper set, animated-cel register. Master 1640x2048, 4:5 portrait.
+
+SCENE — on the platform at standing height, looking along the sleeper toward the engine. GRAND HALL: vaulted terminus hall behind the camera, arched glass roof over night sky. PLATFORM: long lamplit platform running bottom-centre to the engine. SLEEPER TRAIN: deep-green sleeping cars with brass window trim along the platform's left. ENGINE: far end of the platform, headlamp glaring through steam. FOOTBRIDGE: iron footbridge spanning the platform midway, high above.
+
+STAGING — the Grey Passenger: stands motionless on the footbridge above the platform, the inspector's lantern raised high, the greatcoat hanging heavy and still, its blank face angled down the platform toward the gang [FOOTBRIDGE — high and far, atop the footbridge at the engine end; gaze on the diamond case at Lucy's feet]
+
+STAGING — Akane, in the deep-red wrap dress; never the black cardigan, white t-shirt and black cargo trousers; never the plain black t-shirt and black jeans: sits side-saddle on a stacked brass-bound trunk, legs crossed at the ankle, a leather-bound novel held face-down and unopened in her lap, heavy-lidded gaze level at the footbridge — early for departure, unbothered by ghosts [PLATFORM — midground, perched side-saddle on her stacked trunk; gaze on the Grey Passenger, with utter boredom]
+
+STAGING — Lucy, in the plain black t-shirt and black jeans; never the black cardigan, white t-shirt and black cargo trousers; never the deep-red wrap dress: kneels on one knee at the open brass-bound case, a small brass loupe to her eye, documenting the blue-white stone on its velvet bed before it travels [PLATFORM — foreground frame-left, kneeling at the open diamond case; gaze on the diamond]
+
+STAGING — Wyatt, in the black cardigan, white t-shirt and black cargo trousers; never the deep-red wrap dress; never the plain black t-shirt and black jeans: stands between the camera and the train, left arm extended sideways at waist height, palm open — a barrier between the footbridge and the others — masked face tilted up toward the ironwork [PLATFORM — foreground frame-right, between the camera and the train; gaze on the Grey Passenger]
+
+STAGING — Cyndi: stands rigid at Wyatt's heels, nose lifted high scenting the steam toward the footbridge, ears pricked, tail low and still [PLATFORM — low in frame at Wyatt's heels; gaze on the Grey Passenger]
+
+PROP — diamond case: a small black morocco leather case, open, the Aurora Diamond on black velvet inside, its facets throwing a cold white star [owner: Lucy; anchor: PLATFORM]
+
+PROP — lantern: a dim green-shaded inspector's lantern, lit [owner: the Grey Passenger; anchor: FOOTBRIDGE]
+
+PROP — brass trunk: a brass-bound steamer trunk, lid open on folded blankets, its travel stickers blank and unmarked [owner: Akane; anchor: PLATFORM]
+
+PROP — loupe: a small brass jeweller's loupe [owner: Lucy; anchor: PLATFORM]
+
+MOMENT — The midnight departure, caught mid-action, everyone in motion. The Grey Passenger watches from the ironwork as the gang boards the green-and-brass sleeper. Wyatt bars its path; Lucy logs the stone; Akane turns a blank page, indifferent.
+
+ENVIRONMENT INVENTORY: vaulted trainshed with an arched glass roof on night sky; rows of warm gaslight globes; low steam curling along the boards; porters with trolleys blurred mid-stride; a huge round station clock, its face a blank white disc with black hands only, its face unmarked; deep-green sleeping cars with brass window trim and warm berth windows; open doors with folded steps; pigeons on the girders, shapes only.
+
+LIGHTING: warm gaslight pools along the platform; cold moonlit wash through the roof glass; the engine headlamp glaring from the far end, rimming the greatcoat on the bridge; long shadows down the boards.
+
+COLOUR: full, rich colour — CIWL green, brass gold, warm skin tones; the passenger ash-grey at the top of it all.
+
+NEGATIVES: timetables, tickets, the clock face, signs and stickers are plain blank panels of colour; clean costumes, undamaged props and safe set dressing throughout; the passenger reads as a solid costume standing on its own feet, dense opaque cloth; Akane's hands stay busy in her lap or at her sides; hands hold only period props: paper tickets, luggage handles, a hat; Wyatt's hands are clean bare skin, his only tattoos the king and queen on his neck.
+
+THE GREY PASSENGER (verbatim block): The Grey Passenger is a gaunt figure about 225cm tall: a floor-length greatcoat of layered ash-grey railway wool with a high collar, brass buttons dull with age, and a long ticket-punch chain at the belt; a smooth blank oval face of matte light grey, featureless except two deep hollow black oval eyes and a small dark open oval mouth — plainly a theatrical costume mask; a tall grey peaked cap with a cracked patent visor; very long draped sleeves that completely hide the hands; one hand always raised carrying a dim green-shaded inspector's lantern; a faint haze of coal dust around its hem. It is a person in a railway costume: a solid figure standing on its own feet, the greatcoat dense opaque wool with its hem resting on the ground, dressed for a harmless theatrical fright.
+
+AKANE (verbatim block): Akane is a petite Japanese woman, 153cm tall and 5 heads in proportion, with pale porcelain skin, blue eyes, and long black hair worn mostly straight with loose waves at the ends and a full straight fringe across her forehead. Her legs are natural in length and proportion, in keeping with her five-head build. She carries herself with the manner of a temptress — a heavy-lidded, knowing gaze, languid and magnetic, self-assured, arms folded or one hand on her hip, her hands busy and active at her hip or her sides. She is self-contained and absorbed in her own action, with a lively, expressive face. She is rendered in a painterly cel style, more softly modelled than flat cel animation.
+
+AKANE'S OUTFIT — akane.tailored_dress: a deep-red matte wrap dress with a shirt collar, a belted waist, three-quarter sleeves and a knee-to-midi skirt, in matte crepe, sheer black tights, black loafers with tan fur trim and a gold horsebit, a gold Cartier Love bangle on her right wrist and a gold Rolex watch with a deep green dial on her left wrist.
+
+LUCY (verbatim block): Lucy is a Puerto Rican woman with a wide, slightly flattened oval face, a defined angular jawline softer at the cheeks, a light dusting of freckles across her nose and cheeks, and skin in a light warm tan. Her eyes are large vertical ovals with green irises and a heavy lower lash line: the lid line sweeps smoothly from inner to outer corner, and each iris fills its opening with clear green. She is 5 feet 4 inches tall with a very slim, willowy build — narrow shoulders and ribcage, a small waist, slim hips, thin arms and long legs (inseam about 48% of her height, natural waist at about 60%) — and a full, generous F bust. Her hair is long loose waves to mid-back, centre-parted, black with graphic sculptural clumps. Everything she wears is black and white; coral is her design signature — it lives in her work as ink and paper, while her skin and face stay clean, bare and untouched.
+
+LUCY'S OUTFIT — lucy.tee_jeans: a plain black t-shirt tucked in at the waist, black jeans cuffed at the ankle, white socks, plain black leather loafers, her two gold hoop earrings.
+
+WYATT (verbatim block): Wyatt is an adult man in flat painterly cel animation, drawn EXACTLY as in his cel reference sheet — the same man. He is 153cm tall and exactly 5 heads in proportion: his head, hair and mask together are one fifth of his height, with a grown man's construction throughout and legs about half his height. His hair is voluminous black curls, medium length. On his neck sit two portrait tattoos facing inward toward the throat: a crowned bearded KING on his left side, and a crowned QUEEN — a woman — on his right.
+
+WYATT'S MASK (verbatim, mandatory): The mask is a tall smooth shield of matte black covering his whole face in one piece, from the hairline above his brow down past his jaw and chin, edge to edge across both cheeks. Its surface is plain matte black throughout. It carries two round holes, one at each eye, and those two holes are its only openings: each one opens onto flat empty blackness. The mask reads as a single unbroken black form from forehead to chin, with both round eye holes always present and open.
+
+WYATT'S OUTFIT — wyatt.city: a black knit button cardigan (5 buttons, patch pockets) worn open over a plain white crew-neck t-shirt; black cargo pants with side flap pockets; black Adidas Samba sneakers with white side stripes, gum-brown soles and a small blue heel tab.
+
+CYNDI (verbatim block): Cyndi is a lean, athletic medium-sized mixed-breed dog with a short uniform golden-tan coat, a long muzzle that is BLACK with a little grey around the mouth, large upright pointed ears with dark backs, dark brown eyes, a small white patch on her chest and white tips on her paws, and a straight medium-length tail carried low with a dark tip. Her build is that of a grown athletic mixed breed with normal leg length for her size: a long straight tail, a lean foxy muzzle and a short smooth coat, exactly the adult dog shown in her attached reference images.
+
+SCALE: the Grey Passenger is 225cm — the tallest in this frame; Lucy (163cm), Akane (153cm), Wyatt (153cm), Cyndi (58cm).
+Akane and Wyatt stand at exactly the same height (153cm).
+
+The deep-red wrap dress appears exactly once in this frame, on Akane.
+
+The plain black t-shirt and black jeans appears exactly once in this frame, on Lucy.
+
+The black cardigan, white t-shirt and black cargo trousers appears exactly once in this frame, on Wyatt.
+
+RENDER GRADE — ANIMATED (verbatim in every frame): Flat painterly cel animation — bold clean ink outlines, flat colour fills with soft cel shading, the look of a hand-drawn animated feature film: a classic cartoon mystery adventure retold as an animated film still. Cinematic composition, dramatic motivated lighting rendered in cel tones. 4:5 portrait composition. Absolutely no text, no lettering, no captions, no logos and no watermark anywhere in the image.

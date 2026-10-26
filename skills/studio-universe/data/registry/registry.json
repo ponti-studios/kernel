@@ -1,0 +1,329 @@
+{
+  "version": 7,
+  "source_of_truth": "bibles/ hold every character fact. This file holds pointers + extraction rules + structured data, including the assigned outfit layer. Identity blocks carry no outfit sentence; never duplicate block prose.",
+  "delimiter_convention": "Machine markers look like <!-- PROMPT-BLOCK-START: <id> --> and <!-- PROMPT-BLOCK-END: <id> -->. The compiler extracts marker-to-marker and strips the marker lines themselves. Heading-based rules remain only where no verbatim block exists yet.",
+  "layout": "Each character lives in bibles/<character>/ with its bible file(s) and reference images side by side. Reference filenames match the names the bibles already use.",
+  "units": {
+    "height": "cm"
+  },
+  "shared_blocks": {
+    "render_grade_animated": "Flat painterly cel animation \u2014 bold clean ink outlines, flat colour fills with soft cel shading, the look of a hand-drawn animated feature film: a classic cartoon mystery adventure retold as an animated film still. Cinematic composition, dramatic motivated lighting rendered in cel tones. 4:5 portrait composition. Absolutely no text, no lettering, no captions, no logos and no watermark anywhere in the image."
+  },
+  "characters": {
+    "lucy": {
+      "display_name": "Lucy",
+      "bible": "bibles/lucy/PROMPT.md",
+      "identity_block": {
+        "start_marker": "<!-- PROMPT-BLOCK-START: lucy -->",
+        "end_marker": "<!-- PROMPT-BLOCK-END: lucy -->",
+        "strip_outer_quotes": true
+      },
+      "height_cm": 163,
+      "proportions": "photoreal head ~1/7.5 of height; inseam ~48%, waist ~60%; runway-slim, full F bust; adult, never chibi",
+      "constants": [
+        "gold hoop earrings in every outfit",
+        "black-and-white clothing only, max one coral accent (in work, never on skin/face)",
+        "plain black leather loafers; no platform boots, no sneakers",
+        "skin clean and unmarked; face unadorned; black hair, green eyes, freckles"
+      ],
+      "reference_images": [
+        "bibles/lucy/turnaround.webp"
+      ],
+      "plates": {
+        "turnaround": {
+          "path": "bibles/lucy/turnaround.webp",
+          "register": "animated-cel",
+          "note": "single multi-angle sheet (front, three-quarter, profile, back, head); crop per job when a face-only or mask-only reference is needed \u2014 do not store derived plates"
+        }
+      },
+      "outfits": {
+        "lucy.tee_jeans": {
+          "short": "plain black t-shirt and black jeans",
+          "description": "a plain black t-shirt tucked in at the waist, black jeans cuffed at the ankle, white socks, plain black leather loafers, her two gold hoop earrings.",
+          "default": true
+        },
+        "lucy.oxford_night": {
+          "short": "black tee, black jeans and black wool overcoat",
+          "description": "a plain black t-shirt tucked into black jeans, a black wool overcoat worn open, white socks, plain black leather loafers, her two gold hoop earrings."
+        }
+      }
+    },
+    "wyatt": {
+      "display_name": "Wyatt",
+      "bible": "bibles/wyatt/PROMPT.md",
+      "identity_block": {
+        "start_marker": "<!-- PROMPT-BLOCK-START: wyatt -->",
+        "end_marker": "<!-- PROMPT-BLOCK-END: wyatt -->",
+        "strip_outer_quotes": true
+      },
+      "mask_negative_block": {
+        "start_marker": "<!-- PROMPT-BLOCK-START: wyatt-mask -->",
+        "end_marker": "<!-- PROMPT-BLOCK-END: wyatt-mask -->",
+        "strip_blockquote_prefix": true
+      },
+      "height_cm": 153,
+      "proportions": "exactly 5 heads tall; head+hair+mask = 20% of height (tol 18-22%); adult construction, legs ~half height; eye line level with Akane",
+      "constants": [
+        "matte black full-face hockey mask, two round eye holes = pure black voids, ONLY openings",
+        "neck tattoos only: crowned KING left facing inward, crowned QUEEN right facing inward",
+        "clean bare hands: no hand/finger tattoos, no nail polish"
+      ],
+      "reference_images_note": "Canon source assets. Cel render refs are under plates; do not attach mask-reference.webp to cel frames.",
+      "plates": {
+        "turnaround": {
+          "path": "bibles/wyatt/turnaround.webp",
+          "register": "animated-cel",
+          "note": "single multi-angle sheet (front, three-quarter, profile, back, head); crop per job when a face-only or mask-only reference is needed \u2014 do not store derived plates"
+        }
+      },
+      "outfits": {
+        "wyatt.city": {
+          "short": "black cardigan, white t-shirt and black cargo trousers",
+          "description": "a black knit button cardigan (5 buttons, patch pockets) worn open over a plain white crew-neck t-shirt; black cargo pants with side flap pockets; black Adidas Samba sneakers with white side stripes, gum-brown soles and a small blue heel tab.",
+          "default": true
+        },
+        "wyatt.oxford_night": {
+          "short": "black cardigan, white t-shirt, black cargo trousers and black wool overcoat",
+          "description": "a black knit button cardigan (5 buttons, patch pockets) worn open over a plain white crew-neck t-shirt; black cargo trousers with side flap pockets; a black wool overcoat worn open over the cardigan; black Adidas Samba sneakers with white side stripes, gum-brown soles and a small blue heel tab."
+        }
+      }
+    },
+    "akane": {
+      "display_name": "Akane",
+      "bible": "bibles/akane/PROMPT.md",
+      "identity_block": {
+        "start_marker": "<!-- PROMPT-BLOCK-START: akane -->",
+        "end_marker": "<!-- PROMPT-BLOCK-END: akane -->",
+        "strip_outer_quotes": true
+      },
+      "height_cm": 153,
+      "proportions": "petite, 5 heads tall; natural leg length, never fashion-model elongation; eye line level with Wyatt",
+      "constants": [
+        "gold Cartier Love bangle on RIGHT wrist, gold Rolex with deep green dial on LEFT wrist, every outfit and register",
+        "sheer black tights/stockings + black fur-trim horsebit loafers in every public outfit",
+        "heavy-lidded temptress gaze; never blank/doll-like; never chin-on-hand as default"
+      ],
+      "reference_images": [
+        "bibles/akane/turnaround.webp"
+      ],
+      "plates": {
+        "turnaround": {
+          "path": "bibles/akane/turnaround.webp",
+          "register": "animated-cel",
+          "note": "single multi-angle sheet (front, three-quarter, profile, back, head); crop per job when a face-only or mask-only reference is needed \u2014 do not store derived plates"
+        }
+      },
+      "outfits": {
+        "akane.tailored_dress": {
+          "short": "deep-red wrap dress",
+          "description": "a deep-red matte wrap dress with a shirt collar, a belted waist, three-quarter sleeves and a knee-to-midi skirt, in matte crepe, sheer black tights, black loafers with tan fur trim and a gold horsebit, a gold Cartier Love bangle on her right wrist and a gold Rolex watch with a deep green dial on her left wrist.",
+          "default": true
+        },
+        "akane.red_coat": {
+          "short": "long red wool coat over black mini dress",
+          "description": "a long deep-red tailored wool coat worn open over a plain black knit mini dress, sheer black tights, black fur-trim horsebit loafers, Cartier bangle right, green-dial Rolex left."
+        },
+        "akane.separates": {
+          "short": "red sweater and black pencil skirt",
+          "description": "a deep-red fine-knit fitted sweater tucked into a black high-waisted pencil skirt, sheer black tights, black fur-trim horsebit loafers, Cartier bangle right, green-dial Rolex left."
+        },
+        "akane.black_dress": {
+          "short": "black high-neck dress with red scarf",
+          "description": "a black ribbed-knit long-sleeve dress with a high neck and a deep-red silk scarf knotted at her neck, sheer black tights, black fur-trim horsebit loafers, Cartier bangle right, green-dial Rolex left."
+        },
+        "akane.gucci_pyjamas": {
+          "short": "red-orange satin pyjama shirt",
+          "description": "her Gucci pyjamas \u2014 an oversized vivid red-orange satin pyjama shirt with white piping on the collar, placket and cuffs, falling to mid-thigh \u2014 her hair slicked back in a wet-look finish, her legs and feet bare, glossy black nail polish on her fingernails and toenails.",
+          "at_home_only": true
+        },
+        "akane.oxford_night": {
+          "short": "black wool coat over black high-neck dress with red scarf",
+          "description": "a black wool wrap coat worn open over a black ribbed-knit long-sleeve dress with a high neck and a deep-red silk scarf draped loosely around her throat, one end hanging; sheer black tights; black fur-trim horsebit loafers; a gold Cartier Love bangle on her right wrist and a gold Rolex with a deep green dial on her left wrist."
+        }
+      }
+    },
+    "void": {
+      "display_name": "Void",
+      "bible": "bibles/void/PROMPT.md",
+      "identity_block": {
+        "start_marker": "<!-- PROMPT-BLOCK-START: void -->",
+        "end_marker": "<!-- PROMPT-BLOCK-END: void -->",
+        "strip_outer_quotes": true,
+        "note": "Scooby set omits the drain-halo sentence (no colour effects in this story); every other word verbatim. Record per-frame omission in the frame spec."
+      },
+      "height_cm": 165,
+      "proportions": "5 head-diameters; head \u00d8 = 20% of height; rubberhose construction, NORMAL human lengths, hands end at mid-thigh; exactly Monotone's height in shared frames",
+      "constants": [
+        "pure matte black silhouette; no face, no clothing, no texture, no detail",
+        "jointless hose limbs, smooth curves only; large rounded rubberhose shoe-feet",
+        "stands upright and motionless; never leans, gestures, runs or sits"
+      ],
+      "reference_images": [],
+      "outfits": {},
+      "plates": {
+        "turnaround": {
+          "path": "bibles/void/turnaround.webp",
+          "register": "animated-cel",
+          "note": "single multi-angle sheet (front, three-quarter, profile, back, head); crop per job when a face-only or mask-only reference is needed \u2014 do not store derived plates"
+        }
+      }
+    },
+    "cyndi": {
+      "display_name": "Cyndi",
+      "bible": "bibles/cyndi/PROMPT.md",
+      "identity_block": {
+        "start_marker": "<!-- PROMPT-BLOCK-START: cyndi -->",
+        "end_marker": "<!-- PROMPT-BLOCK-END: cyndi -->",
+        "strip_outer_quotes": true
+      },
+      "height_cm": 58,
+      "height_note": "back height; sitting crown at Monotone's hip (~102cm); standing back just above his knee",
+      "constants": [
+        "attach her register plate to EVERY generation containing her: turnaround.webp for animated-cel, photoreal.jpg for photoreal"
+      ],
+      "plates": {
+        "turnaround": {
+          "path": "bibles/cyndi/turnaround.webp",
+          "register": "animated-cel",
+          "note": "single multi-angle sheet (front, three-quarter, profile, back, head); crop per job when a face-only or mask-only reference is needed \u2014 do not store derived plates"
+        }
+      },
+      "outfits": {}
+    },
+    "grey-passenger": {
+      "display_name": "the Grey Passenger",
+      "bible": "bibles/grey-passenger/PROMPT.md",
+      "identity_block": {
+        "start_marker": "<!-- PROMPT-BLOCK-START: grey-passenger -->",
+        "end_marker": "<!-- PROMPT-BLOCK-END: grey-passenger -->",
+        "strip_outer_quotes": true
+      },
+      "tails": {
+        "trap": {
+          "start_marker": "<!-- PROMPT-BLOCK-START: grey-tail-trap -->",
+          "end_marker": "<!-- PROMPT-BLOCK-END: grey-tail-trap -->",
+          "strip_outer_quotes": true
+        },
+        "unmasking": {
+          "start_marker": "<!-- PROMPT-BLOCK-START: grey-tail-unmasking -->",
+          "end_marker": "<!-- PROMPT-BLOCK-END: grey-tail-unmasking -->",
+          "strip_outer_quotes": true
+        }
+      },
+      "height_cm": 225,
+      "proportions": "gaunt greatcoat figure on a stilted frame; tall peaked cap; long draped sleeves hiding the hands",
+      "constants": [
+        "a person in a railway costume \u2014 never transparent, never floating, no blood, no gore"
+      ],
+      "reference_images": [],
+      "outfits": {},
+      "plates": {
+        "turnaround": {
+          "path": "bibles/grey-passenger/turnaround.webp",
+          "register": "animated-cel",
+          "note": "single multi-angle sheet (front, three-quarter, profile, back, head); crop per job when a face-only or mask-only reference is needed \u2014 do not store derived plates"
+        }
+      }
+    },
+    "conductor": {
+      "display_name": "the Conductor",
+      "bible": "bibles/conductor/PROMPT.md",
+      "identity_block": {
+        "start_marker": "<!-- PROMPT-BLOCK-START: conductor -->",
+        "end_marker": "<!-- PROMPT-BLOCK-END: conductor -->",
+        "strip_outer_quotes": true
+      },
+      "tails": {
+        "trap": {
+          "start_marker": "<!-- PROMPT-BLOCK-START: conductor-tail-trap -->",
+          "end_marker": "<!-- PROMPT-BLOCK-END: conductor-tail-trap -->",
+          "strip_outer_quotes": true
+        },
+        "unmasking": {
+          "start_marker": "<!-- PROMPT-BLOCK-START: conductor-tail-unmasking -->",
+          "end_marker": "<!-- PROMPT-BLOCK-END: conductor-tail-unmasking -->",
+          "strip_outer_quotes": true
+        }
+      },
+      "height_cm": 196,
+      "proportions": "a tall, narrow figure on raised boots; long black conductor's coat to the ankle; tall peaked cap; smooth porcelain oval mask",
+      "constants": [
+        "a person in a bus conductor's costume \u2014 never transparent, never floating, no blood, no gore",
+        "the porcelain mask has a single punched circular hole and no other facial features"
+      ],
+      "outfits": {},
+      "plates": {
+        "turnaround": {
+          "path": "bibles/conductor/turnaround.webp",
+          "register": "animated-cel",
+          "note": "single multi-angle sheet (front, three-quarter, profile, back, head); crop per job when a face-only or mask-only reference is needed \u2014 do not store derived plates"
+        }
+      }
+    },
+    "ada-bell": {
+      "display_name": "Ada Bell",
+      "bible": "bibles/ada-bell/PROMPT.md",
+      "identity_block": {
+        "start_marker": "<!-- PROMPT-BLOCK-START: ada-bell -->",
+        "end_marker": "<!-- PROMPT-BLOCK-END: ada-bell -->",
+        "strip_outer_quotes": true
+      },
+      "height_cm": 160,
+      "proportions": "compact, upright 78-year-old; natural human proportions; never hunched, never frail, never childlike",
+      "constants": [
+        "never hunched, never frail, never childlike",
+        "square capable hands with short clean nails and a faint ink stain on her right forefinger"
+      ],
+      "reference_images": [],
+      "outfits": {
+        "ada.workwear": {
+          "short": "navy work apron over cream blouse and charcoal skirt",
+          "description": "a navy-blue cotton work apron with a breast pocket over a cream blouse with rolled sleeves and a charcoal wool skirt; brown lace-up shoes; brass-rimmed half-moon spectacles; a red enamel thimble on a chain at her neck; a cloth tape measure around her neck.",
+          "default": true
+        }
+      },
+      "plates": {
+        "turnaround": {
+          "path": "bibles/ada-bell/turnaround.webp",
+          "register": "animated-cel",
+          "note": "single multi-angle sheet (front, three-quarter, profile, back, head); crop per job when a face-only or mask-only reference is needed \u2014 do not store derived plates"
+        }
+      }
+    },
+    "phantom": {
+      "display_name": "the phantom",
+      "bible": "bibles/phantom/PROMPT.md",
+      "identity_block": {
+        "start_marker": "<!-- PROMPT-BLOCK-START: phantom -->",
+        "end_marker": "<!-- PROMPT-BLOCK-END: phantom -->",
+        "strip_outer_quotes": true
+      },
+      "tails": {
+        "trap": {
+          "start_marker": "<!-- PROMPT-BLOCK-START: phantom-tail-trap -->",
+          "end_marker": "<!-- PROMPT-BLOCK-END: phantom-tail-trap -->",
+          "strip_outer_quotes": true
+        },
+        "unmasking": {
+          "start_marker": "<!-- PROMPT-BLOCK-START: phantom-tail-unmasking -->",
+          "end_marker": "<!-- PROMPT-BLOCK-END: phantom-tail-unmasking -->",
+          "strip_outer_quotes": true
+        }
+      },
+      "height_cm": 230,
+      "proportions": "towering floor-length hooded robe pooling at floor; smooth blank oval mask with two hollow black oval eyes + small dark open oval mouth",
+      "constants": [
+        "a person in a Halloween costume \u2014 never transparent, never floating, no blood, no gore"
+      ],
+      "reference_images": [],
+      "outfits": {},
+      "plates": {
+        "turnaround": {
+          "path": "bibles/phantom/turnaround.webp",
+          "register": "animated-cel",
+          "note": "single multi-angle sheet (front, three-quarter, profile, back, head); crop per job when a face-only or mask-only reference is needed \u2014 do not store derived plates"
+        }
+      }
+    }
+  }
+}

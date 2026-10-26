@@ -1,0 +1,113 @@
+{
+  "frame": 3,
+  "title": "THE TRAP",
+  "set": "The Aurora Night Sleeper",
+  "set_slug": "aurora",
+  "register": "animated-cel",
+  "master": {
+    "width": 1640,
+    "height": 2048,
+    "aspect_ratio": "4:5"
+  },
+  "floorplan": {
+    "camera": "from the Venice end of the dining car at standing height, looking its full length toward the kitchen",
+    "anchors": {
+      "DINING CAR": "a grand restaurant car, laid tables down both sides of a carpeted aisle",
+      "KITCHEN END": "the far end, double doors with round porthole windows",
+      "VENICE END": "the camera end, velvet curtains drawn on night glass",
+      "TABLE ROW": "the nearside row of laid tables, white cloths and silver domes",
+      "LUGGAGE RACK": "brass overhead racks running the car's length"
+    }
+  },
+  "cast": [
+    {
+      "character": "grey-passenger",
+      "outfit_id": null,
+      "anchor": "DINING CAR",
+      "depth": "mid-car, low on the carpet in the mesh bundle",
+      "action": "lies on his back inside the fallen baggage net mid-car, short of Akane's table \u2014 the mesh closed around him but open over his face and chest, his ash-grey greatcoat and tall peaked cap still on him, his blank oval face and two hollow black eyes visible through the squares, straining against the net, his lantern arm tangled at his side with the lantern dangling from its sleeve cord, still lit",
+      "gaze_target": "Akane's table"
+    },
+    {
+      "character": "akane",
+      "outfit_id": "akane.tailored_dress",
+      "anchor": "TABLE ROW",
+      "depth": "near, seated at a laid table for one",
+      "action": "sits at a laid table for one on Lucy's side of the car with the replica at her throat on a black velvet ribbon, turning an untouched champagne coupe slowly by its stem with her right hand and her left resting on the table, watching the doors with a heavy-lidded, almost bored expression \u2014 she was the bait, and she is early for dessert",
+      "gaze_target": "the Grey Passenger, level and unbothered"
+    },
+    {
+      "character": "lucy",
+      "outfit_id": "lucy.tee_jeans",
+      "anchor": "DINING CAR",
+      "depth": "foreground frame-left, braced at the aisle's edge",
+      "action": "grips the bundle's drag-ropes with both hands, hauling the trussed passenger across the carpet toward the kitchen doors, body leaned into the pull, one foot braced against a table leg",
+      "gaze_target": "the drag-ropes in her hands, eyes down"
+    },
+    {
+      "character": "wyatt",
+      "outfit_id": "wyatt.city",
+      "anchor": "DINING CAR",
+      "depth": "foreground frame-right, braced at the aisle's edge",
+      "action": "grips the bundle's drag-ropes with both hands, hauling the trussed passenger across the carpet toward the kitchen doors, weight thrown back, one foot stepped behind him, masked face turned toward the bundle",
+      "gaze_target": "the drag-ropes in his hands, eyes down"
+    }
+  ],
+  "props": [
+    {
+      "item": "replica_necklace",
+      "owner": "akane",
+      "anchor": "TABLE ROW: at her throat on black velvet ribbon, catching candlelight",
+      "description": "the paste replica of the Aurora Diamond on a black velvet ribbon at Akane's throat"
+    },
+    {
+      "item": "drop_net",
+      "owner": "wyatt",
+      "anchor": "LUGGAGE RACK: its four corners are still lashed to the brass overhead racks above the aisle; the closed bundle lies mid-car with Lucy and Wyatt on its drag-ropes",
+      "description": "a wide baggage net of knotted rope with large open squares, bunched around the Grey Passenger; the squares are wide enough to see the ash-grey coat, peaked cap and blank oval face inside",
+      "state": "the net is closed around the Grey Passenger; he is inside it, on his back, his ash-grey greatcoat and tall peaked cap still on him, his blank oval face and two hollow black eyes visible through an open square of mesh; his shoulders and raised arms are under the mesh, the lantern arm tangled at his side; the net hangs clear of Lucy's and Wyatt's hands",
+      "contains": "grey-passenger"
+    },
+    {
+      "item": "left_drag_rope",
+      "owner": "lucy",
+      "anchor": "DINING CAR: taut from Lucy's both hands to the bundle's near-left corner",
+      "description": "a thick hemp drag-rope, taut from Lucy's hands to the bundle's near-left corner"
+    },
+    {
+      "item": "right_drag_rope",
+      "owner": "wyatt",
+      "anchor": "DINING CAR: taut from Wyatt's both hands to the bundle's near-right corner",
+      "description": "a thick hemp drag-rope, taut from Wyatt's hands to the bundle's near-right corner"
+    },
+    {
+      "item": "lantern",
+      "owner": "grey-passenger",
+      "anchor": "KITCHEN END: dangling from its tangled sleeve cord, still lit",
+      "description": "a dim green-shaded inspector's lantern, still lit"
+    }
+  ],
+  "moment": "The trap has sprung mid-action, everyone in motion. Dessert stands abandoned: the passenger's lunge tripped the release and the net took him mid-car, and now Lucy and Wyatt haul the bundled ghost across the carpet toward the kitchen doors while he strains against the mesh \u2014 then the chandeliers blast back on and the dining car sees its ghost caught. Exactly four figures in this frame \u2014 the passenger, Akane, Lucy and Wyatt, and that is the full frame.",
+  "environment": "laid tables with white cloths, silver domes and guttering candles down both sides of the carpeted aisle; every table on Wyatt's side stands cleared and empty, chairs pushed in; swaying crystal chandeliers; night windows turned black mirrors; swaying coat hangers; a dropped dessert spoon glinting mid-aisle.",
+  "lighting": "candle warmth guttering into a beat of true blackout, then the chandeliers blasting back on full \u2014 the passenger rim-lit and netted; the net's shadow striping the aisle carpet.",
+  "colour": "full, rich colour \u2014 cream cloths, gold chandelier light, red carpet; the passenger ash-grey at the centre of it all.",
+  "negatives": [
+    "menus, tickets and labels are blank unmarked cards",
+    "clean costumes, undamaged props and safe set dressing throughout",
+    "the passenger stays a costume: the rubber-hose hand is a costume detail",
+    "Akane watches with heavy-lidded calm, her hands busy in her lap or at her sides",
+    "Wyatt's hands are clean bare skin, his only tattoos the king and queen on his neck",
+    "Wyatt wears his black cardigan, white t-shirt and black cargo trousers, while the ash-grey greatcoat, peaked cap and lantern belong to the figure inside the net"
+  ],
+  "denylist": [
+    "frame-centre",
+    "in the middle of it",
+    "tall in the frame",
+    "the standing men"
+  ],
+  "references": [
+    "bibles/lucy/turnaround.webp",
+    "bibles/wyatt/turnaround.webp",
+    "bibles/akane/turnaround.webp"
+  ]
+}

@@ -1,0 +1,114 @@
+{
+  "frame": 1,
+  "title": "THE BOARDING",
+  "set": "The Aurora Night Sleeper",
+  "set_slug": "aurora",
+  "register": "animated-cel",
+  "master": {
+    "width": 1640,
+    "height": 2048,
+    "aspect_ratio": "4:5"
+  },
+  "floorplan": {
+    "camera": "on the platform at standing height, looking along the sleeper toward the engine",
+    "anchors": {
+      "GRAND HALL": "vaulted terminus hall behind the camera, arched glass roof over night sky",
+      "PLATFORM": "long lamplit platform running bottom-centre to the engine",
+      "SLEEPER TRAIN": "deep-green sleeping cars with brass window trim along the platform's left",
+      "ENGINE": "far end of the platform, headlamp glaring through steam",
+      "FOOTBRIDGE": "iron footbridge spanning the platform midway, high above"
+    }
+  },
+  "cast": [
+    {
+      "character": "grey-passenger",
+      "outfit_id": null,
+      "anchor": "FOOTBRIDGE",
+      "depth": "high and far, atop the footbridge at the engine end",
+      "action": "stands motionless on the footbridge above the platform, the inspector's lantern raised high, the greatcoat hanging heavy and still, its blank face angled down the platform toward the gang",
+      "gaze_target": "the diamond case at Lucy's feet"
+    },
+    {
+      "character": "akane",
+      "outfit_id": "akane.tailored_dress",
+      "anchor": "PLATFORM",
+      "depth": "midground, perched side-saddle on her stacked trunk",
+      "action": "sits side-saddle on a stacked brass-bound trunk, legs crossed at the ankle, a leather-bound novel held face-down and unopened in her lap, heavy-lidded gaze level at the footbridge \u2014 early for departure, unbothered by ghosts",
+      "gaze_target": "the Grey Passenger, with utter boredom"
+    },
+    {
+      "character": "lucy",
+      "outfit_id": "lucy.tee_jeans",
+      "anchor": "PLATFORM",
+      "depth": "foreground frame-left, kneeling at the open diamond case",
+      "action": "kneels on one knee at the open brass-bound case, a small brass loupe to her eye, documenting the blue-white stone on its velvet bed before it travels",
+      "gaze_target": "the diamond"
+    },
+    {
+      "character": "wyatt",
+      "outfit_id": "wyatt.city",
+      "anchor": "PLATFORM",
+      "depth": "foreground frame-right, between the camera and the train",
+      "action": "stands between the camera and the train, left arm extended sideways at waist height, palm open \u2014 a barrier between the footbridge and the others \u2014 masked face tilted up toward the ironwork",
+      "gaze_target": "the Grey Passenger"
+    },
+    {
+      "character": "cyndi",
+      "outfit_id": null,
+      "anchor": "PLATFORM",
+      "depth": "low in frame at Wyatt's heels",
+      "action": "stands rigid at Wyatt's heels, nose lifted high scenting the steam toward the footbridge, ears pricked, tail low and still",
+      "gaze_target": "the Grey Passenger"
+    }
+  ],
+  "props": [
+    {
+      "item": "diamond_case",
+      "owner": "lucy",
+      "anchor": "PLATFORM: open at Lucy's knee, the blue-white stone on dark velvet",
+      "description": "a small black morocco leather case, open, the Aurora Diamond on black velvet inside, its facets throwing a cold white star"
+    },
+    {
+      "item": "lantern",
+      "owner": "grey-passenger",
+      "anchor": "FOOTBRIDGE: raised high in its hand, green shade glowing dim",
+      "description": "a dim green-shaded inspector's lantern, lit"
+    },
+    {
+      "item": "brass_trunk",
+      "owner": "akane",
+      "anchor": "PLATFORM: stacked pair she sits upon, stickers blank",
+      "description": "a brass-bound steamer trunk, lid open on folded blankets, its travel stickers blank and unmarked"
+    },
+    {
+      "item": "loupe",
+      "owner": "lucy",
+      "anchor": "PLATFORM: small brass loupe at her eye, documenting the stone",
+      "description": "a small brass jeweller's loupe"
+    }
+  ],
+  "moment": "The midnight departure, caught mid-action, everyone in motion. The Grey Passenger watches from the ironwork as the gang boards the green-and-brass sleeper. Wyatt bars its path; Lucy logs the stone; Akane turns a blank page, indifferent.",
+  "environment": "vaulted trainshed with an arched glass roof on night sky; rows of warm gaslight globes; low steam curling along the boards; porters with trolleys blurred mid-stride; a huge round station clock, its face a blank white disc with black hands only, its face unmarked; deep-green sleeping cars with brass window trim and warm berth windows; open doors with folded steps; pigeons on the girders, shapes only.",
+  "lighting": "warm gaslight pools along the platform; cold moonlit wash through the roof glass; the engine headlamp glaring from the far end, rimming the greatcoat on the bridge; long shadows down the boards.",
+  "colour": "full, rich colour \u2014 CIWL green, brass gold, warm skin tones; the passenger ash-grey at the top of it all.",
+  "negatives": [
+    "timetables, tickets, the clock face, signs and stickers are plain blank panels of colour",
+    "clean costumes, undamaged props and safe set dressing throughout",
+    "the passenger reads as a solid costume standing on its own feet, dense opaque cloth",
+    "Akane's hands stay busy in her lap or at her sides",
+    "hands hold only period props: paper tickets, luggage handles, a hat",
+    "Wyatt's hands are clean bare skin, his only tattoos the king and queen on his neck"
+  ],
+  "denylist": [
+    "frame-centre",
+    "in the middle of it",
+    "tall in the frame",
+    "the standing men"
+  ],
+  "references": [
+    "bibles/lucy/turnaround.webp",
+    "bibles/wyatt/turnaround.webp",
+    "bibles/akane/turnaround.webp",
+    "bibles/cyndi/turnaround.webp"
+  ]
+}

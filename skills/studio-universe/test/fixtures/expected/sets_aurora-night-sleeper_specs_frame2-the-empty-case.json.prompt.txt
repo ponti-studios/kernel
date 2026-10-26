@@ -1,0 +1,55 @@
+FRAME 2 — THE EMPTY CASE. The Aurora Night Sleeper set, animated-cel register. Master 1640x2048, 4:5 portrait.
+
+SCENE — from the floor beside the low trunk at the near end of the luggage car, looking diagonally across the open case toward the dynamo cupboard. LUGGAGE CAR: narrow wood-panelled baggage car, swaying gently. LOW TRUNK: a low brass-bound steamer trunk at the near end, its lid shut. RACK WALL: the car's left wall, stacked trunks under rope netting. DYNAMO CUPBOARD: a low iron cupboard at the far end, its door open on darkness, the brush holder empty. CORRIDOR DOOR: the door the camera crouches in.
+
+STAGING — Lucy, in the plain black t-shirt and black jeans; never the black cardigan, white t-shirt and black cargo trousers: crouches at the low trunk over the open empty case, her right palm pressed hard over her eyes, fingers spread, her left hand holding the brass loupe down at her knee, jaw tight, shoulders squared — she is covering her eyes in furious disbelief, her face turned from the rock [LOW TRUNK — near, crouched over the open case; gaze on the dark grey rock, hidden behind her hand]
+
+STAGING — Wyatt, in the black cardigan, white t-shirt and black cargo trousers; never the plain black t-shirt and black jeans: stands behind Lucy, the chunky railway torch in his right hand pointed straight down at the dark grey rock on the floor, its hard beam pinning the rock in a circle of light, the opened hollow brush cap in his left hand tilted so the empty velvet nest shows; the screwdriver lies on the cupboard sill [DYNAMO CUPBOARD — behind Lucy, half-turned toward the cupboard; gaze on the dark grey rock]
+
+STAGING — Cyndi: sits at the open dynamo cupboard with one front paw on the door, her head snapped around to her left to stare at the dark grey rock on the floor, ears bolt upright, eyes huge with tiny pupils, jaw dropped in an exaggerated super-shocked expression — the find lands as a shock [DYNAMO CUPBOARD — at the open cupboard, low in frame; gaze on the dark grey rock]
+
+PROP — diamond case: the same small brass-bound case from the boarding platform, its gold metal exterior and deep blue velvet bed, open and empty: a shallow diamond-shaped hollow with two thin gold prongs sprung wide, a faint pale ring in the velvet where the stone sat [owner: Lucy; anchor: LOW TRUNK]
+
+STATE — diamond case: the case lies open and empty of its diamond, the velvet bed bare
+
+PROP — grey rock: a dark grey rock the size of a pigeon's egg, rough and matte, with one chipped flat face, a plain rough stone with a dull even surface [owner: Lucy; anchor: LUGGAGE CAR]
+
+STATE — grey rock: the rock is the fake; it lies on the floor, untouched
+
+PROP — brush cap: a hollow black dynamo brush cap with a fringe of copper bristles at its rim, pried open, the velvet nest inside empty [owner: Wyatt; anchor: DYNAMO CUPBOARD]
+
+PROP — torch: a chunky black railway torch, lit, throwing a narrow hard beam [owner: Wyatt; anchor: DYNAMO CUPBOARD]
+
+PROP — loupe: a small brass jeweller's loupe [owner: Lucy; anchor: LOW TRUNK]
+
+PROP — screwdriver: a small flathead screwdriver [owner: Wyatt; anchor: DYNAMO CUPBOARD]
+
+MOMENT — The theft lands in one look: the diamond is gone, the case is empty, the stone on the floor is a dark grey rock, and the hiding place is empty. Cyndi is super-shocked; Lucy is furious; Wyatt keeps the torch on the rock.
+
+ENVIRONMENT INVENTORY: stacked leather trunks roped under netting along the rack wall; an overhead baggage rack; one swaying caged bulb; coiled hoses and an oil can; glass dust glittering across the boards; one scuff mark wiped smooth as rubber; tall night windows showing black rushing dark.
+
+LIGHTING: the caged bulb a dim ambient wash; Wyatt's torch the hard dramatic source, pointed straight down at the dark grey rock, pinning it in a hard circle of light; the empty case in the torch spill, the cupboard in shadow; deep shadow beyond.
+
+COLOUR: full colour — warm wood, brass trunk corners, red-brown leather; the dull grey metal of the cupboard; the empty case's gold metal and deep blue velvet; the dark grey rock matte and dull at the centre of the beam; the torch beam cold blue-white.
+
+NEGATIVES: the rock is a plain matte dark-grey stone with a dull even surface; the dark grey rock lies matte and dull on the velvet bed of the case; the case lies open on its deep blue velvet bed, its tray empty; exactly one rock appears in the frame; the case is the same gold-brass case from the boarding platform, its bed of deep blue velvet; the only objects in the frame are the rock, its case, the luggage and the gang's own props; luggage stickers are plain blank shapes, and every surface carrying print instead carries flat colour; clean costumes and undamaged props throughout; Cyndi's gaze is fixed on the rock; Lucy covers her eyes; Wyatt's hands are clean bare skin, his only tattoos the king and queen on his neck.
+
+LUCY (verbatim block): Lucy is a Puerto Rican woman with a wide, slightly flattened oval face, a defined angular jawline softer at the cheeks, a light dusting of freckles across her nose and cheeks, and skin in a light warm tan. Her eyes are large vertical ovals with green irises and a heavy lower lash line: the lid line sweeps smoothly from inner to outer corner, and each iris fills its opening with clear green. She is 5 feet 4 inches tall with a very slim, willowy build — narrow shoulders and ribcage, a small waist, slim hips, thin arms and long legs (inseam about 48% of her height, natural waist at about 60%) — and a full, generous F bust. Her hair is long loose waves to mid-back, centre-parted, black with graphic sculptural clumps. Everything she wears is black and white; coral is her design signature — it lives in her work as ink and paper, while her skin and face stay clean, bare and untouched.
+
+LUCY'S OUTFIT — lucy.tee_jeans: a plain black t-shirt tucked in at the waist, black jeans cuffed at the ankle, white socks, plain black leather loafers, her two gold hoop earrings.
+
+WYATT (verbatim block): Wyatt is an adult man in flat painterly cel animation, drawn EXACTLY as in his cel reference sheet — the same man. He is 153cm tall and exactly 5 heads in proportion: his head, hair and mask together are one fifth of his height, with a grown man's construction throughout and legs about half his height. His hair is voluminous black curls, medium length. On his neck sit two portrait tattoos facing inward toward the throat: a crowned bearded KING on his left side, and a crowned QUEEN — a woman — on his right.
+
+WYATT'S MASK (verbatim, mandatory): The mask is a tall smooth shield of matte black covering his whole face in one piece, from the hairline above his brow down past his jaw and chin, edge to edge across both cheeks. Its surface is plain matte black throughout. It carries two round holes, one at each eye, and those two holes are its only openings: each one opens onto flat empty blackness. The mask reads as a single unbroken black form from forehead to chin, with both round eye holes always present and open.
+
+WYATT'S OUTFIT — wyatt.city: a black knit button cardigan (5 buttons, patch pockets) worn open over a plain white crew-neck t-shirt; black cargo pants with side flap pockets; black Adidas Samba sneakers with white side stripes, gum-brown soles and a small blue heel tab.
+
+CYNDI (verbatim block): Cyndi is a lean, athletic medium-sized mixed-breed dog with a short uniform golden-tan coat, a long muzzle that is BLACK with a little grey around the mouth, large upright pointed ears with dark backs, dark brown eyes, a small white patch on her chest and white tips on her paws, and a straight medium-length tail carried low with a dark tip. Her build is that of a grown athletic mixed breed with normal leg length for her size: a long straight tail, a lean foxy muzzle and a short smooth coat, exactly the adult dog shown in her attached reference images.
+
+SCALE: Lucy is 163cm — the tallest in this frame; Wyatt (153cm), Cyndi (58cm).
+
+The plain black t-shirt and black jeans appears exactly once in this frame, on Lucy.
+
+The black cardigan, white t-shirt and black cargo trousers appears exactly once in this frame, on Wyatt.
+
+RENDER GRADE — ANIMATED (verbatim in every frame): Flat painterly cel animation — bold clean ink outlines, flat colour fills with soft cel shading, the look of a hand-drawn animated feature film: a classic cartoon mystery adventure retold as an animated film still. Cinematic composition, dramatic motivated lighting rendered in cel tones. 4:5 portrait composition. Absolutely no text, no lettering, no captions, no logos and no watermark anywhere in the image.
