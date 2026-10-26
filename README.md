@@ -24,6 +24,7 @@ npx skills add ponti-studios/kernel --skill kernel-dev-react-native --yes
 - `write-video-script` (direct idea-to-camera scripts)
 - `write-brief` (transcript → operational research brief)
 - `write-incident-report`
+- `phrase-audit` (stock-phrase audit for a Markdown corpus)
 
 ### Studio Ops
 
@@ -31,6 +32,16 @@ npx skills add ponti-studios/kernel --skill kernel-dev-react-native --yes
 - `plan-to-tasks`
 - `project-operations`
 - `workshop-design`
+- `studio-dev` (studio repo convention and `.studio` assembly)
+
+### Studio
+
+- `studio-core`, `studio-script`, `studio-scenes`, `studio-clips`, `studio-essay`, `studio-social`, `studio-video`
+- `studio-imagegen`, `studio-mediagen`, `studio-podcastgen`, `studio-ledger`, `studio-universe`
+
+### Media & Data
+
+- `image-model-craft`, `programmatic-video`, `llm-structured-extraction`, `file-organization`, `macos-complete-uninstall`
 
 ### Development
 
@@ -45,9 +56,11 @@ npx skills add ponti-studios/kernel --skill kernel-dev-react-native --yes
 - `kernel-dev-typescript`
 - `kernel-git-commit`
 - `kernel-clean-code` (consolidated: AI-slop removal, code smells, branch deslop, tech-debt audit)
+- `pr-comments` (PR review triage), `react-doctor` (React health), `charlie-standing-rules`
 
 ### Brand
 
+- `brand-asset-sourcing`
 - `kernel-animate` (consolidated: build, Emil's craft philosophy, vocabulary, opportunities, improve, review, recipes, standards)
 - `kernel-design` (consolidated: Apple design, brand governance, a11y audit, brandkit, token build, Figma, image-to-code, design-system interop, library selection, performance, redesign, UX writing, personal style rules)
 
@@ -61,11 +74,13 @@ General UI/design-system guidance isn't a kernel skill — use [anthropics/skill
 - `kernel-audit-review`
 - `kernel-audit-swiftui`
 - `kernel-audit-trace`
+- `deep-repo-code-scan`
 
 ### Operations
 
 - `kernel-ops-production`
 - `kernel-ops-ship`
+- `ship-ios` (unified branch-to-TestFlight lifecycle), `dependabot-batch`
 
 ---
 
