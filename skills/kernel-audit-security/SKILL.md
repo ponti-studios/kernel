@@ -1,11 +1,12 @@
 ---
 name: kernel-audit-security
 description: "OWASP-grounded code security reviews and offensive audits with exploit proof. Use to find bugs, pen-test, or audit API, web, mobile, IaC, secrets, dependencies."
-license: MIT
+license: "MIT AND CC-BY-4.0 AND CC-BY-SA-4.0"
 metadata:
-  author: project
+  author: project (curation); vendored content per LICENSE-NOTES.md
   version: "1.0"
   category: Audit
+  vendored: true
   tags:
     - security
     - owasp
@@ -15,6 +16,11 @@ metadata:
     - secrets
     - dependencies
 ---
+> **Licensing.** The router and mode structure are MIT. `reviews/`, `plays/`, `agents/` and
+> `templates/` are vendored from the OWASP secure-agent-playbook (CC-BY-4.0, Chris Maenner);
+> `audit-methodology/` from cloudflare/security-audit-skill (MIT); `data/asvs`, `data/masvs` and
+> `data/mastg` are OWASP datasets (CC-BY-SA). Sources and pinned commits: `LICENSE-NOTES.md`.
+
 ## When to use
 
 - user asks to find security bugs, do a security review, or audit code for vulnerabilities
