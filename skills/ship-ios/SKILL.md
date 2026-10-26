@@ -12,7 +12,7 @@ metadata:
 
 One way from branch to TestFlight, for every iOS app. The lifecycle below is
 Thames's `ship` flow; the build stages are the studio's shared pipeline
-(`.studio/ship-ios.sh`, vendored from `studio-dev` — same stages, same rules,
+(the `ship-ios.sh` pipeline script in this skill — same stages, same rules,
 each repo supplying only its build and upload). The cost policy is Omiro's:
 everything builds locally, so there is no EAS cloud-build spend. App-specific
 commands live in the adapter rows; app runbooks stay in the app repos.
@@ -131,25 +131,32 @@ path — skip this step entirely.
 | App | Checks | Build | Audit | Symbols / Upload | Runbook |
 | --- | --- | --- | --- | --- | --- |
 | Omiro (Expo) | `just mobile check` (format, lint, types, tests), `react-doctor --scope changed`, repo gate; identity guard (`verify:release`, `export:embed:ios`, `APP_ENV=production`, bundle `com.pontistudios.hakumi`); EAS owns the build-number increment | `just testflight` from the hominem root (`scripts/ship-omiro.sh`: pulls EAS prod env, `build:prod:local` writes `build/prod-local.ipa`, refuses dirty trees). Manual two-step fallback: `pnpm eas:pull:prod`, `pnpm build:prod:local`, pause, `pnpm submit:local` | IPA bundle ID must equal `com.pontistudios.hakumi`; `ios/` is CNG-generated, never edited | New Relic app token + User key from EAS env (upload during build, key prefix checked); `ship_upload` runs `pnpm submit:local`; OTA via `just mobile update "<message>"` (approval-gated EAS workflow) | `omiro-release` skill (Omiro adapter) + `references/production-operations.md` in hominem |
-| Thames (native) | `npx tsc --noEmit`, `npx jest`, `npm run lint`, `cd ThamesCore && swift test` | `LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 just testflight` (typechecks, tests, archives Release, timestamp build number) | no provider key in the build; Watch app embedded | New Relic (iPhone dSYMs) + Sentry (Watch); same command uploads | `docs/TESTFLIGHT.md`, `.studio/STUDIO.md`, `ship` skill §6–7 in Thames |
+| Thames (native) | `npx tsc --noEmit`, `npx jest`, `npm run lint`, `cd ThamesCore && swift test` | `LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 just testflight` (typechecks, tests, archives Release, timestamp build number) | no provider key in the build; Watch app embedded | New Relic (iPhone dSYMs) + Sentry (Watch); same command uploads | `docs/TESTFLIGHT.md`, `studio-dev` skill, `ship` skill §6–7 in Thames |
 
 ## Adding an app
 
-1. Install the shipping runtime from this skill —
-   `kernel/skills/ship-ios/scripts/install.sh <repo-root>` — which copies
-   `ship-ios.sh` + `lib.sh` into the repo's `.studio/` and stamps the version.
-   Never edit a repo's copy in place. (The other studio verbs —
-   setup/doctor/run/sim, ports — come from the `studio-dev` skill in this
-   same repo.)
-2. Write `scripts/ship.sh`: source `.studio/lib.sh` and `.studio/ship-ios.sh`,
-   set `SHIP_NAME`/`SHIP_ROOT`, define `ship_build` (sets `SHIP_VERSION`,
-   `SHIP_BUILD`, `SHIP_ARTIFACT`) and `ship_upload` (plus `ship_audit`,
-   `ship_symbols`, `ship_check` as needed), end with `ship_ios "$@"`.
+1. Install this skill plus `studio-dev` into the repo (project scope, pinned
+   in `skills-lock.json`):
+   `npx skills add ponti-studios/kernel --skill ship-ios --skill studio-dev`.
+   Never copy the runtime by hand.
+2. Write `scripts/ship.sh`: source `$SKILLS_DIR/ship-ios/scripts/lib.sh` and
+   `ship-ios.sh` (where `SKILLS_DIR` defaults to the repo's
+   `.agents/skills`), set `SHIP_NAME`/`SHIP_ROOT`, define `ship_build` (sets
+   `SHIP_VERSION`, `SHIP_BUILD`, `SHIP_ARTIFACT`) and `ship_upload` (plus
+   `ship_audit`, `ship_symbols`, `ship_check` as needed), accept an optional
+   `--skills-dir <path>` override, and end with `ship_ios "$@"`.
 3. Point the repo's `testflight` recipe at it. Add the adapter row above.
 4. Trial with `--no-upload`, then verify the first real build in TestFlight.
-5. A new rule belongs in `studio-dev`, not in one repo's copy, so every app
-   gets it. Both live apps are on the harness (Thames
-   `scripts/archive-testflight.sh`, Omiro `scripts/ship-omiro.sh`).
+5. A new rule belongs in this skill, not in one repo's installed copy, so
+   every app gets it on the next update. Both live apps are on the harness
+   (Thames `scripts/archive-testflight.sh`, Omiro `scripts/ship-omiro.sh`).
+
+## Verifying the upload path
+
+`scripts/test-sourcemap-upload.sh --tools-dir <path>` runs the real upstream
+upload script against a loopback stub with the exact env and args the pipeline
+uses — no bytes reach New Relic. Run it after touching anything in the symbol
+pipeline. It exits 3 where macOS Xcode swift is unavailable.
 
 ## Troubleshooting
 

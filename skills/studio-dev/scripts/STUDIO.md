@@ -15,7 +15,7 @@ A verb a repo does not support prints "not applicable here" and exits 0.
 
 ## Ports
 
-`.studio/ports.env` is the one list of ports (Thames 8083, Still 8084, Omiro e2e 8082, API 4040).
+The installed `studio-dev` skill's `scripts/ports.env` is the one list of ports (Thames 8083, Still 8084, Omiro e2e 8082, API 4040).
 Never use 8081 for a studio app.
 
 ## Habits
@@ -28,16 +28,19 @@ Never use 8081 for a studio app.
 
 ## This folder
 
-`.studio/` is assembled from the kernel skills (`studio-dev` for this file,
-`ship-ios` for the shipping pipeline): run `just studio-update` in any repo
-to install it, `just studio-check` to fail when a copy has drifted. Do not
-edit it here: change the skill, then update every repo.
+There is no `.studio/` folder anymore. The studio runtime lives in the
+`studio-dev` and `ship-ios` skills (project-installed into the repo's
+`.agents/skills/`, pinned in `skills-lock.json`): run `just studio-update`
+to restore the locked set, `just studio-check` to fail when a skill or the
+lockfile is missing. Do not hand-edit installed copies: change the skill,
+then update every repo.
 
 ## Shipping
 
-Every Apple app ships to TestFlight with `just testflight`, which runs `.studio/ship-ios.sh`. The
-stages and rules are the same for every repo; each repo's `scripts/` file supplies only how its app
-is built and uploaded. The full branch-to-TestFlight lifecycle is the `ship-ios` skill in kernel.
+Every Apple app ships to TestFlight with `just testflight`, which runs the installed
+`ship-ios` skill's pipeline. The stages and rules are the same for every repo; each repo's
+`scripts/` file supplies only how its app is built and uploaded. The full branch-to-TestFlight
+lifecycle is the `ship-ios` skill in kernel.
 
 1. **Preflight.** No uncommitted changes to tracked files, and HEAD is `origin/main` (build from a
    merged commit, in a worktree if your checkout has other work). `--allow-branch` overrides, and the
@@ -63,8 +66,8 @@ is built and uploaded. The full branch-to-TestFlight lifecycle is the `ship-ios`
 
 ### Adding a new Apple app
 
-Assemble `.studio/` (`just studio-update`, from the studio-dev skill), write a `scripts/ship.sh` that sources `.studio/lib.sh` and
-`.studio/ship-ios.sh`, sets `SHIP_NAME` and `SHIP_ROOT`, defines `ship_build` and `ship_upload`
+Project-install `ship-ios` (+ `studio-dev`), then write a `scripts/ship.sh` that sources
+the installed `lib.sh` and `ship-ios.sh` (see the `ship-ios` skill's "Adding an app"), sets `SHIP_NAME` and `SHIP_ROOT`, defines `ship_build` and `ship_upload`
 (`ship_audit`, `ship_symbols` and `ship_check` if it needs them), and ends with `ship_ios "$@"`. Point the
 repo's `testflight` recipe at it. `scripts/archive-testflight.sh` in Thames and `scripts/ship-omiro.sh`
 in hominem are the worked examples.

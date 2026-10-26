@@ -77,5 +77,5 @@ concept is just appending to the `CONCEPTS` list — no code changes needed.
 ## Definition of done
 
 `uv run --group dev pytest` passes in `scripts/phrase-audit/`, and the repo
-validator (`python3 scripts/validate_skills.py`, plus `--strict-frontmatter`)
-passes from the repo root before committing.
+validator (`python3 scripts/validate_skills.py`, plus `muse skills validate`
+for format) passes from the repo root before committing.

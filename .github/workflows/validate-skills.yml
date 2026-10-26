@@ -26,5 +26,4 @@ jobs:
         with:
           python-version: "3.x"
       - run: python3 scripts/validate_skills.py
-      - run: python3 scripts/validate_skills.py --strict-frontmatter
       - run: python3 -m unittest discover -s tests
