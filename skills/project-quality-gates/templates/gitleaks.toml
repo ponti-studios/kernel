@@ -1,0 +1,17 @@
+# Allowlist by path, never by rule. A scanner's own fixtures must contain credential-shaped strings —
+# allowlisting those files keeps the fixtures realistic while a real key anywhere else still fails.
+
+[[allowlists]]
+description = "Fixtures for the secret scanner's own tests"
+paths = [
+  '''tests/disclosure-scan\.test\.mjs''',
+  '''tests/redaction\.test\.ts''',
+]
+
+[[allowlists]]
+description = "Deliberately fake values used in those fixtures"
+regexes = [
+  '''AKIAIOSFODNN7EXAMPLE''',
+  '''sk_test_EXAMPLE''',
+  '''sk_live_EXAMPLE''',
+]

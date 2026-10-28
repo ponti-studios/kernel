@@ -1,0 +1,29 @@
+# Hooks, not suggestions. Every format pass in this repo happened because a hook staged the change.
+pre-commit:
+  parallel: true
+  jobs:
+    - name: lint
+      glob: "*.{ts,tsx,js,mjs,cjs}"
+      run: npx oxlint --fix {staged_files}
+      stage_fixed: true
+    - name: format
+      glob: "*.{ts,tsx,js,mjs,cjs,json,md,yml,yaml}"
+      run: npx oxfmt --write {staged_files}
+      stage_fixed: true
+    - name: shell
+      glob: "*.sh"
+      run: shellcheck -x {staged_files}
+    - name: python
+      glob: "*.py"
+      run: ruff check --fix {staged_files} && ruff format {staged_files}
+      stage_fixed: true
+
+pre-push:
+  parallel: true
+  jobs:
+    - name: types
+      run: npm run build
+    - name: dead-code
+      run: npm run knip
+    - name: tests
+      run: npm test

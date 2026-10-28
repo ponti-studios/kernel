@@ -1,0 +1,13 @@
+{
+  "$schema": "./node_modules/@stryker-mutator/core/schema/stryker-schema.json",
+  "testRunner": "vitest",
+  "vitest": { "configFile": "vitest.config.ts" },
+  "//mutate": "A curated subset: the pure modules where a surviving mutant means a missing assertion, not the wiring where it means a missing fixture.",
+  "mutate": ["dist/lib/**/*.js"],
+  "coverageAnalysis": "perTest",
+  "reporters": ["clear-text", "progress"],
+  "timeoutMS": 30000,
+  "concurrency": 4,
+  "thresholds": { "high": 80, "low": 50, "break": 0 },
+  "ignorePatterns": [".stryker-tmp/**", "coverage/**", "node_modules/**"]
+}

@@ -1,0 +1,5 @@
+# A loopback URL in a README is an instruction, not a broken link.
+exclude = ["127\\.0\\.0\\.1", "localhost"]
+# GitHub rate-limits a burst of checks; two retries with backoff is enough.
+max_retries = 2
+retry_wait_time = 2

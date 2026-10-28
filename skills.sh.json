@@ -32,13 +32,18 @@
         "kernel-clean-code",
         "pr-comments",
         "react-doctor",
-        "charlie-standing-rules"
+        "charlie-standing-rules",
+        "project-quality-gates"
       ]
     },
     {
       "title": "UI & Brand",
       "description": "Skills for Apple-style interface design, motion, and brand identity.",
-      "skills": ["kernel-animate", "kernel-design", "brand-asset-sourcing"]
+      "skills": [
+        "kernel-animate",
+        "kernel-design",
+        "brand-asset-sourcing"
+      ]
     },
     {
       "title": "Audit",
@@ -48,7 +53,7 @@
         "kernel-audit-security",
         "kernel-audit-monorepo",
         "kernel-audit-review",
-    "chase-review",
+        "chase-review",
         "kernel-audit-swiftui",
         "kernel-audit-trace",
         "deep-repo-code-scan"
@@ -57,12 +62,23 @@
     {
       "title": "Operations",
       "description": "Skills for publishing, shipping, and production readiness workflows.",
-      "skills": ["kernel-ops-production", "kernel-ops-ship", "dependabot-batch", "ship-ios"]
+      "skills": [
+        "kernel-ops-production",
+        "kernel-ops-ship",
+        "dependabot-batch",
+        "ship-ios"
+      ]
     },
     {
       "title": "Studio Ops",
       "description": "Skills for Ponti Studios film, project, task, and workshop operations.",
-      "skills": ["film-production", "plan-to-tasks", "project-operations", "workshop-design", "studio-dev"]
+      "skills": [
+        "film-production",
+        "plan-to-tasks",
+        "project-operations",
+        "workshop-design",
+        "studio-dev"
+      ]
     },
     {
       "title": "Studio",

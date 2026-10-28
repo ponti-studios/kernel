@@ -1,0 +1,13 @@
+// knip finds files, exports and dependencies nothing uses — which is also why its first run on any real
+// repo is wrong: entry points that nothing imports (launchd jobs, CLI scripts, framework route files) look
+// unused. List them, re-run, and investigate only what is left.
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "entry": [
+    "src/index.ts",
+    "scripts/*.mjs",
+    "tests/**/*.test.mjs"
+  ],
+  "project": ["src/**/*.ts", "scripts/**/*.mjs"],
+  "ignore": ["dist/**", "dist-backend/**", "coverage/**"]
+}
