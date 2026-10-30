@@ -24,8 +24,14 @@
 - When a step cannot be done (devices unreachable, upload cut off), say what happened and what is
   left, retry what is safe, and carry on with the steps that do not depend on it.
 
+## Scope
+- **Do exactly the slice specified** — one route, one endpoint, one app. Everything else is out of scope,
+  including "obvious" improvements. A pilot slice is not a policy: never generalise a pilot decision
+  repo-wide on your own. The one thing scope never excludes is a red check (see Checks).
+
 ## Branches and commits
 - `main` is the default. Never commit to it. Short branch names (`voicing-faders`).
+- **Logical commits, and commit/push as the cadence**, not as an afterthought.
 - Conventional Commits (`type(scope): subject`). Short subject, short body saying what and why.
   Follow the session's attribution rule (some sessions say no attribution lines).
 - Before committing, run the repo's checks and say plainly which ran and which did not. A flaky
@@ -34,6 +40,13 @@
 - Merge `main` into a branch to resolve conflicts; do not rebase or force-push shared work. Your own
   unshared branch is the exception — rewriting it is fine when he asked for it (`kernel-git-commit`
   records the `git push origin +branch` form for when an approval hook blocks `--force`).
+
+## Tickets
+- Every engineering issue carries **Problem / Scope / Acceptance criteria / Tests / Agent notes** — the
+  canonical text is in each repo project's Linear charter.
+- **The acceptance criteria are the contract.** The ticket is done when every box is true, and only then.
+  A ticket with no acceptance criteria is not started: ask one focused question or send it back for
+  shaping.
 
 ## Pull requests
 - Title says what changed for the person using the product. Body: **What** (a bullet per change),
