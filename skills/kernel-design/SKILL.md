@@ -192,6 +192,11 @@ to apply, so it governs future work.
 
 - **Tokens, never hardcoded values.** Every color/size/radius/shadow/motion/font
   traces to a DTCG token; one shared theme, no per-page palettes.
+- **Design artifacts are standalone HTML in `design/`.** A design lives as
+  `design/design-doc.html`, `design/design-cards.html`, `design/design-tokens.html`
+  (and similar), iterated on as the artifact, never edited into `Sources/`,
+  until the design is approved. Measure pixels in the rendered artifact; do not
+  trust a vision model's reading of a screenshot.
 - **Accessibility is never traded for aesthetics.** Contrast is measured, not
   eyeballed; keyboard, focus, and screen-reader behavior are verified.
 - **Dark mode + reduced motion are designed, not inverted or dropped.**

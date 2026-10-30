@@ -56,6 +56,21 @@ every scripted agent is accepted by the runner **and** has a template that names
 the README's first-run block and in any container/devcontainer setup, and let CI be the backstop — never the
 only line of defence.
 
+## The format gate passes and the file is still unreadable
+
+A formatter normalises whitespace; it never contributes it. `oxfmt` preserves one blank line, collapses
+three into one, and leaves a 400-line unbroken function exactly as dense as it found it — verified by
+formatting a deliberately packed file and diffing: byte-identical. Its configuration schema has 29
+options and none of them is `lines-between-statements` or `lines-between-class-members`; those are ESLint
+rules. Unknown keys are accepted silently, so probing the config looks like it works. The only
+whitespace-inserting option is `sortImports`, which groups and separates imports.
+
+So "run the formatter" cannot fix density, and a format gate that passes is not evidence the code reads
+well. Measure the symptom instead — blank-line share and longest unbroken run per file. On this repo the
+backend median was 5.4% against express's 16%, with `dispatcher.ts` at 0.8% across a 446-line run, and
+the density tracked file age: the oldest files were densest because each agent imitates the file it edits.
+Structure comes from a rule (a padding lint config) or a rewrite, never from the formatter.
+
 ## A gate that everyone has learned to ignore
 
 If a check is advisory for more than a sprint, either give it a threshold that means something or delete it.

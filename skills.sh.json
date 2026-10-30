@@ -33,7 +33,9 @@
         "pr-comments",
         "react-doctor",
         "charlie-standing-rules",
-        "project-quality-gates"
+        "project-quality-gates",
+        "agent-knowledge-loops",
+        "hermes-agent-skill-authoring"
       ]
     },
     {
