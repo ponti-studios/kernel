@@ -308,7 +308,9 @@ A skill exists to make the agent's process more predictable — the agent reliab
     skill that no longer resolves. Before removing anything whose source is gone, ask the repo whether it
     still wants the skill: `git log --all -- skills/<name>`. A skill the library already removed is a
     leftover install and safe to delete; one that never existed in the repo lives only in the store, so
-    deleting it is the one action that loses it — preserve it into the repo first.
+    deleting it is the one action that loses it — preserve it into the repo first. `-s` takes one name per
+    invocation: `-s a,b` exits 0, prints nothing about either, and removes neither, which reads as a
+    successful removal until you list the store again.
 
 24. **Reading a materialised symlink as drift.** A skill kept compact with `references -> ../../data` installs
     as **real directories**, because the installer dereferences the link. `diff -rq <repo>/skills/<name>
