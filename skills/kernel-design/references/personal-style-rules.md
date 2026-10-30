@@ -158,6 +158,19 @@ the same pass, and update the canvas's status note. Do not add `[Built]`.
 
 ## Color
 
+### Billing usage uses one stacked meter panel
+
+Show MCP calls and messages inside one shared panel, stacked vertically. Put
+each usage count beside its limit and right-align the reading with the meter
+below it.
+
+**Why:** separate cards fragment related usage and make the count and limit
+harder to scan together.
+
+**How to apply:** on Hominem's billing page, use one shared container with a
+horizontal meter in each row; keep the count and monthly limit adjacent at the
+right edge of the meter.
+
 ### The composer does not change with appearance
 
 The composer is the same dark bar in light and dark mode: `#14121F`, white text

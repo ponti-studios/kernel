@@ -34,3 +34,7 @@ yarn.lock
 test-injection/
 notepad.md
 oauth-success.html
+
+# Local python toolchain inside a skill's scripts dir
+.venv/
+.pytest_cache/
