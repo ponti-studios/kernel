@@ -69,18 +69,50 @@ wait for the word. A submitted build cannot be un-submitted.
   than the branch just merged). A branch with no merged PR is not stale until
   the user says so — list it with its last commit date and ask.
 
+### Open PR to TestFlight, in order
+
+When asked to merge, pull `main`, clean up and ship, do this sequence before
+the build:
+
+1. Check the PR: `gh pr view <n> --json state,mergeable,mergeStateStatus,statusCheckRollup`.
+   Stop if it is not mergeable or a check is red (no checks at all is fine;
+   say so). Then `gh pr merge <n> --squash --delete-branch`.
+2. `gh` can exit non-zero ("not possible to fast-forward") because the local
+   `main` diverged even though GitHub merged. Confirm with
+   `gh pr view <n> --json state,mergeCommit` before calling it a failure.
+3. `git fetch -p`, then look at `git log origin/main..main`. A local-only
+   commit the squash already absorbed is the usual cause. Never
+   `git reset --hard`. Tag the old state (`git tag backup/main-before-<pr> main`),
+   then `git checkout -B main origin/main`, and tell the user about the tag.
+4. Xcode rewrites `Package.resolved` on its own; never commit it. Restore with
+   `git checkout -- <path>` so tracked files are clean before preflight.
+5. Prune only branches merged into `origin/main` (`git branch --merged origin/main`,
+   `git branch -d`, and `git push origin --delete` for merged remote ones).
+   Leave unmerged branches and `backup/*` alone and list them in the report.
+6. Confirm HEAD equals `origin/main` and the tree is clean, then run the ship
+   in the background (it takes minutes) and wait for the completion notice
+   instead of polling.
+7. Report the PR merge commit, what was deleted, what was left on purpose,
+   and the build result. If the ship fails, the merge still stands; say which
+   step broke.
+
 ## 3. Preflight
 
-Build from a merged commit: clean tree, HEAD at `origin/main` (use a worktree
-if the checkout has other work). A hotfix or trial build from another branch
-is allowed only when asked for, and the PR says why. Confirm the marketing
-version and bundle ID are intentional and the adapter's build-number policy
-holds.
+Build from a merged commit: clean tree, HEAD at `origin/main`. If the checkout
+has other work, make a worktree instead:
+`git worktree add --detach ../<name> origin/main`, then `just setup` in it.
+A hotfix or trial build from another branch is allowed only when asked for
+(`--allow-branch`), and the PR says why. Confirm the marketing version and
+bundle ID are intentional and the adapter's build-number policy holds.
 
 ## 4. Checks
 
-The adapter's full gate. `--skip-checks` equivalents exist for trials only;
-a ship runs them.
+The adapter's full gate. `--skip-checks` exists for trials only; a ship runs
+them.
+
+Pipeline flags, for any scripted ship: `--no-upload` (dry run: builds and
+uploads symbols, skips App Store Connect), `--skip-checks` (trials only),
+`--allow-branch` (hotfix or trial only, PR says why).
 
 ## 5. Build — local only
 
@@ -101,6 +133,20 @@ warns; the build still ships — but never claim a crash will be readable
 until a symbol upload succeeded. Key hygiene: mobile app tokens are embedded
 and are not secrets; User API keys stay in secret storage or env files,
 never printed and never built into an app.
+
+New Relic keys, by prefix:
+
+- Mobile app token (`...NRMA`): embedded in the app, not secret, used to
+  upload dSYMs.
+- Source maps need a **User** key (`NRAK-...`), kept as
+  `NEW_RELIC_USER_API_KEY` in `~/.localrc` (or `NEWRELIC_USER_API_KEY` in the
+  repo's env file; Omiro takes it from EAS). Read it with `sed`, not `source`,
+  and check the prefix, suffix and length without printing it.
+- An ingest license key (`...NRAL`) is rejected. The endpoint redirects to a
+  login page and the upload tool reports a misleading "413 too large". Check
+  the prefix before debugging sizes.
+- A watchOS app cannot report crashes to New Relic. Thames keeps Sentry for
+  the Watch.
 
 ## 8. Upload
 
@@ -176,3 +222,7 @@ pipeline. It exits 3 where macOS Xcode swift is unavailable.
   check App Store Connect before announcing.
 - **Flaky native test under load** (Thames `swift test`): rerun once before
   concluding it is broken.
+- **Source-map upload says "413 too large"**: almost always the wrong key
+  type. Check that the key starts with `NRAK-`, not `NRAL`, before anything else.
+- **Watch crashes missing from New Relic**: expected. Watch crashes go to
+  Sentry; see the New Relic keys section.
