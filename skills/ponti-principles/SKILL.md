@@ -16,7 +16,9 @@ Every rule Charles enforces on his own repos, in one place. Two sources, one aut
 
 - **The laws** — distilled from his sent messages across 63 OpenCode sessions (370 messages, Jul–Oct
   2026), ordered by how often he has had to *correct* an agent into them. The top of each section is what
-  agents most reliably get wrong. Law, not suggestion.
+  agents most reliably get wrong. Law, not suggestion — but not all of it is his literal words: a law that
+  began as an inference from how he reviews is marked *(inferred)* in the reference behind it, and his
+  next correction overrules both (Precedence 1).
 - **The reference tier** — the per-domain detail behind the laws, gathered from how he reviews, corrects
   and steers work across Thames, Hominem and his other repos. Each reference marks where a rule is his
   exact word (dated) and where it is inferred.
@@ -43,7 +45,8 @@ the law wins.
    first deliverable.
 2. **Bounded scope is law.** Do exactly the slice specified — one route, one endpoint, one app.
    Everything else is explicitly out of scope, including "obvious" improvements. A pilot slice is not a
-   policy: never generalise a pilot decision repo-wide on your own.
+   policy: never generalise a pilot decision repo-wide on your own. The one thing scope never excludes is
+   the repo's own red checks (law 21) — "out of scope" describes features, never a failing test.
 3. **YAGNI.** The smallest thing that works. One-liners where they read well, nothing built for later, no
    options nobody asked for.
 4. **Check blast radius.** If a change alters an existing default, endpoint behaviour, or consumer, flag it
@@ -53,8 +56,10 @@ the law wins.
 
 ### Architecture
 
-6. **The API owns the business logic.** Apps and clients never ping databases directly. Best boundary,
-   always.
+6. **The API owns server-side business logic.** No screen or client reaches a database directly. On
+   device, the same rule takes the local form: decisions that must be right live in the native package
+   and screens only draw the state they are given (`references/swift.md`). One owner per decision,
+   never shared between screen and server.
 7. **Simplify toward the goal.** If the stack is heavier than what the user wants to accomplish, say so and
    cut. Squash proliferating files into a few canonical ones. One function where one suffices.
 8. **Shared code lives together.** Platforms that share code share a repo. Extract reusable units (hooks,
@@ -67,24 +72,28 @@ the law wins.
     deterministic ordering — plus route tests for cursor boundaries, an empty page, and a row inserted
     between pages.
 12. **Schema-first for anything read from outside the program.** Validate at the boundary; no hand-rolled
-    guards scattered through the body.
-13. **Offline behaviour and hosting cost are design constraints**, stated upfront, not discovered later.
-    Sync claims require a ground-truth check (e.g. airplane-mode test verified against the server), never
-    an assumption.
+    guards scattered through the body. Not for a one-line comparison or matching an error message — a
+    schema adds noise there (`references/typescript-react-native.md`).
+13. **Offline behaviour is a design constraint**, stated upfront, not discovered later. Sync claims
+    require a ground-truth check (e.g. airplane-mode test verified against the server), never an
+    assumption. Serving cost is the same kind of constraint (law 24).
 
 ### Data, secrets, trust
 
 14. **Secrets are a designed plan**, explained before implementation — not values pasted into places.
 15. **Never print, log or commit a secret.** Not in a report, not in a test, not "temporarily". Rotate
     anything that leaked into a log or a diff.
-16. **Nothing about a person is stored that they cannot see, delete and switch off.** Defaults are the
-    private ones; telemetry is opt-out, not opt-in by silence.
+16. **Nothing about a person is stored that they cannot see, delete and switch off.** Memory-like
+    features are off by default with a brief undo. Telemetry is content-free (closed enums and numbers,
+    never a free string or a transcript): on by default for TestFlight, off for the App Store until it is
+    switched on, and shown in full before it is sent (`references/data-and-trust.md`).
 
 ### Code, review, dependencies
 
 17. **Short domain names.** Name what a thing is, not how it is stored. Units in numeric names. One word per
     concept.
-18. **No ternary chains.** A lookup table, early returns, or an exhaustive `switch`.
+18. **No nested or multi-way ternaries.** A lookup table, early returns, or an exhaustive `switch`. One
+    short two-way ternary is fine — the lint rule draws the same line.
 19. **Tooling enforces style, not comments asking nicely.** Types, lint and formatter are the enforcement;
     a convention nobody checks is a preference.
 20. **Delete before adding; kill dead things completely.** No unused code, params, options, exports, files
@@ -92,15 +101,16 @@ the law wins.
     of it — including related artefacts and leftover dot folders. A "stupid test" gets deleted, not
     defended.
 21. **Existing failures are yours.** Fix what is red even if you did not break it.
-22. **Decomposition ships with tests.** Breaking a file apart and writing its test file are one instruction.
-    When coverage is demanded (it will be), it means the specified cases, each with a passing test.
+22. **Decomposition ships with tests.** Breaking a file apart and writing its test file are one
+    instruction. Coverage is a consequence of the specified cases, not a target: a test that only
+    constructs a type or asserts a private detail is deleted, not kept to move a number.
 23. **Mock before you integrate.** Mock external providers (MSW-style) against a set of realistic scenarios
     before calling the real thing.
 24. **Price before you pick.** Model and tool choices get a cost comparison first. Hosting and serving costs
     are part of the design.
 25. **Latest tooling, gold-standard scaffolding.** New apps are set up as the reference example: current
     versions, lint/format tooling (oxlint/oxfmt/ruff as appropriate), modern platform floors (@Observable,
-    current iOS/macOS). Volatile values (tool counts, version numbers that change) never get hardcoded into
+    current iOS/macOS unless the repo states a deliberate minimum). Volatile values (tool counts, version numbers that change) never get hardcoded into
     durable text; metadata stays short but discoverable.
 26. **No generated or output assets in the repo.** Present code properly formatted; mangled dumps get sent
     back.
@@ -115,7 +125,7 @@ the law wins.
     the system. Cross-platform drift (wrong icon, wrong styles on one platform) is a bug.
 30. **Uniform grids, fixed at the container.** All cards/posters the same height, handled by grid/flex
     children — don't patch individual cards.
-31. **Icons over text labels** where the meaning is conventional.
+31. **Icons over text labels** where the meaning is conventional — and the word survives for VoiceOver.
 32. **Micro-typography is specified.** Small, tight, phone-first text and padding; measurements/labels in
     light weight at exact sizes when given. Components must not be massive.
 33. **Motion shows cause and effect.** Tokens appear as the cursor moves; a pen draws the line as it
@@ -127,17 +137,20 @@ the law wins.
     inside their cards, slides get URL hashes so links are shareable.
 36. **Across a set, frames must match and the story must read from the images alone** — same props, same
     cases, cause and effect visible in-frame.
-37. **UI says less.** One-line hints, symbols over words, calm wording, red only for real failure.
+37. **UI says less.** One-line hints, symbols over words, calm wording, red only for real failure — and
+    on some surfaces not even then: a quiet dock reports failure by shape, never colour.
 38. **The design and the app agree, and design comes first** for anything that looks different.
 
 ### Workflow and shipping
 
 39. **Ship in logical commits**, and commit/push as the cadence, not as an afterthought.
 40. **One branch and PR per body of work.** Never merge, delete or deploy before he says done.
-41. **Build variants to be felt.** When he asks for concepts, build them so he can run/see them — "build all
-    three so i can feel them" — rather than describing them.
-42. **Explain how it works when asked**, plainly and mechanistically. A fifth of his messages are questions
-    about mechanism or state; answer them as mental-model building, not deflection.
+41. **Build variants to be felt.** When he asks for concepts, build them so he can run/see them — "build
+    all three so i can feel them" — rather than describing them. They are throwaway prototypes: production
+    code waits for the pick, because design comes first for anything that looks different (law 38).
+42. **Explain how it works when asked**, plainly and mechanistically, and not by default. A fifth of his
+    messages are questions about mechanism or state; answer those as mental-model building, not
+    deflection — and keep the report of a change short.
 43. **Prove with evidence.** Logs and measurements before rebuilds; run it, test it, read it back. "Done"
     means verified — never claim a state you did not check.
 44. **Talk plainly, like a homie**, and never end with "should I commit/merge/deploy?".

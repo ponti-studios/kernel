@@ -55,7 +55,8 @@ Never change code for a feature until its design is agreed.
 3. Only then change code. If code needs something the design does not show, go back to the design.
 - Exempt: a bug fix with no visible change. Not exempt: any change to how something looks, however
   small. Say what the three directions would be and ask which.
-- Read the repo's principles skill (`product-principles` in Thames) before drawing any option.
+- Read the repo's own principles skill (`product-principles` in Thames) before drawing any option; this
+  skill is the global fallback where a repo has none.
 - Design files are organised by what a person looks for, not by device: Core (mechanics that do not
   change), Components (shared pieces), one page per feature. The design file is the source of truth;
   the motion lab is the review surface for animation.

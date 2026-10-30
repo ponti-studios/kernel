@@ -31,7 +31,9 @@
 - Before committing, run the repo's checks and say plainly which ran and which did not. A flaky
   test gets one rerun before you conclude it is broken.
 - Never commit secrets, `.env` files, build output or derived data.
-- Merge `main` into a branch to resolve conflicts; do not rebase or force-push shared work.
+- Merge `main` into a branch to resolve conflicts; do not rebase or force-push shared work. Your own
+  unshared branch is the exception — rewriting it is fine when he asked for it (`kernel-git-commit`
+  records the `git push origin +branch` form for when an approval hook blocks `--force`).
 
 ## Pull requests
 - Title says what changed for the person using the product. Body: **What** (a bullet per change),

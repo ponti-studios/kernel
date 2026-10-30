@@ -1,7 +1,7 @@
 # Swift, SwiftUI, native modules, watchOS
 
-The full rules are in the `swift-style` skill. Load it when writing Swift. This file is the review
-checklist and the structure rules around it.
+The full rules live in Thames's `swift-style` skill — load it when it is installed. This file is the
+review checklist and the structure rules around it, and stands alone when it is not.
 
 ## Style (from `swift-style`)
 - 2-space indent; `swift-format` decides all other layout. Run it on files you change.
