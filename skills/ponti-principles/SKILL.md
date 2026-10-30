@@ -5,7 +5,7 @@ license: MIT
 compatibility: Any repo. TypeScript, React Native and Swift are covered in depth; the laws carry to other stacks.
 metadata:
   author: ponti-studios
-  version: "1.0.0"
+  version: "1.1.0"
   category: Engineering
   tags: [principles, standing-rules, review, engineering, product, design, workflow]
 ---
@@ -161,17 +161,9 @@ the law wins.
 46. **Ask exactly one focused question when a product decision is genuinely missing, then park.** Don't
     invent the decision and don't ask five.
 
-### Ticket routing — Linear → repo
+### Linear tickets
 
-47. **The project names the repo.** When you pick up a Linear ticket, read its project before touching code.
-    The project description opens with a "Repo — agent routing" block; its `github` and `local` values are
-    the only authority for where the work happens. Work only in that repo, in that local checkout, and
-    branch from the issue's `gitBranchName`. Never infer a repo from a ticket's title. Two exceptions: the
-    Incubator project has no repo — its issues are uncommitted ideas, so do not write code against them;
-    and multi-repo projects (e.g. Ponti.io & Infrastructure) carry no single-repo block, so the ticket
-    itself must name the repo in its description — if it doesn't, stop and ask one focused question
-    (law 46).
-48. **Engineering tickets follow the template.** Every engineering issue in a repo project carries Problem
+47. **Engineering tickets follow the template.** Every engineering issue in a repo project carries Problem
     / Scope / Acceptance criteria / Tests / Agent notes — canonical text in each repo project's Linear
     charter. The acceptance criteria are the contract: the ticket is done when every box is true, and only
     then. If a ticket you pick up has no acceptance criteria, do not guess them — ask one focused question
