@@ -9,7 +9,7 @@ risks). Read those before extending it; they are the contract of record.
 - Global skills repo: `~/Developer/kernel`, skills in `skills/`. Validated by
   `python3 scripts/validate_skills.py`, `muse skills validate`, `python3 -m unittest discover -s tests`;
   every skill catalogued in `skills.sh.json`; a push to `main` deploys.
-- One skill per repo (`<project>-conventions`) plus the existing craft tier (`charlie-standing-rules`),
+- One skill per repo (`<project>-conventions`) plus the existing craft tier (`ponti-principles`),
   with `references/map.md` holding the generated repo map.
 - The fleet **opens a PR** there and never merges. That is a deliberate deviation from the repo's own
   "commit to main" convention.

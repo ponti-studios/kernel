@@ -19,7 +19,7 @@ metadata:
       - learning-loop
     related_skills:
       - switchyard-fleet-ops
-      - charlie-standing-rules
+      - ponti-principles
 ---
 
 # Agent knowledge loops

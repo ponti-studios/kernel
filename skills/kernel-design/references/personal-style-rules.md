@@ -55,7 +55,7 @@ asks otherwise.
 
 ## UI copy and quiet interfaces
 
-Copied from the Thames `chase-review` skill. Charles's preferences as inferred
+Copied from the Thames review notes, now folded into `ponti-principles`. Charles's preferences as inferred
 from how he steered that work, not a style guide he wrote; what he says in the
 moment wins, and this file should be updated.
 

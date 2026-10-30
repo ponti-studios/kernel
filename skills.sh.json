@@ -18,6 +18,7 @@
       "title": "Development",
       "description": "Skills for application architecture, auth, frontend, backend, testing, build, and commit workflows.",
       "skills": [
+        "ponti-principles",
         "kernel-dev-api",
         "kernel-dev-auth",
         "kernel-dev-build",
@@ -32,7 +33,6 @@
         "kernel-clean-code",
         "pr-comments",
         "react-doctor",
-        "charlie-standing-rules",
         "project-quality-gates",
         "agent-knowledge-loops",
         "hermes-agent-skill-authoring"
@@ -55,7 +55,6 @@
         "kernel-audit-security",
         "kernel-audit-monorepo",
         "kernel-audit-review",
-        "chase-review",
         "kernel-audit-swiftui",
         "kernel-audit-trace",
         "deep-repo-code-scan"

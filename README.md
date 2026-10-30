@@ -38,7 +38,7 @@ Grouped as in [skills.sh.json](skills.sh.json). Every directory under `skills/` 
 - `kernel-dev-api`, `kernel-dev-auth`, `kernel-dev-build`, `kernel-dev-database`, `kernel-dev-docker`
 - `kernel-dev-react`, `kernel-dev-react-native`, `native-ios-builder`, `kernel-dev-testing`, `kernel-dev-typescript`
 - `kernel-git-commit`, `kernel-clean-code`
-- `pr-comments` (PR review triage), `react-doctor` (React health), `charlie-standing-rules`
+- `pr-comments` (PR review triage), `react-doctor` (React health), `ponti-principles` (the standing laws, all domains)
 
 ### UI & Brand
 
@@ -51,7 +51,7 @@ General UI/design-system guidance isn't a kernel skill — use [anthropics/skill
 
 - `kernel-audit-integration-security`, `kernel-audit-security`, `kernel-audit-monorepo`, `kernel-audit-review`
 - `kernel-audit-swiftui`, `kernel-audit-trace`
-- `deep-repo-code-scan`, `chase-review`
+- `deep-repo-code-scan`
 
 ### Operations
 
