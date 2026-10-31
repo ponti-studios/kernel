@@ -15,7 +15,7 @@ A verb a repo does not support prints "not applicable here" and exits 0.
 
 ## Ports
 
-The installed `studio-dev` skill's `scripts/ports.env` is the one list of ports (Thames 8083, Still 8084, Omiro e2e 8082, API 4040).
+The installed `studio-dev` skill's [ports.env](ports.env) is the one list of ports (Thames 8083, Still 8084, Omiro e2e 8082, API 4040).
 Never use 8081 for a studio app.
 
 ## Habits

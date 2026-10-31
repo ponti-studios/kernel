@@ -60,6 +60,8 @@ def frontmatter_contract(values: dict[str, str]) -> list[str]:
 
     if not values.get("description", ""):
         errors.append("'description' must be a non-empty string")
+    elif len(values['description']) > 1024:
+        errors.append("'description' must be at most 1024 characters")
 
     return errors
 
@@ -82,7 +84,14 @@ def local_link_errors(path: Path) -> list[str]:
         # code-like syntax that Markdown parsers also interpret as links.
         if target in {"link", "url", "path/to/doc.md"} or "short-kebab" in target or "<" in target or "::" in target:
             continue
-        if not (path.parent / target).exists():
+        resolved = (path.parent / target).resolve()
+        try:
+            package = SKILLS_DIR / path.relative_to(SKILLS_DIR).parts[0]
+            resolved.relative_to(package.resolve())
+        except ValueError:
+            errors.append(f"{path.relative_to(ROOT)} links outside its installed package: {target}")
+            continue
+        if not resolved.exists():
             errors.append(f"{path.relative_to(ROOT)} links to missing {target}")
     return errors
 
@@ -103,6 +112,9 @@ def main(argv: list[str] | None = None) -> int:
             errors.append(f"{skill_dir.relative_to(ROOT)} has no SKILL.md")
             continue
         values, parse_errors = frontmatter(entrypoint)
+        nested = [p for p in skill_dir.rglob('SKILL.md') if p != entrypoint]
+        errors.extend(f"{p.relative_to(ROOT)}: nested discoverable skill; use WORKFLOW.md" for p in nested)
+        errors.extend(f"{p.relative_to(ROOT)}: symlink is not a portable package resource" for p in skill_dir.rglob('*') if p.is_symlink())
         errors.extend(f"{entrypoint.relative_to(ROOT)}: {error}" for error in parse_errors)
         errors.extend(
             f"{entrypoint.relative_to(ROOT)}: {error}" for error in frontmatter_contract(values)
@@ -129,6 +141,22 @@ def main(argv: list[str] | None = None) -> int:
     errors.extend(f"duplicate catalog entry: {skill}" for skill in duplicates)
     errors.extend(f"missing from skills.sh.json: {skill}" for skill in sorted(set(installable) - set(catalog)))
     errors.extend(f"catalog entry has no SKILL.md: {skill}" for skill in sorted(set(catalog) - set(installable)))
+
+    migration_path = ROOT / 'docs/refactor-map.json'
+    try:
+        migration = json.loads(migration_path.read_text(encoding='utf-8'))
+        for old, target in migration.items():
+            base = ROOT if target.startswith('runtime/') else SKILLS_DIR
+            destination = (base / target).resolve()
+            try:
+                destination.relative_to(base.resolve())
+            except ValueError:
+                errors.append(f'migration {old} escapes its source root')
+                continue
+            if not destination.is_file():
+                errors.append(f'migration {old} points to missing {target}')
+    except (OSError, TypeError, ValueError) as error:
+        errors.append(f'invalid migration map: {error}')
 
     if errors:
         print("Skill library validation failed:")

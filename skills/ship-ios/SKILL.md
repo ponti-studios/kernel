@@ -1,6 +1,6 @@
 ---
 name: ship-ios
-description: "Take an iOS app from branch to TestFlight one way for every app: PR discipline, squash on the word, local-only builds, approval-gated OTA for Expo. Use when asked to commit, open or update a PR, handle review, merge, release, deploy, ship, or send a build to TestFlight."
+description: "Take an iOS app from branch to TestFlight one way for every app: PR discipline, squash on the word, local-only builds, approval-gated OTA for Expo. Use for an iOS release or TestFlight request, or when project automation invokes its release helpers."
 license: MIT
 metadata:
   author: ponti-studios
@@ -20,17 +20,18 @@ commands live in the adapter rows; app runbooks stay in the app repos.
 ## Authorization boundary
 
 Checks and preflight are read-only or local and may run on a readiness
-question. Committing, pushing, building, uploading, merging, publishing an
-OTA, and deleting branches change external state — do those only when the
-user explicitly asks for that action. Never turn a readiness request into a
+question. Committing, pushing, uploading, merging, publishing an OTA, and deleting
+branches require authorization within the current task. A requested release can
+authorize its documented build and upload stages; local builds are local
+validation and are not themselves publication. Never turn a readiness request into a
 release, and never merge or deploy on your own judgment: report ready and
 wait for the word. A submitted build cannot be un-submitted.
 
 ## How to work
 
-- Do not ask what comes next. After a change: run the checks, commit, push
-  to the open PR's branch, update the PR description. If no PR is open for
-  the topic, open one, once.
+- Within an authorized PR or release workflow, run the checks and perform the
+  requested commit, push and PR updates. A request to edit code or assess readiness
+  alone does not authorize those actions. Reuse existing authorization.
 - A follow-up on the same topic goes into the open PR's branch even when the
   user does not say so. A new branch is only for clearly unrelated work.
 - Merging is a stop. A change that looks finished is not permission.
@@ -42,7 +43,8 @@ wait for the word. A submitted build cannot be un-submitted.
 
 ## 1. Branch and PR
 
-- Branch off `main` with a short name. Never commit to `main`.
+- Follow the target repository’s branch policy; the default for app releases is
+  a short feature branch from `main`.
 - Run the adapter's checks before committing, and say plainly which ran.
   Never commit secrets or env files.
 - Open the PR with a user-facing title. Body has two sections: Description

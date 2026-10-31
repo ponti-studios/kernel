@@ -1,50 +1,68 @@
-# AGENTS.md
+# Working on Kernel
 
-This repo has no build or release step. The git repository is the deployed artifact: consumers install skills straight from GitHub with `npx skills`, so shipping a change is validate, commit, push to `main`.
+Kernel is the canonical source of the skills installed from ponti-studios/kernel.
+The catalog exposes six domain routers plus ponti-principles and the executable
+project integrations ship-ios and studio-dev. Consumers pull updates explicitly.
 
-## Pipeline
+## Authoring
 
-1. **Validate locally.** The kernel validator plus the unit tests, then `muse` for format:
-   ```bash
-   python3 scripts/validate_skills.py
-   python3 -m unittest discover -s tests
-   muse skills validate skills/<skill> --json
-   ```
-   The kernel validator enforces only what `muse` cannot: a parseable frontmatter block with a usable `name` and `description`, `name` matching its directory, local links resolving, and every skill catalogued in [skills.sh.json](skills.sh.json). Any top-level frontmatter keys are accepted — format ownership belongs to `muse skills validate`, so a skill must pass there too before it ships.
+Extend a relevant domain router with a procedure under
+`references/<procedure>/WORKFLOW.md`. Give the entrypoint a short description and
+a meaningful selection index. Keep detailed schemas, examples and resources
+beside the procedure. Do not add nested SKILL.md files or symlinks: they create
+extra discovery entries or unsafe packages. A separate top-level package needs
+a concrete independent installation use and a skills.sh.json catalog entry.
 
-2. **Commit with a Conventional Commits message.** Stage exactly the skill you touched — never `git add -A`:
-   ```bash
-   git add skills/<skill>/SKILL.md
-   git commit -m "feat(skills): ..."
-   git push origin main
-   ```
-   No branches, no tags, no staging environment: a merge to `main` *is* the deploy. Run the validator before pushing, not after.
+All writing belongs to writing-workflows, including documentation, scripts,
+social derivatives, podcast copy and written scenes. Studio-workflows owns
+non-writing production and operations. Procedures consume approved writing;
+text revisions return to writing-workflows.
 
-3. **CI re-validates.** [.github/workflows/validate-skills.yml](.github/workflows/validate-skills.yml) runs both validator modes plus the unit tests on every push and PR touching `skills/**`, `skills.sh.json`, the validator, or the workflow itself. It is a backstop, not the gate — the gate is step 1.
+Keep domain expertise and demonstrated failure modes. Remove generic advice,
+duplicated rules, stale machine paths and historical anecdotes without an active
+consequence. Current user instructions and target repository rules precede
+Kernel defaults. A workflow does not grant new authorization for external actions.
 
-4. **Consumers pull explicitly.** Nothing is pushed to installed copies:
-   ```bash
-   npx skills update -g --yes          # everything global
-   npx skills update <skill> -g --yes  # one global skill
-   cd ~/Developer/<repo> && npx skills experimental_install --yes  # restore a repo's lockfile
-   ```
-   Check what is actually installed from this repo with `npx skills list --json` / `npx skills list -g --json` (look for `sourceUrl: https://github.com/ponti-studios/kernel.git`) before assuming an update matters.
+## Runtime
 
-## Adding or renaming a skill
+Maintain shared generation code in runtime/. Run
+`python3 scripts/bundle_runtime.py` to rebuild copies bundled into independently
+installable writing and Studio packages. Do not edit those copies directly.
+Resource and import paths must resolve inside an installed package. Generated
+runtime copies are intentional distribution resources, not disposable output.
 
-A new directory under `skills/` needs an entry in `skills.sh.json`'s `groupings`, or validation fails with `missing from skills.sh.json`. Frontmatter `name:` must equal the directory name — a mismatch fails with `name '...' does not match directory '...'`. Keep all three in lockstep, and list the skill in `README.md` under its group.
+## Validation
 
-## Consuming from a repo
+After a change, run the checks relevant to it. Before publication:
 
-Repos install only the skills they execute (e.g. `ship-ios` + `studio-dev` for the shipping pipeline) via project-scope install, which writes `skills-lock.json` plus `.agents/skills/` copies and `.claude/skills` links:
-
-```bash
-cd ~/Developer/<repo>
-npx skills add ponti-studios/kernel --skill ship-ios --skill studio-dev --yes
+```sh
+python3 scripts/bundle_runtime.py --check
+python3 scripts/validate_skills.py
+python3 -m unittest discover -s tests
+python3 scripts/check_isolated_packages.py
+muse skills validate skills/<changed-package> --json
 ```
 
-Repo code resolves the installed skills through paths derived at runtime (`justfile_directory()`, `BASH_SOURCE`, explicit `--path` / `--skills-dir` flags). Never hardwire a checkout location, and never hand-copy or symlink a skill into a repo — the tool owns the copies.
+The structure validator checks catalog parity, names, metadata limits, links,
+nested entrypoints and symlinks. The format validator checks packaging. Isolated
+checks copy each generation package outside the repository, exercise its runtime
+tests and entrypoints, and use mocked providers rather than paid generation.
+These checks do not replace review of instruction quality or intended routing.
 
-## Vendored content is exempt
+Keep README, skills.sh.json and docs/refactor-map.json consistent with moves.
+Runtime changes trigger CI checks as well as skill changes.
 
-Nested `SKILL.md` files under a parent skill (e.g. `skills/kernel-audit-security/reviews/*/SKILL.md`, `skills/kernel-audit-security/audit-methodology/SKILL.md`) are not separately catalogued in `skills.sh.json`. They load on demand through their parent skill's instructions rather than installing independently, so they need valid frontmatter only — no catalog-parity entry.
+## Publication and consumers
+
+Changes to main are the published source. Validate first. Commit and push only
+within the user's authorization; preserve unrelated working changes. Follow the
+repository's direct-main convention when publishing an authorized change.
+
+Install through npx skills, using only the packages each consumer needs. Review
+installed-only modifications before replacing an install. Catalog renames are
+breaking changes: install replacements explicitly and remove obsolete names
+through the installer so agent links and source records are reconciled.
+
+Project release automation can keep ship-ios and studio-dev pinned separately.
+Resolve installed helpers from the consuming repository or explicit paths;
+never require a particular Kernel checkout location.

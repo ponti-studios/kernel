@@ -1,113 +1,25 @@
 {
   "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
-  "notGrouped": "bottom",
   "groupings": [
     {
-      "title": "Writing",
-      "description": "Skills for writing: repo docs, essays, briefs, video scripts, and incident reports.",
+      "title": "Workflows",
+      "description": "Self-contained domain procedures.",
       "skills": [
-        "write-docs",
-        "write-essay",
-        "write-video-script",
-        "write-brief",
-        "write-incident-report",
-        "phrase-audit"
+        "computer-workflows",
+        "design-workflows",
+        "engineering-workflows",
+        "security-workflows",
+        "studio-workflows",
+        "writing-workflows"
       ]
     },
     {
-      "title": "Development",
-      "description": "Skills for application architecture, auth, frontend, backend, testing, build, and commit workflows.",
+      "title": "Project tools and preferences",
+      "description": "Standing preferences and executable project integrations.",
       "skills": [
         "ponti-principles",
-        "kernel-dev-api",
-        "kernel-dev-auth",
-        "kernel-dev-build",
-        "kernel-git-commit",
-        "kernel-dev-database",
-        "kernel-dev-docker",
-        "kernel-dev-react",
-        "kernel-dev-react-native",
-        "native-ios-builder",
-        "kernel-dev-testing",
-        "kernel-dev-typescript",
-        "kernel-clean-code",
-        "pr-comments",
-        "react-doctor",
-        "project-quality-gates",
-        "agent-knowledge-loops",
-        "hermes-agent-skill-authoring"
-      ]
-    },
-    {
-      "title": "UI & Brand",
-      "description": "Skills for Apple-style interface design, motion, and brand identity.",
-      "skills": [
-        "kernel-animate",
-        "kernel-design",
-        "brand-asset-sourcing"
-      ]
-    },
-    {
-      "title": "Audit",
-      "description": "Skills for review, tracing, and structural audits across codebases and integrations.",
-      "skills": [
-        "kernel-audit-integration-security",
-        "kernel-audit-security",
-        "kernel-audit-monorepo",
-        "kernel-audit-review",
-        "kernel-audit-swiftui",
-        "kernel-audit-trace",
-        "deep-repo-code-scan"
-      ]
-    },
-    {
-      "title": "Operations",
-      "description": "Skills for publishing, shipping, and production readiness workflows.",
-      "skills": [
-        "kernel-ops-production",
-        "kernel-ops-ship",
-        "dependabot-batch",
-        "ship-ios"
-      ]
-    },
-    {
-      "title": "Studio Ops",
-      "description": "Skills for Ponti Studios film, project, task, and workshop operations.",
-      "skills": [
-        "film-production",
-        "plan-to-tasks",
-        "project-operations",
-        "workshop-design",
+        "ship-ios",
         "studio-dev"
-      ]
-    },
-    {
-      "title": "Studio",
-      "description": "Skills for Ponti Studios creative production: scripts, scenes, clips, images, and series canon.",
-      "skills": [
-        "studio-core",
-        "studio-script",
-        "studio-scenes",
-        "studio-clips",
-        "studio-essay",
-        "studio-social",
-        "studio-video",
-        "studio-imagegen",
-        "studio-mediagen",
-        "studio-podcastgen",
-        "studio-ledger",
-        "studio-universe"
-      ]
-    },
-    {
-      "title": "Media & Data",
-      "description": "Skills for media generation, file management, structured extraction, and machine setup.",
-      "skills": [
-        "image-model-craft",
-        "programmatic-video",
-        "llm-structured-extraction",
-        "file-organization",
-        "macos-complete-uninstall"
       ]
     }
   ]

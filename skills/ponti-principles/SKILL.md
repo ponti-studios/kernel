@@ -17,7 +17,7 @@ has had to *correct* an agent into them — the top of a section is what agents 
 
 **The laws are code craft, not work management.** Branches, PRs, merges, deploys, tickets and voice are not
 laws here: they are detail in the references below, and operationally they live in `linear-tickets` and
-`switchyard-fleet-ops`. Design has its own depth in `references/product-and-design.md`.
+`switchyard-fleet-ops`. Design has its own depth in [product-and-design.md](references/product-and-design.md).
 
 Load this before writing code and before reviewing a file or a diff. Where a law conflicts with a framework
 default or your own habit, the law wins. A law is not always his literal words: one that began as an
@@ -26,12 +26,12 @@ overrules both.
 
 ## Precedence
 
-1. What Charles says in the moment wins. Then update the matching reference file right away.
+1. What Charles says in the moment wins. Record a durable preference in the canonical source when the user asks to retain it.
 2. A repo's own written rules (`AGENTS.md`, `CLAUDE.md`, a repo-local skill) beat this skill where they
    conflict. They usually add to it.
 3. This skill fills every gap the repo leaves open.
 4. Charles is the product manager and architect. Never invent product behavior, navigation or
-   architecture and present it as decided (`references/workflow.md`, "Decision authority").
+   architecture and present it as decided ([workflow.md](references/workflow.md), "Decision authority").
 
 ## The laws
 
@@ -51,7 +51,7 @@ overrules both.
 
 4. **The API owns server-side business logic.** No screen or client reaches a database directly. On
    device, the same rule takes the local form: decisions that must be right live in the native package
-   and screens only draw the state they are given (`references/swift.md`). One owner per decision,
+   and screens only draw the state they are given ([swift.md](references/swift.md)). One owner per decision,
    never shared between screen and server.
 
 5. **Simplify toward the goal.** If the stack is heavier than what the user wants to accomplish, say so and
@@ -72,7 +72,7 @@ overrules both.
 
 10. **Schema-first for anything read from outside the program.** Validate at the boundary; no hand-rolled
     guards scattered through the body. Not for a one-line comparison or matching an error message — a
-    schema adds noise there (`references/typescript-react-native.md`).
+    schema adds noise there ([typescript-react-native.md](references/typescript-react-native.md)).
 
 11. **Offline behaviour is a design constraint**, stated upfront, not discovered later. Sync claims
     require a ground-truth check (e.g. airplane-mode test verified against the server), never an
@@ -88,7 +88,7 @@ overrules both.
 14. **Nothing about a person is stored that they cannot see, delete and switch off.** Memory-like
     features are off by default with a brief undo. Telemetry is content-free (closed enums and numbers,
     never a free string or a transcript): on by default for TestFlight, off for the App Store until it is
-    switched on, and shown in full before it is sent (`references/data-and-trust.md`).
+    switched on, and shown in full before it is sent ([data-and-trust.md](references/data-and-trust.md)).
 
 ### Code, review, dependencies
 
@@ -106,7 +106,7 @@ overrules both.
     of it — including related artefacts and leftover dot folders. A "stupid test" gets deleted, not
     defended.
 
-19. **Existing failures are yours.** Fix what is red even if you did not break it.
+19. **Account for existing failures.** Diagnose failures encountered during the task. Fix those within the authorized scope and report unrelated failures with evidence.
 
 20. **Decomposition ships with tests.** Breaking a file apart and writing its test file are one
     instruction. Coverage is a consequence of the specified cases, not a target: a test that only
@@ -123,8 +123,7 @@ overrules both.
     current iOS/macOS unless the repo states a deliberate minimum). Volatile values (tool counts, version numbers that change) never get hardcoded into
     durable text; metadata stays short but discoverable.
 
-24. **No generated or output assets in the repo.** Present code properly formatted; mangled dumps get sent
-    back.
+24. **Keep disposable output out of the repo.** Retain intentional fixtures, templates and generated distribution resources when the repository requires them; keep their source and regeneration procedure clear. Present code properly formatted.
 
 ### Rigour
 
@@ -137,20 +136,20 @@ overrules both.
 2. Find the repo's own checks (type check, lint, format, tests) from its docs or manifests. Use those.
 3. Open only the references the change touches (table below). Check each law and each rule.
 4. Report only real violations: file, line, the rule it breaks, the fix. No padding, no praise filler.
-5. For a refactor, change behaviour never. One rule per pass, a mechanical diff, checks after each pass.
+5. For a refactor, preserve behavior except for changes explicitly included in the requested outcome. Validate each coherent change.
 6. Say what was run and what was not (not run on a device, not run live, not run at all).
 
 ## Which reference to open
 
 | Touching | Open |
 | --- | --- |
-| Any code | `references/code.md` |
-| TypeScript, React, React Native, Expo | `references/typescript-react-native.md` |
-| Swift, SwiftUI, native modules, watchOS | `references/swift.md` |
-| Screens, copy, motion, errors, PRDs, design files | `references/product-and-design.md` |
-| Secrets, user data, telemetry, auth, databases, APIs | `references/data-and-trust.md` |
-| Branches, commits, PRs, merges, deploys, tickets, debugging, checks | `references/workflow.md` |
-| Reports, summaries and how to talk to Charles | `references/communication.md` |
+| Any code | [code.md](references/code.md) |
+| TypeScript, React, React Native, Expo | [typescript-react-native.md](references/typescript-react-native.md) |
+| Swift, SwiftUI, native modules, watchOS | [swift.md](references/swift.md) |
+| Screens, copy, motion, errors, PRDs, design files | [product-and-design.md](references/product-and-design.md) |
+| Secrets, user data, telemetry, auth, databases, APIs | [data-and-trust.md](references/data-and-trust.md) |
+| Branches, commits, PRs, merges, deploys, tickets, debugging, checks | [workflow.md](references/workflow.md) |
+| Reports, summaries and how to talk to Charles | [communication.md](references/communication.md) |
 
 ## Final checklist
 
@@ -167,10 +166,10 @@ overrules both.
 
 ## References
 
-- `references/code.md` — the day-to-day code rules: names, shape, error handling, deletion.
-- `references/typescript-react-native.md` — TS/React/Expo specifics.
-- `references/swift.md` — Swift, SwiftUI and native module specifics.
-- `references/product-and-design.md` — product framing, screens, copy, motion, PRDs, design laws.
-- `references/data-and-trust.md` — secrets, personal data, telemetry, auth, databases, APIs.
-- `references/workflow.md` — scope, branches, commits, tickets, PRs, merges, deploys, checks.
-- `references/communication.md` — how to talk to Charles, reports and summaries.
+- [code.md](references/code.md) — the day-to-day code rules: names, shape, error handling, deletion.
+- [typescript-react-native.md](references/typescript-react-native.md) — TS/React/Expo specifics.
+- [swift.md](references/swift.md) — Swift, SwiftUI and native module specifics.
+- [product-and-design.md](references/product-and-design.md) — product framing, screens, copy, motion, PRDs, design laws.
+- [data-and-trust.md](references/data-and-trust.md) — secrets, personal data, telemetry, auth, databases, APIs.
+- [workflow.md](references/workflow.md) — scope, branches, commits, tickets, PRs, merges, deploys, checks.
+- [communication.md](references/communication.md) — how to talk to Charles, reports and summaries.

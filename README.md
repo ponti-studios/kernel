@@ -1,84 +1,64 @@
 # Kernel
 
-[![skills.sh](https://skills.sh/b/ponti-studios/kernel)](https://skills.sh/ponti-studios/kernel)
+Nine installable agent packages containing Ponti Studios conventions, specialist
+procedures, and executable helpers. Detailed procedures load only when needed.
 
-58 independently installable agent skills. One repo is the canonical source; everything else — laptops, repos, agents — installs from it with `npx skills` and never copies by hand.
+| Package | Use |
+| --- | --- |
+| engineering-workflows | Application development, tests, builds, reviews, architecture, repository maintenance, skill authoring |
+| design-workflows | Interface design, motion, brand systems, asset sourcing |
+| security-workflows | Security reviews, audits, integration risk and requested security controls |
+| writing-workflows | All writing: documents, briefs, essays, scripts, social posts, written scenes, workshops and text extraction |
+| studio-workflows | Image/audio/video production, film craft, physical editions, character canon, costs and project operations |
+| computer-workflows | File organization and macOS uninstall procedures |
+| ponti-principles | Charles’s engineering preferences |
+| ship-ios | Executable iOS release integration used by project automation |
+| studio-dev | Executable repository setup and shared development conventions |
 
 ## Install
 
-```bash
-# Everything, globally
-npx skills add ponti-studios/kernel --all --yes
+Choose the packages your agent needs:
 
-# One skill, globally
-npx skills add ponti-studios/kernel --skill kernel-design --yes
+```sh
+npx skills add ponti-studios/kernel --skill writing-workflows -g --yes
+npx skills add ponti-studios/kernel --all -g --yes
+```
 
-# Into a repo (pinned in that repo's skills-lock.json)
-cd ~/Developer/<repo>
+Projects that invoke release helpers can retain their pinned command packages:
+
+```sh
 npx skills add ponti-studios/kernel --skill ship-ios --skill studio-dev --yes
 ```
 
-Refresh with `npx skills update -g --yes` (global) or `npx skills experimental_install --yes` from a repo root (restores its lockfile). Nothing is ever pushed to installed copies — an update only lands when the consumer pulls it.
+Consumers update explicitly. Edit this source repository, validate, then install
+through the skill installer. Hand editing an installed copy causes drift.
 
-## Skills
+## Package layout
 
-Grouped as in [skills.sh.json](skills.sh.json). Every directory under `skills/` is one skill; each has a `SKILL.md` entrypoint plus optional `scripts/`, `references/`, and `agents/` material.
+`SKILL.md` selects the relevant procedure under `references/`. Each procedure
+keeps its detailed resources beside `WORKFLOW.md`. Paths inside a procedure are
+relative to its folder. A package does not rely on a personal archive or a
+particular checkout location.
 
-### Writing
+All writing belongs to writing-workflows. Studio production consumes approved
+text and returns text revisions to writing-workflows.
 
-- `write-docs` (repo docs, PRDs, task plans, audit reports, runbooks)
-- `write-essay` (approval-driven short-form essays → posts/video)
-- `write-video-script` (direct idea-to-camera scripts)
-- `write-brief` (transcript → operational research brief)
-- `write-incident-report`
-- `phrase-audit` (stock-phrase audit for a Markdown corpus)
+Shared Studio runtime source lives in `runtime/`. Run
+`python3 scripts/bundle_runtime.py` after editing it; package copies are checked
+for equality. This lets writing and Studio production install independently.
 
-### Development
+## Migration
 
-- `kernel-dev-api`, `kernel-dev-auth`, `kernel-dev-build`, `kernel-dev-database`, `kernel-dev-docker`
-- `kernel-dev-react`, `kernel-dev-react-native`, `native-ios-builder`, `kernel-dev-testing`, `kernel-dev-typescript`
-- `kernel-git-commit`, `kernel-clean-code`
-- `pr-comments` (PR review triage), `react-doctor` (React health), `ponti-principles` (the standing laws, all domains)
+This is a breaking catalog change from 60 specialist skills to nine packages.
+[The migration map](docs/refactor-map.json) identifies each moved procedure.
+Existing installations require an explicit migration; an ordinary update of an
+old name must not be assumed to install its replacement. Review installed-only
+changes before removing old packages, install the replacement, then remove old
+entries through the installer so agent links are handled too.
 
-### UI & Brand
+See the [refactor review](docs/refactor.md) for migration evidence, validation and limitations.
 
-- `kernel-animate`, `kernel-design`
-- `brand-asset-sourcing`
+## Contribute
 
-General UI/design-system guidance isn't a kernel skill — use [anthropics/skills](https://github.com/anthropics/skills) (`frontend-design`) and [plugin87/ux-ui-agent-skills](https://github.com/plugin87/ux-ui-agent-skills) instead.
-
-### Audit
-
-- `kernel-audit-integration-security`, `kernel-audit-security`, `kernel-audit-monorepo`, `kernel-audit-review`
-- `kernel-audit-swiftui`, `kernel-audit-trace`
-- `deep-repo-code-scan`
-
-### Operations
-
-- `kernel-ops-production`, `kernel-ops-ship`
-- `ship-ios` (unified branch-to-TestFlight lifecycle), `dependabot-batch`
-
-### Studio Ops
-
-- `film-production`, `plan-to-tasks`, `project-operations`, `workshop-design`
-- `studio-dev` (studio repo convention: shared verbs, ports, habits)
-
-### Studio
-
-- `studio-core`, `studio-script`, `studio-scenes`, `studio-clips`, `studio-essay`, `studio-social`, `studio-video`
-- `studio-imagegen`, `studio-mediagen`, `studio-podcastgen`, `studio-ledger`, `studio-universe`
-
-### Media & Data
-
-- `image-model-craft`, `programmatic-video`, `llm-structured-extraction`, `file-organization`, `macos-complete-uninstall`
-
----
-
-Each skill is a directory under `skills/`. See [AGENTS.md](AGENTS.md) for the contribution contract (frontmatter, catalog parity, validation, deployment).
-
-```bash
-python3 scripts/validate_skills.py              # structure, names, catalog parity
-muse skills validate skills/<skill> --json     # format (must report valid: true)
-```
-
-Licensed under the MIT License. Skills authored by [Ponti Studios](https://github.com/ponti-studios).
+See [AGENTS.md](AGENTS.md) for validation and publication rules.
+Licensed under MIT; vendored material retains its attribution and license notes.

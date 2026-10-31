@@ -1,0 +1,92 @@
+[
+  {
+    "project": "/Users/charlesponti/Developer/HominemAuth",
+    "kernel_skills": [
+      {
+        "name": "ship-ios",
+        "retained": true,
+        "installed_entrypoint": true
+      },
+      {
+        "name": "studio-dev",
+        "retained": true,
+        "installed_entrypoint": true
+      }
+    ]
+  },
+  {
+    "project": "/Users/charlesponti/Developer/hominem",
+    "kernel_skills": [
+      {
+        "name": "ship-ios",
+        "retained": true,
+        "installed_entrypoint": true
+      },
+      {
+        "name": "studio-dev",
+        "retained": true,
+        "installed_entrypoint": true
+      }
+    ]
+  },
+  {
+    "project": "/Users/charlesponti/Developer/Thames",
+    "kernel_skills": [
+      {
+        "name": "ship-ios",
+        "retained": true,
+        "installed_entrypoint": true
+      },
+      {
+        "name": "studio-dev",
+        "retained": true,
+        "installed_entrypoint": true
+      }
+    ]
+  },
+  {
+    "project": "/Users/charlesponti/Developer/hominem-testflight",
+    "kernel_skills": [
+      {
+        "name": "ship-ios",
+        "retained": true,
+        "installed_entrypoint": true
+      },
+      {
+        "name": "studio-dev",
+        "retained": true,
+        "installed_entrypoint": true
+      }
+    ]
+  },
+  {
+    "project": "/Users/charlesponti/Developer/hominem-telegram",
+    "kernel_skills": [
+      {
+        "name": "ship-ios",
+        "retained": true,
+        "installed_entrypoint": true
+      },
+      {
+        "name": "studio-dev",
+        "retained": true,
+        "installed_entrypoint": true
+      }
+    ]
+  },
+  {
+    "project": "/Users/charlesponti/Developer/worktrees/ponti-studios-hominem-wya-201",
+    "kernel_skills": [
+      {
+        "name": "ship-ios",
+        "retained": true,
+        "installed_entrypoint": true
+      },
+      {
+        "name": "studio-dev",
+        "retained": true,
+        "installed_entrypoint": true
+      }
+    ]
+  }
+]

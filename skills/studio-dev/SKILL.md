@@ -25,7 +25,7 @@ ships via the installed `ship-ios` skill; the pipeline is the `ship-ios` skill.
 
 ## Ports
 
-`scripts/ports.env` in this skill is the one registry (Thames 8083, Still
+[ports.env](scripts/ports.env) in this skill is the one registry (Thames 8083, Still
 8084, Omiro e2e 8082, API 4040). Give every new app its own port there.
 Never use 8081.
 
@@ -49,7 +49,7 @@ Never use 8081.
   `just studio-version` printing the set version.
 - Drift means a hand-edited installed copy. Don't fix it in place:
   re-run the install and port any intentional change back to this skill.
-- The set version lives in `scripts/VERSION` (currently 0.3.0). Bump it when
+- The set version lives in [VERSION](scripts/VERSION) (currently 0.3.0). Bump it when
   any bundled file changes.
 
 ## Adding a repo
