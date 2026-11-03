@@ -32,6 +32,11 @@ jobs.json format:
     [{"name": "look1", "prompt": "...", "refs": ["path.jpg"], "aspect": "4:5"}]
     ("refs" and "aspect" are optional per job.)
 
+Prompt files: --prompt (and each job's "prompt") may point at a text
+file instead of literal text — if the value is an existing file or ends
+in .md / .txt, the file's contents become the prompt:
+    seedream.py --name meow --prompt ./meow.md --ref cat.jpg
+
 Options:
     --model <id>       any OpenRouter image model (default: Seedream Flash)
     --preview          generate at 1K instead of the default 2K (fast iteration)
@@ -88,6 +93,30 @@ def stage_ref(path, stage_dir):
     data = "data:image/jpeg;base64," + base64.b64encode(staged.read_bytes()).decode()
     _stage_cache[key] = data
     return data
+
+# ---------- prompt resolution ----------
+def load_prompt(value, base_dir=None):
+    """A prompt may be literal text or a path to a prompt file. If the value
+    is an existing file, or ends in .md / .txt, it is read as a file (its
+    contents, trailing whitespace trimmed, become the prompt); a missing
+    file is an error, never a literal prompt. Otherwise the value is used
+    verbatim. In jobs files, paths are tried relative to the current
+    directory first, then relative to the jobs file's own directory."""
+    p = Path(value)
+    if p.is_file():
+        return p.read_text(encoding="utf-8").strip()
+    if base_dir:
+        alt = Path(base_dir) / value
+        if alt.is_file():
+            return alt.read_text(encoding="utf-8").strip()
+    if value.endswith((".md", ".txt")):
+        raise SystemExit(f"prompt file not found: {value}")
+    return value
+
+def resolve_job_prompts(jobs, base_dir=None):
+    for j in jobs:
+        j["prompt"] = load_prompt(j["prompt"], base_dir)
+    return jobs
 
 # ---------- transport ----------
 def call_api(endpoint, api_key, payload):
@@ -193,9 +222,10 @@ def main():
         ap.error("OPENROUTER_API_KEY is not set "
                  "(get a key at https://openrouter.ai/keys)")
     if a.jobs:
-        jobs = json.loads(Path(a.jobs).read_text())
+        jobs = resolve_job_prompts(json.loads(Path(a.jobs).read_text()),
+                                     Path(a.jobs).resolve().parent)
     elif a.name and a.prompt:
-        jobs = [{"name": a.name, "prompt": a.prompt,
+        jobs = [{"name": a.name, "prompt": load_prompt(a.prompt),
                  "refs": a.ref, "aspect": a.aspect}]
     else:
         ap.error("give --jobs FILE or --name + --prompt")
