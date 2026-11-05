@@ -13,6 +13,7 @@ Current user instructions and repository conventions take precedence over defaul
 For any writing or revision of text, use writing-workflows. Production consumes approved text; drafting or revising that text returns to writing-workflows.
 
 - [Studio Imagegen — frame spec to image](references/studio-imagegen/WORKFLOW.md)
+- [Image Transparent — image to transparent-background PNG](references/image-transparent/WORKFLOW.md)
 - [Studio Mediagen — scenes to voiceover to clips to a cut](references/studio-mediagen/WORKFLOW.md)
 - [Studio Podcastgen — a script becomes one audio file](references/studio-podcastgen/WORKFLOW.md)
 - [Studio ledger](references/studio-ledger/WORKFLOW.md)
