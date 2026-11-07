@@ -7,6 +7,7 @@ status: active
 updated: 2026-08-25
 applies_to:
 ---
+
 # Stage 1 — Direction
 
 Second stage. Lock the essay's spine before a word is written.
@@ -37,4 +38,3 @@ Return the direction in this exact structure:
 **Metaphor:** <one concrete metaphor — violin, warehouse, engine — not "paradigm">
 **Audience & intent:** <who it's for, why now>
 ```
-

@@ -7,6 +7,7 @@ status: active
 updated: 2026-08-25
 applies_to:
 ---
+
 # Stage 3 — Critique
 
 Fourth stage. Review the draft against the style contract — never against taste.
@@ -61,7 +62,7 @@ Every essay makes exactly one claim. It builds that claim around a single metaph
 - **Uses academic transitions.** ✗ Thus, it follows that... / Therefore, we must consider... / However, it is important to note... / Furthermore, the evidence suggests...
 - **Uses "we" to create false consensus.** ✗ We often find ourselves... / We tend to believe that... / As a society, we...
 - **Explains the metaphor.** ✗ "In other words, what I mean by the Stradivarius problem is..." (The reader got it. Trust them.)
-- **Uses italics or bold for emphasis.** ✗ This is *really* important. If the sentence needs typography to land, the sentence isn't strong enough.
+- **Uses italics or bold for emphasis.** ✗ This is _really_ important. If the sentence needs typography to land, the sentence isn't strong enough.
 - **Ends with a question.** ✗ So what will you do about it? (Questions open. Strikes close.)
 - **Cites statistics or studies.** ✗ According to a 2023 McKinsey report... (This is an argument from observation, not a report.)
 - **Uses hedge words.** ✗ Arguably / Interestingly / Notably / Perhaps / Some might say / It could be argued
@@ -104,4 +105,3 @@ length`, `strike`, `fragments`, `academic transitions`, `false consensus`,
 `hedge words`, `exclamation`, `key takeaways`, `uniform paragraphs`.
 
 A finding that cannot name a rule is taste — drop it.
-

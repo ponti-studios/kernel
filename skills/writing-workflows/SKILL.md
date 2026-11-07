@@ -13,7 +13,7 @@ Current user instructions and repository conventions take precedence over defaul
 All writing belongs here, including Ponti Studios scripts, social derivatives, podcast copy, and written scene development. Hand approved material to studio-workflows for recording, rendering and assembly.
 
 - [Write Docs — consolidated documentation skill](references/write-docs/WORKFLOW.md)
-- [Write Essay](references/write-essay/WORKFLOW.md)
+- [Essay](references/essay/WORKFLOW.md)
 - [Write Video Script](references/write-video-script/WORKFLOW.md)
 - [Write Brief](references/write-brief/WORKFLOW.md)
 - [Write Incident Report](references/write-incident-report/WORKFLOW.md)
@@ -24,7 +24,6 @@ All writing belongs here, including Ponti Studios scripts, social derivatives, p
 - [Master script](references/studio-script/WORKFLOW.md)
 - [Shot list](references/studio-scenes/WORKFLOW.md)
 - [Social clips](references/studio-clips/WORKFLOW.md)
-- [Essay](references/studio-essay/WORKFLOW.md)
 - [Social posts](references/studio-social/WORKFLOW.md)
 - [Video scripts](references/studio-video/WORKFLOW.md)
 

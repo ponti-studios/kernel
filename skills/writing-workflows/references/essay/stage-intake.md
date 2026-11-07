@@ -7,6 +7,7 @@ status: active
 updated: 2026-08-25
 applies_to:
 ---
+
 # Stage 0 — Intake & Canon
 
 First stage. Nothing is drafted until the source and canon are set.
@@ -35,4 +36,3 @@ Return a brief in this exact structure:
 **Classification:** <content pipeline | standalone artifact>
 **Canon:** <voice rules applied — bundled style contract + voice foundation>
 ```
-

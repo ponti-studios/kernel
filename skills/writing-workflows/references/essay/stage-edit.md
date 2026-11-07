@@ -7,6 +7,7 @@ status: active
 updated: 2026-08-25
 applies_to:
 ---
+
 # Stage 4 — Edit
 
 Fifth stage. Apply the critique findings — nothing else.

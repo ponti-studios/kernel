@@ -8,6 +8,7 @@ updated: 2026-08-25
 applies_to:
   - "notes/**"
 ---
+
 ## Mode: Shorts-First
 
 Default output: 40-60 seconds (~100-160 spoken words). Shorts are self-contained arguments, not cut-downs. One idea. One metaphor. One visual anchor.
@@ -18,19 +19,20 @@ If the source material is strong enough for long-form, note it under `## Long-Fo
 
 ## Script Structure
 
-| Section | Time | Words | What it does |
-|---|---|---|---|
-| Hook | 3 sec | 5-10 | Creates tension. Survives the scroll-past. |
-| Thesis | 10 sec | 15-25 | States the claim. Names what most people get wrong. |
-| Body | 20 sec | 60-90 | One or two points with visual support. Concrete. |
-| Turn | 10 sec | 15-25 | A reversal, hidden thing, or personal realization. |
-| Close | 5 sec | 5-15 | A strike. Lands and stops. Not a question. |
+| Section | Time   | Words | What it does                                        |
+| ------- | ------ | ----- | --------------------------------------------------- |
+| Hook    | 3 sec  | 5-10  | Creates tension. Survives the scroll-past.          |
+| Thesis  | 10 sec | 15-25 | States the claim. Names what most people get wrong. |
+| Body    | 20 sec | 60-90 | One or two points with visual support. Concrete.    |
+| Turn    | 10 sec | 15-25 | A reversal, hidden thing, or personal realization.  |
+| Close   | 5 sec  | 5-15  | A strike. Lands and stops. Not a question.          |
 
 ---
 
 ## Visual Cues
 
 Every 10-15 seconds needs a visual change. Include `[VISUAL: ...]` markers inline. Types:
+
 - **A-roll change:** different framing, closer/longer shot
 - **B-roll:** specific footage to shoot or source
 - **On-screen text:** exact words with timing

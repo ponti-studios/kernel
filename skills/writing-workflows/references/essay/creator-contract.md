@@ -8,7 +8,9 @@ updated: 2026-08-25
 applies_to:
   - "notes/**"
 ---
----
+
+***
+
 title: Creator Contract — Video
 knowledge_type: contract
 domain: vault/content/video
@@ -16,7 +18,8 @@ scope: turning-ideas-or-essays-into-video-scripts
 status: active
 updated: 2026-08-25
 applies_to:
-  - "notes/**"
+
+- "notes/**"
 
 # Creator Contract — Video
 
@@ -62,13 +65,13 @@ A strike. Not a question. Not a summary. Not "what do you think." Land and stop.
 
 The spoken voice is the written voice, delivered differently. Same DNA, different medium.
 
-| Rule | Do | Don't |
-|---|---|---|
-| **Open cold** | "You are not talking to intelligence." | "Today I want to discuss AI." |
-| **Say the hard thing** | "This is the Stradivarius problem." | "There's an interesting concept called..." |
-| **No filler** | "The evidence isn't there." | "Arguably, the evidence suggests that..." |
-| **Fragments work** | "Not because it's clever." | "And the reason for this is not because..." |
-| **No explainers** | Trust the viewer got it. | "In other words, what I mean is..." |
+| Rule                    | Do                                                     | Don't                                            |
+| ----------------------- | ------------------------------------------------------ | ------------------------------------------------ |
+| **Open cold**           | "You are not talking to intelligence."                 | "Today I want to discuss AI."                    |
+| **Say the hard thing**  | "This is the Stradivarius problem."                    | "There's an interesting concept called..."       |
+| **No filler**           | "The evidence isn't there."                            | "Arguably, the evidence suggests that..."        |
+| **Fragments work**      | "Not because it's clever."                             | "And the reason for this is not because..."      |
+| **No explainers**       | Trust the viewer got it.                               | "In other words, what I mean is..."              |
 | **Strike, don't close** | "The instrument is built. We need artists to play it." | "So in conclusion, what does this mean for you?" |
 
 ### Never
@@ -97,6 +100,7 @@ The spoken voice is the written voice, delivered differently. Same DNA, differen
 Every 10-15 seconds of speech needs a visual change. The script must include inline `[VISUAL: ...]` markers.
 
 Types of cues:
+
 - **A-roll change:** different framing, closer/longer shot, move position
 - **B-roll:** specific footage to shoot or source
 - **On-screen text:** exact words to overlay

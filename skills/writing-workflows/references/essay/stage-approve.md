@@ -7,6 +7,7 @@ status: active
 updated: 2026-08-25
 applies_to:
 ---
+
 # Stage 5 — Approve
 
 Sixth stage. Freeze the essay.
@@ -36,4 +37,3 @@ Return the frozen essay prefixed with a version line:
 
 [Frozen essay — title + body, no headers, no fences]
 ```
-

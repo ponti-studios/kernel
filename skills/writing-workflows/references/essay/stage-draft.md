@@ -7,6 +7,7 @@ status: active
 updated: 2026-08-25
 applies_to:
 ---
+
 # Stage 2 — Draft
 
 Third stage. Write the essay first pass.

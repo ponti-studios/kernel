@@ -8,9 +8,11 @@ updated: 2026-08-25
 applies_to:
   - "notes/**"
 ---
+
 ## Part 1: X Post
 
 Write a single long-form X post capturing the essay's core argument:
+
 - 500–1000 words
 - Self-contained — someone who hasn't read the essay should get the full argument
 - In the author's voice: calm, precise, contrarian-but-warm
@@ -21,6 +23,7 @@ Write a single long-form X post capturing the essay's core argument:
 ## Part 2: TikTok Clips
 
 1–2 clip ideas. Each needs:
+
 - A hook line (first 2–3 seconds)
 - Approximate timestamp from a hypothetical video version
 - Visual idea (what's on screen)
