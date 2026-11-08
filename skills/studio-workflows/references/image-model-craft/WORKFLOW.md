@@ -3,12 +3,12 @@
 Field notes from real work on a consistent-character universe (nine characters, nine
 frames, ~60 renders). Every claim below is tagged:
 
-| Tag | Meaning |
-|---|---|
+| Tag     | Meaning                                                                 |
+| ------- | ----------------------------------------------------------------------- |
 | **[M]** | Measured here, numbers in [evidence-log.md](references/evidence-log.md) |
-| **[I]** | Inferred from evidence, not directly measured |
-| **[U]** | Untested — a hypothesis worth testing, do not treat as fact |
-| **[R]** | Ruled out by the user or by evidence (do not re-litigate) |
+| **[I]** | Inferred from evidence, not directly measured                           |
+| **[U]** | Untested — a hypothesis worth testing, do not treat as fact             |
+| **[R]** | Ruled out by the user or by evidence (do not re-litigate)               |
 
 The single most important rule in this document: **one render is not evidence.**
 Three separate confident claims from single samples were falsified by a five-sample
@@ -53,11 +53,11 @@ re-run in one afternoon ([evaluation-method.md](references/evaluation-method.md)
    high: a "fixed" prompt that didn't fix anything is worse than no fix.
 5. **State the positive [I].** Naming a forbidden thing raises its odds of
    appearing, and enumerating other characters' garments in a character's own line
-   is actively harmful. But see rule 6 — the measured effect was *not* on the
+   is actively harmful. But see rule 6 — the measured effect was _not_ on the
    failure the negatives were written for.
 6. **Do not expect the negative-to-positive rewrite to fix a failure that isn't
-   happening [M].** On the frame whose spec said *"no gem, no diamond, no faceted
-   stone, no sparkle, no star"*, the failure never occurred: 0/5 panels in **both**
+   happening [M].** On the frame whose spec said _"no gem, no diamond, no faceted
+   stone, no sparkle, no star"_, the failure never occurred: 0/5 panels in **both**
    the original and rewritten arms. The constraint was inert, so the rewrite
    changed nothing measurable.
 7. **Give the model a geometry it can resolve, or it will invent one [M/I].** A net
@@ -69,7 +69,7 @@ re-run in one afternoon ([evaluation-method.md](references/evaluation-method.md)
    spelling out occlusion, contact shadows and stretching changed the render not at
    all. Fix the load-bearing clause, not the tail of the prompt.
 9. **Diff your arms before you compare them [M].** After a content rewrite, the
-   "legacy" arm still says `NEGATIVES:` but contains the *rewritten* text — so it is
+   "legacy" arm still says `NEGATIVES:` but contains the _rewritten_ text — so it is
    not the "before". Only git history or a restored copy is.
 10. **Never quote a file path you haven't just written [M].** Twice in one session
     I gave delivery paths for files I hadn't copied. Copy, then read the path back
@@ -77,7 +77,7 @@ re-run in one afternoon ([evaluation-method.md](references/evaluation-method.md)
 
 11. **Check the spec, then check the pixels, before you record a failure [M].** The
     most serious error in this whole body of work was a rubric item invented by the
-    scorer — *"no phone in anyone's hand"* — which scored a **spec-mandated prop** (a
+    scorer — _"no phone in anyone's hand"_ — which scored a **spec-mandated prop** (a
     nail file, written into the action line) as a violation on four models, and then a
     vision model misread the tool as a phone. Two fabricated findings from one image,
     both caught only by the user's eye. A finding built on an invented check is worse
@@ -88,16 +88,16 @@ re-run in one afternoon ([evaluation-method.md](references/evaluation-method.md)
     fact. Check the spec and the rubric before concluding anything about models.
 13. **Do not swap models chasing fidelity [M].** Measured on the same rubric: qwen
     35/35 and seedream-flash 34/35 on one frame, both 6/8 on the other; seedream-pro
-    was the *least* adherent (5/8) while being 4x slower. Model choice buys speed and
+    was the _least_ adherent (5/8) while being 4x slower. Model choice buys speed and
     plate capacity, not rule-following.
 
 ## Model choice, measured (2026-10-24, n=5 per model on one frame)
 
-| Model | Speed | Verified success | Aurora (of 35) | Scooby p1 (of 8) \u2020 | Use it for |
-|---|---|---|---|---|---|
-| `qwen/qwen-image-2.1-turbo` | 36-49s | 11/11 | **35/35** | 6/8 | default; `n` up to 6, so it can batch samples |
-| `bytedance-seed/seedream-5-0-flash` | **18-29s** | 11/11 | 34/35 | 6/8 | fast iteration |
-| `bytedance-seed/seedream-5-0-pro` | 109-178s | 9/11 | not scored | **5/8** | avoid unless a long brief demands it |
+| Model                               | Speed      | Verified success | Aurora (of 35) | Scooby p1 (of 8) \u2020 | Use it for                                    |
+| ----------------------------------- | ---------- | ---------------- | -------------- | ----------------------- | --------------------------------------------- |
+| `qwen/qwen-image-2.1-turbo`         | 36-49s     | 11/11            | **35/35**      | 6/8                     | default; `n` up to 6, so it can batch samples |
+| `bytedance-seed/seedream-5-0-flash` | **18-29s** | 11/11            | 34/35          | 6/8                     | fast iteration                                |
+| `bytedance-seed/seedream-5-0-pro`   | 109-178s   | 9/11             | not scored     | **5/8**                 | avoid unless a long brief demands it          |
 
 All three returned 1640x2048 for a 2K 4:5 request. None reported a per-render cost.
 
@@ -110,13 +110,13 @@ Scooby scores as evidence that one model follows rules better than another.**
 
 ## What to read when
 
-| You want to… | Read |
-|---|---|
-| Know what has actually been measured, with numbers | [evidence-log.md](references/evidence-log.md) |
-| Understand prompting mechanics (framing, negation, occlusion, counts, plates) | [prompt-mechanics.md](references/prompt-mechanics.md) |
-| Design a rendering plan a human can judge | [evaluation-method.md](references/evaluation-method.md) (scoring sections superseded) |
-| Look up a known failure mode (vision-derived rows are suspect) | [failure-catalogue.md](references/failure-catalogue.md) |
-| Know what a model costs and can accept | [costs-and-capabilities.md](references/costs-and-capabilities.md) |
+| You want to…                                                                  | Read                                                                                  |
+| ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| Know what has actually been measured, with numbers                            | [evidence-log.md](references/evidence-log.md)                                         |
+| Understand prompting mechanics (framing, negation, occlusion, counts, plates) | [prompt-mechanics.md](references/prompt-mechanics.md)                                 |
+| Design a rendering plan a human can judge                                     | [evaluation-method.md](references/evaluation-method.md) (scoring sections superseded) |
+| Look up a known failure mode (vision-derived rows are suspect)                | [failure-catalogue.md](references/failure-catalogue.md)                               |
+| Know what a model costs and can accept                                        | [costs-and-capabilities.md](references/costs-and-capabilities.md)                     |
 
 ## Related skills (do not duplicate them)
 

@@ -6,12 +6,12 @@ upstream_path: tests-beta/android/MASVS-CRYPTO/MASTG-TEST-0308.md
 upstream_tag: 31cec00
 platform: android
 covers_masvs:
-- MASVS-CRYPTO-2
+  - MASVS-CRYPTO-2
 type:
-- dynamic
+  - dynamic
 weakness: MASWE-0012
 profiles:
-- L2
+  - L2
 ---
 
 ## Overview
@@ -20,13 +20,13 @@ This test is the dynamic counterpart to @MASTG-TEST-0307, but it focuses on inte
 
 Some of the relevant functions to intercept are:
 
-- [`Cipher.init(int opmode, Key key, AlgorithmParameters params)`](https://developer.android.com/reference/javax/crypto/Cipher#init(int,%20java.security.Key,%20java.security.AlgorithmParameters)) where `opmode` is one of:
-    - `Cipher.ENCRYPT_MODE`
-    - `Cipher.DECRYPT_MODE`
-    - `Cipher.WRAP_MODE`
-    - `Cipher.UNWRAP_MODE`
-- [`Signature.initSign(PrivateKey privateKey)`](https://developer.android.com/reference/java/security/Signature#initSign(java.security.PrivateKey))
-- [`Signature.initVerify(PublicKey publicKey)`](https://developer.android.com/reference/java/security/Signature#initVerify(java.security.PublicKey))
+- [`Cipher.init(int opmode, Key key, AlgorithmParameters params)`](<https://developer.android.com/reference/javax/crypto/Cipher#init(int,%20java.security.Key,%20java.security.AlgorithmParameters)>) where `opmode` is one of:
+  - `Cipher.ENCRYPT_MODE`
+  - `Cipher.DECRYPT_MODE`
+  - `Cipher.WRAP_MODE`
+  - `Cipher.UNWRAP_MODE`
+- [`Signature.initSign(PrivateKey privateKey)`](<https://developer.android.com/reference/java/security/Signature#initSign(java.security.PrivateKey)>)
+- [`Signature.initVerify(PublicKey publicKey)`](<https://developer.android.com/reference/java/security/Signature#initVerify(java.security.PublicKey)>)
 
 ## Steps
 

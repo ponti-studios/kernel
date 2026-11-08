@@ -56,28 +56,28 @@ Every code generation output must satisfy these ten attributes. Read `data/fiass
 
 ### Maintainability
 
-| Attribute | Enforcement |
-|-----------|-------------|
-| **Analyzability** (FIASSE v1.0.4 S3.2.1.1) | Methods ≤ 30 LoC. Cyclomatic complexity < 10. Clear, descriptive naming. No dead code. Comments only at trust boundaries and complex logic, explaining *why* — not *what*. |
-| **Modifiability** (FIASSE v1.0.4 S3.2.1.2) | Loose coupling via interfaces / dependency injection. No static mutable state. Security-sensitive logic (auth, crypto, validation) centralized in dedicated modules, not scattered across call sites. Configuration externalized. |
-| **Testability** (FIASSE v1.0.4 S3.2.1.3) | All public interfaces testable without modifying code under test. Dependencies injectable / mockable. Security controls isolated for dedicated test suites. |
+| Attribute                                  | Enforcement                                                                                                                                                                                                                                                                                                                                                                                                 |
+| ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Analyzability** (FIASSE v1.0.4 S3.2.1.1) | Methods ≤ 30 LoC. Cyclomatic complexity < 10. Clear, descriptive naming. No dead code. Comments only at trust boundaries and complex logic, explaining _why_ — not _what_.                                                                                                                                                                                                                                  |
+| **Modifiability** (FIASSE v1.0.4 S3.2.1.2) | Loose coupling via interfaces / dependency injection. No static mutable state. Security-sensitive logic (auth, crypto, validation) centralized in dedicated modules, not scattered across call sites. Configuration externalized.                                                                                                                                                                           |
+| **Testability** (FIASSE v1.0.4 S3.2.1.3)   | All public interfaces testable without modifying code under test. Dependencies injectable / mockable. Security controls isolated for dedicated test suites.                                                                                                                                                                                                                                                 |
 | **Observability** (FIASSE v1.0.4 S3.2.1.4) | Code-level instrumentation, not external tooling alone. Structured logs with sufficient context (who/what/where/when/outcome) at trust boundaries and security-sensitive operations. Health and performance metrics exposed through a standardized API. Failure paths produce observable signals; no silent exception swallowing. UI/operator feedback surfaces meaningful state without leaking internals. |
 
 ### Trustworthiness
 
-| Attribute | Enforcement |
-|-----------|-------------|
-| **Confidentiality** (FIASSE v1.0.4 S3.2.2.1) | Sensitive data classified at the type level. Least-privilege data access. No secrets in code, logs, or error messages. Encryption at rest and in transit where applicable. Data minimization. |
-| **Accountability** (FIASSE v1.0.4 S3.2.2.2) | Security-sensitive actions logged with structured data (who, what, where, when). Audit trails append-only. Auth events (login, logout, failure) and authz decisions (grant, deny) recorded. No sensitive data in logs. |
-| **Authenticity** (FIASSE v1.0.4 S3.2.2.3) | Use established authentication mechanisms. Verify token/session integrity (signed JWTs with pinned algorithm, secure cookies). Mutually authenticate service-to-service calls. Support non-repudiation. |
+| Attribute                                    | Enforcement                                                                                                                                                                                                            |
+| -------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Confidentiality** (FIASSE v1.0.4 S3.2.2.1) | Sensitive data classified at the type level. Least-privilege data access. No secrets in code, logs, or error messages. Encryption at rest and in transit where applicable. Data minimization.                          |
+| **Accountability** (FIASSE v1.0.4 S3.2.2.2)  | Security-sensitive actions logged with structured data (who, what, where, when). Audit trails append-only. Auth events (login, logout, failure) and authz decisions (grant, deny) recorded. No sensitive data in logs. |
+| **Authenticity** (FIASSE v1.0.4 S3.2.2.3)    | Use established authentication mechanisms. Verify token/session integrity (signed JWTs with pinned algorithm, secure cookies). Mutually authenticate service-to-service calls. Support non-repudiation.                |
 
 ### Reliability
 
-| Attribute | Enforcement |
-|-----------|-------------|
-| **Availability** (FIASSE v1.0.4 S3.2.3.1) | Enforce resource limits (memory, connections, file handles). Configure timeouts for all external calls. Rate-limit where appropriate. Thread-safe design for concurrent code. Graceful degradation for non-critical failures. |
-| **Integrity** (FIASSE v1.0.4 S3.2.3.2) | Validate input at every trust boundary: canonicalize → sanitize → validate (FIASSE v1.0.4 S4.4.1). Output-encode when crossing trust boundaries. Use parameterized queries exclusively. Apply Derived Integrity (FIASSE v1.0.4 S4.4.1.2) and Request Surface Minimization (FIASSE v1.0.4 S4.4.1.1). |
-| **Resilience** (FIASSE v1.0.4 S3.2.3.3) | Defensive coding: anticipate out-of-bounds input. Specific exception handling — no bare catch-all. Sandbox null checks to input/DB boundaries. Use immutable data structures in concurrent code. Deterministic disposal patterns (`with`, `using`, RAII). Graceful and **secure** failure: error messages don't leak internals. |
+| Attribute                                 | Enforcement                                                                                                                                                                                                                                                                                                                     |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Availability** (FIASSE v1.0.4 S3.2.3.1) | Enforce resource limits (memory, connections, file handles). Configure timeouts for all external calls. Rate-limit where appropriate. Thread-safe design for concurrent code. Graceful degradation for non-critical failures.                                                                                                   |
+| **Integrity** (FIASSE v1.0.4 S3.2.3.2)    | Validate input at every trust boundary: canonicalize → sanitize → validate (FIASSE v1.0.4 S4.4.1). Output-encode when crossing trust boundaries. Use parameterized queries exclusively. Apply Derived Integrity (FIASSE v1.0.4 S4.4.1.2) and Request Surface Minimization (FIASSE v1.0.4 S4.4.1.1).                             |
+| **Resilience** (FIASSE v1.0.4 S3.2.3.3)   | Defensive coding: anticipate out-of-bounds input. Specific exception handling — no bare catch-all. Sandbox null checks to input/DB boundaries. Use immutable data structures in concurrent code. Deterministic disposal patterns (`with`, `using`, RAII). Graceful and **secure** failure: error messages don't leak internals. |
 
 ## Trust Boundary Handling (FIASSE v1.0.4 S4.3)
 
@@ -90,7 +90,7 @@ Apply the **Boundary Control Principle** (the "turtle analogy"): hard shell at t
 
 ### Defensive Boundary Parsing
 
-Boundary input is hostile until proven otherwise — and "hostile" includes *well-meaning but unusual*, not just attacker-crafted. Real protocols and formats have edge cases that naive parsers fail on. Before writing any boundary-parsing code, think through these classes of variation explicitly:
+Boundary input is hostile until proven otherwise — and "hostile" includes _well-meaning but unusual_, not just attacker-crafted. Real protocols and formats have edge cases that naive parsers fail on. Before writing any boundary-parsing code, think through these classes of variation explicitly:
 
 - **HTTP headers** — case-insensitive names; scheme tokens whose RFC behavior is case-insensitive (`Bearer`, `bearer`, `BEARER` per RFC 6750/7235); leading/trailing whitespace; multiple values; comma-separated lists; non-ASCII; missing entirely.
 - **URLs and query strings** — percent-encoding variants, normalization (`/a/./b` → `/a/b`), traversal (`..`), trailing slash, mixed-case schemes, IDN/punycode, repeated query keys.
@@ -100,7 +100,7 @@ Boundary input is hostile until proven otherwise — and "hostile" includes *wel
 - **JSON and structured payloads** — duplicate keys, depth bombs, integer overflow, type confusion (`"123"` vs `123`).
 - **Tokens and credentials** — leading/trailing whitespace, base64url vs base64, padding variants, leading `Bearer ` already stripped or not.
 
-Don't enumerate all of these in code — pick the ones that *matter for this boundary* and handle them deliberately. The default for any RFC-defined token is **"follow the RFC, don't reject the spec-compliant variant just because your prototype only saw one shape."**
+Don't enumerate all of these in code — pick the ones that _matter for this boundary_ and handle them deliberately. The default for any RFC-defined token is **"follow the RFC, don't reject the spec-compliant variant just because your prototype only saw one shape."**
 
 ## Steps (Default Mode)
 
@@ -200,30 +200,31 @@ What changed and why:
 
 These are the patterns to **not** emit during generation. Each row pairs the bad shape with the principle it would violate, so when you find yourself about to write one, you know what's going wrong and what the correct shape looks like.
 
-| Pattern to avoid emitting | Principle / attribute violated | Tag | Correct shape instead |
-|---|---|---|---|
-| String-built SQL / shell / format strings touching user input | Integrity — input handling at boundary (FIASSE v1.0.4 S4.4.1, S4.3) | "Trust boundary input handling" | Parameterized query / `subprocess` arg list / format with placeholders |
-| Trusting `req.body.user_id`, `X-Tenant-ID`, JWT claims for authorization decisions | Integrity — Derived Integrity (FIASSE v1.0.4 S4.4.1.2) | "Derived Integrity violation" | Look up user/tenant from authenticated session; never client-asserted |
-| Spreading `req.body` / `**request.json` directly into ORM update | Integrity — Request Surface Minimization (FIASSE v1.0.4 S4.4.1.1) | "Mass assignment" | Explicit allow-list of named fields → typed DTO → mapped update |
-| `os.path.join(base, user_input)` / template path concatenation | Integrity — boundary canonicalization (FIASSE v1.0.4 S4.4.1) | "Path canonicalization gap" | Resolve absolute path, assert it's under `base`, reject otherwise |
-| `jwt.decode(token)` with default algorithms / no `aud` / no `iss` | Authenticity (FIASSE v1.0.4 S3.2.2.3) | "Token verification under-specified" | `jwt.decode(token, key, algorithms=['RS256'], audience=..., issuer=...)` |
-| `print(...)` / `console.log(...)` / `fmt.Println(...)` for security events | Accountability + Observability (FIASSE v1.0.4 S2.5, S3.2.1.4) | "Unstructured audit trail" | Structured logger emitting `{event, actor, target, outcome, request_id}` |
-| `try: ... except: pass` / silent failure paths | Observability (FIASSE v1.0.4 S3.2.1.4); Resilience (FIASSE v1.0.4 S3.2.3.3) | "Silent failure" | Specific exception types; log with context; re-raise or return typed error |
-| Bare `except:` / `catch (e)` returning raw exception text | Resilience; Confidentiality (FIASSE v1.0.4 S3.2.3.3, S3.2.2.1) | "Specific exception handling missing" | Named exception types, generic public message, internal log with detail |
-| Module-level globals (DB connection, app, config) created at import | Modifiability + Testability (FIASSE v1.0.4 S3.2.1.2, S3.2.1.3) | "Import-time side effects" | Factory function / DI container / fixture-injected dependencies |
-| `request.body.read()` / `ioutil.ReadAll(r.Body)` with no size cap | Availability + Resilience (FIASSE v1.0.4 S3.2.3.1, S3.2.3.3) | "Unbounded resource consumption" | Bounded reader; explicit `max_size`; 413 on overflow |
-| `password == request.password` / non-constant-time secret comparison | Authenticity; Confidentiality | "Timing-side-channel comparison" | `hmac.compare_digest` / language equivalent |
-| Hardcoded secrets, connection strings, or API keys | Confidentiality (FIASSE v1.0.4 S3.2.2.1) | "Secret in code" | Env var / secret manager; pass via injected config |
-| `any` / `interface{}` / `dynamic` on the trust-boundary surface | Analyzability + Integrity | "Trust-boundary type erasure" | Concrete typed DTO / Pydantic model / typed struct |
-| `setTimeout` / `time.sleep` as a substitute for actual rate limiting | Availability (FIASSE v1.0.4 S3.2.3.1) | "Sleep-based throttling" | Real rate limiter (token bucket / fixed window) keyed by actor |
-| External call without timeout (`requests.get(url)`, `http.Client{}`) | Availability + Resilience | "Unbounded external call" | Explicit `timeout=` / configured `Client` with timeouts |
-| Logging the full request body / response body / token by default | Confidentiality + Accountability (sensitive data in audit) | "PII in audit log" | Log structured event with IDs only; redact body and credential fields |
+| Pattern to avoid emitting                                                          | Principle / attribute violated                                              | Tag                                   | Correct shape instead                                                      |
+| ---------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ------------------------------------- | -------------------------------------------------------------------------- |
+| String-built SQL / shell / format strings touching user input                      | Integrity — input handling at boundary (FIASSE v1.0.4 S4.4.1, S4.3)         | "Trust boundary input handling"       | Parameterized query / `subprocess` arg list / format with placeholders     |
+| Trusting `req.body.user_id`, `X-Tenant-ID`, JWT claims for authorization decisions | Integrity — Derived Integrity (FIASSE v1.0.4 S4.4.1.2)                      | "Derived Integrity violation"         | Look up user/tenant from authenticated session; never client-asserted      |
+| Spreading `req.body` / `**request.json` directly into ORM update                   | Integrity — Request Surface Minimization (FIASSE v1.0.4 S4.4.1.1)           | "Mass assignment"                     | Explicit allow-list of named fields → typed DTO → mapped update            |
+| `os.path.join(base, user_input)` / template path concatenation                     | Integrity — boundary canonicalization (FIASSE v1.0.4 S4.4.1)                | "Path canonicalization gap"           | Resolve absolute path, assert it's under `base`, reject otherwise          |
+| `jwt.decode(token)` with default algorithms / no `aud` / no `iss`                  | Authenticity (FIASSE v1.0.4 S3.2.2.3)                                       | "Token verification under-specified"  | `jwt.decode(token, key, algorithms=['RS256'], audience=..., issuer=...)`   |
+| `print(...)` / `console.log(...)` / `fmt.Println(...)` for security events         | Accountability + Observability (FIASSE v1.0.4 S2.5, S3.2.1.4)               | "Unstructured audit trail"            | Structured logger emitting `{event, actor, target, outcome, request_id}`   |
+| `try: ... except: pass` / silent failure paths                                     | Observability (FIASSE v1.0.4 S3.2.1.4); Resilience (FIASSE v1.0.4 S3.2.3.3) | "Silent failure"                      | Specific exception types; log with context; re-raise or return typed error |
+| Bare `except:` / `catch (e)` returning raw exception text                          | Resilience; Confidentiality (FIASSE v1.0.4 S3.2.3.3, S3.2.2.1)              | "Specific exception handling missing" | Named exception types, generic public message, internal log with detail    |
+| Module-level globals (DB connection, app, config) created at import                | Modifiability + Testability (FIASSE v1.0.4 S3.2.1.2, S3.2.1.3)              | "Import-time side effects"            | Factory function / DI container / fixture-injected dependencies            |
+| `request.body.read()` / `ioutil.ReadAll(r.Body)` with no size cap                  | Availability + Resilience (FIASSE v1.0.4 S3.2.3.1, S3.2.3.3)                | "Unbounded resource consumption"      | Bounded reader; explicit `max_size`; 413 on overflow                       |
+| `password == request.password` / non-constant-time secret comparison               | Authenticity; Confidentiality                                               | "Timing-side-channel comparison"      | `hmac.compare_digest` / language equivalent                                |
+| Hardcoded secrets, connection strings, or API keys                                 | Confidentiality (FIASSE v1.0.4 S3.2.2.1)                                    | "Secret in code"                      | Env var / secret manager; pass via injected config                         |
+| `any` / `interface{}` / `dynamic` on the trust-boundary surface                    | Analyzability + Integrity                                                   | "Trust-boundary type erasure"         | Concrete typed DTO / Pydantic model / typed struct                         |
+| `setTimeout` / `time.sleep` as a substitute for actual rate limiting               | Availability (FIASSE v1.0.4 S3.2.3.1)                                       | "Sleep-based throttling"              | Real rate limiter (token bucket / fixed window) keyed by actor             |
+| External call without timeout (`requests.get(url)`, `http.Client{}`)               | Availability + Resilience                                                   | "Unbounded external call"             | Explicit `timeout=` / configured `Client` with timeouts                    |
+| Logging the full request body / response body / token by default                   | Confidentiality + Accountability (sensitive data in audit)                  | "PII in audit log"                    | Log structured event with IDs only; redact body and credential fields      |
 
 If you catch yourself emitting one of these, stop and rewrite.
 
 ## Generation Checklist
 
 **Maintainability**:
+
 - [ ] Functions ≤ 30 LoC, cyclomatic complexity < 10
 - [ ] No static mutable state; dependencies injected
 - [ ] Security logic centralized, not duplicated
@@ -231,17 +232,20 @@ If you catch yourself emitting one of these, stop and rewrite.
 - [ ] Observability built into the code: structured logs at boundaries with sufficient context; failure paths are observable; instrumentation does not depend on external tooling alone
 
 **Trustworthiness**:
+
 - [ ] No secrets, PII, or tokens in code, logs, or error output
 - [ ] Auth/authz events logged with structured data
 - [ ] Authentication uses established mechanisms
 - [ ] Data access follows least privilege
 
 **ASVS feature requirements**:
+
 - [ ] Relevant ASVS chapter(s) identified for the feature
 - [ ] Applicable ASVS requirements translated into implementation constraints
 - [ ] Generated code satisfies the requirement intent, not just the happy path
 
 **Reliability**:
+
 - [ ] Input validated at every trust boundary (canonicalize → sanitize → validate)
 - [ ] Derived Integrity applied (server-owned state not client-supplied)
 - [ ] Request Surface Minimization applied (only expected values extracted)
@@ -249,6 +253,7 @@ If you catch yourself emitting one of these, stop and rewrite.
 - [ ] Resource limits, timeouts, and disposal patterns in place
 
 **Dependency hygiene**:
+
 - [ ] External libraries are necessary (no avoidable dependency added)
 - [ ] Selected versions are latest stable compatible releases
 - [ ] Selected packages have low known CVE/CWE exposure
@@ -256,14 +261,17 @@ If you catch yourself emitting one of these, stop and rewrite.
 - [ ] Versions pinned; lockfile guidance included
 
 **Transparency**:
+
 - [ ] Meaningful naming; self-documenting code
 - [ ] Structured logging at trust boundaries and security events
 - [ ] Audit-trail hooks for security-sensitive actions
 
 **Anti-patterns avoided**:
+
 - [ ] None of the rows in the Anti-Pattern Tag Reference are present in the generated code
 
 **Output format**:
+
 - [ ] Securability Notes block included after the code (lean — only material points)
 - [ ] Notes name the 2–4 SSEM attributes that actually shaped the code (not all ten)
 - [ ] Trade-offs section calls out anything a reviewer would want to revisit

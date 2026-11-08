@@ -6,12 +6,12 @@ upstream_path: tests-beta/ios/MASVS-RESILIENCE/MASTG-TEST-0241.md
 upstream_tag: 31cec00
 platform: ios
 covers_masvs:
-- MASVS-RESILIENCE-1
+  - MASVS-RESILIENCE-1
 type:
-- dynamic
+  - dynamic
 weakness: MASWE-0097
 profiles:
-- R
+  - R
 ---
 
 ## Overview
@@ -33,4 +33,4 @@ The output should include any instances of common jailbreak detection checks in 
 The test case fails if jailbreak detection is not implemented.
 
 !!! note
-    This test is not exhaustive and may not detect all jailbreak detection checks as it relies on predefined bypass code that may not cover all possible jailbreak detection checks or may not be up-to-date. The checks may also be more sophisticated than what the tool can detect, so manual reverse engineering and deobfuscation may be required to identify them.
+This test is not exhaustive and may not detect all jailbreak detection checks as it relies on predefined bypass code that may not cover all possible jailbreak detection checks or may not be up-to-date. The checks may also be more sophisticated than what the tool can detect, so manual reverse engineering and deobfuscation may be required to identify them.

@@ -6,13 +6,13 @@ upstream_path: tests-beta/android/MASVS-NETWORK/MASTG-TEST-0218.md
 upstream_tag: 31cec00
 platform: network
 covers_masvs:
-- MASVS-NETWORK-1
+  - MASVS-NETWORK-1
 type:
-- network
+  - network
 weakness: MASWE-0050
 profiles:
-- L1
-- L2
+  - L1
+  - L2
 ---
 
 ## Overview

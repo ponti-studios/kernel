@@ -12,12 +12,12 @@
 // original TypeScript build while the monorepo exists — but every repo path is
 // optional here, resolved lazily, and never imported at module load. A missing
 // checkout is a normal state, not a startup crash.
-import { existsSync, readFileSync, statSync } from 'node:fs';
-import { homedir } from 'node:os';
-import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { existsSync, readFileSync, statSync } from "node:fs";
+import { homedir } from "node:os";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
-import { hasRegistry } from './registry.mjs';
+import { hasRegistry } from "./registry.mjs";
 
 export {
   SchemaError,
@@ -29,7 +29,7 @@ export {
   validatePlate,
   validateProp,
   validateRegistry,
-} from './schemas.mjs';
+} from "./schemas.mjs";
 export {
   REGISTRY_CANDIDATES,
   biblePath,
@@ -42,19 +42,19 @@ export {
   loadRegistry,
   referencedFiles,
   registryPath,
-} from './registry.mjs';
+} from "./registry.mjs";
 
 // ---------------------------------------------------------------------------
 // where this skill lives
 // ---------------------------------------------------------------------------
 
-export const SKILL_DIR = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
+export const SKILL_DIR = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 /** Canon root shipped with the skill: registry.json + bibles/. */
-export const LOCAL_DATA_DIR = join(SKILL_DIR, 'data');
+export const LOCAL_DATA_DIR = join(SKILL_DIR, "data");
 /** The ported compiler — byte-exact against the TypeScript original. */
-export const LOCAL_COMPILER = join(SKILL_DIR, 'scripts', 'lib', 'compile.mjs');
+export const LOCAL_COMPILER = join(SKILL_DIR, "scripts", "lib", "compile.mjs");
 /** Fixture baseline that travels with the compiler. */
-export const LOCAL_FIXTURES_DIR = join(SKILL_DIR, 'test', 'fixtures');
+export const LOCAL_FIXTURES_DIR = join(SKILL_DIR, "test", "fixtures");
 
 // ---------------------------------------------------------------------------
 // user configuration (~/.pontistudios.studio.yml)
@@ -64,21 +64,21 @@ export const LOCAL_FIXTURES_DIR = join(SKILL_DIR, 'test', 'fixtures');
 // the app and the CLI skills identically. Precedence is fixed and documented:
 // flag > environment variable > this file > built-in default.
 export const userConfigPath =
-  process.env.STUDIO_CONFIG ?? join(homedir(), '.pontistudios.studio.yml');
+  process.env.STUDIO_CONFIG ?? join(homedir(), ".pontistudios.studio.yml");
 
 /** @returns {Record<string, string>} */
 export function parseUserConfig(text) {
   const out = {};
-  for (const raw of text.split('\n')) {
-    const line = raw.replace(/(^|\s)#.*$/, '').trim();
-    if (!line || !line.includes(':')) continue;
-    const at = line.indexOf(':');
+  for (const raw of text.split("\n")) {
+    const line = raw.replace(/(^|\s)#.*$/, "").trim();
+    if (!line || !line.includes(":")) continue;
+    const at = line.indexOf(":");
     const key = line.slice(0, at).trim();
     let value = line.slice(at + 1).trim();
     if (!key || !value) continue;
     // ~ expands at the start of the value and after a scheme prefix like file:
     value = value
-      .replace(/^["']|["']$/g, '')
+      .replace(/^["']|["']$/g, "")
       .replace(/(^|:)~(?=\/|$)/g, (_m, lead) => lead + homedir());
     out[key] = value;
   }
@@ -87,7 +87,7 @@ export function parseUserConfig(text) {
 
 /** Raw config-file contents (flat keys). A missing file is an empty object. */
 export function fileConfig() {
-  return existsSync(userConfigPath) ? parseUserConfig(readFileSync(userConfigPath, 'utf8')) : {};
+  return existsSync(userConfigPath) ? parseUserConfig(readFileSync(userConfigPath, "utf8")) : {};
 }
 
 /** True when the config file is readable by anyone but the owner. */
@@ -106,7 +106,7 @@ export function setting(envName, key, fallback) {
   if (process.env[envName]) return process.env[envName];
   const fromFile = fileConfig()[key];
   if (fromFile) return fromFile;
-  return typeof fallback === 'function' ? fallback() : fallback;
+  return typeof fallback === "function" ? fallback() : fallback;
 }
 
 // ---------------------------------------------------------------------------
@@ -115,7 +115,7 @@ export function setting(envName, key, fallback) {
 
 /** Where a studio checkout would be, if there is one. */
 export function studioRoot() {
-  return setting('STUDIO_ROOT', 'studio_root', () => join(homedir(), 'Developer', 'studio'));
+  return setting("STUDIO_ROOT", "studio_root", () => join(homedir(), "Developer", "studio"));
 }
 
 /**
@@ -125,7 +125,7 @@ export function studioRoot() {
 export function distCompilerEntry() {
   const candidates = [
     process.env.STUDIO_UNIVERSE_ENTRY,
-    join(studioRoot(), 'packages/universe/dist/index.js'),
+    join(studioRoot(), "packages/universe/dist/index.js"),
   ].filter(Boolean);
   return candidates.find((p) => existsSync(p)) ?? null;
 }
@@ -138,11 +138,11 @@ export function universeEntry() {
   const found = distCompilerEntry();
   if (found) return found;
   throw new Error(
-    'the TypeScript compiler is not available — this skill compiles prompts from its own\n' +
-      'data/ with scripts/lib/compile.mjs, so nothing is broken. Only app-parity checks\n' +
-      '(--compiler dist) need the original build:\n' +
-      `  expected ${join(studioRoot(), 'packages/universe/dist/index.js')}\n` +
-      '  or set STUDIO_UNIVERSE_ENTRY to a built dist/index.js',
+    "the TypeScript compiler is not available — this skill compiles prompts from its own\n" +
+      "data/ with scripts/lib/compile.mjs, so nothing is broken. Only app-parity checks\n" +
+      "(--compiler dist) need the original build:\n" +
+      `  expected ${join(studioRoot(), "packages/universe/dist/index.js")}\n` +
+      "  or set STUDIO_UNIVERSE_ENTRY to a built dist/index.js",
   );
 }
 
@@ -156,11 +156,11 @@ export function universeEntry() {
  * @param {string} root
  */
 export function universeRootSource(root) {
-  if (root === process.env.STUDIO_UNIVERSE_ROOT) return 'env STUDIO_UNIVERSE_ROOT';
+  if (root === process.env.STUDIO_UNIVERSE_ROOT) return "env STUDIO_UNIVERSE_ROOT";
   if (root === fileConfig().universe_root) return `config universe_root (${userConfigPath})`;
-  if (root === LOCAL_DATA_DIR) return 'skill data/';
-  if (root === join(studioRoot(), 'universe')) return 'studio checkout';
-  return 'explicit --root';
+  if (root === LOCAL_DATA_DIR) return "skill data/";
+  if (root === join(studioRoot(), "universe")) return "studio checkout";
+  return "explicit --root";
 }
 
 /**
@@ -183,7 +183,7 @@ export function universeRoot() {
     process.env.STUDIO_UNIVERSE_ROOT,
     fileConfig().universe_root,
     LOCAL_DATA_DIR,
-    join(studioRoot(), 'universe'),
+    join(studioRoot(), "universe"),
   ].filter(Boolean);
 
   for (const candidate of candidates) {
@@ -191,34 +191,36 @@ export function universeRoot() {
     const envRoot = process.env.STUDIO_UNIVERSE_ROOT;
     if (envRoot && candidate !== envRoot) {
       // Still resolved, but say so: a set-but-empty root is a mistake worth seeing.
-      process.stderr.write(`# note: STUDIO_UNIVERSE_ROOT=${envRoot} holds no registry; using ${candidate}\n`);
+      process.stderr.write(
+        `# note: STUDIO_UNIVERSE_ROOT=${envRoot} holds no registry; using ${candidate}\n`,
+      );
     }
     return candidate;
   }
   throw new Error(
-    `no canon found. Tried:\n  ${candidates.join('\n  ')}\n` +
+    `no canon found. Tried:\n  ${candidates.join("\n  ")}\n` +
       `The skill ships canon at ${LOCAL_DATA_DIR} — if that is missing, reinstall the skill.`,
   );
 }
 
 /** The fixture baseline: `<dir>/specs/*.json` + `<dir>/expected/*.prompt.txt`. */
 export function fixturesDir() {
-  if (existsSync(join(LOCAL_FIXTURES_DIR, 'specs'))) return LOCAL_FIXTURES_DIR;
+  if (existsSync(join(LOCAL_FIXTURES_DIR, "specs"))) return LOCAL_FIXTURES_DIR;
   // A checkout's fixtures are the same records; accept them so an app-parity run
   // still works if the skill copy was pruned.
-  const repo = join(studioRoot(), 'packages/universe/test/fixtures');
-  return existsSync(join(repo, 'specs')) ? repo : LOCAL_FIXTURES_DIR;
+  const repo = join(studioRoot(), "packages/universe/test/fixtures");
+  return existsSync(join(repo, "specs")) ? repo : LOCAL_FIXTURES_DIR;
 }
 
 // ---------------------------------------------------------------------------
 // compilers
 // ---------------------------------------------------------------------------
 
-const REQUIRED_EXPORTS = ['compileSpec', 'loadRegistry', 'loadSpec', 'validate'];
+const REQUIRED_EXPORTS = ["compileSpec", "loadRegistry", "loadSpec", "validate"];
 
 async function assertCompiler(mod, label) {
   for (const fn of REQUIRED_EXPORTS) {
-    if (typeof mod[fn] !== 'function') throw new Error(`${label} is missing ${fn}()`);
+    if (typeof mod[fn] !== "function") throw new Error(`${label} is missing ${fn}()`);
   }
   return mod;
 }
@@ -230,7 +232,7 @@ async function assertCompiler(mod, label) {
  */
 export async function loadLocalCompiler() {
   const mod = await import(LOCAL_COMPILER);
-  return assertCompiler(mod, 'the local compiler (scripts/lib/compile.mjs)');
+  return assertCompiler(mod, "the local compiler (scripts/lib/compile.mjs)");
 }
 
 /** The original TypeScript build — legacy voice only, for app parity. */

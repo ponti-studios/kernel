@@ -6,13 +6,13 @@ upstream_path: tests-beta/ios/MASVS-NETWORK/MASTG-TEST-0345.md
 upstream_tag: 31cec00
 platform: ios
 covers_masvs:
-- MASVS-NETWORK-1
+  - MASVS-NETWORK-1
 type:
-- manual
+  - manual
 weakness: MASWE-0050
 profiles:
-- L1
-- L2
+  - L1
+  - L2
 ---
 
 ## Overview

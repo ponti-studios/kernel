@@ -14,16 +14,19 @@ before claiming.
 # <Operation> runbook
 
 ## Prerequisites
+
 - Exact versions, accounts, or access required, each checkable.
 - Environmental precondition with its check command in backticks.
 
 ## Steps
+
 1. <command, marked with expected outcome>
    Expected: <the exact output/signal that means it worked>
    If it fails: <the diagnostic to run, the fallback, and when to stop and
    escalate>
 
 ## Verification
+
 - <commands + expected results that prove the operation landed>
 - Anything that is blocked or not yet verified is named explicitly as such —
   never convert an unrun check into a passing result.
@@ -38,7 +41,7 @@ A step without all three is a wish, not a step.
 # <Release|Change|Deploy> checklist
 
 - [ ] <item that is checkable, with the command that proves it> — e.g.
-  `pnpm typecheck` passes on `HEAD`.
+      `pnpm typecheck` passes on `HEAD`.
 - [ ] <"classify X" steps that route to the owning contract first>
 - [ ] <each environment variable has an owner and a delivery phase>
 - [ ] <migrations are understood and their apply path is stated>

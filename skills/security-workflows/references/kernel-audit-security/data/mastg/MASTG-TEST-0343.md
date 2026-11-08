@@ -6,13 +6,13 @@ upstream_path: tests-beta/ios/MASVS-NETWORK/MASTG-TEST-0343.md
 upstream_tag: 31cec00
 platform: ios
 covers_masvs:
-- MASVS-NETWORK-1
+  - MASVS-NETWORK-1
 type:
-- static
+  - static
 weakness: MASWE-0050
 profiles:
-- L1
-- L2
+  - L1
+  - L2
 ---
 
 ## Overview
@@ -41,4 +41,4 @@ The test case fails if the app sets:
 - `tlsMinimumSupportedProtocol` (deprecated) to a value corresponding to TLS 1.0 (`kTLSProtocol1`) or TLS 1.1 (`kTLSProtocol11`).
 
 !!! note "Note on ATS Interaction"
-    ATS may still enforce minimum TLS version requirements for connections using the URL Loading System, depending on the ATS configuration in `Info.plist`. However, if the app has also configured broad ATS exceptions (see @MASTG-TEST-0342), the effective TLS minimum may be lower than expected for those domains.
+ATS may still enforce minimum TLS version requirements for connections using the URL Loading System, depending on the ATS configuration in `Info.plist`. However, if the app has also configured broad ATS exceptions (see @MASTG-TEST-0342), the effective TLS minimum may be lower than expected for those domains.

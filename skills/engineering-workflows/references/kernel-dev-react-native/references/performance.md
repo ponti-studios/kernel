@@ -63,23 +63,23 @@ Reference these guidelines when:
 
 ## Performance References
 
-| Category         | Files |
-| ---------------- | ----- |
-| JavaScript/React | `js-lists-flatlist-flashlist.md`, `js-profile-react.md`, `js-measure-fps.md`, `js-memory-leaks.md`, `js-atomic-state.md`, `js-concurrent-react.md`, `js-react-compiler.md`, `js-animations-reanimated.md`, `js-uncontrolled-components.md` |
+| Category         | Files                                                                                                                                                                                                                                                                                       |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| JavaScript/React | `js-lists-flatlist-flashlist.md`, `js-profile-react.md`, `js-measure-fps.md`, `js-memory-leaks.md`, `js-atomic-state.md`, `js-concurrent-react.md`, `js-react-compiler.md`, `js-animations-reanimated.md`, `js-uncontrolled-components.md`                                                  |
 | Native           | `native-turbo-modules.md`, `native-sdks-over-polyfills.md`, `native-measure-tti.md`, `native-threading-model.md`, `native-profiling.md`, `native-platform-setup.md`, `native-view-flattening.md`, `native-memory-patterns.md`, `native-memory-leaks.md`, `native-android-16kb-alignment.md` |
-| Bundling         | `bundle-barrel-exports.md`, `bundle-analyze-js.md`, `bundle-tree-shaking.md`, `bundle-analyze-app.md`, `bundle-r8-android.md`, `bundle-hermes-mmap.md`, `bundle-native-assets.md`, `bundle-library-size.md`, `bundle-code-splitting.md` |
+| Bundling         | `bundle-barrel-exports.md`, `bundle-analyze-js.md`, `bundle-tree-shaking.md`, `bundle-analyze-app.md`, `bundle-r8-android.md`, `bundle-hermes-mmap.md`, `bundle-native-assets.md`, `bundle-library-size.md`, `bundle-code-splitting.md`                                                     |
 
 ## Problem -> Start Here
 
-| Problem | Start With |
-| ------- | ---------- |
-| App feels slow or janky | `js-measure-fps.md` -> `js-profile-react.md` |
-| Too many re-renders | `js-profile-react.md` -> `js-react-compiler.md` |
-| Slow startup (TTI) | `native-measure-tti.md` -> `bundle-analyze-js.md` |
-| Large app size | `bundle-analyze-app.md` -> `bundle-r8-android.md` |
-| Memory growing | `js-memory-leaks.md` or `native-memory-leaks.md` |
-| Animation drops frames | `js-animations-reanimated.md` |
-| List scroll jank | `js-lists-flatlist-flashlist.md` |
-| TextInput lag | `js-uncontrolled-components.md` |
-| Native module slow | `native-turbo-modules.md` -> `native-threading-model.md` |
-| Native library alignment issue | `native-android-16kb-alignment.md` |
+| Problem                        | Start With                                               |
+| ------------------------------ | -------------------------------------------------------- |
+| App feels slow or janky        | `js-measure-fps.md` -> `js-profile-react.md`             |
+| Too many re-renders            | `js-profile-react.md` -> `js-react-compiler.md`          |
+| Slow startup (TTI)             | `native-measure-tti.md` -> `bundle-analyze-js.md`        |
+| Large app size                 | `bundle-analyze-app.md` -> `bundle-r8-android.md`        |
+| Memory growing                 | `js-memory-leaks.md` or `native-memory-leaks.md`         |
+| Animation drops frames         | `js-animations-reanimated.md`                            |
+| List scroll jank               | `js-lists-flatlist-flashlist.md`                         |
+| TextInput lag                  | `js-uncontrolled-components.md`                          |
+| Native module slow             | `native-turbo-modules.md` -> `native-threading-model.md` |
+| Native library alignment issue | `native-android-16kb-alignment.md`                       |

@@ -6,11 +6,11 @@ upstream_path: tests/ios/MASVS-RESILIENCE/MASTG-TEST-0089.md
 upstream_tag: 31cec00
 platform: ios
 covers_masvs:
-- MASVS-RESILIENCE-4
+  - MASVS-RESILIENCE-4
 masvs_v1_id:
-- MSTG-RESILIENCE-2
+  - MSTG-RESILIENCE-2
 masvs_v2_id:
-- MASVS-RESILIENCE-4
+  - MASVS-RESILIENCE-4
 ---
 
 ## Overview

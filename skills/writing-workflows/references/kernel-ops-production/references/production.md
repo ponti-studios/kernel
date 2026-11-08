@@ -7,11 +7,13 @@ Ponti Studios physical production should be described as archival, museum-grade,
 ## Substrate
 
 Preferred paper:
+
 - Mohawk Superfine Eggshell 120lb / 324gsm cover weight
 - OBA-free where possible
 - Acid-free and buffered
 
 Why it matters:
+
 - High grammage gives structural rigidity and tactile gravity.
 - Eggshell finish diffuses light and reduces glare.
 - Uncoated fiber lets pigment engage the paper rather than sit on a glossy coating.
@@ -23,12 +25,14 @@ Use this language when quality matters: permanence, dimensional stability, tacti
 ## Print Method
 
 Preferred description:
+
 - Master-grade archival giclee
 - Mineral pigment deposition
 - 12-channel ink system where relevant
 - Custom ICC color profiling for the paper stock
 
 Key concerns:
+
 - Mineral pigments are more lightfast than ordinary dye language implies.
 - Metamerism control matters across halogen, LED, and daylight.
 - Absorbent uncoated stock can cause color sink unless profiled.
@@ -39,6 +43,7 @@ Avoid using "giclee" as a vague luxury word. Tie it to pigment, profiling, subst
 ## Conservation Protocol
 
 Use conservation-grade handling language:
+
 - HEPA-filtered or clean production environment
 - Dust and particulate control
 - 48-hour off-gassing before framing
@@ -47,6 +52,7 @@ Use conservation-grade handling language:
 - No wood-pulp backing for conservation-grade presentation
 
 Presentation:
+
 - Optium museum acrylic
 - UV filtering
 - Anti-static glazing
@@ -59,11 +65,13 @@ Presentation:
 Production writing should feel precise and confident. It can be poetic, but the poetry should come from material truth rather than vague luxury adjectives.
 
 Prefer:
+
 - "The pigment becomes part of the fiber matrix."
 - "The eggshell surface diffuses glare under gallery lighting."
 - "Reversible mounting preserves future conservation options."
 
 Avoid:
+
 - "Premium vibes"
 - "Gallery quality" without details
 - "Luxury paper" without substrate specs

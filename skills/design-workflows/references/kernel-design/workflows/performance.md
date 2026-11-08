@@ -26,12 +26,12 @@ telemetry. Record the metric, value, test conditions, and evidence location.
 
 Use these budgets:
 
-| Metric | Budget | What to inspect |
-| --- | --- | --- |
-| LCP | <= 2.5s | Largest above-the-fold text or image and its request chain |
-| INP | <= 200ms | Slowest user interaction and the event-to-paint breakdown |
-| CLS | <= 0.1 | Elements that move after first render |
-| TTFB | <= 800ms target | Server, edge, cache, and document response timing |
+| Metric | Budget          | What to inspect                                            |
+| ------ | --------------- | ---------------------------------------------------------- |
+| LCP    | <= 2.5s         | Largest above-the-fold text or image and its request chain |
+| INP    | <= 200ms        | Slowest user interaction and the event-to-paint breakdown  |
+| CLS    | <= 0.1          | Elements that move after first render                      |
+| TTFB   | <= 800ms target | Server, edge, cache, and document response timing          |
 
 Use p75 field data when available. If field data is unavailable, use at least
 three repeatable lab runs and report the test profile. Do not claim a metric

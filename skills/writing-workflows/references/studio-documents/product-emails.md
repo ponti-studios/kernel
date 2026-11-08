@@ -11,6 +11,7 @@ owner: charlesponti
 tags: [ponti-studios, playbook, product-emails]
 applies_to: []
 ---
+
 # Product Emails
 
 Product email is an interface, not a newsletter. It should arrive for a reason, explain the value of one action, and get out of the user's way.

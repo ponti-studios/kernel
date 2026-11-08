@@ -6,11 +6,11 @@ upstream_path: tests/android/MASVS-PLATFORM/MASTG-TEST-0030.md
 upstream_tag: 31cec00
 platform: android
 covers_masvs:
-- MASVS-PLATFORM-1
+  - MASVS-PLATFORM-1
 masvs_v1_id:
-- MSTG-PLATFORM-4
+  - MSTG-PLATFORM-4
 masvs_v2_id:
-- MASVS-PLATFORM-1
+  - MASVS-PLATFORM-1
 ---
 
 ## Overview
@@ -65,17 +65,22 @@ Frida can be used to hook the APIs used to get a `PendingIntent`. This informati
 Here's an example of such a Frida script that can be used to hook the `PendingIntent.getActivity` function:
 
 ```javascript
-var pendingIntent = Java.use('android.app.PendingIntent');
+var pendingIntent = Java.use("android.app.PendingIntent");
 
-var getActivity_1 = pendingIntent.getActivity.overload("android.content.Context", "int", "android.content.Intent", "int");
+var getActivity_1 = pendingIntent.getActivity.overload(
+  "android.content.Context",
+  "int",
+  "android.content.Intent",
+  "int",
+);
 
-getActivity_1.implementation = function(context, requestCode, intent, flags){
-    console.log("[*] Calling PendingIntent.getActivity("+intent.getAction()+")");
-    console.log("\t[-] Base Intent toString: " + intent.toString());
-    console.log("\t[-] Base Intent getExtras: " + intent.getExtras());
-    console.log("\t[-] Base Intent getFlags: " + intent.getFlags());
-    return this.getActivity(context, requestCode, intent, flags);
-}
+getActivity_1.implementation = function (context, requestCode, intent, flags) {
+  console.log("[*] Calling PendingIntent.getActivity(" + intent.getAction() + ")");
+  console.log("\t[-] Base Intent toString: " + intent.toString());
+  console.log("\t[-] Base Intent getExtras: " + intent.getExtras());
+  console.log("\t[-] Base Intent getFlags: " + intent.getFlags());
+  return this.getActivity(context, requestCode, intent, flags);
+};
 ```
 
 This approach can be helpful when dealing with applications with large code bases, where determining the control flow can sometimes be tricky.

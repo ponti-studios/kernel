@@ -19,6 +19,7 @@ scope: running-product-workshops
 updated: 2026-08-25
 applies_to:
 ---
+
 # Product Design Workshop
 
 **Duration:** 1-2 days\

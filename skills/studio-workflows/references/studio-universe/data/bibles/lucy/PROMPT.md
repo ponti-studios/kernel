@@ -145,6 +145,7 @@
 ## LUCY BLOCK (prompt carrier — stitch verbatim into every Lucy prompt)
 
 <!-- PROMPT-BLOCK-START: lucy -->
+
 "Lucy is a Puerto Rican woman with a wide, slightly flattened oval face, a defined angular jawline softer at the cheeks, a light dusting of freckles across her nose and cheeks, and skin in a light warm tan. Her eyes are large vertical ovals with green irises and a heavy lower lash line: the lid line sweeps smoothly from inner to outer corner, and each iris fills its opening with clear green. She is 5 feet 4 inches tall with a very slim, willowy build — narrow shoulders and ribcage, a small waist, slim hips, thin arms and long legs (inseam about 48% of her height, natural waist at about 60%) — and a full, generous F bust. Her hair is long loose waves to mid-back, centre-parted, black with graphic sculptural clumps. Everything she wears is black and white; coral is her design signature — it lives in her work as ink and paper, while her skin and face stay clean, bare and untouched."
 <!-- PROMPT-BLOCK-END: lucy -->
 

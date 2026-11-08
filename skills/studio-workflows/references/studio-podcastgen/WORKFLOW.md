@@ -27,24 +27,24 @@ scripts/podcast.sh --source draft.json --out ep.mp3 --voice pNInz6obpgDQGcFmaJgB
 scripts/podcast.sh --source draft.json --out ep.mp3 --voices <voiceA>,<voiceB>
 ```
 
-| Option | Effect |
-|---|---|
-| `--source` | a draft from another studio writing skill (YouTube script, essay or master script), a markdown file, or a JSON array of `{id, text, voice}` |
-| `--voice` | one narrator for the whole episode |
-| `--voices a,b` | alternate two voices across segments (rejected if the ids are identical) |
-| `--gap-ms` | silence between segments, default 700 |
-| `--title` / `--author` / `--album` | ID3 tags; genre is set to `Podcast` |
-| `--work-dir` | keep the per-segment mp3s for inspection instead of using a temp dir |
-| `--dry-run` | print the segment plan, voice assignment and cost estimate; spend nothing |
+| Option                             | Effect                                                                                                                                      |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--source`                         | a draft from another studio writing skill (YouTube script, essay or master script), a markdown file, or a JSON array of `{id, text, voice}` |
+| `--voice`                          | one narrator for the whole episode                                                                                                          |
+| `--voices a,b`                     | alternate two voices across segments (rejected if the ids are identical)                                                                    |
+| `--gap-ms`                         | silence between segments, default 700                                                                                                       |
+| `--title` / `--author` / `--album` | ID3 tags; genre is set to `Podcast`                                                                                                         |
+| `--work-dir`                       | keep the per-segment mp3s for inspection instead of using a temp dir                                                                        |
+| `--dry-run`                        | print the segment plan, voice assignment and cost estimate; spend nothing                                                                   |
 
 ## How a source becomes segments
 
-| Source | Segmentation |
-|---|---|
-| YouTube script draft | `hook`, each `segments[].script` (labelled with its `heading`), then `callToAction` |
-| Master script / essay with `sections` | one segment per section |
-| Essay `content` or a markdown file | split on `#`/`##`/`###` headings; if there are none, paragraphs are grouped so a segment is never a single short line |
-| JSON array | used as given — `{id?, text, voice?}` |
+| Source                                | Segmentation                                                                                                          |
+| ------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| YouTube script draft                  | `hook`, each `segments[].script` (labelled with its `heading`), then `callToAction`                                   |
+| Master script / essay with `sections` | one segment per section                                                                                               |
+| Essay `content` or a markdown file    | split on `#`/`##`/`###` headings; if there are none, paragraphs are grouped so a segment is never a single short line |
+| JSON array                            | used as given — `{id?, text, voice?}`                                                                                 |
 
 Voice resolution per segment: an explicit `voice` on the segment wins, then
 `--voice`, then the alternating `--voices` slot, then `DEFAULT_VOICE_ID`.
@@ -91,11 +91,11 @@ Runtime modules are bundled within this package; no Studio checkout or module-pa
 overrides are required. Configuration comes from environment variables, then
 `~/.pontistudios.studio.yml` (or `STUDIO_CONFIG`).
 
-| Variable | Configuration key | Used for |
-|---|---|---|
-| `STUDIO_USAGE_DIR` | `usage_dir` | usage JSON output |
-| `OPENROUTER_API_KEY` | `openrouter_api_key` | authorized synthesis calls |
-| `OPENROUTER_SPEECH_MODEL` | `model_speech` | speech model |
+| Variable                  | Configuration key    | Used for                   |
+| ------------------------- | -------------------- | -------------------------- |
+| `STUDIO_USAGE_DIR`        | `usage_dir`          | usage JSON output          |
+| `OPENROUTER_API_KEY`      | `openrouter_api_key` | authorized synthesis calls |
+| `OPENROUTER_SPEECH_MODEL` | `model_speech`       | speech model               |
 
 Use `--voice` or `--voices` for narrator selection. Explicit JSON segment IDs are
 retained as labels; generated sequential IDs determine temporary filenames so

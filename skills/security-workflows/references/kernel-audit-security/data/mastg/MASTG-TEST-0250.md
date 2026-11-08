@@ -6,13 +6,13 @@ upstream_path: tests-beta/android/MASVS-PLATFORM/MASTG-TEST-0250.md
 upstream_tag: 31cec00
 platform: android
 covers_masvs:
-- MASVS-PLATFORM-2
+  - MASVS-PLATFORM-2
 type:
-- static
+  - static
 weakness: MASWE-0069
 profiles:
-- L1
-- L2
+  - L1
+  - L2
 ---
 
 ## Overview
@@ -53,11 +53,11 @@ While the `fetch` request to the external server would still work, retrieving th
 ## Steps
 
 1. Use a tool like semgrep to search for references to:
-      - the `WebView` class.
-      - the `WebSettings` class.
-      - the `setJavaScriptEnabled` method.
-      - the `setAllowContentAccess` method from the `WebSettings` class.
-      - the `setAllowUniversalAccessFromFileURLs` method from the `WebSettings` class.
+   - the `WebView` class.
+   - the `WebSettings` class.
+   - the `setJavaScriptEnabled` method.
+   - the `setAllowContentAccess` method from the `WebSettings` class.
+   - the `setAllowUniversalAccessFromFileURLs` method from the `WebSettings` class.
 2. Obtain all content providers declared in the app's AndroidManifest.xml file.
 
 ## Observation
@@ -65,9 +65,9 @@ While the `fetch` request to the external server would still work, retrieving th
 The output should contain:
 
 - A list of WebView instances including the following methods and their arguments:
-    - `setAllowContentAccess`
-    - `setJavaScriptEnabled`
-    - `setAllowUniversalAccessFromFileURLs`
+  - `setAllowContentAccess`
+  - `setJavaScriptEnabled`
+  - `setAllowUniversalAccessFromFileURLs`
 - A list of content providers declared in the app's AndroidManifest.xml file.
 
 ## Evaluation
@@ -81,4 +81,4 @@ The test case fails if all of the following applies:
 You should use the list of content providers obtained in the observation step to verify if they handle sensitive data.
 
 !!! note
-    The `setAllowContentAccess` method being set to `true` does not represent a security vulnerability by itself, but it can be used in combination with other vulnerabilities to escalate the impact of an attack.
+The `setAllowContentAccess` method being set to `true` does not represent a security vulnerability by itself, but it can be used in combination with other vulnerabilities to escalate the impact of an attack.

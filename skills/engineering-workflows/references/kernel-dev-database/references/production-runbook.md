@@ -47,11 +47,11 @@ Record the migration version, target environment, expected pending count, operat
 
 ## Risk classes
 
-| Class | Typical examples | Required controls |
-| --- | --- | --- |
-| Metadata-only | Add table/nullable column, constant default on supported PostgreSQL | Lock review, compatibility check, schema verification |
-| Table-scanning | Constraint validation, index build, large backfill | Rehearsal, resource budget, progress/timeout monitoring |
-| Table-rewriting | Risky type/default change, table rewrite | Expand/contract or maintenance window, cancellation/recovery plan |
-| Lock-sensitive | `ALTER TABLE`, rename, non-concurrent index | Blocker inspection, `lock_timeout`, observed apply |
-| Data-destructive | Drop, truncate, lossy conversion | Explicit review, dependency audit, backup/PITR and recovery plan |
-| Irreversible/restore-dependent | Dropping historical data or old representation | Recovery owner, verified restore path, retention decision |
+| Class                          | Typical examples                                                    | Required controls                                                 |
+| ------------------------------ | ------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| Metadata-only                  | Add table/nullable column, constant default on supported PostgreSQL | Lock review, compatibility check, schema verification             |
+| Table-scanning                 | Constraint validation, index build, large backfill                  | Rehearsal, resource budget, progress/timeout monitoring           |
+| Table-rewriting                | Risky type/default change, table rewrite                            | Expand/contract or maintenance window, cancellation/recovery plan |
+| Lock-sensitive                 | `ALTER TABLE`, rename, non-concurrent index                         | Blocker inspection, `lock_timeout`, observed apply                |
+| Data-destructive               | Drop, truncate, lossy conversion                                    | Explicit review, dependency audit, backup/PITR and recovery plan  |
+| Irreversible/restore-dependent | Dropping historical data or old representation                      | Recovery owner, verified restore path, retention decision         |

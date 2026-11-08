@@ -6,12 +6,12 @@ upstream_path: tests-beta/ios/MASVS-AUTH/MASTG-TEST-0268.md
 upstream_tag: 31cec00
 platform: ios
 covers_masvs:
-- MASVS-AUTH-2
+  - MASVS-AUTH-2
 type:
-- static
+  - static
 weakness: MASWE-0045
 profiles:
-- L2
+  - L2
 ---
 
 ## Overview
@@ -35,4 +35,4 @@ The output should contain a list of locations where relevant APIs are used.
 The test case fails if the app uses `SecAccessControlCreateWithFlags` with the `kSecAccessControlUserPresence` or `kSecAccessControlDevicePasscode` flags for any sensitive data resource that needs protection.
 
 !!! note
-    Using `kSecAccessControlUserPresence` or `kSecAccessControlDevicePasscode` is not inherently a vulnerability, but in high-security applications (e.g., finance, government, health), their use can represent a weakness or misconfiguration that reduces the intended security posture. This issue is therefore better categorized as a security weakness or hardening issue, not a critical vulnerability.
+Using `kSecAccessControlUserPresence` or `kSecAccessControlDevicePasscode` is not inherently a vulnerability, but in high-security applications (e.g., finance, government, health), their use can represent a weakness or misconfiguration that reduces the intended security posture. This issue is therefore better categorized as a security weakness or hardening issue, not a critical vulnerability.

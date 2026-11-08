@@ -6,12 +6,12 @@ upstream_path: tests-beta/android/MASVS-PLATFORM/MASTG-TEST-0340.md
 upstream_tag: 31cec00
 platform: android
 covers_masvs:
-- MASVS-PLATFORM-3
+  - MASVS-PLATFORM-3
 type:
-- static
+  - static
 weakness: MASWE-0053
 profiles:
-- L2
+  - L2
 ---
 
 ## Overview
@@ -28,7 +28,7 @@ These include:
 - The `android:filterTouchesWhenObscured` attribute in layout files.
 - The `onFilterTouchEventForSecurity` method.
 - Checks for `FLAG_WINDOW_IS_OBSCURED` or `FLAG_WINDOW_IS_PARTIALLY_OBSCURED` flags.
-- The [`setHideOverlayWindows`](https://developer.android.com/reference/android/view/Window#setHideOverlayWindows(boolean)) method and the required `HIDE_OVERLAY_WINDOWS` permission for API level 31 and above.
+- The [`setHideOverlayWindows`](<https://developer.android.com/reference/android/view/Window#setHideOverlayWindows(boolean)>) method and the required `HIDE_OVERLAY_WINDOWS` permission for API level 31 and above.
 
 ## Steps
 

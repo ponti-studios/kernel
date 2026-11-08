@@ -6,11 +6,11 @@ upstream_path: tests/ios/MASVS-CODE/MASTG-TEST-0086.md
 upstream_tag: 31cec00
 platform: ios
 covers_masvs:
-- MASVS-CODE-4
+  - MASVS-CODE-4
 masvs_v1_id:
-- MSTG-CODE-8
+  - MSTG-CODE-8
 masvs_v2_id:
-- MASVS-CODE-4
+  - MASVS-CODE-4
 status_note: V1 test; no V2 successor authored upstream yet — content may be outdated
 ---
 
@@ -30,7 +30,7 @@ For any managed code (Objective-C / Swift) in the project, check the following i
 [A great talk is given on this subject at Realm academy](https://academy.realm.io/posts/russ-bishop-unsafe-swift/ "Russh Bishop on Unsafe Swift") and [a nice tutorial to see what is actually happening](https://www.raywenderlich.com/780-unsafe-swift-using-pointers-and-interacting-with-c "Unsafe Swift: Using Pointers And Interacting With C") is provided by Ray Wenderlich on this subject.
 
 !!! note
-    With Swift 5, you can only deallocate full blocks, which means the playground has changed a bit.
+With Swift 5, you can only deallocate full blocks, which means the playground has changed a bit.
 
 ## Dynamic Analysis
 

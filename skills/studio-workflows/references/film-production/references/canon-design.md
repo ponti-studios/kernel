@@ -13,6 +13,7 @@ owner: charlesponti
 tags: [ponti-studios, playbook, design]
 applies_to: []
 ---
+
 # Design
 
 _Operational version of [[principles|Operating Principles]] and [[film-production-design|Film Production Design]]. Design should make the useful clear, give it room to breathe, and make its logic transferable._

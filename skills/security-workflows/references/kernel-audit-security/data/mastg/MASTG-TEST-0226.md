@@ -6,12 +6,12 @@ upstream_path: tests-beta/android/MASVS-RESILIENCE/MASTG-TEST-0226.md
 upstream_tag: 31cec00
 platform: android
 covers_masvs:
-- MASVS-RESILIENCE-4
+  - MASVS-RESILIENCE-4
 type:
-- static
+  - static
 weakness: MASWE-0067
 profiles:
-- R
+  - R
 ---
 
 ## Overview
@@ -24,8 +24,8 @@ Although having the `debuggable` flag set to `true` [is not considered a direct 
 
 1. Obtain the `AndroidManifest.xml` file using @MASTG-TECH-0117.
 2. Search for the `debuggable` flag:
-    - Look for `android:debuggable` if analyzing raw XML using tools like @MASTG-TOOL-0011.
-    - Look for `application-debuggable` if using @MASTG-TOOL-0124.
+   - Look for `android:debuggable` if analyzing raw XML using tools like @MASTG-TOOL-0011.
+   - Look for `application-debuggable` if using @MASTG-TOOL-0124.
 
 ## Observation
 

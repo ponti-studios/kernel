@@ -83,30 +83,37 @@ section; write `TBD` with an explanation when evidence is unavailable.
 # [Same title as frontmatter]
 
 ## Symptom
+
 What users, operators, or systems observed. Include dates, scope, and a concrete
 example when available.
 
 ## Impact
+
 Who or what was affected, what behavior was wrong, duration or exposure if known,
 and what was not affected. Do not invent counts.
 
 ## Investigation
+
 The evidence and checks performed, in chronological or causal order. Link to
 relevant files, logs, tests, dashboards, commits, or external incident records.
 
 ## Root cause
+
 The specific technical or process condition that made the symptom possible.
 Separate primary cause from contributing factors and detection gaps.
 
 ## Fix
+
 The changes made, including code/configuration/operational actions and any
 backfill, rollback, or cleanup. State what remains intentionally unchanged.
 
 ## Verification
+
 Commands, tests, production checks, or monitoring evidence and their results.
 Name blocked or not-yet-run checks explicitly.
 
 ## Prevention
+
 Regression tests, alerts, guardrails, runbook changes, or follow-up work. Include
 the lesson that should change future implementation or review behavior.
 ```

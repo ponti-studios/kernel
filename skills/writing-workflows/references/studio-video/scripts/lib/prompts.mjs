@@ -8,7 +8,7 @@
  */
 
 const SCRIPT_TEXT = (script) =>
-  `# ${script.title}\n\n${script.sections.map((s) => `## ${s.title}\n${s.body}`).join('\n\n')}`;
+  `# ${script.title}\n\n${script.sections.map((s) => `## ${s.title}\n${s.body}`).join("\n\n")}`;
 
 export const YOUTUBE_SCRIPT_SYSTEM_PROMPT = `You are Ponti Studio's YouTube scriptwriter. You turn an approved master script into a long-form YouTube video script.
 

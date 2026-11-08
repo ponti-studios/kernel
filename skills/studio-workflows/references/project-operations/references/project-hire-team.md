@@ -8,6 +8,7 @@ updated: 2026-08-25
 slug: project-hire-team
 applies_to: []
 ---
+
 # Project-hire-team
 
 ## **1. Why Your Theory Works (and when it doesn't)**

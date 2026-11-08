@@ -11,5 +11,6 @@
 ## ADA BELL BLOCK (stitch verbatim into every prompt she appears in)
 
 <!-- PROMPT-BLOCK-START: ada-bell -->
+
 "Ada Bell is a 78-year-old London shopkeeper, 160cm tall, with a compact, sturdy upright build and a spry, robust carriage: silver-white hair pinned in a low bun, deep laugh lines, sharp dark eyes behind brass-rimmed half-moon spectacles, a straight nose, and a small mole on her left cheek. Her hands are square and capable, with short clean nails and a faint ink stain on her right forefinger. She reads as a human woman of seventy-eight with an adult's proportions, standing tall and straight."
 <!-- PROMPT-BLOCK-END: ada-bell -->

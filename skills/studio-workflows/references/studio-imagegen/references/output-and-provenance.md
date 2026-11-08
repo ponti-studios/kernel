@@ -4,16 +4,16 @@
 
 Written next to the image as `<name>.json`:
 
-| Field | Source |
-|---|---|
-| `spec`, `frame`, `title` | the frame spec that was compiled |
-| `registry_version` | `registry.json` version at compile time |
-| `prompt_sha256` | hash of the compiled prompt — the deterministic identifier for the frame |
-| `references` | absolute paths of the attached character plates |
-| `model` | the model actually used |
-| `aspect_ratio`, `resolution_requested`, `format_returned`, `mime` | request vs reality |
-| `generation_id` | provider id (not usable for cost lookup — see below) |
-| `bytes`, `cost_usd`, `tokens` | output size and whatever the provider reported |
+| Field                                                             | Source                                                                   |
+| ----------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| `spec`, `frame`, `title`                                          | the frame spec that was compiled                                         |
+| `registry_version`                                                | `registry.json` version at compile time                                  |
+| `prompt_sha256`                                                   | hash of the compiled prompt — the deterministic identifier for the frame |
+| `references`                                                      | absolute paths of the attached character plates                          |
+| `model`                                                           | the model actually used                                                  |
+| `aspect_ratio`, `resolution_requested`, `format_returned`, `mime` | request vs reality                                                       |
+| `generation_id`                                                   | provider id (not usable for cost lookup — see below)                     |
+| `bytes`, `cost_usd`, `tokens`                                     | output size and whatever the provider reported                           |
 
 For a verbatim `--prompt` run the sidecar keeps `prompt_sha256` and the request
 fields, with no spec provenance.
@@ -28,10 +28,10 @@ same — do not "fix" this by forcing the extension.
 
 ## Observed output sizes
 
-| Request | Actual | Notes |
-|---|---|---|
+| Request                      | Actual                      | Notes                      |
+| ---------------------------- | --------------------------- | -------------------------- |
 | 4:5 @ 2K, 3 reference plates | 1640×2048 PNG, ~4.9 MB, 54s | the reference-bearing pass |
-| 4:5 @ 1K, no references | 820×1024 PNG, ~1.1 MB, 29s | the cheap iteration pass |
+| 4:5 @ 1K, no references      | 820×1024 PNG, ~1.1 MB, 29s  | the cheap iteration pass   |
 
 ## Why cost is measured twice
 

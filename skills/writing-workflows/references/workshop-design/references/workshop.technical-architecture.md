@@ -19,6 +19,7 @@ scope: running-product-workshops
 updated: 2026-08-25
 applies_to:
 ---
+
 # Technical Architecture Workshop
 
 **Duration:** Full day (6-8 hours)\

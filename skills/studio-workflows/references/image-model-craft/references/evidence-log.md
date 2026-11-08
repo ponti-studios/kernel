@@ -13,6 +13,7 @@ claim's tag here if a later run contradicts it.
 31 paid calls; ~$0.25. Also tested element-by-element reconstructions.
 
 **Result [M]:**
+
 - Busts with `400 The response was filtered due to the prompt triggering our content
   management policy` + `metadata.provider_name: "Meta"`. Each filtered attempt still
   took ~30-40s and still billed.
@@ -33,7 +34,7 @@ clock. One confirming probe was enough** — see rule 9 in the evaluation method
 **Method:** same frame spec, same 3 reference plates, 1K, one render per model;
 vision-scored against the spec's identity clauses.
 
-**Result [M] [invalid]:** both models appeared to render Wyatt's mask as a *half*
+**Result [M] [invalid]:** both models appeared to render Wyatt's mask as a _half_
 mask, and qwen appeared to lose Akane's collar/belt while seedream-flash lost the
 gaze direction. **Then a 2K crop of the qwen render showed the mask correct in every
 detail** (full-face, forehead to chin, two round voids, even the plate's rivets).
@@ -44,19 +45,19 @@ requires 2K renders. The comparison as run was void.
 
 ---
 
-## 2026-10-23 — Why a rope net never falls *onto* the figure
+## 2026-10-23 — Why a rope net never falls _onto_ the figure
 
 **Method:** four single renders, each changing one thing.
 
-| # | Change | Result |
-|---|---|---|
-| 1 | compiled prompt verbatim | net = flat curtain across the chest/waist, arms outside it |
-| 2 | +559 chars of explicit physics prose (drape, occlusion, contact shadow, stretch) | **no change** |
-| 3 | slack the ropes and the people's pull, keep the ceiling pulleys | **no change** |
-| 4 | remove ceiling support entirely — the figure's own body is the only thing holding the net | net drapes over head/shoulders/arms and sags between them **[U], n=1** |
+| #   | Change                                                                                    | Result                                                                 |
+| --- | ----------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| 1   | compiled prompt verbatim                                                                  | net = flat curtain across the chest/waist, arms outside it             |
+| 2   | +559 chars of explicit physics prose (drape, occlusion, contact shadow, stretch)          | **no change**                                                          |
+| 3   | slack the ropes and the people's pull, keep the ceiling pulleys                           | **no change**                                                          |
+| 4   | remove ceiling support entirely — the figure's own body is the only thing holding the net | net drapes over head/shoulders/arms and sags between them **[U], n=1** |
 
-**Conclusion [M/I]:** the object's rendered shape is determined by its *support
-geometry*, not by prose about its physics. A net hung from two pulleys is a catenary
+**Conclusion [M/I]:** the object's rendered shape is determined by its _support
+geometry_, not by prose about its physics. A net hung from two pulleys is a catenary
 by construction; the figure cannot deform it, so where it crosses the body the depth
 order is unresolvable and reads as "phasing through". Explicit physics text does not
 override a structure. Fix #4 is promising but needs 5 samples.
@@ -79,22 +80,22 @@ change: with a byte-exact port, any difference in output is deliberate.
 
 **Result [M]:**
 
-| Source | Before | After |
-|---|---|---|
-| Character canon (9 bibles: identity, tails, mask) | 62 | **0** |
-| Frame-spec `negatives` arrays (111 items) | 111 | 96 positive statements, 15 dropped as absence-by-omission |
-| Spec prose (moment/environment/lighting/colour/staging) | 44 | **0** |
-| Prop `description`/`state` | 32 | **0** |
-| Registry outfit descriptions | 3 | **0** |
-| **Compiled prompt, all 9 frames** | **454** | **91 legacy / 45 positive** |
+| Source                                                  | Before  | After                                                     |
+| ------------------------------------------------------- | ------- | --------------------------------------------------------- |
+| Character canon (9 bibles: identity, tails, mask)       | 62      | **0**                                                     |
+| Frame-spec `negatives` arrays (111 items)               | 111     | 96 positive statements, 15 dropped as absence-by-omission |
+| Spec prose (moment/environment/lighting/colour/staging) | 44      | **0**                                                     |
+| Prop `description`/`state`                              | 32      | **0**                                                     |
+| Registry outfit descriptions                            | 3       | **0**                                                     |
+| **Compiled prompt, all 9 frames**                       | **454** | **91 legacy / 45 positive**                               |
 
-All 45 remaining are the shared render grade (*"no text, no lettering, no captions,
-no logos and no watermark"*), 5 per frame, retained deliberately.
+All 45 remaining are the shared render grade (_"no text, no lettering, no captions,
+no logos and no watermark"_), 5 per frame, retained deliberately.
 
-Notable: the compiler's own generated text contained *"and nothing else"*, and its
+Notable: the compiler's own generated text contained _"and nothing else"_, and its
 outfit logic named **every other character's garments** in each character's line —
-6 forbidden-garment mentions in a 4-character frame, e.g. *"never the deep-red wrap
-dress"* appearing in Lucy's and Wyatt's lines.
+6 forbidden-garment mentions in a 4-character frame, e.g. _"never the deep-red wrap
+dress"_ appearing in Lucy's and Wyatt's lines.
 
 ---
 
@@ -103,6 +104,7 @@ dress"* appearing in Lucy's and Wyatt's lines.
 **Question:** does the negative→positive rewrite change what the model renders?
 
 **Arms (5 samples each, 1K, 3 reference plates, $0.0184/render):**
+
 - **A original** — pre-rewrite canon (restored from the rollback capture) + pre-rewrite
   specs (from `git 36e2864`) + legacy structure. Verified to contain the original
   phrasing and 67 negations. Confirmed: contains `no gem, no diamond`, `no sparkle`,
@@ -117,16 +119,17 @@ and Scooby f3 (the net — the frame with the geometry problem).
 
 **Result [M]:**
 
-| Measure | A original | B legacy | C positive |
-|---|---|---|---|
-| Aurora: panels with >1 rock | 0/5 | — | 0/5 |
-| Aurora: any sparkle / gem glint | 0/5 | — | 0/5 |
-| Aurora: legible text | 0/5 | — | 0/5 |
-| Scooby: see-through robe | **0/5** | **0/5** | **2/5** |
-| Scooby: flat-curtain net | 4/5 | 3/5 | 3/5 |
-| Scooby: cords pass through body | 0/5 | 2/5 | 0/5 |
+| Measure                         | A original | B legacy | C positive |
+| ------------------------------- | ---------- | -------- | ---------- |
+| Aurora: panels with >1 rock     | 0/5        | —        | 0/5        |
+| Aurora: any sparkle / gem glint | 0/5        | —        | 0/5        |
+| Aurora: legible text            | 0/5        | —        | 0/5        |
+| Scooby: see-through robe        | **0/5**    | **0/5**  | **2/5**    |
+| Scooby: flat-curtain net        | 4/5        | 3/5      | 3/5        |
+| Scooby: cords pass through body | 0/5        | 2/5      | 0/5        |
 
 **Conclusions [M]:**
+
 1. **On the failure the negatives were written for, the rewrite changes nothing.**
    The sparkle/gem failure did not occur in any arm — the constraint was inert.
 2. **The only directional signal is robe opacity**, and **it contradicts the obvious
@@ -148,19 +151,18 @@ and Scooby f3 (the net — the frame with the geometry problem).
 
 ## Cost measurements taken along the way [M]
 
-| What | Measured |
-|---|---|
-| 1K render with 3 reference plates | **$0.0184** (30 renders = $0.552) |
-| 2K render with 3 reference plates | ~$0.16 **[I]** — bracketed by key counters, never isolated |
-| `bytedance-seed/seedream-5-0-pro`, full brief | $0.09 (provider-reported) |
-| `google/gemini-3-pro-image` | $0.1390 (provider-reported) |
-| Text draft (`deepseek-chat-v3-0324`) | $0.0003-$0.0005 (provider-reported) |
-| Video `kwaivgi/kling-v3.0-std` | $0.084/second silent, $0.126/second with audio (published SKU) |
-| Speech `elevenlabs/eleven-multilingual-v2` | $0.00008/prompt token (published) |
-| Per-image cost via `GET /api/v1/generation?id=gen-img-…` | **404 — not retrievable** |
-| Per-call cost for speech | **not retrievable** |
-| Key counter lag | a finished episode showed a $0.0000 delta seconds later; it settled later |
-
+| What                                                     | Measured                                                                  |
+| -------------------------------------------------------- | ------------------------------------------------------------------------- |
+| 1K render with 3 reference plates                        | **$0.0184** (30 renders = $0.552)                                         |
+| 2K render with 3 reference plates                        | ~$0.16 **[I]** — bracketed by key counters, never isolated                |
+| `bytedance-seed/seedream-5-0-pro`, full brief            | $0.09 (provider-reported)                                                 |
+| `google/gemini-3-pro-image`                              | $0.1390 (provider-reported)                                               |
+| Text draft (`deepseek-chat-v3-0324`)                     | $0.0003-$0.0005 (provider-reported)                                       |
+| Video `kwaivgi/kling-v3.0-std`                           | $0.084/second silent, $0.126/second with audio (published SKU)            |
+| Speech `elevenlabs/eleven-multilingual-v2`               | $0.00008/prompt token (published)                                         |
+| Per-image cost via `GET /api/v1/generation?id=gen-img-…` | **404 — not retrievable**                                                 |
+| Per-call cost for speech                                 | **not retrievable**                                                       |
+| Key counter lag                                          | a finished episode showed a $0.0000 delta seconds later; it settled later |
 
 ---
 
@@ -169,7 +171,7 @@ and Scooby f3 (the net — the frame with the geometry problem).
 **Question:** are we tuning prompts for one model's quirks? Does seedream (or another
 model) follow the brief better than the app's default qwen?
 
-**Method:** rubric of 14 binary checks locked *before* rendering (7 per frame: counts,
+**Method:** rubric of 14 binary checks locked _before_ rendering (7 per frame: counts,
 sparkle, text, prop state on Aurora; opacity, net geometry, standing, gazes, gore on
 Scooby). 3 models x 2 frames x 5 samples at 1K with 3 plates = 33 renders, plus one
 2K render per model for identity. All frames carry 3 plates, so qwen's 0-4 ceiling
@@ -177,32 +179,34 @@ does not distort this comparison.
 
 **Result [M]:**
 
-| Model | Speed (measured) | Success | Aurora f2 (of 35) | Scooby f3 panel 1 (of 8) |
-|---|---|---|---|---|
-| `qwen-image-2.1-turbo` | 36-49s | 11/11 | **35/35** | 6/8 |
-| `bytedance-seed/seedream-5-0-flash` | 18-29s | 11/11 | 34/35 | 6/8 |
-| `bytedance-seed/seedream-5-0-pro` | 109-178s | 9/11 (2 transient failures, retried ok) | not scored (vision timeouts) | 5/8 |
+| Model                               | Speed (measured) | Success                                 | Aurora f2 (of 35)            | Scooby f3 panel 1 (of 8) |
+| ----------------------------------- | ---------------- | --------------------------------------- | ---------------------------- | ------------------------ |
+| `qwen-image-2.1-turbo`              | 36-49s           | 11/11                                   | **35/35**                    | 6/8                      |
+| `bytedance-seed/seedream-5-0-flash` | 18-29s           | 11/11                                   | 34/35                        | 6/8                      |
+| `bytedance-seed/seedream-5-0-pro`   | 109-178s         | 9/11 (2 transient failures, retried ok) | not scored (vision timeouts) | 5/8                      |
 
 **Scooby failures were mostly SHARED, not model-specific:**
+
 - ~~Every one of the three models put a phone in the seated woman's hand.~~
   **WITHDRAWN — see the correction at the end of this log.** The specification
-  explicitly reads *"one hand in lap, other holding a nail file paused mid-stroke"*.
+  explicitly reads _"one hand in lap, other holding a nail file paused mid-stroke"_.
   The models rendered the specified prop correctly; the scorer invented a check
   ("no phone") and then misread a nail file as a phone. This was a scoring error, not
   a model failure and not a spec gap.
 - **seedream-pro floated the phantom above the carpet** (violating "stands on its own
-  feet") and turned its mask to camera. Pro was the *least* adherent on this frame
+  feet") and turned its mask to camera. Pro was the _least_ adherent on this frame
   while being 4x slower.
 - Net geometry passed for all three on panel 1 (`sags in a U`, cords not through the
   body) — the earlier "flat curtain" failure is not a model property.
 - All three returned **1640x2048** for a 2K 4:5 request.
 
 **Conclusions [M]:**
+
 1. **Switching models is not the lever.** qwen and seedream-flash tie on adherence (6/8
    Scooby, 35/35 vs 34/35 Aurora); seedream-pro is worse on adherence despite 4x the
    latency and no cost reporting.
 2. ~~The failures that persist across all three models are prompt-side.~~ The one
-   apparent shared failure was an artefact of the rubric. The *principle* (a failure
+   apparent shared failure was an artefact of the rubric. The _principle_ (a failure
    shared by every model is likelier to be a brief or scoring problem than a model
    problem) remains sound method, but **our only worked example was a scoring error**,
    so it is **[U]**, not measured.
@@ -212,7 +216,6 @@ does not distort this comparison.
 **Not scored (open):** seedream-pro's Aurora arm, the 2K identity comparison, and
 Scooby samples 2-5 for qwen/pro. Vision compositing timed out repeatedly on wide
 multi-panel strips of this frame; single full-resolution panels score fine.
-
 
 ---
 
@@ -230,15 +233,15 @@ the size.
 
 **Result [M]:**
 
-| | one-shot premium | 5-sample sweep, qwen | 5-sample sweep, flash |
-|---|---|---|---|
-| cost | **$0.1174** | $0.092 | $0.092 |
-| time | 67s | ~3.5 min | ~2 min |
-| output | 1152x1536 | 820x1024 | 820x1024 |
-| rubric score (of 8) | **5/8** | 6/8 | 6/8 |
+|                     | one-shot premium | 5-sample sweep, qwen | 5-sample sweep, flash |
+| ------------------- | ---------------- | -------------------- | --------------------- |
+| cost                | **$0.1174**      | $0.092               | $0.092                |
+| time                | 67s              | ~3.5 min             | ~2 min                |
+| output              | 1152x1536        | 820x1024             | 820x1024              |
+| rubric score (of 8) | **5/8**          | 6/8                  | 6/8                   |
 
 **The premium one-shot lost on both axes:** it cost 28% more than a five-sample cheap
-sweep and scored *lower* than the best cheap panel. It passed the hard geometry items
+sweep and scored _lower_ than the best cheap panel. It passed the hard geometry items
 (S1 robe opaque, S2 net drapes, S3 cords not through the body, S5 phantom standing on
 the floor) — so the geometry wins attributed to prompt work hold up across a fourth
 model.
@@ -252,7 +255,7 @@ model.
    (S8) — on four models — came from a vision model misreading a small object at panel
    scale. The claim "four models all rendered a phone" is **withdrawn**. Verified on
    the premium render only; the equivalent verdicts on the cheap renders are
-   *unverified* (my attempt to crop the qwen panel landed on the wrong figure) and
+   _unverified_ (my attempt to crop the qwen panel landed on the wrong figure) and
    most likely the same class of misread.
 2. **The "adidas" text is unconfirmed.** A crop of the shoes shows three abstract
    white stripes with no letters and a tongue tag too small to resolve; the reading is
@@ -265,19 +268,18 @@ survive the correction** — the premium render is comparable to the cheap sweep
 worse, at ~6.4x the per-render price.
 
 **The real lesson, which is about the measurement rather than the models:** a rubric
-item that names an object (*"no phone"*) invites the scorer to confirm it, exactly as a
+item that names an object (_"no phone"_) invites the scorer to confirm it, exactly as a
 leading yes/no question does. Verify small objects with a full-resolution crop, and
-treat your own eye as the tie-breaker. Silence in the spec still yields *something* in
+treat your own eye as the tie-breaker. Silence in the spec still yields _something_ in
 her hands — the spec-gap recommendation stands — but the object is unspecified and
-varies, so score the state (*"her hands hold a small tool"*) rather than guessing its
+varies, so score the state (_"her hands hold a small tool"_) rather than guessing its
 identity.
 
 **Conclusion [M]:** on this evidence, a better model does not solve the problem the
 sampling loop was being asked to solve. The residual failure is a spec gap that is
 model-independent, and premium pricing buys resolution and detail, not rule-following.
 The cheap sweep remains the better buy **until the spec gap is closed** — and once it
-is closed, the correct test is a *single* cheap render, not a premium one.
-
+is closed, the correct test is a _single_ cheap render, not a premium one.
 
 ### CORRECTION 2 — the "phone" was a nail file the spec asked for (user-caught)
 
@@ -294,7 +296,7 @@ mid-stroke"**. So:
   It was never derivable from the spec, and it converted a correct render into three
   failures across four models.
 - The vision model then misread a narrow metallic tool as a phone, at panel scale, and
-  a second read invented legible *"adidas"* text on the shoes that the user cannot see
+  a second read invented legible _"adidas"_ text on the shoes that the user cannot see
   in the image at all. **Two fabricated findings from one image, both caught only by
   the user's eye.**
 
@@ -322,7 +324,7 @@ Wyatt + Cyndi together — the one pairing where the combined plate packs mask +
 proportions into one slot. The tie was the three-character frame.
 
 **Honest limits.** One render per scene, so this is directional, not a measured rate: 5/6 is
-consistent with a real difference and with luck. The arms also differ in reference *count*
+consistent with a real difference and with luck. The arms also differ in reference _count_
 (2 crops vs 1 sheet per character), so "one sheet is better" and "one reference is better" are
 not separated by this test. Positions were near-collinear (turnaround on the left in 6 of 7
 rows), but the two right-hand picks split one per arm, which argues against a side preference.

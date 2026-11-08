@@ -6,13 +6,13 @@ upstream_path: tests-beta/android/MASVS-NETWORK/MASTG-TEST-0236.md
 upstream_tag: 31cec00
 platform: network
 covers_masvs:
-- MASVS-NETWORK-1
+  - MASVS-NETWORK-1
 type:
-- dynamic
+  - dynamic
 weakness: MASWE-0050
 profiles:
-- L1
-- L2
+  - L1
+  - L2
 ---
 
 ## Overview
@@ -20,10 +20,7 @@ profiles:
 This test intercepts the app's incoming and outgoing network traffic, and checks for any cleartext communication.
 Whilst the static checks can only show _potential_ cleartext traffic, this dynamic test shows all communication the application definitely makes.
 
-!!! warning Limitation
-    - Intercepting traffic on a network level will show all traffic _the device_ performs, not only the single app. Linking the traffic back to a specific app can be difficult, especially when more apps are installed on the device.
-    - Linking the intercepted traffic back to specific locations in the app can be difficult and requires manual analysis of the code.
-    - Dynamic analysis works best when you interact extensively with the app. But even then there could be corner cases which are difficult or impossible to execute on every device. The results from this test therefore are likely not exhaustive.
+!!! warning Limitation - Intercepting traffic on a network level will show all traffic _the device_ performs, not only the single app. Linking the traffic back to a specific app can be difficult, especially when more apps are installed on the device. - Linking the intercepted traffic back to specific locations in the app can be difficult and requires manual analysis of the code. - Dynamic analysis works best when you interact extensively with the app. But even then there could be corner cases which are difficult or impossible to execute on every device. The results from this test therefore are likely not exhaustive.
 
 ## Steps
 
@@ -46,4 +43,4 @@ The output should contain the captured network traffic.
 The test case fails if any clear text traffic originates from the target app.
 
 !!! note
-    This can be challenging to determine because traffic can potentially come from any app on the device. See the [Overview](#overview) section.
+This can be challenging to determine because traffic can potentially come from any app on the device. See the [Overview](#overview) section.

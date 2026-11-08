@@ -31,12 +31,12 @@ other skills' logs.
 
 ## Configuration
 
-| Variable | Default | Used for |
-|---|---|---|
-| `STUDIO_DRAFTS_DIR` | `~/Documents/studio-drafts` | where drafts are written |
-| `STUDIO_USAGE_DIR` | `~/.hominem/ai_usage` | one JSON log per call |
-| `OPENROUTER_TEXT_MODEL` | `deepseek/deepseek-chat-v3-0324` | the model, unless `--model` overrides |
-| `OPENROUTER_API_KEY` | env → `openrouter_api_key` in `~/.pontistudios.studio.yml` | the call |
+| Variable                | Default                                                    | Used for                              |
+| ----------------------- | ---------------------------------------------------------- | ------------------------------------- |
+| `STUDIO_DRAFTS_DIR`     | `~/Documents/studio-drafts`                                | where drafts are written              |
+| `STUDIO_USAGE_DIR`      | `~/.hominem/ai_usage`                                      | one JSON log per call                 |
+| `OPENROUTER_TEXT_MODEL` | `deepseek/deepseek-chat-v3-0324`                           | the model, unless `--model` overrides |
+| `OPENROUTER_API_KEY`    | env → `openrouter_api_key` in `~/.pontistudios.studio.yml` | the call                              |
 
 All four can be set in `~/.pontistudios.studio.yml` (`drafts_dir`, `usage_dir`, `model_text`,
 `openrouter_api_key`); an exported variable wins over the file.

@@ -19,6 +19,7 @@ scope: running-product-workshops
 updated: 2026-08-25
 applies_to:
 ---
+
 # Workshops That Actually Work
 
 Stop the endless meetings. Skip the theoretical frameworks. Our workshops are where teams align, breakthroughs happen, and real work gets done.

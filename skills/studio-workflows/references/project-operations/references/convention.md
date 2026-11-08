@@ -8,7 +8,9 @@ updated: 2026-08-25
 applies_to:
   - "ponti-studios/projects/**"
 ---
----
+
+***
+
 title: Project Documentation Convention
 knowledge_type: standard
 domain: ponti-studios/projects
@@ -16,7 +18,8 @@ scope: organizing-project-documentation
 status: active
 updated: 2026-08-25
 applies_to:
-  - "ponti-studios/projects/**"
+
+- "ponti-studios/projects/**"
 
 # Project Documentation Convention
 

@@ -6,11 +6,11 @@ upstream_path: tests/ios/MASVS-PLATFORM/MASTG-TEST-0072.md
 upstream_tag: 31cec00
 platform: ios
 covers_masvs:
-- MASVS-PLATFORM-1
+  - MASVS-PLATFORM-1
 masvs_v1_id:
-- MSTG-PLATFORM-4
+  - MSTG-PLATFORM-4
 masvs_v2_id:
-- MASVS-PLATFORM-1
+  - MASVS-PLATFORM-1
 ---
 
 ## Overview
@@ -142,7 +142,7 @@ RET: (
 Here we can observe that:
 
 - This occurred under-the-hood via XPC, concretely it is implemented via a `NSXPCConnection` that uses the `libxpc.dylib` Framework.
-- The UTIs included in the `NSItemProvider` are `public.plain-text` and `public.file-url`, the latter being included in `NSExtensionActivationRule` from the [`Info.plist` of the "Share Extension" of Telegram](https://github.com/TelegramMessenger/Telegram-iOS/blob/master/Telegram/Share/Info.plist "Info.plist of the \'Share Extension\' of Telegram").
+- The UTIs included in the `NSItemProvider` are `public.plain-text` and `public.file-url`, the latter being included in `NSExtensionActivationRule` from the [`Info.plist` of the "Share Extension" of Telegram](https://github.com/TelegramMessenger/Telegram-iOS/blob/master/Telegram/Share/Info.plist "Info.plist of the 'Share Extension' of Telegram").
 
 ### Identifying the App Extensions Involved
 

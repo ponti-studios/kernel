@@ -1,4 +1,3 @@
-
 # Tech Debt Audit
 
 A code-health skill that conducts a deliberate, opinionated audit of an entire codebase and produces `TECH_DEBT_AUDIT.md` with cited findings.

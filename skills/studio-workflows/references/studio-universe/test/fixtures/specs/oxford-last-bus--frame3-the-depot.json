@@ -123,12 +123,7 @@
     "Ada Bell is a 78-year-old adult woman standing upright, with a compact sturdy build",
     "exactly one red ledger appears in the frame, the one in Ada's hands"
   ],
-  "denylist": [
-    "frame-centre",
-    "in the middle of it",
-    "tall in the frame",
-    "the standing men"
-  ],
+  "denylist": ["frame-centre", "in the middle of it", "tall in the frame", "the standing men"],
   "references": [
     "bibles/lucy/turnaround.webp",
     "bibles/wyatt/turnaround.webp",

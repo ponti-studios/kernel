@@ -1,11 +1,11 @@
 ---
-title: 'MASVS-PLATFORM: Platform Interaction'
+title: "MASVS-PLATFORM: Platform Interaction"
 masvs_group: MASVS-PLATFORM
 group_overview: true
 controls:
-- MASVS-PLATFORM-1
-- MASVS-PLATFORM-2
-- MASVS-PLATFORM-3
+  - MASVS-PLATFORM-1
+  - MASVS-PLATFORM-2
+  - MASVS-PLATFORM-3
 ---
 
 # MASVS-PLATFORM — Platform Interaction

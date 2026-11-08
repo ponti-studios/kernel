@@ -4,42 +4,51 @@
 // Runs on plain Node (24+) with no build step and no npm install: the prompts and
 // schema are local, and the text model and config come from the sibling studio-core
 // skill, resolved lazily so --dry-run needs neither a key nor the module.
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { homedir } from 'node:os';
-import { join } from 'node:path';
-import { parseArgs } from 'node:util';
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { homedir } from "node:os";
+import { join } from "node:path";
+import { parseArgs } from "node:util";
 
-import { apiKey, setting } from '../../../studio-core/scripts/lib/config.mjs';
-import { DEFAULT_TEXT_MODEL, createLazyTextModel } from '../../../studio-core/scripts/lib/drafts.mjs';
-import { STAGES, generators } from './generate.mjs';
+import { apiKey, setting } from "../../../studio-core/scripts/lib/config.mjs";
+import {
+  DEFAULT_TEXT_MODEL,
+  createLazyTextModel,
+} from "../../../studio-core/scripts/lib/drafts.mjs";
+import { STAGES, generators } from "./generate.mjs";
 
-const USAGE_DIR = setting('STUDIO_USAGE_DIR', 'usage_dir', () => join(homedir(), '.hominem', 'ai_usage'));
+const USAGE_DIR = setting("STUDIO_USAGE_DIR", "usage_dir", () =>
+  join(homedir(), ".hominem", "ai_usage"),
+);
 
 const { values } = parseArgs({
   options: {
-    stage: { type: 'string' },
-    brief: { type: 'string' },
-    script: { type: 'string' },
+    stage: { type: "string" },
+    brief: { type: "string" },
+    script: { type: "string" },
     out: {
-      type: 'string',
-      default: setting('STUDIO_DRAFTS_DIR', 'drafts_dir', () => join(homedir(), 'Documents', 'studio-drafts')),
+      type: "string",
+      default: setting("STUDIO_DRAFTS_DIR", "drafts_dir", () =>
+        join(homedir(), "Documents", "studio-drafts"),
+      ),
     },
-    model: { type: 'string' },
-    'dry-run': { type: 'boolean', default: false },
+    model: { type: "string" },
+    "dry-run": { type: "boolean", default: false },
   },
 });
 
 const stage = values.stage ?? (STAGES.length === 1 ? STAGES[0] : undefined);
 if (!stage) {
-  console.error(`usage: run.mjs --stage <${STAGES.join('|')}> (--brief <text|@file> | --script <json>)`);
+  console.error(
+    `usage: run.mjs --stage <${STAGES.join("|")}> (--brief <text|@file> | --script <json>)`,
+  );
   process.exit(2);
 }
 if (!STAGES.includes(stage)) {
-  console.error(`error: unknown stage '${stage}' (have: ${STAGES.join(', ')})`);
+  console.error(`error: unknown stage '${stage}' (have: ${STAGES.join(", ")})`);
   process.exit(2);
 }
 
-const readArg = (raw) => (raw.startsWith('@') ? readFileSync(raw.slice(1), 'utf8') : raw);
+const readArg = (raw) => (raw.startsWith("@") ? readFileSync(raw.slice(1), "utf8") : raw);
 
 // A script artifact may be the bare draft or an artifact wrapper; take either.
 function asScriptInput(raw, sourceLabel) {
@@ -52,12 +61,15 @@ function asScriptInput(raw, sourceLabel) {
   return { title: candidate.title, sections: candidate.sections };
 }
 
-const model = values.model ?? setting('OPENROUTER_TEXT_MODEL', 'model_text', DEFAULT_TEXT_MODEL);
+const model = values.model ?? setting("OPENROUTER_TEXT_MODEL", "model_text", DEFAULT_TEXT_MODEL);
 // The key resolves on first use: --dry-run must not require one.
 let lazyModel;
 const text = {
   async generate(input) {
-    lazyModel ??= createLazyTextModel({ model, apiKey: process.env.OPENROUTER_API_KEY ?? apiKey() });
+    lazyModel ??= createLazyTextModel({
+      model,
+      apiKey: process.env.OPENROUTER_API_KEY ?? apiKey(),
+    });
     return lazyModel.generate(input);
   },
 };
@@ -67,9 +79,9 @@ const generator = generators[stage];
 let input;
 let inputLabel;
 
-if (stage === 'script') {
+if (stage === "script") {
   if (!values.brief) {
-    console.error('error: stage `script` needs --brief (the idea or rough draft)');
+    console.error("error: stage `script` needs --brief (the idea or rough draft)");
     process.exit(2);
   }
   input = readArg(values.brief);
@@ -79,11 +91,11 @@ if (stage === 'script') {
     console.error(`error: stage \`${stage}\` needs --script <approved master script json>`);
     process.exit(2);
   }
-  input = asScriptInput(readFileSync(values.script, 'utf8'), values.script);
+  input = asScriptInput(readFileSync(values.script, "utf8"), values.script);
   inputLabel = `script:${input.title}`;
 }
 
-if (values['dry-run']) {
+if (values["dry-run"]) {
   console.log(JSON.stringify({ stage, model, inputLabel }, null, 2));
   process.exit(0);
 }
@@ -91,7 +103,7 @@ if (values['dry-run']) {
 const result = await generator(text, input, options);
 
 mkdirSync(values.out, { recursive: true });
-const stamp = new Date().toISOString().replace(/[:.]/g, '-');
+const stamp = new Date().toISOString().replace(/[:.]/g, "-");
 const outPath = join(values.out, `${stage}-${stamp}.json`);
 writeFileSync(outPath, JSON.stringify(result.draft, null, 2));
 
@@ -103,8 +115,8 @@ writeFileSync(
   logPath,
   JSON.stringify(
     {
-      kind: 'editorial-text',
-      tool: 'studio-clips',
+      kind: "editorial-text",
+      tool: "studio-clips",
       stage,
       model,
       input: inputLabel,
@@ -124,9 +136,9 @@ console.log(`log:      ${logPath}`);
 if (result.usage) {
   const { promptTokens, completionTokens, costUsd } = result.usage;
   console.log(
-    `usage:    ${promptTokens ?? '?'} in / ${completionTokens ?? '?'} out` +
-      (costUsd === undefined ? '' : ` — $${costUsd.toFixed(4)}`),
+    `usage:    ${promptTokens ?? "?"} in / ${completionTokens ?? "?"} out` +
+      (costUsd === undefined ? "" : ` — $${costUsd.toFixed(4)}`),
   );
 }
-console.log('--- draft ---');
+console.log("--- draft ---");
 console.log(JSON.stringify(result.draft, null, 2));

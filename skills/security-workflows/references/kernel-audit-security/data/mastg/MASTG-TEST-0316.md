@@ -6,13 +6,13 @@ upstream_path: tests-beta/android/MASVS-PLATFORM/MASTG-TEST-0316.md
 upstream_tag: 31cec00
 platform: android
 covers_masvs:
-- MASVS-PLATFORM-3
+  - MASVS-PLATFORM-3
 type:
-- static
-- manual
+  - static
+  - manual
 weakness: MASWE-0053
 profiles:
-- L2
+  - L2
 ---
 
 ## Overview
@@ -41,7 +41,7 @@ SecureTextField(
 ```
 
 !!! note
-    Even if `SecureTextField` uses the default `TextObfuscationMode.RevealLastTyped` or is configured explicitly with `RevealLastTyped` or `Hidden`, it can later be changed to `Visible` programmatically.
+Even if `SecureTextField` uses the default `TextObfuscationMode.RevealLastTyped` or is configured explicitly with `RevealLastTyped` or `Hidden`, it can later be changed to `Visible` programmatically.
 
 ## Steps
 
@@ -61,4 +61,4 @@ The test case fails if any text input field used for access or verification code
 - `SecureTextField` is used but configured with `TextObfuscationMode.Visible`
 
 !!! note
-    This test may produce false negatives if the app uses custom text input controls that do not rely on standard classes such as `TextField` or `SecureTextField` (for example in custom UI frameworks or game engines).
+This test may produce false negatives if the app uses custom text input controls that do not rely on standard classes such as `TextField` or `SecureTextField` (for example in custom UI frameworks or game engines).

@@ -1,5 +1,5 @@
 ---
-title: 'MASVS-PRIVACY-2: The app prevents identification of the user.'
+title: "MASVS-PRIVACY-2: The app prevents identification of the user."
 masvs_group: MASVS-PRIVACY
 masvs_control: MASVS-PRIVACY-2
 summary: The app prevents identification of the user.

@@ -6,11 +6,11 @@ upstream_path: tests/ios/MASVS-NETWORK/MASTG-TEST-0067.md
 upstream_tag: 31cec00
 platform: ios
 covers_masvs:
-- MASVS-NETWORK-1
+  - MASVS-NETWORK-1
 masvs_v1_id:
-- MSTG-NETWORK-3
+  - MSTG-NETWORK-3
 masvs_v2_id:
-- MASVS-NETWORK-1
+  - MASVS-NETWORK-1
 ---
 
 ## Overview
@@ -34,6 +34,6 @@ We highly recommend supporting static analysis with the dynamic analysis. If you
 Our test approach is to gradually relax security of the SSL handshake negotiation and check which security mechanisms are enabled.
 
 1. Having Burp set up as a proxy, make sure that there is no certificate added to the trust store (**Settings** -> **General** -> **Profiles**) and that tools like SSL Kill Switch are deactivated. Launch your application and check if you can see the traffic in Burp. Any failures will be reported under 'Alerts' tab. If you can see the traffic, it means that there is no certificate validation performed at all. If however, you can't see any traffic and you have an information about SSL handshake failure, follow the next point.
-2. Now, install the Burp certificate, as explained in [Burp's user documentation](https://support.portswigger.net/customer/portal/articles/1841109-installing-burp-s-ca-certificate-in-an-ios-device "Installing Burp\'s CA Certificate in an iOS Device"). If the handshake is successful and you can see the traffic in Burp, it means that the certificate is validated against the device's trust store, but no pinning is performed.
+2. Now, install the Burp certificate, as explained in [Burp's user documentation](https://support.portswigger.net/customer/portal/articles/1841109-installing-burp-s-ca-certificate-in-an-ios-device "Installing Burp's CA Certificate in an iOS Device"). If the handshake is successful and you can see the traffic in Burp, it means that the certificate is validated against the device's trust store, but no pinning is performed.
 
 If executing the instructions from the previous step doesn't lead to traffic being proxied, it may mean that certificate pinning is actually implemented and all security measures are in place. However, you still need to bypass the pinning in order to test the application. Please refer to @MASTG-TECH-0064 for more information on this.

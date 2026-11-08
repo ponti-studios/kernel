@@ -6,13 +6,13 @@ upstream_path: tests-beta/ios/MASVS-CRYPTO/MASTG-TEST-0214.md
 upstream_tag: 31cec00
 platform: ios
 covers_masvs:
-- MASVS-CRYPTO-2
+  - MASVS-CRYPTO-2
 type:
-- static
+  - static
 weakness: MASWE-0014
 profiles:
-- L1
-- L2
+  - L1
+  - L2
 ---
 
 ## Overview

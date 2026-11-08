@@ -1,5 +1,5 @@
 ---
-title: 'MASVS-AUTH-3: The app secures sensitive operations with additional authentication.'
+title: "MASVS-AUTH-3: The app secures sensitive operations with additional authentication."
 masvs_group: MASVS-AUTH
 masvs_control: MASVS-AUTH-3
 summary: The app secures sensitive operations with additional authentication.

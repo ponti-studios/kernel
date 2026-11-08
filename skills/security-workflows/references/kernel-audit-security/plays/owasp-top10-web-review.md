@@ -5,6 +5,7 @@ Review web applications against the OWASP Top 10 for Web Applications (2021), pr
 ## Trigger Conditions
 
 Use this play when:
+
 - Auditing a web application (monolith, microservices, or serverless)
 - Reviewing server-side web code for security vulnerabilities
 - A user asks for an "OWASP Top 10 review" or "web security assessment"
@@ -25,14 +26,14 @@ Use this play when:
 
 Before assessing risks, understand the application:
 
-| Aspect | Questions |
-|--------|-----------|
-| **Framework** | What language/framework? (Node.js/Express, Python/Django, Ruby/Rails, Java/Spring, PHP/Laravel, etc.) |
-| **Architecture** | Monolith, microservices, serverless (Lambda/Cloud Functions), SPA vs SSR? |
-| **Trust Boundary** | Internet-facing, internal network, or local-only? |
-| **Data Sensitivity** | Does it handle PII, credentials, financial data, health data (HIPAA)? |
-| **Authentication** | Session-based, JWT, OAuth, SSO, API keys? |
-| **Data Stores** | SQL database, NoSQL, cache (Redis), file storage, external APIs? |
+| Aspect               | Questions                                                                                             |
+| -------------------- | ----------------------------------------------------------------------------------------------------- |
+| **Framework**        | What language/framework? (Node.js/Express, Python/Django, Ruby/Rails, Java/Spring, PHP/Laravel, etc.) |
+| **Architecture**     | Monolith, microservices, serverless (Lambda/Cloud Functions), SPA vs SSR?                             |
+| **Trust Boundary**   | Internet-facing, internal network, or local-only?                                                     |
+| **Data Sensitivity** | Does it handle PII, credentials, financial data, health data (HIPAA)?                                 |
+| **Authentication**   | Session-based, JWT, OAuth, SSO, API keys?                                                             |
+| **Data Stores**      | SQL database, NoSQL, cache (Redis), file storage, external APIs?                                      |
 
 Document the attack surface: entry points, data flows, trust boundaries.
 
@@ -54,6 +55,7 @@ Document the attack surface: entry points, data flows, trust boundaries.
 - [ ] **Broken function-level authorization** — Different auth requirements for UI vs API endpoints
 
 **Testing Approach:**
+
 1. Map all endpoints requiring authentication
 2. Test each without authentication (should fail)
 3. Test cross-user access (User A accessing User B's resources)
@@ -78,6 +80,7 @@ Document the attack surface: entry points, data flows, trust boundaries.
 - [ ] **Missing integrity checks** — Unsigned or unvalidated data that could be tampered with
 
 **Testing Approach:**
+
 1. Search for hardcoded secrets using patterns (see secrets-scan.md)
 2. Verify TLS configuration (certificates, protocol versions, cipher suites)
 3. Check password storage (should use bcrypt, Argon2, or PBKDF2)
@@ -92,19 +95,20 @@ Document the attack surface: entry points, data flows, trust boundaries.
 
 **What to Look For:**
 
-| Injection Type | Indicators | Impact |
-|---------------|------------|---------|
-| **SQL Injection** | String concatenation in SQL, `cursor.execute(f"SELECT * FROM users WHERE id = {user_id}")`, dynamic queries | Data exfiltration, authentication bypass, RCE |
-| **NoSQL Injection** | Unsanitized JSON in MongoDB queries, `$where` clauses with user input | Data manipulation, authentication bypass |
-| **OS Command Injection** | `exec()`, `system()`, `subprocess.call()` with user input | Remote code execution |
-| **LDAP Injection** | User input in LDAP filters without escaping | Authentication bypass, data access |
-| **XSS (Cross-Site Scripting)** | User input rendered without encoding, `innerHTML`, `dangerouslySetInnerHTML`, unescaped template output | Session hijacking, credential theft, defacement |
-| **SSTI (Server-Side Template Injection)** | User input in Jinja2, ERB, EJS templates | RCE, file access |
-| **XPath Injection** | User input in XPath queries | XML data access |
-| **Log Injection** | CRLF in log entries (`\n\r`), log forging | Log tampering, data exfiltration |
-| **Header Injection** | CRLF in HTTP headers | Response splitting, XSS |
+| Injection Type                            | Indicators                                                                                                  | Impact                                          |
+| ----------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
+| **SQL Injection**                         | String concatenation in SQL, `cursor.execute(f"SELECT * FROM users WHERE id = {user_id}")`, dynamic queries | Data exfiltration, authentication bypass, RCE   |
+| **NoSQL Injection**                       | Unsanitized JSON in MongoDB queries, `$where` clauses with user input                                       | Data manipulation, authentication bypass        |
+| **OS Command Injection**                  | `exec()`, `system()`, `subprocess.call()` with user input                                                   | Remote code execution                           |
+| **LDAP Injection**                        | User input in LDAP filters without escaping                                                                 | Authentication bypass, data access              |
+| **XSS (Cross-Site Scripting)**            | User input rendered without encoding, `innerHTML`, `dangerouslySetInnerHTML`, unescaped template output     | Session hijacking, credential theft, defacement |
+| **SSTI (Server-Side Template Injection)** | User input in Jinja2, ERB, EJS templates                                                                    | RCE, file access                                |
+| **XPath Injection**                       | User input in XPath queries                                                                                 | XML data access                                 |
+| **Log Injection**                         | CRLF in log entries (`\n\r`), log forging                                                                   | Log tampering, data exfiltration                |
+| **Header Injection**                      | CRLF in HTTP headers                                                                                        | Response splitting, XSS                         |
 
 **Testing Approach:**
+
 1. Search for dangerous functions (concatenation, eval, exec, innerHTML)
 2. Test each input field with injection payloads
 3. Verify output encoding for all user-controlled data
@@ -129,6 +133,7 @@ Document the attack surface: entry points, data flows, trust boundaries.
 - [ ] **Missing defense in depth** — Single point of failure for security controls
 
 **Testing Approach:**
+
 1. Review architecture documentation for security considerations
 2. Test business logic flows for bypass opportunities
 3. Check for race conditions in multi-step processes
@@ -153,6 +158,7 @@ Document the attack surface: entry points, data flows, trust boundaries.
 - [ ] **Missing hardening** — Default SSL/TLS settings, unnecessary HTTP methods enabled
 
 **Testing Approach:**
+
 1. Review configuration files (nginx.conf, .htaccess, application.yml)
 2. Check for default credentials and accounts
 3. Verify security headers using tools or manual inspection
@@ -176,6 +182,7 @@ Document the attack surface: entry points, data flows, trust boundaries.
 - [ ] **Supply chain risks** — Typosquatting, malicious packages, compromised dependencies
 
 **Testing Approach:**
+
 1. Run SCA scanner (osv-scanner, npm audit, pip-audit)
 2. Review dependency files (package.json, requirements.txt, etc.)
 3. Check for end-of-life components
@@ -200,6 +207,7 @@ Document the attack surface: entry points, data flows, trust boundaries.
 - [ ] **JWT issues** — None algorithm allowed, weak signing keys, missing expiration
 
 **Testing Approach:**
+
 1. Test password requirements and complexity
 2. Attempt credential stuffing with known breached credentials
 3. Test for brute force protection (rate limiting, CAPTCHA, lockout)
@@ -224,6 +232,7 @@ Document the attack surface: entry points, data flows, trust boundaries.
 - [ ] **XML external entities (XXE)** — XML parsers with external entity processing enabled
 
 **Testing Approach:**
+
 1. Search for deserialization functions with user-controlled input
 2. Verify update mechanisms include signature verification
 3. Review CI/CD configurations for security controls
@@ -247,6 +256,7 @@ Document the attack surface: entry points, data flows, trust boundaries.
 - [ ] **No incident response** — No documented procedures for security incidents
 
 **Testing Approach:**
+
 1. Review what events are logged (authentication, authorization, data access)
 2. Check log format and content for sufficiency
 3. Search for sensitive data in log statements
@@ -270,6 +280,7 @@ Document the attack surface: entry points, data flows, trust boundaries.
 - [ ] **URL parsing inconsistencies** — Differences between URL parsers (e.g., `@` handling)
 
 **Testing Approach:**
+
 1. Identify all endpoints accepting URLs from users
 2. Test for internal service access (localhost, private IPs)
 3. Attempt cloud metadata endpoint access
@@ -282,18 +293,18 @@ Document the attack surface: entry points, data flows, trust boundaries.
 
 Apply additional checks based on detected framework:
 
-| Framework | Key Security Checks |
-|-----------|---------------------|
+| Framework         | Key Security Checks                                                                      |
+| ----------------- | ---------------------------------------------------------------------------------------- |
 | **React/Next.js** | XSS via `dangerouslySetInnerHTML`, SSRF in `getServerSideProps`, API routes without auth |
-| **Angular** | XSS protection bypasses, unsafe `bypassSecurityTrustHtml`, HTTP client interceptors |
-| **Vue.js** | `v-html` XSS risks, server-side rendering vulnerabilities |
-| **Express.js** | Missing Helmet middleware, no rate limiting, prototype pollution |
-| **Django** | `DEBUG=True`, `SECRET_KEY` exposure, raw SQL, CSRF exemptions |
-| **Flask** | Jinja2 autoescape disabled, unsafe session handling, debug mode |
-| **Ruby on Rails** | Mass assignment, `render` with user input, SQL fragments, weak parameters |
-| **Spring Boot** | SpEL injection, actuator endpoints exposed, mass assignment, CORS issues |
-| **Laravel** | Mass assignment, raw queries, debug mode, configuration exposure |
-| **ASP.NET Core** | Razor XSS, insecure deserialization, missing anti-forgery tokens |
+| **Angular**       | XSS protection bypasses, unsafe `bypassSecurityTrustHtml`, HTTP client interceptors      |
+| **Vue.js**        | `v-html` XSS risks, server-side rendering vulnerabilities                                |
+| **Express.js**    | Missing Helmet middleware, no rate limiting, prototype pollution                         |
+| **Django**        | `DEBUG=True`, `SECRET_KEY` exposure, raw SQL, CSRF exemptions                            |
+| **Flask**         | Jinja2 autoescape disabled, unsafe session handling, debug mode                          |
+| **Ruby on Rails** | Mass assignment, `render` with user input, SQL fragments, weak parameters                |
+| **Spring Boot**   | SpEL injection, actuator endpoints exposed, mass assignment, CORS issues                 |
+| **Laravel**       | Mass assignment, raw queries, debug mode, configuration exposure                         |
+| **ASP.NET Core**  | Razor XSS, insecure deserialization, missing anti-forgery tokens                         |
 
 ---
 
@@ -302,16 +313,19 @@ Apply additional checks based on detected framework:
 Examine these configuration areas:
 
 #### Web Server Configuration
+
 - **nginx/Apache**: Security headers, TLS settings, rate limiting, access controls
 - **Reverse proxy**: Header forwarding, SSL termination, upstream validation
 - **Load balancer**: Health checks, session affinity, DDoS protection
 
 #### Application Configuration
+
 - **Environment-specific settings**: Debug mode, error handling, logging levels
 - **Security settings**: Password policies, session timeouts, CSRF protection
 - **External integrations**: API keys, webhook secrets, OAuth configs
 
 #### Deployment Configuration
+
 - **Container security**: Non-root user, read-only filesystems, resource limits
 - **Kubernetes**: Network policies, security contexts, RBAC
 - **Cloud services**: IAM roles, security groups, encryption at rest
@@ -321,6 +335,7 @@ Examine these configuration areas:
 ### 5. Produce Findings
 
 For each identified vulnerability:
+
 - Assign severity based on exploitability and impact in deployment context
 - Provide concrete evidence (code locations, configuration gaps, test results)
 - Propose specific remediation steps with code examples
@@ -334,32 +349,37 @@ For each identified vulnerability:
 ## Web Security Review: [Application Name]
 
 ### Application Overview
+
 - **Framework**: [React/Express, Django, Rails, etc.]
 - **Deployment**: [Internet-facing, internal, cloud platform]
 - **Architecture**: [Monolith, microservices, serverless]
 - **Authentication**: [Session-based, JWT, OAuth]
 
 ### Risk Matrix
-| OWASP Ref | Risk | Severity | Status |
-|-----------|------|----------|--------|
-| A01 | Broken Access Control | HIGH | Finding |
-| A02 | Cryptographic Failures | MEDIUM | Finding |
-| A03 | Injection | CRITICAL | Finding |
-| A04 | Insecure Design | LOW | Finding |
-| A05 | Security Misconfiguration | MEDIUM | Finding |
-| A06 | Vulnerable Components | HIGH | Finding |
-| A07 | Auth Failures | HIGH | Finding |
-| A08 | Integrity Failures | N/A | N/A |
-| A09 | Logging Failures | MEDIUM | Finding |
-| A10 | SSRF | N/A | N/A |
+
+| OWASP Ref | Risk                      | Severity | Status  |
+| --------- | ------------------------- | -------- | ------- |
+| A01       | Broken Access Control     | HIGH     | Finding |
+| A02       | Cryptographic Failures    | MEDIUM   | Finding |
+| A03       | Injection                 | CRITICAL | Finding |
+| A04       | Insecure Design           | LOW      | Finding |
+| A05       | Security Misconfiguration | MEDIUM   | Finding |
+| A06       | Vulnerable Components     | HIGH     | Finding |
+| A07       | Auth Failures             | HIGH     | Finding |
+| A08       | Integrity Failures        | N/A      | N/A     |
+| A09       | Logging Failures          | MEDIUM   | Finding |
+| A10       | SSRF                      | N/A      | N/A     |
 
 ### Findings
+
 [Standard finding template for each identified risk]
 
 ### Positive Controls Observed
+
 [Security controls already in place — acknowledge good practices]
 
 ### Recommendations
+
 [Prioritized remediation roadmap]
 ```
 

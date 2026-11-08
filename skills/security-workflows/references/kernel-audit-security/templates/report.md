@@ -15,10 +15,10 @@
 
 ## Findings Summary
 
-| # | Severity | Title | CWE | OpenCRE | OWASP Ref | Status |
-|---|----------|-------|-----|---------|-----------|--------|
-| 1 | CRITICAL | ... | CWE-XXX | [CRE-ID](https://www.opencre.org/cre/CRE-ID) | ... | Open |
-| 2 | HIGH | ... | CWE-XXX | [CRE-ID](https://www.opencre.org/cre/CRE-ID) | ... | Open |
+| #   | Severity | Title | CWE     | OpenCRE                                      | OWASP Ref | Status |
+| --- | -------- | ----- | ------- | -------------------------------------------- | --------- | ------ |
+| 1   | CRITICAL | ...   | CWE-XXX | [CRE-ID](https://www.opencre.org/cre/CRE-ID) | ...       | Open   |
+| 2   | HIGH     | ...   | CWE-XXX | [CRE-ID](https://www.opencre.org/cre/CRE-ID) | ...       | Open   |
 
 ## Findings Detail
 
@@ -32,9 +32,9 @@
 
 OpenCRE cross-references for all findings (auto-populated via `data/opencre/`):
 
-| CRE ID | Requirement | CWE | ASVS | WSTG | NIST 800-53 | Findings |
-|--------|-------------|-----|------|------|-------------|----------|
-| [CRE-ID](https://www.opencre.org/cre/CRE-ID) | ... | CWE-XXX | V#.#.# | WSTG-XXX-## | XX-## | #1, #2 |
+| CRE ID                                       | Requirement | CWE     | ASVS   | WSTG        | NIST 800-53 | Findings |
+| -------------------------------------------- | ----------- | ------- | ------ | ----------- | ----------- | -------- |
+| [CRE-ID](https://www.opencre.org/cre/CRE-ID) | ...         | CWE-XXX | V#.#.# | WSTG-XXX-## | XX-##       | #1, #2   |
 
 ## Recommendations
 

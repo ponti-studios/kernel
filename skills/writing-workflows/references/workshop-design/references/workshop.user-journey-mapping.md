@@ -19,6 +19,7 @@ scope: running-product-workshops
 updated: 2026-08-25
 applies_to:
 ---
+
 **_What is user journey mapping?_**
 User journey mapping is a process of laying out the steps customers take to achieve their goal using the product and customers' touchpoints and feelings during this process.
 

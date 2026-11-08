@@ -4,13 +4,13 @@ Use this reference when choosing the authentication surface for each client type
 
 ## Default Client Mapping
 
-| Client type        | Preferred auth surface                |
-| ------------------ | ------------------------------------- |
-| First-party web    | Better Auth session cookies           |
-| Desktop (Electron) | Better Auth session cookies           |
-| Mobile / Expo      | Better Auth JWT + bearer plugin       |
-| CLI                | Better Auth device authorization      |
-| Non-browser SDK    | Better Auth JWT + bearer plugin       |
+| Client type        | Preferred auth surface           |
+| ------------------ | -------------------------------- |
+| First-party web    | Better Auth session cookies      |
+| Desktop (Electron) | Better Auth session cookies      |
+| Mobile / Expo      | Better Auth JWT + bearer plugin  |
+| CLI                | Better Auth device authorization |
+| Non-browser SDK    | Better Auth JWT + bearer plugin  |
 
 ## Selection Rules
 

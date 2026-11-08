@@ -8,6 +8,7 @@ updated: 2026-08-25
 slug: engineering-documentation-contract
 applies_to: []
 ---
+
 # Engineering Documentation Contract
 
 `projects/` catalog — migrated from `projects/engineering/` 2026-08-24.
@@ -25,6 +26,7 @@ If repo vs catalog disagree, fix catalog unless product decision (record in `arc
 Answer: what/why/owns/deps/non-goals/next decision/source.
 
 Frontmatter:
+
 ```yaml
 title:
 type: component | product | repository | service

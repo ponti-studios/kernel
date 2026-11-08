@@ -5,18 +5,18 @@ Codex installation uses this local source. Publication to GitHub is separate.
 
 ## Requirements and evidence
 
-| Requirement | Implemented result | Evidence |
-| --- | --- | --- |
-| Reduce discovery cost | 60 top-level skills became six domain routers and three independent project/preference packages | skills.sh.json; installer discovery reports exactly nine |
-| Keep all writing together | Documents, essays, master scripts, derivatives, written scenes, interface copy, dossiers and Studio communications route through writing-workflows | writing entrypoint; moved procedures; independent representative-request review |
-| Reserve Studio for production | Recording/rendering/assembly, physical production, canon, costs and operational state remain in Studio | Studio entrypoint and writing handoffs |
-| Preserve useful expert material | Detailed procedures, schemas, datasets, scripts and fixtures are bundled beneath the router | all 60 former names mapped; original resource audit accounts for all files |
-| Remove pointless and contradictory guidance | Repeated discovery/output sections, obsolete authoring recipes, unused TTS helper, plugin discovery metadata and stale paths removed or corrected | source changes; corrections summarized below |
-| Self-contained installation | Shared runtime has one source and generated package copies; no nested discoverable skills, symlinks or links escaping the package | bundle equality check; structure/format validators; isolated package execution |
-| Preserve functioning scripts | Writing/runtime/canon/ledger test suites run from isolated copies; real podcast CLI startup checked; segment traversal regression added | check_isolated_packages.py; eight validator tests; 126-script syntax pass before unused helper removal |
-| Keep catalog and docs consistent | README and contribution rules describe current packages, ownership and checks | catalog parity; format validation for all nine packages; git diff --check |
-| Migrate consumers | Nine canonical packages installed through npx skills; obsolete global names removed; source audit clean | installed audit: nine installed/locked, zero drift, stale entries, collisions or unprovenanced packages |
-| Check project consumers | Six project locks use only retained ship-ios and studio-dev entrypoints; both installed entrypoints exist | project-consumers.json |
+| Requirement                                 | Implemented result                                                                                                                                 | Evidence                                                                                                |
+| ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| Reduce discovery cost                       | 60 top-level skills became six domain routers and three independent project/preference packages                                                    | skills.sh.json; installer discovery reports exactly nine                                                |
+| Keep all writing together                   | Documents, essays, master scripts, derivatives, written scenes, interface copy, dossiers and Studio communications route through writing-workflows | writing entrypoint; moved procedures; independent representative-request review                         |
+| Reserve Studio for production               | Recording/rendering/assembly, physical production, canon, costs and operational state remain in Studio                                             | Studio entrypoint and writing handoffs                                                                  |
+| Preserve useful expert material             | Detailed procedures, schemas, datasets, scripts and fixtures are bundled beneath the router                                                        | all 60 former names mapped; original resource audit accounts for all files                              |
+| Remove pointless and contradictory guidance | Repeated discovery/output sections, obsolete authoring recipes, unused TTS helper, plugin discovery metadata and stale paths removed or corrected  | source changes; corrections summarized below                                                            |
+| Self-contained installation                 | Shared runtime has one source and generated package copies; no nested discoverable skills, symlinks or links escaping the package                  | bundle equality check; structure/format validators; isolated package execution                          |
+| Preserve functioning scripts                | Writing/runtime/canon/ledger test suites run from isolated copies; real podcast CLI startup checked; segment traversal regression added            | check_isolated_packages.py; eight validator tests; 126-script syntax pass before unused helper removal  |
+| Keep catalog and docs consistent            | README and contribution rules describe current packages, ownership and checks                                                                      | catalog parity; format validation for all nine packages; git diff --check                               |
+| Migrate consumers                           | Nine canonical packages installed through npx skills; obsolete global names removed; source audit clean                                            | installed audit: nine installed/locked, zero drift, stale entries, collisions or unprovenanced packages |
+| Check project consumers                     | Six project locks use only retained ship-ios and studio-dev entrypoints; both installed entrypoints exist                                          | project-consumers.json                                                                                  |
 
 ## Content decisions
 

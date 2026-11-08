@@ -6,13 +6,13 @@ upstream_path: tests-beta/android/MASVS-NETWORK/MASTG-TEST-0282.md
 upstream_tag: 31cec00
 platform: android
 covers_masvs:
-- MASVS-NETWORK-1
+  - MASVS-NETWORK-1
 type:
-- static
+  - static
 weakness: MASWE-0052
 profiles:
-- L1
-- L2
+  - L1
+  - L2
 ---
 
 ## Overview
@@ -39,8 +39,8 @@ This includes cases such as:
 - **Using `checkServerTrusted(...)` which is error prone, when NSC would be enough.
 - **Trust manager that does nothing:** overriding `checkServerTrusted(...)` to accept all certificates without any validation, for example by returning immediately without verifying the certificate chain or by always returning `true`.
 - **Ignoring errors:** failing to [throw proper exceptions](https://support.google.com/faqs/answer/6346016) (e.g. [`CertificateException`](https://developer.android.com/reference/java/security/cert/CertificateException.html) or [`IllegalArgumentException`](https://developer.android.com/reference/java/lang/IllegalArgumentException)) on validation failure, or catching and suppressing them.
-- **Using [`checkValidity()`](https://developer.android.com/reference/java/security/cert/X509Certificate#checkValidity()) instead of full validation:** relying only on `checkValidity()` checks whether the certificate is expired or not yet valid, but does **not** verify trust or hostname matching.
+- **Using [`checkValidity()`](<https://developer.android.com/reference/java/security/cert/X509Certificate#checkValidity()>) instead of full validation:** relying only on `checkValidity()` checks whether the certificate is expired or not yet valid, but does **not** verify trust or hostname matching.
 - **Explicitly loosening trust:** disabling trust checks to accept self-signed or untrusted certificates for convenience during development or testing.
-- **Misusing [`getAcceptedIssuers()`](https://developer.android.com/reference/javax/net/ssl/X509TrustManager#getAcceptedIssuers())**: Returning `null` or an empty array without proper handling may effectively disable issuer validation.
+- **Misusing [`getAcceptedIssuers()`](<https://developer.android.com/reference/javax/net/ssl/X509TrustManager#getAcceptedIssuers()>)**: Returning `null` or an empty array without proper handling may effectively disable issuer validation.
 
 When testing using automated tools, you will need to inspect all the reported locations in the reverse-engineered code to confirm the incorrect implementation (@MASTG-TECH-0023).

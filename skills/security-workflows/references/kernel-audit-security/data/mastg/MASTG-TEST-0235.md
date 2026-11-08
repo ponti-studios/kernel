@@ -6,13 +6,13 @@ upstream_path: tests-beta/android/MASVS-NETWORK/MASTG-TEST-0235.md
 upstream_tag: 31cec00
 platform: android
 covers_masvs:
-- MASVS-NETWORK-1
+  - MASVS-NETWORK-1
 type:
-- static
+  - static
 weakness: MASWE-0050
 profiles:
-- L1
-- L2
+  - L1
+  - L2
 ---
 
 ## Overview
@@ -44,7 +44,7 @@ The test case fails if cleartext traffic is permitted. This can happen if any of
 3. The NSC sets `cleartextTrafficPermitted` to `true` in any `<domain-config>`.
 
 !!! note
-    The test doesn't fail if the AndroidManifest sets `usesCleartextTraffic` to `true` and there's a NSC, even if it only has an empty `<network-security-config>` element. For example:
+The test doesn't fail if the AndroidManifest sets `usesCleartextTraffic` to `true` and there's a NSC, even if it only has an empty `<network-security-config>` element. For example:
 
     ```xml
     <?xml version="1.0" encoding="utf-8"?>

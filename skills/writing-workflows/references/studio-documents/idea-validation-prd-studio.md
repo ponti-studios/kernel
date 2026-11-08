@@ -8,6 +8,7 @@ updated: 2026-08-25
 slug: idea-validation-prd-studio
 applies_to: []
 ---
+
 # Idea Validation & PRD Studio
 
 **Concept:** tooling for going from a rough idea to a validated spec —

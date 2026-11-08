@@ -1,4 +1,3 @@
-
 # AI Slop Cleaner
 
 Use this skill to clean AI-generated code slop without drifting scope or changing intended behavior. This is the bounded cleanup workflow for code that works but feels bloated, repetitive, weakly tested, or over-abstracted.

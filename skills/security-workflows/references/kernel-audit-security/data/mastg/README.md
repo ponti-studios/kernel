@@ -10,12 +10,12 @@ These files are derived from `tests/` (V1) and `tests-beta/` (V2) in the upstrea
 
 For each MASVS v2 control, the extractor resolves the relevant MASTG tests using the V1 markdown as the translation layer:
 
-| Upstream state | Result |
-|---|---|
-| V1 test `status: deprecated`, `covered_by: [V2 ids]` | Extract the V2 successor(s) from `tests-beta/` with `upstream_version: v2` |
-| V1 test `status: deprecated`, `covered_by: []` | Extract the V1 test with `upstream_version: v1-fallback` and a `status_note` warning that no V2 successor exists yet |
-| V1 test `status: active` (rare) | Extract the V1 test with `upstream_version: v1` |
-| MASVS-PRIVACY-* (no V1 predecessor) | Walk `tests-beta/{android,ios}/MASVS-PRIVACY/` and attach to the PRIVACY group via directory path |
+| Upstream state                                       | Result                                                                                                               |
+| ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| V1 test `status: deprecated`, `covered_by: [V2 ids]` | Extract the V2 successor(s) from `tests-beta/` with `upstream_version: v2`                                           |
+| V1 test `status: deprecated`, `covered_by: []`       | Extract the V1 test with `upstream_version: v1-fallback` and a `status_note` warning that no V2 successor exists yet |
+| V1 test `status: active` (rare)                      | Extract the V1 test with `upstream_version: v1`                                                                      |
+| MASVS-PRIVACY-* (no V1 predecessor)                  | Walk `tests-beta/{android,ios}/MASVS-PRIVACY/` and attach to the PRIVACY group via directory path                    |
 
 ## File Format
 

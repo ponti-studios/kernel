@@ -7,6 +7,7 @@ status: active
 updated: 2026-08-25
 applies_to:
 ---
+
 # Conversation To Document
 
 Use this generator to transform raw conversation into a polished document, not a loose summary.

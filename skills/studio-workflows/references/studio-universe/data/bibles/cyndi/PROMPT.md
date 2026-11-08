@@ -15,6 +15,7 @@ photo came from the chibi bible, where her design was locked Oct 3.
 ## CYNDI BLOCK (append verbatim whenever she appears in a prompt)
 
 <!-- PROMPT-BLOCK-START: cyndi -->
+
 "Cyndi is a lean, athletic medium-sized mixed-breed dog with a short uniform golden-tan coat, a long muzzle that is BLACK with a little grey around the mouth, large upright pointed ears with dark backs, dark brown eyes, a small white patch on her chest and white tips on her paws, and a straight medium-length tail carried low with a dark tip. Her build is that of a grown athletic mixed breed with normal leg length for her size: a long straight tail, a lean foxy muzzle and a short smooth coat, exactly the adult dog shown in her attached reference images."
 <!-- PROMPT-BLOCK-END: cyndi -->
 

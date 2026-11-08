@@ -6,13 +6,13 @@ upstream_path: tests-beta/android/MASVS-PRIVACY/MASTG-TEST-0254.md
 upstream_tag: 31cec00
 platform: android
 covers_masvs:
-- MASVS-PLATFORM-1
-- MASVS-PRIVACY
+  - MASVS-PLATFORM-1
+  - MASVS-PRIVACY
 type:
-- static
+  - static
 weakness: MASWE-0117
 profiles:
-- P
+  - P
 ---
 
 ## Overview

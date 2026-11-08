@@ -36,4 +36,3 @@ applies_to:
 - Preserve author voice and intellectual position when organizing captures. Move valid files as-is; repair only invalid metadata or placement.
 
 ## Routing
-

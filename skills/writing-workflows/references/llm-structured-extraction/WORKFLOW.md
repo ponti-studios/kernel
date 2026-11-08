@@ -51,7 +51,7 @@ interface ExtractOutput {
 
 ## Error Handling
 
-- **Markdown fence stripping**: LLMs sometimes wrap JSON in ```json fences even with `response_format: json_object`. Always strip before parsing: `content.trim().replace(/^```(?:json)?\\n?/, '').replace(/\\n?```$/, '').trim()`. Apply to both memory extractor and entity extractor. Pattern: strip fences, then JSON.parse, then validate.
+- **Markdown fence stripping**: LLMs sometimes wrap JSON in ``json fences even with `response_format: json_object`. Always strip before parsing: `content.trim().replace(/^``(?:json)?\\n?/, '').replace(/\\n?```$/, '').trim()`. Apply to both memory extractor and entity extractor. Pattern: strip fences, then JSON.parse, then validate.
 - **invalid_output**: output fails strict schema → retry once with same input, then discard whole
 - **unavailable**: model could not be called → defer (episode remains unextracted)
 - **empty_input**: zero turns → return empty arrays (not an error)
@@ -59,15 +59,16 @@ interface ExtractOutput {
 
 ## Model Comparison (tested 2026-10-24, updated 2026-10-25)
 
-| Model | Score (13 cases, 31 checks) | Long Message (20+ facts) | Input /1M | Output /1M | Notes |
-|---|---|---|---|---|---|
-| `anthropic/claude-haiku-5.5` | 31/31 (100%) | 33/31 (100%+) | $0.10 | $0.50 | Only supported model. 7.5x cheaper than Gemini, more reliable, more thorough. |
+| Model                        | Score (13 cases, 31 checks) | Long Message (20+ facts) | Input /1M | Output /1M | Notes                                                                         |
+| ---------------------------- | --------------------------- | ------------------------ | --------- | ---------- | ----------------------------------------------------------------------------- |
+| `anthropic/claude-haiku-5.5` | 31/31 (100%)                | 33/31 (100%+)            | $0.10     | $0.50      | Only supported model. 7.5x cheaper than Gemini, more reliable, more thorough. |
 
 **Recommendation:** Use Haiku 5.5 exclusively. Gemini has been removed — it was 7.5x more expensive and less reliable. Make model configurable via `SEME_EXTRACTOR_MODEL` env var for testing only.
 
 ## Validation Gate (deterministic, no LLM)
 
 After extraction, candidates pass through a deterministic gate:
+
 - Provenance: source_turn_id, source_episode_id, evidence_quote all required
 - Coherence: source_turn's episode_id must match source_episode_id
 - Speaker: user_stated/user_confirmed must cite role=user turn
@@ -83,6 +84,7 @@ Failed candidates are quarantined with a healing_log entry. Never admitted.
 When extracting entities and relationships alongside memories:
 
 ### Entity Extraction Prompt
+
 - Extract named entities: people, places, organizations, projects, tools, concepts, topics, animals/pets, or any named thing
 - Canonicalize names: "JS" → "JavaScript", "my wife Sarah" → "Sarah"
 - Track aliases: if "John" and "Johnny" refer to the same person, include both as aliases
@@ -92,14 +94,17 @@ When extracting entities and relationships alongside memories:
 - Non-salient turns emit nothing. Empty arrays are correct.
 
 ### Entity Types
+
 Any string. Common types: person, place, organization, project, tool, concept, topic, preference, animal, other, or any appropriate type. The LLM decides the most appropriate type. Do NOT maintain a hardcoded allowlist — validate only that it's a non-empty string, then normalize to lowercase. New types should emerge naturally from LLM output.
 
 **Pitfall:** Gating LLM output on a manually-maintained allowlist causes silent extraction failures. When the LLM returns a valid type not in the allowlist (e.g., 'animal' for a pet name), validation throws invalid_output, and the entire entity extraction batch is discarded. Memories are still extracted, but no entities are created. The fix: accept any non-empty string type, normalize to lowercase, remove DB CHECK constraints. Never gate LLM output on a hardcoded dictionary.
 
 ### Relationship Types
+
 works_at, lives_in, located_in, likes, uses, prefers, knows, created, moved_to, married_to, is_a, related_to
 
 ### Entity Resolution
+
 - Find neighbours: same name (case-insensitive) or alias match
 - Rule 1: NOOP — same canonical name + type, no new info
 - Rule 2: MERGE — same canonical name, new aliases or higher confidence
@@ -108,6 +113,7 @@ works_at, lives_in, located_in, likes, uses, prefers, knows, created, moved_to, 
 - On merge: merge aliases, update mention_count, last_seen_at, confidence, description
 
 ### Relationship Resolution
+
 - Find by source_id + target_id + relation_type
 - Rule 1: NOOP — same source, target, type, no new info
 - Rule 2: MERGE — same source, target, type, new evidence → increment mention_count, update last_seen_at, increase weight
@@ -115,7 +121,9 @@ works_at, lives_in, located_in, likes, uses, prefers, knows, created, moved_to, 
 - Weight calculation: 1.0 - (1.0 / mention_count)
 
 ### Graph Storage (SQLite)
+
 - Recursive CTEs for BFS traversal:
+
 ```sql
 WITH RECURSIVE traversal(entity_id, depth, path) AS (
     SELECT id, 0, id FROM entities WHERE id = ?
@@ -129,10 +137,12 @@ SELECT DISTINCT e.*, t.depth
 FROM traversal t JOIN entities e ON e.id = t.entity_id
 ORDER BY t.depth;
 ```
+
 - Store entity-memory links (many-to-many) and entity-turn links (provenance)
 - Use INSERT OR IGNORE for link tables (idempotent)
 
 ### Graph-Aware Retrieval
+
 - Extract entities from query (simple name/alias matching against graph)
 - BFS traversal 1-2 hops from matched entities
 - Collect linked memories, score by hop distance: direct 1.0, 1-hop 0.7, 2-hop 0.4
@@ -140,6 +150,7 @@ ORDER BY t.depth;
 - Include graph_summary in context bundle (entity names, types, relationships)
 
 ### Pitfalls
+
 - **"User" as entity name** — LLM often extracts "User" as a source entity in relationships, but "User" is not in the entities array. Either create a "User" entity from identity core, or skip relationships where entities don't exist. Skipping is simpler and avoids orphaned references.
 - **Entity FK constraints** — relationships reference entities(id). Ensure entities are resolved (created) before creating relationships. The resolver must return the entity_id before relationship resolution.
 - **Graph traversal depth** — Default 2 hops. Deeper traversal is expensive and rarely needed. Use `t.path NOT LIKE` to prevent cycles.
@@ -164,7 +175,7 @@ for (const s of slots) {
 
 ## OpenRouter Integration
 
-- API key is in `~/.localrc` (NOT `~/.hermes/.env` which has it commented out)
+- API key is in `~/.localrc` (NOT `${HERMES_HOME:-~/.hermes}/.env` which has it commented out)
 - Use configured provider credentials from the environment or documented application configuration; do not source shell startup files to discover a key.
 - Use `response_format: { type: 'json_object' }` for structured output
 - Model configurable via `SEME_EXTRACTOR_MODEL` env var
@@ -182,7 +193,7 @@ for (const s of slots) {
 - **LLM non-determinism in evals** — Tests that depend on LLM extraction behavior (e.g., "hypothetical should not be stored as stated") can be flaky across runs. Don't assert on retrieval output alone. Instead, query the DB directly for modality/source_type and assert on those fields. A hypothetical extracted with modality='hypothetical' is correct behavior even if it appears in retrieval results.
 - **Hypothetical modality** — The LLM sometimes extracts hypotheticals as stated facts despite prompt rules. Test should check modality in the DB, not just value_text. If the LLM tags it as 'hypothetical', that's a pass; only modality='stated' for a hypothetical is a failure.
 - **Async extraction timing** — end_session triggers extraction in the background and returns immediately. Profile may be empty until extraction completes. Tests that depend on extraction should await its completion signal or poll with a bounded timeout; avoid fixed sleeps. Don't block the caller in production; use .then()/.catch() for background processing and log completion/failure.
-- **Eval harness** — create test cases with checks functions. Run across multiple models. Report per-check pass/fail. Use OPENROUTER_API_KEY from ~/.localrc (not ~/.hermes/.env which has it commented out).
+- **Eval harness** — create test cases with checks functions. Run across multiple models. Report per-check pass/fail. Use OPENROUTER_API_KEY from ~/.localrc (not ${HERMES_HOME:-~/.hermes}/.env which has it commented out).
 - **value_json must be stringified** before SQLite insert (better-sqlite3 doesn't auto-stringify)
 - **Partial extraction failure** — one candidate failing shouldn't abort the whole batch; wrap per-candidate in try/catch
 - **Async extraction** — end_session triggers extraction but returns immediately; profile may be empty until extraction completes
@@ -197,45 +208,52 @@ for (const s of slots) {
 ## Profile Integration with Knowledge Graph
 
 ### Entity Section
+
 Query entities with `profile_included = 1` and render:
+
 ```
 ## Entities
 - {name} ({type}) — mentioned {mention_count} times
 ```
 
 ### Relationship Section
+
 Query relationships between profile-included entities and render:
+
 ```
 ## Relationships
 - {source_name} → {relation_type} → {target_name}
 ```
 
 ### Ordering
+
 1. ## Profile (memory-derived content)
 2. ## Entities (entity section)
 3. ## Relationships (relationship section)
 
 ### Implementation Pattern
+
 ```typescript
-const profileEntities = graphStore.listEntities(undefined, undefined, 100, 0).entities
-  .filter(e => e.profile_included === 1);
+const profileEntities = graphStore
+  .listEntities(undefined, undefined, 100, 0)
+  .entities.filter((e) => e.profile_included === 1);
 if (profileEntities.length > 0) {
-  lines.push('');
-  lines.push('## Entities');
+  lines.push("");
+  lines.push("## Entities");
   for (const e of profileEntities) {
     lines.push(`- ${e.name} (${e.type}) — mentioned ${e.mention_count} times`);
   }
-  const profileEntityIds = new Set(profileEntities.map(e => e.id));
+  const profileEntityIds = new Set(profileEntities.map((e) => e.id));
   const snapshot = graphStore.getGraphSnapshot();
-  const profileRels = snapshot.relationships.filter(r =>
-    profileEntityIds.has(r.source_id) && profileEntityIds.has(r.target_id)
+  const profileRels = snapshot.relationships.filter(
+    (r) => profileEntityIds.has(r.source_id) && profileEntityIds.has(r.target_id),
   );
   if (profileRels.length > 0) {
-    lines.push('');
-    lines.push('## Relationships');
+    lines.push("");
+    lines.push("## Relationships");
     for (const r of profileRels) {
-      const src = snapshot.entities.find(e => e.id === r.source_id);
-      const tgt = snapshot.entities.find(e => e.id === r.target_id);
+      const src = snapshot.entities.find((e) => e.id === r.source_id);
+      const tgt = snapshot.entities.find((e) => e.id === r.target_id);
       lines.push(`- ${src?.name} → ${r.relation_type} → ${tgt?.name}`);
     }
   }

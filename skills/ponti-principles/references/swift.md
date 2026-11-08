@@ -4,6 +4,7 @@ The full rules live in Thames's `swift-style` skill — load it when it is insta
 review checklist and the structure rules around it, and stands alone when it is not.
 
 ## Style (from `swift-style`)
+
 - 2-space indent; `swift-format` decides all other layout. Run it on files you change.
 - **Narrowest access control that works.** A redundant `public` is a defect. Periphery reports it.
 - Nothing unnecessary: no unused parameter, property, function, protocol or option. No wrapper that
@@ -26,12 +27,14 @@ review checklist and the structure rules around it, and stands alone when it is 
 - Doc comments (`///`) on public API: one sentence, constraints and units. Inline comments say why.
 
 ## Enforcement
+
 - `swift-format`, SwiftLint and Periphery with baselines. New violations fail; baselines only
   shrink (`scripts/check-swift.sh` in Thames). Run before finishing Swift work.
 - Periphery builds the iPhone app, so Watch-only code can look unused; those cases live in the
   baseline.
 
 ## Architecture
+
 - Put decisions that must be right in a Swift package (Thames: `ThamesCore`, with `WatchCore` for
   the Watch's own decisions). Apps only record, send, save and play haptics. React Native screens
   only draw the state they receive.
@@ -43,12 +46,13 @@ review checklist and the structure rules around it, and stands alone when it is 
 - A Debug build needs Metro; a Release build carries its bundle. Know which one you are running.
 
 ## Apple platform behaviour
+
 - The Watch is a remote for the phone unless Charles says otherwise. Do not add Watch screens for
   features he scoped to the phone (Memory is phone-only, 2026-10-10).
 - Test the phone and Watch together, on a real walk, once the Watch has caught up. Do not ask for
-  phone-only device testing as a next step. *(word, 2026-10-10)*
+  phone-only device testing as a next step. _(word, 2026-10-10)_
 - Never open the microphone by itself and never decide a person has finished talking. The person
-  starts and stops every turn. *(word, 2026-10-15)*
+  starts and stops every turn. _(word, 2026-10-15)_
 - Sim builds that touch the Keychain need ad-hoc signing.
 - Debug a native view in order: log the source data, check the view receives it, check it redraws.
   Reproduce drawing offline (render to a PNG) before changing the device build.

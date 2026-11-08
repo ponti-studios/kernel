@@ -6,12 +6,12 @@ upstream_path: tests-beta/android/MASVS-RESILIENCE/MASTG-TEST-0341.md
 upstream_tag: 31cec00
 platform: android
 covers_masvs:
-- MASVS-RESILIENCE-2
+  - MASVS-RESILIENCE-2
 type:
-- dynamic
+  - dynamic
 weakness: MASWE-0107
 profiles:
-- R
+  - R
 ---
 
 ## Overview
@@ -27,7 +27,7 @@ This test verifies whether the app detects and responds to instrumentation and h
 - Any other function that processes or returns sensitive data is hooked.
 
 !!! warning
-    This list is just indicative, and each app may have its own defensive response mechanisms.
+This list is just indicative, and each app may have its own defensive response mechanisms.
 
 ## Steps
 
@@ -49,4 +49,4 @@ The test case fails if the hook executes successfully and returns the expected d
 The test case passes if the hooking attempt fails due to the app's defensive response (e.g., session terminates unexpectedly, hook callbacks never execute, or the process exits).
 
 !!! note
-    Even if the test case passes, it might still be possible to bypass the app's defensive response. @MASTG-KNOW-0030 and @MASTG-KNOW-0032 describe such challenges.
+Even if the test case passes, it might still be possible to bypass the app's defensive response. @MASTG-KNOW-0030 and @MASTG-KNOW-0032 describe such challenges.

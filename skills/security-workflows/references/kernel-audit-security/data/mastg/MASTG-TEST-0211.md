@@ -6,14 +6,14 @@ upstream_path: tests-beta/ios/MASVS-CRYPTO/MASTG-TEST-0211.md
 upstream_tag: 31cec00
 platform: ios
 covers_masvs:
-- MASVS-CRYPTO-1
+  - MASVS-CRYPTO-1
 type:
-- static
-- dynamic
+  - static
+  - dynamic
 weakness: MASWE-0021
 profiles:
-- L1
-- L2
+  - L1
+  - L2
 ---
 
 ## Overview
@@ -21,21 +21,21 @@ profiles:
 To test for the use of broken hashing algorithms in iOS apps, we need to focus on methods from cryptographic frameworks and libraries that are used to perform hashing operations.
 
 - **CommonCrypto**: [CommonDigest.h](https://web.archive.org/web/20240606000312/https://opensource.apple.com/source/CommonCrypto/CommonCrypto-36064/CommonCrypto/CommonDigest.h) defines the following **hashing algorithms**:
-    - `CC_MD2`
-    - `CC_MD4`
-    - `CC_MD5`
-    - `CC_SHA1`
-    - `CC_SHA224`
-    - `CC_SHA256`
-    - `CC_SHA384`
-    - `CC_SHA512`
+  - `CC_MD2`
+  - `CC_MD4`
+  - `CC_MD5`
+  - `CC_SHA1`
+  - `CC_SHA224`
+  - `CC_SHA256`
+  - `CC_SHA384`
+  - `CC_SHA512`
 
 - **CryptoKit**: Supports three cryptographically secure **hashing algorithms** and two insecure ones in a dedicated class called [`Insecure`](https://developer.apple.com/documentation/cryptokit/insecure):
-    - `SHA256`
-    - `SHA384`
-    - `SHA512`
-    - `Insecure.MD5`
-    - `Insecure.SHA1`
+  - `SHA256`
+  - `SHA384`
+  - `SHA512`
+  - `Insecure.MD5`
+  - `Insecure.SHA1`
 
 Note: the **Security** framework only supports asymmetric algorithms and is therefore out of scope for this test.
 

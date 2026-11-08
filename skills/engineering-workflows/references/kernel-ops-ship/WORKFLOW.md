@@ -50,12 +50,12 @@ It does not replace [kernel-audit-review](../kernel-audit-review/WORKFLOW.md). A
 
 Choose from the deployment strategies the project actually supports. State the selected strategy with a one-line rationale before proceeding.
 
-| Signal                                             | Strategy                                                           |
-| -------------------------------------------------- | ------------------------------------------------------------------ |
-| Change is high risk and progressive rollout exists | **Canary** — release gradually and monitor before full rollout     |
-| New feature with a feature flag                    | **Feature flag** — deploy dark, enable incrementally               |
-| Routine release, no schema changes, low risk       | **Blue-Green** — zero-downtime swap                                |
-| Capacity constraints prevent blue-green            | **Rolling** — update instances incrementally                       |
+| Signal                                             | Strategy                                                       |
+| -------------------------------------------------- | -------------------------------------------------------------- |
+| Change is high risk and progressive rollout exists | **Canary** — release gradually and monitor before full rollout |
+| New feature with a feature flag                    | **Feature flag** — deploy dark, enable incrementally           |
+| Routine release, no schema changes, low risk       | **Blue-Green** — zero-downtime swap                            |
+| Capacity constraints prevent blue-green            | **Rolling** — update instances incrementally                   |
 
 ---
 

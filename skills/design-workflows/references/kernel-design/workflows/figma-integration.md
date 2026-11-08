@@ -27,11 +27,11 @@ Never hand-edit both sides for the same value.
 
 Map the shared token hierarchy to Figma collections:
 
-| Token tier | Figma collection | Rule |
-| --- | --- | --- |
-| Primitive | `Primitives` | Raw values; not consumed directly by components |
-| Semantic | `Semantic` | Roles such as text, surface, border, action, and feedback |
-| Component | `Component` | Component-specific aliases and states |
+| Token tier | Figma collection | Rule                                                      |
+| ---------- | ---------------- | --------------------------------------------------------- |
+| Primitive  | `Primitives`     | Raw values; not consumed directly by components           |
+| Semantic   | `Semantic`       | Roles such as text, surface, border, action, and feedback |
+| Component  | `Component`      | Component-specific aliases and states                     |
 
 Map light, dark, brand, and density variants to Figma Modes. Preserve aliases;
 do not flatten semantic tokens into copied literals.

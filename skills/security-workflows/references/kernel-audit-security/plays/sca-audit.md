@@ -5,6 +5,7 @@ Scan project dependencies for known vulnerabilities (CVEs), produce severity-ran
 ## Trigger Conditions
 
 Use this skill when:
+
 - Reviewing a project's dependency files (package.json, requirements.txt, go.mod, pom.xml, Gemfile, Cargo.toml, etc.)
 - A user asks to check for vulnerable dependencies
 - Performing a pre-deployment security review
@@ -22,16 +23,16 @@ Use this skill when:
 
 Scan for all dependency files in the project:
 
-| Ecosystem | Manifest | Lockfile |
-|-----------|----------|----------|
-| Node.js | package.json | package-lock.json, yarn.lock, pnpm-lock.yaml |
-| Python | requirements.txt, setup.py, pyproject.toml | Pipfile.lock, poetry.lock |
-| Go | go.mod | go.sum |
-| Java/Kotlin | pom.xml, build.gradle | gradle.lockfile |
-| Ruby | Gemfile | Gemfile.lock |
-| Rust | Cargo.toml | Cargo.lock |
-| .NET | *.csproj, packages.config | packages.lock.json |
-| PHP | composer.json | composer.lock |
+| Ecosystem   | Manifest                                   | Lockfile                                     |
+| ----------- | ------------------------------------------ | -------------------------------------------- |
+| Node.js     | package.json                               | package-lock.json, yarn.lock, pnpm-lock.yaml |
+| Python      | requirements.txt, setup.py, pyproject.toml | Pipfile.lock, poetry.lock                    |
+| Go          | go.mod                                     | go.sum                                       |
+| Java/Kotlin | pom.xml, build.gradle                      | gradle.lockfile                              |
+| Ruby        | Gemfile                                    | Gemfile.lock                                 |
+| Rust        | Cargo.toml                                 | Cargo.lock                                   |
+| .NET        | *.csproj, packages.config                  | packages.lock.json                           |
+| PHP         | composer.json                              | composer.lock                                |
 
 Prefer lockfiles over manifests — they capture the exact resolved versions including transitive dependencies.
 
@@ -40,21 +41,25 @@ Prefer lockfiles over manifests — they capture the exact resolved versions inc
 Use available tools in order of preference:
 
 1. **osv-scanner** (recommended — uses OSV.dev database, covers all ecosystems):
+
    ```bash
    osv-scanner --lockfile=<lockfile_path> --format=json
    ```
 
 2. **npm audit** (Node.js projects):
+
    ```bash
    npm audit --json
    ```
 
 3. **pip-audit** (Python projects):
+
    ```bash
    pip-audit -r requirements.txt --format=json
    ```
 
 4. **govulncheck** (Go projects):
+
    ```bash
    govulncheck ./...
    ```
@@ -65,6 +70,7 @@ Use available tools in order of preference:
    ```
 
 If no scanner is installed, **stop and ask the user to install one** rather than attempting manual analysis. Even small projects have 50+ dependencies — manually cross-referencing versions against CVE databases is not cost-effective. Recommend:
+
 ```bash
 # Fastest to install, covers all ecosystems
 brew install osv-scanner    # or: npm install -g osv-scanner
@@ -91,6 +97,7 @@ For each vulnerability found:
 ### 4. Produce Findings
 
 For each confirmed vulnerability, generate a finding with:
+
 - CVE/GHSA identifier
 - Affected package and version
 - Fixed version (if available)
@@ -101,6 +108,7 @@ For each confirmed vulnerability, generate a finding with:
 ### 5. Generate Dependency Health Summary
 
 Beyond CVEs, flag:
+
 - **Unmaintained packages**: No commits in 2+ years, archived repos
 - **Typosquatting risk**: Package names that are suspiciously similar to popular packages
 - **License concerns**: Packages with no license or unexpected license changes
@@ -112,23 +120,29 @@ Beyond CVEs, flag:
 ## SCA Audit: [Project Name]
 
 ### Scan Summary
+
 - **Ecosystems**: [Node.js, Python, etc.]
 - **Total dependencies**: [N direct, M transitive]
 - **Scanner used**: [tool name and version]
 - **Vulnerabilities found**: [X critical, Y high, Z medium, W low]
 
 ### Critical & High Findings
+
 [Standard finding template for each, sorted by severity]
 
 ### Medium & Low Findings
+
 [Condensed table format]
+
 | Package | Version | CVE | Severity | Fixed In | Reachable? |
-|---------|---------|-----|----------|----------|------------|
+| ------- | ------- | --- | -------- | -------- | ---------- |
 
 ### Dependency Health
+
 [Flags for unmaintained, license, pinning issues]
 
 ### Remediation Commands
+
 [Exact commands to fix — e.g., `npm install package@version`]
 ```
 

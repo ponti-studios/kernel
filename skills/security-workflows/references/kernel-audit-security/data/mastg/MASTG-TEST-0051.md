@@ -6,11 +6,11 @@ upstream_path: tests/android/MASVS-RESILIENCE/MASTG-TEST-0051.md
 upstream_tag: 31cec00
 platform: android
 covers_masvs:
-- MASVS-RESILIENCE-3
+  - MASVS-RESILIENCE-3
 masvs_v1_id:
-- MSTG-RESILIENCE-9
+  - MSTG-RESILIENCE-9
 masvs_v2_id:
-- MASVS-RESILIENCE-3
+  - MASVS-RESILIENCE-3
 ---
 
 ## Overview

@@ -8,6 +8,7 @@ scope: producing-short-form-video-from-thoughts
 updated: 2026-08-25
 applies_to:
 ---
+
 # TikTok Thought-to-Video Playbook
 
 ## Objective

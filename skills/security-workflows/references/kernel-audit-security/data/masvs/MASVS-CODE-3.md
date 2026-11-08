@@ -1,13 +1,13 @@
 ---
-title: 'MASVS-CODE-3: The app only uses software components without known vulnerabilities.'
+title: "MASVS-CODE-3: The app only uses software components without known vulnerabilities."
 masvs_group: MASVS-CODE
 masvs_control: MASVS-CODE-3
 summary: The app only uses software components without known vulnerabilities.
 mastg_tests:
-- MASTG-TEST-0272
-- MASTG-TEST-0273
-- MASTG-TEST-0274
-- MASTG-TEST-0275
+  - MASTG-TEST-0272
+  - MASTG-TEST-0273
+  - MASTG-TEST-0274
+  - MASTG-TEST-0275
 ---
 
 # MASVS-CODE-3

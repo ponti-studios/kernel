@@ -12,6 +12,7 @@ applies_to:
   - "ponti-studios/**"
   - "notes/**"
 ---
+
 # Brand Editing
 
 _The quality gate._
@@ -56,19 +57,23 @@ Before any Ponti Studios copy ships, run this checklist:
 These words and phrases are removed without hesitation. No exceptions in external copy.
 
 ### Fillers
+
 - "Very," "really," "truly," "actually," "literally"
 
 ### Inflated verbs
+
 - "In order to" → "to"
 - "Utilize" → "use"
 - "Leverage" as a verb meaning "use"
 
 ### Weasel nouns
+
 - "Solution" as a synonym for "product"
 - "Space" as in "the AI space"
 - "Ecosystem" meaning "a few products we made"
 
 ### Self-importance
+
 - "Empower" unless we are literally giving someone power
 - "Innovative" — you do not get to call yourself innovative
 - "Mission-driven" — your mission should be visible in your work, not your copy

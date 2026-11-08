@@ -6,11 +6,11 @@ upstream_path: tests/ios/MASVS-PLATFORM/MASTG-TEST-0071.md
 upstream_tag: 31cec00
 platform: ios
 covers_masvs:
-- MASVS-PLATFORM-1
+  - MASVS-PLATFORM-1
 masvs_v1_id:
-- MSTG-PLATFORM-4
+  - MSTG-PLATFORM-4
 masvs_v2_id:
-- MASVS-PLATFORM-1
+  - MASVS-PLATFORM-1
 ---
 
 ## Overview
@@ -64,7 +64,7 @@ objection --name SomeFileManager run ios plist cat Info.plist
 ```
 
 !!! note
-    This is the same as if we would retrieve the IPA from the phone or access it via e.g. SSH and navigate to the corresponding folder in the IPA / app sandbox. However, with objection, we are just _one command away_ from our goal, and this can still be considered static analysis.
+This is the same as if we would retrieve the IPA from the phone or access it via e.g. SSH and navigate to the corresponding folder in the IPA / app sandbox. However, with objection, we are just _one command away_ from our goal, and this can still be considered static analysis.
 
 The first thing we noticed is that app does not declare any imported custom document types but we could find a couple of exported ones:
 
@@ -136,46 +136,48 @@ Let's see an example using Telegram to share a picture and a text file. First pr
 
 ```javascript
 Interceptor.attach(
-ObjC.classes.
-    UIActivityViewController['- initWithActivityItems:applicationActivities:'].implementation, {
-  onEnter: function (args) {
+  ObjC.classes.UIActivityViewController["- initWithActivityItems:applicationActivities:"]
+    .implementation,
+  {
+    onEnter: function (args) {
+      printHeader(args);
 
-    printHeader(args)
+      this.initWithActivityItems = ObjC.Object(args[2]);
+      this.applicationActivities = ObjC.Object(args[3]);
 
-    this.initWithActivityItems = ObjC.Object(args[2]);
-    this.applicationActivities = ObjC.Object(args[3]);
-
-    console.log("initWithActivityItems: " + this.initWithActivityItems);
-    console.log("applicationActivities: " + this.applicationActivities);
-
+      console.log("initWithActivityItems: " + this.initWithActivityItems);
+      console.log("applicationActivities: " + this.applicationActivities);
+    },
+    onLeave: function (retval) {
+      printRet(retval);
+    },
   },
-  onLeave: function (retval) {
-    printRet(retval);
-  }
-});
+);
 
 Interceptor.attach(
-ObjC.classes.UIActivityViewController['- excludedActivityTypes'].implementation, {
-  onEnter: function (args) {
-    printHeader(args)
+  ObjC.classes.UIActivityViewController["- excludedActivityTypes"].implementation,
+  {
+    onEnter: function (args) {
+      printHeader(args);
+    },
+    onLeave: function (retval) {
+      printRet(retval);
+    },
   },
-  onLeave: function (retval) {
-    printRet(retval);
-  }
-});
+);
 
 function printHeader(args) {
-  console.log(Memory.readUtf8String(args[1]) + " @ " + args[1])
-};
+  console.log(Memory.readUtf8String(args[1]) + " @ " + args[1]);
+}
 
 function printRet(retval) {
-  console.log('RET @ ' + retval + ': ' );
+  console.log("RET @ " + retval + ": ");
   try {
     console.log(new ObjC.Object(retval).toString());
   } catch (e) {
     console.log(retval.toString());
   }
-};
+}
 ```
 
 You can store this as a JavaScript file, e.g. `inspect_send_activity_data.js` and load it like this:
@@ -270,25 +272,25 @@ To illustrate this with an example we have chosen the same real-world file manag
 
 4. After selecting **SomeFileManager** we can see the following:
 
-    ```bash
-    (0x1c4077000)  -[AppDelegate application:openURL:options:]
-    application: <UIApplication: 0x101c00950>
-    openURL: file:///var/mobile/Library/Application%20Support
-                        /Containers/com.some.filemanager/Documents/Inbox/OWASP_MASVS.pdf
-    options: {
-        UIApplicationOpenURLOptionsAnnotationKey =     {
-            LSMoveDocumentOnOpen = 1;
-        };
-        UIApplicationOpenURLOptionsOpenInPlaceKey = 0;
-        UIApplicationOpenURLOptionsSourceApplicationKey = "com.apple.sharingd";
-        "_UIApplicationOpenURLOptionsSourceProcessHandleKey" = "<FBSProcessHandle: 0x1c3a63140;
-                                                                    sharingd:605; valid: YES>";
-    }
-    0x18c7930d8 UIKit!__58-[UIApplication _applicationOpenURLAction:payload:origin:]_block_invoke
-    ...
-    0x1857cdc34 FrontBoardServices!-[FBSSerialQueue _performNextFromRunLoopSource]
-    RET: 0x1
-    ```
+   ```bash
+   (0x1c4077000)  -[AppDelegate application:openURL:options:]
+   application: <UIApplication: 0x101c00950>
+   openURL: file:///var/mobile/Library/Application%20Support
+                       /Containers/com.some.filemanager/Documents/Inbox/OWASP_MASVS.pdf
+   options: {
+       UIApplicationOpenURLOptionsAnnotationKey =     {
+           LSMoveDocumentOnOpen = 1;
+       };
+       UIApplicationOpenURLOptionsOpenInPlaceKey = 0;
+       UIApplicationOpenURLOptionsSourceApplicationKey = "com.apple.sharingd";
+       "_UIApplicationOpenURLOptionsSourceProcessHandleKey" = "<FBSProcessHandle: 0x1c3a63140;
+                                                                   sharingd:605; valid: YES>";
+   }
+   0x18c7930d8 UIKit!__58-[UIApplication _applicationOpenURLAction:payload:origin:]_block_invoke
+   ...
+   0x1857cdc34 FrontBoardServices!-[FBSSerialQueue _performNextFromRunLoopSource]
+   RET: 0x1
+   ```
 
 As you can see, the sending application is `com.apple.sharingd` and the URL's scheme is `file://`. Note that once we select the app that should open the file, the system already moved the file to the corresponding destination, that is to the app's Inbox. The apps are then responsible for deleting the files inside their Inboxes. This app, for example, moves the file to `/var/mobile/Documents/` and removes it from the Inbox.
 

@@ -10,6 +10,7 @@ slug: operating-principles-ponti-studios
 description: The five principles that govern how Ponti Studios designs, builds, and operates.
 applies_to: []
 ---
+
 # Operating Principles
 
 _Five principles that shape every decision — how we architect systems, organize work, and build products that last._

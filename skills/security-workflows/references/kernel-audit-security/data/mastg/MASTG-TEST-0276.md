@@ -6,12 +6,12 @@ upstream_path: tests-beta/ios/MASVS-PLATFORM/MASTG-TEST-0276.md
 upstream_tag: 31cec00
 platform: ios
 covers_masvs:
-- MASVS-PLATFORM-1
+  - MASVS-PLATFORM-1
 type:
-- static
+  - static
 weakness: MASWE-0053
 profiles:
-- L2
+  - L2
 ---
 
 ## Overview
@@ -20,10 +20,10 @@ This test checks whether the app uses the systemwide general @MASTG-KNOW-0083, w
 
 The test statically analyzes the code for use of the general pasteboard ([`UIPasteboard.general`](https://developer.apple.com/documentation/uikit/uipasteboard/general)) and checks whether sensitive data is written using any of the following methods:
 
-- [`addItems`](https://developer.apple.com/documentation/uikit/uipasteboard/additems(_:))
-- [`setItems`](https://developer.apple.com/documentation/uikit/uipasteboard/setitems(_:options:))
-- [`setData`](https://developer.apple.com/documentation/uikit/uipasteboard/setdata(_:forpasteboardtype:))
-- [`setValue`](https://developer.apple.com/documentation/uikit/uipasteboard/setvalue(_:forpasteboardtype:))
+- [`addItems`](<https://developer.apple.com/documentation/uikit/uipasteboard/additems(_:)>)
+- [`setItems`](<https://developer.apple.com/documentation/uikit/uipasteboard/setitems(_:options:)>)
+- [`setData`](<https://developer.apple.com/documentation/uikit/uipasteboard/setdata(_:forpasteboardtype:)>)
+- [`setValue`](<https://developer.apple.com/documentation/uikit/uipasteboard/setvalue(_:forpasteboardtype:)>)
 
 ## Steps
 

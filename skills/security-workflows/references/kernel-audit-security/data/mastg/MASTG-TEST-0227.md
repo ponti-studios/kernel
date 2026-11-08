@@ -6,12 +6,12 @@ upstream_path: tests-beta/android/MASVS-RESILIENCE/MASTG-TEST-0227.md
 upstream_tag: 31cec00
 platform: android
 covers_masvs:
-- MASVS-RESILIENCE-4
+  - MASVS-RESILIENCE-4
 type:
-- static
+  - static
 weakness: MASWE-0067
 profiles:
-- R
+  - R
 ---
 
 ## Overview
@@ -23,8 +23,8 @@ Note that this flag works independently of the `debuggable` attribute in the `An
 ## Steps
 
 1. Run @MASTG-TECH-0014 with a tool such as @MASTG-TOOL-0110 on the app binary and look for uses of:
-    - `WebView.setWebContentsDebuggingEnabled` being set to `true`.
-    - `ApplicationInfo.FLAG_DEBUGGABLE`.
+   - `WebView.setWebContentsDebuggingEnabled` being set to `true`.
+   - `ApplicationInfo.FLAG_DEBUGGABLE`.
 
 ## Observation
 

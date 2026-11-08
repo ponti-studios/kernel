@@ -5,7 +5,6 @@
 > judges an image**: never run image analysis, scoring or quality checks on generated
 > output. Report model, prompt hash, size and cost; the user judges quality.
 
-
 The studio image stage, driven from the terminal: compile a frame spec into its
 prompt, attach the spec's character reference plates, generate, save.
 
@@ -22,6 +21,8 @@ identity drifts (see [studio-universe](../studio-universe/WORKFLOW.md)).
 ```bash
 # preflight — packages, registry, model capabilities, references. Free.
 scripts/check-imagegen.sh --spec frame3.json
+# preflight a JSON array or newline-delimited list of specs in one capability lookup
+scripts/check-imagegen.sh --specs frames.json --resolution 2K
 
 # see the exact prompt, the hash, and the references with spending nothing
 scripts/generate-image.sh --spec frame3.json --dry-run
@@ -32,6 +33,10 @@ scripts/generate-image.sh --spec frame3.json --out ~/Pictures/imagegen/_inbox/fr
 # cheaper iteration: 1K, and a verbatim prompt when no spec applies
 scripts/generate-image.sh --spec frame3.json --resolution 1K
 scripts/generate-image.sh --prompt "…" --aspect 4:5 --resolution 1K --format png
+# opt in to cached JPEG reference plates (≤1024px, quality 88)
+scripts/generate-image.sh --spec frame3.json --stage-refs --dry-run
+# keyframe batches default to four concurrent renders; use 1 for sequential output
+scripts/keyframes.sh --scenes scenes.json --yes --concurrency 1
 ```
 
 `--meta` writes a sidecar JSON next to the image: spec path, frame, title,
@@ -42,15 +47,15 @@ cost (when reported) — the provenance the retired database used to hold.
 
 Per the spec, mirroring the app's image stage:
 
-| | Value |
-|---|---|
-| endpoint | `POST /api/v1/images` (raw JSON with base64 output) |
-| model | `--model`, else `OPENROUTER_IMAGE_MODEL` (default `qwen/qwen-image-2.1-turbo`) |
-| prompt | `compileSpec(spec, registry, universeRoot)` |
-| references | each `spec.references` path, resolved against the universe root, as base64 data URLs with the MIME from the extension |
-| aspect | `spec.master.aspect_ratio` (override with `--aspect`) |
-| resolution | `2K` by default (override with `--resolution`; qwen turbo supports 1K and 2K, **not 4K**) |
-| format | `webp` requested, but the returned bytes are trusted — a request for webp can come back `png`, and the file is named accordingly |
+|            | Value                                                                                                                            |
+| ---------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| endpoint   | `POST /api/v1/images` (raw JSON with base64 output)                                                                              |
+| model      | `--model`, else `OPENROUTER_IMAGE_MODEL` (default `qwen/qwen-image-2.1-turbo`)                                                   |
+| prompt     | `compileSpec(spec, registry, universeRoot)`                                                                                      |
+| references | each `spec.references` path, resolved against the universe root, as base64 data URLs with the MIME from the extension            |
+| aspect     | `spec.master.aspect_ratio` (override with `--aspect`)                                                                            |
+| resolution | `2K` by default (override with `--resolution`; qwen turbo supports 1K and 2K, **not 4K**)                                        |
+| format     | `webp` requested, but the returned bytes are trusted — a request for webp can come back `png`, and the file is named accordingly |
 
 ## Cost — measured, with caveats
 
@@ -87,13 +92,27 @@ Provider modules and schemas are bundled; no Studio checkout or dist-module
 path overrides are required. Environment variables override keys in
 `~/.pontistudios.studio.yml` (or `STUDIO_CONFIG`).
 
-| Variable | Configuration key | Used for |
-|---|---|---|
-| `STUDIO_USAGE_DIR` | `usage_dir` | usage JSON output |
-| `OPENROUTER_API_KEY` | `openrouter_api_key` | authorized provider calls |
-| `STUDIO_INBOX` | `inbox` | generated image output |
-| `STUDIO_UNIVERSE_ROOT` | `universe_root` | alternate registry/bibles; default is the bundled Universe data |
-| `OPENROUTER_IMAGE_MODEL` | `model_image` | image model |
+| Variable                 | Configuration key    | Used for                                                        |
+| ------------------------ | -------------------- | --------------------------------------------------------------- |
+| `STUDIO_USAGE_DIR`       | `usage_dir`          | usage JSON output                                               |
+| `OPENROUTER_API_KEY`     | `openrouter_api_key` | authorized provider calls                                       |
+| `STUDIO_INBOX`           | `inbox`              | generated image output                                          |
+| `STUDIO_UNIVERSE_ROOT`   | `universe_root`      | alternate registry/bibles; default is the bundled Universe data |
+| `OPENROUTER_IMAGE_MODEL` | `model_image`        | image model                                                     |
+| `STUDIO_LEGS`            | —                    | set to `off` to disable provider retries                        |
+| `STUDIO_STAGE_DIR`       | —                    | staged reference cache (default `~/.cache/studio/refs/`)        |
+
+Reference staging is opt-in with `--stage-refs` for `generate-image`; it caches
+by file content and staging parameters. If neither `sharp` nor ImageMagick is
+available, the original bytes are sent and each run reports `staged: passthrough`.
+Keep staging opt-in until a staged/full-size canon frame has been compared.
+`--no-stage-refs` explicitly selects full-size references and cannot be combined
+with `--stage-refs`. Keyframes accept `--concurrency` (default 4); set it to 1
+for sequential generation. Partial keyframe failures are listed while successful
+images are kept; the command exits unsuccessfully only when every job fails.
+`check-imagegen --specs` accepts either a JSON array of spec paths or one path
+per line. It compiles each spec, checks its references and requested aspect and
+resolution, and fetches model capabilities once for the batch.
 
 ## Pitfalls
 
@@ -102,7 +121,7 @@ path overrides are required. Environment variables override keys in
 - `--spec` and `--prompt` are mutually exclusive: a spec is compiled, a prompt
   is used verbatim. Passing both is rejected rather than silently preferring one.
 - Missing reference plates abort the run before spending, naming each missing
-  path — a character generated *without* their plates is the failure this
+  path — a character generated _without_ their plates is the failure this
   prevents.
 - `qwen/qwen-image-2.1-turbo` supports 4:5 (which universe specs use) but only
   1K/2K; `--resolution 4K` will fail on this model. `google/gemini-3-pro-image`

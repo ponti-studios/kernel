@@ -3,17 +3,17 @@
 Nine installable agent packages containing Ponti Studios conventions, specialist
 procedures, and executable helpers. Detailed procedures load only when needed.
 
-| Package | Use |
-| --- | --- |
-| engineering-workflows | Application development, tests, builds, reviews, architecture, repository maintenance, skill authoring |
-| design-workflows | Interface design, motion, brand systems, asset sourcing |
-| security-workflows | Security reviews, audits, integration risk and requested security controls |
-| writing-workflows | All writing: documents, briefs, essays, scripts, social posts, written scenes, workshops and text extraction |
-| studio-workflows | Image/audio/video production, film craft, physical editions, character canon, costs and project operations |
-| computer-workflows | File organization and macOS uninstall procedures |
-| ponti-principles | Charles’s engineering preferences |
-| ship-ios | Executable iOS release integration used by project automation |
-| studio-dev | Executable repository setup and shared development conventions |
+| Package               | Use                                                                                                          |
+| --------------------- | ------------------------------------------------------------------------------------------------------------ |
+| engineering-workflows | Application development, tests, builds, reviews, architecture, repository maintenance, skill authoring       |
+| design-workflows      | Interface design, motion, brand systems, asset sourcing                                                      |
+| security-workflows    | Security reviews, audits, integration risk and requested security controls                                   |
+| writing-workflows     | All writing: documents, briefs, essays, scripts, social posts, written scenes, workshops and text extraction |
+| studio-workflows      | Image/audio/video production, film craft, physical editions, character canon, costs and project operations   |
+| computer-workflows    | File organization and macOS uninstall procedures                                                             |
+| ponti-principles      | Charles’s engineering preferences                                                                            |
+| ship-ios              | Executable iOS release integration used by project automation                                                |
+| studio-dev            | Executable repository setup and shared development conventions                                               |
 
 ## Install
 

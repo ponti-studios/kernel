@@ -41,6 +41,7 @@ Perform comprehensive API security assessment following [api-security-review.md]
 ## Output
 
 Comprehensive API security report including:
+
 - API surface inventory with authentication mechanisms
 - Risk matrix with severity ratings for all 10 categories
 - Detailed findings with proof-of-concept examples

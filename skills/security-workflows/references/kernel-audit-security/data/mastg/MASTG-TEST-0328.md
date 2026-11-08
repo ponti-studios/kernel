@@ -6,19 +6,19 @@ upstream_path: tests-beta/android/MASVS-AUTH/MASTG-TEST-0328.md
 upstream_tag: 31cec00
 platform: android
 covers_masvs:
-- MASVS-AUTH-2
+  - MASVS-AUTH-2
 type:
-- static
+  - static
 weakness: MASWE-0046
 profiles:
-- L2
+  - L2
 ---
 
 ## Overview
 
 This test checks whether the app fails to protect sensitive operations against unauthorized access following biometric enrollment changes (@MASTG-KNOW-0001). An attacker who obtains the device passcode could add a new fingerprint or facial representation via system settings and use it to authenticate in the app.
 
-This behaviour occurs when [`setInvalidatedByBiometricEnrollment`](https://developer.android.com/reference/android/security/keystore/KeyGenParameterSpec.Builder#setInvalidatedByBiometricEnrollment(boolean)) is set to `false` when keys are generated.
+This behaviour occurs when [`setInvalidatedByBiometricEnrollment`](<https://developer.android.com/reference/android/security/keystore/KeyGenParameterSpec.Builder#setInvalidatedByBiometricEnrollment(boolean)>) is set to `false` when keys are generated.
 
 By default and when set to `true`, a key becomes permanently invalidated if a new biometric is enrolled. As a result, only users whose biometric data was enrolled when the item was created can unlock it. This prevents unauthorized access through biometrics enrolled later.
 

@@ -7,6 +7,7 @@ status: active
 updated: 2026-08-25
 applies_to:
 ---
+
 # Document Contract
 
 Use this contract to convert raw transcripts into structured research documents.

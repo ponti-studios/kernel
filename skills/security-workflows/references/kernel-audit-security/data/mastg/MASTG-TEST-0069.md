@@ -6,11 +6,11 @@ upstream_path: tests/ios/MASVS-PLATFORM/MASTG-TEST-0069.md
 upstream_tag: 31cec00
 platform: ios
 covers_masvs:
-- MASVS-PLATFORM-1
+  - MASVS-PLATFORM-1
 masvs_v1_id:
-- MSTG-PLATFORM-1
+  - MSTG-PLATFORM-1
 masvs_v2_id:
-- MASVS-PLATFORM-1
+  - MASVS-PLATFORM-1
 ---
 
 ## Overview
@@ -43,12 +43,12 @@ If only having the IPA:
 - Convert it if needed (e.g. `plutil -convert xml1 Info.plist`) as explained in the chapter "iOS Basic Security Testing", section "The Info.plist File".
 - Inspect all _purpose strings Info.plist keys_, usually ending with `UsageDescription`:
 
-    ```xml
-    <plist version="1.0">
-    <dict>
-        <key>NSLocationWhenInUseUsageDescription</key>
-        <string>Your location is used to provide turn-by-turn directions to your destination.</string>
-    ```
+  ```xml
+  <plist version="1.0">
+  <dict>
+      <key>NSLocationWhenInUseUsageDescription</key>
+      <string>Your location is used to provide turn-by-turn directions to your destination.</string>
+  ```
 
 For each purpose string in the `Info.plist` file, check if the permission makes sense.
 
@@ -69,7 +69,7 @@ Apart from simply checking if the permissions make sense, further analysis steps
 
 When you do not have the original source code, you should analyze the IPA and search inside for the _embedded provisioning profile_ that is usually located in the root app bundle folder (`Payload/<appname>.app/`) under the name `embedded.mobileprovision`.
 
-This file is not a `.plist`, it is encoded using [Cryptographic Message Syntax](https://en.wikipedia.org/wiki/Cryptographic_Message_Syntax "Cryptographic Message Syntax"). On macOS you can [inspect an embedded provisioning profile's entitlements](https://developer.apple.com/library/archive/technotes/tn2415/_index.html#//apple_ref/doc/uid/DTS40016427-CH1-PROFILESENTITLEMENTS "Inspecting a profile\'s entitlements") using the following command:
+This file is not a `.plist`, it is encoded using [Cryptographic Message Syntax](https://en.wikipedia.org/wiki/Cryptographic_Message_Syntax "Cryptographic Message Syntax"). On macOS you can [inspect an embedded provisioning profile's entitlements](https://developer.apple.com/library/archive/technotes/tn2415/_index.html#//apple_ref/doc/uid/DTS40016427-CH1-PROFILESENTITLEMENTS "Inspecting a profile's entitlements") using the following command:
 
 ```bash
 security cms -D -i embedded.mobileprovision
@@ -97,17 +97,17 @@ You can use the [Apple Developer Documentation](https://developer.apple.com/docu
 - Bluetooth: the [`state`](https://developer.apple.com/documentation/corebluetooth/cbmanager/1648600-state?language=objc "CBManager state") property of the [`CBCentralManager`](https://developer.apple.com/documentation/corebluetooth/cbcentralmanager?language=objc "CBCentralManager") class is used to check system-authorization status for using Bluetooth peripherals.
 - Location: search for methods of `CLLocationManager`, e.g. [`locationServicesEnabled`](https://developer.apple.com/documentation/corelocation/cllocationmanager/1423648-locationservicesenabled?language=objc "CLLocationManager locationServicesEnabled").
 
-    ```default
-    func checkForLocationServices() {
-        if CLLocationManager.locationServicesEnabled() {
-            // Location services are available, so query the user's location.
-        } else {
-            // Update your app's UI to show that the location is unavailable.
-        }
-    }
-    ```
+  ```default
+  func checkForLocationServices() {
+      if CLLocationManager.locationServicesEnabled() {
+          // Location services are available, so query the user's location.
+      } else {
+          // Update your app's UI to show that the location is unavailable.
+      }
+  }
+  ```
 
-    See Table1 in ["Determining the Availability of Location Services"](https://developer.apple.com/documentation/corelocation/adding_location_services_to_your_app "Getting the availability of Core Location services") (Apple Developer Documentation) for a complete list.
+  See Table1 in ["Determining the Availability of Location Services"](https://developer.apple.com/documentation/corelocation/adding_location_services_to_your_app "Getting the availability of Core Location services") (Apple Developer Documentation) for a complete list.
 
 Go through the application searching for usages of these APIs and check what happens to sensitive data that might be obtained from them. For example, it might be stored or transmitted over the network, if this is the case, proper data protection and transport security should be additionally verified.
 

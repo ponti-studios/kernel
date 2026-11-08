@@ -19,6 +19,7 @@ scope: running-product-workshops
 updated: 2026-08-25
 applies_to:
 ---
+
 # Pre-mortem
 
 ## 1. Missing critical user needs

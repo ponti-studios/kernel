@@ -1,4 +1,3 @@
-
 # Code Smell Detector
 
 Heuristics to spot problematic code patterns that indicate deeper design issues.

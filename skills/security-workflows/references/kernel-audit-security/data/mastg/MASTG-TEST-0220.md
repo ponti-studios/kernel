@@ -6,12 +6,12 @@ upstream_path: tests-beta/ios/MASVS-RESILIENCE/MASTG-TEST-0220.md
 upstream_tag: 31cec00
 platform: ios
 covers_masvs:
-- MASVS-RESILIENCE-2
+  - MASVS-RESILIENCE-2
 type:
-- static
+  - static
 weakness: MASWE-0104
 profiles:
-- R
+  - R
 ---
 
 ## Overview

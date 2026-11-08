@@ -1,7 +1,7 @@
 # PRDs and product briefs
 
 Write requirements artifacts that make product decisions upstream of code: a
-PRD decides *what and why*; code decides *how*. A PRD is a `proposal` until it
+PRD decides _what and why_; code decides _how_. A PRD is a `proposal` until it
 ships — `status: proposed`, nothing to verify against yet. When it ships it
 either graduates to a `reference`/`architecture` doc or is deleted.
 
@@ -11,30 +11,36 @@ either graduates to a `reference`/`architecture` doc or is deleted.
 # <Feature or product name> — PRD
 
 ## Problem
+
 Why this exists. One short paragraph: the user situation, the pain, the cost of
 not building it. Facts and evidence, not adjectives.
 
 ## Goals and non-goals
+
 - **Goals** — 3–7 testable outcomes. `Users can share a link and the recipient
   opens the same state in under 30s.`
 - **Non-goals** — what this explicitly does not do, so scope disputes have a
   place to land. Name real temptations, not strawmen.
 
 ## Users
+
 Who uses it and what each role needs. One line per role: actor, context, and
 what they can do that they couldn't before.
 
 ## Feature specifications
+
 One normalized block per feature (see below). Every promised behavior lives
 here, with testable acceptance criteria, so implementation and QA share one
 definition of done.
 
 ## Open questions
+
 Decisions deferred on purpose, with the person/team who owns each and a
 deadline when one exists. Anything the author could not resolve from input
 belongs here, explicitly — not hidden in a requirement.
 
 ## Out of scope
+
 The non-goals plus anything raised during drafting that this PRD declines to
 cover, one line each with the reason.
 ```
@@ -52,10 +58,12 @@ block per feature:
 **Trust Boundaries**: <boundaries crossed, e.g. browser→server, server→storage>
 
 **Updated Requirements**:
+
 - <requirement, kept or rewritten>
 - <requirement added to close a gap>
 
 **Acceptance Criteria**:
+
 - <behaviorally testable: an actor, an action, an observable outcome>
 - <boundary conditions: failure modes, unauthorized actors, malformed input>
 
@@ -88,10 +96,12 @@ sends a reset link."
 **Trust Boundaries**: browser → public API → credential store
 
 **Updated Requirements**:
+
 - User can request a reset by entering an account email.
 - The response is identical whether or not the email matches an account.
 
 **Acceptance Criteria**:
+
 - Submitting a non-existent email returns the same body, status, and timing as
   a valid one (within tolerance).
 - A reset token cannot be redeemed after 15 minutes or after first use; both
@@ -107,7 +117,7 @@ sends a reset link."
 - [ ] Open questions and out-of-scope are explicit, not implied
 - [ ] Security-sensitive features routed through `prd-securability-enhancement`
 - [ ] The artifact validates under the repo's `docs/FORMAT.md` contract when it
-  lives in `docs/`
+      lives in `docs/`
 
 ## Guardrails
 

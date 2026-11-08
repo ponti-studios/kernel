@@ -63,8 +63,8 @@ Four assertions per route, which is where nearly all real dashboard bugs live:
 
 ```ts
 await expect(page.getByRole("heading", { level: 1 })).toContainText("Work in motion"); // it rendered
-expect(consoleErrors).toEqual([]);                                                    // it is not erroring
-expect(overflow).toBe(0);                                                            // it fits
+expect(consoleErrors).toEqual([]); // it is not erroring
+expect(overflow).toBe(0); // it fits
 ```
 
 …plus accessibility:
@@ -75,7 +75,12 @@ const blocking = violations.filter(
   (v) => (v.impact === "serious" || v.impact === "critical") && v.id !== "color-contrast",
 );
 expect(blocking.map((v) => `${v.id}: ${v.nodes.length}`)).toEqual([]);
-test.info().annotations.push({ type: "colour contrast", description: `${contrast?.nodes.length ?? 0} node(s)` });
+test
+  .info()
+  .annotations.push({
+    type: "colour contrast",
+    description: `${contrast?.nodes.length ?? 0} node(s)`,
+  });
 ```
 
 Contrast is a palette decision. Gate on structure (labels, roles, names) and **record** contrast, so the
@@ -97,7 +102,7 @@ as real.
 
 ## 5. Mutation testing (Stryker)
 
-Kills the assertion that passes with the feature deleted — the only tool that measures the *tests* rather
+Kills the assertion that passes with the feature deleted — the only tool that measures the _tests_ rather
 than the code. Configure a curated subset (`mutate`: the pure modules) and set `break: 0` until you have a
 baseline; a mutation gate that fails on day one is a mutation gate that gets removed.
 

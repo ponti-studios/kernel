@@ -101,12 +101,7 @@
   "block_overrides": {
     "phantom": "trap"
   },
-  "denylist": [
-    "frame-centre",
-    "in the middle of it",
-    "tall in the frame",
-    "the standing men"
-  ],
+  "denylist": ["frame-centre", "in the middle of it", "tall in the frame", "the standing men"],
   "references": [
     "bibles/lucy/turnaround.webp",
     "bibles/wyatt/turnaround.webp",

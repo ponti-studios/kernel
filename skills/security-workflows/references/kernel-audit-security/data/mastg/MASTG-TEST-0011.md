@@ -6,11 +6,11 @@ upstream_path: tests/android/MASVS-STORAGE/MASTG-TEST-0011.md
 upstream_tag: 31cec00
 platform: android
 covers_masvs:
-- MASVS-STORAGE-2
+  - MASVS-STORAGE-2
 masvs_v1_id:
-- MSTG-STORAGE-10
+  - MSTG-STORAGE-10
 masvs_v2_id:
-- MASVS-STORAGE-2
+  - MASVS-STORAGE-2
 status_note: V1 test; no V2 successor authored upstream yet — content may be outdated
 ---
 
@@ -33,11 +33,11 @@ When performing static analysis to identify sensitive data that is exposed in me
 - Make sure that object references are properly removed once the object containing the sensitive data is no longer needed.
 - Make sure that garbage collection is requested after references have been removed.
 - Make sure that sensitive data gets overwritten as soon as it is no longer needed.
-    - Don't represent such data with immutable data types (such as `String` and `BigInteger`).
-    - Avoid non-primitive data types (such as `StringBuilder`).
-    - Overwrite references before removing them, outside the `finalize` method.
-    - Pay attention to third-party components (libraries and frameworks).
-      Public APIs are good indicators. Determine whether the public API handles the sensitive data as described in this chapter.
+  - Don't represent such data with immutable data types (such as `String` and `BigInteger`).
+  - Avoid non-primitive data types (such as `StringBuilder`).
+  - Overwrite references before removing them, outside the `finalize` method.
+  - Pay attention to third-party components (libraries and frameworks).
+    Public APIs are good indicators. Determine whether the public API handles the sensitive data as described in this chapter.
 
 **The following section describes pitfalls of data leakage in memory and best practices for avoiding them.**
 
@@ -267,7 +267,7 @@ Refer to the `SecureSecretKey` example above for an example `Editable` implement
 In all cases, make sure that sensitive data in memory is cleared when a user signs out of the application. Finally, make sure that highly sensitive information is cleared out the moment an Activity or Fragment's `onPause` event is triggered.
 
 !!! note
-    This might mean that a user has to re-authenticate every time the application resumes.
+This might mean that a user has to re-authenticate every time the application resumes.
 
 ## Dynamic Analysis
 

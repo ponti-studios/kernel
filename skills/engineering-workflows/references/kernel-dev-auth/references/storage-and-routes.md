@@ -28,14 +28,14 @@ Do not make auth own:
 
 Keep only thin wrappers around Better Auth-native endpoints:
 
-| Route                      | Backed by                            |
-| -------------------------- | ------------------------------------ |
-| `/api/auth/session`        | Better Auth session                  |
-| `/api/auth/jwks`           | Better Auth JWT plugin               |
-| `/api/auth/token`          | Better Auth JWT plugin               |
-| Email OTP send/verify      | Better Auth emailOTP plugin          |
-| Passkey register/auth      | Better Auth passkey plugin           |
-| Device authorization flows | Better Auth deviceAuthorization      |
+| Route                      | Backed by                       |
+| -------------------------- | ------------------------------- |
+| `/api/auth/session`        | Better Auth session             |
+| `/api/auth/jwks`           | Better Auth JWT plugin          |
+| `/api/auth/token`          | Better Auth JWT plugin          |
+| Email OTP send/verify      | Better Auth emailOTP plugin     |
+| Passkey register/auth      | Better Auth passkey plugin      |
+| Device authorization flows | Better Auth deviceAuthorization |
 
 Remove custom endpoints once Better Auth-native replacements are live:
 

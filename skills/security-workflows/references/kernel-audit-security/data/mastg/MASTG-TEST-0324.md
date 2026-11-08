@@ -6,12 +6,12 @@ upstream_path: tests-beta/android/MASVS-RESILIENCE/MASTG-TEST-0324.md
 upstream_tag: 31cec00
 platform: android
 covers_masvs:
-- MASVS-RESILIENCE-1
+  - MASVS-RESILIENCE-1
 type:
-- static
+  - static
 weakness: MASWE-0097
 profiles:
-- R
+  - R
 ---
 
 ## Overview
@@ -23,7 +23,7 @@ See @MASTG-KNOW-0027 for more information on root detection techniques and speci
 This test is best combined with @MASTG-TEST-0325, which performs dynamic testing to confirm whether the identified root detection mechanisms are active at runtime. This way, you can use static analysis to surface potential root detection logic and then focus your dynamic testing on those specific checks to confirm they are triggered at runtime. Alternatively, you can perform dynamic testing first to identify any root detection mechanisms that are active at runtime, and then use static analysis to further investigate their implementation and coverage.
 
 !!! note "Out of Scope"
-    This test does not cover robustness or effectiveness of root detection mechanisms, which can be very difficult to assess through static analysis alone and may require manual reverse engineering and custom instrumentation. See @MASTG-BEST-0030 for best practices on implementing root detection effectively and understanding its limitations.
+This test does not cover robustness or effectiveness of root detection mechanisms, which can be very difficult to assess through static analysis alone and may require manual reverse engineering and custom instrumentation. See @MASTG-BEST-0030 for best practices on implementing root detection effectively and understanding its limitations.
 
 ## Steps
 

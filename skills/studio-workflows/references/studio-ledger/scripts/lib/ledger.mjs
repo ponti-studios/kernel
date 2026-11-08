@@ -10,11 +10,18 @@
 // Media side: content-addressed blobs keyed by sha256, with the friendly path
 // recorded as a display path. Existing files are catalogued in place; new files
 // may also be copied (or hardlinked) into the blob store for dedupe.
-import { createHash } from 'node:crypto';
-import { appendFileSync, existsSync, mkdirSync, readFileSync, readdirSync, copyFileSync } from 'node:fs';
-import { homedir } from 'node:os';
-import { dirname, extname, join, resolve } from 'node:path';
-import { DatabaseSync } from 'node:sqlite';
+import { createHash } from "node:crypto";
+import {
+  appendFileSync,
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  readdirSync,
+  copyFileSync,
+} from "node:fs";
+import { homedir } from "node:os";
+import { dirname, extname, join, resolve } from "node:path";
+import { DatabaseSync } from "node:sqlite";
 
 export const LEDGER_VERSION = 1;
 // Bump when the read model's shape changes: withIndex() rebuilds an older index
@@ -22,12 +29,12 @@ export const LEDGER_VERSION = 1;
 export const INDEX_SCHEMA_VERSION = 2;
 
 export function roots() {
-  const root = resolve(process.env.STUDIO_LEDGER_ROOT ?? join(homedir(), '.studio'));
+  const root = resolve(process.env.STUDIO_LEDGER_ROOT ?? join(homedir(), ".studio"));
   return {
     root,
-    ledgerDir: join(root, 'ledger'),
-    blobDir: join(root, 'blobs'),
-    indexPath: join(root, 'index.sqlite'),
+    ledgerDir: join(root, "ledger"),
+    blobDir: join(root, "blobs"),
+    indexPath: join(root, "index.sqlite"),
   };
 }
 
@@ -43,14 +50,14 @@ const eventsPath = (iso) => join(roots().ledgerDir, `events-${monthOf(iso)}.json
 const assetsPath = (iso) => join(roots().ledgerDir, `assets-${monthOf(iso)}.jsonl`);
 
 export function sha256File(path) {
-  return createHash('sha256').update(readFileSync(path)).digest('hex');
+  return createHash("sha256").update(readFileSync(path)).digest("hex");
 }
 
-export const sha256 = (value) => createHash('sha256').update(value).digest('hex');
+export const sha256 = (value) => createHash("sha256").update(value).digest("hex");
 
 function appendJsonl(path, record) {
   ensureDirs();
-  appendFileSync(path, JSON.stringify(record) + '\n', { flag: 'a' });
+  appendFileSync(path, JSON.stringify(record) + "\n", { flag: "a" });
 }
 
 function readJsonlDir(prefix) {
@@ -58,8 +65,8 @@ function readJsonlDir(prefix) {
   if (!existsSync(dir)) return [];
   const rows = [];
   for (const name of readdirSync(dir).sort()) {
-    if (!name.startsWith(prefix) || !name.endsWith('.jsonl')) continue;
-    for (const line of readFileSync(join(dir, name), 'utf8').split('\n')) {
+    if (!name.startsWith(prefix) || !name.endsWith(".jsonl")) continue;
+    for (const line of readFileSync(join(dir, name), "utf8").split("\n")) {
       if (!line.trim()) continue;
       try {
         rows.push(JSON.parse(line));
@@ -71,14 +78,14 @@ function readJsonlDir(prefix) {
   return rows;
 }
 
-export const readEvents = () => readJsonlDir('events-');
-export const readAssets = () => readJsonlDir('assets-');
+export const readEvents = () => readJsonlDir("events-");
+export const readAssets = () => readJsonlDir("assets-");
 
 // A provider request id is the strongest identity; otherwise the caller's
 // idempotency key plus the attempt number. Two skills logging the same call must
 // collapse to one costed row.
 export function dedupeKey(event) {
-  if (event.kind === 'repricing') return `repricing:${event.ref}`;
+  if (event.kind === "repricing") return `repricing:${event.ref}`;
   if (event.provider_request_id) return `req:${event.provider_request_id}`;
   return `idem:${event.idem}#${event.attempt ?? 1}`;
 }
@@ -93,9 +100,9 @@ export function normalizeEvent(input) {
     v: LEDGER_VERSION,
     id: input.id ?? `evt_${sha256(`${ts}:${Math.random()}`).slice(0, 20)}`,
     ts,
-    kind: input.kind ?? 'generation',
+    kind: input.kind ?? "generation",
     tool: input.tool,
-    surface: input.surface ?? 'cli',
+    surface: input.surface ?? "cli",
     stage: input.stage ?? null,
     provider: input.provider ?? null,
     model: input.model ?? null,
@@ -106,11 +113,11 @@ export function normalizeEvent(input) {
     units: input.units ?? null,
     tokens: { in: tokIn, out: tokOut, total: tokIn + tokOut },
     latency_ms: input.latency_ms ?? null,
-    status: input.status ?? 'succeeded',
+    status: input.status ?? "succeeded",
     error: input.error ?? null,
     cost: {
-      usd: typeof cost.usd === 'number' ? cost.usd : null,
-      source: cost.source ?? (typeof cost.usd === 'number' ? 'reported' : 'unknown'),
+      usd: typeof cost.usd === "number" ? cost.usd : null,
+      source: cost.source ?? (typeof cost.usd === "number" ? "reported" : "unknown"),
       price_book: cost.price_book ?? null,
       basis: cost.basis ?? null,
     },
@@ -120,10 +127,11 @@ export function normalizeEvent(input) {
     assets: input.assets ?? [],
     tags: input.tags ?? [],
   };
-  if (!event.tool) throw new Error('ledger event needs a tool');
-  if (event.kind === 'generation' && !event.model) throw new Error('generation event needs a model');
-  if (event.kind === 'repricing') {
-    if (!input.ref) throw new Error('repricing event needs ref (the original event id)');
+  if (!event.tool) throw new Error("ledger event needs a tool");
+  if (event.kind === "generation" && !event.model)
+    throw new Error("generation event needs a model");
+  if (event.kind === "repricing") {
+    if (!input.ref) throw new Error("repricing event needs ref (the original event id)");
     event.ref = input.ref;
   }
   event.dedupe_key = dedupeKey(event);
@@ -185,29 +193,29 @@ export function registerAsset(input, { copyBlob = false } = {}) {
 
 export function guessKind(path) {
   const ext = extname(path).toLowerCase();
-  if (['.png', '.jpg', '.jpeg', '.webp', '.avif', '.gif'].includes(ext)) return 'image';
-  if (['.mp3', '.wav', '.m4a', '.aac', '.flac'].includes(ext)) return 'audio';
-  if (['.mp4', '.mov', '.webm', '.mkv'].includes(ext)) return 'video';
-  if (['.md', '.txt'].includes(ext)) return 'text';
-  if (ext === '.json') return 'json';
-  return 'file';
+  if ([".png", ".jpg", ".jpeg", ".webp", ".avif", ".gif"].includes(ext)) return "image";
+  if ([".mp3", ".wav", ".m4a", ".aac", ".flac"].includes(ext)) return "audio";
+  if ([".mp4", ".mov", ".webm", ".mkv"].includes(ext)) return "video";
+  if ([".md", ".txt"].includes(ext)) return "text";
+  if (ext === ".json") return "json";
+  return "file";
 }
 
 export function guessMime(path) {
   const ext = extname(path).toLowerCase();
   return (
     {
-      '.png': 'image/png',
-      '.jpg': 'image/jpeg',
-      '.jpeg': 'image/jpeg',
-      '.webp': 'image/webp',
-      '.mp3': 'audio/mpeg',
-      '.wav': 'audio/wav',
-      '.mp4': 'video/mp4',
-      '.json': 'application/json',
-      '.md': 'text/markdown',
-      '.txt': 'text/plain',
-    }[ext] ?? 'application/octet-stream'
+      ".png": "image/png",
+      ".jpg": "image/jpeg",
+      ".jpeg": "image/jpeg",
+      ".webp": "image/webp",
+      ".mp3": "audio/mpeg",
+      ".wav": "audio/wav",
+      ".mp4": "video/mp4",
+      ".json": "application/json",
+      ".md": "text/markdown",
+      ".txt": "text/plain",
+    }[ext] ?? "application/octet-stream"
   );
 }
 
@@ -253,15 +261,35 @@ export function buildIndex({ quiet = true } = {}) {
   `);
   let events = 0;
   // repricing events are facts about other facts — they must not appear as runs
-  for (const e of readEvents().filter((row) => (row.kind ?? 'generation') === 'generation')) {
+  for (const e of readEvents().filter((row) => (row.kind ?? "generation") === "generation")) {
     insertRun.run(
-      e.id, e.dedupe_key ?? dedupeKey(e), e.ts, e.kind ?? 'generation', e.tool, e.surface ?? 'cli',
-      e.stage ?? null, e.provider ?? null, e.model ?? null, e.project_id ?? null, e.job_id ?? null,
-      e.prompt_sha256 ?? null, e.units?.count ?? null, e.units?.unit ?? null,
-      e.tokens?.in ?? 0, e.tokens?.out ?? 0, e.latency_ms ?? null, e.status ?? 'succeeded',
-      e.error ?? null, e.cost?.usd ?? null, e.cost?.source ?? 'unknown', e.cost?.price_book ?? null,
-      e.cost?.basis ?? null, e.attempt ?? 1, e.provider_request_id ?? null,
-      JSON.stringify(e.params ?? {}), JSON.stringify(e.tags ?? []),
+      e.id,
+      e.dedupe_key ?? dedupeKey(e),
+      e.ts,
+      e.kind ?? "generation",
+      e.tool,
+      e.surface ?? "cli",
+      e.stage ?? null,
+      e.provider ?? null,
+      e.model ?? null,
+      e.project_id ?? null,
+      e.job_id ?? null,
+      e.prompt_sha256 ?? null,
+      e.units?.count ?? null,
+      e.units?.unit ?? null,
+      e.tokens?.in ?? 0,
+      e.tokens?.out ?? 0,
+      e.latency_ms ?? null,
+      e.status ?? "succeeded",
+      e.error ?? null,
+      e.cost?.usd ?? null,
+      e.cost?.source ?? "unknown",
+      e.cost?.price_book ?? null,
+      e.cost?.basis ?? null,
+      e.attempt ?? 1,
+      e.provider_request_id ?? null,
+      JSON.stringify(e.params ?? {}),
+      JSON.stringify(e.tags ?? []),
     );
     events += 1;
   }
@@ -270,11 +298,18 @@ export function buildIndex({ quiet = true } = {}) {
   // never overwrite a cost the provider actually reported.
   let repriced = 0;
   const insertRepricing = db.prepare(
-    'insert or replace into repricings (event_id, ref, cost_usd, price_book, basis, ts) values (?,?,?,?,?,?)',
+    "insert or replace into repricings (event_id, ref, cost_usd, price_book, basis, ts) values (?,?,?,?,?,?)",
   );
   const gaps = db.prepare("select id from runs where cost_usd is null and units_unit = 'image'");
-  for (const e of readEvents().filter((row) => row.kind === 'repricing')) {
-    insertRepricing.run(e.id, e.ref, e.cost?.usd ?? null, e.cost?.price_book ?? null, e.cost?.basis ?? null, e.ts);
+  for (const e of readEvents().filter((row) => row.kind === "repricing")) {
+    insertRepricing.run(
+      e.id,
+      e.ref,
+      e.cost?.usd ?? null,
+      e.cost?.price_book ?? null,
+      e.cost?.basis ?? null,
+      e.ts,
+    );
     const result = db
       .prepare(
         "update runs set cost_usd = ?, cost_source = 'estimated', price_book = ?, basis = ? where id = ? and cost_usd is null",
@@ -292,17 +327,30 @@ export function buildIndex({ quiet = true } = {}) {
   let assets = 0;
   for (const a of readAssets()) {
     insertAsset.run(
-      a.sha256, a.kind ?? null, a.mime ?? null, a.bytes ?? null, a.dims?.w ?? null, a.dims?.h ?? null,
-      a.duration_s ?? null, a.blob ?? null, JSON.stringify(a.display_paths ?? []),
-      a.created_ts ?? null, a.run_id ?? null, a.model ?? null, a.prompt_sha256 ?? null,
-      JSON.stringify(a.source_asset_ids ?? []), JSON.stringify(a.tags ?? []),
+      a.sha256,
+      a.kind ?? null,
+      a.mime ?? null,
+      a.bytes ?? null,
+      a.dims?.w ?? null,
+      a.dims?.h ?? null,
+      a.duration_s ?? null,
+      a.blob ?? null,
+      JSON.stringify(a.display_paths ?? []),
+      a.created_ts ?? null,
+      a.run_id ?? null,
+      a.model ?? null,
+      a.prompt_sha256 ?? null,
+      JSON.stringify(a.source_asset_ids ?? []),
+      JSON.stringify(a.tags ?? []),
     );
     assets += 1;
   }
 
-  db.exec('create index if not exists runs_ts on runs(ts); create index if not exists runs_model on runs(model);');
+  db.exec(
+    "create index if not exists runs_ts on runs(ts); create index if not exists runs_model on runs(model);",
+  );
   db.exec(`pragma user_version = ${INDEX_SCHEMA_VERSION}`);
-  const distinctAssets = db.prepare('select count(*) c from assets').get().c;
+  const distinctAssets = db.prepare("select count(*) c from assets").get().c;
   db.close();
   if (!quiet)
     console.log(
@@ -316,7 +364,7 @@ function withIndex() {
   let stale = !existsSync(r.indexPath);
   if (!stale) {
     const probe = new DatabaseSync(r.indexPath, { readOnly: true });
-    const version = Number(probe.prepare('pragma user_version').get().user_version ?? 0);
+    const version = Number(probe.prepare("pragma user_version").get().user_version ?? 0);
     probe.close();
     stale = version < INDEX_SCHEMA_VERSION;
   }
@@ -329,14 +377,14 @@ export function report({ since = null, tool = null } = {}) {
   const where = [];
   const args = [];
   if (since) {
-    where.push('ts >= ?');
+    where.push("ts >= ?");
     args.push(since);
   }
   if (tool) {
-    where.push('tool = ?');
+    where.push("tool = ?");
     args.push(tool);
   }
-  const clause = where.length ? `where ${where.join(' and ')}` : '';
+  const clause = where.length ? `where ${where.join(" and ")}` : "";
 
   const totals = db
     .prepare(
@@ -358,10 +406,14 @@ export function report({ since = null, tool = null } = {}) {
     )
     .all(...args);
   const byModel = db
-    .prepare(`select model, count(*) calls, coalesce(sum(cost_usd),0) usd from runs ${clause} group by model order by usd desc`)
+    .prepare(
+      `select model, count(*) calls, coalesce(sum(cost_usd),0) usd from runs ${clause} group by model order by usd desc`,
+    )
     .all(...args);
   const byUnit = db
-    .prepare(`select units_unit unit, count(*) calls, coalesce(sum(units_count),0) units from runs ${clause} group by units_unit order by units desc`)
+    .prepare(
+      `select units_unit unit, count(*) calls, coalesce(sum(units_count),0) units from runs ${clause} group by units_unit order by units desc`,
+    )
     .all(...args);
   const coverage = db
     .prepare(
@@ -373,7 +425,9 @@ export function report({ since = null, tool = null } = {}) {
     )
     .get();
   const byKind = db
-    .prepare(`select kind, count(*) n, coalesce(sum(bytes),0) bytes from assets group by kind order by bytes desc`)
+    .prepare(
+      `select kind, count(*) n, coalesce(sum(bytes),0) bytes from assets group by kind order by bytes desc`,
+    )
     .all();
   db.close();
   return { totals, byTool, byModel, byUnit, coverage, byKind };

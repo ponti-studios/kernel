@@ -6,18 +6,18 @@ upstream_path: tests-beta/android/MASVS-NETWORK/MASTG-TEST-0283.md
 upstream_tag: 31cec00
 platform: android
 covers_masvs:
-- MASVS-NETWORK-1
+  - MASVS-NETWORK-1
 type:
-- static
+  - static
 weakness: MASWE-0052
 profiles:
-- L1
-- L2
+  - L1
+  - L2
 ---
 
 ## Overview
 
-This test evaluates whether an Android app implements a [`HostnameVerifier`](https://developer.android.com/reference/javax/net/ssl/HostnameVerifier) that uses [`verify(...)`](https://developer.android.com/reference/javax/net/ssl/HostnameVerifier#verify(java.lang.String,%20javax.net.SSL.SSLSession)) [in an unsafe manner](https://developer.android.com/privacy-and-security/risks/unsafe-hostname), effectively turning off hostname validation for the affected connections.
+This test evaluates whether an Android app implements a [`HostnameVerifier`](https://developer.android.com/reference/javax/net/ssl/HostnameVerifier) that uses [`verify(...)`](<https://developer.android.com/reference/javax/net/ssl/HostnameVerifier#verify(java.lang.String,%20javax.net.SSL.SSLSession)>) [in an unsafe manner](https://developer.android.com/privacy-and-security/risks/unsafe-hostname), effectively turning off hostname validation for the affected connections.
 
 Such unsafe implementations can allow an attacker to run a [MITM attack](../../../Document/0x04f-Testing-Network-Communication.md#intercepting-network-traffic-through-mitm) with a valid (or self-signed) certificate and intercept or tamper with the app's traffic.
 

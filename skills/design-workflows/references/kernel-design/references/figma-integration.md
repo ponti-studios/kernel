@@ -1,4 +1,3 @@
-
 # Skill: Figma Integration
 
 Bridge design (Figma) and code in both directions. The canonical token JSON
@@ -6,6 +5,7 @@ source is the project's shared token source;
 Figma Variables mirror it.
 
 ## Steps
+
 1. Read `../workflows/figma-integration.md` (token↔Variable mapping, sync directions, MCP usage, parity).
 2. Map the 3-tier hierarchy → three Figma collections (Primitives → Semantic → Component) with aliasing; dark/brand/density → Figma **Modes** (`../tokens/theming.json`).
 3. Choose ONE authoritative sync direction (code→Figma publish, or Figma→code extract via Tokens Studio / Variables REST API). The other side is generated — never hand-edit both.
@@ -13,8 +13,9 @@ Figma Variables mirror it.
 5. Check component parity: Figma variants/properties must cover our variants + sizes + the 8 states; flag gaps.
 
 ## Verification (definition of done)
+
 - Every Figma Variable resolves to a token in the canonical UI token source (no
-	orphan hex in designs).
+  orphan hex in designs).
 - One authoritative direction; the generated side has zero hand edits.
 - Variant sets cover all 8 states; Code Connect points to the right `components/*` file.
 - After any token import: `python3 scripts/validate_tokens.py` passes.

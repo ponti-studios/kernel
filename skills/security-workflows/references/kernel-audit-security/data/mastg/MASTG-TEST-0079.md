@@ -6,11 +6,11 @@ upstream_path: tests/ios/MASVS-CODE/MASTG-TEST-0079.md
 upstream_tag: 31cec00
 platform: ios
 covers_masvs:
-- MASVS-CODE-4
+  - MASVS-CODE-4
 masvs_v1_id:
-- MSTG-PLATFORM-8
+  - MSTG-PLATFORM-8
 masvs_v2_id:
-- MASVS-CODE-4
+  - MASVS-CODE-4
 ---
 
 ## Overview

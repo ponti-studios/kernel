@@ -99,12 +99,7 @@
     "hands hold only period props: paper tickets, luggage handles, a hat",
     "Wyatt's hands are clean bare skin, his only tattoos the king and queen on his neck"
   ],
-  "denylist": [
-    "frame-centre",
-    "in the middle of it",
-    "tall in the frame",
-    "the standing men"
-  ],
+  "denylist": ["frame-centre", "in the middle of it", "tall in the frame", "the standing men"],
   "references": [
     "bibles/lucy/turnaround.webp",
     "bibles/wyatt/turnaround.webp",

@@ -8,12 +8,12 @@ license = { text = "MIT" }
 authors = [{ name = "Charles Ponti" }]
 keywords = ["writing", "style", "nlp", "corpus"]
 classifiers = [
-    "Development Status :: 3 - Alpha",
-    "Environment :: Console",
-    "Intended Audience :: End Users/Desktop",
-    "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3",
-    "Topic :: Text Processing :: Linguistic",
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Intended Audience :: End Users/Desktop",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Topic :: Text Processing :: Linguistic",
 ]
 dependencies = []
 

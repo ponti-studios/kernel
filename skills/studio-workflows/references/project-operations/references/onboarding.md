@@ -11,6 +11,7 @@ owner: charlesponti
 tags: [ponti-studios, playbook, onboarding]
 applies_to: []
 ---
+
 # Onboarding
 
 **A user's first-day experience is the product's first proof that its promise is real.**

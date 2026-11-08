@@ -9,6 +9,7 @@ slug: film-capture-ponti-studios
 description: On-set craft — composition, color, camera work, and movement.
 applies_to: []
 ---
+
 # Film Capture
 
 _What happens on set._

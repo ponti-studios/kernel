@@ -6,12 +6,12 @@ upstream_path: tests-beta/android/MASVS-RESILIENCE/MASTG-TEST-0288.md
 upstream_tag: 31cec00
 platform: android
 covers_masvs:
-- MASVS-RESILIENCE-3
+  - MASVS-RESILIENCE-3
 type:
-- static
+  - static
 weakness: MASWE-0093
 profiles:
-- R
+  - R
 ---
 
 ## Overview

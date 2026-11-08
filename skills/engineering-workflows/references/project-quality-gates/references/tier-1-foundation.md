@@ -28,8 +28,8 @@ and brings coverage with it.
     "lint:py": "ruff check . && ruff format --check .",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "hooks": "lefthook install"
-  }
+    "hooks": "lefthook install",
+  },
 }
 ```
 

@@ -9,6 +9,7 @@ slug: film-editing-ponti-studios
 description: Post-production craft — subjective cutting, rhythm, and punctuation.
 applies_to: []
 ---
+
 # Film Editing
 
 _The cut is where the meaning lives._

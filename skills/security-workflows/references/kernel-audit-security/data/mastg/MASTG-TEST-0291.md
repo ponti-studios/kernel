@@ -6,19 +6,19 @@ upstream_path: tests-beta/android/MASVS-PLATFORM/MASTG-TEST-0291.md
 upstream_tag: 31cec00
 platform: android
 covers_masvs:
-- MASVS-PLATFORM-3
+  - MASVS-PLATFORM-3
 type:
-- static
+  - static
 weakness: MASWE-0055
 profiles:
-- L2
+  - L2
 ---
 
 ## Overview
 
 This test verifies whether an app references Android screen capture prevention APIs. On Android, developers can prevent screenshots and nonsecure display mirroring using [`FLAG_SECURE`](https://developer.android.com/security/fraud-prevention/activities#flag_secure). When set, Android blocks screenshots and prevents content from appearing on a nonsecure display, including remote screen sharing. Users see a blank screen if they attempt a screenshot or when the app moves to the background.
 
-Developers typically apply the flag with [`addFlags()`](https://developer.android.com/reference/android/view/Window#addFlags(int)) or [`setFlags()`](https://developer.android.com/reference/android/view/Window#setFlags(int,int)). Common failure modes include not setting `FLAG_SECURE` on all sensitive screens or clearing the flag during transitions e.g., using [`clearFlags()`](https://developer.android.com/reference/android/view/Window#clearFlags(int)) or `setFlags()`.
+Developers typically apply the flag with [`addFlags()`](<https://developer.android.com/reference/android/view/Window#addFlags(int)>) or [`setFlags()`](<https://developer.android.com/reference/android/view/Window#setFlags(int,int)>). Common failure modes include not setting `FLAG_SECURE` on all sensitive screens or clearing the flag during transitions e.g., using [`clearFlags()`](<https://developer.android.com/reference/android/view/Window#clearFlags(int)>) or `setFlags()`.
 
 ## Steps
 

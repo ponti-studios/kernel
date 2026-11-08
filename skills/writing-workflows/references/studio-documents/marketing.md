@@ -11,6 +11,7 @@ owner: charlesponti
 tags: [ponti-studios, playbook, marketing]
 applies_to: []
 ---
+
 # Marketing
 
 **Ponti Studios markets its products by demonstrating value, not by manufacturing attention.**

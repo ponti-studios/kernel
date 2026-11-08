@@ -6,13 +6,13 @@ upstream_path: tests-beta/android/MASVS-PLATFORM/MASTG-TEST-0334.md
 upstream_tag: 31cec00
 platform: android
 covers_masvs:
-- MASVS-PLATFORM-2
+  - MASVS-PLATFORM-2
 type:
-- static
+  - static
 weakness: MASWE-0069
 profiles:
-- L1
-- L2
+  - L1
+  - L2
 ---
 
 ## Overview
@@ -21,7 +21,7 @@ This test verifies Android apps that use WebViews with [legacy WebView-Native br
 
 These bridges are created by registering a Java object with the WebView through [`addJavascriptInterface`](https://developer.android.com/reference/kotlin/android/webkit/WebView#addjavascriptinterface). Public methods of that object that are annotated with [`@JavascriptInterface`](https://developer.android.com/reference/android/webkit/JavascriptInterface) become callable from JavaScript running inside the WebView, using the provided `name` as the global JavaScript object.
 
-For this mechanism to work, JavaScript execution must be enabled on the WebView by calling [`WebSettings.setJavaScriptEnabled(true)`](https://developer.android.com/reference/android/webkit/WebSettings#setJavaScriptEnabled(boolean)) (default is `false`), since the exposed interface is invoked from JavaScript code executed within the page.
+For this mechanism to work, JavaScript execution must be enabled on the WebView by calling [`WebSettings.setJavaScriptEnabled(true)`](<https://developer.android.com/reference/android/webkit/WebSettings#setJavaScriptEnabled(boolean)>) (default is `false`), since the exposed interface is invoked from JavaScript code executed within the page.
 
 ## Steps
 

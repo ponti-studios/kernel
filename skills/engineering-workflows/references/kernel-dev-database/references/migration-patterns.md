@@ -4,17 +4,17 @@ Use this file to choose the migration shape. Use [operation-playbooks.md](operat
 
 ## Operation routing
 
-| Change | Default strategy | Main hazards |
-| --- | --- | --- |
-| New table | One transactional migration for bounded DDL; separate large indexes/backfills | Missing ownership, keys, timestamps, indexes, or grants |
-| Add nullable column | Direct expand migration | Lock acquisition and code assuming presence too early |
-| Add required column | Nullable expand → backfill → `NOT NULL` contract | Rewrite/scan, null races, old application versions |
-| Rename column/table | Compatibility alias or dual read/write → backfill → contract | Old binaries, raw SQL, views, functions, jobs, generated types |
-| Change type | Shadow column → dual write/backfill → validate → swap/contract | Lossy casts, defaults, indexes, locks, overflow |
-| Add FK/check/not-null | Add enforcement without blocking where possible → validate → tighten | Existing violations and long validation scans |
-| Add index | Concurrent production build on existing tables | No transaction, invalid index after failure, resource load |
-| Drop column/table | Deprecate → prove no reads/writes → backup/recovery review → drop | Irreversible data loss and hidden dependencies |
-| Split/merge fields or tables | Expand both shapes → dual write/read → backfill → cut over → contract | Divergence, ordering, retries, partial writes |
+| Change                       | Default strategy                                                              | Main hazards                                                   |
+| ---------------------------- | ----------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| New table                    | One transactional migration for bounded DDL; separate large indexes/backfills | Missing ownership, keys, timestamps, indexes, or grants        |
+| Add nullable column          | Direct expand migration                                                       | Lock acquisition and code assuming presence too early          |
+| Add required column          | Nullable expand → backfill → `NOT NULL` contract                              | Rewrite/scan, null races, old application versions             |
+| Rename column/table          | Compatibility alias or dual read/write → backfill → contract                  | Old binaries, raw SQL, views, functions, jobs, generated types |
+| Change type                  | Shadow column → dual write/backfill → validate → swap/contract                | Lossy casts, defaults, indexes, locks, overflow                |
+| Add FK/check/not-null        | Add enforcement without blocking where possible → validate → tighten          | Existing violations and long validation scans                  |
+| Add index                    | Concurrent production build on existing tables                                | No transaction, invalid index after failure, resource load     |
+| Drop column/table            | Deprecate → prove no reads/writes → backup/recovery review → drop             | Irreversible data loss and hidden dependencies                 |
+| Split/merge fields or tables | Expand both shapes → dual write/read → backfill → cut over → contract         | Divergence, ordering, retries, partial writes                  |
 
 ## Expand → compatible rollout → backfill → contract
 

@@ -16,7 +16,7 @@ title: "MASVS-STORAGE-1: Sensitive data is stored securely."
 masvs_group: "MASVS-STORAGE"
 masvs_control: "MASVS-STORAGE-1"
 summary: "Sensitive data is stored securely."
-mastg_tests:                          # derived from the sibling mastg/ dir — not hand-authored
+mastg_tests: # derived from the sibling mastg/ dir — not hand-authored
   - MASTG-TEST-0200
   - MASTG-TEST-0201
 ---
@@ -36,16 +36,16 @@ The `mobile-code-review` skill walks the 8 MASVS groups in priority order. For e
 
 ## Group Index
 
-| Group | Controls | Coverage |
-|---|---|---|
-| MASVS-STORAGE | 2 | Full static |
-| MASVS-CRYPTO | 2 | Full static |
-| MASVS-AUTH | 3 | Full static |
-| MASVS-NETWORK | 2 | Full static |
-| MASVS-PLATFORM | 3 | Full static |
-| MASVS-CODE | 4 | Full static |
-| MASVS-RESILIENCE | 4 | Static signals only — runtime verification required |
-| MASVS-PRIVACY | 4 | Partial — some controls need runtime data-flow |
+| Group            | Controls | Coverage                                            |
+| ---------------- | -------- | --------------------------------------------------- |
+| MASVS-STORAGE    | 2        | Full static                                         |
+| MASVS-CRYPTO     | 2        | Full static                                         |
+| MASVS-AUTH       | 3        | Full static                                         |
+| MASVS-NETWORK    | 2        | Full static                                         |
+| MASVS-PLATFORM   | 3        | Full static                                         |
+| MASVS-CODE       | 4        | Full static                                         |
+| MASVS-RESILIENCE | 4        | Static signals only — runtime verification required |
+| MASVS-PRIVACY    | 4        | Partial — some controls need runtime data-flow      |
 
 ## Updating
 

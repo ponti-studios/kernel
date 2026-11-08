@@ -18,13 +18,13 @@
 // zod call in the original.
 
 const typeName = (value) => {
-  if (value === null) return 'null';
-  if (Array.isArray(value)) return 'array';
+  if (value === null) return "null";
+  if (Array.isArray(value)) return "array";
   return typeof value;
 };
 
 const join = (parent, key) =>
-  typeof key === 'number' ? `${parent}[${key}]` : parent ? `${parent}.${key}` : String(key);
+  typeof key === "number" ? `${parent}[${key}]` : parent ? `${parent}.${key}` : String(key);
 
 function make(check, optional = false) {
   const schema = {
@@ -33,11 +33,11 @@ function make(check, optional = false) {
     _check: check,
     safeParse(value) {
       const issues = [];
-      const data = check(value, '', issues);
+      const data = check(value, "", issues);
       if (issues.length === 0) return { success: true, data };
       return {
         success: false,
-        error: { message: issues.map((i) => `${i.path}: ${i.message}`).join('; ') },
+        error: { message: issues.map((i) => `${i.path}: ${i.message}`).join("; ") },
       };
     },
     parse(value) {
@@ -51,7 +51,7 @@ function make(check, optional = false) {
 
 export function string({ min = 0, max = Infinity } = {}) {
   return make((value, path, issues) => {
-    if (typeof value !== 'string') {
+    if (typeof value !== "string") {
       issues.push({ path, message: `expected string, received ${typeName(value)}` });
       return undefined;
     }
@@ -69,16 +69,16 @@ export function string({ min = 0, max = Infinity } = {}) {
 
 export function number({ int = false, positive = false } = {}) {
   return make((value, path, issues) => {
-    if (typeof value !== 'number' || Number.isNaN(value)) {
+    if (typeof value !== "number" || Number.isNaN(value)) {
       issues.push({ path, message: `expected number, received ${typeName(value)}` });
       return undefined;
     }
     if (int && !Number.isInteger(value)) {
-      issues.push({ path, message: 'expected integer' });
+      issues.push({ path, message: "expected integer" });
       return undefined;
     }
     if (positive && !(value > 0)) {
-      issues.push({ path, message: 'expected a positive number' });
+      issues.push({ path, message: "expected a positive number" });
       return undefined;
     }
     return value;
@@ -87,7 +87,7 @@ export function number({ int = false, positive = false } = {}) {
 
 export function boolean() {
   return make((value, path, issues) => {
-    if (typeof value !== 'boolean') {
+    if (typeof value !== "boolean") {
       issues.push({ path, message: `expected boolean, received ${typeName(value)}` });
       return undefined;
     }
@@ -114,7 +114,10 @@ export function array(item, { min = 0, length = undefined } = {}) {
       return undefined;
     }
     if (length !== undefined && value.length !== length) {
-      issues.push({ path, message: `expected exactly ${length} item(s), received ${value.length}` });
+      issues.push({
+        path,
+        message: `expected exactly ${length} item(s), received ${value.length}`,
+      });
       return undefined;
     }
     const seen = issues.length;
@@ -131,7 +134,7 @@ export function array(item, { min = 0, length = undefined } = {}) {
 
 export function object(shape) {
   return make((value, path, issues) => {
-    if (typeof value !== 'object' || value === null || Array.isArray(value)) {
+    if (typeof value !== "object" || value === null || Array.isArray(value)) {
       issues.push({ path, message: `expected object, received ${typeName(value)}` });
       return undefined;
     }
@@ -140,7 +143,7 @@ export function object(shape) {
     for (const [key, schema] of Object.entries(shape)) {
       const keyPath = join(path, key);
       if (!Object.hasOwn(value, key)) {
-        if (!schema.optional) issues.push({ path: keyPath, message: 'required' });
+        if (!schema.optional) issues.push({ path: keyPath, message: "required" });
         continue;
       }
       const inner = [];

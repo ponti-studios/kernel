@@ -10,6 +10,7 @@ slug: ponti-studios-current-system
 owner: charlesponti
 applies_to: []
 ---
+
 # Ponti Studios Current System
 
 This is the compact current-state map. It answers what exists today; the portfolio document explains why it matters.

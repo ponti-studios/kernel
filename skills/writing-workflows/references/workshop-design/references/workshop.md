@@ -7,6 +7,7 @@ status: active
 updated: 2026-08-25
 applies_to:
 ---
+
 # Workshop Designer
 
 Use this generator to design workshops that produce useful artifacts and decisions. The output should be a facilitation-ready plan, not a generic meeting outline.

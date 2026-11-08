@@ -14,8 +14,8 @@
 // byte-exact baseline below is the real guard either way.
 //
 // Exit 0 = all byte-exact. Exit 1 = drift (prints the first differing line).
-import { readFileSync, readdirSync } from 'node:fs';
-import { join } from 'node:path';
+import { readFileSync, readdirSync } from "node:fs";
+import { join } from "node:path";
 
 import {
   distCompilerEntry,
@@ -24,15 +24,15 @@ import {
   loadLocalCompiler,
   loadRegistry,
   universeRoot,
-} from './resolve.mjs';
+} from "./resolve.mjs";
 
 const argv = process.argv.slice(2);
 const flag = (name) => {
   const at = argv.indexOf(name);
   return at === -1 ? undefined : argv[at + 1];
 };
-const UNIVERSE = flag('--universe') ?? universeRoot();
-const FIXTURES = flag('--fixtures') ?? fixturesDir();
+const UNIVERSE = flag("--universe") ?? universeRoot();
+const FIXTURES = flag("--fixtures") ?? fixturesDir();
 
 let registry;
 try {
@@ -52,23 +52,27 @@ if (distEntry) {
   try {
     dist = await loadCompiler();
   } catch (err) {
-    console.error(`# note: dist compiler at ${distEntry} could not load (${err.message}); parity skipped`);
+    console.error(
+      `# note: dist compiler at ${distEntry} could not load (${err.message}); parity skipped`,
+    );
   }
 }
 
-const specDir = join(FIXTURES, 'specs');
-const expDir = join(FIXTURES, 'expected');
+const specDir = join(FIXTURES, "specs");
+const expDir = join(FIXTURES, "expected");
 let pass = 0;
 let parityChecked = 0;
 const failures = [];
 
-for (const file of readdirSync(specDir).filter((f) => f.endsWith('.json')).sort()) {
-  const [setName, frame] = file.replace(/\.json$/, '').split('--');
+for (const file of readdirSync(specDir)
+  .filter((f) => f.endsWith(".json"))
+  .sort()) {
+  const [setName, frame] = file.replace(/\.json$/, "").split("--");
   const expectedPath = join(expDir, `sets_${setName}_specs_${frame}.json.prompt.txt`);
   try {
     const spec = loadSpec(join(specDir, file));
     // 1. legacy parity: the port must reproduce the app's output byte-for-byte
-    const got = local.compileSpec(spec, registry, UNIVERSE, { voice: 'legacy' });
+    const got = local.compileSpec(spec, registry, UNIVERSE, { voice: "legacy" });
     // 2. the dist build must agree with the port in legacy voice
     if (dist) {
       const distOut = dist.compileSpec(spec, registry, UNIVERSE);
@@ -79,8 +83,8 @@ for (const file of readdirSync(specDir).filter((f) => f.endsWith('.json')).sort(
       parityChecked += 1;
     }
     // 3. positive voice must be deterministic across repeated compiles
-    const pos1 = local.compileSpec(spec, registry, UNIVERSE, { voice: 'positive' });
-    const pos2 = local.compileSpec(spec, registry, UNIVERSE, { voice: 'positive' });
+    const pos1 = local.compileSpec(spec, registry, UNIVERSE, { voice: "positive" });
+    const pos2 = local.compileSpec(spec, registry, UNIVERSE, { voice: "positive" });
     if (pos1 !== pos2) {
       failures.push(`${file}: positive voice is NOT deterministic`);
       continue;
@@ -91,7 +95,7 @@ for (const file of readdirSync(specDir).filter((f) => f.endsWith('.json')).sort(
     }
     let expected;
     try {
-      expected = readFileSync(expectedPath, 'utf8');
+      expected = readFileSync(expectedPath, "utf8");
     } catch {
       failures.push(`${file}: no expected file at ${expectedPath}`);
       continue;
@@ -100,25 +104,27 @@ for (const file of readdirSync(specDir).filter((f) => f.endsWith('.json')).sort(
       pass += 1;
       continue;
     }
-    const g = got.split('\n');
-    const e = expected.split('\n');
-    let where = 'identical lines, different length';
+    const g = got.split("\n");
+    const e = expected.split("\n");
+    let where = "identical lines, different length";
     for (let i = 0; i < Math.max(g.length, e.length); i += 1) {
       if (g[i] !== e[i]) {
-        where = `line ${i + 1}\n    got: ${(g[i] ?? '<eof>').slice(0, 120)}\n    exp: ${(e[i] ?? '<eof>').slice(0, 120)}`;
+        where = `line ${i + 1}\n    got: ${(g[i] ?? "<eof>").slice(0, 120)}\n    exp: ${(e[i] ?? "<eof>").slice(0, 120)}`;
         break;
       }
     }
     failures.push(`${file}: DRIFT (${got.length} vs ${expected.length} chars) at ${where}`);
   } catch (err) {
-    failures.push(`${file}: raised ${err?.code ?? 'error'} — ${err?.message ?? err}`);
+    failures.push(`${file}: raised ${err?.code ?? "error"} — ${err?.message ?? err}`);
   }
 }
 
 console.log(`fixtures: ${pass} byte-exact, ${failures.length} failed (root ${UNIVERSE})`);
 console.log(
   `  baseline: ${FIXTURES}\n  app parity: ${
-    dist ? `${parityChecked} specs agree with ${distEntry}` : 'skipped — no TypeScript build (port-only run)'
+    dist
+      ? `${parityChecked} specs agree with ${distEntry}`
+      : "skipped — no TypeScript build (port-only run)"
   }`,
 );
 for (const f of failures) console.log(`  ✗ ${f}`);

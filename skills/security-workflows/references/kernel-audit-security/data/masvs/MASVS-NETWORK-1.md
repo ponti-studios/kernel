@@ -1,32 +1,32 @@
 ---
-title: 'MASVS-NETWORK-1: The app secures all network traffic according to the current
-  best practices.'
+title: "MASVS-NETWORK-1: The app secures all network traffic according to the current
+  best practices."
 masvs_group: MASVS-NETWORK
 masvs_control: MASVS-NETWORK-1
 summary: The app secures all network traffic according to the current best practices.
 mastg_tests:
-- MASTG-TEST-0067
-- MASTG-TEST-0217
-- MASTG-TEST-0218
-- MASTG-TEST-0233
-- MASTG-TEST-0234
-- MASTG-TEST-0235
-- MASTG-TEST-0236
-- MASTG-TEST-0237
-- MASTG-TEST-0238
-- MASTG-TEST-0239
-- MASTG-TEST-0282
-- MASTG-TEST-0283
-- MASTG-TEST-0284
-- MASTG-TEST-0285
-- MASTG-TEST-0286
-- MASTG-TEST-0295
-- MASTG-TEST-0321
-- MASTG-TEST-0322
-- MASTG-TEST-0342
-- MASTG-TEST-0343
-- MASTG-TEST-0344
-- MASTG-TEST-0345
+  - MASTG-TEST-0067
+  - MASTG-TEST-0217
+  - MASTG-TEST-0218
+  - MASTG-TEST-0233
+  - MASTG-TEST-0234
+  - MASTG-TEST-0235
+  - MASTG-TEST-0236
+  - MASTG-TEST-0237
+  - MASTG-TEST-0238
+  - MASTG-TEST-0239
+  - MASTG-TEST-0282
+  - MASTG-TEST-0283
+  - MASTG-TEST-0284
+  - MASTG-TEST-0285
+  - MASTG-TEST-0286
+  - MASTG-TEST-0295
+  - MASTG-TEST-0321
+  - MASTG-TEST-0322
+  - MASTG-TEST-0342
+  - MASTG-TEST-0343
+  - MASTG-TEST-0344
+  - MASTG-TEST-0345
 ---
 
 # MASVS-NETWORK-1

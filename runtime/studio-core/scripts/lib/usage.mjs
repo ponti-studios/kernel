@@ -10,9 +10,9 @@
 //
 // Ported from studio packages/providers/src/usage.ts. No dependencies.
 
-const finite = (value) => (typeof value === 'number' && Number.isFinite(value) ? value : undefined);
+const finite = (value) => (typeof value === "number" && Number.isFinite(value) ? value : undefined);
 
-const bag = (value) => (typeof value === 'object' && value !== null ? value : undefined);
+const bag = (value) => (typeof value === "object" && value !== null ? value : undefined);
 
 function pick(raw, ...keys) {
   for (const key of keys) {
@@ -40,16 +40,18 @@ export function normalizeUsage(raw) {
   const promptDetails = bag(usage.prompt_tokens_details) ?? bag(usage.promptTokensDetails);
 
   const normalized = collapse({
-    costUsd: pick(usage, 'cost', 'costUsd', 'total_cost', 'totalCost'),
-    promptTokens: pick(usage, 'prompt_tokens', 'promptTokens'),
-    completionTokens: pick(usage, 'completion_tokens', 'completionTokens'),
-    totalTokens: pick(usage, 'total_tokens', 'totalTokens'),
-    imageTokens: completionDetails ? pick(completionDetails, 'image_tokens', 'imageTokens') : undefined,
+    costUsd: pick(usage, "cost", "costUsd", "total_cost", "totalCost"),
+    promptTokens: pick(usage, "prompt_tokens", "promptTokens"),
+    completionTokens: pick(usage, "completion_tokens", "completionTokens"),
+    totalTokens: pick(usage, "total_tokens", "totalTokens"),
+    imageTokens: completionDetails
+      ? pick(completionDetails, "image_tokens", "imageTokens")
+      : undefined,
     reasoningTokens: completionDetails
-      ? pick(completionDetails, 'reasoning_tokens', 'reasoningTokens')
+      ? pick(completionDetails, "reasoning_tokens", "reasoningTokens")
       : undefined,
     cachedPromptTokens: promptDetails
-      ? pick(promptDetails, 'cached_tokens', 'cachedTokens')
+      ? pick(promptDetails, "cached_tokens", "cachedTokens")
       : undefined,
   });
 

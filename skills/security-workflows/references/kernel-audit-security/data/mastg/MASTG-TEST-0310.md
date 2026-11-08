@@ -6,10 +6,10 @@ upstream_path: tests-beta/android/MASVS-CRYPTO/MASTG-TEST-0310.md
 upstream_tag: 31cec00
 platform: android
 covers_masvs:
-- MASVS-CRYPTO-1
+  - MASVS-CRYPTO-1
 type:
-- dynamic
+  - dynamic
 weakness: MASWE-0022
 profiles:
-- L2
+  - L2
 ---

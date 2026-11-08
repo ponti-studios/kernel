@@ -6,11 +6,11 @@ upstream_path: tests/android/MASVS-PLATFORM/MASTG-TEST-0029.md
 upstream_tag: 31cec00
 platform: android
 covers_masvs:
-- MASVS-PLATFORM-1
+  - MASVS-PLATFORM-1
 masvs_v1_id:
-- MSTG-PLATFORM-4
+  - MSTG-PLATFORM-4
 masvs_v2_id:
-- MASVS-PLATFORM-1
+  - MASVS-PLATFORM-1
 ---
 
 ## Overview

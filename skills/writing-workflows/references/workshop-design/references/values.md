@@ -19,6 +19,7 @@ scope: running-product-workshops
 updated: 2026-08-25
 applies_to:
 ---
+
 _This document outlines our conception of the ideal company that is both **financially** and **socially** successful._
 
 # **🧭 Mission**

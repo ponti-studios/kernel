@@ -6,13 +6,13 @@ upstream_path: tests-beta/android/MASVS-PLATFORM/MASTG-TEST-0252.md
 upstream_tag: 31cec00
 platform: android
 covers_masvs:
-- MASVS-PLATFORM-2
+  - MASVS-PLATFORM-2
 type:
-- static
+  - static
 weakness: MASWE-0069
 profiles:
-- L1
-- L2
+  - L1
+  - L2
 ---
 
 ## Overview
@@ -53,16 +53,16 @@ And the server would not receive the file content:
 Error reading file: 0
 ```
 
-**Note 2**: As indicated in the Android docs, the value of [**`setAllowFileAccessFromFileURLs` is ignored**](https://developer.android.com/reference/android/webkit/WebSettings#setAllowFileAccessFromFileURLs(boolean)) if `allowUniversalAccessFromFileURLs=true`.
+**Note 2**: As indicated in the Android docs, the value of [**`setAllowFileAccessFromFileURLs` is ignored**](<https://developer.android.com/reference/android/webkit/WebSettings#setAllowFileAccessFromFileURLs(boolean)>) if `allowUniversalAccessFromFileURLs=true`.
 
 ## Steps
 
 1. Determine the `minSdkVersion` of the app.
 2. Use a tool like semgrep to search for references to:
-      - the `WebView` class.
-      - the `WebSettings` class.
-      - the `setJavaScriptEnabled` method.
-      - the `setAllowFileAccess`, `setAllowFileAccessFromFileURLs`, and `setAllowUniversalAccessFromFileURLs` methods from the `WebSettings` class.
+   - the `WebView` class.
+   - the `WebSettings` class.
+   - the `setJavaScriptEnabled` method.
+   - the `setAllowFileAccess`, `setAllowFileAccessFromFileURLs`, and `setAllowUniversalAccessFromFileURLs` methods from the `WebSettings` class.
 
 Note that in this case **the lack of references to the `setAllow*` methods is especially interesting** and must be captured, because it could mean that the app is using the default values, which in some scenarios are insecure. For this reason, it's highly recommended to try to identify every WebView instance in the app.
 
@@ -79,4 +79,4 @@ The test case fails if all of the following applies (based on the [API behavior 
 - Either `setAllowFileAccessFromFileURLs` or `setAllowUniversalAccessFromFileURLs` is explicitly set to `true` (or not used at all when `minSdkVersion` < 16, inheriting the default value, `true`).
 
 !!! note
-    `AllowFileAccess` being `true` does not represent a security vulnerability by itself, but it can be used in combination with other vulnerabilities to escalate the impact of an attack.
+`AllowFileAccess` being `true` does not represent a security vulnerability by itself, but it can be used in combination with other vulnerabilities to escalate the impact of an attack.

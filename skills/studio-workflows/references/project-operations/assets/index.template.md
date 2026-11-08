@@ -1,11 +1,11 @@
 ---
-title: {{Project Title}}
-project: {{project-slug}}
+title: { { Project Title } }
+project: { { project-slug } }
 type: index
 status: idea
 owner: charlesponti
 tags:
-  - {{project-slug}}
+  - { { project-slug } }
 ---
 
 # {{Project Title}}

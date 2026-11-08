@@ -6,18 +6,18 @@ upstream_path: tests-beta/ios/MASVS-PLATFORM/MASTG-TEST-0333.md
 upstream_tag: 31cec00
 platform: ios
 covers_masvs:
-- MASVS-PLATFORM-2
+  - MASVS-PLATFORM-2
 type:
-- static
+  - static
 weakness: MASWE-0069
 profiles:
-- L1
-- L2
+  - L1
+  - L2
 ---
 
 ## Overview
 
-iOS apps can load local files into a [`WKWebView`](https://developer.apple.com/documentation/webkit/wkwebview) using [`loadFileURL(_:allowingReadAccessTo:)`](https://developer.apple.com/documentation/webkit/wkwebview/loadfileurl(_:allowingreadaccessto:)).
+iOS apps can load local files into a [`WKWebView`](https://developer.apple.com/documentation/webkit/wkwebview) using [`loadFileURL(_:allowingReadAccessTo:)`](<https://developer.apple.com/documentation/webkit/wkwebview/loadfileurl(_:allowingreadaccessto:)>).
 
 This test checks whether the app uses `loadFileURL(_:allowingReadAccessTo:)` with an overly broad `readAccessURL`. If attacker-controlled input influences the loaded file URL and the read access scope is too broad, the WebView may gain access to sensitive files within the app container.
 

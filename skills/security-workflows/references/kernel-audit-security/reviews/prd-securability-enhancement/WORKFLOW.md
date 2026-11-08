@@ -1,6 +1,6 @@
 # PRD Securability Enhancement (FIASSE/SSEM + ASVS)
 
-Enhance PRD content so each feature has explicit, testable securability requirements aligned to OWASP ASVS and shaped by FIASSE v1.0.4 / SSEM. The goal is to upgrade the requirements artifact *before* implementation, so delivery teams build securable capabilities by design rather than retrofitting controls later.
+Enhance PRD content so each feature has explicit, testable securability requirements aligned to OWASP ASVS and shaped by FIASSE v1.0.4 / SSEM. The goal is to upgrade the requirements artifact _before_ implementation, so delivery teams build securable capabilities by design rather than retrofitting controls later.
 
 This skill is requirements-centric. It does not review or write code. If the user wants code review, redirect to `securability-engineering-review`. If they want code generation, redirect to `securability-engineering`.
 
@@ -42,14 +42,14 @@ Extract each feature into a normalized record. Capture for each:
 
 If the source PRD lumps several capabilities into one bullet, split them so each feature is independently testable.
 
-### Step 2 — Choose the ASVS level *first*
+### Step 2 — Choose the ASVS level _first_
 
 Selecting the level before mapping requirements prevents both under-scoping and over-scoping. Use this rubric:
 
-| Level | Use when |
-|-------|----------|
-| **1** | Internal tooling, prototypes, low-sensitivity data, no regulatory pressure, limited blast radius if compromised |
-| **2** | Typical production web/API systems with authenticated users, business-critical behavior, customer data, or moderate regulatory exposure (most products land here) |
+| Level | Use when                                                                                                                                                                         |
+| ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **1** | Internal tooling, prototypes, low-sensitivity data, no regulatory pressure, limited blast radius if compromised                                                                  |
+| **2** | Typical production web/API systems with authenticated users, business-critical behavior, customer data, or moderate regulatory exposure (most products land here)                |
 | **3** | High-assurance contexts: payments, health records, government, identity providers, anything where compromise causes severe material impact or where attackers are well-resourced |
 
 Default to Level 2 unless evidence pushes lower or higher. Document:
@@ -86,7 +86,7 @@ Use the **ASVS Coverage Gap Pattern Table** below to spot the gaps that PRDs rel
 
 ### Step 4 — Add Securability Notes per feature
 
-Write a *short* paragraph per feature surfacing only the SSEM and FIASSE points that materially shape implementation. Do not enumerate all ten SSEM attributes or all FIASSE tenets — that produces noise.
+Write a _short_ paragraph per feature surfacing only the SSEM and FIASSE points that materially shape implementation. Do not enumerate all ten SSEM attributes or all FIASSE tenets — that produces noise.
 
 Useful lenses (mention only when relevant):
 
@@ -117,24 +117,24 @@ Produce these sections in order, using the exact templates below.
 
 These are the gaps PRDs reliably miss. When you see one of the trigger phrasings on the left, add the named requirements on the right — they are almost always missing in the source artifact.
 
-| PRD trigger phrasing (what the feature *says*) | Almost-always-missing requirements | ASVS section | Tag |
-|---|---|---|---|
-| "User logs in with email and password" | Account-enumeration parity (same response/timing for valid vs invalid email); password-screen against breached-password list; auth-event audit log; per-account brute-force rate limit | V6.3.8, V2.1, V2.4, V16.3 | "Auth surface gaps" |
-| "User resets/forgets password" | Account-enumeration parity on the request endpoint; single-use token; short expiry (≤15 min); token-hash-at-rest; rate-limit per email and per IP; audit log of issuance/redemption | V6.3.8, V6.2, V2.4, V16.3 | "Reset flow gaps" |
-| "User uploads a file" | Type allow-list (not deny-list); content-sniffing vs declared type; max size; antivirus/safe-storage path; filename canonicalization; storage outside web root; URL non-guessability | V5.1, V5.2, V12.1 | "Upload gaps" |
-| "User can edit their profile" / "update settings" | Allow-listed mutable fields (no `email`/`role`/`is_admin` from request body); ownership check on the resource; audit log of changes; old-vs-new value capture | V4.1, V4.2, V16.2, V16.3 | "Mass-assignment gaps" |
-| "Admin can do X" / "role-based access" | Authorization decision logged with grant/deny; centralized authz module (not scattered checks); deny-by-default at boundary; ownership scoping on every record fetch | V4.1, V4.2, V16.2, V16.3 | "Authz gap" |
-| "Public API endpoint" / "third-party integration" | Per-key/per-client rate limits; auth for every call (not first-call only); request-id propagation; response field allow-list (no leaking internal fields); contract validation | V2.4, V9.1, V13.1, V16.2 | "API gaps" |
-| "Send email/SMS to user" | Templated payload with no user-controlled subject/body injection; rate-limit per recipient and per actor; bounce/abuse-loop handling; opt-out and audit log | V2.4, V12.1, V13.1, V16.3 | "Outbound-message gaps" |
-| "Search / filter / list with user-supplied parameters" | Parameter allow-list; ordering/pagination caps; query timeout; result count cap; tenant/owner scoping enforced server-side | V4.1, V12.1, V13.1 | "Query-surface gaps" |
-| "Webhook receiver" / "callback URL" | Source verification (signature, mTLS, IP allow-list); replay protection (timestamp + nonce); idempotency key; rate-limit; audit log of received events | V2.4, V2.5, V9.1, V16.3 | "Webhook gaps" |
-| "Save user file/document/note" | Owner identifier never client-supplied; size and content caps; rich-text/HTML sanitization on read or write; audit log of writes | V4.1, V5.1, V12.1, V16.3 | "Server-owned state gaps (Derived Integrity)" |
-| "Export data" / "download report" | Authorization re-checked on export (not just on UI route); rate-limit; audit log including row count; PII-scrub policy if applicable | V4.1, V7.1.1, V8.1 | "Export gaps" |
-| "Background job processes user-submitted data" | Same boundary discipline as the synchronous path (validation, surface minimization, owner scoping); job-level audit log; poison-message handling and DLQ | V11.1, V12.1, V7.1.1 | "Async-path boundary gaps" |
-| "Configuration / feature flag / admin setting" | Change requires authenticated actor and audit record; cannot be set via product API without admin role; secret values never echoed back; defaults are safe | V7.1.1, V10.1, V14.2 | "Config-surface gaps" |
-| "PII/PHI/financial data" mentioned anywhere | Field-level classification; encryption at rest and in transit; retention/disposal policy; access-log requirement; export/erasure (right-to-be-forgotten) flows | V8.1, V14.1 | "Sensitive-data lifecycle gaps" |
-| "Real-time" / "websocket" / "streaming" feature | Per-connection auth (not just first message); per-connection resource caps; back-pressure / max-queue; idle timeout; audit of connection lifecycle | V3.1, V9.1, V11.1.4 | "Streaming gaps" |
-| "AI/LLM-backed feature" | Prompt-injection handling at trust boundary; output validation before downstream side effects; per-actor rate limit and cost cap; audit log of prompts and tool calls; PII redaction policy | V11.1, V12.1, V8.1 | "LLM boundary gaps" |
+| PRD trigger phrasing (what the feature _says_)         | Almost-always-missing requirements                                                                                                                                                          | ASVS section              | Tag                                           |
+| ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | --------------------------------------------- |
+| "User logs in with email and password"                 | Account-enumeration parity (same response/timing for valid vs invalid email); password-screen against breached-password list; auth-event audit log; per-account brute-force rate limit      | V6.3.8, V2.1, V2.4, V16.3 | "Auth surface gaps"                           |
+| "User resets/forgets password"                         | Account-enumeration parity on the request endpoint; single-use token; short expiry (≤15 min); token-hash-at-rest; rate-limit per email and per IP; audit log of issuance/redemption         | V6.3.8, V6.2, V2.4, V16.3 | "Reset flow gaps"                             |
+| "User uploads a file"                                  | Type allow-list (not deny-list); content-sniffing vs declared type; max size; antivirus/safe-storage path; filename canonicalization; storage outside web root; URL non-guessability        | V5.1, V5.2, V12.1         | "Upload gaps"                                 |
+| "User can edit their profile" / "update settings"      | Allow-listed mutable fields (no `email`/`role`/`is_admin` from request body); ownership check on the resource; audit log of changes; old-vs-new value capture                               | V4.1, V4.2, V16.2, V16.3  | "Mass-assignment gaps"                        |
+| "Admin can do X" / "role-based access"                 | Authorization decision logged with grant/deny; centralized authz module (not scattered checks); deny-by-default at boundary; ownership scoping on every record fetch                        | V4.1, V4.2, V16.2, V16.3  | "Authz gap"                                   |
+| "Public API endpoint" / "third-party integration"      | Per-key/per-client rate limits; auth for every call (not first-call only); request-id propagation; response field allow-list (no leaking internal fields); contract validation              | V2.4, V9.1, V13.1, V16.2  | "API gaps"                                    |
+| "Send email/SMS to user"                               | Templated payload with no user-controlled subject/body injection; rate-limit per recipient and per actor; bounce/abuse-loop handling; opt-out and audit log                                 | V2.4, V12.1, V13.1, V16.3 | "Outbound-message gaps"                       |
+| "Search / filter / list with user-supplied parameters" | Parameter allow-list; ordering/pagination caps; query timeout; result count cap; tenant/owner scoping enforced server-side                                                                  | V4.1, V12.1, V13.1        | "Query-surface gaps"                          |
+| "Webhook receiver" / "callback URL"                    | Source verification (signature, mTLS, IP allow-list); replay protection (timestamp + nonce); idempotency key; rate-limit; audit log of received events                                      | V2.4, V2.5, V9.1, V16.3   | "Webhook gaps"                                |
+| "Save user file/document/note"                         | Owner identifier never client-supplied; size and content caps; rich-text/HTML sanitization on read or write; audit log of writes                                                            | V4.1, V5.1, V12.1, V16.3  | "Server-owned state gaps (Derived Integrity)" |
+| "Export data" / "download report"                      | Authorization re-checked on export (not just on UI route); rate-limit; audit log including row count; PII-scrub policy if applicable                                                        | V4.1, V7.1.1, V8.1        | "Export gaps"                                 |
+| "Background job processes user-submitted data"         | Same boundary discipline as the synchronous path (validation, surface minimization, owner scoping); job-level audit log; poison-message handling and DLQ                                    | V11.1, V12.1, V7.1.1      | "Async-path boundary gaps"                    |
+| "Configuration / feature flag / admin setting"         | Change requires authenticated actor and audit record; cannot be set via product API without admin role; secret values never echoed back; defaults are safe                                  | V7.1.1, V10.1, V14.2      | "Config-surface gaps"                         |
+| "PII/PHI/financial data" mentioned anywhere            | Field-level classification; encryption at rest and in transit; retention/disposal policy; access-log requirement; export/erasure (right-to-be-forgotten) flows                              | V8.1, V14.1               | "Sensitive-data lifecycle gaps"               |
+| "Real-time" / "websocket" / "streaming" feature        | Per-connection auth (not just first message); per-connection resource caps; back-pressure / max-queue; idle timeout; audit of connection lifecycle                                          | V3.1, V9.1, V11.1.4       | "Streaming gaps"                              |
+| "AI/LLM-backed feature"                                | Prompt-injection handling at trust boundary; output validation before downstream side effects; per-actor rate limit and cost cap; audit log of prompts and tool calls; PII redaction policy | V11.1, V12.1, V8.1        | "LLM boundary gaps"                           |
 
 When a feature triggers one of these patterns, prefill the corresponding requirements as **Missing** in the coverage matrix unless the PRD explicitly addresses them — most of the time it doesn't.
 
@@ -157,11 +157,11 @@ When a feature triggers one of these patterns, prefill the corresponding require
 ```markdown
 ## Feature ↔ ASVS Coverage Matrix
 
-| Feature | ASVS Section | Requirement ID | Level | Coverage | PRD Change Needed |
-|---------|--------------|----------------|-------|----------|-------------------|
+| Feature | ASVS Section | Requirement ID | Level | Coverage | PRD Change Needed                         |
+| ------- | ------------ | -------------- | ----- | -------- | ----------------------------------------- |
 | F-01    | V2.2         | 2.2.1          | 2     | Missing  | Add MFA requirement for high-risk actions |
-| F-01    | V7.1         | 7.1.1          | 2     | Partial  | Specify which auth events are logged |
-| F-02    | V12.1        | 12.1.1         | 2     | Covered  | — |
+| F-01    | V7.1         | 7.1.1          | 2     | Partial  | Specify which auth events are logged      |
+| F-02    | V12.1        | 12.1.1         | 2     | Covered  | —                                         |
 ```
 
 Aim for completeness over brevity here — every feature × every applicable requirement gets a row. Where the gap pattern table applies, include the named requirements it surfaces.
@@ -180,11 +180,13 @@ For each feature, emit exactly this shape:
 **ASVS Mapping**: V2.2.1, V7.1.1, ...
 
 **Updated Requirements**:
+
 - [Original requirement, kept or rewritten]
 - [Newly added requirement from ASVS mapping]
 - [Newly added requirement from ASVS mapping]
 
 **Acceptance Criteria**:
+
 - [Testable criterion tied to a requirement above]
 - [Testable criterion tied to a requirement above]
 
@@ -219,6 +221,7 @@ This trips the "Reset flow gaps" pattern in the gap table — so the missing req
 **ASVS Mapping**: V2.2.2, V6.2.1, V6.2.2, V7.1.1, V11.1.4, V12.1.1
 
 **Updated Requirements**:
+
 - User can request a password reset by entering an account email at `/reset`.
 - The system always returns the same success response whether or not the email matches an account (prevents account enumeration, V2.2.2).
 - Reset tokens are single-use, expire within 15 minutes, and are stored only as a salted hash (V6.2).
@@ -228,6 +231,7 @@ This trips the "Reset flow gaps" pattern in the gap table — so the missing req
 - The email input is canonicalized and validated against a strict format (V12.1.1).
 
 **Acceptance Criteria**:
+
 - Submitting a non-existent email returns the same response body, status code, and timing characteristics as a valid email (within tolerance).
 - A reset token cannot be redeemed after 15 minutes or after first successful use; both cases produce a generic failure response and a logged `reset_token_invalid` event.
 - More than 5 reset requests for the same email within 10 minutes are rejected with HTTP 429 and logged.
@@ -241,6 +245,7 @@ This is the level of specificity the output should hit — concrete, testable, a
 ## Quality Checklist (run before emitting)
 
 **Coverage**
+
 - [ ] Every feature has an ID, actor, data classification, and trust-boundary list
 - [ ] ASVS level is chosen and justified before per-feature mapping
 - [ ] Every feature mapped against all applicable ASVS chapters at the chosen level
@@ -248,12 +253,14 @@ This is the level of specificity the output should hit — concrete, testable, a
 - [ ] Every Missing/Partial item produced a concrete PRD change
 
 **Output discipline**
+
 - [ ] Coverage matrix is present and includes change-needed column
 - [ ] Each feature follows the exact output shape (Actor / Data / Trust Boundaries / ASVS Mapping / Updated Requirements / Acceptance Criteria / Securability Notes)
 - [ ] Acceptance criteria are behaviorally testable, not aspirational
 - [ ] Securability Notes are surgical — only material SSEM/FIASSE points, not exhaustive enumeration
 
 **Traceability**
+
 - [ ] Every added requirement cites its ASVS reference
 - [ ] Cross-cutting requirements section captures shared controls
 - [ ] Open gaps and assumptions are listed explicitly

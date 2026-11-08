@@ -6,13 +6,13 @@ upstream_path: tests-beta/android/MASVS-CODE/MASTG-TEST-0338.md
 upstream_tag: 31cec00
 platform: android
 covers_masvs:
-- MASVS-CODE-4
+  - MASVS-CODE-4
 type:
-- static
+  - static
 weakness: MASWE-0082
 profiles:
-- L1
-- L2
+  - L1
+  - L2
 ---
 
 ## Overview

@@ -45,12 +45,12 @@ If a failure is clearly domain-specific, keep ownership of the pipeline run but 
 
 ## CI vs. Local Differences
 
-| Symptom                     | Likely cause                                                                            |
-| --------------------------- | --------------------------------------------------------------------------------------- |
+| Symptom                     | Likely cause                                                                             |
+| --------------------------- | ---------------------------------------------------------------------------------------- |
 | Passes locally, fails in CI | Missing env var; lockfile drift (`pnpm install --frozen-lockfile`); case-sensitive paths |
-| Fails locally, passes in CI | Stale local artifacts — clean and rebuild                                               |
-| Flaky test                  | Timing assumption or shared state — isolate the test                                    |
-| Type error only in CI       | Version mismatch, different build flags, or stale generated artifacts                   |
+| Fails locally, passes in CI | Stale local artifacts — clean and rebuild                                                |
+| Flaky test                  | Timing assumption or shared state — isolate the test                                     |
+| Type error only in CI       | Version mismatch, different build flags, or stale generated artifacts                    |
 
 ## Guardrails
 

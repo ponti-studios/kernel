@@ -1,6 +1,13 @@
 // Draft validation for this skill. Combinators come from studio-core.
 
-import { array, boolean, number, object, optional, string } from '../../../studio-core/scripts/lib/validate.mjs';
+import {
+  array,
+  boolean,
+  number,
+  object,
+  optional,
+  string,
+} from "../../../studio-core/scripts/lib/validate.mjs";
 
 export const sceneSchema = object({
   id: string({ min: 1 }),

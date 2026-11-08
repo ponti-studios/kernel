@@ -13,6 +13,7 @@ tags: [ponti-studios, projects, identity, migration]
 applies_to:
   - "ponti-studios/**"
 ---
+
 # Project Identity Map
 
 This is the identity layer for `ponti-studios/projects`. It answers one question before any folder moves happen:
@@ -25,12 +26,12 @@ Folder names are historical evidence, not canonical identity. Do not rename or m
 
 Project state belongs in metadata, not in the path. Every canonical project gets one stable namespace:
 
-| Destination | Meaning |
-| --- | --- |
-| `projects/<id>/` | Canonical knowledge for any project, regardless of lifecycle |
-| `projects/_index.md` | Studio-wide project catalog and views by lifecycle |
-| `projects/_templates/` | Templates, not projects |
-| `portfolio/case-studies/<id>.md` | Curated public narrative derived from a canonical project |
+| Destination                      | Meaning                                                      |
+| -------------------------------- | ------------------------------------------------------------ |
+| `projects/<id>/`                 | Canonical knowledge for any project, regardless of lifecycle |
+| `projects/_index.md`             | Studio-wide project catalog and views by lifecycle           |
+| `projects/_templates/`           | Templates, not projects                                      |
+| `portfolio/case-studies/<id>.md` | Curated public narrative derived from a canonical project    |
 
 `portfolio/` is not a second source of truth. It should link to `source_project` in `projects/`.
 
@@ -46,44 +47,44 @@ Project state belongs in metadata, not in the path. Every canonical project gets
 
 ## Canonical project map
 
-| Current folder | Canonical identity | Aliases / surfaces | Owner boundary | Lifecycle | Destination | Confidence |
-| --- | --- | --- | --- | --- | --- | --- |
-| `_ideas` | Idea intake | venture concepts, product concepts awaiting identity | Studio incubation | intake | `projects/<id>/` when promoted | high |
-| `01-glow` | Glow Digital | Glow | Client work | archived | `projects/glow/` | high |
-| `02-thomson-reuters` | Thomson Reuters | Compass | Client work | archived | `projects/thomson-reuters/` | high |
-| `02.5-help-refugees` | Help Refugees | Volunteer Interface | Client / pro-bono work | archived | `projects/help-refugees/` | high |
-| `03-mimecast` | Mimecast | Administration Console, Delivery Rescue | Client work | archived | `projects/mimecast/` | high |
-| `04-humana` | Humana | Whole Person Care Platform | Client work | archived | `projects/humana/` | high |
-| `05-kensho` | Kensho | S&P Global, Adagio | Client work | archived | `projects/kensho/` | high |
-| `05.5-whistle` | Whistle | Movement Video Platform | Client work | archived | `projects/whistle/` | high |
-| `06-streamyard` | StreamYard | Hopin, Business Tier, Creator Marketplace | Client work | archived | `projects/streamyard/` | high |
-| `09-prolog` | Prolog | Hollywood Writer Submission System | Client work | archived | `projects/prolog/` | high |
-| `10-revrock` | Revrock | Musician Tour Optimization | Client work | archived | `projects/revrock/` | high |
-| `11-lumina` | Lumina | EdTech Platform Rebuild | Client work | archived | `projects/lumina/` | high |
-| `altar` | Altar | Real Estate Discovery | Ponti Studios venture | active | `projects/altar/` | high |
-| `career` | Career | Guild, Vouch, Crafd, job-scrape | Hominem product surface | active | `projects/hominem/surfaces/career/` (`surface: career`) | high |
-| `charlesponti` | Charles Ponti | Personal site / identity surface | Personal studio surface | active | `projects/charlesponti/` | medium |
-| `common-goods` | Common Goods | Los Angeles, clothing, food, home goods | Ponti Studios venture / brand | active | `projects/common-goods/` (`series: los-angeles`) | high |
-| `commune` | Commune | — | Ponti Studios product | active | `projects/commune/` | high |
-| `earth` | Meridian | Earth, Rocco | Ponti Studios product | active | `projects/meridian/` | medium |
-| `filekit` | FileKit | — | Toolbox product surface | active | `projects/toolbox/` | high |
-| `foundation` | Foundation | Shared infrastructure | Ponti Studios platform | active | `projects/foundation/` | high |
-| `health` | Health | — | Ponti Studios product | active | `projects/health/` | high |
-| `hollywood` | Hollywood | Hollywood data platform | Ponti Studios product | active | `projects/hollywood/` | high |
-| `hominem` | Hominem | Omiro, Career, Finance, Florin | Product monorepo and data authority | active | `projects/hominem/` | high |
-| `kernel` | Kernel | Skills library | Ponti Studios platform | active | `projects/kernel/` | high |
-| `labs` | Labs | Labyrinth, experiments | Studio experimentation | active | `projects/labs/` | high |
-| `monotone` | Monotone | Unsolicited, Confractus, Movie Purgatory | Ponti Studios creative practice | active | `projects/monotone/` (`series: unsolicited`) | high |
-| `off-the-menu` | Off the Menu | — | Unclassified creative/product concept | review | `projects/off-the-menu/` | low |
-| `omiro` | Omiro | — | Hominem product surface | active | `projects/hominem/surfaces/omiro/` (`surface: omiro`) | high |
-| `pipeline` | Pipeline | — | Ponti Studios support infrastructure | active | `projects/pipeline/` | high |
-| `ponti-studios-ui` | Ponti Studios UI | UI package | Ponti Studios platform | active | `projects/ponti-studios-ui/` | high |
-| `prod-god` | PROD GOD | — | Unclassified product practice / concept | review | `projects/prod-god/` | low |
-| `public-data` | Public Data | — | Ponti Studios support infrastructure | active | `projects/public-data/` | high |
-| `school` | Ponti School | — | Ponti Studios venture | discovery | `projects/ponti-school/` | medium |
-| `studio` | Studio Publishing | Content Publishing System | Ponti Studios internal system | active | `projects/studio/` | high |
-| `theatre-management` | Theatre Management | — | Ponti Studios product concept | discovery | `projects/theatre-management/` | medium |
-| `toolbox` | Toolbox | FileKit, XKit, MediaKit, PhotoKit, AgentKit | Ponti Studios tool monorepo | active | `projects/toolbox/` | high |
+| Current folder       | Canonical identity | Aliases / surfaces                                   | Owner boundary                          | Lifecycle | Destination                                             | Confidence |
+| -------------------- | ------------------ | ---------------------------------------------------- | --------------------------------------- | --------- | ------------------------------------------------------- | ---------- |
+| `_ideas`             | Idea intake        | venture concepts, product concepts awaiting identity | Studio incubation                       | intake    | `projects/<id>/` when promoted                          | high       |
+| `01-glow`            | Glow Digital       | Glow                                                 | Client work                             | archived  | `projects/glow/`                                        | high       |
+| `02-thomson-reuters` | Thomson Reuters    | Compass                                              | Client work                             | archived  | `projects/thomson-reuters/`                             | high       |
+| `02.5-help-refugees` | Help Refugees      | Volunteer Interface                                  | Client / pro-bono work                  | archived  | `projects/help-refugees/`                               | high       |
+| `03-mimecast`        | Mimecast           | Administration Console, Delivery Rescue              | Client work                             | archived  | `projects/mimecast/`                                    | high       |
+| `04-humana`          | Humana             | Whole Person Care Platform                           | Client work                             | archived  | `projects/humana/`                                      | high       |
+| `05-kensho`          | Kensho             | S&P Global, Adagio                                   | Client work                             | archived  | `projects/kensho/`                                      | high       |
+| `05.5-whistle`       | Whistle            | Movement Video Platform                              | Client work                             | archived  | `projects/whistle/`                                     | high       |
+| `06-streamyard`      | StreamYard         | Hopin, Business Tier, Creator Marketplace            | Client work                             | archived  | `projects/streamyard/`                                  | high       |
+| `09-prolog`          | Prolog             | Hollywood Writer Submission System                   | Client work                             | archived  | `projects/prolog/`                                      | high       |
+| `10-revrock`         | Revrock            | Musician Tour Optimization                           | Client work                             | archived  | `projects/revrock/`                                     | high       |
+| `11-lumina`          | Lumina             | EdTech Platform Rebuild                              | Client work                             | archived  | `projects/lumina/`                                      | high       |
+| `altar`              | Altar              | Real Estate Discovery                                | Ponti Studios venture                   | active    | `projects/altar/`                                       | high       |
+| `career`             | Career             | Guild, Vouch, Crafd, job-scrape                      | Hominem product surface                 | active    | `projects/hominem/surfaces/career/` (`surface: career`) | high       |
+| `charlesponti`       | Charles Ponti      | Personal site / identity surface                     | Personal studio surface                 | active    | `projects/charlesponti/`                                | medium     |
+| `common-goods`       | Common Goods       | Los Angeles, clothing, food, home goods              | Ponti Studios venture / brand           | active    | `projects/common-goods/` (`series: los-angeles`)        | high       |
+| `commune`            | Commune            | —                                                    | Ponti Studios product                   | active    | `projects/commune/`                                     | high       |
+| `earth`              | Meridian           | Earth, Rocco                                         | Ponti Studios product                   | active    | `projects/meridian/`                                    | medium     |
+| `filekit`            | FileKit            | —                                                    | Toolbox product surface                 | active    | `projects/toolbox/`                                     | high       |
+| `foundation`         | Foundation         | Shared infrastructure                                | Ponti Studios platform                  | active    | `projects/foundation/`                                  | high       |
+| `health`             | Health             | —                                                    | Ponti Studios product                   | active    | `projects/health/`                                      | high       |
+| `hollywood`          | Hollywood          | Hollywood data platform                              | Ponti Studios product                   | active    | `projects/hollywood/`                                   | high       |
+| `hominem`            | Hominem            | Omiro, Career, Finance, Florin                       | Product monorepo and data authority     | active    | `projects/hominem/`                                     | high       |
+| `kernel`             | Kernel             | Skills library                                       | Ponti Studios platform                  | active    | `projects/kernel/`                                      | high       |
+| `labs`               | Labs               | Labyrinth, experiments                               | Studio experimentation                  | active    | `projects/labs/`                                        | high       |
+| `monotone`           | Monotone           | Unsolicited, Confractus, Movie Purgatory             | Ponti Studios creative practice         | active    | `projects/monotone/` (`series: unsolicited`)            | high       |
+| `off-the-menu`       | Off the Menu       | —                                                    | Unclassified creative/product concept   | review    | `projects/off-the-menu/`                                | low        |
+| `omiro`              | Omiro              | —                                                    | Hominem product surface                 | active    | `projects/hominem/surfaces/omiro/` (`surface: omiro`)   | high       |
+| `pipeline`           | Pipeline           | —                                                    | Ponti Studios support infrastructure    | active    | `projects/pipeline/`                                    | high       |
+| `ponti-studios-ui`   | Ponti Studios UI   | UI package                                           | Ponti Studios platform                  | active    | `projects/ponti-studios-ui/`                            | high       |
+| `prod-god`           | PROD GOD           | —                                                    | Unclassified product practice / concept | review    | `projects/prod-god/`                                    | low        |
+| `public-data`        | Public Data        | —                                                    | Ponti Studios support infrastructure    | active    | `projects/public-data/`                                 | high       |
+| `school`             | Ponti School       | —                                                    | Ponti Studios venture                   | discovery | `projects/ponti-school/`                                | medium     |
+| `studio`             | Studio Publishing  | Content Publishing System                            | Ponti Studios internal system           | active    | `projects/studio/`                                      | high       |
+| `theatre-management` | Theatre Management | —                                                    | Ponti Studios product concept           | discovery | `projects/theatre-management/`                          | medium     |
+| `toolbox`            | Toolbox            | FileKit, XKit, MediaKit, PhotoKit, AgentKit          | Ponti Studios tool monorepo             | active    | `projects/toolbox/`                                     | high       |
 
 ## Known identity conflicts
 

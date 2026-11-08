@@ -1,10 +1,10 @@
 ---
-title: 'MASVS-STORAGE: Sensitive Data Storage'
+title: "MASVS-STORAGE: Sensitive Data Storage"
 masvs_group: MASVS-STORAGE
 group_overview: true
 controls:
-- MASVS-STORAGE-1
-- MASVS-STORAGE-2
+  - MASVS-STORAGE-1
+  - MASVS-STORAGE-2
 ---
 
 # MASVS-STORAGE — Sensitive Data Storage

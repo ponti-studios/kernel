@@ -112,12 +112,7 @@
     "the Conductor's boots are planted on the platform floor inside the open rear recess",
     "the upper half of the Conductor's white mask is pure blank porcelain, evenly lit"
   ],
-  "denylist": [
-    "frame-centre",
-    "in the middle of it",
-    "tall in the frame",
-    "the standing men"
-  ],
+  "denylist": ["frame-centre", "in the middle of it", "tall in the frame", "the standing men"],
   "references": [
     "bibles/lucy/turnaround.webp",
     "bibles/wyatt/turnaround.webp",

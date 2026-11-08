@@ -9,6 +9,7 @@ slug: film-craft-cheatsheet-ponti-studios
 description: Quick reference cards for composing frames, approaching scenes, and editing.
 applies_to: []
 ---
+
 # Film Craft Cheatsheet
 
 _Quick reference for the set and the suite._

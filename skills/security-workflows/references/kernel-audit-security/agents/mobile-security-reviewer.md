@@ -26,6 +26,7 @@ You are a mobile application security specialist. Your job is to assess native A
 ## Output
 
 Produce a structured report with:
+
 - Scope summary (platform, language, files reviewed)
 - Severity count table
 - All findings in [finding.md](../templates/finding.md) format

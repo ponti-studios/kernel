@@ -13,15 +13,15 @@ metadata:
 # Ponti principles
 
 How Charles wants code written, in one place. Twenty-five laws, ordered inside each section by how often he
-has had to *correct* an agent into them — the top of a section is what agents most reliably get wrong.
+has had to _correct_ an agent into them — the top of a section is what agents most reliably get wrong.
 
 **The laws are code craft, not work management.** Branches, PRs, merges, deploys, tickets and voice are not
 laws here: they are detail in the references below, and operationally they live in `linear-tickets` and
-`switchyard-fleet-ops`. Design has its own depth in [product-and-design.md](references/product-and-design.md).
+`switchyard-fleet-ops` (lives in the switchyard repo at `docs/skills/switchyard-fleet-ops`). Design has its own depth in [product-and-design.md](references/product-and-design.md).
 
 Load this before writing code and before reviewing a file or a diff. Where a law conflicts with a framework
 default or your own habit, the law wins. A law is not always his literal words: one that began as an
-inference from how he reviews is marked *(inferred)* in the reference behind it, and his next correction
+inference from how he reviews is marked _(inferred)_ in the reference behind it, and his next correction
 overrules both.
 
 ## Precedence
@@ -64,11 +64,11 @@ overrules both.
    parallel one. Two ways to do the same thing is a defect.
 
 8. **Isolate state for performance.** Form edits must never re-render the world. Treat visible input delay
-    as an architecture bug.
+   as an architecture bug.
 
 9. **One standard shape for repeated surfaces.** List endpoints: bounded limit, opaque keyset cursor,
-    deterministic ordering — plus route tests for cursor boundaries, an empty page, and a row inserted
-    between pages.
+   deterministic ordering — plus route tests for cursor boundaries, an empty page, and a row inserted
+   between pages.
 
 10. **Schema-first for anything read from outside the program.** Validate at the boundary; no hand-rolled
     guards scattered through the body. Not for a one-line comparison or matching an error message — a
@@ -141,15 +141,15 @@ overrules both.
 
 ## Which reference to open
 
-| Touching | Open |
-| --- | --- |
-| Any code | [code.md](references/code.md) |
-| TypeScript, React, React Native, Expo | [typescript-react-native.md](references/typescript-react-native.md) |
-| Swift, SwiftUI, native modules, watchOS | [swift.md](references/swift.md) |
-| Screens, copy, motion, errors, PRDs, design files | [product-and-design.md](references/product-and-design.md) |
-| Secrets, user data, telemetry, auth, databases, APIs | [data-and-trust.md](references/data-and-trust.md) |
-| Branches, commits, PRs, merges, deploys, tickets, debugging, checks | [workflow.md](references/workflow.md) |
-| Reports, summaries and how to talk to Charles | [communication.md](references/communication.md) |
+| Touching                                                            | Open                                                                |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| Any code                                                            | [code.md](references/code.md)                                       |
+| TypeScript, React, React Native, Expo                               | [typescript-react-native.md](references/typescript-react-native.md) |
+| Swift, SwiftUI, native modules, watchOS                             | [swift.md](references/swift.md)                                     |
+| Screens, copy, motion, errors, PRDs, design files                   | [product-and-design.md](references/product-and-design.md)           |
+| Secrets, user data, telemetry, auth, databases, APIs                | [data-and-trust.md](references/data-and-trust.md)                   |
+| Branches, commits, PRs, merges, deploys, tickets, debugging, checks | [workflow.md](references/workflow.md)                               |
+| Reports, summaries and how to talk to Charles                       | [communication.md](references/communication.md)                     |
 
 ## Final checklist
 

@@ -16,15 +16,15 @@ file, or the ffmpeg assembly helpers.
 
 ## Layout
 
-| File | Exports |
-|---|---|
+| File                     | Exports                                                                                                                                                 |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `scripts/lib/config.mjs` | `parseUserConfig`, `fileConfig`, `setting`, `userConfigPath`, `configFileIsGroupOrWorldReadable`, `applyUserConfig`, `apiKey`, `loadEnv`, `envDefaults` |
-| `scripts/lib/usage.mjs` | `normalizeUsage`, `mergeUsage`, `hasReportedCost` |
-| `scripts/lib/text.mjs` | `OpenRouterTextModel`, `OpenRouterError` |
-| `scripts/lib/images.mjs` | `OpenRouterImageModel`, `OpenRouterImageError` |
-| `scripts/lib/video.mjs` | `OpenRouterVideoModel`, `OpenRouterVideoError`, `CHARACTER_LOCK` |
-| `scripts/lib/speech.mjs` | `OpenRouterSpeechModel`, `OpenRouterSpeechError` |
-| `scripts/lib/media.mjs` | `probeDuration`, `contactSheet`, `assembleVideo`, `defaultRun` |
+| `scripts/lib/usage.mjs`  | `normalizeUsage`, `mergeUsage`, `hasReportedCost`                                                                                                       |
+| `scripts/lib/text.mjs`   | `OpenRouterTextModel`, `OpenRouterError`                                                                                                                |
+| `scripts/lib/images.mjs` | `OpenRouterImageModel`, `OpenRouterImageError`                                                                                                          |
+| `scripts/lib/video.mjs`  | `OpenRouterVideoModel`, `OpenRouterVideoError`, `CHARACTER_LOCK`                                                                                        |
+| `scripts/lib/speech.mjs` | `OpenRouterSpeechModel`, `OpenRouterSpeechError`                                                                                                        |
+| `scripts/lib/media.mjs`  | `probeDuration`, `contactSheet`, `assembleVideo`, `defaultRun`                                                                                          |
 
 Every model takes an injectable fetch as its last constructor argument, so a
 caller (or a test) can pass a stub: `new OpenRouterImageModel(key, model, fakeFetch)`.
@@ -46,15 +46,15 @@ environment with the app's defaults; `apiKey()` reads `OPENROUTER_API_KEY` then
 
 Every provider throws one error class carrying a `code` a skill can branch on:
 
-| code | meaning |
-|---|---|
-| `network` | fetch itself failed (DNS, socket, abort) |
-| `http` | non-2xx, or an error body; text keeps `http` for 402 too |
-| `credits` | 402 on image, video and speech |
-| `shape` | the response is missing what the endpoint promises |
-| `empty` | no content / no bytes |
-| `failed`, `cancelled`, `expired` | video job terminal states |
-| `timeout` | video job still running at the deadline |
+| code                             | meaning                                                  |
+| -------------------------------- | -------------------------------------------------------- |
+| `network`                        | fetch itself failed (DNS, socket, abort)                 |
+| `http`                           | non-2xx, or an error body; text keeps `http` for 402 too |
+| `credits`                        | 402 on image, video and speech                           |
+| `shape`                          | the response is missing what the endpoint promises       |
+| `empty`                          | no content / no bytes                                    |
+| `failed`, `cancelled`, `expired` | video job terminal states                                |
+| `timeout`                        | video job still running at the deadline                  |
 
 ## Usage: absent is not zero
 

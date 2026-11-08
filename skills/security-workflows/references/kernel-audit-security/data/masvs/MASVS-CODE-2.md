@@ -1,11 +1,11 @@
 ---
-title: 'MASVS-CODE-2: The app has a mechanism for enforcing app updates.'
+title: "MASVS-CODE-2: The app has a mechanism for enforcing app updates."
 masvs_group: MASVS-CODE
 masvs_control: MASVS-CODE-2
 summary: The app has a mechanism for enforcing app updates.
 mastg_tests:
-- MASTG-TEST-0036
-- MASTG-TEST-0080
+  - MASTG-TEST-0036
+  - MASTG-TEST-0080
 ---
 
 # MASVS-CODE-2

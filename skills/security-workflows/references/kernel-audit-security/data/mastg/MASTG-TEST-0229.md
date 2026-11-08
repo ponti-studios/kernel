@@ -6,12 +6,12 @@ upstream_path: tests-beta/ios/MASVS-CODE/MASTG-TEST-0229.md
 upstream_tag: 31cec00
 platform: ios
 covers_masvs:
-- MASVS-CODE-4
+  - MASVS-CODE-4
 type:
-- static
+  - static
 weakness: MASWE-0116
 profiles:
-- L2
+  - L2
 ---
 
 ## Overview
@@ -41,7 +41,7 @@ The output should contain a list of symbols of the main binary and each shared l
 The test case fails if any binary or library is not purely Swift but does not contain methods indicating stack canaries like `objc_autorelease` or `objc_retainAutorelease`.
 
 !!! note
-    Checking for the `__stack_chk_fail` symbol only indicates that stack smashing protection is enabled somewhere in the app. While stack canaries are typically enabled or disabled for the entire binary, there may be corner cases where only parts of the application are protected. For example, if the app developer statically links a library with stack smashing protection enabled, but disables it for the entire application.
+Checking for the `__stack_chk_fail` symbol only indicates that stack smashing protection is enabled somewhere in the app. While stack canaries are typically enabled or disabled for the entire binary, there may be corner cases where only parts of the application are protected. For example, if the app developer statically links a library with stack smashing protection enabled, but disables it for the entire application.
 
 If you want to be sure that specific security-critical methods are sufficiently protected, you need to reverse-engineer each of them and manually check for stack smashing protection.
 

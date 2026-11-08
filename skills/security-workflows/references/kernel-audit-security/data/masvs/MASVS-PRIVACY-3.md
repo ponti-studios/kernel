@@ -1,5 +1,5 @@
 ---
-title: 'MASVS-PRIVACY-3: The app is transparent about data collection and usage.'
+title: "MASVS-PRIVACY-3: The app is transparent about data collection and usage."
 masvs_group: MASVS-PRIVACY
 masvs_control: MASVS-PRIVACY-3
 summary: The app is transparent about data collection and usage.

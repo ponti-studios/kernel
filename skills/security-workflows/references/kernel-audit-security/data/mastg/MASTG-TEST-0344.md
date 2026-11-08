@@ -6,18 +6,18 @@ upstream_path: tests-beta/ios/MASVS-NETWORK/MASTG-TEST-0344.md
 upstream_tag: 31cec00
 platform: ios
 covers_masvs:
-- MASVS-NETWORK-1
+  - MASVS-NETWORK-1
 type:
-- static
+  - static
 weakness: MASWE-0050
 profiles:
-- L1
-- L2
+  - L1
+  - L2
 ---
 
 ## Overview
 
-The [Network framework](https://developer.apple.com/documentation/network) operates entirely outside of ATS. Apps using `NWConnection` with `NWProtocolTLS.Options` can configure TLS settings directly via the Security framework, including minimum and maximum supported TLS versions through [`sec_protocol_options_set_min_tls_protocol_version`](https://developer.apple.com/documentation/security/sec_protocol_options_set_min_tls_protocol_version(_:_:)) and [`sec_protocol_options_set_max_tls_protocol_version`](https://developer.apple.com/documentation/security/sec_protocol_options_set_max_tls_protocol_version(_:_:)).
+The [Network framework](https://developer.apple.com/documentation/network) operates entirely outside of ATS. Apps using `NWConnection` with `NWProtocolTLS.Options` can configure TLS settings directly via the Security framework, including minimum and maximum supported TLS versions through [`sec_protocol_options_set_min_tls_protocol_version`](<https://developer.apple.com/documentation/security/sec_protocol_options_set_min_tls_protocol_version(_:_:)>) and [`sec_protocol_options_set_max_tls_protocol_version`](<https://developer.apple.com/documentation/security/sec_protocol_options_set_max_tls_protocol_version(_:_:)>).
 
 Since ATS does not apply to Network.framework connections, any weak TLS configuration here is not mitigated by ATS. Setting a minimum TLS version below 1.2 creates the risk of connection downgrade attacks without any ATS-level safety net. Apple's documentation notes that "ATS doesn't apply to calls your app makes to lower-level networking interfaces like the `Network` framework or `CFNetwork`. In these cases, you take responsibility for ensuring the security of the connection." See [Preventing Insecure Network Connections](https://developer.apple.com/documentation/security/preventing-insecure-network-connections).
 

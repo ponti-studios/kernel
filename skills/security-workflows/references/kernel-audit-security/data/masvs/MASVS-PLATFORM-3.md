@@ -1,16 +1,16 @@
 ---
-title: 'MASVS-PLATFORM-3: The app uses the user interface securely.'
+title: "MASVS-PLATFORM-3: The app uses the user interface securely."
 masvs_group: MASVS-PLATFORM
 masvs_control: MASVS-PLATFORM-3
 summary: The app uses the user interface securely.
 mastg_tests:
-- MASTG-TEST-0289
-- MASTG-TEST-0290
-- MASTG-TEST-0291
-- MASTG-TEST-0316
-- MASTG-TEST-0340
-- MASTG-TEST-0346
-- MASTG-TEST-0347
+  - MASTG-TEST-0289
+  - MASTG-TEST-0290
+  - MASTG-TEST-0291
+  - MASTG-TEST-0316
+  - MASTG-TEST-0340
+  - MASTG-TEST-0346
+  - MASTG-TEST-0347
 ---
 
 # MASVS-PLATFORM-3

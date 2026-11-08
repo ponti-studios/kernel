@@ -13,15 +13,15 @@
 // while a studio checkout keeps it at `universe/registry/registry.json`. Both
 // are accepted, flat first, so the skill's own data always wins over a stale
 // `--root` that predates the flattening.
-import { existsSync, readFileSync } from 'node:fs';
-import { join, resolve } from 'node:path';
+import { existsSync, readFileSync } from "node:fs";
+import { join, resolve } from "node:path";
 
-import { validateRegistry } from './schemas.mjs';
+import { validateRegistry } from "./schemas.mjs";
 
-export { validateRegistry } from './schemas.mjs';
+export { validateRegistry } from "./schemas.mjs";
 
 /** Candidate registry locations under a universe root, in precedence order. */
-export const REGISTRY_CANDIDATES = ['registry.json', join('registry', 'registry.json')];
+export const REGISTRY_CANDIDATES = ["registry.json", join("registry", "registry.json")];
 
 /**
  * Resolve the registry file under `root`.
@@ -35,7 +35,7 @@ export function registryPath(root) {
     if (existsSync(candidate)) return candidate;
   }
   throw new Error(
-    `no registry found under ${base}\nTried:\n  ${REGISTRY_CANDIDATES.map((rel) => join(base, rel)).join('\n  ')}\n` +
+    `no registry found under ${base}\nTried:\n  ${REGISTRY_CANDIDATES.map((rel) => join(base, rel)).join("\n  ")}\n` +
       `A universe root holds registry.json (or registry/registry.json) and bibles/.`,
   );
 }
@@ -64,7 +64,7 @@ export function loadRegistry(root, options = {}) {
   const file = options.file ?? registryPath(root);
   let text;
   try {
-    text = readFileSync(file, 'utf8');
+    text = readFileSync(file, "utf8");
   } catch (err) {
     throw new Error(`cannot read registry ${file}: ${err.message}`);
   }
@@ -96,7 +96,7 @@ export function hasCharacter(registry, id) {
 export function character(registry, id) {
   if (!hasCharacter(registry, id)) {
     throw new Error(
-      `unknown character "${id}" — registry knows: ${Object.keys(registry.characters).join(', ')}`,
+      `unknown character "${id}" — registry knows: ${Object.keys(registry.characters).join(", ")}`,
     );
   }
   return registry.characters[id];
@@ -131,12 +131,12 @@ export function listTails(registry, id) {
 export function referencedFiles(registry) {
   const out = [];
   for (const [id, c] of Object.entries(registry.characters)) {
-    out.push({ character: id, kind: 'bible', id: 'bible', relpath: c.bible });
+    out.push({ character: id, kind: "bible", id: "bible", relpath: c.bible });
     for (const relpath of c.reference_images ?? []) {
-      out.push({ character: id, kind: 'reference_image', id: relpath, relpath });
+      out.push({ character: id, kind: "reference_image", id: relpath, relpath });
     }
     for (const [plateId, plate] of Object.entries(c.plates ?? {})) {
-      out.push({ character: id, kind: 'plate', id: plateId, relpath: plate.path });
+      out.push({ character: id, kind: "plate", id: plateId, relpath: plate.path });
     }
   }
   return out;

@@ -6,23 +6,23 @@ upstream_path: tests-beta/android/MASVS-CRYPTO/MASTG-TEST-0221.md
 upstream_tag: 31cec00
 platform: android
 covers_masvs:
-- MASVS-CRYPTO-1
+  - MASVS-CRYPTO-1
 type:
-- static
-- dynamic
+  - static
+  - dynamic
 weakness: MASWE-0020
 profiles:
-- L1
-- L2
+  - L1
+  - L2
 ---
 
 ## Overview
 
 To test for the [use of broken encryption algorithms](../../../Document/0x04g-Testing-Cryptography.md#identifying-insecure-andor-deprecated-cryptographic-algorithms) in Android apps, we need to focus on methods from cryptographic frameworks and libraries that are used to perform encryption and decryption operations.
 
-- [`Cipher.getInstance`](https://developer.android.com/reference/javax/crypto/Cipher#getInstance(java.lang.String)): Initializes a Cipher object for encryption or decryption. The `algorithm` parameter can be one of the [supported algorithms](https://docs.oracle.com/javase/8/docs/technotes/guides/security/StandardNames.html#Cipher).
-- [`SecretKeyFactory.getInstance`](https://developer.android.com/reference/javax/crypto/SecretKeyFactory#getInstance(java.lang.String)): Returns a SecretKeyFactory object that converts keys into key specifications and vice versa. The `algorithm` parameter can be one of the [supported algorithms](https://docs.oracle.com/javase/8/docs/technotes/guides/security/StandardNames.html#SecretKeyFactory).
-- [`KeyGenerator.getInstance`](https://developer.android.com/reference/javax/crypto/KeyGenerator#getInstance(java.lang.String)): Returns a `KeyGenerator` object that generates secret keys for symmetric algorithms. The `algorithm` parameter can be one of the [supported algorithms](https://docs.oracle.com/javase/8/docs/technotes/guides/security/StandardNames.html#KeyGenerator).
+- [`Cipher.getInstance`](<https://developer.android.com/reference/javax/crypto/Cipher#getInstance(java.lang.String)>): Initializes a Cipher object for encryption or decryption. The `algorithm` parameter can be one of the [supported algorithms](https://docs.oracle.com/javase/8/docs/technotes/guides/security/StandardNames.html#Cipher).
+- [`SecretKeyFactory.getInstance`](<https://developer.android.com/reference/javax/crypto/SecretKeyFactory#getInstance(java.lang.String)>): Returns a SecretKeyFactory object that converts keys into key specifications and vice versa. The `algorithm` parameter can be one of the [supported algorithms](https://docs.oracle.com/javase/8/docs/technotes/guides/security/StandardNames.html#SecretKeyFactory).
+- [`KeyGenerator.getInstance`](<https://developer.android.com/reference/javax/crypto/KeyGenerator#getInstance(java.lang.String)>): Returns a `KeyGenerator` object that generates secret keys for symmetric algorithms. The `algorithm` parameter can be one of the [supported algorithms](https://docs.oracle.com/javase/8/docs/technotes/guides/security/StandardNames.html#KeyGenerator).
 
 Some broken symmetric encryption algorithms include:
 

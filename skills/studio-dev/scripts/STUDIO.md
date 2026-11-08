@@ -2,14 +2,14 @@
 
 Every studio repo answers to the same `just` verbs. Run `just --list` to see what applies.
 
-| Verb | What it does |
-|---|---|
-| `just setup` | Install dependencies, build local packages, create gitignored config, pod install. Safe to repeat. Run it first in any new checkout or `git worktree`. |
-| `just doctor` | Read-only checks (Xcode, simulator, ports, devices). Says what to fix. |
-| `just run` | Start Metro (and the local API when the app needs one) on this repo's port. |
-| `just sim` | Build, install and launch on the booted simulator. |
-| `just e2e` | End-to-end flows on the simulator, where the repo has them. |
-| `just testflight` | Ship to TestFlight, the same way in every app (see Shipping). Only when asked. |
+| Verb              | What it does                                                                                                                                           |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `just setup`      | Install dependencies, build local packages, create gitignored config, pod install. Safe to repeat. Run it first in any new checkout or `git worktree`. |
+| `just doctor`     | Read-only checks (Xcode, simulator, ports, devices). Says what to fix.                                                                                 |
+| `just run`        | Start Metro (and the local API when the app needs one) on this repo's port.                                                                            |
+| `just sim`        | Build, install and launch on the booted simulator.                                                                                                     |
+| `just e2e`        | End-to-end flows on the simulator, where the repo has them.                                                                                            |
+| `just testflight` | Ship to TestFlight, the same way in every app (see Shipping). Only when asked.                                                                         |
 
 A verb a repo does not support prints "not applicable here" and exits 0.
 

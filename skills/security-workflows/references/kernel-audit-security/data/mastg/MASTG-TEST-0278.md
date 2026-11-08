@@ -6,12 +6,12 @@ upstream_path: tests-beta/ios/MASVS-PLATFORM/MASTG-TEST-0278.md
 upstream_tag: 31cec00
 platform: ios
 covers_masvs:
-- MASVS-PLATFORM-1
+  - MASVS-PLATFORM-1
 type:
-- static
+  - static
 weakness: MASWE-0053
 profiles:
-- L2
+  - L2
 ---
 
 ## Overview
@@ -23,7 +23,7 @@ Apps can clear the contents of the general pasteboard by setting `UIPasteboard.g
 ## Steps
 
 1. Run a static analysis scan using @MASTG-TOOL-0073 to detect usage of the [`UIPasteboard.general`](https://developer.apple.com/documentation/uikit/uipasteboard/1622106-generalpasteboard "UIPasteboard generalPasteboard") property.
-2. Run a static analysis scan using @MASTG-TOOL-0073 to detect usage of the [`UIPasteboard.setItems`](https://developer.apple.com/documentation/uikit/uipasteboard/setitems(_:options:) "UIPasteboard setItems") method.
+2. Run a static analysis scan using @MASTG-TOOL-0073 to detect usage of the [`UIPasteboard.setItems`](<https://developer.apple.com/documentation/uikit/uipasteboard/setitems(_:options:)> "UIPasteboard setItems") method.
 
 ## Observation
 

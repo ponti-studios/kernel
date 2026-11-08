@@ -13,7 +13,7 @@ gitleaks detect --no-banner --redact --report-format json --report-path /tmp/gl.
 
 `--redact` keeps the report safe to read. Expect the first run to be noisy, and classify every finding:
 
-- **A scanner's own fixtures.** A test that proves the scanner catches credentials *has* to contain
+- **A scanner's own fixtures.** A test that proves the scanner catches credentials _has_ to contain
   credential-shaped strings. Allowlist **by path** in `.gitleaks.toml`; allowlisting by rule blinds the
   scanner everywhere.
 - **A real key.** Deleting the commit is not remediation — assume it is public. Rotate the credential

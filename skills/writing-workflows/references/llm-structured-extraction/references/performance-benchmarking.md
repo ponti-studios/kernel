@@ -3,8 +3,25 @@
 ## JSONL Baseline Format
 
 Store baselines as JSONL (one JSON object per line) in a `perf/` directory. Each entry:
+
 ```json
-{"timestamp":"2026-10-24T18:30:00Z","label":"v1-tonight-baseline","git_commit":"abc1234","store_size":{"memories":120,"turns":245,"episodes":146},"results":{"record_turn":{"count":100,"min_ms":0.07,"mean_ms":0.11,"p50_ms":0.08,"p95_ms":0.28,"p99_ms":0.58,"max_ms":1.26}}}
+{
+  "timestamp": "2026-10-24T18:30:00Z",
+  "label": "v1-tonight-baseline",
+  "git_commit": "abc1234",
+  "store_size": { "memories": 120, "turns": 245, "episodes": 146 },
+  "results": {
+    "record_turn": {
+      "count": 100,
+      "min_ms": 0.07,
+      "mean_ms": 0.11,
+      "p50_ms": 0.08,
+      "p95_ms": 0.28,
+      "p99_ms": 0.58,
+      "max_ms": 1.26
+    }
+  }
+}
 ```
 
 ## Key Metrics

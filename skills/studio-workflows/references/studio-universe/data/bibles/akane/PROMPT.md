@@ -150,6 +150,7 @@
 ## AKANE BLOCK (draft prompt carrier — stitch verbatim into every Akane prompt)
 
 <!-- PROMPT-BLOCK-START: akane -->
+
 "Akane is a petite Japanese woman, 153cm tall and 5 heads in proportion, with pale porcelain skin, blue eyes, and long black hair worn mostly straight with loose waves at the ends and a full straight fringe across her forehead. Her legs are natural in length and proportion, in keeping with her five-head build. She carries herself with the manner of a temptress — a heavy-lidded, knowing gaze, languid and magnetic, self-assured, arms folded or one hand on her hip, her hands busy and active at her hip or her sides. She is self-contained and absorbed in her own action, with a lively, expressive face. She is rendered in a painterly cel style, more softly modelled than flat cel animation."
 <!-- PROMPT-BLOCK-END: akane -->
 

@@ -10,6 +10,7 @@ slug: brand-copy-ponti-studios
 description: The mechanics — naming, headlines, body copy, CTAs, and context-specific writing standards.
 applies_to: []
 ---
+
 # Brand Copy
 
 _The mechanics._

@@ -13,7 +13,7 @@ generation-ready (see their entries below).
 - **Wyatt Bose is Chase** — his public/social persona. The stage handle
   @thewyattbose is his and stays; it is not the assistant's name.
 - **The Masked Chibi is Wyatt Bose stylised** — Chase himself in drawn
-  form. His folder is `art/wyatt/` because he *is* Monotone (Bose).
+  form. His folder is `art/wyatt/` because he _is_ Monotone (Bose).
 - **Monotone is one entity in two registers.** In public he is the
   silent citizen below — no mouth, placement is the sentence. In
   private, his voice is Chase's assistant, who carries the name
@@ -92,15 +92,15 @@ Every citizen's height in centimetres and in heads, one table,
 no floating ratios anywhere else. Each bible carries its own
 proportions spec as a pointer to this chart.
 
-| Citizen | Height | Heads | Notes |
-|---|---|---|---|
-| Lucy | 163cm | proportions per her character sheet (photoreal head ≈ 1/7.5 of height) | Height/build set by her photoreal character sheet — Chase's ground truth, 18 Oct 2026 (was 170cm). |
-| Monotone | 165cm | 5 heads | The tallest citizen by 2cm (since Lucy's 18 Oct 2026 ground-truth change). |
-| Void | 165cm | 5 head-diameters | Matches Monotone exactly in shared frames (his bible's rule). |
-| Benny | 156cm | 5.5 heads | 96% of Lucy. |
-| Akane | 153cm | 5 heads | 94% of Lucy; joint-shortest adult in the cast. |
-| Wyatt (Masked Chibi) | 153cm | 5 heads | The SAME height as Akane (raised from 122cm — Chase's deliberate change, 18 Oct 2026); 94% of Lucy; adult-built. |
-| Cyndi | back ≈58cm | — | Sitting crown at Monotone's hip (≈102cm); standing back just above his knee. |
+| Citizen              | Height     | Heads                                                                  | Notes                                                                                                            |
+| -------------------- | ---------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| Lucy                 | 163cm      | proportions per her character sheet (photoreal head ≈ 1/7.5 of height) | Height/build set by her photoreal character sheet — Chase's ground truth, 18 Oct 2026 (was 170cm).               |
+| Monotone             | 165cm      | 5 heads                                                                | The tallest citizen by 2cm (since Lucy's 18 Oct 2026 ground-truth change).                                       |
+| Void                 | 165cm      | 5 head-diameters                                                       | Matches Monotone exactly in shared frames (his bible's rule).                                                    |
+| Benny                | 156cm      | 5.5 heads                                                              | 96% of Lucy.                                                                                                     |
+| Akane                | 153cm      | 5 heads                                                                | 94% of Lucy; joint-shortest adult in the cast.                                                                   |
+| Wyatt (Masked Chibi) | 153cm      | 5 heads                                                                | The SAME height as Akane (raised from 122cm — Chase's deliberate change, 18 Oct 2026); 94% of Lucy; adult-built. |
+| Cyndi                | back ≈58cm | —                                                                      | Sitting crown at Monotone's hip (≈102cm); standing back just above his knee.                                     |
 
 Derived relations for shared frames: Wyatt stands at exactly
 Akane's height (eye line to eye line) and 94% of Lucy; Akane
@@ -155,8 +155,7 @@ screen, and her fix is a design she ships on the spot — tablet
 and stylus, palettes and tokens, colour blooming back where she
 works (the production rule below is unchanged: the bloom is
 composited radially around her). Coral #EE7B57 is her signature
-design token. Sets posted before the reframe (Carousels 4, 5, 7,
-8) show her painting; that depiction stands historically, the
+design token. Sets posted before the reframe (Carousels 4, 5, 7, 8) show her painting; that depiction stands historically, the
 way earlier designs do.
 **Street amendment (19 Oct 2026, Chase):** the tablet is studio
 kit. When Lucy is in the streets she is a street artist — she
@@ -173,21 +172,21 @@ pointer, never a restatement. When a spec changes, edit the owner; then
 re-derive any prompt-carrier block in the same pass. If you find the same
 spec written in two places, the copy dies on sight.
 
-| Fact | Owning file |
-|---|---|
-| Monotone prompt prose (head, eyes, crescent) | MASTER BLOCK v2, `art/monotone/character-prompt-system.md` |
-| Flat-mark geometry + colours (ratios, eye centres, Øs, #E4181B/#2A2A2A/#F8F8F8) | `art/monotone/mark/spec.md` |
-| Cyndi's appearance + CYNDI BLOCK | `art/cyndi/PROMPT.md` |
-| The chibi's design + mask negative block | `art/wyatt/character-bible.md` |
-| Benny / Lucy / Void legacy identity (SOURCE only — not a live spec) | `art/benny/legacy-identity.md`, `art/lucy/legacy-identity.md`, `art/void/legacy-identity.md` |
-| Benny / Lucy / Void integration status + open fit questions | `art/benny/INTEGRATION.md`, `art/lucy/INTEGRATION.md`, `art/void/INTEGRATION.md` |
-| Akane's integration status + open fit questions (her bible will own her design once locked) | `art/akane/INTEGRATION.md` |
-| Lucy's design + LUCY BLOCK | `art/lucy/character-bible.md` |
-| Void's design + VOID BLOCK | `art/void/character-bible.md` |
-| Benny's design + BENNY BLOCK | `art/benny/character-bible.md` |
-| Lucy / Void / Benny turnaround sheets | `art/lucy/turnaround.webp`, `art/void/turnaround.webp`, `art/benny/turnaround.webp` |
-| Kernel Wyatt ancestry + fold disposition (historical) | `art/monotone/archive/kernel-wyatt-ancestor.md` |
-| Universe rules, stage, crossover, this map | this file |
+| Fact                                                                                        | Owning file                                                                                  |
+| ------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| Monotone prompt prose (head, eyes, crescent)                                                | MASTER BLOCK v2, `art/monotone/character-prompt-system.md`                                   |
+| Flat-mark geometry + colours (ratios, eye centres, Øs, #E4181B/#2A2A2A/#F8F8F8)             | `art/monotone/mark/spec.md`                                                                  |
+| Cyndi's appearance + CYNDI BLOCK                                                            | `art/cyndi/PROMPT.md`                                                                        |
+| The chibi's design + mask negative block                                                    | `art/wyatt/character-bible.md`                                                               |
+| Benny / Lucy / Void legacy identity (SOURCE only — not a live spec)                         | `art/benny/legacy-identity.md`, `art/lucy/legacy-identity.md`, `art/void/legacy-identity.md` |
+| Benny / Lucy / Void integration status + open fit questions                                 | `art/benny/INTEGRATION.md`, `art/lucy/INTEGRATION.md`, `art/void/INTEGRATION.md`             |
+| Akane's integration status + open fit questions (her bible will own her design once locked) | `art/akane/INTEGRATION.md`                                                                   |
+| Lucy's design + LUCY BLOCK                                                                  | `art/lucy/character-bible.md`                                                                |
+| Void's design + VOID BLOCK                                                                  | `art/void/character-bible.md`                                                                |
+| Benny's design + BENNY BLOCK                                                                | `art/benny/character-bible.md`                                                               |
+| Lucy / Void / Benny turnaround sheets                                                       | `art/lucy/turnaround.webp`, `art/void/turnaround.webp`, `art/benny/turnaround.webp`          |
+| Kernel Wyatt ancestry + fold disposition (historical)                                       | `art/monotone/archive/kernel-wyatt-ancestor.md`                                              |
+| Universe rules, stage, crossover, this map                                                  | this file                                                                                    |
 
 Prompt-carrier blocks (MASTER BLOCK, PROPORTIONS BLOCK, CYNDI BLOCK, the
 mask negative block) are frozen delivery text: they carry their owner's
@@ -236,8 +235,8 @@ the owner — never independently.
   going by. Always at ease, faintly amused; the one person who
   treats a silent red-headed man as the most normal company in
   London. His Chelsea preppy is his habitat — he is the cast's
-  west-Londoner, and scenes with him give Monotone someone to *be
-  with*, not something to look at.
+  west-Londoner, and scenes with him give Monotone someone to _be
+  with_, not something to look at.
 - **Void — scarcity and dread.** It almost never gets a post. It
   appears as a grey patch in a location the audience knows in
   colour, a small black figure at the end of an aisle — never
@@ -272,11 +271,11 @@ the owner — never independently.
   set folder's README.
 - **The first meeting** (built 16 Oct 2026): a five-frame image-only
   carousel at Borough Market — the market in full colour (Monotone
-  + Benny); the drain arriving with Void small at the aisle's end;
-  the grey reaching them, Benny drained, Monotone's red untouched;
-  Lucy repainting, colour blooming back around her work; the market
-  whole again with the first grey already creeping back at the
-  edge. Every engine rule visible in pictures alone.
+  - Benny); the drain arriving with Void small at the aisle's end;
+    the grey reaching them, Benny drained, Monotone's red untouched;
+    Lucy repainting, colour blooming back around her work; the market
+    whole again with the first grey already creeping back at the
+    edge. Every engine rule visible in pictures alone.
 - **Drain production rule:** the drain is NOT generated. Scenes are
   generated in full colour and the drain/restoration is applied as
   a deterministic composite (radial saturation gradient centred on
@@ -294,7 +293,7 @@ for who does what at the studio.
   studio and he builds the thing. The Masked Chibi is Wyatt at
   work.
 - **Monotone — Creative Director.** He does not design the
-  brand, he *is* the brand: the studio's face and visual
+  brand, he _is_ the brand: the studio's face and visual
   standard. Silent in every meeting; work goes out looking like
   him or it does not go out.
 - **Lucy — Software Designer.** She designs what Wyatt

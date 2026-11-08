@@ -6,13 +6,13 @@ upstream_path: tests-beta/ios/MASVS-STORAGE/MASTG-TEST-0297.md
 upstream_tag: 31cec00
 platform: ios
 covers_masvs:
-- MASVS-STORAGE-2
+  - MASVS-STORAGE-2
 type:
-- static
+  - static
 weakness: MASWE-0001
 profiles:
-- L1
-- L2
+  - L1
+  - L2
 ---
 
 ## Overview

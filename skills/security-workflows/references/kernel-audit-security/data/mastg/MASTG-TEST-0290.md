@@ -7,13 +7,13 @@ upstream_path: tests-beta/ios/MASVS-PLATFORM/MASTG-TEST-0290.md
 upstream_tag: 31cec00
 platform: ios
 covers_masvs:
-- MASVS-PLATFORM-3
+  - MASVS-PLATFORM-3
 type:
-- dynamic
-- manual
+  - dynamic
+  - manual
 weakness: MASWE-0055
 profiles:
-- L2
+  - L2
 ---
 
 ## Overview

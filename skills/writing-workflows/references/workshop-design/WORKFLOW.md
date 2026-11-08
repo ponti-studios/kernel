@@ -125,20 +125,20 @@ the decisions to people who were not there.
 Pick the closest playbook and follow it end-to-end. Combine at most two for
 a custom session; more than that means the outcome is not framed yet.
 
-| Problem                                              | Playbook                                     | Duration       |
-| ---------------------------------------------------- | -------------------------------------------- | -------------- |
-| Kicking off work, surfacing assumptions and risks    | [workshop.product-discovery.md](references/workshop.product-discovery.md)   | Half day       |
-| What to build and why, roadmap                       | [workshop.product-strategy.md](references/workshop.product-strategy.md)    | Full day       |
-| Fuzzy idea to testable prototype                     | [workshop.product-design.md](references/workshop.product-design.md)      | 1–2 days       |
-| Stack, schema, and build-vs-buy decisions            | [workshop.technical-architecture.md](references/workshop.technical-architecture.md) | Full day    |
-| Brand essence, differentiation, voice                | [workshop.brand-positioning.md](references/workshop.brand-positioning.md)   | Full day       |
-| Competing visions, team friction                     | [workshop.alignment.md](references/workshop.alignment.md)           | Half day       |
-| Big bet to validated prototype with user tests       | [workshop.design-sprint.md](references/workshop.design-sprint.md)       | 5 days         |
-| Project kickoff, team and operating setup            | [sprint-zero.md](references/sprint-zero.md)                  | Per playbook   |
-| Values, culture, operating principles                | [values.md](references/values.md)                       | Per playbook   |
-| End-to-end experience mapping                        | [workshop.user-journey-mapping.md](references/workshop.user-journey-mapping.md) | Per playbook  |
-| Surfacing failure modes before committing            | [pre-mortem.md](references/pre-mortem.md)                   | Per playbook   |
-| Positioning, logistics, team size, pricing context   | [workshops.md](references/workshops.md)                    | Catalog        |
+| Problem                                            | Playbook                                                                            | Duration     |
+| -------------------------------------------------- | ----------------------------------------------------------------------------------- | ------------ |
+| Kicking off work, surfacing assumptions and risks  | [workshop.product-discovery.md](references/workshop.product-discovery.md)           | Half day     |
+| What to build and why, roadmap                     | [workshop.product-strategy.md](references/workshop.product-strategy.md)             | Full day     |
+| Fuzzy idea to testable prototype                   | [workshop.product-design.md](references/workshop.product-design.md)                 | 1–2 days     |
+| Stack, schema, and build-vs-buy decisions          | [workshop.technical-architecture.md](references/workshop.technical-architecture.md) | Full day     |
+| Brand essence, differentiation, voice              | [workshop.brand-positioning.md](references/workshop.brand-positioning.md)           | Full day     |
+| Competing visions, team friction                   | [workshop.alignment.md](references/workshop.alignment.md)                           | Half day     |
+| Big bet to validated prototype with user tests     | [workshop.design-sprint.md](references/workshop.design-sprint.md)                   | 5 days       |
+| Project kickoff, team and operating setup          | [sprint-zero.md](references/sprint-zero.md)                                         | Per playbook |
+| Values, culture, operating principles              | [values.md](references/values.md)                                                   | Per playbook |
+| End-to-end experience mapping                      | [workshop.user-journey-mapping.md](references/workshop.user-journey-mapping.md)     | Per playbook |
+| Surfacing failure modes before committing          | [pre-mortem.md](references/pre-mortem.md)                                           | Per playbook |
+| Positioning, logistics, team size, pricing context | [workshops.md](references/workshops.md)                                             | Catalog      |
 
 ## Output structure
 

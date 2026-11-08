@@ -6,12 +6,12 @@ upstream_path: tests-beta/android/MASVS-PLATFORM/MASTG-TEST-0315.md
 upstream_tag: 31cec00
 platform: android
 covers_masvs:
-- MASVS-STORAGE-2
+  - MASVS-STORAGE-2
 type:
-- static
+  - static
 weakness: MASWE-0054
 profiles:
-- L2
+  - L2
 ---
 
 ## Overview
@@ -20,7 +20,7 @@ This test verifies that the app correctly handles notifications, ensuring that s
 
 On Android 13 and higher, apps targeting API level 33 or above must request the runtime permission [`POST_NOTIFICATIONS`](https://developer.android.com/reference/android/Manifest.permission#POST_NOTIFICATIONS) to send notifications. Below API level 33, this permission is not required. For testing purposes, we consider the value of the app's `minSdkVersion` because it indicates the lowest Android version on which the app can run.
 
-Notifications can be created using the [`setContentTitle`](https://developer.android.com/reference/android/app/Notification.Builder#setContentTitle(java.lang.CharSequence)) and [`setContentText`](https://developer.android.com/reference/android/app/Notification.Builder#setContentText(java.lang.CharSequence)) methods of [`Notification.Builder`](https://developer.android.com/reference/android/app/Notification.Builder) or [`NotificationCompat.Builder`](https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder).
+Notifications can be created using the [`setContentTitle`](<https://developer.android.com/reference/android/app/Notification.Builder#setContentTitle(java.lang.CharSequence)>) and [`setContentText`](<https://developer.android.com/reference/android/app/Notification.Builder#setContentText(java.lang.CharSequence)>) methods of [`Notification.Builder`](https://developer.android.com/reference/android/app/Notification.Builder) or [`NotificationCompat.Builder`](https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder).
 
 Notification usage should not expose sensitive information that could be disclosed accidentally, e.g., through shoulder surfing or when sharing the device with another person.
 

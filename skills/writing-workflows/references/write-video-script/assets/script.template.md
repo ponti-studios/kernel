@@ -8,8 +8,6 @@ updated: 2026-08-26
 slug: video-script-template
 ---
 
-
-
 - **Target Length:** [e.g. 45 - 60 seconds]
 - **Pacing:** [e.g. Fast, punchy / Calm, methodical]
 - **Visual Style:** [e.g. Screen recording of Excalidraw canvas / Talking head / Split screen]

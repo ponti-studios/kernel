@@ -8,7 +8,7 @@
  */
 
 const SCRIPT_TEXT = (script) =>
-  `# ${script.title}\n\n${script.sections.map((s) => `## ${s.title}\n${s.body}`).join('\n\n')}`;
+  `# ${script.title}\n\n${script.sections.map((s) => `## ${s.title}\n${s.body}`).join("\n\n")}`;
 
 export const SOCIAL_CLIP_SYSTEM_PROMPT = `You are Ponti Studio's short-form content editor. Derive TikTok/Reels clip ideas from the approved master script.
 

@@ -10,11 +10,11 @@ Navigate iOS and Android tooling, dependency management, and build systems in Re
 
 ## Quick Reference
 
-| Platform   | IDE            | Package Manager   | Build System |
-| ---------- | -------------- | ----------------- | ------------ |
-| JavaScript | VS Code        | pnpm              | Metro        |
-| iOS        | Xcode          | CocoaPods         | xcodebuild   |
-| Android    | Android Studio | Gradle            | Gradle       |
+| Platform   | IDE            | Package Manager | Build System |
+| ---------- | -------------- | --------------- | ------------ |
+| JavaScript | VS Code        | pnpm            | Metro        |
+| iOS        | Xcode          | CocoaPods       | xcodebuild   |
+| Android    | Android Studio | Gradle          | Gradle       |
 
 ```bash
 # Common commands

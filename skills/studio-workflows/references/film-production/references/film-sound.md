@@ -9,6 +9,7 @@ slug: film-sound-ponti-studios
 description: Audio craft — diegetic sound, silence, and music as structure.
 applies_to: []
 ---
+
 # Film Sound
 
 _The audience hears what the character feels._

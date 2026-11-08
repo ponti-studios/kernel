@@ -1,6 +1,6 @@
 // Draft validation for this skill. Combinators come from studio-core.
 
-import { array, object, string } from '../../../studio-core/scripts/lib/validate.mjs';
+import { array, object, string } from "../../../studio-core/scripts/lib/validate.mjs";
 
 export const youtubeScriptDraftSchema = object({
   title: string({ min: 1 }),

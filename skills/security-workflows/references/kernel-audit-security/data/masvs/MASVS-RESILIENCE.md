@@ -1,12 +1,12 @@
 ---
-title: 'MASVS-RESILIENCE: Resilience Against Reverse-Engineering'
+title: "MASVS-RESILIENCE: Resilience Against Reverse-Engineering"
 masvs_group: MASVS-RESILIENCE
 group_overview: true
 controls:
-- MASVS-RESILIENCE-1
-- MASVS-RESILIENCE-2
-- MASVS-RESILIENCE-3
-- MASVS-RESILIENCE-4
+  - MASVS-RESILIENCE-1
+  - MASVS-RESILIENCE-2
+  - MASVS-RESILIENCE-3
+  - MASVS-RESILIENCE-4
 ---
 
 # MASVS-RESILIENCE — Resilience Against Reverse-Engineering

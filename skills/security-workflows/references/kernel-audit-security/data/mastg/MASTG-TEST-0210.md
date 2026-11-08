@@ -6,14 +6,14 @@ upstream_path: tests-beta/ios/MASVS-CRYPTO/MASTG-TEST-0210.md
 upstream_tag: 31cec00
 platform: ios
 covers_masvs:
-- MASVS-CRYPTO-1
+  - MASVS-CRYPTO-1
 type:
-- static
-- dynamic
+  - static
+  - dynamic
 weakness: MASWE-0020
 profiles:
-- L1
-- L2
+  - L1
+  - L2
 ---
 
 ## Overview
@@ -21,13 +21,13 @@ profiles:
 To test for the use of broken encryption algorithms in iOS apps, we need to focus on methods from cryptographic frameworks and libraries that are used to perform encryption and decryption operations.
 
 - **CommonCrypto**: The [`CCCrypt`](https://developer.apple.com/library/archive/documentation/System/Conceptual/ManPages_iPhoneOS/man3/CCCrypt.3cc.html) function is used for **symmetric algorithms** and specifies the algorithm in its second parameter `alg` which can be one of the following [`CCAlgorithm`](https://github.com/Apple-FOSS-Mirror/CommonCrypto/blob/v60026/CommonCrypto/CommonCryptor.h#L149-L158) constants:
-    - `kCCAlgorithmAES128`
-    - `kCCAlgorithmDES`
-    - `kCCAlgorithm3DES`
-    - `kCCAlgorithmCAST`
-    - `kCCAlgorithmRC4`
-    - `kCCAlgorithmRC2`
-    - `kCCAlgorithmBlowfish`
+  - `kCCAlgorithmAES128`
+  - `kCCAlgorithmDES`
+  - `kCCAlgorithm3DES`
+  - `kCCAlgorithmCAST`
+  - `kCCAlgorithmRC4`
+  - `kCCAlgorithmRC2`
+  - `kCCAlgorithmBlowfish`
 
 - **CryptoKit**: This library does not support weak encryption algorithms. It only supports secure **symmetric algorithms** including AES-GCM and ChaChaPoly.
 - **Third-party libraries**: Applications may include cryptographic functions through third-party libraries such as OpenSSL, BoringSSL, Libsodium, or even custom cryptographic implementations. These may support or expose weak encryption algorithms like DES, 3DES, RC2, RC4, or Blowfish.

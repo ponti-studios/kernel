@@ -12,6 +12,7 @@ owner: charlesponti
 tags: [ponti-studios, playbook, hiring]
 applies_to: []
 ---
+
 # Hiring
 
 _How we evaluate people. Companion to [[principles|Operating Principles]]._

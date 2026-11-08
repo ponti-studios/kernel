@@ -31,18 +31,18 @@ Common mappings are pre-populated in `data/opencre/README.md`.
 
 ## Severity Definitions
 
-| Severity | CVSS Range | Criteria |
-|----------|-----------|----------|
-| CRITICAL | 9.0-10.0 | Remote code execution, full system compromise, mass data breach |
-| HIGH | 7.0-8.9 | Privilege escalation, significant data exposure, auth bypass |
-| MEDIUM | 4.0-6.9 | Limited data exposure, requires user interaction or specific conditions |
-| LOW | 0.1-3.9 | Information disclosure, minor misconfigurations |
-| INFORMATIONAL | N/A | Best practice recommendations, defense-in-depth suggestions |
+| Severity      | CVSS Range | Criteria                                                                |
+| ------------- | ---------- | ----------------------------------------------------------------------- |
+| CRITICAL      | 9.0-10.0   | Remote code execution, full system compromise, mass data breach         |
+| HIGH          | 7.0-8.9    | Privilege escalation, significant data exposure, auth bypass            |
+| MEDIUM        | 4.0-6.9    | Limited data exposure, requires user interaction or specific conditions |
+| LOW           | 0.1-3.9    | Information disclosure, minor misconfigurations                         |
+| INFORMATIONAL | N/A        | Best practice recommendations, defense-in-depth suggestions             |
 
 ## Confidence Levels
 
-| Level | Meaning |
-|-------|---------|
-| HIGH | Confirmed via code path analysis, PoC, or tool output |
+| Level  | Meaning                                                               |
+| ------ | --------------------------------------------------------------------- |
+| HIGH   | Confirmed via code path analysis, PoC, or tool output                 |
 | MEDIUM | Strong indicators but not fully confirmed — needs manual verification |
-| LOW | Heuristic match or pattern-based — may be false positive |
+| LOW    | Heuristic match or pattern-based — may be false positive              |

@@ -1,10 +1,10 @@
 ---
-title: 'MASVS-NETWORK: Network Communication'
+title: "MASVS-NETWORK: Network Communication"
 masvs_group: MASVS-NETWORK
 group_overview: true
 controls:
-- MASVS-NETWORK-1
-- MASVS-NETWORK-2
+  - MASVS-NETWORK-1
+  - MASVS-NETWORK-2
 ---
 
 # MASVS-NETWORK — Network Communication

@@ -1,10 +1,10 @@
 ---
-title: 'MASVS-CRYPTO: Cryptography'
+title: "MASVS-CRYPTO: Cryptography"
 masvs_group: MASVS-CRYPTO
 group_overview: true
 controls:
-- MASVS-CRYPTO-1
-- MASVS-CRYPTO-2
+  - MASVS-CRYPTO-1
+  - MASVS-CRYPTO-2
 ---
 
 # MASVS-CRYPTO — Cryptography

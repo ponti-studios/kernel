@@ -1,5 +1,5 @@
 ---
-title: 'MASVS-CODE-1: The app requires an up-to-date platform version.'
+title: "MASVS-CODE-1: The app requires an up-to-date platform version."
 masvs_group: MASVS-CODE
 masvs_control: MASVS-CODE-1
 summary: The app requires an up-to-date platform version.

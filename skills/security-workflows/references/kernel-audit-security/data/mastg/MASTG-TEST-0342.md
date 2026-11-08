@@ -6,13 +6,13 @@ upstream_path: tests-beta/ios/MASVS-NETWORK/MASTG-TEST-0342.md
 upstream_tag: 31cec00
 platform: ios
 covers_masvs:
-- MASVS-NETWORK-1
+  - MASVS-NETWORK-1
 type:
-- static
+  - static
 weakness: MASWE-0050
 profiles:
-- L1
-- L2
+  - L1
+  - L2
 ---
 
 ## Overview
@@ -46,4 +46,4 @@ The test case fails if **any** of the following conditions are met:
 3. Any domain, IP address, or IP address range sets `NSExceptionRequiresForwardSecrecy` to `false`, `NO`, or `0`.
 
 !!! note "App Store Submission Context"
-    Apple may require [justification](https://developer.apple.com/documentation/security/preventing-insecure-network-connections#Provide-Justification-for-Exceptions) for ATS exceptions during App Store submission. If available, record that evidence in the report as contextual information only.
+Apple may require [justification](https://developer.apple.com/documentation/security/preventing-insecure-network-connections#Provide-Justification-for-Exceptions) for ATS exceptions during App Store submission. If available, record that evidence in the report as contextual information only.

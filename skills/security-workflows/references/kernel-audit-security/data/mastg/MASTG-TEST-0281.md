@@ -6,14 +6,14 @@ upstream_path: tests-beta/ios/MASVS-PRIVACY/MASTG-TEST-0281.md
 upstream_tag: 31cec00
 platform: ios
 covers_masvs:
-- MASVS-PRIVACY
-- MASVS-STORAGE-2
+  - MASVS-PRIVACY
+  - MASVS-STORAGE-2
 type:
-- static
-- dynamic
+  - static
+  - dynamic
 weakness: MASWE-0108
 profiles:
-- P
+  - P
 ---
 
 ## Overview
@@ -34,11 +34,11 @@ These references can be used to match hardcoded or dynamically accessed domains 
 1. Extract the app's privacy manifest files, including those from third-party SDKs or frameworks using @MASTG-TECH-0136.
 2. Obtain the list of declared tracking domains from the privacy manifest files using @MASTG-TECH-0137.
 3. Run a static analysis scan using @MASTG-TOOL-0073:
-    - Search for hardcoded references to known tracking domains.
-    - Identify code references to well-known tracking libraries.
+   - Search for hardcoded references to known tracking domains.
+   - Identify code references to well-known tracking libraries.
 4. Perform network analysis with @MASTG-TOOL-0097:
-    - Intercept and log all outbound network traffic.
-    - Extract all domain names contacted during runtime.
+   - Intercept and log all outbound network traffic.
+   - Extract all domain names contacted during runtime.
 
 ## Observation
 

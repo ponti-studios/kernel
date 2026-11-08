@@ -1,9 +1,9 @@
-
 # Skill: Redesign & Audit
 
 Audit-first redesign that preserves behavior.
 
 ## Steps
+
 1. Read `../workflows/redesign-audit.md` (the full Scan → Diagnose → Direct → Apply → Verify sequence + Output Completeness).
 2. **Scan** the codebase: framework, styling method, token reality, components, what must be preserved.
 3. **Diagnose** with the Banned Defaults checklist (`../taste/design-taste.md`) + the rubric in `component-philosophy-audit.md`. Produce a prioritized findings table.
@@ -12,7 +12,9 @@ Audit-first redesign that preserves behavior.
 6. **Verify**: re-run `component-philosophy-audit.md` + `a11y-audit.md`; smoke-test every previously working flow; dark mode + responsive spot-check. Run `../scripts/validate_contrast.py` on the token source and `../scripts/lint_hardcodes.py` over the changed code.
 
 ## Guardrails
+
 Never sacrifice a working feature for aesthetics. Never ship a brand color that fails contrast. Never remove existing accessibility affordances. Deliver complete files — no placeholders.
 
 ## Single-theme consistency (critical for multi-page apps)
+
 Consolidate to ONE shared token theme and make **every page** consume it — a redesign that leaves different pages on different palettes has failed. Replace per-page/ad-hoc colors with semantic tokens; verify with `../scripts/lint_hardcodes.py` that no page reintroduces off-theme values. Theme switches must come from the single token source, not page edits.

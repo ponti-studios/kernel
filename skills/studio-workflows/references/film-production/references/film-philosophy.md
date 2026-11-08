@@ -9,6 +9,7 @@ slug: film-philosophy-ponti-studios
 description: The visual philosophy, directorial modes, and canonical references that guide every Ponti Studios film project.
 applies_to: []
 ---
+
 # Film Philosophy
 
 _Why we see the way we do._

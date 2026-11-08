@@ -39,19 +39,19 @@ a leading `>` blockquote prefix or surrounding double quotes.
 
 `data/registry.json` → `characters.<key>`:
 
-| Field | Purpose |
-|---|---|
-| `display_name` | how the prompt prints the name (EUPD. `the phantom`, `the Grey Passenger`) |
-| `bible` | path relative to the universe root |
-| `identity_block` | markers for the verbatim identity prose |
-| `mask_negative_block` | optional second mandatory block (Wyatt's mask) |
-| `tails` | named optional blocks, one per frame at most |
-| `height_cm` | drives the SCALE clause |
-| `height_note`, `proportions` | reference for authors, not compiled |
-| `constants` | reusable phrases |
-| `reference_images` | images to attach to every generation containing them |
-| `plates` | pose/turnaround plates with register + derivation |
-| `outfits` | `<character>.<outfit>` → `{short, description, default?, at_home_only?}` |
+| Field                        | Purpose                                                                    |
+| ---------------------------- | -------------------------------------------------------------------------- |
+| `display_name`               | how the prompt prints the name (EUPD. `the phantom`, `the Grey Passenger`) |
+| `bible`                      | path relative to the universe root                                         |
+| `identity_block`             | markers for the verbatim identity prose                                    |
+| `mask_negative_block`        | optional second mandatory block (Wyatt's mask)                             |
+| `tails`                      | named optional blocks, one per frame at most                               |
+| `height_cm`                  | drives the SCALE clause                                                    |
+| `height_note`, `proportions` | reference for authors, not compiled                                        |
+| `constants`                  | reusable phrases                                                           |
+| `reference_images`           | images to attach to every generation containing them                       |
+| `plates`                     | pose/turnaround plates with register + derivation                          |
+| `outfits`                    | `<character>.<outfit>` → `{short, description, default?, at_home_only?}`   |
 
 `shared_blocks.render_grade_animated` is the render grade appended to every
 compiled prompt.
@@ -79,7 +79,7 @@ character wears is therefore a registry edit that no bible prose contradicts;
 if you find outfit prose inside an identity block, that is a bug — move it.
 
 A costume character (phantom, grey-passenger, conductor) has no outfits and
-takes `outfit_id: null`. The phantom costume is *worn* — Void wears it over a
+takes `outfit_id: null`. The phantom costume is _worn_ — Void wears it over a
 stilted frame — which is why the costume has its own bible while the wearer
 keeps his.
 

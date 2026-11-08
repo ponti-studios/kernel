@@ -22,7 +22,7 @@ separate brand systems.
 | Scope       | Apply                                                       |
 | ----------- | ----------------------------------------------------------- |
 | `studio`    | Studio name, public positioning, and studio-owned materials |
-| `shared-ui` | The project's shared components, tokens, and theme         |
+| `shared-ui` | The project's shared components, tokens, and theme          |
 | `product`   | Product copy, naming, and product-specific identity         |
 
 ### Procedure
@@ -116,28 +116,28 @@ to apply, so it governs future work.
 
 ## References
 
-| Task                                                    | Reference                                  |
-| ------------------------------------------------------- | ------------------------------------------ |
-| Charles's recorded style rules, headers, copy, canvas   | [personal-style-rules.md](references/personal-style-rules.md)       |
-| ------------------------------------------------------- | ------------------------------------------ |
-| Apple-style fluid motion, springs, gesture UI           | [apple.md](references/apple.md)                      |
-| Distinctive visual direction, typography, layout        | [frontend-design.md](references/frontend-design.md)            |
+| Task                                                    | Reference                                                                 |
+| ------------------------------------------------------- | ------------------------------------------------------------------------- |
+| Charles's recorded style rules, headers, copy, canvas   | [personal-style-rules.md](references/personal-style-rules.md)             |
+| ------------------------------------------------------- | ------------------------------------------                                |
+| Apple-style fluid motion, springs, gesture UI           | [apple.md](references/apple.md)                                           |
+| Distinctive visual direction, typography, layout        | [frontend-design.md](references/frontend-design.md)                       |
 | Component audit against product philosophy + code style | [component-philosophy-audit.md](references/component-philosophy-audit.md) |
-| WCAG 2.2 / ARIA audit, contrast, POUR                   | [a11y-audit.md](references/a11y-audit.md)                 |
-| From-scratch brand + token foundation                   | [brandkit.md](references/brandkit.md)                   |
-| Figma ↔ code token/component sync                       | [figma-integration.md](references/figma-integration.md)          |
-| SemVer, contribution, deprecation                       | [governance.md](references/governance.md)                 |
-| Screenshot/mockup → token-driven code                   | [image-to-code.md](references/image-to-code.md)              |
-| Interop with external design systems                    | [migrate-design-system.md](references/migrate-design-system.md)      |
-| Core Web Vitals, jank, CLS                              | [performance.md](references/performance.md)                |
-| Audit-first redesign, single-theme                      | [redesign.md](references/redesign.md)                   |
-| Token build pipeline + CI                               | [token-build.md](references/token-build.md)                |
-| UI copy, errors, empty states                           | [ux-writing.md](references/ux-writing.md)                 |
-| Voice principles, tone, pre-ship checklist              | `content/voice-tone.md`                    |
-| Design taste, variance mandate, banned defaults         | `taste/design-taste.md`                    |
-| Visual direction archetypes                             | `taste/aesthetic-systems.md`               |
-| Motion choreography, reduced motion                     | `taste/motion-choreography.md`             |
-| Pick the right library for a frontend task              | [ui-libraries.md](references/ui-libraries.md)               |
+| WCAG 2.2 / ARIA audit, contrast, POUR                   | [a11y-audit.md](references/a11y-audit.md)                                 |
+| From-scratch brand + token foundation                   | [brandkit.md](references/brandkit.md)                                     |
+| Figma ↔ code token/component sync                       | [figma-integration.md](references/figma-integration.md)                   |
+| SemVer, contribution, deprecation                       | [governance.md](references/governance.md)                                 |
+| Screenshot/mockup → token-driven code                   | [image-to-code.md](references/image-to-code.md)                           |
+| Interop with external design systems                    | [migrate-design-system.md](references/migrate-design-system.md)           |
+| Core Web Vitals, jank, CLS                              | [performance.md](references/performance.md)                               |
+| Audit-first redesign, single-theme                      | [redesign.md](references/redesign.md)                                     |
+| Token build pipeline + CI                               | [token-build.md](references/token-build.md)                               |
+| UI copy, errors, empty states                           | [ux-writing.md](references/ux-writing.md)                                 |
+| Voice principles, tone, pre-ship checklist              | `content/voice-tone.md`                                                   |
+| Design taste, variance mandate, banned defaults         | `taste/design-taste.md`                                                   |
+| Visual direction archetypes                             | `taste/aesthetic-systems.md`                                              |
+| Motion choreography, reduced motion                     | `taste/motion-choreography.md`                                            |
+| Pick the right library for a frontend task              | [ui-libraries.md](references/ui-libraries.md)                             |
 
 ## Cross-cutting rules
 

@@ -6,13 +6,13 @@ upstream_path: tests-beta/ios/MASVS-PLATFORM/MASTG-TEST-0346.md
 upstream_tag: 31cec00
 platform: ios
 covers_masvs:
-- MASVS-PLATFORM-3
+  - MASVS-PLATFORM-3
 type:
-- static
-- manual
+  - static
+  - manual
 weakness: MASWE-0053
 profiles:
-- L2
+  - L2
 ---
 
 ## Overview
@@ -60,7 +60,7 @@ The test case fails if the app uses text input fields to input sensitive data an
 - `SwiftUI` `TextField` is used instead of [`SecureField`](https://developer.apple.com/documentation/swiftui/securefield) for a password, PIN, or OTP field.
 
 !!! note
-    It is not a failure if non-sensitive text input fields (for example, for a username or email address) are unmasked. Validating whether a text input field is used for sensitive data may require a review of the app's UI and business logic to determine the context in which the field is used.
+It is not a failure if non-sensitive text input fields (for example, for a username or email address) are unmasked. Validating whether a text input field is used for sensitive data may require a review of the app's UI and business logic to determine the context in which the field is used.
 
 !!! note
-    This test may produce false negatives if the app uses custom text input controls that do not rely on standard classes such as `UITextField` or `SecureField` (for example in custom UI frameworks or game engines, or if text entry is handled through nonstandard abstractions that prevent reliable observation of input traits at rest).
+This test may produce false negatives if the app uses custom text input controls that do not rely on standard classes such as `UITextField` or `SecureField` (for example in custom UI frameworks or game engines, or if text entry is handled through nonstandard abstractions that prevent reliable observation of input traits at rest).

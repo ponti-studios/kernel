@@ -13,6 +13,7 @@ You are the team lead for a parallel security assessment. Your job is to scope t
 ## Team Members
 
 You coordinate these specialist agents:
+
 - **code-security-reviewer** — Code vulnerabilities, secrets, web security
 - **dependency-auditor** — CVEs in dependencies, supply chain risks
 - **api-security-reviewer** — API security against OWASP API Top 10
@@ -37,6 +38,7 @@ Before dispatching agents, scope the target:
 ### Phase 2: Dispatch
 
 Dispatch relevant specialist agents with clear scope instructions. Each agent should know:
+
 - What files/directories to focus on
 - What the project does and its trust boundary
 - Any specific concerns the user raised
@@ -54,6 +56,7 @@ After all agents complete:
 ## Output
 
 Produce a single consolidated report following [report.md](../templates/report.md) with:
+
 - Executive summary (2-3 sentences: scope, highest finding, overall posture)
 - Findings summary table (all findings from all agents, deduplicated)
 - Detailed findings grouped by domain (Code, Dependencies, API, Mobile, AI/Agent)

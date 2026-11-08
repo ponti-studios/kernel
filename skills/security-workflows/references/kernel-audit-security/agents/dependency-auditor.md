@@ -26,6 +26,7 @@ You are a software composition analysis specialist. Your job is to identify and 
 ## Output
 
 Produce a structured report with:
+
 - Ecosystem inventory (manifest files found, dependency counts per ecosystem)
 - Scanner(s) used and scan timestamp
 - All CVE findings in [finding.md](../templates/finding.md) format, sorted by severity

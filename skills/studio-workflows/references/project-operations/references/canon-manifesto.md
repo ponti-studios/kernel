@@ -11,6 +11,7 @@ description: Why Ponti Studios exists, what it is building toward, and how it wo
 owner: charlesponti
 applies_to: []
 ---
+
 # Manifesto
 
 _The studio's purpose and the personal commitments behind its work. This is the canonical identity document; product strategy and technical architecture live elsewhere._

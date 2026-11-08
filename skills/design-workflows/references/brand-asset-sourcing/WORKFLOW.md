@@ -50,6 +50,7 @@ Source logos/icons for the brands named in a project's data, place them in the r
 - [ ] SVGs parse as XML; raster dims acceptable.
 - [ ] Manifest is valid JSON.
 - [ ] Report includes counts and paths.
+
 ---
 
 References: airline-specific sources and identifier mappings live in [airline-sources.md](references/airline-sources.md).

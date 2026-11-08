@@ -16,24 +16,24 @@
 
 ## Common identifier mappings
 
-| Carrier | IATA | ICAO | Soaring Symbols slug |
-|---|---|---|---|
-| American Airlines | AA | AAL | american-airlines |
-| British Airways | BA | BAW | british-airways |
-| Delta | DL | DAL | delta-air-lines |
-| Iberia | IB | IBE | iberia |
-| Icelandair | FI | ICE | icelandair |
-| JetBlue | B6 | JBU | jetblue-airways |
-| Jetstar Airways | JQ | JST | jetstar |
-| Norwegian Air | DY | NOZ | norwegian-air-shuttle |
-| Norwegian Air UK | DI | NRS | norwegian-air-shuttle (reuse) |
-| Qantas | QF | QFA | qantas |
-| Ryanair | FR | RYR | ryanair |
-| United Airlines | UA | UAL | united-airlines |
-| Virgin Australia | VA | VOZ | virgin-australia |
-| Volotea | V7 | VLG | volotea |
-| WestJet | WS | WJA | westjet |
-| easyJet | U2 | EZY | easyjet |
+| Carrier           | IATA | ICAO | Soaring Symbols slug          |
+| ----------------- | ---- | ---- | ----------------------------- |
+| American Airlines | AA   | AAL  | american-airlines             |
+| British Airways   | BA   | BAW  | british-airways               |
+| Delta             | DL   | DAL  | delta-air-lines               |
+| Iberia            | IB   | IBE  | iberia                        |
+| Icelandair        | FI   | ICE  | icelandair                    |
+| JetBlue           | B6   | JBU  | jetblue-airways               |
+| Jetstar Airways   | JQ   | JST  | jetstar                       |
+| Norwegian Air     | DY   | NOZ  | norwegian-air-shuttle         |
+| Norwegian Air UK  | DI   | NRS  | norwegian-air-shuttle (reuse) |
+| Qantas            | QF   | QFA  | qantas                        |
+| Ryanair           | FR   | RYR  | ryanair                       |
+| United Airlines   | UA   | UAL  | united-airlines               |
+| Virgin Australia  | VA   | VOZ  | virgin-australia              |
+| Volotea           | V7   | VLG  | volotea                       |
+| WestJet           | WS   | WJA  | westjet                       |
+| easyJet           | U2   | EZY  | easyjet                       |
 
 ## Notes
 

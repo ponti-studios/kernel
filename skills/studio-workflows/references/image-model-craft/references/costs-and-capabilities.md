@@ -28,15 +28,15 @@ only way to continue.
 
 ## Measured image cost
 
-| Operation | Cost | How known |
-|---|---|---|
-| 1K render, 3 reference plates | **$0.0184** | 30-render sweep, key counter delta $0.5520 [M] |
-| 1K render, no plates | ~$0.00-0.02 | counter delta, never isolated [I] |
-| 2K render, 3 reference plates | **~$0.16** | bracketed by counter before/after a single render [I] |
-| `bytedance-seed/seedream-5-0-pro`, full brief | $0.09 | provider-reported `usage.cost` [M] |
-| `google/gemini-3-pro-image` | $0.1390 | provider-reported [M] |
-| `bytedance-seed/seedream-5-0-flash` | $0.018 | provider-reported [M] |
-| `qwen/qwen-image-2.1-turbo` | app default; cheapest capable of 4 refs | [I] |
+| Operation                                     | Cost                                    | How known                                             |
+| --------------------------------------------- | --------------------------------------- | ----------------------------------------------------- |
+| 1K render, 3 reference plates                 | **$0.0184**                             | 30-render sweep, key counter delta $0.5520 [M]        |
+| 1K render, no plates                          | ~$0.00-0.02                             | counter delta, never isolated [I]                     |
+| 2K render, 3 reference plates                 | **~$0.16**                              | bracketed by counter before/after a single render [I] |
+| `bytedance-seed/seedream-5-0-pro`, full brief | $0.09                                   | provider-reported `usage.cost` [M]                    |
+| `google/gemini-3-pro-image`                   | $0.1390                                 | provider-reported [M]                                 |
+| `bytedance-seed/seedream-5-0-flash`           | $0.018                                  | provider-reported [M]                                 |
+| `qwen/qwen-image-2.1-turbo`                   | app default; cheapest capable of 4 refs | [I]                                                   |
 
 **Reference plates appear to dominate cost [I].** The same brief at 1K with no plates
 measured near zero while 1K with three plates measured $0.0184, and 2K with plates
@@ -44,11 +44,11 @@ measured ~$0.16. The plate count is the lever, not the prompt length.
 
 ## Measured other-media cost
 
-| Operation | Cost | How known |
-|---|---|---|
-| Video `kwaivgi/kling-v3.0-std` | **$0.084/s** silent, **$0.126/s** with audio | published `pricing_skus` [M]; durations 3-15s, 720p, `seed: false` |
-| Speech `elevenlabs/eleven-multilingual-v2` | $0.00008/prompt token | published pricing [M]; 329 characters ≈ 21.2s of audio |
-| Text `deepseek-chat-v3-0324` | $0.0003-$0.0005 per draft | provider-reported [M] |
+| Operation                                  | Cost                                         | How known                                                          |
+| ------------------------------------------ | -------------------------------------------- | ------------------------------------------------------------------ |
+| Video `kwaivgi/kling-v3.0-std`             | **$0.084/s** silent, **$0.126/s** with audio | published `pricing_skus` [M]; durations 3-15s, 720p, `seed: false` |
+| Speech `elevenlabs/eleven-multilingual-v2` | $0.00008/prompt token                        | published pricing [M]; 329 characters ≈ 21.2s of audio             |
+| Text `deepseek-chat-v3-0324`               | $0.0003-$0.0005 per draft                    | provider-reported [M]                                              |
 
 ## What cannot be measured (stop trying)
 
@@ -62,13 +62,13 @@ measured ~$0.16. The plate count is the lever, not the prompt length.
 
 ## Capability matrix (from `/api/v1/images/models`)
 
-| Model | Reference plates | Resolutions | Speed (measured) | Verdict |
-|---|---|---|---|---|
-| `qwen/qwen-image-2.1-turbo` | **0-4** | 1K, 2K (no 4K) | 36-49s | app default; 0/35 misses on the Aurora rubric; **cannot** hold a 5-character frame with plates; `n` up to 6 |
-| `bytedance-seed/seedream-5-0-pro` | 0-14 | 1K, 2K | 109-178s, 2/11 transient failures | slowest and least reliable to *run*; its adherence score was built on a rubric later found invalid (see evidence log) — no cost reporting |
-| `bytedance-seed/seedream-5-0-flash` | 0-14 | 1K, 2K | 18-29s | 1/35 misses on the Aurora rubric; fastest; good default for iteration |
-| `google/gemini-3-pro-image` | 0-14 | 1K/2K/4K | ~35s | accurate, **expensive** — ruled out as a workhorse |
-| `meta/muse-image` | none | — | ~8s on success | unusable: provider content filter on dense scenes |
+| Model                               | Reference plates | Resolutions    | Speed (measured)                  | Verdict                                                                                                                                   |
+| ----------------------------------- | ---------------- | -------------- | --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `qwen/qwen-image-2.1-turbo`         | **0-4**          | 1K, 2K (no 4K) | 36-49s                            | app default; 0/35 misses on the Aurora rubric; **cannot** hold a 5-character frame with plates; `n` up to 6                               |
+| `bytedance-seed/seedream-5-0-pro`   | 0-14             | 1K, 2K         | 109-178s, 2/11 transient failures | slowest and least reliable to _run_; its adherence score was built on a rubric later found invalid (see evidence log) — no cost reporting |
+| `bytedance-seed/seedream-5-0-flash` | 0-14             | 1K, 2K         | 18-29s                            | 1/35 misses on the Aurora rubric; fastest; good default for iteration                                                                     |
+| `google/gemini-3-pro-image`         | 0-14             | 1K/2K/4K       | ~35s                              | accurate, **expensive** — ruled out as a workhorse                                                                                        |
+| `meta/muse-image`                   | none             | —              | ~8s on success                    | unusable: provider content filter on dense scenes                                                                                         |
 
 - **4:5 aspect ratio** is supported by qwen and the seedreams; check the enum before
   assuming.
@@ -89,7 +89,6 @@ measured ~$0.16. The plate count is the lever, not the prompt length.
 4. Disk space for the output directory (each 1K PNG is 1-3 MB; a sweep is 30-90 MB).
 5. Prices quoted from `pricing_skus`/provider `usage.cost` where available, and from
    a counter bracket where not — and label which.
-
 
 ## Where cost is recorded (2026-10-24)
 

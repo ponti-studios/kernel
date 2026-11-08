@@ -1,6 +1,6 @@
 ---
-title: 'MASVS-AUTH-1: The app uses secure authentication and authorization protocols
-  and follows the relevant best practices.'
+title: "MASVS-AUTH-1: The app uses secure authentication and authorization protocols
+  and follows the relevant best practices."
 masvs_group: MASVS-AUTH
 masvs_control: MASVS-AUTH-1
 summary: The app uses secure authentication and authorization protocols and follows

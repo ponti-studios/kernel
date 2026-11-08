@@ -5,11 +5,11 @@ public props, themes, or design-system behavior.
 
 ## 1. Classify the Change
 
-| Level | Use when | Examples |
-| --- | --- | --- |
-| Major | Existing consumers must change | Remove or rename a token, prop, variant, or component; change default anatomy or semantic meaning |
-| Minor | Existing consumers continue to work | Add a token, component, variant, optional prop, or supported state |
-| Patch | Behavior or documentation is corrected within the contract | Fix contrast, keyboard behavior, visual bug, token value, or documentation |
+| Level | Use when                                                   | Examples                                                                                          |
+| ----- | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| Major | Existing consumers must change                             | Remove or rename a token, prop, variant, or component; change default anatomy or semantic meaning |
+| Minor | Existing consumers continue to work                        | Add a token, component, variant, optional prop, or supported state                                |
+| Patch | Behavior or documentation is corrected within the contract | Fix contrast, keyboard behavior, visual bug, token value, or documentation                        |
 
 If a change both adds a feature and breaks an existing contract, classify it as
 major. Record the decision before implementation.

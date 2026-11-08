@@ -6,11 +6,11 @@ upstream_path: tests/android/MASVS-PLATFORM/MASTG-TEST-0031.md
 upstream_tag: 31cec00
 platform: android
 covers_masvs:
-- MASVS-PLATFORM-2
+  - MASVS-PLATFORM-2
 masvs_v1_id:
-- MSTG-PLATFORM-5
+  - MSTG-PLATFORM-5
 masvs_v2_id:
-- MASVS-PLATFORM-2
+  - MASVS-PLATFORM-2
 status_note: V1 test; no V2 successor authored upstream yet — content may be outdated
 ---
 
@@ -58,6 +58,6 @@ To address these attack vectors, check the following:
 - Only files that are in the app data directory should be rendered in a WebView (see test case "Testing for Local File Inclusion in WebViews").
 
 - The HTTPS communication must be implemented according to best practices to avoid MITM attacks. This means:
-    - all communication is encrypted via TLS,
-    - the certificate is checked properly, and/or
-    - the certificate should be pinned.
+  - all communication is encrypted via TLS,
+  - the certificate is checked properly, and/or
+  - the certificate should be pinned.

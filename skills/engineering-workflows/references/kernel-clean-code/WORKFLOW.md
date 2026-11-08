@@ -11,12 +11,12 @@ matches the task and follow it end-to-end.
 
 ## References
 
-| Task | Reference |
-| --- | --- |
-| Remove AI-generated slop (deletion-first, regression-safe, optional `--review`) | [ai-slop-cleaner.md](references/ai-slop-cleaner.md) |
-| Spot code smells (long methods, duplication, coupling, primitive obsession) | [code-smell-detector.md](references/code-smell-detector.md) |
-| Remove AI slop from a branch (diff against main, style inconsistency) | [deslop.md](references/deslop.md) |
-| Full tech-debt + architecture audit producing `TECH_DEBT_AUDIT.md` | [tech-debt-audit.md](references/tech-debt-audit.md) |
+| Task                                                                            | Reference                                                   |
+| ------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| Remove AI-generated slop (deletion-first, regression-safe, optional `--review`) | [ai-slop-cleaner.md](references/ai-slop-cleaner.md)         |
+| Spot code smells (long methods, duplication, coupling, primitive obsession)     | [code-smell-detector.md](references/code-smell-detector.md) |
+| Remove AI slop from a branch (diff against main, style inconsistency)           | [deslop.md](references/deslop.md)                           |
+| Full tech-debt + architecture audit producing `TECH_DEBT_AUDIT.md`              | [tech-debt-audit.md](references/tech-debt-audit.md)         |
 
 ## Routing
 

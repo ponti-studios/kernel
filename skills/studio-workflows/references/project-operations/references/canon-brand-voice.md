@@ -10,6 +10,7 @@ slug: brand-voice-ponti-studios
 description: How we speak — the voice principles, verbal philosophy, and tonal identity that define a Ponti Studios sentence.
 applies_to: []
 ---
+
 # Brand Voice
 
 _How we speak._
@@ -98,12 +99,12 @@ Ponti Studios speaks in the first person. "I" and "we" and "you." We do not hide
 
 ### What We Sound Like
 
-| Instead of | We write |
-|---|---|
-| "Leverage our platform to drive transformative business outcomes" | "This tool saves you time. Here's how." |
-| "We're revolutionizing the way people think about personal productivity" | "A notes app that doesn't get in your way." |
-| "Our mission is to empower creators through innovative AI solutions" | "We build tools that make your ideas easier to capture." |
-| "Utilizing state-of-the-art machine learning algorithms" | "It learns what matters to you." |
+| Instead of                                                               | We write                                                 |
+| ------------------------------------------------------------------------ | -------------------------------------------------------- |
+| "Leverage our platform to drive transformative business outcomes"        | "This tool saves you time. Here's how."                  |
+| "We're revolutionizing the way people think about personal productivity" | "A notes app that doesn't get in your way."              |
+| "Our mission is to empower creators through innovative AI solutions"     | "We build tools that make your ideas easier to capture." |
+| "Utilizing state-of-the-art machine learning algorithms"                 | "It learns what matters to you."                         |
 
 ### What We Do Not Sound Like
 
@@ -116,13 +117,13 @@ Ponti Studios speaks in the first person. "I" and "we" and "you." We do not hide
 
 ## Canonical References
 
-| Source | Primary Lesson for Our Copy |
-|---|---|
-| Apple (product pages) | Restraint as authority; the one-line headline |
-| Stripe (documentation) | Technical clarity without condescension |
-| Hemingway (essays) | The iceberg principle — surface only what is necessary |
-| Basecamp (positioning) | Direct address, plain language, anti-jargon |
-| Monotone (our own writing) | The voice we use when we are not selling |
+| Source                     | Primary Lesson for Our Copy                            |
+| -------------------------- | ------------------------------------------------------ |
+| Apple (product pages)      | Restraint as authority; the one-line headline          |
+| Stripe (documentation)     | Technical clarity without condescension                |
+| Hemingway (essays)         | The iceberg principle — surface only what is necessary |
+| Basecamp (positioning)     | Direct address, plain language, anti-jargon            |
+| Monotone (our own writing) | The voice we use when we are not selling               |
 
 ---
 

@@ -9,6 +9,7 @@ slug: projects
 applies_to:
   - "ponti-studios/projects/**"
 ---
+
 # Projects
 
 Consolidated from `projects.yml`, `APP_INVENTORY.md`, `ponti-studios-strategy.md`, `backlog.md`, and `reference.project-names.md`.
@@ -23,20 +24,20 @@ Ponti Studios runs on a four-lane model: **Studio Platform** (compounding intern
 
 ## Repo Inventory
 
-| Repo | Language | Lane | Purpose |
-|---|---|---|---|
-| `hominem` | TypeScript | Flagship | Omiro, Career, Finance, shared packages, and Hono API |
-| `foundation` | Compose/Just | Platform | PostgreSQL, Redis, MinIO, shared images, CI/CD |
-| `kernel` | Markdown | Platform | Shared AI-agent skills library distributed through skills.sh |
-| `ponti-studios-ui` | TypeScript | Platform | Published shared UI and design-system package |
-| `labs` | TypeScript | Venture | Labyrinth experiments and prototypes |
-| `commune` | TypeScript | Venture | Standalone community application |
-| `earth` | TypeScript | Venture | Standalone Earth Intelligence application |
-| `health` | TypeScript | Venture | Symptom-guidance case-study application |
-| `toolbox` | Rust/Go/Swift/Python/TS | Supporting | Polyglot CLI and local-app monorepo |
-| `public-data` | TypeScript | Supporting | Public reference-data build and publishing pipeline |
-| `pipeline` | Python | Experimental | Architecture-first content-production scaffold |
-| `charlesponti` | — | Brand | Public brand/profile site |
+| Repo               | Language                | Lane         | Purpose                                                      |
+| ------------------ | ----------------------- | ------------ | ------------------------------------------------------------ |
+| `hominem`          | TypeScript              | Flagship     | Omiro, Career, Finance, shared packages, and Hono API        |
+| `foundation`       | Compose/Just            | Platform     | PostgreSQL, Redis, MinIO, shared images, CI/CD               |
+| `kernel`           | Markdown                | Platform     | Shared AI-agent skills library distributed through skills.sh |
+| `ponti-studios-ui` | TypeScript              | Platform     | Published shared UI and design-system package                |
+| `labs`             | TypeScript              | Venture      | Labyrinth experiments and prototypes                         |
+| `commune`          | TypeScript              | Venture      | Standalone community application                             |
+| `earth`            | TypeScript              | Venture      | Standalone Earth Intelligence application                    |
+| `health`           | TypeScript              | Venture      | Symptom-guidance case-study application                      |
+| `toolbox`          | Rust/Go/Swift/Python/TS | Supporting   | Polyglot CLI and local-app monorepo                          |
+| `public-data`      | TypeScript              | Supporting   | Public reference-data build and publishing pipeline          |
+| `pipeline`         | Python                  | Experimental | Architecture-first content-production scaffold               |
+| `charlesponti`     | —                       | Brand        | Public brand/profile site                                    |
 
 ---
 
@@ -121,39 +122,39 @@ Ponti Studios runs on a four-lane model: **Studio Platform** (compounding intern
 
 ## Clients (Completed)
 
-| Client | Industry | Proof |
-|---|---|---|
-| Glow Digital | Social advertising | Automation saved hours weekly; API strategy cut third-party costs 90% |
-| Thomson Reuters | Enterprise/legal | Secure deployment for regulatory compliance; dashboards for high-stakes decisions |
-| Mimecast | Email security | Global security platform; i18n across markets |
-| Humana | Healthcare | Mobile research increased senior engagement; personalized healthcare matching |
-| Kensho | Data engineering | Cloud migration reduced cost/complexity; accelerated ETL |
-| StreamYard | Video/streaming | AI recommendations drove 300% YoY creator collaboration growth |
-| Lumina | Education | Semantic search improved discovery; frontend modernization reduced bundle size |
-| Prolog | Content platform | LLM email parser reduced data entry 90%; vector search surfaced qualified candidates |
-| Revrock | Music | Tour routing reduced travel cost; real-time profitability dashboards |
-| Whistle | Privacy/education | Privacy platform for sensitive instruction; adaptive quality systems |
-| Help Refugees | Non-profit | Streamlined volunteer coordination; data integrity systems |
-| Manual.co | Healthcare | NLP symptom analysis; medical data integration |
-| Remote | Collaboration | Creator marketplace; $15M+ ARR unlocked |
-| David Hansen | — | — |
-| Golden Pear | — | — |
-| Mary Sabo | — | — |
-| Mindsherpa | — | — |
+| Client          | Industry           | Proof                                                                                |
+| --------------- | ------------------ | ------------------------------------------------------------------------------------ |
+| Glow Digital    | Social advertising | Automation saved hours weekly; API strategy cut third-party costs 90%                |
+| Thomson Reuters | Enterprise/legal   | Secure deployment for regulatory compliance; dashboards for high-stakes decisions    |
+| Mimecast        | Email security     | Global security platform; i18n across markets                                        |
+| Humana          | Healthcare         | Mobile research increased senior engagement; personalized healthcare matching        |
+| Kensho          | Data engineering   | Cloud migration reduced cost/complexity; accelerated ETL                             |
+| StreamYard      | Video/streaming    | AI recommendations drove 300% YoY creator collaboration growth                       |
+| Lumina          | Education          | Semantic search improved discovery; frontend modernization reduced bundle size       |
+| Prolog          | Content platform   | LLM email parser reduced data entry 90%; vector search surfaced qualified candidates |
+| Revrock         | Music              | Tour routing reduced travel cost; real-time profitability dashboards                 |
+| Whistle         | Privacy/education  | Privacy platform for sensitive instruction; adaptive quality systems                 |
+| Help Refugees   | Non-profit         | Streamlined volunteer coordination; data integrity systems                           |
+| Manual.co       | Healthcare         | NLP symptom analysis; medical data integration                                       |
+| Remote          | Collaboration      | Creator marketplace; $15M+ ARR unlocked                                              |
+| David Hansen    | —                  | —                                                                                    |
+| Golden Pear     | —                  | —                                                                                    |
+| Mary Sabo       | —                  | —                                                                                    |
+| Mindsherpa      | —                  | —                                                                                    |
 
 ---
 
 ## Web Properties
 
-| Property | Domain | Status |
-|---|---|---|
-| Ponti Studios | ponti.io | Active |
-| Hackefeller | hackefeller.com | Active |
-| Chase Ponti | theponti.com | Active |
-| Ponti Family | thepontis.com | Active |
-| Dope Shit Studio | dopeshit.studio | Active |
-| Los Angels | losangels.co | Planned |
-| Support Local | supportlocal.world | Planned |
+| Property         | Domain             | Status  |
+| ---------------- | ------------------ | ------- |
+| Ponti Studios    | ponti.io           | Active  |
+| Hackefeller      | hackefeller.com    | Active  |
+| Chase Ponti      | theponti.com       | Active  |
+| Ponti Family     | thepontis.com      | Active  |
+| Dope Shit Studio | dopeshit.studio    | Active  |
+| Los Angels       | losangels.co       | Planned |
+| Support Local    | supportlocal.world | Planned |
 
 ---
 
@@ -187,19 +188,19 @@ Ponti Studios runs on a four-lane model: **Studio Platform** (compounding intern
 
 ## Tool Codenames
 
-| Name | Role | Description |
-|---|---|---|
-| metatron | Core CLI / Scribe | Primary orchestrator and record-keeper |
-| gilgul | Rewriting Agent | Text transformation / reincarnating content |
-| bezalel | Structural Architect | File organization, templating, data structure design |
-| shamir | Summarization Tool | Condensing, extracting core insights |
-| gematria | Analytics & Scoring | Classification, sentiment analysis, counts |
-| merkaba | Platform / Suite | Agent deployment and management |
-| golem | Batch Task Runner | Heavy-duty I/O, file migrations, batch processing |
-| dybbuk | Debugger / Inspector | Inspecting internal states, extracting hidden data |
-| hashmal | Real-time Engine | High-speed streaming, low-latency processing |
-| ofanim | Automation Loops | Background workers, watchers, cyclical processing |
-| sopher | Documentation Tool | READMEs, changelogs, technical docs |
+| Name     | Role                 | Description                                          |
+| -------- | -------------------- | ---------------------------------------------------- |
+| metatron | Core CLI / Scribe    | Primary orchestrator and record-keeper               |
+| gilgul   | Rewriting Agent      | Text transformation / reincarnating content          |
+| bezalel  | Structural Architect | File organization, templating, data structure design |
+| shamir   | Summarization Tool   | Condensing, extracting core insights                 |
+| gematria | Analytics & Scoring  | Classification, sentiment analysis, counts           |
+| merkaba  | Platform / Suite     | Agent deployment and management                      |
+| golem    | Batch Task Runner    | Heavy-duty I/O, file migrations, batch processing    |
+| dybbuk   | Debugger / Inspector | Inspecting internal states, extracting hidden data   |
+| hashmal  | Real-time Engine     | High-speed streaming, low-latency processing         |
+| ofanim   | Automation Loops     | Background workers, watchers, cyclical processing    |
+| sopher   | Documentation Tool   | READMEs, changelogs, technical docs                  |
 
 ---
 

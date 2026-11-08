@@ -25,7 +25,7 @@ Say the fact first, then the reason if the reason is non-obvious. Don't warm up.
   `path/to/file:line` when a claim is checkable in code — that is what keeps a
   doc from rotting invisibly.
 - Cut anything that explains what the code already makes obvious. Explain the
-  *why*, the tradeoff, the thing a reader can't get from `git blame`.
+  _why_, the tradeoff, the thing a reader can't get from `git blame`.
 - No case-study narration, no "the hardest fixes were..." retrospectives. A doc
   is either a map of the system as it stands or a proposal for the next change
   to it — never a story about how it got here.
@@ -34,8 +34,8 @@ Say the fact first, then the reason if the reason is non-obvious. Don't warm up.
 
 - Use YAML frontmatter when the target repository requires it. Match its keys
   and type-specific template; when that contract applies:
-  - `status` distinguishes *true today* (`active`) from *still forming*
-    (`draft`) from *design for future work* (`proposed`).
+  - `status` distinguishes _true today_ (`active`) from _still forming_
+    (`draft`) from _design for future work_ (`proposed`).
   - `updated` (or equivalent date key) is bumped on every substantive edit.
     An `active` doc older than the code it describes signals re-verification,
     not trust.
@@ -45,40 +45,40 @@ Say the fact first, then the reason if the reason is non-obvious. Don't warm up.
 
 ## Doc-type taxonomy
 
-| Type | Shape | Status when written |
-| --- | --- | --- |
-| `architecture` | how a system is built and why it's split that way: layers/components → API surface → operational surface → read next | `active` |
-| `reference` | dense facts about one mechanism, no narrative | `active` |
-| `guide` | how to run a command or workflow; lead with the command | `active` |
-| `proposal` | not built yet: problem → recommended shape → open questions | `proposed` |
-| PRD / product brief | requirements artifact upstream of code | `proposed` until shipped, then graduates to reference/architecture or is deleted |
-| task plan | executor-ready change spec; plans live in `plans/`, one per finding | per-plan status in its header block |
-| audit report | evidence-dense findings with `file:line` citations | reflects the audit date |
-| runbook / checklist | ordered operational flow with a verification step per phase | `active` |
+| Type                | Shape                                                                                                                | Status when written                                                              |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `architecture`      | how a system is built and why it's split that way: layers/components → API surface → operational surface → read next | `active`                                                                         |
+| `reference`         | dense facts about one mechanism, no narrative                                                                        | `active`                                                                         |
+| `guide`             | how to run a command or workflow; lead with the command                                                              | `active`                                                                         |
+| `proposal`          | not built yet: problem → recommended shape → open questions                                                          | `proposed`                                                                       |
+| PRD / product brief | requirements artifact upstream of code                                                                               | `proposed` until shipped, then graduates to reference/architecture or is deleted |
+| task plan           | executor-ready change spec; plans live in `plans/`, one per finding                                                  | per-plan status in its header block                                              |
+| audit report        | evidence-dense findings with `file:line` citations                                                                   | reflects the audit date                                                          |
+| runbook / checklist | ordered operational flow with a verification step per phase                                                          | `active`                                                                         |
 
 ## References
 
-| Task | Reference |
-| --- | --- |
-| Write or edit repo docs (`docs/*`) against the FORMAT.md contract | [repo-docs.md](references/repo-docs.md) |
-| Write a PRD, feature spec, or product brief | [prd.md](references/prd.md) |
-| Turn audit findings into self-contained implementation plans | [task-plan.md](references/task-plan.md) (one plan per finding — the plan shape; for decomposing a plan into dependency-ordered tasks, route to [plan-to-tasks](../plan-to-tasks/WORKFLOW.md)) |
-| Produce an audit report or evidence-dense deliverable | [audit-report.md](references/audit-report.md) |
-| Write a runbook, checklist, or operational guide | [runbook.md](references/runbook.md) |
+| Task                                                              | Reference                                                                                                                                                                                     |
+| ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Write or edit repo docs (`docs/*`) against the FORMAT.md contract | [repo-docs.md](references/repo-docs.md)                                                                                                                                                       |
+| Write a PRD, feature spec, or product brief                       | [prd.md](references/prd.md)                                                                                                                                                                   |
+| Turn audit findings into self-contained implementation plans      | [task-plan.md](references/task-plan.md) (one plan per finding — the plan shape; for decomposing a plan into dependency-ordered tasks, route to [plan-to-tasks](../plan-to-tasks/WORKFLOW.md)) |
+| Produce an audit report or evidence-dense deliverable             | [audit-report.md](references/audit-report.md)                                                                                                                                                 |
+| Write a runbook, checklist, or operational guide                  | [runbook.md](references/runbook.md)                                                                                                                                                           |
 
 ## Routing to existing skills — do not duplicate
 
 These specialized skills already own a single artifact type. Route to them
 instead of re-authoring the format:
 
-| Artifact | Skill |
-| --- | --- |
-| Incident reports (`docs/incidents/NNN-*.md`) | [write-incident-report](../write-incident-report/WORKFLOW.md) |
-| Decomposing a plan/spec/PRD into dependency-ordered task files | [plan-to-tasks](../plan-to-tasks/WORKFLOW.md) |
-| Print / archival / technical-dossier docs | [Physical production writing](../kernel-ops-production/WORKFLOW.md) |
-| Commit messages | `engineering-workflows` |
-| Review verdicts on completed work | `engineering-workflows` |
-| Security requirements for a PRD (ASVS/FIASSE) | `prd-securability-enhancement` (inside `security-workflows`) |
+| Artifact                                                       | Skill                                                               |
+| -------------------------------------------------------------- | ------------------------------------------------------------------- |
+| Incident reports (`docs/incidents/NNN-*.md`)                   | [write-incident-report](../write-incident-report/WORKFLOW.md)       |
+| Decomposing a plan/spec/PRD into dependency-ordered task files | [plan-to-tasks](../plan-to-tasks/WORKFLOW.md)                       |
+| Print / archival / technical-dossier docs                      | [Physical production writing](../kernel-ops-production/WORKFLOW.md) |
+| Commit messages                                                | `engineering-workflows`                                             |
+| Review verdicts on completed work                              | `engineering-workflows`                                             |
+| Security requirements for a PRD (ASVS/FIASSE)                  | `prd-securability-enhancement` (inside `security-workflows`)        |
 
 ## Pre-flight (every task)
 

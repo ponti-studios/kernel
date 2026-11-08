@@ -6,14 +6,14 @@ upstream_path: tests-beta/ios/MASVS-PLATFORM/MASTG-TEST-0332.md
 upstream_tag: 31cec00
 platform: ios
 covers_masvs:
-- MASVS-PLATFORM-2
+  - MASVS-PLATFORM-2
 type:
-- static
+  - static
 weakness: MASWE-0071
 profiles:
-- L1
-- L2
-- P
+  - L1
+  - L2
+  - P
 ---
 
 ## Overview
@@ -24,14 +24,14 @@ The following WKWebView APIs are commonly targeted if they process untrusted inp
 
 **Remote URL Loading:**
 
-- [`load(_:)`](https://developer.apple.com/documentation/webkit/wkwebview/load(_:))
+- [`load(_:)`](<https://developer.apple.com/documentation/webkit/wkwebview/load(_:)>)
 
 **Local URL and Content Loading:**
 
-- [`loadFileRequest(_:allowingReadAccessTo:)`](https://developer.apple.com/documentation/webkit/wkwebview/loadfilerequest(_:allowingreadaccessto:))
-- [`loadFileURL(_:allowingReadAccessTo:)`](https://developer.apple.com/documentation/webkit/wkwebview/loadfileurl(_:allowingreadaccessto:))
-- [`loadHTMLString(_:baseURL:)`](https://developer.apple.com/documentation/webkit/wkwebview/loadhtmlstring(_:baseurl:))
-- [`load(_:mimeType:characterEncodingName:baseURL:)`](https://developer.apple.com/documentation/webkit/wkwebview/load(_:mimetype:characterencodingname:baseurl:))
+- [`loadFileRequest(_:allowingReadAccessTo:)`](<https://developer.apple.com/documentation/webkit/wkwebview/loadfilerequest(_:allowingreadaccessto:)>)
+- [`loadFileURL(_:allowingReadAccessTo:)`](<https://developer.apple.com/documentation/webkit/wkwebview/loadfileurl(_:allowingreadaccessto:)>)
+- [`loadHTMLString(_:baseURL:)`](<https://developer.apple.com/documentation/webkit/wkwebview/loadhtmlstring(_:baseurl:)>)
+- [`load(_:mimeType:characterEncodingName:baseURL:)`](<https://developer.apple.com/documentation/webkit/wkwebview/load(_:mimetype:characterencodingname:baseurl:)>)
 
 Regardless of the source, passing a URL originating from attacker-controlled input (for example through a deep link, custom URL scheme, or user-supplied data from the UI) directly to the `WKWebView` URL load methods can lead to vulnerabilities such as unauthorized redirection, Cross-Site Scripting (XSS), or local file disclosure.
 

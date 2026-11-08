@@ -9,6 +9,7 @@ slug: collaborations-reference-ponti-studios
 description: Brand partnership references and aspirational collaborations.
 applies_to: []
 ---
+
 # Collaborations Reference
 
 Aspirational and active brand partnerships, grouped by category. All entries carry `status: active` unless otherwise noted. Notes capture ideas and concepts worth developing with each brand.

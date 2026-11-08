@@ -6,11 +6,11 @@ upstream_path: tests/android/MASVS-PLATFORM/MASTG-TEST-0028.md
 upstream_tag: 31cec00
 platform: android
 covers_masvs:
-- MASVS-PLATFORM-1
+  - MASVS-PLATFORM-1
 masvs_v1_id:
-- MSTG-PLATFORM-3
+  - MSTG-PLATFORM-3
 masvs_v2_id:
-- MASVS-PLATFORM-1
+  - MASVS-PLATFORM-1
 ---
 
 ## Overview
@@ -148,12 +148,12 @@ This section details a few, of potentially many, reasons why the verification pr
 **Check the [Digital Asset Links file](https://developers.google.com/digital-asset-links/v1/getting-started "Digital Asset Link"):**
 
 - Check for **missing** Digital Asset Links file:
-    - try to find it in the domain's `/.well-known/` path. Example: `https://www.example.com/.well-known/assetlinks.json`
-    - or try `https://digitalassetlinks.googleapis.com/v1/statements:list?source.web.site=www.example.com`
+  - try to find it in the domain's `/.well-known/` path. Example: `https://www.example.com/.well-known/assetlinks.json`
+  - or try `https://digitalassetlinks.googleapis.com/v1/statements:list?source.web.site=www.example.com`
 - Check for valid Digital Asset Links file **served via HTTP**.
 - Check for **invalid** Digital Asset Links files served via HTTPS. For example:
-    - the file contains invalid JSON.
-    - the file doesn't include the target app's package.
+  - the file contains invalid JSON.
+  - the file doesn't include the target app's package.
 
 **Check for Redirects:**
 
@@ -189,7 +189,7 @@ If the hostname includes a wildcard (such as `*.example.com`), you should be abl
 
 Even if the deep link is correctly verified, the logic of the handler method should be carefully analyzed. Pay special attention to **deep links being used to transmit data** (which is controlled externally by the user or any other app).
 
-First, obtain the name of the Activity from the Android Manifest `<activity>` element which defines the target `<intent-filter>` and search for usage of [`getIntent`](https://developer.android.com/reference/android/content/Intent#getIntent(java.lang.String) "getIntent()") and [`getData`](https://developer.android.com/reference/android/content/Intent#getData%28%29 "getData()"). This general approach of locating these methods can be used across most applications when performing reverse engineering and is key when trying to understand how the application uses deep links and handles any externally provided input data and if it could be subject to any kind of abuse.
+First, obtain the name of the Activity from the Android Manifest `<activity>` element which defines the target `<intent-filter>` and search for usage of [`getIntent`](<https://developer.android.com/reference/android/content/Intent#getIntent(java.lang.String)> "getIntent()") and [`getData`](https://developer.android.com/reference/android/content/Intent#getData%28%29 "getData()"). This general approach of locating these methods can be used across most applications when performing reverse engineering and is key when trying to understand how the application uses deep links and handles any externally provided input data and if it could be subject to any kind of abuse.
 
 The following example is a snippet from an example Kotlin app decompiled with @MASTG-TOOL-0018. From the [static analysis](#check-for-deep-link-usage) we know that it supports the deep link `deeplinkdemo://load.html/` as part of `com.mstg.deeplinkdemo.WebViewActivity`.
 

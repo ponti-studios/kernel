@@ -14,13 +14,13 @@ with a documented product profile.
 
 ## Tone By State
 
-| State | Rule |
-| --- | --- |
-| Routine | Neutral and concise |
-| Onboarding | Specific and helpful; explain the next action |
-| Success | State what completed; do not celebrate for the user |
-| Error | State what happened, why when known, and how to recover |
-| Destructive | State the consequence and require a clear action |
+| State       | Rule                                                            |
+| ----------- | --------------------------------------------------------------- |
+| Routine     | Neutral and concise                                             |
+| Onboarding  | Specific and helpful; explain the next action                   |
+| Success     | State what completed; do not celebrate for the user             |
+| Error       | State what happened, why when known, and how to recover         |
+| Destructive | State the consequence and require a clear action                |
 | High stress | Remove optional context and use the shortest actionable wording |
 
 ## Formulas

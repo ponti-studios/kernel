@@ -16,11 +16,7 @@
     {
       "title": "Project tools and preferences",
       "description": "Standing preferences and executable project integrations.",
-      "skills": [
-        "ponti-principles",
-        "ship-ios",
-        "studio-dev"
-      ]
+      "skills": ["ponti-principles", "ship-ios", "studio-dev"]
     }
   ]
 }

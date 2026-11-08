@@ -43,7 +43,11 @@ export const auth = betterAuth({
     bearer(),
     deviceAuthorization(),
     passkey({ rpID: process.env.RP_ID!, rpName: "Your App" }),
-    emailOTP({ sendVerificationOTP: async ({ email, otp }) => { /* send */ } }),
+    emailOTP({
+      sendVerificationOTP: async ({ email, otp }) => {
+        /* send */
+      },
+    }),
     multiSession(),
     oneTimeToken(),
   ],

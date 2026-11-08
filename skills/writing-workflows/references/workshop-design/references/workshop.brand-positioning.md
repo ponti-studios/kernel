@@ -19,6 +19,7 @@ scope: running-product-workshops
 updated: 2026-08-25
 applies_to:
 ---
+
 # Brand & Positioning Workshop
 
 **Duration:** Full day (6-8 hours)\

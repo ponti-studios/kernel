@@ -1,8 +1,9 @@
 # TypeScript, React, React Native, Expo
 
 ## TypeScript
+
 - **Schema first for anything read from outside the program** (disk files, JSON, native-module
-  payloads, network bodies). Use Zod, not hand-written `typeof` chains or `is…` guards. *(word)*
+  payloads, network bodies). Use Zod, not hand-written `typeof` chains or `is…` guards. _(word)_
   - One schema per shape, kept in one file (Thames: `src/core/schemas.ts`).
   - The plain type is the source of truth; end each schema with `satisfies z.ZodType<Type>` so drift
     fails the type check.
@@ -18,9 +19,10 @@
 - No barrel files that only re-export unless the repo already uses them.
 
 ## React and React Native
+
 - **No inline styles.** Every style lives in a StyleSheet or the repo's themed style hook
   (Thames: `useStyles(makeStyles)`). Keep `react-native/no-inline-styles` clean. A dynamic value
-  becomes a named variable first. *(word)*
+  becomes a named variable first. _(word)_
 - Components are small and pure; state lives with its owner; derive instead of syncing state.
   Effects only for real side effects.
 - A screen draws from local data first and refreshes from the network quietly. Loading, empty,
@@ -38,6 +40,7 @@
   be right; React Native draws the state it is sent.
 
 ## Tooling defaults (when the repo has not chosen)
+
 - oxlint for lint, oxfmt for format. No ESLint or Prettier next to them. Run the type check, lint
   and tests before finishing.
 - pnpm monorepos use `pnpm check` style gates; use the repo's, scope with `--filter=...` to include

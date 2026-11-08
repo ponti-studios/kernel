@@ -6,11 +6,11 @@ upstream_path: tests/ios/MASVS-PLATFORM/MASTG-TEST-0078.md
 upstream_tag: 31cec00
 platform: ios
 covers_masvs:
-- MASVS-PLATFORM-2
+  - MASVS-PLATFORM-2
 masvs_v1_id:
-- MSTG-PLATFORM-7
+  - MSTG-PLATFORM-7
 masvs_v2_id:
-- MASVS-PLATFORM-2
+  - MASVS-PLATFORM-2
 ---
 
 ## Overview
@@ -33,7 +33,7 @@ In Objective-C, the `JSContext` associated with a `UIWebView` is obtained as fol
 
 Verify if a JavaScript to native bridge exists by searching for `WKScriptMessageHandler` and check all exposed methods. Then verify how the methods are called.
 
-The following example from ["Where's My Browser?"](https://github.com/authenticationfailure/WheresMyBrowser.iOS/blob/b8d4abda4000aa509c7a5de79e5c90360d1d0849/WheresMyBrowser/WKWebViewPreferencesManager.swift#L98 "Where\'s My Browser? WKWebViewPreferencesManager.swift Line 98") demonstrates this.
+The following example from ["Where's My Browser?"](https://github.com/authenticationfailure/WheresMyBrowser.iOS/blob/b8d4abda4000aa509c7a5de79e5c90360d1d0849/WheresMyBrowser/WKWebViewPreferencesManager.swift#L98 "Where's My Browser? WKWebViewPreferencesManager.swift Line 98") demonstrates this.
 
 First we see how the JavaScript bridge is enabled:
 
@@ -50,17 +50,17 @@ func enableJavaScriptBridge(_ enabled: Bool) {
 }
 ```
 
-Adding a script message handler with name `"name"` (or `"javaScriptBridge"` in the example above) causes the JavaScript function `window.webkit.messageHandlers.myJavaScriptMessageHandler.postMessage` to be defined in all frames in all web views that use the user content controller. It can be then [used from the HTML file like this](https://github.com/authenticationfailure/WheresMyBrowser.iOS/blob/d4e2d9efbde8841bf7e4a8800418dda6bb116ec6/WheresMyBrowser/web/WKWebView/scenario3.html#L33 "Where\'s My Browser? WKWebView/scenario3.html Line 33"):
+Adding a script message handler with name `"name"` (or `"javaScriptBridge"` in the example above) causes the JavaScript function `window.webkit.messageHandlers.myJavaScriptMessageHandler.postMessage` to be defined in all frames in all web views that use the user content controller. It can be then [used from the HTML file like this](https://github.com/authenticationfailure/WheresMyBrowser.iOS/blob/d4e2d9efbde8841bf7e4a8800418dda6bb116ec6/WheresMyBrowser/web/WKWebView/scenario3.html#L33 "Where's My Browser? WKWebView/scenario3.html Line 33"):
 
 ```javascript
 function invokeNativeOperation() {
-    value1 = document.getElementById("value1").value
-    value2 = document.getElementById("value2").value
-    window.webkit.messageHandlers.javaScriptBridge.postMessage(["multiplyNumbers", value1, value2]);
+  value1 = document.getElementById("value1").value;
+  value2 = document.getElementById("value2").value;
+  window.webkit.messageHandlers.javaScriptBridge.postMessage(["multiplyNumbers", value1, value2]);
 }
 ```
 
-The called function resides in [`JavaScriptBridgeMessageHandler.swift`](https://github.com/authenticationfailure/WheresMyBrowser.iOS/blob/b8d4abda4000aa509c7a5de79e5c90360d1d0849/WheresMyBrowser/JavaScriptBridgeMessageHandler.swift#L29 "Where\'s My Browser? JavaScriptBridgeMessageHandler.swift Line 29"):
+The called function resides in [`JavaScriptBridgeMessageHandler.swift`](https://github.com/authenticationfailure/WheresMyBrowser.iOS/blob/b8d4abda4000aa509c7a5de79e5c90360d1d0849/WheresMyBrowser/JavaScriptBridgeMessageHandler.swift#L29 "Where's My Browser? JavaScriptBridgeMessageHandler.swift Line 29"):
 
 ```swift
 class JavaScriptBridgeMessageHandler: NSObject, WKScriptMessageHandler {
@@ -100,8 +100,8 @@ In order to get the secret from the previous example of the "Where's My Browser?
 
 ```javascript
 function javascriptBridgeCallBack(name, value) {
-    document.getElementById("result").innerHTML=value;
-};
+  document.getElementById("result").innerHTML = value;
+}
 window.webkit.messageHandlers.javaScriptBridge.postMessage(["getSecret"]);
 ```
 

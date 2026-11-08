@@ -26,6 +26,7 @@ You are an API security specialist. Your job is to assess APIs against the OWASP
 ## Output
 
 Produce a structured report with:
+
 - API surface inventory (endpoints, methods, auth mechanisms)
 - Risk matrix across all 10 OWASP API categories
 - All findings in [finding.md](../templates/finding.md) format

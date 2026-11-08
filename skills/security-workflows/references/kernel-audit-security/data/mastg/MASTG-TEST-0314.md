@@ -6,12 +6,12 @@ upstream_path: tests-beta/ios/MASVS-STORAGE/MASTG-TEST-0314.md
 upstream_tag: 31cec00
 platform: ios
 covers_masvs:
-- MASVS-STORAGE-2
+  - MASVS-STORAGE-2
 type:
-- dynamic
+  - dynamic
 weakness: MASWE-0053
 profiles:
-- L2
+  - L2
 ---
 
 ## Overview
@@ -41,4 +41,4 @@ The test case fails if any UI inputs that may handle sensitive values (for examp
 - `spellCheckingType` is set to `default` or `yes`.
 
 !!! note
-    This test may produce false negatives if the app uses custom text input controls that do not rely on standard UIKit classes such as `UITextField` or `UITextView` (for example in custom UI frameworks or game engines), or if text entry is handled through nonstandard abstractions that prevent reliable observation of input traits at runtime.
+This test may produce false negatives if the app uses custom text input controls that do not rely on standard UIKit classes such as `UITextField` or `UITextView` (for example in custom UI frameworks or game engines), or if text entry is handled through nonstandard abstractions that prevent reliable observation of input traits at runtime.

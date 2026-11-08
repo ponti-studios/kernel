@@ -6,14 +6,14 @@ upstream_path: tests-beta/android/MASVS-PRIVACY/MASTG-TEST-0206.md
 upstream_tag: 31cec00
 platform: android
 covers_masvs:
-- MASVS-PRIVACY
-- MASVS-STORAGE-2
+  - MASVS-PRIVACY
+  - MASVS-STORAGE-2
 type:
-- dynamic
-- network
+  - dynamic
+  - network
 weakness: MASWE-0108
 profiles:
-- P
+  - P
 ---
 
 ## Overview

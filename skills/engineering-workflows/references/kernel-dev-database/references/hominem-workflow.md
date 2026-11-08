@@ -13,6 +13,7 @@ Use this workflow for schema changes under `packages/db/migrations/`:
    ```
 
    The wrapper generates a timestamped file such as `YYYYMMDDHHMMSS_<domain>_<change>.sql`. Do not hand-pick timestamps or create migrations outside `packages/db/migrations/`.
+
 2. Keep one coherent concern per file. Split schema creation, backfills, indexes, policies, and triggers when they have different lock, rollout, or recovery characteristics.
 3. Include matching Goose `Up` and `Down` sections. Wrap multi-statement blocks in `-- +goose StatementBegin` and `-- +goose StatementEnd`; use the no-transaction annotation for concurrent index operations.
 4. Apply local migrations and regenerate types with an explicit URL:
@@ -43,6 +44,7 @@ Use this workflow for schema changes under `packages/db/migrations/`:
    ```
 
    Non-test rollback requires explicit approval through `ALLOW_DB_ROLLBACK=1`. Do not use `goose reset`, `down-to 0`, or `--allow-missing` during normal development.
+
 8. Review the migration and generated type diff, then run affected package tests and typechecks.
 
 ## Failure handling

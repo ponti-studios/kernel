@@ -1,12 +1,12 @@
 ---
-title: 'MASVS-CODE: Code Quality'
+title: "MASVS-CODE: Code Quality"
 masvs_group: MASVS-CODE
 group_overview: true
 controls:
-- MASVS-CODE-1
-- MASVS-CODE-2
-- MASVS-CODE-3
-- MASVS-CODE-4
+  - MASVS-CODE-1
+  - MASVS-CODE-2
+  - MASVS-CODE-3
+  - MASVS-CODE-4
 ---
 
 # MASVS-CODE — Code Quality

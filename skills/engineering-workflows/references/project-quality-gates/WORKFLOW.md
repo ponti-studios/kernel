@@ -26,17 +26,17 @@ imports** (launchd jobs, scripts, route files). That last one decides how `knip`
 
 ### 1. Tier 1 — the foundation
 
-| Gate | Tool | Catches |
-| --- | --- | --- |
-| types | `tsc --noEmit` (strict, including `noImplicitAny`) | anything flow-shaped that was typed `any` to make it pass |
-| lint | `oxlint` | dead imports, unused bindings, suspicious branches |
-| format | `oxfmt` | drift; the diff nobody wants to review |
-| runner | `vitest` | — it also provides coverage |
-| coverage | `vitest run --coverage`, with a floor | the modules with zero tests |
-| dead code | `knip` | unused files, exports and **dependencies** |
-| shell | `shellcheck` | quoting, unset variables, `cd` idioms — invisible to every other tool |
-| python | `ruff check` + `ruff format` | the scripts and installer tests you forgot were code |
-| hooks | `lefthook` | the drift that happens between CI runs |
+| Gate      | Tool                                               | Catches                                                               |
+| --------- | -------------------------------------------------- | --------------------------------------------------------------------- |
+| types     | `tsc --noEmit` (strict, including `noImplicitAny`) | anything flow-shaped that was typed `any` to make it pass             |
+| lint      | `oxlint`                                           | dead imports, unused bindings, suspicious branches                    |
+| format    | `oxfmt`                                            | drift; the diff nobody wants to review                                |
+| runner    | `vitest`                                           | — it also provides coverage                                           |
+| coverage  | `vitest run --coverage`, with a floor              | the modules with zero tests                                           |
+| dead code | `knip`                                             | unused files, exports and **dependencies**                            |
+| shell     | `shellcheck`                                       | quoting, unset variables, `cd` idioms — invisible to every other tool |
+| python    | `ruff check` + `ruff format`                       | the scripts and installer tests you forgot were code                  |
+| hooks     | `lefthook`                                         | the drift that happens between CI runs                                |
 
 Configs: [[oxlintrc.json](templates/oxlintrc.json)](templates/oxlintrc.json), [[oxfmtrc.json](templates/oxfmtrc.json)](templates/oxfmtrc.json),
 [[knip.jsonc](templates/knip.jsonc)](templates/knip.jsonc), [[vitest.config.ts](templates/vitest.config.ts)](templates/vitest.config.ts),
@@ -46,14 +46,14 @@ Detail and the exact scripts: [[tier-1-foundation.md](references/tier-1-foundati
 
 ### 2. Tier 2 — the checks that find defects
 
-| Gate | Tool | Catches |
-| --- | --- | --- |
-| properties | `fast-check` | the input nobody thought of; hand-rolled parsers and text utilities are where it pays |
-| duplication | `jscpd` | the same helper written twice with a divergence |
-| browser | `@playwright/test` | routes that 500, console errors, layout overflow |
-| accessibility | `@axe-core/playwright` | unlabelled controls, broken roles, and a measured contrast number |
-| links | `lychee` | docs that point at deleted files and repositories |
-| mutation | `Stryker` | assertions that pass with the feature deleted |
+| Gate          | Tool                   | Catches                                                                               |
+| ------------- | ---------------------- | ------------------------------------------------------------------------------------- |
+| properties    | `fast-check`           | the input nobody thought of; hand-rolled parsers and text utilities are where it pays |
+| duplication   | `jscpd`                | the same helper written twice with a divergence                                       |
+| browser       | `@playwright/test`     | routes that 500, console errors, layout overflow                                      |
+| accessibility | `@axe-core/playwright` | unlabelled controls, broken roles, and a measured contrast number                     |
+| links         | `lychee`               | docs that point at deleted files and repositories                                     |
+| mutation      | `Stryker`              | assertions that pass with the feature deleted                                         |
 
 Configs: [[playwright.config.ts](templates/playwright.config.ts)](templates/playwright.config.ts),
 [[jscpd.json](templates/jscpd.json)](templates/jscpd.json), [[lychee.toml](templates/lychee.toml)](templates/lychee.toml).
@@ -62,13 +62,13 @@ Detail: [[tier-2-deep-checks.md](references/tier-2-deep-checks.md)](references/t
 
 ### 3. Tier 3 — security and supply chain
 
-| Gate | Tool | Catches |
-| --- | --- | --- |
-| secrets | `gitleaks detect` over the **history** | a token committed once and deleted later |
-| dependencies | `osv-scanner` | known CVEs in the lockfile |
-| sast | `semgrep --config p/ci` | injection, unpinned actions, unsafe deserialisation |
-| signatures | `npm audit signatures` | a registry response that was tampered with |
-| updates | `.github/dependabot.yml` with grouping and a cooldown | silent drift; and adopting a compromised release on day zero |
+| Gate         | Tool                                                  | Catches                                                      |
+| ------------ | ----------------------------------------------------- | ------------------------------------------------------------ |
+| secrets      | `gitleaks detect` over the **history**                | a token committed once and deleted later                     |
+| dependencies | `osv-scanner`                                         | known CVEs in the lockfile                                   |
+| sast         | `semgrep --config p/ci`                               | injection, unpinned actions, unsafe deserialisation          |
+| signatures   | `npm audit signatures`                                | a registry response that was tampered with                   |
+| updates      | `.github/dependabot.yml` with grouping and a cooldown | silent drift; and adopting a compromised release on day zero |
 
 Configs: [[gitleaks.toml](templates/gitleaks.toml)](templates/gitleaks.toml),
 [[dependabot.yml](templates/dependabot.yml)](templates/dependabot.yml),

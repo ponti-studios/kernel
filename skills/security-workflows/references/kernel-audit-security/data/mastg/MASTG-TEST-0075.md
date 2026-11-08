@@ -6,11 +6,11 @@ upstream_path: tests/ios/MASVS-PLATFORM/MASTG-TEST-0075.md
 upstream_tag: 31cec00
 platform: ios
 covers_masvs:
-- MASVS-PLATFORM-1
+  - MASVS-PLATFORM-1
 masvs_v1_id:
-- MSTG-PLATFORM-3
+  - MSTG-PLATFORM-3
 masvs_v2_id:
-- MASVS-PLATFORM-1
+  - MASVS-PLATFORM-1
 ---
 
 ## Overview
@@ -83,7 +83,7 @@ Before calling the `openURL:options:completionHandler:` method, apps can call [`
 
 **The `openURL:options:completionHandler:` method will still open any URL scheme, even if the `LSApplicationQueriesSchemes` array was declared**, and return `YES` / `NO` depending on the result.
 
-As an example, Telegram declares in its [`Info.plist`](https://github.com/TelegramMessenger/Telegram-iOS/blob/master/Telegram/Telegram-iOS/Info.plist#L233 "Telegram\'s Info.plist Line 63") these Queries Schemes, among others:
+As an example, Telegram declares in its [`Info.plist`](https://github.com/TelegramMessenger/Telegram-iOS/blob/master/Telegram/Telegram-iOS/Info.plist#L233 "Telegram's Info.plist Line 63") these Queries Schemes, among others:
 
 ```xml
     <key>LSApplicationQueriesSchemes</key>
@@ -109,7 +109,7 @@ In order to determine how a URL path is built and validated, if you have the ori
 - `application:didFinishLaunchingWithOptions:` method or `application:will-FinishLaunchingWithOptions:`: verify how the decision is made and how the information about the URL is retrieved.
 - [`application:openURL:options:`](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623112-application?language=objc "UIApplicationDelegate application:openURL:options:"): verify how the resource is being opened, i.e. how the data is being parsed, verify the [options](https://developer.apple.com/documentation/uikit/uiapplication/openurloptionskey "UIApplicationOpenURLOptionsKey"), especially if access by the calling app ([`sourceApplication`](https://developer.apple.com/documentation/uikit/uiapplication/openurloptionskey/1623128-sourceapplication "UIApplicationOpenURLOptionsSourceApplicationKey")) should be allowed or denied. The app might also need user permission when using the custom URL scheme.
 
-In Telegram you will [find four different methods being used](https://github.com/peter-iakovlev/Telegram-iOS/blob/87e0a33ac438c1d702f2a0b75bf21f26866e346f/Telegram-iOS/AppDelegate.swift#L1250 "Telegram\'s AppDelegate.swift Line 1250"):
+In Telegram you will [find four different methods being used](https://github.com/peter-iakovlev/Telegram-iOS/blob/87e0a33ac438c1d702f2a0b75bf21f26866e346f/Telegram-iOS/AppDelegate.swift#L1250 "Telegram's AppDelegate.swift Line 1250"):
 
 ```default
 func application(_ application: UIApplication, open url: URL, sourceApplication: String?) -> Bool {
@@ -139,7 +139,7 @@ We can observe some things here:
 
 - The app implements also deprecated methods like [`application:handleOpenURL:`](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1622964-application?language=objc "UIApplicationDelegate application:handleOpenURL:") and [`application:openURL:sourceApplication:annotation:`](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623073-application "UIApplicationDelegate application:openURL:sourceApplication:annotation:").
 - The source application is not being verified in any of those methods.
-- All of them call a private `openUrl` method. You can [inspect it](https://github.com/peter-iakovlev/Telegram-iOS/blob/87e0a33ac438c1d702f2a0b75bf21f26866e346f/Telegram-iOS/AppDelegate.swift#L1270 "Telegram\'s AppDelegate.swift Line 1270") to learn more about how the URL request is handled.
+- All of them call a private `openUrl` method. You can [inspect it](https://github.com/peter-iakovlev/Telegram-iOS/blob/87e0a33ac438c1d702f2a0b75bf21f26866e346f/Telegram-iOS/AppDelegate.swift#L1270 "Telegram's AppDelegate.swift Line 1270") to learn more about how the URL request is handled.
 
 ### Testing URL Requests to Other Apps
 
@@ -305,14 +305,14 @@ In this example from [Frida CodeShare](https://codeshare.frida.re/@dki/ios-url-s
 
 ```javascript
 function openURL(url) {
-    var w = ObjC.classes.LSApplicationWorkspace.defaultWorkspace();
-    var toOpen = ObjC.classes.NSURL.URLWithString_(url);
-    return w.openSensitiveURL_withOptions_(toOpen, null);
+  var w = ObjC.classes.LSApplicationWorkspace.defaultWorkspace();
+  var toOpen = ObjC.classes.NSURL.URLWithString_(url);
+  return w.openSensitiveURL_withOptions_(toOpen, null);
 }
 ```
 
 !!! note
-    The use of non-public APIs is not permitted on the App Store. That's why we don't even test these, but we are allowed to use them for our dynamic analysis.
+The use of non-public APIs is not permitted on the App Store. That's why we don't even test these, but we are allowed to use them for our dynamic analysis.
 
 ### Identifying and Hooking the URL Handler Method
 
@@ -455,34 +455,34 @@ Now we can simply modify by hand the stubs we are interested in:
 
 - The Objective-C method `application:openURL:options:`:
 
-    ```javascript
-    // __handlers__/__AppDelegate_application_openUR_3679fadc.js
+  ```javascript
+  // __handlers__/__AppDelegate_application_openUR_3679fadc.js
 
-    onEnter: function (log, args, state) {
-        log("-[AppDelegate application: " + args[2] +
-                    " openURL: " + args[3] + " options: " + args[4] + "]");
-        log("\tapplication :" + ObjC.Object(args[2]).toString());
-        log("\topenURL :" + ObjC.Object(args[3]).toString());
-        log("\toptions :" + ObjC.Object(args[4]).toString());
-    },
-    ```
+  onEnter: function (log, args, state) {
+      log("-[AppDelegate application: " + args[2] +
+                  " openURL: " + args[3] + " options: " + args[4] + "]");
+      log("\tapplication :" + ObjC.Object(args[2]).toString());
+      log("\topenURL :" + ObjC.Object(args[3]).toString());
+      log("\toptions :" + ObjC.Object(args[4]).toString());
+  },
+  ```
 
 - The Swift method `$S10TelegramUI15openExternalUrl...`:
 
-    ```javascript
-    // __handlers__/TelegramUI/_S10TelegramUI15openExternalUrl7_b1a3234e.js
+  ```javascript
+  // __handlers__/TelegramUI/_S10TelegramUI15openExternalUrl7_b1a3234e.js
 
-    onEnter: function (log, args, state) {
+  onEnter: function (log, args, state) {
 
-        log("TelegramUI.openExternalUrl(account, url, presentationData," +
-                    "applicationContext, navigationController, dismissInput)");
-        log("\taccount: " + ObjC.Object(args[1]).toString());
-        log("\turl: " + ObjC.Object(args[2]).toString());
-        log("\tpresentationData: " + args[3]);
-        log("\tapplicationContext: " + ObjC.Object(args[4]).toString());
-        log("\tnavigationController: " + ObjC.Object(args[5]).toString());
-    },
-    ```
+      log("TelegramUI.openExternalUrl(account, url, presentationData," +
+                  "applicationContext, navigationController, dismissInput)");
+      log("\taccount: " + ObjC.Object(args[1]).toString());
+      log("\turl: " + ObjC.Object(args[2]).toString());
+      log("\tpresentationData: " + args[3]);
+      log("\tapplicationContext: " + ObjC.Object(args[4]).toString());
+      log("\tnavigationController: " + ObjC.Object(args[5]).toString());
+  },
+  ```
 
 The next time we run it, we see the following output:
 
@@ -568,10 +568,10 @@ A way to discard or confirm validation could be by hooking typical methods that 
 var isEqualToString = ObjC.classes.NSString["- isEqualToString:"];
 
 Interceptor.attach(isEqualToString.implementation, {
-  onEnter: function(args) {
+  onEnter: function (args) {
     var message = ObjC.Object(args[2]);
-    console.log(message)
-  }
+    console.log(message);
+  },
 });
 ```
 
@@ -600,7 +600,7 @@ Nothing happens. This tells us already that this method is not being used for th
 
 If the app parses parts of the URL, you can also perform input fuzzing to detect memory corruption bugs.
 
-What we have learned above can be now used to build your own fuzzer on the language of your choice, e.g. in Python and call the `openURL` using [Frida's RPC](https://www.frida.re/docs/javascript-api/#rpc "Frida\'s RPC (JavaScript API)"). That fuzzer should do the following:
+What we have learned above can be now used to build your own fuzzer on the language of your choice, e.g. in Python and call the `openURL` using [Frida's RPC](https://www.frida.re/docs/javascript-api/#rpc "Frida's RPC (JavaScript API)"). That fuzzer should do the following:
 
 - Generate payloads.
 - For each of them call `openURL`.

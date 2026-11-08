@@ -23,28 +23,34 @@ file path, the current code verbatim, the exact target values.
 - **Estimated scope**: <n files, rough size>
 
 ## Problem
+
 What is wrong, where, and why it matters. Cite every location as
 `path/to/file.tsx:123` and include the current code verbatim in a fence.
 
 ## Target
+
 The exact end state. Every value spelled out — no "use a nicer easing".
 Show the target code in a fence.
 
 ## Repo conventions to follow
+
 How this codebase already does it, with one exemplar `file:line` the executor
 should imitate. Plans extend existing conventions; they never invent parallel
 ones.
 
 ## Steps
+
 1. <One concrete edit per step: file, what changes, resulting code.>
 
 ## Boundaries
+
 - Do NOT touch <files/components out of scope>.
 - Do NOT add new dependencies.
 - If a step doesn't match the code you find (drift since the commit stamp),
   STOP and report instead of improvising.
 
 ## Verification
+
 - **Mechanical**: exact commands (typecheck, lint, build) with expected outcome.
 - **Behavioral**: observable check a reviewer or executor can run and see pass.
 - **Done when**: machine- or eye-checkable completion criteria.

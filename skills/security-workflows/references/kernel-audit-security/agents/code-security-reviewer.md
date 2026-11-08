@@ -26,6 +26,7 @@ You are a security code reviewer. Your job is to perform a thorough, evidence-ba
 ## Output
 
 Produce a structured report with:
+
 - Scope summary (language, framework, trust boundary, data sensitivity)
 - Severity count table
 - All findings in [finding.md](../templates/finding.md) format

@@ -40,11 +40,11 @@ citation, not the fixed list.
 
 Depth follows effort level (adjust to the ask):
 
-| Effort | Coverage | Findings |
-| --- | --- | --- |
-| `quick` | Highest-traffic areas only | ~5, HIGH severity only |
-| `standard` | All main modules | Full table |
-| `deep` | Whole repo, cold corners included | Full table + LOW polish items |
+| Effort     | Coverage                          | Findings                      |
+| ---------- | --------------------------------- | ----------------------------- |
+| `quick`    | Highest-traffic areas only        | ~5, HIGH severity only        |
+| `standard` | All main modules                  | Full table                    |
+| `deep`     | Whole repo, cold corners included | Full table + LOW polish items |
 
 ## Phase 3 — Deliverable
 
@@ -52,28 +52,35 @@ Depth follows effort level (adjust to the ask):
 # <Subject> Audit
 
 ## Executive summary
+
 Max 10 bullets, ranked by impact.
 
 ## Mental model
+
 Your understanding of the system as it actually is. Flag contradictions with
 existing docs — contradictions are findings.
 
 ## Findings table
+
 | ID | Category | File:Line | Severity | Effort | Description | Recommendation |
 Aim for 30–80 findings; padding past that is noise. Severity: Critical/High/
 Medium/Low. Effort: S/M/L.
 
 ## If you fix nothing else, fix these
+
 Top 5 with concrete diff sketches or refactor outlines, not vague advice.
 
 ## Quick wins
+
 Low effort × Medium+ severity, as a checklist.
 
 ## Things that look bad but are actually fine
+
 Calls you considered flagging and chose not to, with reasoning. **Required.**
 If it's empty, you didn't look hard enough.
 
 ## Open questions for the maintainer
+
 Things you couldn't tell were debt vs. intentional. When unsure, ask here —
 don't assert.
 ```

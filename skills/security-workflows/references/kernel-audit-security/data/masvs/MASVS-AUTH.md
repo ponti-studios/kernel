@@ -1,11 +1,11 @@
 ---
-title: 'MASVS-AUTH: Authentication and Authorization'
+title: "MASVS-AUTH: Authentication and Authorization"
 masvs_group: MASVS-AUTH
 group_overview: true
 controls:
-- MASVS-AUTH-1
-- MASVS-AUTH-2
-- MASVS-AUTH-3
+  - MASVS-AUTH-1
+  - MASVS-AUTH-2
+  - MASVS-AUTH-3
 ---
 
 # MASVS-AUTH — Authentication and Authorization

@@ -92,12 +92,7 @@
     "Cyndi is a tan Belgian Malinois-type shepherd with a black muzzle, erect ears, dark eyes, a lean athletic build and a short coat",
     "the shop is a real independent umbrella shop with a narrow Victorian shopfront of bowed glass and worn dark timber"
   ],
-  "denylist": [
-    "frame-centre",
-    "in the middle of it",
-    "tall in the frame",
-    "the standing men"
-  ],
+  "denylist": ["frame-centre", "in the middle of it", "tall in the frame", "the standing men"],
   "references": [
     "bibles/lucy/turnaround.webp",
     "bibles/wyatt/turnaround.webp",

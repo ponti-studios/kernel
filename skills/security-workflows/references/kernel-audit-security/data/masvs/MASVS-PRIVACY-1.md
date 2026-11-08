@@ -1,5 +1,5 @@
 ---
-title: 'MASVS-PRIVACY-1: The app minimizes access to sensitive data and resources.'
+title: "MASVS-PRIVACY-1: The app minimizes access to sensitive data and resources."
 masvs_group: MASVS-PRIVACY
 masvs_control: MASVS-PRIVACY-1
 summary: The app minimizes access to sensitive data and resources.

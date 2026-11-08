@@ -6,14 +6,14 @@ upstream_path: tests-beta/android/MASVS-STORAGE/MASTG-TEST-0203.md
 upstream_tag: 31cec00
 platform: android
 covers_masvs:
-- MASVS-STORAGE-2
+  - MASVS-STORAGE-2
 type:
-- dynamic
+  - dynamic
 weakness: MASWE-0001
 profiles:
-- L1
-- L2
-- P
+  - L1
+  - L2
+  - P
 ---
 
 ## Overview

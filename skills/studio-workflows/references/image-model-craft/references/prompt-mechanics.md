@@ -17,7 +17,7 @@ where it meets the torso is underdetermined and the model resolves it as
   produced a genuine drape **[U], n=1**.
 
 **Rule:** before rewriting wording, ask what physical configuration would make the
-geometry unambiguous, then describe *that*. If a support exists that the subject
+geometry unambiguous, then describe _that_. If a support exists that the subject
 cannot move, the net will hang from the support, not from the subject.
 
 ## 2. Negation: inert for "don't add X", harmful for "which X" [M/I]
@@ -28,14 +28,14 @@ Two different claims get conflated. Keep them apart:
   0/5 sparkles with the negative present, 0/5 without. Removing the negative did not
   bring the artifact back. So the classic "mentioning it invites it" effect is
   **not demonstrated** here **[M]**.
-- **"Never the deep-red wrap dress"** written into *another* character's outfit line —
+- **"Never the deep-red wrap dress"** written into _another_ character's outfit line —
   this names a garment the character is not wearing. The compiler emitted 6 such
   mentions per 4-character frame, and in one A/B the legacy arm lost the tee to a
   coat while the positive arm did not (**single sample, later failed to reproduce
   [U]**). The mechanism is plausible and the enumeration is pointless either way —
   just delete it.
 
-**Rule:** never enumerate what a character is *not* wearing. Say what they are
+**Rule:** never enumerate what a character is _not_ wearing. Say what they are
 wearing, in enough colour/detail to distinguish them from everyone else in frame.
 
 ## 3. Directive framing vs descriptive prose [U]
@@ -55,8 +55,8 @@ n=5, p≈0.44 **[U]**. Isolation test pending.
 
 ## 4. Counts are weak inside prose [U]
 
-*"exactly one rock appears in the frame"* reads as description; *"the case holds an
-empty tray and nothing else"* reads as a state. The measured runs showed no
+_"exactly one rock appears in the frame"_ reads as description; _"the case holds an
+empty tray and nothing else"_ reads as a state. The measured runs showed no
 difference in rock count (0/5 panels with >1 rock in either arm), so this is
 **unproven** — but phrasing counts as a state of the world rather than a tally is
 cheap and reads better.
@@ -74,11 +74,11 @@ untested **[U]**.
 
 ## 6. Camera-relative geometry inside a single object is unrenderable [I]
 
-Phrasings like *"its near edge at his waist and its far edge at his knees"* ask the
-model to reason about a 3D plane's screen-space extent. It renders *something*, but
+Phrasings like _"its near edge at his waist and its far edge at his knees"_ ask the
+model to reason about a 3D plane's screen-space extent. It renders _something_, but
 the intended relationship is not recoverable from the output. Prefer
-object-relative statements: *"a shallow sag, bottom edge four hands above the
-floor"*.
+object-relative statements: _"a shallow sag, bottom edge four hands above the
+floor"_.
 
 ## 7. Trailing physics paragraphs do nothing [M]
 
@@ -88,7 +88,7 @@ everything after it is decoration. If a fix is needed, change the arrangement.
 
 ## 8. Text suppression works as a negative [M]
 
-*"no readable text, letters or words anywhere"* produced **0/5 panels with legible
+_"no readable text, letters or words anywhere"_ produced **0/5 panels with legible
 text** across every arm on both frames, including all the signage and screens the
 scene demanded. This one negative is worth keeping verbatim. It is the sole
 negative surviving in the shared render grade.
@@ -97,7 +97,7 @@ negative surviving in the shared render grade.
 
 No experiment isolated clause order. What is observable: the character blocks sit
 after the scene, and identity drifts (phantom emerging from the screen, hands gaining
-tattoos) track *reference plates and resolution*, not block order. Treat block order
+tattoos) track _reference plates and resolution_, not block order. Treat block order
 as stable-by-convention, not as a lever.
 
 ## 10. Compile, and store the hash
@@ -110,26 +110,26 @@ test — the only reason the three-arm test could be built at all.
 
 **This section's original evidence was a misread and is withdrawn [U].** It claimed
 that silence about a character's hands caused every model to invent a phone. In fact
-the spec **specifies** her hand: *"one hand in lap, other holding a nail file paused
-mid-stroke"*. The models rendered the specified prop; the scorer invented a "no phone"
+the spec **specifies** her hand: _"one hand in lap, other holding a nail file paused
+mid-stroke"_. The models rendered the specified prop; the scorer invented a "no phone"
 check and then misread the nail file.
 
 The underlying principle may still be true — any property the brief leaves open, a
 model will decide for itself, and it will decide plausibly rather than blankly. But
 after this correction **we have no verified instance of it.** Treat the principle as a
 hypothesis to test (leave a prop unspecified, render, see whether something appears),
-not as a finding. What *is* verified: do not name an unspecified object from a
+not as a finding. What _is_ verified: do not name an unspecified object from a
 downscaled panel — that is how the phone was invented.
 
 The lesson generalises: any object the model can reasonably supply will be supplied.
 Properties you care about need a positive statement of the state —
 
-- hands: *"her hands are empty and resting in her lap"*, not silence
-- props: *"the tray of the case is empty"*
-- posture: *"both feet flat on the stage boards"*
+- hands: _"her hands are empty and resting in her lap"_, not silence
+- props: _"the tray of the case is empty"_
+- posture: _"both feet flat on the stage boards"_
 
 This is the productive version of the "no phones in hands" negative that the rewrite
-dropped: not *"no phone"* (naming it), but *"her hands are empty"* (stating what is
+dropped: not _"no phone"_ (naming it), but _"her hands are empty"_ (stating what is
 there).
 
 ## 12. The cross-model signal [M]

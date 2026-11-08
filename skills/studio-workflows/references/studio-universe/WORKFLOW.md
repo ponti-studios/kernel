@@ -14,13 +14,13 @@ a phantom floating inside the screen instead of standing on the stage.
 
 ## Where things live
 
-| Thing | Path | Authority |
-|---|---|---|
-| Character facts | `data/bibles/<character>/PROMPT.md` | sole authority on that character |
-| Pointers + rules + structured data | `data/registry.json` | extraction rules, outfits, heights, shared blocks |
-| Naming / who-is-who | `data/UNIVERSE.md` (+ `data/ledger-history.csv`) | names, fold records, citizen list |
-| Frame specs | `sets/<set>/specs/frame*.json` (fixtures: `test/fixtures/specs/`) | the frame's own geography |
-| Expected prompt output | `test/fixtures/expected/*.prompt.txt` | regression baseline |
+| Thing                              | Path                                                              | Authority                                         |
+| ---------------------------------- | ----------------------------------------------------------------- | ------------------------------------------------- |
+| Character facts                    | `data/bibles/<character>/PROMPT.md`                               | sole authority on that character                  |
+| Pointers + rules + structured data | `data/registry.json`                                              | extraction rules, outfits, heights, shared blocks |
+| Naming / who-is-who                | `data/UNIVERSE.md` (+ `data/ledger-history.csv`)                  | names, fold records, citizen list                 |
+| Frame specs                        | `sets/<set>/specs/frame*.json` (fixtures: `test/fixtures/specs/`) | the frame's own geography                         |
+| Expected prompt output             | `test/fixtures/expected/*.prompt.txt`                             | regression baseline                               |
 
 Everything above is **inside this skill**. A studio checkout is not required to
 read canon or compile a prompt; [resolve.mjs](scripts/lib/resolve.mjs) prefers `data/`.
@@ -32,10 +32,10 @@ The compiler extracts marker-to-marker and strips the marker lines.
 
 The compiler has two modes, and the difference is not cosmetic:
 
-| Voice | What it emits | Use for |
-|---|---|---|
-| `positive` (**default**) | states what IS; garments attributed only to their owner; `CONTENT` instead of `NEGATIVES`; a `WARDROBE` distinctness line | generation |
-| `legacy` | reproduces the app's output byte-for-byte, including `never the …` garment enumerations | app parity, and the fixture baseline |
+| Voice                    | What it emits                                                                                                             | Use for                              |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| `positive` (**default**) | states what IS; garments attributed only to their owner; `CONTENT` instead of `NEGATIVES`; a `WARDROBE` distinctness line | generation                           |
+| `legacy`                 | reproduces the app's output byte-for-byte, including `never the …` garment enumerations                                   | app parity, and the fixture baseline |
 
 Image models do not reliably represent negation — naming a thing raises the odds
 of it appearing, whether or not the sentence says "no". The legacy compiler
@@ -62,9 +62,9 @@ dress-swap generator — the failure mode is in `output/kit-evidence/`.
    `--compiler dist` to run the monorepo build itself (legacy only — asking for
    positive voice with the dist compiler is refused rather than silently
    downgraded).
-4. Feed the compiled prompt to the renderer verbatim (see the
+5. Feed the compiled prompt to the renderer verbatim (see the
    `openrouter-image-generation` skill for the model choice and cost rules).
-5. If the render still drifts, the fault is in the canon or the spec — fix it
+6. If the render still drifts, the fault is in the canon or the spec — fix it
    there and recompile. Never patch the prompt text by hand.
 
 ## Procedure: after ANY canon edit
@@ -97,20 +97,20 @@ Entry points are `scripts/*.sh` (bash wrappers that exec `node`); the
 implementation is `scripts/lib/*.mjs`. Zero dependencies: ESM on Node 24, no
 `npm install`, no build step.
 
-| File | Job |
-|---|---|
-| [compile.mjs](scripts/lib/compile.mjs) | the compiler — a direct port of `packages/universe/src/compile.ts`, byte-identical to it on all nine fixtures in legacy voice |
-| [resolve.mjs](scripts/lib/resolve.mjs) | the single seam: where canon, the compiler and the fixtures live, plus `~/.pontistudios.studio.yml` |
-| [registry.mjs](scripts/lib/registry.mjs) | registry access — loads/validates the registry, resolves `data/registry.json` or `registry/registry.json`, character lookups |
-| [schemas.mjs](scripts/lib/schemas.mjs) | registry + frame-spec shapes as plain checks (the zod schemas, message-for-message, without zod) |
-| [compile-frame.mjs](scripts/lib/compile-frame.mjs) | CLI: spec → prompt |
-| [registry-report.mjs](scripts/lib/registry-report.mjs) | CLI: what the registry knows, per character |
-| [check-fixtures.mjs](scripts/lib/check-fixtures.mjs) | CLI: the byte-exact baseline |
+| File                                                   | Job                                                                                                                           |
+| ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------- |
+| [compile.mjs](scripts/lib/compile.mjs)                 | the compiler — a direct port of `packages/universe/src/compile.ts`, byte-identical to it on all nine fixtures in legacy voice |
+| [resolve.mjs](scripts/lib/resolve.mjs)                 | the single seam: where canon, the compiler and the fixtures live, plus `~/.pontistudios.studio.yml`                           |
+| [registry.mjs](scripts/lib/registry.mjs)               | registry access — loads/validates the registry, resolves `data/registry.json` or `registry/registry.json`, character lookups  |
+| [schemas.mjs](scripts/lib/schemas.mjs)                 | registry + frame-spec shapes as plain checks (the zod schemas, message-for-message, without zod)                              |
+| [compile-frame.mjs](scripts/lib/compile-frame.mjs)     | CLI: spec → prompt                                                                                                            |
+| [registry-report.mjs](scripts/lib/registry-report.mjs) | CLI: what the registry knows, per character                                                                                   |
+| [check-fixtures.mjs](scripts/lib/check-fixtures.mjs)   | CLI: the byte-exact baseline                                                                                                  |
 
 **The skill is self-contained.** Canon lives in `data/`, the fixtures in
 `test/`, and `compile-frame.sh` runs the ported compiler by default — reading a
 bible, compiling a prompt or running the fixtures needs no monorepo, no
-`pnpm build` and no network. `resolve.mjs` still *understands* a checkout for
+`pnpm build` and no network. `resolve.mjs` still _understands_ a checkout for
 one purpose: `--compiler dist` app-parity runs, which are skipped (and reported
 as skipped) when no build is present. Nothing imports a repo module at load
 time, so a deleted checkout cannot break the skill.
@@ -130,12 +130,12 @@ All of these can be set once in `~/.pontistudios.studio.yml` (key names:
 `studio_root`, `universe_root`) instead of exported; an environment variable
 still wins over the file.
 
-| Variable | Default | Used for |
-|---|---|---|
-| `STUDIO_UNIVERSE_ROOT` | the skill's `data/` | registry and bibles; set it to compile against another canon |
-| `STUDIO_ROOT` | unset | no longer needed: the canon lives in this skill's `data/`; only a legacy dist build would use it, and none exists |
-| `STUDIO_UNIVERSE_ENTRY` | `$STUDIO_ROOT/packages/universe/dist/index.js` | the built TypeScript compiler, if it lives elsewhere |
-| `STUDIO_CONFIG` | `~/.pontistudios.studio.yml` | an alternative config file |
+| Variable                | Default                                        | Used for                                                                                                          |
+| ----------------------- | ---------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `STUDIO_UNIVERSE_ROOT`  | the skill's `data/`                            | registry and bibles; set it to compile against another canon                                                      |
+| `STUDIO_ROOT`           | unset                                          | no longer needed: the canon lives in this skill's `data/`; only a legacy dist build would use it, and none exists |
+| `STUDIO_UNIVERSE_ENTRY` | `$STUDIO_ROOT/packages/universe/dist/index.js` | the built TypeScript compiler, if it lives elsewhere                                                              |
+| `STUDIO_CONFIG`         | `~/.pontistudios.studio.yml`                   | an alternative config file                                                                                        |
 
 Root resolution order: `STUDIO_UNIVERSE_ROOT` → config `universe_root` → the
 skill's `data/` → `$STUDIO_ROOT/universe`. **A candidate only counts if it
@@ -153,13 +153,13 @@ The optional Universe compiler override is for parity checks with an external bu
   positive structure (`CONSTRAINTS`, no enumerations, `WARDROBE`). 1K with
   character turnaround sheets, ~$0.018 per render:
 
-  | measure | A original | B legacy | C positive |
-  |---|---|---|---|
-  | Aurora: panels with >1 rock | 0/5 | — | 0/5 |
-  | Aurora: panels with any sparkle/glint | 0/5 | — | 0/5 |
-  | Aurora: panels with legible text | 0/5 | — | 0/5 |
-  | Scooby: panels with see-through robe | **0/5** | **0/5** | **2/5** |
-  | Scooby: panels with a flat-curtain net | 4/5 | 3/5 | 3/5 |
+  | measure                                | A original | B legacy | C positive |
+  | -------------------------------------- | ---------- | -------- | ---------- |
+  | Aurora: panels with >1 rock            | 0/5        | —        | 0/5        |
+  | Aurora: panels with any sparkle/glint  | 0/5        | —        | 0/5        |
+  | Aurora: panels with legible text       | 0/5        | —        | 0/5        |
+  | Scooby: panels with see-through robe   | **0/5**    | **0/5**  | **2/5**    |
+  | Scooby: panels with a flat-curtain net | 4/5        | 3/5      | 3/5        |
 
   Conclusions that the data supports, and the ones it does not:
   1. **On the failures the negatives were written for, the rewrite changes
@@ -168,8 +168,8 @@ The optional Universe compiler override is for parity checks with an external bu
      rock frame at 1K. Do not cite the rewrite as a quality win.
   2. **The one directional signal is robe opacity** (0/5, 0/5, 2/5). Note this
      argues AGAINST "negative content protects opacity": arm B carries the same
-     *positive* wording as C yet holds opacity like A. The suspect is therefore
-     the positive *structure* — the `CONSTRAINTS — hold every one of these
+     _positive_ wording as C yet holds opacity like A. The suspect is therefore
+     the positive _structure_ — the `CONSTRAINTS — hold every one of these
      exactly as written:` prefix, the dropped garment enumerations, or the added
      `WARDROBE` line — not the absence of negatives.
   3. **Single renders are not evidence.** Three separate single-sample claims of
@@ -177,6 +177,7 @@ The optional Universe compiler override is for parity checks with an external bu
      net") all failed to reproduce under 5 samples. The loupe was specified in
      the spec all along. Score with >=5 samples per arm, or not at all.
   4. The net-geometry differences (4/5 vs 3/5 vs 3/5) are noise, not an effect.
+
 - **The shared render grade stays negative on purpose.** It contributes 5
   negations to every frame ("Absolutely no text, no lettering, no captions, no
   logos and no watermark"), and text/watermark suppression is the one place a
@@ -187,7 +188,7 @@ The optional Universe compiler override is for parity checks with an external bu
   rather than dropped, because silently discarding a constraint loses
   information. Prohibitory garment tails (`— never the X`) are stripped while
   the positive half of the sentence is preserved.
-- The compiler validates *structure*, not truth. A `DENYLISTED_PHRASE` refusal
+- The compiler validates _structure_, not truth. A `DENYLISTED_PHRASE` refusal
   means a banned phrase crept into prose; a passing spec can still describe
   nonsense geography. Read the compiled prompt before rendering.
 - Shared outfit ids must be declared in `spec.shared_outfits`, or the second
@@ -203,15 +204,15 @@ The optional Universe compiler override is for parity checks with an external bu
   weak model is not a canon bug.
 
 - **Read the spec before calling a render wrong.** A seated character appeared to hold
-  a phone in every model's render; the spec's action line in fact says *"one hand in
-  lap, other holding a nail file paused mid-stroke"*, and the models had rendered the
+  a phone in every model's render; the spec's action line in fact says _"one hand in
+  lap, other holding a nail file paused mid-stroke"_, and the models had rendered the
   specified prop correctly. The "violation" was an invented check plus a misread
   object. Before editing canon to fix a "failure", quote the spec sentence that the
   render violates — if there isn't one, the spec was never violated.
-- **State the state of hands and props anyway.** Where the spec *is* silent about a
-  hand, a pocket, a tray or a posture, the model decides for itself: prefer *"her hands
-  are empty and resting in her lap"*, *"the tray of the case is empty"*, *"both feet
-  flat on the stage boards"*. (Hypothesis, not measured — see [image-model-craft](../image-model-craft/WORKFLOW.md).)
+- **State the state of hands and props anyway.** Where the spec _is_ silent about a
+  hand, a pocket, a tray or a posture, the model decides for itself: prefer _"her hands
+  are empty and resting in her lap"_, _"the tray of the case is empty"_, _"both feet
+  flat on the stage boards"_. (Hypothesis, not measured — see [image-model-craft](../image-model-craft/WORKFLOW.md).)
 
 ## Reference images
 

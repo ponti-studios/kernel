@@ -1,12 +1,12 @@
 ---
-title: 'MASVS-PRIVACY: User Privacy'
+title: "MASVS-PRIVACY: User Privacy"
 masvs_group: MASVS-PRIVACY
 group_overview: true
 controls:
-- MASVS-PRIVACY-1
-- MASVS-PRIVACY-2
-- MASVS-PRIVACY-3
-- MASVS-PRIVACY-4
+  - MASVS-PRIVACY-1
+  - MASVS-PRIVACY-2
+  - MASVS-PRIVACY-3
+  - MASVS-PRIVACY-4
 ---
 
 # MASVS-PRIVACY — User Privacy

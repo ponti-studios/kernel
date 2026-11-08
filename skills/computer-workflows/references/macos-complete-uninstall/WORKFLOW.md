@@ -2,7 +2,7 @@
 
 Removing the `.app` and the data directory leaves the thing alive and re-installable. A complete
 uninstall is an inventory problem first and a deletion problem second: find every hook (launchd,
-browser, keychain, shell, OS privacy), find the *install trigger* that recreates the software, then
+browser, keychain, shell, OS privacy), find the _install trigger_ that recreates the software, then
 delete, then prove it is gone with checks that cannot pass by accident.
 
 ## Non-negotiables
@@ -30,11 +30,11 @@ Read [macos-residue-locations.md](references/macos-residue-locations.md) for the
 
 Two checks that must not be skipped at this stage:
 
-- **Shared-symlink check.** Before `rm -rf` a dotdir, find symlinks *into* it from other tools
+- **Shared-symlink check.** Before `rm -rf` a dotdir, find symlinks _into_ it from other tools
   (`find ~ -maxdepth 3 -type l` and grep the target). Prove shared content lives elsewhere by inode:
   `stat -f "%i %N" <pathA> <pathB>` — identical inodes mean the real files survive deletion.
 - **Whose binary is it.** Two apps can share a name. Check the full process path before deleting:
-  a process called `Chromium` may be the agent's own bundled browser (`~/.hermes/tools/chromium-*`),
+  a process called `Chromium` may be the agent's own bundled browser (`${HERMES_HOME:-~/.hermes}/tools/chromium-*`),
   not part of the target at all.
 
 ## Step 2 — Stop the software before deleting it
@@ -59,7 +59,7 @@ tccutil reset All <bundle-id>                                 # no-op if the app
 ```
 
 For the shell, remove the line rather than commenting it, back the rc files up first, and sweep
-*every* rc file (`.zshrc`, `.zprofile`, `.zshenv`, `.bashrc`, `.bash_profile`, `.profile`) — the same
+_every_ rc file (`.zshrc`, `.zprofile`, `.zshenv`, `.bashrc`, `.bash_profile`, `.profile`) — the same
 line is usually duplicated across all of them.
 
 ## Step 4 — Verify
@@ -88,7 +88,7 @@ correct to leave — say so and say why.
    inventory reports a clean machine while the residue sits there. Use `find -iname` or `grep -i` for
    every name match; never rely on pathname expansion for the search term.
 2. **Inherited PATH looks like failed cleanup.** After deleting a PATH line from the rc files, the
-   current shell *and the agent's own process* still show the old PATH, because children inherit it.
+   current shell _and the agent's own process_ still show the old PATH, because children inherit it.
    Only `env -i … zsh -lic 'echo $PATH'` proves rc-file cleanup. Tell the user new terminals are clean
    and that restarting the host app clears its own process env.
 3. **Process greps match themselves.** `ps aux | grep -c '[O]penClaw'` matches the verification
@@ -102,7 +102,7 @@ correct to leave — say so and say why.
    `Profile */Extensions/<ext-id>/`, plus `Profile */Local Extension Settings/<ext-id>/`. Chrome then
    uninstalls it itself and leaves a byte-empty tombstone.
 5. **Do not edit Chrome `Secure Preferences` by hand.** `protection.macs.extensions` is a single HMAC
-   over the whole extension tree; removing one child invalidates it and Chrome can reset *all*
+   over the whole extension tree; removing one child invalidates it and Chrome can reset _all_
    extension settings. The tombstone an uninstall leaves behind is byte-empty and harmless.
 6. **Chrome scratch files are not footprint.** `.com.google.Chrome.XXXXXX` files in a profile are
    stale JSON temp leftovers and match any residue grep (they contain the whole content-settings
@@ -116,7 +116,7 @@ correct to leave — say so and say why.
 9. **`rm -rf /Applications/Foo.app` needs no sudo** when the bundle is user-owned — check ownership
    before reaching for elevated privileges.
 10. **Credentials in the deleted tree must be flagged for rotation.** An uninstall removes a token's
-   home but not its validity. Grep the backup for token-shaped files and tell the user to revoke them.
+    home but not its validity. Grep the backup for token-shaped files and tell the user to revoke them.
 11. **Back up user-authored content, not the program.** Preserve notes, identity/memory files and git
     history; skip runtimes, caches, `node_modules` and session blobs. A 64 MB archive of the real
     content beats a 3 GB archive the user will delete for space.

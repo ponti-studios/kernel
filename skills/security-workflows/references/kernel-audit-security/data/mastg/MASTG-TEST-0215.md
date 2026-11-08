@@ -6,14 +6,14 @@ upstream_path: tests-beta/ios/MASVS-STORAGE/MASTG-TEST-0215.md
 upstream_tag: 31cec00
 platform: ios
 covers_masvs:
-- MASVS-STORAGE-2
+  - MASVS-STORAGE-2
 type:
-- static
+  - static
 weakness: MASWE-0004
 profiles:
-- L1
-- L2
-- P
+  - L1
+  - L2
+  - P
 ---
 
 ## Overview
@@ -25,7 +25,7 @@ This test verifies whether your app uses the `isExcludedFromBackup` API to instr
 In this test, we identify all locations where the `isExcludedFromBackup` API is used to mark files that might still end up in a backup.
 
 !!! note
-    Files stored in an app's `/tmp` and `/Library/Caches` directories are **excluded** from iCloud backups. These directories are intended for temporary or cache data, and the system may automatically delete their contents at any time to free up space. Therefore, you don't need to mark these files with `isExcludedFromBackup`. For more details, see the [Apple documentation](https://developer.apple.com/documentation/foundation/optimizing-your-app-s-data-for-icloud-backup#Exclude-Purgeable-Data).
+Files stored in an app's `/tmp` and `/Library/Caches` directories are **excluded** from iCloud backups. These directories are intended for temporary or cache data, and the system may automatically delete their contents at any time to free up space. Therefore, you don't need to mark these files with `isExcludedFromBackup`. For more details, see the [Apple documentation](https://developer.apple.com/documentation/foundation/optimizing-your-app-s-data-for-icloud-backup#Exclude-Purgeable-Data).
 
 ## Steps
 

@@ -71,15 +71,15 @@ Existing `type` and `status` fields remain during migration so current queries a
 
 Use lifecycle values consistently:
 
-| Value | Meaning |
-| --- | --- |
-| `idea` | Uncommitted possibility |
-| `discovery` | Being investigated or shaped |
-| `active` | Currently receiving meaningful work |
-| `paused` | Intentionally stopped, not abandoned |
-| `shipped` | Delivered but still relevant |
-| `archived` | Historical, completed, or no longer maintained |
-| `review` | Identity or ownership is unresolved |
+| Value       | Meaning                                        |
+| ----------- | ---------------------------------------------- |
+| `idea`      | Uncommitted possibility                        |
+| `discovery` | Being investigated or shaped                   |
+| `active`    | Currently receiving meaningful work            |
+| `paused`    | Intentionally stopped, not abandoned           |
+| `shipped`   | Delivered but still relevant                   |
+| `archived`  | Historical, completed, or no longer maintained |
+| `review`    | Identity or ownership is unresolved            |
 
 Publication is separate from project lifecycle. Portfolio documents use `publication: draft | ready | published | retired`.
 

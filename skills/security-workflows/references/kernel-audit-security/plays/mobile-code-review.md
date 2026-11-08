@@ -34,11 +34,11 @@ Establish:
 
 Detect platform via fingerprints:
 
-| Platform | Fingerprints |
-|---|---|
-| Android | `AndroidManifest.xml`, `build.gradle[.kts]`, `*.java`, `*.kt`, `src/main/AndroidManifest.xml`, `proguard-rules.pro` |
-| iOS | `Info.plist`, `*.xcodeproj`, `*.xcworkspace`, `*.swift`, `*.m`, `*.mm`, `Podfile`, `Package.swift`, `*.entitlements` |
-| Cross-platform shell | `pubspec.yaml` (Flutter), `package.json` with `react-native` dep, `capacitor.config.*` |
+| Platform             | Fingerprints                                                                                                         |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| Android              | `AndroidManifest.xml`, `build.gradle[.kts]`, `*.java`, `*.kt`, `src/main/AndroidManifest.xml`, `proguard-rules.pro`  |
+| iOS                  | `Info.plist`, `*.xcodeproj`, `*.xcworkspace`, `*.swift`, `*.m`, `*.mm`, `Podfile`, `Package.swift`, `*.entitlements` |
+| Cross-platform shell | `pubspec.yaml` (Flutter), `package.json` with `react-native` dep, `capacitor.config.*`                               |
 
 If only a cross-platform shell is detected and no native module exists, declare **partial coverage** in the scope summary and skip platform-specific signal grepping. Do not produce findings unless explicit Dart/JS-side security issues appear.
 
@@ -92,76 +92,76 @@ OpenCRE does not currently treat MASVS as a first-class linked standard the way 
 MASVS refs: `data/masvs/MASVS-STORAGE.md`, `MASVS-STORAGE-1.md`, `MASVS-STORAGE-2.md`
 MASTG forward refs: MASTG-TEST-0001, MASTG-TEST-0003 (and per control)
 
-| Check | Android signal | iOS signal |
-|---|---|---|
-| Secrets in default prefs | `SharedPreferences` for tokens | `NSUserDefaults` for tokens |
-| KeyStore / Keychain misuse | Missing `EncryptedSharedPreferences`; KeyStore alias reuse | Missing/weak `kSecAttrAccessible*` |
-| Backup leakage | `android:allowBackup="true"` without backup rules | `Documents/` data without `NSURLIsExcludedFromBackupKey` |
-| External storage | `getExternalFilesDir` for secrets | App-group container for secrets |
-| Logging | `Log.d` of secrets | `NSLog`/`print` of secrets |
+| Check                      | Android signal                                             | iOS signal                                               |
+| -------------------------- | ---------------------------------------------------------- | -------------------------------------------------------- |
+| Secrets in default prefs   | `SharedPreferences` for tokens                             | `NSUserDefaults` for tokens                              |
+| KeyStore / Keychain misuse | Missing `EncryptedSharedPreferences`; KeyStore alias reuse | Missing/weak `kSecAttrAccessible*`                       |
+| Backup leakage             | `android:allowBackup="true"` without backup rules          | `Documents/` data without `NSURLIsExcludedFromBackupKey` |
+| External storage           | `getExternalFilesDir` for secrets                          | App-group container for secrets                          |
+| Logging                    | `Log.d` of secrets                                         | `NSLog`/`print` of secrets                               |
 
 #### B. MASVS-CRYPTO
 
 MASVS refs: `data/masvs/MASVS-CRYPTO.md`, `MASVS-CRYPTO-1.md`, `MASVS-CRYPTO-2.md`
 MASTG forward refs: MASTG-TEST-0011, MASTG-TEST-0013
 
-| Check | Android signal | iOS signal |
-|---|---|---|
-| Weak algorithms | `Cipher.getInstance("DES")`, `MD5`, `SHA1` for security | `CC_MD5`, `CCCrypt(DES)` |
-| Insecure mode | `AES/ECB` | `kCCOptionECBMode` |
-| Hard-coded keys | `byte[] key = {...}` | `let key: [UInt8] = [...]` |
-| Deterministic IV/nonce | `IvParameterSpec(new byte[16])` | `[UInt8](repeating: 0, count: 16)` |
-| Weak RNG | `Random` for crypto | `arc4random` for cryptographic key material (use `SecRandomCopyBytes`) |
+| Check                  | Android signal                                          | iOS signal                                                             |
+| ---------------------- | ------------------------------------------------------- | ---------------------------------------------------------------------- |
+| Weak algorithms        | `Cipher.getInstance("DES")`, `MD5`, `SHA1` for security | `CC_MD5`, `CCCrypt(DES)`                                               |
+| Insecure mode          | `AES/ECB`                                               | `kCCOptionECBMode`                                                     |
+| Hard-coded keys        | `byte[] key = {...}`                                    | `let key: [UInt8] = [...]`                                             |
+| Deterministic IV/nonce | `IvParameterSpec(new byte[16])`                         | `[UInt8](repeating: 0, count: 16)`                                     |
+| Weak RNG               | `Random` for crypto                                     | `arc4random` for cryptographic key material (use `SecRandomCopyBytes`) |
 
 #### C. MASVS-AUTH
 
 MASVS refs: `data/masvs/MASVS-AUTH.md`, `MASVS-AUTH-1.md`, `MASVS-AUTH-2.md`, `MASVS-AUTH-3.md`
 MASTG forward refs: MASTG-TEST-0017, MASTG-TEST-0021
 
-| Check | Android signal | iOS signal |
-|---|---|---|
-| Local auth bypass | JWT verified locally with hard-coded key | JWT decoded without signature verify |
-| Biometric flags | `BIOMETRIC_WEAK` | `LAContext.evaluatePolicy(.deviceOwnerAuthentication)` without strong policy |
-| OAuth public client | Missing PKCE | Missing PKCE |
-| Token storage | Tokens in `SharedPreferences` plaintext | Tokens in `NSUserDefaults` plaintext |
+| Check               | Android signal                           | iOS signal                                                                   |
+| ------------------- | ---------------------------------------- | ---------------------------------------------------------------------------- |
+| Local auth bypass   | JWT verified locally with hard-coded key | JWT decoded without signature verify                                         |
+| Biometric flags     | `BIOMETRIC_WEAK`                         | `LAContext.evaluatePolicy(.deviceOwnerAuthentication)` without strong policy |
+| OAuth public client | Missing PKCE                             | Missing PKCE                                                                 |
+| Token storage       | Tokens in `SharedPreferences` plaintext  | Tokens in `NSUserDefaults` plaintext                                         |
 
 #### D. MASVS-NETWORK
 
 MASVS refs: `data/masvs/MASVS-NETWORK.md`, `MASVS-NETWORK-1.md`, `MASVS-NETWORK-2.md`
 MASTG forward refs: MASTG-TEST-0024, MASTG-TEST-0026
 
-| Check | Android signal | iOS signal |
-|---|---|---|
-| Cleartext traffic | `network_security_config` permits cleartext | `NSAllowsArbitraryLoads` true |
-| Trust-all | Custom `TrustManager` accepting all | `URLSessionDelegate` accepts all `URLAuthenticationChallenge` |
-| Pinning missing | No `CertificatePinner` (OkHttp) or no `Network Security Config` pins | No `NSPinnedDomains`; no manual `URLSession` validator |
-| Mixed content | `WebView.setMixedContentMode(MIXED_CONTENT_ALWAYS_ALLOW)` | `WKWebView` configured to load mixed content |
+| Check             | Android signal                                                       | iOS signal                                                    |
+| ----------------- | -------------------------------------------------------------------- | ------------------------------------------------------------- |
+| Cleartext traffic | `network_security_config` permits cleartext                          | `NSAllowsArbitraryLoads` true                                 |
+| Trust-all         | Custom `TrustManager` accepting all                                  | `URLSessionDelegate` accepts all `URLAuthenticationChallenge` |
+| Pinning missing   | No `CertificatePinner` (OkHttp) or no `Network Security Config` pins | No `NSPinnedDomains`; no manual `URLSession` validator        |
+| Mixed content     | `WebView.setMixedContentMode(MIXED_CONTENT_ALWAYS_ALLOW)`            | `WKWebView` configured to load mixed content                  |
 
 #### E. MASVS-PLATFORM
 
 MASVS refs: `data/masvs/MASVS-PLATFORM.md`, `MASVS-PLATFORM-1.md`, `MASVS-PLATFORM-2.md`, `MASVS-PLATFORM-3.md`
 MASTG forward refs: MASTG-TEST-0030, MASTG-TEST-0033, MASTG-TEST-0035
 
-| Check | Android signal | iOS signal |
-|---|---|---|
-| Exported components | `android:exported="true"` without `permission` | URL schemes registered, no validation |
-| Intent / deep link | `Intent.getStringExtra` flowing to SQL/file/web | `application(_:open:)` without origin check |
-| WebView bridge | `addJavascriptInterface` exposing native methods | `WKUserContentController` accepting any-origin messages |
-| Screen capture | Missing `FLAG_SECURE` on sensitive activities | Missing background blur on app switch |
-| Pasteboard | `ClipboardManager` for secrets | `UIPasteboard.general` for secrets |
+| Check               | Android signal                                   | iOS signal                                              |
+| ------------------- | ------------------------------------------------ | ------------------------------------------------------- |
+| Exported components | `android:exported="true"` without `permission`   | URL schemes registered, no validation                   |
+| Intent / deep link  | `Intent.getStringExtra` flowing to SQL/file/web  | `application(_:open:)` without origin check             |
+| WebView bridge      | `addJavascriptInterface` exposing native methods | `WKUserContentController` accepting any-origin messages |
+| Screen capture      | Missing `FLAG_SECURE` on sensitive activities    | Missing background blur on app switch                   |
+| Pasteboard          | `ClipboardManager` for secrets                   | `UIPasteboard.general` for secrets                      |
 
 #### F. MASVS-CODE
 
 MASVS refs: `data/masvs/MASVS-CODE.md`, `MASVS-CODE-1.md`, `MASVS-CODE-2.md`, `MASVS-CODE-3.md`, `MASVS-CODE-4.md`
 MASTG forward refs: MASTG-TEST-0040, MASTG-TEST-0042
 
-| Check | Android signal | iOS signal |
-|---|---|---|
-| Outdated SDK | Old `minSdkVersion` / `compileSdkVersion` | Old deployment target |
-| Vulnerable libs | Outdated `dependencies {}` versions | Outdated `Podfile.lock` / `Package.resolved` |
-| Dangerous APIs | `Runtime.exec`, `WebView.evaluateJavascript` with user input | `NSTask`, `String(format:)` with user-controlled format |
-| Deserialization | Untrusted `ObjectInputStream`, JSON `@JsonTypeInfo` polymorphism | `NSKeyedUnarchiver` of untrusted input |
-| Error handling | Stack traces in release logs | `print(error)` to OSLog in release |
+| Check           | Android signal                                                   | iOS signal                                              |
+| --------------- | ---------------------------------------------------------------- | ------------------------------------------------------- |
+| Outdated SDK    | Old `minSdkVersion` / `compileSdkVersion`                        | Old deployment target                                   |
+| Vulnerable libs | Outdated `dependencies {}` versions                              | Outdated `Podfile.lock` / `Package.resolved`            |
+| Dangerous APIs  | `Runtime.exec`, `WebView.evaluateJavascript` with user input     | `NSTask`, `String(format:)` with user-controlled format |
+| Deserialization | Untrusted `ObjectInputStream`, JSON `@JsonTypeInfo` polymorphism | `NSKeyedUnarchiver` of untrusted input                  |
+| Error handling  | Stack traces in release logs                                     | `print(error)` to OSLog in release                      |
 
 Cross-reference: defer detailed library CVE analysis to `sca-audit`.
 
@@ -172,12 +172,12 @@ MASTG entry points: `MASTG-TEST-0044` through `MASTG-TEST-0055` (load the test f
 
 Useful starting-point signals while reading the MASTG content:
 
-| Check | Android signal | iOS signal |
-|---|---|---|
-| Debuggable in release | `android:debuggable="true"` | `DEBUG` build configuration shipped |
-| Obfuscation | Missing/empty `proguard-rules.pro`, R8 disabled | Symbols not stripped, no `bitcode` |
+| Check                    | Android signal                                   | iOS signal                                          |
+| ------------------------ | ------------------------------------------------ | --------------------------------------------------- |
+| Debuggable in release    | `android:debuggable="true"`                      | `DEBUG` build configuration shipped                 |
+| Obfuscation              | Missing/empty `proguard-rules.pro`, R8 disabled  | Symbols not stripped, no `bitcode`                  |
 | Root/jailbreak detection | `RootBeer` / `SafetyNet` / Play Integrity absent | `IOSSecuritySuite` / `DTTJailbreakDetection` absent |
-| Anti-debug / anti-tamper | `isDebuggerAttached` patterns absent | `ptrace(PT_DENY_ATTACH)` absent |
+| Anti-debug / anti-tamper | `isDebuggerAttached` patterns absent             | `ptrace(PT_DENY_ATTACH)` absent                     |
 
 The RESILIENCE play rule at the top of §3 governs confidence and the dynamic-test follow-up list for every finding produced here.
 
@@ -188,13 +188,13 @@ MASTG entry points: `MASTG-TEST-0260` through `MASTG-TEST-0263` (load the test f
 
 Useful starting-point signals while reading the MASTG content:
 
-| Check | Android signal | iOS signal |
-|---|---|---|
-| Permission minimization | Manifest `<uses-permission>` declared but unused | `Info.plist` `Usage Description` keys with no code path |
-| Sensitive permissions | `READ_CONTACTS` + `INTERNET` co-occurrence without justification | `NSContactsUsageDescription` + analytics SDK |
-| Third-party SDKs | `firebase-analytics`, `facebook-sdk`, `appsflyer`, `adjust` declared | Same Pods/Packages declared |
-| Tracking transparency | n/a | `App Tracking Transparency` framework usage |
-| Data exfil paths | Telemetry to non-prod endpoints | Same |
+| Check                   | Android signal                                                       | iOS signal                                              |
+| ----------------------- | -------------------------------------------------------------------- | ------------------------------------------------------- |
+| Permission minimization | Manifest `<uses-permission>` declared but unused                     | `Info.plist` `Usage Description` keys with no code path |
+| Sensitive permissions   | `READ_CONTACTS` + `INTERNET` co-occurrence without justification     | `NSContactsUsageDescription` + analytics SDK            |
+| Third-party SDKs        | `firebase-analytics`, `facebook-sdk`, `appsflyer`, `adjust` declared | Same Pods/Packages declared                             |
+| Tracking transparency   | n/a                                                                  | `App Tracking Transparency` framework usage             |
+| Data exfil paths        | Telemetry to non-prod endpoints                                      | Same                                                    |
 
 The PRIVACY play rule at the top of §3 governs confidence for any finding against `MASVS-PRIVACY-2` or `MASVS-PRIVACY-3` and appends the MASTG test IDs to the dynamic-test follow-up list.
 
@@ -230,6 +230,7 @@ Report-level rules:
 ## Mobile Code Review: [Target]
 
 ### Scope
+
 - **Platform**: Android | iOS | both | cross-platform shell (partial coverage)
 - **App type**: [consumer | banking | internal | B2B]
 - **Data sensitivity**: [credentials | PII | financial | health | none]
@@ -240,28 +241,34 @@ Report-level rules:
 > Canonical content: <https://github.com/OWASP/mastg> · <https://mas.owasp.org/MASTG/>
 
 ### Findings
+
 [Standard finding template for each issue, sorted by severity. CWE resolved via the MASWE chain; OpenCRE N/A for mobile unless pre-mapped in `data/opencre/`; `OWASP Ref` carries `MASVS-<GROUP>-<N>, MASWE-<NNNN>, MASTG-TEST-<NNNN>`; each finding carries a `MASTG references:` bullet listing any non-TEST `@MASTG-<KIND>-####` cross-refs cited in the informing tests (omit when empty).]
 
 ### Positive Observations
+
 [Security controls that ARE in place — acknowledge good practices]
 
 ### RESILIENCE Static-Only Notice
+
 [Paragraph from the RESILIENCE block — confirms static signals only, defers runtime verification to Tier 3 `mobile-dynamic-test`]
 
 ### PRIVACY Static-Only Caveat
+
 [Paragraph from the PRIVACY block — confirms declared-intent inspection only, defers data-flow tracing to Tier 3]
 
 ### Dynamic-Test Follow-Up
+
 [List of MASTG-TEST IDs recommended for Tier 3 `mobile-dynamic-test`]
 
 ### Summary
+
 | Severity | Count |
-|----------|-------|
-| CRITICAL | N |
-| HIGH | N |
-| MEDIUM | N |
-| LOW | N |
-| INFO | N |
+| -------- | ----- |
+| CRITICAL | N     |
+| HIGH     | N     |
+| MEDIUM   | N     |
+| LOW      | N     |
+| INFO     | N     |
 ```
 
 ## References

@@ -1,9 +1,9 @@
-
 # Skill: Image to Code
 
-Reconstruct a design from a visual reference as a real design system, not a one-off copy. Match the *system* (color/type/spacing language), never lift copyrighted imagery or brand assets.
+Reconstruct a design from a visual reference as a real design system, not a one-off copy. Match the _system_ (color/type/spacing language), never lift copyrighted imagery or brand assets.
 
 ## Steps
+
 1. **Read the reference like a designer.** Infer and write down:
    - **Palette** — 1 dominant surface family, text colors, 1 primary action + at most 1 accent (sample the hues; don't guess random hex).
    - **Type** — family feel (geometric/grotesk/serif), the scale jumps, display vs. body contrast, weights.
@@ -16,6 +16,7 @@ Reconstruct a design from a visual reference as a real design system, not a one-
 5. **Verify against the reference** — render and screenshot it, compare side-by-side to the reference; run `../scripts/validate_contrast.py` and `../scripts/lint_hardcodes.py` over the result.
 
 ## Verification (definition of done)
+
 - Token aliases resolve, contrast passes AA light+dark, and no hardcoded values remain.
 - The rebuilt UI uses ONE inferred token theme — no per-section palettes.
 - A screenshot of the result visibly matches the reference's design language.

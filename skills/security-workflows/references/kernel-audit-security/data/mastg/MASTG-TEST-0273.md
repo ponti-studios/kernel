@@ -7,13 +7,13 @@ upstream_path: tests-beta/ios/MASVS-CODE/MASTG-TEST-0273.md
 upstream_tag: 31cec00
 platform: ios
 covers_masvs:
-- MASVS-CODE-3
+  - MASVS-CODE-3
 type:
-- static
+  - static
 weakness: MASWE-0076
 profiles:
-- L1
-- L2
+  - L1
+  - L2
 ---
 
 ## Overview

@@ -6,12 +6,12 @@ upstream_path: tests-beta/ios/MASVS-CODE/MASTG-TEST-0230.md
 upstream_tag: 31cec00
 platform: ios
 covers_masvs:
-- MASVS-CODE-4
+  - MASVS-CODE-4
 type:
-- static
+  - static
 weakness: MASWE-0116
 profiles:
-- L2
+  - L2
 ---
 
 ## Overview
@@ -39,6 +39,6 @@ The output should contain a list of symbols of the main binary and each shared l
 The test case fails if any binary or library containing Objective-C or Swift code is missing ARC-related symbols. The presence of symbols such as `_objc_msgSend` (Objective-C) or `_swift_allocObject` (Swift) without corresponding ARC symbols indicates that ARC may not be enabled.
 
 !!! note
-    Checking for these symbols only indicates that ARC is enabled somewhere in the app. While ARC is typically enabled or disabled for the entire binary, there can be corner cases where only parts of the application or libraries are protected. For example, if the app developer statically links a library that has ARC enabled, but disables it for the entire application.
+Checking for these symbols only indicates that ARC is enabled somewhere in the app. While ARC is typically enabled or disabled for the entire binary, there can be corner cases where only parts of the application or libraries are protected. For example, if the app developer statically links a library that has ARC enabled, but disables it for the entire application.
 
     If you want to be sure that specific security-critical methods are adequately protected, you need to reverse-engineer each of them and manually check for ARC, or request the source code from the developer.

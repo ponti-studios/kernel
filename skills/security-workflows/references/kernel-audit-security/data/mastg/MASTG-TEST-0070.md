@@ -6,11 +6,11 @@ upstream_path: tests/ios/MASVS-PLATFORM/MASTG-TEST-0070.md
 upstream_tag: 31cec00
 platform: ios
 covers_masvs:
-- MASVS-PLATFORM-1
+  - MASVS-PLATFORM-1
 masvs_v1_id:
-- MSTG-PLATFORM-4
+  - MSTG-PLATFORM-4
 masvs_v2_id:
-- MASVS-PLATFORM-1
+  - MASVS-PLATFORM-1
 ---
 
 ## Overview
@@ -57,29 +57,30 @@ Alternatively, you can use the [Apple App Site Association (AASA) Validator](htt
 
 ```json
 {
-    "activitycontinuation": {
-    "apps": [
-        "W74U47NE8E.com.apple.store.Jolly"
+  "activitycontinuation": {
+    "apps": ["W74U47NE8E.com.apple.store.Jolly"]
+  },
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "W74U47NE8E.com.apple.store.Jolly",
+        "paths": [
+          "NOT /shop/buy-iphone/*",
+          "NOT /us/shop/buy-iphone/*",
+          "/xc/*",
+          "/shop/buy-*",
+          "/shop/product/*",
+          "/shop/bag/shared_bag/*",
+          "/shop/order/list",
+          "/today",
+          "/shop/watch/watch-accessories",
+          "/shop/watch/watch-accessories/*",
+          "/shop/watch/bands"
+        ]
+      }
     ]
-    },
-    "applinks": {
-        "apps": [],
-        "details": [
-            {
-            "appID": "W74U47NE8E.com.apple.store.Jolly",
-            "paths": [
-                "NOT /shop/buy-iphone/*",
-                "NOT /us/shop/buy-iphone/*",
-                "/xc/*",
-                "/shop/buy-*",
-                "/shop/product/*",
-                "/shop/bag/shared_bag/*",
-                "/shop/order/list",
-                "/today",
-                "/shop/watch/watch-accessories",
-                "/shop/watch/watch-accessories/*",
-                "/shop/watch/bands",
-            ] } ] }
+  }
 }
 ```
 
@@ -173,7 +174,7 @@ An app might be calling other apps via universal links in order to simply trigge
 If you have the original source code, you can search it for the `openURL:options: completionHandler:` method and check the data being handled.
 
 !!! note
-    The `openURL:options:completionHandler:` method is not only used to open universal links but also to call custom URL schemes.
+The `openURL:options:completionHandler:` method is not only used to open universal links but also to call custom URL schemes.
 
 This is an example from the Telegram app:
 
@@ -262,7 +263,7 @@ If we long press on the second (`http://www.apple.com/today`) it shows options t
 <img src="Images/Chapters/0x06h/allowed_universal_link.png" width="400px" />
 
 !!! note
-    There is a difference between a click and a long press. Once we long press a link and select an option, e.g. "Open in Safari", this will become the default option for all future clicks until we long press again and select another option.
+There is a difference between a click and a long press. Once we long press a link and select an option, e.g. "Open in Safari", this will become the default option for all future clicks until we long press again and select another option.
 
 If we repeat the process on the method `application:continueUserActivity: restorationHandler:` by either hooking or tracing, we will see how it gets called as soon as we open the allowed universal link. For this you can use for example `frida-trace`:
 
@@ -276,29 +277,23 @@ This section explains how to trace the link receiver method and how to extract a
 
 ```json
 {
-    "applinks": {
-        "apps": [],
-        "details": [
-            {
-                "appID": "X834Q8SBVP.org.telegram.TelegramEnterprise",
-                "paths": [
-                    "*"
-                ]
-            },
-            {
-                "appID": "C67CF9S4VU.ph.telegra.Telegraph",
-                "paths": [
-                    "*"
-                ]
-            },
-            {
-                "appID": "X834Q8SBVP.org.telegram.Telegram-iOS",
-                "paths": [
-                    "*"
-                ]
-            }
-        ]
-    }
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "X834Q8SBVP.org.telegram.TelegramEnterprise",
+        "paths": ["*"]
+      },
+      {
+        "appID": "C67CF9S4VU.ph.telegra.Telegraph",
+        "paths": ["*"]
+      },
+      {
+        "appID": "X834Q8SBVP.org.telegram.Telegram-iOS",
+        "paths": ["*"]
+      }
+    ]
+  }
 }
 ```
 

@@ -5,14 +5,14 @@
 The most common design error is conflating them. When the user says "ledger", ask whether they mean the
 bookkeeping or the knowledge; they are different artifacts and usually live in different places.
 
-| | **Knowledge** | **Ledger** |
-| --- | --- | --- |
-| What | rules, conventions, repo maps | quality vectors, hit/miss counters, evidence refs, proposal log |
-| Home | wherever the user's skills/docs live (portable, reviewed, versioned) | the tool's own state dir |
-| Written by | the loop **proposes**, a human merges | the loop, automatically |
-| Read by | every agent, at work | tooling; never an agent mid-task |
-| Churn | a few lines a week | a row per task |
-| If lost | the accumulated knowledge | history only |
+|            | **Knowledge**                                                        | **Ledger**                                                      |
+| ---------- | -------------------------------------------------------------------- | --------------------------------------------------------------- |
+| What       | rules, conventions, repo maps                                        | quality vectors, hit/miss counters, evidence refs, proposal log |
+| Home       | wherever the user's skills/docs live (portable, reviewed, versioned) | the tool's own state dir                                        |
+| Written by | the loop **proposes**, a human merges                                | the loop, automatically                                         |
+| Read by    | every agent, at work                                                 | tooling; never an agent mid-task                                |
+| Churn      | a few lines a week                                                   | a row per task                                                  |
+| If lost    | the accumulated knowledge                                            | history only                                                    |
 
 Knowledge belongs where other agents can install it — a skills repo, a docs tree — because the value is
 portability, not storage. The ledger is telemetry with a long retention window: it moves every task and
@@ -30,7 +30,7 @@ must never churn a versioned repo that deploys.
    deleted?" before admitting a candidate. Mechanical form: if the candidate's check names a file the
    change itself touched, that check is the test the fix brought with it, so reject it as already
    enforced rather than filing it.
-2. **Authorship is not provenance.** The rule is "only *review* teaches", not "only humans teach". An
+2. **Authorship is not provenance.** The rule is "only _review_ teaches", not "only humans teach". An
    agent acting for a person posts under that person's login, so a comment from the owner's account is
    as likely to be the agent's own `Fixed in <sha>` summary as a real finding. Classify by structure and
    phrasing, not by who appears to have written it:
@@ -38,19 +38,19 @@ must never churn a versioned repo that deploys.
    - `reply` — answers one, or matches `^(fixed|done|addressed|…)` / `fixed in <sha>`. Never evidence; it
      describes the task instead of teaching a rule.
    - the loop's own agents and bots — excluded outright, whatever account they post from.
-   A third-party review bot is a reviewer, not evidence. Read it: it is an adversarial reading of the
-   diff and finds real defects. But a defect report is answered by a test, so a rule minted from one
-   restates an artefact the change already ships, and the corpus becomes a transcription of that bot's
-   review — advice the next task already gets on its own pull request. Admit a bot finding only when it
-   survives the delete test in non-negotiable 1, which in a fleet that requires fixes to ship with tests
-   is almost never. What stays excluded outright is the agent's own self-praise, whatever account it
-   posts from.
-   **Use that same classifier for the counters, not only for evidence selection.** A login-based
-   `human_comments` count scores the agent's own replies as human review, and every downstream number
-   inherits it: friction, the scoreboard, and any sentence the surface renders about human corrections.
-   Classify once, then count with the classification.
-2a. **Only merged work teaches.** A closed or abandoned change's review describes work that was thrown
-   away; learning from it imports an opinion about a rejected approach.
+     A third-party review bot is a reviewer, not evidence. Read it: it is an adversarial reading of the
+     diff and finds real defects. But a defect report is answered by a test, so a rule minted from one
+     restates an artefact the change already ships, and the corpus becomes a transcription of that bot's
+     review — advice the next task already gets on its own pull request. Admit a bot finding only when it
+     survives the delete test in non-negotiable 1, which in a fleet that requires fixes to ship with tests
+     is almost never. What stays excluded outright is the agent's own self-praise, whatever account it
+     posts from.
+     **Use that same classifier for the counters, not only for evidence selection.** A login-based
+     `human_comments` count scores the agent's own replies as human review, and every downstream number
+     inherits it: friction, the scoreboard, and any sentence the surface renders about human corrections.
+     Classify once, then count with the classification.
+     2a. **Only merged work teaches.** A closed or abandoned change's review describes work that was thrown
+     away; learning from it imports an opinion about a rejected approach.
 3. **Precision beats recall.** A wrong rule is paid on every future task and is invisible. Require
    resolvable evidence per rule, date it inline, and gate the pipeline on a human accepting ~70% of a
    ten-candidate sample before anything is installed.
@@ -85,7 +85,7 @@ must never churn a versioned repo that deploys.
    - **Reuse the system's own word for "finished"** — its terminal-stage set and its state field, which
      is often not `status`. A second definition drifts and silently drops whole categories of task.
 3. **Dry-run the extraction.** Deterministic evidence bundles first (no model), then one cheap model call
-   per task *that had friction*, emitting structured candidates with evidence refs. Reject any candidate
+   per task _that had friction_, emitting structured candidates with evidence refs. Reject any candidate
    citing something absent from the bundle, and log every drop with its reason.
 4. **Get a precision read from the human** on ten candidates. Gate on two things, in this order: any
    candidate citing evidence that does not support it, restating the ticket, or naming no check and no
@@ -109,8 +109,8 @@ must never churn a versioned repo that deploys.
 - **A rule without a check is a preference.** Send it to the conventions doc for a human to curate.
 - **Ask for the invariant, not the change.** Handed a review comment, a model paraphrases it: "in
   `<file>`, run the lock, count and insert in one transaction" describes the diff it just read and is
-  true exactly once. Put the test in the prompt — *would this prevent a different change in the same
-  area from going wrong?* — and keep only what survives it.
+  true exactly once. Put the test in the prompt — _would this prevent a different change in the same
+  area from going wrong?_ — and keep only what survives it.
 - **Say what to do at the claim-length cap.** A length limit with no instruction silently deletes the
   candidates that were specific enough to need a clause. Tell the model to keep the half that names the
   invariant and drop the rest, never to compress two ideas with commas, and surface parser rejections in
@@ -146,7 +146,7 @@ must never churn a versioned repo that deploys.
   the same third-party reviewer bot, the loop is transcribing that bot's defect reports — and each of
   those defects was fixed by a test, so the corpus is a prose copy of checks that already exist. Report
   it as a **defect in the corpus source**, not as a young loop: the fix is to require human evidence, after
-  which the honest output of five bot-reviewed tickets is *nothing worth proposing*. Two moves keep
+  which the honest output of five bot-reviewed tickets is _nothing worth proposing_. Two moves keep
   this honest: withhold the bot's ids from the extraction prompt while keeping its bodies, so the model
   has the context and cannot cite it — an id it was never given then fails as invented evidence at the
   parser, and the filter is structural instead of an instruction it may ignore; and expect the queue to
@@ -175,7 +175,7 @@ must never churn a versioned repo that deploys.
   a figure that means nothing.
 - **An empty corpus must not look like success.** Zero rules, zero proposals and a healthy loop render
   the same way unless the surface says otherwise, so compute the sentence a human reads: with evidence
-  captured but nothing installed it has to say *nothing is changing future runs yet*. A green tick over
+  captured but nothing installed it has to say _nothing is changing future runs yet_. A green tick over
   an empty table, or a blank panel, tells the operator the loop is working when it is merely idle — and
   the same rule applies to a figure with no data behind it, which is a dash rather than a zero.
 - **Do not let the loop's own health be invisible.** Write a small status artefact at the end of every

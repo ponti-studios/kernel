@@ -26,12 +26,12 @@ the assembled footage at the end, so sound is decided once rather than per clip.
 The video stage is **two orders of magnitude more expensive** than everything
 else in this skill set:
 
-| | Rate | A typical scene |
-|---|---|---|
-| `kwaivgi/kling-v3.0-std` video | **$0.084 / second** silent | 8s default = **$0.67** |
-| same model, with audio | $0.126 / second | not used here |
-| `elevenlabs/eleven-multilingual-v2` speech | $0.00008 / prompt token | a short line is a fraction of a cent |
-| text skills (`writing-workflows`, `writing-workflows`, …) | — | ~$0.0005 per draft |
+|                                                           | Rate                       | A typical scene                      |
+| --------------------------------------------------------- | -------------------------- | ------------------------------------ |
+| `kwaivgi/kling-v3.0-std` video                            | **$0.084 / second** silent | 8s default = **$0.67**               |
+| same model, with audio                                    | $0.126 / second            | not used here                        |
+| `elevenlabs/eleven-multilingual-v2` speech                | $0.00008 / prompt token    | a short line is a fraction of a cent |
+| text skills (`writing-workflows`, `writing-workflows`, …) | —                          | ~$0.0005 per draft                   |
 
 So a three-scene set with default 8-second clips is roughly **$1.60-2.00** in
 video alone, and an iteration that regenerates a set five times is real money.
@@ -81,16 +81,16 @@ starts) and `--dry-run`.
 `scenes.json` is the editorial **scenes** draft: a top-level array, validated
 against `scenesDraftSchema`.
 
-| Field | Required | Used by |
-|---|---|---|
-| `id` | yes | output filenames (`<id>.mp3`, `<id>.mp4`) and concat order |
-| `prompt` | yes | the clip prompt (CHARACTER_LOCK is appended automatically) |
-| `voiceover` | no | narration text; scenes without one are skipped by `voiceover.sh` |
-| `voice` | no | `peter` / `stewie`, or falls back to `DEFAULT_VOICE_ID` |
-| `voice_id` | no | an explicit provider voice id; wins over `voice` |
-| `duration_seconds` | no | clip length, defaulted to 8s when absent |
-| `seed` | no | passed through when set — see Pitfalls |
-| `dog` | no | editorial flag, unused here |
+| Field              | Required | Used by                                                          |
+| ------------------ | -------- | ---------------------------------------------------------------- |
+| `id`               | yes      | output filenames (`<id>.mp3`, `<id>.mp4`) and concat order       |
+| `prompt`           | yes      | the clip prompt (CHARACTER_LOCK is appended automatically)       |
+| `voiceover`        | no       | narration text; scenes without one are skipped by `voiceover.sh` |
+| `voice`            | no       | `peter` / `stewie`, or falls back to `DEFAULT_VOICE_ID`          |
+| `voice_id`         | no       | an explicit provider voice id; wins over `voice`                 |
+| `duration_seconds` | no       | clip length, defaulted to 8s when absent                         |
+| `seed`             | no       | passed through when set — see Pitfalls                           |
+| `dog`              | no       | editorial flag, unused here                                      |
 
 ## Definition of done
 
@@ -112,12 +112,12 @@ Provider modules and schemas are bundled; no Studio checkout or dist-module
 path overrides are required. Environment variables override keys in
 `~/.pontistudios.studio.yml` (or `STUDIO_CONFIG`).
 
-| Variable | Configuration key | Used for |
-|---|---|---|
-| `STUDIO_USAGE_DIR` | `usage_dir` | usage JSON output |
-| `OPENROUTER_API_KEY` | `openrouter_api_key` | authorized provider calls |
-| `OPENROUTER_VIDEO_MODEL` | `model_video` | video model |
-| `OPENROUTER_SPEECH_MODEL` | `model_speech` | narration model |
+| Variable                  | Configuration key    | Used for                  |
+| ------------------------- | -------------------- | ------------------------- |
+| `STUDIO_USAGE_DIR`        | `usage_dir`          | usage JSON output         |
+| `OPENROUTER_API_KEY`      | `openrouter_api_key` | authorized provider calls |
+| `OPENROUTER_VIDEO_MODEL`  | `model_video`        | video model               |
+| `OPENROUTER_SPEECH_MODEL` | `model_speech`       | narration model           |
 
 ## Pitfalls
 
@@ -133,7 +133,7 @@ path overrides are required. Environment variables override keys in
   character fights the scene prompt. Physical accuracy beats the lock for
   universe characters — use the [studio-universe](../studio-universe/WORKFLOW.md) compiler for prompt text.
 - Per-scene failures are tolerated: `clips.sh` continues and only fails if
-  *every* scene fails. Check `generated: N/M` and the log's `failed` list.
+  _every_ scene fails. Check `generated: N/M` and the log's `failed` list.
 - `assemble.sh` orders clips by the scene order when `--scenes` is given,
   otherwise alphabetically — with ids like `scene-10` and `scene-2` alphabetical
   order is wrong, so pass `--scenes`.

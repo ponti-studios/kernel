@@ -19,9 +19,9 @@ artifacts as the dashboard path.
   2. `scene.voice === 'peter'` → `PETER_VOICE_ID`;
   3. `scene.voice === 'stewie'` → `STEWIE_VOICE_ID`;
   4. `DEFAULT_VOICE_ID` (configured default `pNInz6obpgDQGcFmaJgB`).
-  Steps 2 and 3 fall back to the default when their env var is missing or empty,
-  so a scene asking for `peter` gets the default voice with no error. On this
-  machine both are unset — `check-media.sh` warns.
+     Steps 2 and 3 fall back to the default when their env var is missing or empty,
+     so a scene asking for `peter` gets the default voice with no error. On this
+     machine both are unset — `check-media.sh` warns.
 
 ## Clips
 
@@ -39,7 +39,7 @@ artifacts as the dashboard path.
 - `pricing_skus` on the model record: `duration_seconds` $0.084,
   `duration_seconds_with_audio` $0.126.
 - Per-scene failures are collected and the loop continues; the stage only throws
-  when *every* scene failed.
+  when _every_ scene failed.
 
 ## Assembly
 

@@ -24,6 +24,7 @@ Review Kubernetes configuration files for security risks, insecure patterns, and
 ## 1. Pod Security Configuration
 
 Check whether containers:
+
 - Run as root
 - Lack `runAsNonRoot`
 - Allow privilege escalation
@@ -38,6 +39,7 @@ Recommend secure `securityContext` configurations.
 ## 2. Container Image Security
 
 Check for:
+
 - Images using `latest` tag
 - Unpinned image versions
 - Images from untrusted registries
@@ -49,6 +51,7 @@ Recommend pinned versions and trusted registries.
 ## 3. Secrets Management
 
 Identify:
+
 - Secrets stored in plain text in manifests
 - Secrets embedded directly in environment variables
 - ConfigMaps used for sensitive data
@@ -59,6 +62,7 @@ Identify:
 Review Role, ClusterRole, RoleBinding, and ClusterRoleBinding definitions.
 
 Check for:
+
 - Wildcard permissions (`*`)
 - Overly broad `cluster-admin` privileges
 - Roles applied at cluster scope unnecessarily
@@ -71,6 +75,7 @@ Recommend least privilege RBAC policies.
 Analyze Services, NetworkPolicies, and Ingress configurations.
 
 Identify:
+
 - Missing NetworkPolicies
 - Pods exposed without restrictions
 - Services exposed externally unnecessarily
@@ -82,6 +87,7 @@ Recommend proper network segmentation and policies.
 ## 6. Resource Constraints
 
 Check for missing resource constraints:
+
 - CPU limits
 - Memory limits
 - Resource requests
@@ -91,6 +97,7 @@ Missing constraints can allow denial-of-service conditions or cluster instabilit
 ## 7. Sensitive Volume Mounts
 
 Identify containers mounting:
+
 - Docker socket paths
 - `/etc` directories
 - `/proc` filesystem
@@ -101,6 +108,7 @@ These mounts can allow container escape or host compromise.
 ## 8. Logging and Monitoring
 
 Check whether workloads support:
+
 - Centralized logging
 - Security event monitoring
 - Audit logging
@@ -110,6 +118,7 @@ Recommend enabling Kubernetes audit logging and observability tools.
 ## 9. Supply Chain Risks
 
 Identify:
+
 - Helm charts from unverified sources
 - Containers without vulnerability scanning
 - Unpinned Helm chart versions
@@ -120,6 +129,7 @@ Recommend secure supply chain practices.
 ## 10. Service Exposure Risks
 
 Identify publicly exposed services that could expose sensitive systems:
+
 - Databases
 - Internal APIs
 - Admin dashboards
@@ -130,6 +140,7 @@ Recommend internal-only networking where appropriate.
 ## Output Format
 
 For each finding:
+
 - **Severity**: Critical / High / Medium / Low
 - **Resource**: Kubernetes resource affected
 - **Issue**: Description of the security problem

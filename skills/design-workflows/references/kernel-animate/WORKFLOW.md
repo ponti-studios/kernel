@@ -10,18 +10,18 @@ Pick the reference that matches the task and follow it end-to-end.
 
 ## References
 
-| Task | Reference |
-| --- | --- |
-| Build an animation from scratch (gate → purpose → tool → properties → curve) | [build.md](references/build.md) |
-| Ready-to-build implementations (press, dropdown, tooltip, modal, drawer, toast, stagger, drag) | [recipes.md](references/recipes.md) |
-| Emil Kowalski's design-engineering philosophy — the bar behind everything | [craft.md](references/craft.md) |
-| Name a motion effect from a vague description | [vocabulary.md](references/vocabulary.md) |
-| Find places that don't animate but should | [opportunities.md](references/opportunities.md) |
-| Audit a codebase's motion and write self-contained fix plans | [improve.md](references/improve.md) |
-| The eight audit categories and exact target values | [audit.md](references/audit.md) |
-| Plan format for improvement plans | [plan-template.md](references/plan-template.md) |
-| Review a diff's animation code | [review.md](references/review.md) |
-| Precise review values (curves, durations, springs, performance) | [standards.md](references/standards.md) |
+| Task                                                                                           | Reference                                       |
+| ---------------------------------------------------------------------------------------------- | ----------------------------------------------- |
+| Build an animation from scratch (gate → purpose → tool → properties → curve)                   | [build.md](references/build.md)                 |
+| Ready-to-build implementations (press, dropdown, tooltip, modal, drawer, toast, stagger, drag) | [recipes.md](references/recipes.md)             |
+| Emil Kowalski's design-engineering philosophy — the bar behind everything                      | [craft.md](references/craft.md)                 |
+| Name a motion effect from a vague description                                                  | [vocabulary.md](references/vocabulary.md)       |
+| Find places that don't animate but should                                                      | [opportunities.md](references/opportunities.md) |
+| Audit a codebase's motion and write self-contained fix plans                                   | [improve.md](references/improve.md)             |
+| The eight audit categories and exact target values                                             | [audit.md](references/audit.md)                 |
+| Plan format for improvement plans                                                              | [plan-template.md](references/plan-template.md) |
+| Review a diff's animation code                                                                 | [review.md](references/review.md)               |
+| Precise review values (curves, durations, springs, performance)                                | [standards.md](references/standards.md)         |
 
 ## Cross-cutting rules
 

@@ -6,14 +6,14 @@
 // and generateClipWithUsage merges the two keeping the first reported value.
 //
 // Ported from studio packages/providers/src/openrouter-video.ts.
-import { mergeUsage, normalizeUsage } from './usage.mjs';
+import { mergeUsage, normalizeUsage } from "./usage.mjs";
 
-const BASE_URL = 'https://openrouter.ai/api/v1';
+const BASE_URL = "https://openrouter.ai/api/v1";
 
 export class OpenRouterVideoError extends Error {
   constructor(code, message) {
     super(message);
-    this.name = 'OpenRouterVideoError';
+    this.name = "OpenRouterVideoError";
     this.code = code;
   }
 }
@@ -47,7 +47,7 @@ export class OpenRouterVideoModel {
   get #headers() {
     return {
       Authorization: `Bearer ${this.#apiKey}`,
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     };
   }
 
@@ -55,7 +55,7 @@ export class OpenRouterVideoModel {
     let response;
     try {
       response = await this.#fetchImpl(`${BASE_URL}/videos`, {
-        method: 'POST',
+        method: "POST",
         headers: this.#headers,
         body: JSON.stringify({
           model: input.model,
@@ -75,9 +75,9 @@ export class OpenRouterVideoModel {
           ...(input.frameImages?.length
             ? {
                 frame_images: input.frameImages.map((f) => ({
-                  type: 'image_url',
+                  type: "image_url",
                   image_url: { url: f.url },
-                  frame_type: f.type ?? 'first_frame',
+                  frame_type: f.type ?? "first_frame",
                 })),
               }
             : {}),
@@ -86,53 +86,56 @@ export class OpenRouterVideoModel {
       });
     } catch (cause) {
       throw new OpenRouterVideoError(
-        'network',
-        cause instanceof Error ? cause.message : 'video submit failed',
+        "network",
+        cause instanceof Error ? cause.message : "video submit failed",
       );
     }
     if (response.status === 402) {
-      throw new OpenRouterVideoError('credits', 'openrouter credits insufficient');
+      throw new OpenRouterVideoError("credits", "openrouter credits insufficient");
     }
     if (response.status !== 202) {
       // Carry the provider's own message: a bare status turns every schema mismatch
       // into an afternoon of guessing.
-      const detail = await response.text().catch(() => '');
-      throw new OpenRouterVideoError('http', `video submit ${response.status}: ${detail.slice(0, 400)}`);
+      const detail = await response.text().catch(() => "");
+      throw new OpenRouterVideoError(
+        "http",
+        `video submit ${response.status}: ${detail.slice(0, 400)}`,
+      );
     }
     let body;
     try {
       body = await response.json();
     } catch {
-      throw new OpenRouterVideoError('shape', 'video submit was not JSON');
+      throw new OpenRouterVideoError("shape", "video submit was not JSON");
     }
     if (!body?.id || !body?.polling_url) {
-      throw new OpenRouterVideoError('shape', 'video submit missing id or polling_url');
+      throw new OpenRouterVideoError("shape", "video submit missing id or polling_url");
     }
     const usage = normalizeUsage(body.usage);
     return { id: body.id, pollingUrl: body.polling_url, ...(usage ? { usage } : {}) };
   }
 
   async poll(pollingUrl) {
-    const url = pollingUrl.startsWith('/') ? `${BASE_URL}${pollingUrl}` : pollingUrl;
+    const url = pollingUrl.startsWith("/") ? `${BASE_URL}${pollingUrl}` : pollingUrl;
     let response;
     try {
       response = await this.#fetchImpl(url, { headers: this.#headers });
     } catch (cause) {
       throw new OpenRouterVideoError(
-        'network',
-        cause instanceof Error ? cause.message : 'video poll failed',
+        "network",
+        cause instanceof Error ? cause.message : "video poll failed",
       );
     }
     if (!response.ok) {
-      throw new OpenRouterVideoError('http', `video poll ${response.status}`);
+      throw new OpenRouterVideoError("http", `video poll ${response.status}`);
     }
     let body;
     try {
       body = await response.json();
     } catch {
-      throw new OpenRouterVideoError('shape', 'video poll was not JSON');
+      throw new OpenRouterVideoError("shape", "video poll was not JSON");
     }
-    if (!body?.status) throw new OpenRouterVideoError('shape', 'video poll missing status');
+    if (!body?.status) throw new OpenRouterVideoError("shape", "video poll missing status");
     const usage = normalizeUsage(body.usage);
     return {
       status: body.status,
@@ -148,15 +151,15 @@ export class OpenRouterVideoModel {
       response = await this.#fetchImpl(url, { headers: this.#headers });
     } catch (cause) {
       throw new OpenRouterVideoError(
-        'network',
-        cause instanceof Error ? cause.message : 'video download failed',
+        "network",
+        cause instanceof Error ? cause.message : "video download failed",
       );
     }
     if (!response.ok) {
-      throw new OpenRouterVideoError('http', `video download ${response.status}`);
+      throw new OpenRouterVideoError("http", `video download ${response.status}`);
     }
     const bytes = new Uint8Array(await response.arrayBuffer());
-    if (bytes.length === 0) throw new OpenRouterVideoError('empty', 'video download empty');
+    if (bytes.length === 0) throw new OpenRouterVideoError("empty", "video download empty");
     return bytes;
   }
 
@@ -173,17 +176,17 @@ export class OpenRouterVideoModel {
     for (;;) {
       const job = await this.poll(submitted.pollingUrl);
       usage = mergeUsage(usage, job.usage);
-      if (job.status === 'completed') {
+      if (job.status === "completed") {
         const url = job.unsignedUrls[0];
-        if (!url) throw new OpenRouterVideoError('shape', 'completed job has no output url');
+        if (!url) throw new OpenRouterVideoError("shape", "completed job has no output url");
         const bytes = await this.download(url);
         return { bytes, ...(usage ? { usage } : {}), jobId: submitted.id };
       }
-      if (job.status === 'failed' || job.status === 'cancelled' || job.status === 'expired') {
+      if (job.status === "failed" || job.status === "cancelled" || job.status === "expired") {
         throw new OpenRouterVideoError(job.status, job.error ?? `video job ${job.status}`);
       }
       if (Date.now() > deadline) {
-        throw new OpenRouterVideoError('timeout', `still ${job.status} after timeout`);
+        throw new OpenRouterVideoError("timeout", `still ${job.status} after timeout`);
       }
       await new Promise((resolve) => setTimeout(resolve, interval));
     }

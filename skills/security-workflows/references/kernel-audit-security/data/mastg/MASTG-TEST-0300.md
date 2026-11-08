@@ -6,12 +6,12 @@ upstream_path: tests-beta/ios/MASVS-STORAGE/MASTG-TEST-0300.md
 upstream_tag: 31cec00
 platform: ios
 covers_masvs:
-- MASVS-STORAGE-1
+  - MASVS-STORAGE-1
 type:
-- static
+  - static
 weakness: MASWE-0006
 profiles:
-- L2
+  - L2
 ---
 
 ## Overview
@@ -20,8 +20,8 @@ This test checks whether the app writes unencrypted sensitive data to private st
 
 - APIs that persist data in the app sandbox directories, including Foundation `FileManager` methods, low-level POSIX and BSD file I/O calls and high-level APIs such as `UserDefaults`, Core Data and SQLite wrappers.
 - Keychain APIs used to:
-    - store sensitive data directly within the Keychain
-    - manage keys from the Keychain (that could be used to encrypt data before writing to private storage).
+  - store sensitive data directly within the Keychain
+  - manage keys from the Keychain (that could be used to encrypt data before writing to private storage).
 
 ## Steps
 

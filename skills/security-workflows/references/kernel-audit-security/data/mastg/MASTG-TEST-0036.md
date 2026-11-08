@@ -6,11 +6,11 @@ upstream_path: tests/android/MASVS-CODE/MASTG-TEST-0036.md
 upstream_tag: 31cec00
 platform: android
 covers_masvs:
-- MASVS-CODE-2
+  - MASVS-CODE-2
 masvs_v1_id:
-- MSTG-ARCH-9
+  - MSTG-ARCH-9
 masvs_v2_id:
-- MASVS-CODE-2
+  - MASVS-CODE-2
 ---
 
 ## Overview
@@ -87,7 +87,7 @@ protected void onResume() {
 }
 ```
 
->Source: [https://developer.android.com/guide/app-bundle/in-app-updates](https://developer.android.com/guide/app-bundle/in-app-updates "Support in-app updates")
+> Source: [https://developer.android.com/guide/app-bundle/in-app-updates](https://developer.android.com/guide/app-bundle/in-app-updates "Support in-app updates")
 
 ## Dynamic analysis
 

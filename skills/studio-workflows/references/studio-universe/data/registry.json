@@ -26,9 +26,7 @@
         "plain black leather loafers; no platform boots, no sneakers",
         "skin clean and unmarked; face unadorned; black hair, green eyes, freckles"
       ],
-      "reference_images": [
-        "bibles/lucy/turnaround.webp"
-      ],
+      "reference_images": ["bibles/lucy/turnaround.webp"],
       "plates": {
         "turnaround": {
           "path": "bibles/lucy/turnaround.webp",
@@ -103,9 +101,7 @@
         "sheer black tights/stockings + black fur-trim horsebit loafers in every public outfit",
         "heavy-lidded temptress gaze; never blank/doll-like; never chin-on-hand as default"
       ],
-      "reference_images": [
-        "bibles/akane/turnaround.webp"
-      ],
+      "reference_images": ["bibles/akane/turnaround.webp"],
       "plates": {
         "turnaround": {
           "path": "bibles/akane/turnaround.webp",

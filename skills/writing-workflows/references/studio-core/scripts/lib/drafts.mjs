@@ -5,7 +5,7 @@
 //
 // Ported from packages/editorial/src/{json,generate}.ts. No dependencies.
 
-import { array, object, string } from './validate.mjs';
+import { array, object, string } from "./validate.mjs";
 
 export function extractJson(content) {
   let text = content.trim();
@@ -14,11 +14,11 @@ export function extractJson(content) {
     text = fenced[1].trim();
   }
   // Objects and top-level arrays (shot lists) alike.
-  const objStart = text.indexOf('{');
-  const arrStart = text.indexOf('[');
+  const objStart = text.indexOf("{");
+  const arrStart = text.indexOf("[");
   const start =
     objStart === -1 ? arrStart : arrStart === -1 ? objStart : Math.min(objStart, arrStart);
-  const end = start === arrStart && arrStart !== -1 ? text.lastIndexOf(']') : text.lastIndexOf('}');
+  const end = start === arrStart && arrStart !== -1 ? text.lastIndexOf("]") : text.lastIndexOf("}");
   if (start !== -1 && end !== -1 && end > start) {
     text = text.slice(start, end + 1);
   }
@@ -37,10 +37,10 @@ export const scriptDraftSchema = object({
 });
 
 function assertModel(text) {
-  if (!text || typeof text.generate !== 'function') {
+  if (!text || typeof text.generate !== "function") {
     throw new Error(
-      'no text model: pass one in (a model with generate()), or let the CLI load ' +
-        'studio-core/scripts/lib/text.mjs',
+      "no text model: pass one in (a model with generate()), or let the CLI load " +
+        "studio-core/scripts/lib/text.mjs",
     );
   }
 }
@@ -73,12 +73,12 @@ export async function generateJson(text, schema, input) {
   };
 }
 
-export const DEFAULT_TEXT_MODEL = 'deepseek/deepseek-chat-v3-0324';
+export const DEFAULT_TEXT_MODEL = "deepseek/deepseek-chat-v3-0324";
 
 /** Candidate locations for studio-core's text model, first existing wins. */
 export function textModelEntryCandidates() {
   if (process.env.STUDIO_CORE_TEXT_ENTRY) return [process.env.STUDIO_CORE_TEXT_ENTRY];
-  return [new URL('./text.mjs', import.meta.url).pathname];
+  return [new URL("./text.mjs", import.meta.url).pathname];
 }
 
 /**
@@ -87,18 +87,18 @@ export function textModelEntryCandidates() {
  */
 export async function loadTextModelModule() {
   const tried = textModelEntryCandidates();
-  const { existsSync } = await import('node:fs');
+  const { existsSync } = await import("node:fs");
   for (const entry of tried) {
     if (!existsSync(entry)) continue;
     const mod = await import(entry);
-    if (typeof mod.OpenRouterTextModel !== 'function') {
+    if (typeof mod.OpenRouterTextModel !== "function") {
       throw new Error(`${entry} does not export OpenRouterTextModel`);
     }
     return mod;
   }
   throw new Error(
-    `studio-core text model not found. Looked in:\n  ${tried.join('\n  ')}\n` +
-      'Install the studio-core skill, set STUDIO_CORE_TEXT_ENTRY, or pass a model in.',
+    `studio-core text model not found. Looked in:\n  ${tried.join("\n  ")}\n` +
+      "Install the studio-core skill, set STUDIO_CORE_TEXT_ENTRY, or pass a model in.",
   );
 }
 
@@ -116,7 +116,7 @@ export function createLazyTextModel(config = {}) {
     // studio-core exports the same class the studio providers package did:
     // new OpenRouterTextModel(apiKey, model).
     inner =
-      typeof mod.createTextModel === 'function'
+      typeof mod.createTextModel === "function"
         ? mod.createTextModel({ apiKey, model })
         : new mod.OpenRouterTextModel(apiKey, model);
     return inner;

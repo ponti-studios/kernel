@@ -1,0 +1,30 @@
+{
+  "endpoint": "https://openrouter.ai/api/v1/images",
+  "payload": {
+    "model": "bytedance-seed/seedream-5-0-flash",
+    "prompt": "A painted red kite above a quiet beach.",
+    "input_references": [
+      { "type": "image_url", "image_url": { "url": "data:image/jpeg;base64,AA==" } }
+    ],
+    "aspect_ratio": "4:5",
+    "resolution": "2K",
+    "output_format": "jpeg"
+  },
+  "response": {
+    "id": "gen-contract-1",
+    "data": [{ "b64_json": "AQ==", "media_type": "image/jpeg" }],
+    "usage": { "prompt_tokens": 7, "completion_tokens": 11, "total_tokens": 18, "cost": 0.042 }
+  },
+  "staging": {
+    "max_edge": 1024,
+    "format": "jpeg",
+    "quality": 88,
+    "cache_key": "sha256-bytes-and-params"
+  },
+  "retry": {
+    "attempts": 2,
+    "retryable": ["network", "429", "5xx"],
+    "never": ["402", "400", "401", "403", "404", "shape", "empty"]
+  },
+  "cost": { "response_usage": 0.042, "generation_cost": 0.05, "unpriced": null }
+}

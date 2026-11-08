@@ -8,7 +8,7 @@
  */
 
 const SCRIPT_TEXT = (script) =>
-  `# ${script.title}\n\n${script.sections.map((s) => `## ${s.title}\n${s.body}`).join('\n\n')}`;
+  `# ${script.title}\n\n${script.sections.map((s) => `## ${s.title}\n${s.body}`).join("\n\n")}`;
 
 export const SCRIPT_SYSTEM_PROMPT = `You are Ponti Studio's writer. You turn a rough idea or draft into a single, well-organized master narrative in one consistent voice — the source everything else (essay, video scripts, social posts) gets produced from.
 

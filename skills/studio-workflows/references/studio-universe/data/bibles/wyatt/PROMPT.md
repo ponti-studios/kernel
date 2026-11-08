@@ -67,6 +67,7 @@ frames — it drags the register.
 ### Mask eye-hole negative prompt (MANDATORY — append verbatim to every prompt)
 
 <!-- PROMPT-BLOCK-START: wyatt-mask -->
+
 The mask is a tall smooth shield of matte black covering his whole face in one piece, from the hairline above his brow down past his jaw and chin, edge to edge across both cheeks. Its surface is plain matte black throughout. It carries two round holes, one at each eye, and those two holes are its only openings: each one opens onto flat empty blackness. The mask reads as a single unbroken black form from forehead to chin, with both round eye holes always present and open.
 <!-- PROMPT-BLOCK-END: wyatt-mask -->
 
@@ -89,6 +90,7 @@ The mask is a tall smooth shield of matte black covering his whole face in one p
     limbs, or any read younger than an adult man = fail. He is 5 heads
     tall (proportions lock, 17 Oct 2026); the retired ~3-head chibi
     build must never come back.
+
 - **Neck tattoos:** TWO portrait tattoos, always this exact pairing and
   placement — a crowned KING (bearded man in profile) on the character's LEFT
   side of the neck, and a crowned QUEEN (woman in profile) on the character's
@@ -115,6 +117,7 @@ The mask is a tall smooth shield of matte black covering his whole face in one p
 > Composed strictly from the Fixed design elements above — cel register + reference sheet (file header), 153cm / 5-head proportions, hair, neck tattoos, outfit. No new facts.
 
 <!-- PROMPT-BLOCK-START: wyatt -->
+
 Wyatt is an adult man in flat painterly cel animation, drawn EXACTLY as in his cel reference sheet — the same man. He is 153cm tall and exactly 5 heads in proportion: his head, hair and mask together are one fifth of his height, with a grown man's construction throughout and legs about half his height. His hair is voluminous black curls, medium length. On his neck sit two portrait tattoos facing inward toward the throat: a crowned bearded KING on his left side, and a crowned QUEEN — a woman — on his right.
 <!-- PROMPT-BLOCK-END: wyatt -->
 

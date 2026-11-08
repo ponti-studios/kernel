@@ -27,7 +27,7 @@ Field rules:
 
 - `title` — noun phrase. Drop redundant product prefixes unless needed to
   disambiguate inside a multi-product docs tree.
-- `summary` — what the doc is *for*, not what it contains. One sentence.
+- `summary` — what the doc is _for_, not what it contains. One sentence.
 - `type` — decides the shape of the body (see below).
 - `status` — `active` (true today, keep in sync with code), `draft` (being
   written, may be wrong), `proposed` (design for future work, nothing to verify

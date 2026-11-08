@@ -1,6 +1,6 @@
 // Draft validation for this skill. Combinators come from studio-core.
 
-import { array, number, object, string } from '../../../studio-core/scripts/lib/validate.mjs';
+import { array, number, object, string } from "../../../studio-core/scripts/lib/validate.mjs";
 
 export const tweetDraftSchema = object({
   tweets: array(string({ min: 1 }), { min: 1 }),

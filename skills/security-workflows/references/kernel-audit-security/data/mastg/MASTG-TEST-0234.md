@@ -6,13 +6,13 @@ upstream_path: tests-beta/android/MASVS-NETWORK/MASTG-TEST-0234.md
 upstream_tag: 31cec00
 platform: android
 covers_masvs:
-- MASVS-NETWORK-1
+  - MASVS-NETWORK-1
 type:
-- static
+  - static
 weakness: MASWE-0052
 profiles:
-- L1
-- L2
+  - L1
+  - L2
 ---
 
 ## Overview
@@ -39,4 +39,4 @@ The output should contain a list of locations where `SSLSocket` and `HostnameVer
 The test case fails if the app uses `SSLSocket` without a `HostnameVerifier`.
 
 !!! note
-    If a `HostnameVerifier` is present, ensure it's not implemented in an unsafe manner. See @MASTG-TEST-0283 for guidance.
+If a `HostnameVerifier` is present, ensure it's not implemented in an unsafe manner. See @MASTG-TEST-0283 for guidance.

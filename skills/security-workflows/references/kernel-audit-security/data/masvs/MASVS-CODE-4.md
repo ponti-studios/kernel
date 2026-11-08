@@ -1,22 +1,22 @@
 ---
-title: 'MASVS-CODE-4: The app validates and sanitizes all untrusted inputs.'
+title: "MASVS-CODE-4: The app validates and sanitizes all untrusted inputs."
 masvs_group: MASVS-CODE
 masvs_control: MASVS-CODE-4
 summary: The app validates and sanitizes all untrusted inputs.
 mastg_tests:
-- MASTG-TEST-0026
-- MASTG-TEST-0027
-- MASTG-TEST-0043
-- MASTG-TEST-0079
-- MASTG-TEST-0086
-- MASTG-TEST-0222
-- MASTG-TEST-0223
-- MASTG-TEST-0228
-- MASTG-TEST-0229
-- MASTG-TEST-0230
-- MASTG-TEST-0337
-- MASTG-TEST-0338
-- MASTG-TEST-0339
+  - MASTG-TEST-0026
+  - MASTG-TEST-0027
+  - MASTG-TEST-0043
+  - MASTG-TEST-0079
+  - MASTG-TEST-0086
+  - MASTG-TEST-0222
+  - MASTG-TEST-0223
+  - MASTG-TEST-0228
+  - MASTG-TEST-0229
+  - MASTG-TEST-0230
+  - MASTG-TEST-0337
+  - MASTG-TEST-0338
+  - MASTG-TEST-0339
 ---
 
 # MASVS-CODE-4

@@ -1,15 +1,15 @@
 ---
-title: 'MASVS-RESILIENCE-1: The app validates the integrity of the platform.'
+title: "MASVS-RESILIENCE-1: The app validates the integrity of the platform."
 masvs_group: MASVS-RESILIENCE
 masvs_control: MASVS-RESILIENCE-1
 summary: The app validates the integrity of the platform.
 mastg_tests:
-- MASTG-TEST-0049
-- MASTG-TEST-0092
-- MASTG-TEST-0240
-- MASTG-TEST-0241
-- MASTG-TEST-0324
-- MASTG-TEST-0325
+  - MASTG-TEST-0049
+  - MASTG-TEST-0092
+  - MASTG-TEST-0240
+  - MASTG-TEST-0241
+  - MASTG-TEST-0324
+  - MASTG-TEST-0325
 ---
 
 # MASVS-RESILIENCE-1

@@ -9,6 +9,7 @@ updated: 2026-08-25
 slug: ponti-studios-experiments-vision
 applies_to: []
 ---
+
 # Ponti Studios Experiments — Vision
 
 Ponti Studios is not only a technology studio. We are artists and storytellers who use technology to make ideas felt.

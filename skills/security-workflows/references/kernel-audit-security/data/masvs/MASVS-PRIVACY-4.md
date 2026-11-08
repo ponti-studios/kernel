@@ -1,5 +1,5 @@
 ---
-title: 'MASVS-PRIVACY-4: The app offers user control over their data.'
+title: "MASVS-PRIVACY-4: The app offers user control over their data."
 masvs_group: MASVS-PRIVACY
 masvs_control: MASVS-PRIVACY-4
 summary: The app offers user control over their data.

@@ -125,10 +125,10 @@ Import paths in consuming packages must use the published export path, not relat
 
 ## Anti-Patterns
 
-| Anti-pattern                                           | Fix                                                                       |
-| ------------------------------------------------------ | ------------------------------------------------------------------------- |
-| `any` in a shared type                                 | Use `unknown` and narrow explicitly                                       |
-| Types redeclared in multiple packages                  | Move to `packages/types`, export from there                               |
-| Circular package references                            | Introduce a shared types package that neither imports from the other      |
-| Hand-edited codegen output                             | Regenerate from source; add to `.gitignore`                               |
-| `@ts-ignore` without explanation                       | Explain why; add a ticket to remove it                                    |
+| Anti-pattern                          | Fix                                                                  |
+| ------------------------------------- | -------------------------------------------------------------------- |
+| `any` in a shared type                | Use `unknown` and narrow explicitly                                  |
+| Types redeclared in multiple packages | Move to `packages/types`, export from there                          |
+| Circular package references           | Introduce a shared types package that neither imports from the other |
+| Hand-edited codegen output            | Regenerate from source; add to `.gitignore`                          |
+| `@ts-ignore` without explanation      | Explain why; add a ticket to remove it                               |

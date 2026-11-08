@@ -31,9 +31,10 @@ DATABASE_URL=postgres://user:pass@localhost:5432/mydb pnpm kysely-codegen
 // packages/db/src/types/database.ts — DO NOT HAND-EDIT
 import type { ColumnType } from "kysely";
 
-export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
-  ? ColumnType<S, I | undefined, U>
-  : ColumnType<T, T | undefined, T>;
+export type Generated<T> =
+  T extends ColumnType<infer S, infer I, infer U>
+    ? ColumnType<S, I | undefined, U>
+    : ColumnType<T, T | undefined, T>;
 
 export interface UsersTable {
   id: Generated<string>;
@@ -90,11 +91,7 @@ await db
 ### Update
 
 ```typescript
-await db
-  .updateTable("users")
-  .set({ name: "Alice Updated" })
-  .where("id", "=", userId)
-  .execute();
+await db.updateTable("users").set({ name: "Alice Updated" }).where("id", "=", userId).execute();
 ```
 
 ### Join with full type safety
@@ -120,10 +117,10 @@ Use `Selectable<T>`, `Insertable<T>`, and `Updateable<T>` from Kysely to derive 
 
 ## Make Targets
 
-| Command                  | Effect                                               |
-| ------------------------ | ---------------------------------------------------- |
+| Command                  | Effect                                                |
+| ------------------------ | ----------------------------------------------------- |
 | `make db-generate-types` | Run kysely-codegen against dev DB → write output file |
-| `make db-verify-types`   | Assert output file matches live schema (CI check)    |
+| `make db-verify-types`   | Assert output file matches live schema (CI check)     |
 
 ## Guardrails
 

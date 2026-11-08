@@ -45,7 +45,7 @@ Mark every sampled path in the report. For un-sampled areas, cap scores at 6 and
 
 ### 3. Inspect the code, not the docs
 
-Open files. Trace flows. Sample tests. Rubric anchors are about what *is* there, not what is *claimed*.
+Open files. Trace flows. Sample tests. Rubric anchors are about what _is_ there, not what is _claimed_.
 
 ### 4. Score Maintainability (4 attributes)
 

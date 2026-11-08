@@ -24,6 +24,7 @@ Review Terraform configurations for security risks, misconfigurations, and insec
 ## 1. Identity and Access Management
 
 Check for:
+
 - Overly permissive IAM policies
 - Wildcard permissions (`*`)
 - Lack of least privilege
@@ -34,6 +35,7 @@ Check for:
 ## 2. Secrets Management
 
 Identify:
+
 - Hardcoded secrets
 - Tokens or API keys in Terraform variables
 - Secrets stored in plain text
@@ -43,6 +45,7 @@ Identify:
 ## 3. Network Security
 
 Review:
+
 - Publicly exposed services
 - Security groups with open ingress rules (e.g., `0.0.0.0/0`)
 - Unrestricted ports such as SSH (22), RDP (3389), databases
@@ -52,6 +55,7 @@ Review:
 ## 4. Storage Security
 
 Check whether storage resources:
+
 - Allow public access
 - Lack encryption at rest
 - Lack versioning or backup protections
@@ -60,6 +64,7 @@ Check whether storage resources:
 ## 5. Encryption
 
 Verify that:
+
 - Encryption at rest is enabled
 - Encryption in transit is enforced
 - Managed keys or KMS services are used
@@ -68,6 +73,7 @@ Verify that:
 ## 6. Logging and Monitoring
 
 Check whether:
+
 - Logging is enabled for critical services
 - Audit logs are configured
 - Monitoring alerts exist for security events
@@ -75,6 +81,7 @@ Check whether:
 ## 7. Resource Exposure
 
 Identify resources that may expose sensitive services to the internet:
+
 - Databases
 - Internal APIs
 - Message queues
@@ -83,6 +90,7 @@ Identify resources that may expose sensitive services to the internet:
 ## 8. Terraform-Specific Risks
 
 Check for:
+
 - Use of `terraform state` that may expose secrets
 - Sensitive variables not marked `sensitive = true`
 - Lack of remote state encryption
@@ -94,6 +102,7 @@ Check for:
 ## 9. Supply Chain Risks
 
 Identify:
+
 - Unpinned provider versions
 - External modules without version constraints
 - Modules from unverified sources
@@ -101,6 +110,7 @@ Identify:
 ## 10. Cost and Abuse Risks
 
 Flag configurations that could allow:
+
 - Resource abuse
 - Crypto mining infrastructure
 - Unlimited scaling without guardrails
@@ -108,6 +118,7 @@ Flag configurations that could allow:
 ## Output Format
 
 For each finding:
+
 - **Severity**: Critical / High / Medium / Low
 - **Resource**: Terraform resource affected
 - **Issue**: Description of the security problem

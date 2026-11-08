@@ -43,14 +43,14 @@ an assumption.
 
 ## The scoreboard as built (S0/S1)
 
-| Piece | Where |
-| --- | --- |
-| quality vector, pure | `backend/lib/quality-vector.ts` |
-| evidence bundle, pure | `backend/lib/evidence-bundle.ts` |
-| append-only JSONL ledger | `backend/lib/ledger.ts` |
-| sweep, dry-run default | `backend/retro.ts`, job `io.switchyard.fleet.retro` |
-| reporting | `node dist-backend/fleetctl.js metrics [--repo R] [--since ISO] [--tasks] [--json]` |
-| config | `retro: { enabled, apply, model, budget_usd_per_day, ledger_root }` |
+| Piece                    | Where                                                                               |
+| ------------------------ | ----------------------------------------------------------------------------------- |
+| quality vector, pure     | `backend/lib/quality-vector.ts`                                                     |
+| evidence bundle, pure    | `backend/lib/evidence-bundle.ts`                                                    |
+| append-only JSONL ledger | `backend/lib/ledger.ts`                                                             |
+| sweep, dry-run default   | `backend/retro.ts`, job `io.switchyard.fleet.retro`                                 |
+| reporting                | `node dist-backend/fleetctl.js metrics [--repo R] [--since ISO] [--tasks] [--json]` |
+| config                   | `retro: { enabled, apply, model, budget_usd_per_day, ledger_root }`                 |
 
 Facts that cost time to discover and belong in the code, not in a future investigation:
 
@@ -74,14 +74,14 @@ Facts that cost time to discover and belong in the code, not in a future investi
 ledger. `GET /api/learning` is built by `backend/lib/learning-view.ts` — pure, testable — from the ledger
 files, and cached 30 s because the feed polls every few seconds while the ledger moves hourly.
 
-| Panel | Question it answers |
-| --- | --- |
-| headline | one computed sentence: evidence in, rules out, whether anything is changing future runs |
-| what the next task reads | the corpus per skill (`active`/`enforced`/`quarantined`), with per-rule hits, misses and `loaded` |
-| loop health | last sweep, duration, skipped, refused (disclosure), errors, and a stale badge |
-| captured | tasks with friction, human comments (bot comments counted separately and excluded), rewritten files, gates failed |
-| is the next agent better | the scoreboard, medians, `n`, and an explicit small-sample label |
-| proposed and dropped | every candidate, its verdict and the reason, rendered only when proposals exist |
+| Panel                    | Question it answers                                                                                               |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------- |
+| headline                 | one computed sentence: evidence in, rules out, whether anything is changing future runs                           |
+| what the next task reads | the corpus per skill (`active`/`enforced`/`quarantined`), with per-rule hits, misses and `loaded`                 |
+| loop health              | last sweep, duration, skipped, refused (disclosure), errors, and a stale badge                                    |
+| captured                 | tasks with friction, human comments (bot comments counted separately and excluded), rewritten files, gates failed |
+| is the next agent better | the scoreboard, medians, `n`, and an explicit small-sample label                                                  |
+| proposed and dropped     | every candidate, its verdict and the reason, rendered only when proposals exist                                   |
 
 Rules this surface taught:
 
@@ -97,26 +97,26 @@ Rules this surface taught:
 
 ## Retro levels
 
-| Level | Output | Needs a model |
-| --- | --- | --- |
-| R0 | evidence bundle + quality vector | no |
-| R1 | deterministic counters (reviewer-rewritten files, CI red→green, gates failed) | no |
-| R2 | rule candidates from **review** evidence only (merged work, opening comments), ≤5 per task, every citation must exist in the bundle | yes, one call |
-| R3 | promotion: batched conventions PR, craft-tier candidates | yes |
+| Level | Output                                                                                                                              | Needs a model |
+| ----- | ----------------------------------------------------------------------------------------------------------------------------------- | ------------- |
+| R0    | evidence bundle + quality vector                                                                                                    | no            |
+| R1    | deterministic counters (reviewer-rewritten files, CI red→green, gates failed)                                                       | no            |
+| R2    | rule candidates from **review** evidence only (merged work, opening comments), ≤5 per task, every citation must exist in the bundle | yes, one call |
+| R3    | promotion: batched conventions PR, craft-tier candidates                                                                            | yes           |
 
 Sweep is a separate launchd job, dry-run by default, `--apply` to write, log-per-decision — same shape
 as the janitor. It never runs inside dispatch.
 
 ## The extraction as built (S2)
 
-| Piece | Where |
-| --- | --- |
-| prompt, strict-JSON parser, `ModelPort` | `backend/lib/extract.ts` |
-| filters, rule rendering, unified diff, precision | `backend/lib/lesson-candidates.ts` |
-| sweep integration, port wiring | `backend/retro.ts` (`extractRules`, `runtimeModel`, `skillsPort`) |
-| review queue | `node dist-backend/fleetctl.js learning review \| accept <id> \| drop <id> --reason "…"` |
-| config | `retro: { extract, max_candidates, skills_root }` |
-| artifacts | `knowledge/patches/<repo>-<ticket>.patch`, `proposals.jsonl` |
+| Piece                                            | Where                                                                                    |
+| ------------------------------------------------ | ---------------------------------------------------------------------------------------- |
+| prompt, strict-JSON parser, `ModelPort`          | `backend/lib/extract.ts`                                                                 |
+| filters, rule rendering, unified diff, precision | `backend/lib/lesson-candidates.ts`                                                       |
+| sweep integration, port wiring                   | `backend/retro.ts` (`extractRules`, `runtimeModel`, `skillsPort`)                        |
+| review queue                                     | `node dist-backend/fleetctl.js learning review \| accept <id> \| drop <id> --reason "…"` |
+| config                                           | `retro: { extract, max_candidates, skills_root }`                                        |
+| artifacts                                        | `knowledge/patches/<repo>-<ticket>.patch`, `proposals.jsonl`                             |
 
 **The model is the agent runtime, on a throwaway session.** `runtimeModel` opens a session in
 `scratchpad/retro`, prompts it, polls `context()` for the final assistant text, reads `costUsd`, and
@@ -134,7 +134,7 @@ not friction and costs nothing.
 
 **Ask for the invariant, not the change.** Without an explicit instruction the model writes file-local
 restatements of the diff ("In `billing.repository.ts`, run the lock, count and insert in one transaction").
-The prompt therefore demands: would this prevent a *different* change in the same area from going wrong?
+The prompt therefore demands: would this prevent a _different_ change in the same area from going wrong?
 Also instruct it to keep the half of a sentence that names the invariant rather than compressing, or
 otherwise-good candidates are rejected by the 140-character claim limit.
 

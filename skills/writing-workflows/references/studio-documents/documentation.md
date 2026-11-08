@@ -9,9 +9,10 @@ slug: ponti-studios-documentation-system
 owner: charlesponti
 applies_to: []
 ---
+
 # Ponti Studios Documentation System
 
-> **Boundary with write-essay:** this reference owns WHAT documentation must exist and where (structure, naming, one-home-per-fact). writing-workflows owns HOW to write a document once you know it is needed (choosing shapes, filling content). Structure questions come here; writing-craft questions go there.
+> **Boundary with essay:** this reference owns WHAT documentation must exist and where (structure, naming, one-home-per-fact). writing-workflows owns HOW to write a document once you know it is needed (choosing shapes, filling content). Structure questions come here; writing-craft questions go there.
 
 This is the canonical rule set for structuring documentation. Its two goals, in order:
 
@@ -28,16 +29,16 @@ Every fact — a thesis, a model, an audience, a contract, a number — has exac
 
 A file's layer is its job, not its folder. Each fact goes to the layer that answers the question it belongs to:
 
-| Layer | Answers | Holds | Canonical prefix |
-| --- | --- | --- | --- |
-| **Vision** | Why does this exist? | Thesis, beliefs, non-negotiable promise | `vision.md` |
-| **Strategy** | What are we trying to prove? | Problem, audience, evidence, open questions | `brief.md`, `research/` |
-| **Product** | What does the product do now? | Current model, surfaces, boundaries | `product.md`, `features.md` |
-| **Design** | How should it behave? | Interaction and data contracts | `design/` |
-| **Decisions** | Why did we choose this? | Tradeoffs, rejected directions, guardrails | `decisions/` |
-| **Plan** | What comes next and when? | Roadmap, backlog | `roadmap.md`, `backlog.md` |
-| **Ops** | How do we run it? | Policies, procedures, release data | `operations.*`, `policy.*` |
-| **Reference** | Where is the lookup data? | IDs, links, registries | `reference/` |
+| Layer         | Answers                       | Holds                                       | Canonical prefix            |
+| ------------- | ----------------------------- | ------------------------------------------- | --------------------------- |
+| **Vision**    | Why does this exist?          | Thesis, beliefs, non-negotiable promise     | `vision.md`                 |
+| **Strategy**  | What are we trying to prove?  | Problem, audience, evidence, open questions | `brief.md`, `research/`     |
+| **Product**   | What does the product do now? | Current model, surfaces, boundaries         | `product.md`, `features.md` |
+| **Design**    | How should it behave?         | Interaction and data contracts              | `design/`                   |
+| **Decisions** | Why did we choose this?       | Tradeoffs, rejected directions, guardrails  | `decisions/`                |
+| **Plan**      | What comes next and when?     | Roadmap, backlog                            | `roadmap.md`, `backlog.md`  |
+| **Ops**       | How do we run it?             | Policies, procedures, release data          | `operations.*`, `policy.*`  |
+| **Reference** | Where is the lookup data?     | IDs, links, registries                      | `reference/`                |
 
 A fact that belongs in **Design** must not also live in **Strategy**. When a research finding becomes a product commitment, the finding stays in research and the product contract links to it — it is not copied.
 

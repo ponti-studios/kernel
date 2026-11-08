@@ -22,11 +22,11 @@ spacing, typography, component variants, and ad hoc theme overrides.
 
 Produce a prioritized findings table with evidence:
 
-| Priority | Finding | Evidence | User impact | Smallest correction |
-| --- | --- | --- | --- | --- |
-| Must fix | Correctness, accessibility, token violation, or unstable layout | File and line or measured result | Observable impact | Minimal repair |
-| Should fix | Clear convention or maintainability divergence | File and line | Consistency or maintenance cost | Local alignment |
-| Consider | Philosophy-based improvement without defect evidence | Inference or comparison | Potential benefit | Optional change |
+| Priority   | Finding                                                         | Evidence                         | User impact                     | Smallest correction |
+| ---------- | --------------------------------------------------------------- | -------------------------------- | ------------------------------- | ------------------- |
+| Must fix   | Correctness, accessibility, token violation, or unstable layout | File and line or measured result | Observable impact               | Minimal repair      |
+| Should fix | Clear convention or maintainability divergence                  | File and line                    | Consistency or maintenance cost | Local alignment     |
+| Consider   | Philosophy-based improvement without defect evidence            | Inference or comparison          | Potential benefit               | Optional change     |
 
 Check the component philosophy audit, accessibility reference, and performance
 workflow for relevant dimensions. Do not use aesthetic preference alone to call

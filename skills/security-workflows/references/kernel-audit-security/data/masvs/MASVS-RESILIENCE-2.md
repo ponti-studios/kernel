@@ -1,15 +1,15 @@
 ---
-title: 'MASVS-RESILIENCE-2: The app implements anti-tampering mechanisms.'
+title: "MASVS-RESILIENCE-2: The app implements anti-tampering mechanisms."
 masvs_group: MASVS-RESILIENCE
 masvs_control: MASVS-RESILIENCE-2
 summary: The app implements anti-tampering mechanisms.
 mastg_tests:
-- MASTG-TEST-0047
-- MASTG-TEST-0090
-- MASTG-TEST-0220
-- MASTG-TEST-0224
-- MASTG-TEST-0225
-- MASTG-TEST-0341
+  - MASTG-TEST-0047
+  - MASTG-TEST-0090
+  - MASTG-TEST-0220
+  - MASTG-TEST-0224
+  - MASTG-TEST-0225
+  - MASTG-TEST-0341
 ---
 
 # MASVS-RESILIENCE-2

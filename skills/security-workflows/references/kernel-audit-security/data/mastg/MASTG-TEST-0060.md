@@ -6,11 +6,11 @@ upstream_path: tests/ios/MASVS-STORAGE/MASTG-TEST-0060.md
 upstream_tag: 31cec00
 platform: ios
 covers_masvs:
-- MASVS-STORAGE-2
+  - MASVS-STORAGE-2
 masvs_v1_id:
-- MSTG-STORAGE-10
+  - MSTG-STORAGE-10
 masvs_v2_id:
-- MASVS-STORAGE-2
+  - MASVS-STORAGE-2
 status_note: V1 test; no V2 successor authored upstream yet — content may be outdated
 ---
 

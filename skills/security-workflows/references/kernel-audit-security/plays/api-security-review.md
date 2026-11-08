@@ -5,6 +5,7 @@ Comprehensive API security assessment against OWASP API Security Top 10 (2023) w
 ## Trigger Conditions
 
 Use this play when:
+
 - Reviewing OpenAPI/Swagger specifications or API documentation
 - Auditing REST, GraphQL, gRPC, or SOAP API implementations
 - Testing API authentication and authorization mechanisms
@@ -29,6 +30,7 @@ Use this play when:
 #### 1.1 API Surface Enumeration
 
 **With OpenAPI Spec:**
+
 ```bash
 # Parse and analyze OpenAPI spec
 # Look for:
@@ -40,6 +42,7 @@ Use this play when:
 ```
 
 **Without OpenAPI Spec (Code Analysis):**
+
 - Scan route definitions in framework-specific patterns:
   - Express: `app.get()`, `router.post()`
   - Django: `path()`, `url()`
@@ -48,6 +51,7 @@ Use this play when:
   - FastAPI: `@app.get()`, decorator-based routes
 
 **Key Questions:**
+
 - How many endpoints exist?
 - Which require authentication vs. public?
 - What data types are exchanged?
@@ -58,14 +62,14 @@ Use this play when:
 
 Document all auth mechanisms in use:
 
-| Mechanism | Indicators | Security Considerations |
-|-----------|-----------|------------------------|
-| **JWT** | `Authorization: Bearer eyJ...` | Algorithm, signing key strength, expiration |
-| **OAuth 2.0** | `/oauth/authorize`, `/oauth/token` | Flow type, PKCE, state parameter, redirect URI |
-| **API Keys** | `X-API-Key`, `api_key` query param | Key rotation, transmission security, scope |
-| **Session Cookies** | `Set-Cookie: sessionid=...` | HttpOnly, Secure, SameSite, expiration |
-| **mTLS** | Client certificate requirements | Certificate validation, revocation |
-| **Basic Auth** | `Authorization: Basic base64` | HTTPS enforcement, credential storage |
+| Mechanism           | Indicators                         | Security Considerations                        |
+| ------------------- | ---------------------------------- | ---------------------------------------------- |
+| **JWT**             | `Authorization: Bearer eyJ...`     | Algorithm, signing key strength, expiration    |
+| **OAuth 2.0**       | `/oauth/authorize`, `/oauth/token` | Flow type, PKCE, state parameter, redirect URI |
+| **API Keys**        | `X-API-Key`, `api_key` query param | Key rotation, transmission security, scope     |
+| **Session Cookies** | `Set-Cookie: sessionid=...`        | HttpOnly, Secure, SameSite, expiration         |
+| **mTLS**            | Client certificate requirements    | Certificate validation, revocation             |
+| **Basic Auth**      | `Authorization: Basic base64`      | HTTPS enforcement, credential storage          |
 
 ### Phase 2: Authentication Security Assessment
 
@@ -74,6 +78,7 @@ Document all auth mechanisms in use:
 **Common JWT Vulnerabilities:**
 
 1. **Algorithm Confusion (CVE-2015-9235)**
+
    ```
    Attack: Change algorithm from RS256 to none or HS256
    Header: {"alg":"none","typ":"JWT"}
@@ -81,6 +86,7 @@ Document all auth mechanisms in use:
    ```
 
 2. **Weak Signing Keys**
+
    ```bash
    # Test for weak secrets if using HS256
    # Use jwt_tool or hashcat for brute force
@@ -88,6 +94,7 @@ Document all auth mechanisms in use:
    ```
 
 3. **Missing Expiration**
+
    ```
    Check: Does payload contain "exp" claim?
    Risk: Tokens valid forever if stolen
@@ -96,13 +103,14 @@ Document all auth mechanisms in use:
 4. **Token Storage Issues**
    ```javascript
    // Insecure: localStorage (XSS accessible)
-   localStorage.setItem('jwt', token);
-   
+   localStorage.setItem("jwt", token);
+
    // More secure: httpOnly cookie
    document.cookie = "jwt=" + token + "; HttpOnly; Secure; SameSite=Strict";
    ```
 
 **Testing Checklist:**
+
 - [ ] Test algorithm confusion (change alg to "none")
 - [ ] Attempt key confusion attacks (RS256 → HS256)
 - [ ] Check for missing expiration (exp claim)
@@ -115,6 +123,7 @@ Document all auth mechanisms in use:
 **Critical Checks:**
 
 1. **Authorization Code Flow**
+
    ```
    Required: PKCE (Proof Key for Code Exchange)
    Check: code_challenge and code_verifier parameters
@@ -122,6 +131,7 @@ Document all auth mechanisms in use:
    ```
 
 2. **State Parameter**
+
    ```
    Required: Random state parameter to prevent CSRF
    Check: Is state validated on callback?
@@ -129,6 +139,7 @@ Document all auth mechanisms in use:
    ```
 
 3. **Redirect URI Validation**
+
    ```
    Check: Is redirect_uri strictly validated?
    Attack: redirect_uri=https://attacker.com/callback
@@ -143,6 +154,7 @@ Document all auth mechanisms in use:
    ```
 
 **Testing Checklist:**
+
 - [ ] Verify PKCE implementation for public clients
 - [ ] Test state parameter CSRF protection
 - [ ] Attempt redirect URI manipulation
@@ -155,15 +167,17 @@ Document all auth mechanisms in use:
 **Common Issues:**
 
 1. **Key Exposure**
+
    ```bash
    # Search for hardcoded keys
    grep -r "api_key\|apikey\|api-key" --include="*.js" --include="*.py" --include="*.env"
-   
+
    # Check client-side code
    # API keys in frontend code can be stolen
    ```
 
 2. **Insufficient Scope**
+
    ```
    Issue: Single key with full access
    Best Practice: Scoped keys (read-only, write, admin)
@@ -182,6 +196,7 @@ Document all auth mechanisms in use:
 > **Risk**: Attackers access other users' data by manipulating object IDs
 
 **Real-World Impact**:
+
 - **2019**: First American Financial exposed 885 million records via IDOR
 - **2020**: Twitter API IDOR allowed viewing protected tweets
 - **2021**: Facebook IDOR exposed private posts
@@ -189,21 +204,24 @@ Document all auth mechanisms in use:
 **Attack Scenarios:**
 
 1. **Sequential ID Manipulation**
+
    ```http
    GET /api/users/123/orders
-   
+
    # Try:
    GET /api/users/124/orders  # Access other user's orders
    GET /api/users/1/orders    # Access admin's orders
    ```
 
 2. **UUID Predictability**
+
    ```
    If using predictable UUIDv1 (timestamp-based):
    Generate nearby UUIDs to find other users
    ```
 
 3. **Batch Endpoint Bypass**
+
    ```http
    POST /api/orders/bulk
    {
@@ -214,16 +232,16 @@ Document all auth mechanisms in use:
 4. **Indirect Object References**
    ```http
    GET /api/orders?id=1001
-   
+
    # vs
-   
+
    GET /api/orders?id=1001&user_id=123  # Is user_id validated?
    ```
 
 **Testing Approach:**
 
 1. **Map Object IDs**: Identify all endpoints accepting object IDs
-2. **Cross-User Testing**: 
+2. **Cross-User Testing**:
    - Create User A and User B accounts
    - Have User A create resources
    - Attempt to access with User B's credentials
@@ -240,6 +258,7 @@ Document all auth mechanisms in use:
    ```
 
 **Remediation:**
+
 ```python
 # BAD: No ownership check
 def get_order(order_id):
@@ -260,31 +279,35 @@ def get_order(order_id, user):
 > **Risk**: Weak authentication allows account takeover
 
 **Real-World Impact**:
+
 - **2022**: Uber breach via compromised contractor account
 - **2023**: 23andMe breach via credential stuffing
 
 **Attack Scenarios:**
 
 1. **Credential Stuffing**
+
    ```bash
    # Automated login attempts with breached credentials
    # APIs often lack CAPTCHA or rate limiting
    ```
 
 2. **JWT None Algorithm**
+
    ```
    Header: {"alg":"none","typ":"JWT"}
    Payload: {"user_id":1,"role":"admin"}
    Signature: (empty)
-   
+
    Result: Server accepts unsigned token
    ```
 
 3. **Weak Password Policy**
+
    ```
    POST /api/login
    {"username":"admin","password":"123456"}
-   
+
    # Test common passwords
    # Check minimum length requirements
    ```
@@ -299,6 +322,7 @@ def get_order(order_id, user):
 **Testing Approach:**
 
 1. **Brute Force Testing**:
+
    ```bash
    # Test login endpoint rate limiting
    for i in {1..100}; do
@@ -326,6 +350,7 @@ def get_order(order_id, user):
    - Are backup codes secure?
 
 **Remediation:**
+
 ```python
 # Implement rate limiting
 from django_ratelimit.decorators import ratelimit
@@ -358,12 +383,14 @@ JWT_SETTINGS = {
 > **Risk**: Mass assignment and data over-exposure
 
 **Real-World Impact**:
+
 - **2012**: GitHub mass assignment allowed unauthorized repo access
 - **2019**: Facebook mass assignment exposed user data
 
 **Attack Scenarios:**
 
 1. **Mass Assignment**
+
    ```http
    POST /api/users
    {
@@ -376,9 +403,10 @@ JWT_SETTINGS = {
    ```
 
 2. **Response Over-Exposure**
+
    ```http
    GET /api/users/123
-   
+
    Response:
    {
      "id": 123,
@@ -401,6 +429,7 @@ JWT_SETTINGS = {
 **Testing Approach:**
 
 1. **Mass Assignment Testing**:
+
    ```python
    # Send extra fields in POST/PUT requests
    payload = {
@@ -427,27 +456,28 @@ JWT_SETTINGS = {
        id
        name
        email
-       password  # Should be rejected
-       ssn       # Should be rejected
-       salary    # Should be rejected for non-admins
+       password # Should be rejected
+       ssn # Should be rejected
+       salary # Should be rejected for non-admins
      }
    }
    ```
 
 **Remediation:**
+
 ```python
 # Use allowlist approach
 ALLOWED_USER_FIELDS = ['username', 'email', 'password']
 
 def update_user(user_id, data, current_user):
     # Filter input to allowed fields only
-    filtered_data = {k: v for k, v in data.items() 
+    filtered_data = {k: v for k, v in data.items()
                      if k in ALLOWED_USER_FIELDS}
-    
+
     # Check field-level permissions
     if 'role' in data and not current_user.is_admin:
         raise PermissionDenied("Cannot modify role")
-    
+
     return User.objects.filter(id=user_id).update(**filtered_data)
 
 # Response serialization
@@ -463,12 +493,14 @@ class UserSerializer(serializers.ModelSerializer):
 > **Risk**: DoS via resource exhaustion, financial drain
 
 **Real-World Impact**:
+
 - **2023**: OpenAI API abuse cost companies thousands
 - **2022**: GraphQL query DoS attacks on multiple platforms
 
 **Attack Scenarios:**
 
 1. **Rate Limit Bypass**
+
    ```http
    # Distributed attack from multiple IPs
    # Or using different API keys
@@ -476,6 +508,7 @@ class UserSerializer(serializers.ModelSerializer):
    ```
 
 2. **Expensive Query Abuse**
+
    ```graphql
    # Deeply nested GraphQL query
    query {
@@ -498,10 +531,11 @@ class UserSerializer(serializers.ModelSerializer):
    ```
 
 3. **Large Payload Attacks**
+
    ```http
    POST /api/upload
    Content-Length: 1000000000  # 1GB file
-   
+
    # Or JSON bomb:
    {"a":{"a":{"a":{"a":...}}}}  # Deeply nested JSON
    ```
@@ -515,12 +549,13 @@ class UserSerializer(serializers.ModelSerializer):
 **Testing Approach:**
 
 1. **Rate Limit Testing**:
+
    ```bash
    # Test from single IP
    for i in {1..1000}; do
      curl https://api.example.com/data
    done
-   
+
    # Test bypass methods:
    # - Different API keys
    # - Rotating User-Agents
@@ -528,6 +563,7 @@ class UserSerializer(serializers.ModelSerializer):
    ```
 
 2. **GraphQL DoS**:
+
    ```bash
    # Test query complexity
    # Test query depth
@@ -541,6 +577,7 @@ class UserSerializer(serializers.ModelSerializer):
    - Trigger expensive database queries
 
 **Remediation:**
+
 ```python
 # Rate limiting
 from django_ratelimit.decorators import ratelimit
@@ -579,12 +616,14 @@ REQUEST_TIMEOUT = 30  # seconds
 > **Risk**: Access to admin/sensitive functions without proper authorization
 
 **Real-World Impact**:
+
 - **2020**: Twitter admin tool breach
 - **2021**: Parler admin API exposed
 
 **Attack Scenarios:**
 
 1. **Admin Endpoint Discovery**
+
    ```http
    GET /api/admin/users  # Try common admin paths
    GET /api/v1/admin/config
@@ -593,6 +632,7 @@ REQUEST_TIMEOUT = 30  # seconds
    ```
 
 2. **HTTP Method Switching**
+
    ```http
    GET /api/users/123    # Allowed for regular users
    DELETE /api/users/123 # Should require admin, but is it checked?
@@ -611,12 +651,14 @@ REQUEST_TIMEOUT = 30  # seconds
 **Testing Approach:**
 
 1. **Endpoint Enumeration**:
+
    ```bash
    # Use wordlists to find admin endpoints
    # Common paths: /admin, /internal, /debug, /system
    ```
 
 2. **Method Testing**:
+
    ```bash
    # For each endpoint, test all HTTP methods
    curl -X GET /api/resource
@@ -632,6 +674,7 @@ REQUEST_TIMEOUT = 30  # seconds
    - Try to modify role/privilege fields
 
 **Remediation:**
+
 ```python
 # Centralized authorization decorator
 from functools import wraps
@@ -641,7 +684,7 @@ def require_admin(f):
     def decorated_function(request, *args, **kwargs):
         if not request.user.is_admin:
             return Response(
-                {"error": "Admin access required"}, 
+                {"error": "Admin access required"},
                 status=403
             )
         return f(request, *args, **kwargs)
@@ -656,7 +699,7 @@ class AdminAuthorizationMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
         self.admin_paths = ['/api/admin/', '/api/internal/']
-    
+
     def __call__(self, request):
         if any(request.path.startswith(path) for path in self.admin_paths):
             if not request.user.is_admin:
@@ -669,6 +712,7 @@ class AdminAuthorizationMiddleware:
 > **Risk**: Automated abuse of business logic
 
 **Real-World Impact**:
+
 - **Ticket scalping**: Bots buying all concert tickets
 - **E-commerce**: Inventory hoarding, price scraping
 - **Crypto**: Flash loan attacks via API manipulation
@@ -676,18 +720,21 @@ class AdminAuthorizationMiddleware:
 **Attack Scenarios:**
 
 1. **Inventory Exhaustion**
+
    ```http
    POST /api/cart/add
    {"product_id": 123, "quantity": 999999}  # Buy all inventory
    ```
 
 2. **Automated Purchasing**
+
    ```http
    # Script that completes purchase faster than humans
    # Bypassing any client-side rate limits
    ```
 
 3. **Price Manipulation**
+
    ```http
    POST /api/order
    {
@@ -716,31 +763,32 @@ class AdminAuthorizationMiddleware:
    # Script to test if flows can be automated
    import requests
    import time
-   
+
    start = time.time()
    for i in range(100):
        requests.post('/api/purchase', json={...})
    elapsed = time.time() - start
-   
+
    # If no rate limiting, 100 requests complete quickly
    ```
 
 **Remediation:**
+
 ```python
 # Server-side price calculation
 def create_order(items, user):
     total = sum(item.product.price * item.quantity for item in items)
     # Never trust client-provided total
-    
+
     # Inventory checks
     for item in items:
         if item.quantity > item.product.available_stock:
             raise ValidationError("Insufficient inventory")
-    
+
     # Rate limiting per user
     if user.orders.filter(created_at__gte=timezone.now() - timedelta(hours=1)).count() > 10:
         raise RateLimitError("Too many orders")
-    
+
     return Order.objects.create(user=user, items=items, total=total)
 
 # CAPTCHA for sensitive operations
@@ -756,24 +804,28 @@ class PurchaseForm(forms.Form):
 > **Risk**: Server makes requests to attacker-controlled or internal resources
 
 **Real-World Impact**:
+
 - **2019**: Capital One breach via SSRF (100M records)
 - **2021**: Multiple cloud metadata service exploits
 
 **Attack Scenarios:**
 
 1. **Cloud Metadata Access**
+
    ```http
    GET /api/fetch?url=http://169.254.169.254/latest/meta-data/iam/security-credentials/
    # Retrieves AWS credentials
    ```
 
 2. **Internal Service Access**
+
    ```http
    GET /api/fetch?url=http://localhost:8080/admin
    GET /api/fetch?url=http://internal-api.company.local/secrets
    ```
 
 3. **URL Bypass Techniques**
+
    ```
    http://127.0.0.1 → localhost bypass
    http://0177.0.0.1 → Octal encoding
@@ -793,6 +845,7 @@ class PurchaseForm(forms.Form):
 **Testing Approach:**
 
 1. **Basic SSRF Testing**:
+
    ```bash
    # Test internal IP access
    curl "https://api.example.com/fetch?url=http://169.254.169.254/"
@@ -801,6 +854,7 @@ class PurchaseForm(forms.Form):
    ```
 
 2. **Bypass Testing**:
+
    ```bash
    # Try various encodings
    curl "https://api.example.com/fetch?url=http://0177.0.0.1/"
@@ -817,6 +871,7 @@ class PurchaseForm(forms.Form):
    ```
 
 **Remediation:**
+
 ```python
 import ipaddress
 import re
@@ -833,17 +888,17 @@ def is_internal_ip(ip_str):
 def validate_url(url):
     """Validate URL for SSRF prevention"""
     parsed = urlparse(url)
-    
+
     # Allowlist approach (recommended)
     allowed_hosts = ['api.trusted.com', 'cdn.trusted.com']
     if parsed.hostname not in allowed_hosts:
         raise ValidationError("URL not in allowlist")
-    
+
     # Blocklist approach (supplementary)
     blocked_schemes = ['file', 'ftp', 'gopher', 'dict']
     if parsed.scheme in blocked_schemes:
         raise ValidationError("Scheme not allowed")
-    
+
     # Resolve and check IP
     import socket
     try:
@@ -852,7 +907,7 @@ def validate_url(url):
             raise ValidationError("Internal IPs not allowed")
     except socket.gaierror:
         raise ValidationError("Could not resolve hostname")
-    
+
     return url
 
 # Alternative: Use a dedicated SSRF protection library
@@ -871,18 +926,21 @@ def fetch_url(request):
 > **Risk**: Insecure default configurations expose APIs to attacks
 
 **Real-World Impact**:
+
 - **2018**: Tesla Kubernetes API exposed (cryptomining)
 - **2020**: Multiple Elasticsearch instances exposed without auth
 
 **Attack Scenarios:**
 
 1. **CORS Misconfiguration**
+
    ```http
    Access-Control-Allow-Origin: *  # Too permissive
    Access-Control-Allow-Credentials: true  # Dangerous combination
    ```
 
 2. **Verbose Error Messages**
+
    ```json
    {
      "error": "SQL syntax error near 'user_id = 123'",
@@ -892,6 +950,7 @@ def fetch_url(request):
    ```
 
 3. **Missing Security Headers**
+
    ```http
    # Missing headers:
    X-Content-Type-Options: nosniff
@@ -910,11 +969,13 @@ def fetch_url(request):
 **Testing Approach:**
 
 1. **Security Headers Check**:
+
    ```bash
    curl -I https://api.example.com/endpoint | grep -i "access-control\|x-"
    ```
 
 2. **Error Handling Test**:
+
    ```bash
    # Trigger errors and check responses
    curl "https://api.example.com/endpoint?param=' OR 1=1--"
@@ -933,15 +994,16 @@ def fetch_url(request):
    ```
 
 **Remediation:**
+
 ```python
 # Django middleware for security headers
 class SecurityHeadersMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
-    
+
     def __call__(self, request):
         response = self.get_response(request)
-        
+
         # Security headers
         response['X-Content-Type-Options'] = 'nosniff'
         response['X-Frame-Options'] = 'DENY'
@@ -949,12 +1011,12 @@ class SecurityHeadersMiddleware:
         response['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains'
         response['Content-Security-Policy'] = "default-src 'self'"
         response['Referrer-Policy'] = 'strict-origin-when-cross-origin'
-        
+
         # CORS (restrictive)
         response['Access-Control-Allow-Origin'] = 'https://trusted-domain.com'
         response['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE'
         response['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
-        
+
         return response
 
 # Disable debug mode in production
@@ -975,18 +1037,21 @@ def custom_error_handler(request, exception=None):
 > **Risk**: Shadow APIs and undocumented endpoints create attack surface
 
 **Real-World Impact**:
+
 - **2021**: Facebook API exposed user data via undocumented endpoint
 - **2022**: Twitter API v1.1 endpoints still accessible after v2 launch
 
 **Attack Scenarios:**
 
 1. **Shadow API Discovery**
+
    ```
    Compare OpenAPI spec with actual code
    Look for endpoints not in documentation
    ```
 
 2. **Deprecated API Usage**
+
    ```http
    GET /api/v1/users  # Old version still active
    GET /api/v2/users  # New version
@@ -1003,15 +1068,17 @@ def custom_error_handler(request, exception=None):
 **Testing Approach:**
 
 1. **API Inventory**:
+
    ```bash
    # Extract all routes from code
    grep -r "@app.route\|@GetMapping\|path(" --include="*.py" --include="*.java"
-   
+
    # Compare with OpenAPI spec
    # Identify undocumented endpoints
    ```
 
 2. **Version Testing**:
+
    ```bash
    # Test old API versions
    curl https://api.example.com/v1/users
@@ -1026,6 +1093,7 @@ def custom_error_handler(request, exception=None):
    ```
 
 **Remediation:**
+
 ```yaml
 # API Gateway configuration (Kong example)
 plugins:
@@ -1051,12 +1119,14 @@ plugins:
 > **Risk**: Trusting third-party API responses leads to injection attacks
 
 **Real-World Impact**:
+
 - **2020**: Multiple XXE attacks via external API responses
 - **2021**: Deserialization attacks from webhook payloads
 
 **Attack Scenarios:**
 
 1. **XXE via External API**
+
    ```xml
    <!-- Malicious response from third-party API -->
    <?xml version="1.0"?>
@@ -1067,6 +1137,7 @@ plugins:
    ```
 
 2. **Deserialization Attack**
+
    ```python
    # Attacker controls serialized data
    import pickle
@@ -1075,12 +1146,13 @@ plugins:
    ```
 
 3. **Webhook Replay**
+
    ```http
    # Attacker captures webhook and replays it
    POST /api/webhooks/payment
    X-Webhook-Signature: valid_signature
    {"event": "payment.success", "amount": 1000}
-   
+
    # Replay same request to double credits
    ```
 
@@ -1096,12 +1168,14 @@ plugins:
 **Testing Approach:**
 
 1. **XXE Testing**:
+
    ```bash
    # If API accepts XML from third parties
    # Send malicious XML to test for XXE
    ```
 
 2. **Deserialization Testing**:
+
    ```bash
    # Check for unsafe deserialization
    # Look for pickle, ObjectInputStream, unserialize
@@ -1115,6 +1189,7 @@ plugins:
    ```
 
 **Remediation:**
+
 ```python
 # XXE Prevention
 import xml.etree.ElementTree as ET
@@ -1130,20 +1205,20 @@ import json
 def safe_deserialize(data):
     # Use JSON instead of pickle for untrusted data
     return json.loads(data)
-    
+
     # If you must use pickle, sign the data
     import hmac
     import hashlib
-    
+
     signature = hmac.new(
         SECRET_KEY,
         data,
         hashlib.sha256
     ).hexdigest()
-    
+
     if not hmac.compare_digest(signature, expected_signature):
         raise ValueError("Invalid signature")
-    
+
     return pickle.loads(data)
 
 # Webhook Security
@@ -1159,21 +1234,21 @@ def verify_webhook(request):
         request.body,
         hashlib.sha256
     ).hexdigest()
-    
+
     if not hmac.compare_digest(signature, expected):
         raise ValueError("Invalid signature")
-    
+
     # Check timestamp (prevent replay)
     timestamp = int(request.headers.get('X-Webhook-Timestamp'))
     if abs(time.time() - timestamp) > 300:  # 5 minutes
         raise ValueError("Request too old")
-    
+
     # Check nonce (prevent replay)
     nonce = request.headers.get('X-Webhook-Nonce')
     if nonce in used_nonces:
         raise ValueError("Nonce already used")
     used_nonces.add(nonce)
-    
+
     return True
 ```
 
@@ -1182,6 +1257,7 @@ def verify_webhook(request):
 #### 4.1 API Security Scanning
 
 **OWASP ZAP**:
+
 ```bash
 # Automated API scan
 zap-api-scan.py -t https://api.example.com/openapi.json -f openapi
@@ -1197,44 +1273,47 @@ zap-api-scan.py -t https://api.example.com/openapi.json \
 ```
 
 **Burp Suite**:
+
 - Import OpenAPI spec
 - Run active scan on all endpoints
 - Test for BOLA, authentication bypasses
 
 **Postman Security Tests**:
+
 ```javascript
 // Test for sensitive data in response
 pm.test("Response does not contain sensitive data", function () {
-    pm.expect(pm.response.text()).to.not.include("password");
-    pm.expect(pm.response.text()).to.not.include("secret");
+  pm.expect(pm.response.text()).to.not.include("password");
+  pm.expect(pm.response.text()).to.not.include("secret");
 });
 
 // Test for security headers
 pm.test("Security headers present", function () {
-    pm.response.to.have.header("X-Content-Type-Options");
-    pm.response.to.have.header("X-Frame-Options");
+  pm.response.to.have.header("X-Content-Type-Options");
+  pm.response.to.have.header("X-Frame-Options");
 });
 ```
 
 #### 4.2 Custom Security Tests
 
 **BOLA Testing Script**:
+
 ```python
 import requests
 
 def test_bola(base_url, token, user_a_id, user_b_id):
     """Test for Broken Object Level Authorization"""
-    
+
     # Get User A's token
     headers = {"Authorization": f"Bearer {token}"}
-    
+
     # Try to access User B's resources
     endpoints = [
         f"/api/users/{user_b_id}",
         f"/api/users/{user_b_id}/orders",
         f"/api/orders?user_id={user_b_id}",
     ]
-    
+
     for endpoint in endpoints:
         response = requests.get(f"{base_url}{endpoint}", headers=headers)
         if response.status_code == 200:
@@ -1243,16 +1322,17 @@ def test_bola(base_url, token, user_a_id, user_b_id):
 ```
 
 **Rate Limit Testing**:
+
 ```python
 import requests
 import time
 
 def test_rate_limiting(url, headers, requests_count=100):
     """Test if rate limiting is enforced"""
-    
+
     success_count = 0
     start_time = time.time()
-    
+
     for i in range(requests_count):
         response = requests.get(url, headers=headers)
         if response.status_code == 200:
@@ -1260,10 +1340,10 @@ def test_rate_limiting(url, headers, requests_count=100):
         elif response.status_code == 429:
             print(f"Rate limit hit after {i} requests")
             break
-    
+
     elapsed = time.time() - start_time
     print(f"Made {success_count} requests in {elapsed:.2f} seconds")
-    
+
     if success_count == requests_count:
         print("WARNING: No rate limiting detected!")
 ```
@@ -1282,7 +1362,7 @@ plugins:
       hour: 1000
       policy: redis
       redis_host: redis
-  
+
   # CORS (restrictive)
   - name: cors
     config:
@@ -1298,18 +1378,18 @@ plugins:
         - Content-Type
       credentials: true
       max_age: 3600
-  
+
   # Request size limiting
   - name: request-size-limiting
     config:
-      allowed_payload_size: 10  # MB
-  
+      allowed_payload_size: 10 # MB
+
   # Bot detection
   - name: bot-detection
     config:
       deny:
         - "Mozilla/5.0 (compatible; Googlebot/2.1)"
-  
+
   # IP restriction
   - name: ip-restriction
     config:
@@ -1324,32 +1404,32 @@ plugins:
 server {
     listen 443 ssl http2;
     server_name api.example.com;
-    
+
     # SSL configuration
     ssl_certificate /path/to/cert.pem;
     ssl_certificate_key /path/to/key.pem;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers 'ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256';
-    
+
     # Security headers
     add_header X-Frame-Options "DENY" always;
     add_header X-Content-Type-Options "nosniff" always;
     add_header X-XSS-Protection "1; mode=block" always;
     add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
     add_header Referrer-Policy "strict-origin-when-cross-origin" always;
-    
+
     # Rate limiting
     limit_req_zone $binary_remote_addr zone=api:10m rate=10r/s;
     limit_req zone=api burst=20 nodelay;
-    
+
     # Request size limit
     client_max_body_size 10M;
-    
+
     # Timeout settings
     proxy_connect_timeout 30s;
     proxy_send_timeout 30s;
     proxy_read_timeout 30s;
-    
+
     location / {
         proxy_pass http://backend;
         proxy_set_header Host $host;
@@ -1369,7 +1449,7 @@ Resources:
     Type: AWS::ApiGateway::RestApi
     Properties:
       Name: SecureAPI
-      
+
   # Throttling
   ApiGatewayStage:
     Type: AWS::ApiGateway::Stage
@@ -1381,7 +1461,7 @@ Resources:
           HttpMethod: *
           ThrottlingBurstLimit: 100
           ThrottlingRateLimit: 50
-          
+
   # WAF
   WebACL:
     Type: AWS::WAFv2::WebACL
@@ -1406,6 +1486,7 @@ Resources:
 ## API Security Assessment: [API Name]
 
 ### Executive Summary
+
 - **API Type**: REST | GraphQL | gRPC | SOAP
 - **Total Endpoints**: [count]
 - **Authentication**: [JWT | OAuth 2.0 | API Keys | Session]
@@ -1415,43 +1496,48 @@ Resources:
 ### API Surface Inventory
 
 #### Authentication Mechanisms
-| Mechanism | Implementation | Security Rating |
-|-----------|---------------|-----------------|
-| JWT | HS256, 15min expiry | ✅ Secure |
-| OAuth 2.0 | PKCE enabled | ✅ Secure |
+
+| Mechanism | Implementation      | Security Rating |
+| --------- | ------------------- | --------------- |
+| JWT       | HS256, 15min expiry | ✅ Secure       |
+| OAuth 2.0 | PKCE enabled        | ✅ Secure       |
 
 #### Endpoint Breakdown
-| Category | Count | Auth Required |
-|----------|-------|---------------|
-| Public | 5 | No |
-| Authenticated | 45 | Yes |
-| Admin | 8 | Yes + Admin role |
+
+| Category      | Count | Auth Required    |
+| ------------- | ----- | ---------------- |
+| Public        | 5     | No               |
+| Authenticated | 45    | Yes              |
+| Admin         | 8     | Yes + Admin role |
 
 ### Risk Matrix
 
-| OWASP API Ref | Risk | Severity | Status | Evidence |
-|--------------|------|----------|--------|----------|
-| API1 | BOLA | HIGH | Finding | /api/orders/{id} lacks ownership check |
-| API2 | Broken Auth | MEDIUM | Finding | JWT alg=none accepted |
-| API3 | BOPA | HIGH | Finding | Mass assignment on /api/users |
-| API4 | Resource Consumption | LOW | Finding | No rate limiting on search |
-| API5 | BFLA | MEDIUM | Finding | Admin endpoints accessible to users |
-| API6 | Business Flows | N/A | N/A | Not applicable |
-| API7 | SSRF | CRITICAL | Finding | Cloud metadata accessible |
-| API8 | Misconfiguration | MEDIUM | Finding | Debug mode enabled |
-| API9 | Inventory | LOW | Finding | Undocumented /api/internal endpoints |
-| API10 | Unsafe Consumption | HIGH | Finding | Webhooks lack signature validation |
+| OWASP API Ref | Risk                 | Severity | Status  | Evidence                               |
+| ------------- | -------------------- | -------- | ------- | -------------------------------------- |
+| API1          | BOLA                 | HIGH     | Finding | /api/orders/{id} lacks ownership check |
+| API2          | Broken Auth          | MEDIUM   | Finding | JWT alg=none accepted                  |
+| API3          | BOPA                 | HIGH     | Finding | Mass assignment on /api/users          |
+| API4          | Resource Consumption | LOW      | Finding | No rate limiting on search             |
+| API5          | BFLA                 | MEDIUM   | Finding | Admin endpoints accessible to users    |
+| API6          | Business Flows       | N/A      | N/A     | Not applicable                         |
+| API7          | SSRF                 | CRITICAL | Finding | Cloud metadata accessible              |
+| API8          | Misconfiguration     | MEDIUM   | Finding | Debug mode enabled                     |
+| API9          | Inventory            | LOW      | Finding | Undocumented /api/internal endpoints   |
+| API10         | Unsafe Consumption   | HIGH     | Finding | Webhooks lack signature validation     |
 
 ### Critical Findings
 
 #### [CRITICAL] API7: SSRF - Cloud Metadata Exposure
+
 - **Location**: `/api/fetch?url=` parameter
 - **Impact**: AWS credentials can be extracted, leading to full cloud compromise
-- **Evidence**: 
-  ```
-  GET /api/fetch?url=http://169.254.169.254/latest/meta-data/iam/security-credentials/
-  Response: 200 OK with IAM role credentials
-  ```
+- **Evidence**:
+```
+
+GET /api/fetch?url=http://169.254.169.254/latest/meta-data/iam/security-credentials/
+Response: 200 OK with IAM role credentials
+
+```
 - **Remediation**: Implement URL allowlist, block internal IPs
 
 ### High Findings

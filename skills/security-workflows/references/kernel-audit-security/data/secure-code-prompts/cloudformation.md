@@ -26,6 +26,7 @@ Review CloudFormation templates for security risks, insecure configurations, and
 Review IAM resources including Roles, Policies, Instance Profiles, and Service Roles.
 
 Check for:
+
 - Overly permissive policies (`Action: "*"`)
 - Wildcard resources (`Resource: "*"`)
 - Excessive administrative privileges
@@ -37,6 +38,7 @@ Recommend least privilege IAM policies.
 ## 2. Secrets and Sensitive Data
 
 Identify whether the template:
+
 - Embeds secrets directly in parameters
 - Stores credentials in plaintext
 - Exposes API keys or access tokens
@@ -49,6 +51,7 @@ Recommend using AWS Secrets Manager, SSM Parameter Store, or encrypted parameter
 Review Security Groups, Network ACLs, Load Balancers, and VPC configuration.
 
 Check for:
+
 - Open ingress rules (`0.0.0.0/0`)
 - Publicly accessible databases
 - Unrestricted SSH or RDP access
@@ -60,6 +63,7 @@ Check for:
 Review S3 buckets, EBS volumes, EFS, and RDS storage.
 
 Check whether:
+
 - S3 buckets allow public access
 - Encryption at rest is disabled
 - Versioning is missing
@@ -68,6 +72,7 @@ Check whether:
 ## 5. Encryption
 
 Verify encryption for sensitive resources (S3, RDS, EBS, SQS, SNS):
+
 - Encryption at rest is enabled
 - Customer-managed keys (KMS) are used when appropriate
 - Encryption in transit is enforced
@@ -75,6 +80,7 @@ Verify encryption for sensitive resources (S3, RDS, EBS, SQS, SNS):
 ## 6. Logging and Monitoring
 
 Check whether the template enables:
+
 - CloudTrail
 - CloudWatch Logs
 - VPC Flow Logs
@@ -85,6 +91,7 @@ Identify missing logging controls that could prevent detection of security incid
 ## 7. Public Resource Exposure
 
 Identify resources exposed to the public internet:
+
 - EC2 instances
 - Load balancers
 - Databases
@@ -96,6 +103,7 @@ Evaluate whether exposure is necessary and recommend limiting access.
 ## 8. Resource Hardening
 
 Check whether compute resources are hardened (EC2, containers, Lambda):
+
 - Overly permissive instance roles
 - Outdated AMIs
 - Lack of runtime restrictions
@@ -104,6 +112,7 @@ Check whether compute resources are hardened (EC2, containers, Lambda):
 ## 9. Infrastructure Misconfiguration
 
 Identify general infrastructure risks:
+
 - Insecure defaults
 - Lack of network isolation
 - Missing resource limits
@@ -112,6 +121,7 @@ Identify general infrastructure risks:
 ## 10. Supply Chain and Template Integrity
 
 Check for:
+
 - Templates pulled from untrusted sources
 - Unverified nested stacks
 - Lack of template validation or scanning
@@ -120,6 +130,7 @@ Check for:
 ## Output Format
 
 For each finding:
+
 - **Severity**: Critical / High / Medium / Low
 - **Resource**: CloudFormation resource affected
 - **Issue**: Description of the security problem

@@ -6,13 +6,13 @@ upstream_path: tests-beta/ios/MASVS-STORAGE/MASTG-TEST-0303.md
 upstream_tag: 31cec00
 platform: ios
 covers_masvs:
-- MASVS-STORAGE-1
+  - MASVS-STORAGE-1
 type:
-- static
+  - static
 weakness: MASWE-0007
 profiles:
-- L1
-- L2
+  - L1
+  - L2
 ---
 
 ## Overview
@@ -25,9 +25,9 @@ This test checks whether the app writes sensitive data unencrypted to storage lo
 
 2. Search for APIs that indicate use of shared storage, for example:
 
-      - [`documentDirectory`](https://developer.apple.com/documentation/foundation/filemanager/searchpathdirectory/documentdirectory) (commonly exposed via iTunes File Sharing / Files app)
-      - `FileManager.default.urls(for:in:)` with `documentDirectory`
-      - Direct path manipulation under `.../Documents` for write operations (`Data.write(to:)`, `String.write(to:)`, `NSFileHandle`, `NSOutputStream`)
+   - [`documentDirectory`](https://developer.apple.com/documentation/foundation/filemanager/searchpathdirectory/documentdirectory) (commonly exposed via iTunes File Sharing / Files app)
+   - `FileManager.default.urls(for:in:)` with `documentDirectory`
+   - Direct path manipulation under `.../Documents` for write operations (`Data.write(to:)`, `String.write(to:)`, `NSFileHandle`, `NSOutputStream`)
 
 3. Check the app's `Info.plist` (@MASTG-TECH-0058) for the `UIFileSharingEnabled` and `LSSupportsOpeningDocumentsInPlace` flags.
 

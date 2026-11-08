@@ -10,7 +10,7 @@ export const MIN_SCENE_SECONDS = 3;
 
 /** Seconds of speech in a line, rounded up to the next half second. */
 export function secondsForNarration(text) {
-  if (!text || typeof text !== 'string') return undefined;
+  if (!text || typeof text !== "string") return undefined;
   const raw = text.trim().length / CHARS_PER_SECOND;
   if (raw <= 0) return undefined;
   return Math.max(MIN_SCENE_SECONDS, Math.ceil(raw * 2) / 2);

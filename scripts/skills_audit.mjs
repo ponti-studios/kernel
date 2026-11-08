@@ -32,7 +32,14 @@ const REPO_SKILLS = join(REPO, "skills");
 const KERNEL_SOURCE = "ponti-studios/kernel";
 
 // Installed copies legitimately carry these: the toolchain writes them, and diffing them is noise.
-const JUNK = new Set([".DS_Store", ".venv", "__pycache__", ".pytest_cache", "node_modules", ".git"]);
+const JUNK = new Set([
+  ".DS_Store",
+  ".venv",
+  "__pycache__",
+  ".pytest_cache",
+  "node_modules",
+  ".git",
+]);
 
 const args = new Set(process.argv.slice(2));
 const asJson = args.has("--json");
@@ -152,7 +159,10 @@ function drift(lock) {
     const repoDir = join(REPO_SKILLS, name);
     const installedDir = join(INSTALLED, name);
     if (!existsSync(repoDir)) {
-      findings.push({ skill: name, problem: "installed from the repo but absent from this checkout" });
+      findings.push({
+        skill: name,
+        problem: "installed from the repo but absent from this checkout",
+      });
       continue;
     }
     if (!existsSync(installedDir)) continue;
@@ -164,7 +174,13 @@ function drift(lock) {
       else if (b.get(path) !== digest) changed.push(`differs: ${path}`);
     }
     for (const path of b.keys()) if (!a.has(path)) changed.push(`extra: ${path}`);
-    if (changed.length) findings.push({ skill: name, problem: "installed copy differs from the repo", paths: changed.slice(0, 8), total: changed.length });
+    if (changed.length)
+      findings.push({
+        skill: name,
+        problem: "installed copy differs from the repo",
+        paths: changed.slice(0, 8),
+        total: changed.length,
+      });
   }
   return findings;
 }
@@ -179,7 +195,8 @@ const collisions = [...real].filter((name) => links.has(name)).sort();
 const locked = lock ? Object.keys(lock).filter((name) => installed.includes(name)) : [];
 const drifted = lock ? drift(lock) : [];
 
-const findings = unprovenanced.length + staleLock.length + collisions.length + drifted.length + (lock ? 0 : 1);
+const findings =
+  unprovenanced.length + staleLock.length + collisions.length + drifted.length + (lock ? 0 : 1);
 const report = {
   checked_at: new Date().toISOString(),
   installed: installed.length,
@@ -195,13 +212,18 @@ if (asJson) {
   process.stdout.write(`${JSON.stringify(report, null, 2)}\n`);
 } else if (!quiet || findings) {
   const line = (label, list, fmt = String) =>
-    console.log(`  ${list.length ? "✗" : "✓"} ${label}: ${list.length}${list.length ? `\n${list.map((x) => `      ${fmt(x)}`).join("\n")}` : ""}`);
+    console.log(
+      `  ${list.length ? "✗" : "✓"} ${label}: ${list.length}${list.length ? `\n${list.map((x) => `      ${fmt(x)}`).join("\n")}` : ""}`,
+    );
   console.log(`skills audit — ${report.installed} installed, ${report.locked} with provenance`);
   line("unprovenanced (invisible to `skills update`)", unprovenanced);
   line("stale lock entries", staleLock);
   line("name collisions (neither copy loads)", collisions);
-  line("drift against the repo", drifted, (d) =>
-    `${d.skill} — ${d.problem}${d.paths ? `\n        ${d.paths.join("\n        ")}${d.total > d.paths.length ? `\n        … ${d.total - d.paths.length} more` : ""}` : ""}`,
+  line(
+    "drift against the repo",
+    drifted,
+    (d) =>
+      `${d.skill} — ${d.problem}${d.paths ? `\n        ${d.paths.join("\n        ")}${d.total > d.paths.length ? `\n        … ${d.total - d.paths.length} more` : ""}` : ""}`,
   );
   if (!lock) console.log("  ✗ lock file unreadable: ~/.agents/.skill-lock.json");
   console.log(findings ? `\n${findings} finding(s)` : "\nnothing to fix");
