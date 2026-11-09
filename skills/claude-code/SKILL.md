@@ -238,10 +238,10 @@ Parse `structured_output` from the JSON result. Claude validates output against 
 
 ```
 # Start a task
-terminal(command="claude -p 'Start refactoring the database layer' --output-format json --max-turns 10 > ${HERMES_HOME:-~/.hermes}/cache/scratch/session.json", workdir="/project", timeout=180)
+terminal(command="claude -p 'Start refactoring the database layer' --output-format json --max-turns 10 > ${HOMINEM_HOME:-~/.hominem}/cache/scratch/session.json", workdir="/project", timeout=180)
 
 # Resume with session ID
-terminal(command="claude -p 'Continue and add connection pooling' --resume $(cat ${HERMES_HOME:-~/.hermes}/cache/scratch/session.json | python -c 'import json,sys; print(json.load(sys.stdin)[\"session_id\"])') --max-turns 5", workdir="/project", timeout=120)
+terminal(command="claude -p 'Continue and add connection pooling' --resume $(cat ${HOMINEM_HOME:-~/.hominem}/cache/scratch/session.json | python -c 'import json,sys; print(json.load(sys.stdin)[\"session_id\"])') --max-turns 5", workdir="/project", timeout=120)
 
 # Or resume the most recent session in the same directory
 terminal(command="claude -p 'What did you do last time?' --continue --max-turns 1", workdir="/project", timeout=30)
@@ -689,7 +689,7 @@ Configure in `.claude/settings.json` (project) or `~/.claude/settings.json` (glo
         "hooks": [
           {
             "type": "command",
-            "command": "echo 'Claude finished a response' >> ${HERMES_HOME:-~/.hermes}/cache/scratch/claude-activity.log"
+            "command": "echo 'Claude finished a response' >> ${HOMINEM_HOME:-~/.hominem}/cache/scratch/claude-activity.log"
           }
         ]
       }

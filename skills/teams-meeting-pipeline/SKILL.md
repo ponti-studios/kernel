@@ -46,7 +46,7 @@ Multilingual trigger examples (not exhaustive):
 
 ## Prerequisites
 
-Before using the pipeline, verify these are set in `${HERMES_HOME:-~/.hermes}/.env`:
+Before using the pipeline, verify these are set in `${HOMINEM_HOME:-~/.hominem}/.env`:
 
 ```bash
 MSGRAPH_TENANT_ID=...

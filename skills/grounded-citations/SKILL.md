@@ -57,8 +57,8 @@ from the browser tool for a JS-rendered table — and prints keyword-centred
 windows. It reports the total stripped length, so cite knowing what you have not
 seen, and `--save` the full text first if a verbatim quote is needed.
 
-Ledger location: `${HERMES_HOME:-~/.hermes}/cache/citations/ledger.json` (profile-aware).
-Override per task with `--ledger <path>` or `HERMES_CITATION_LEDGER`.
+Ledger location: `${HOMINEM_HOME:-~/.hominem}/cache/citations/ledger.json` (profile-aware).
+Override per task with `--ledger <path>` or `HOMINEM_CITATION_LEDGER`.
 
 ## How to Run
 
@@ -249,7 +249,7 @@ and read the `info: stats:` line to see the counts before picking a number.
 - **Citing the ledger in code/config artifacts.** Source comments belong in
   prose deliverables and doc headers, not inside generated code.
 - **Parallel subagents.** Each subagent has its own working directory; point
-  them all at one ledger with `--ledger` (or `HERMES_CITATION_LEDGER`) if their
+  them all at one ledger with `--ledger` (or `HOMINEM_CITATION_LEDGER`) if their
   outputs get merged, otherwise their ids will collide.
 - **Quoting from a snippet instead of the page.** Evidence quotes must come
   from the extracted page text, not a search-result description — `web_extract`

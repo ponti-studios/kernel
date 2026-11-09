@@ -32,9 +32,7 @@ Requires the codex CLI and a git repository.
 - **Must run inside a git repository** — Codex refuses to run outside one
 - Use `pty=true` in terminal calls — Codex is an interactive terminal app
 
-For Hermes itself, `model.provider: openai-codex` uses Hermes-managed Codex
-OAuth from `${HERMES_HOME:-~/.hermes}/auth.json` after `hermes auth add openai-codex`. For the
-standalone Codex CLI, a valid CLI OAuth session may live under
+For the standalone Codex CLI, a valid CLI OAuth session may live under
 `~/.codex/auth.json`; do not treat a missing `OPENAI_API_KEY` alone as proof
 that Codex auth is missing.
 
@@ -109,22 +107,22 @@ terminal(command="REVIEW=$(mktemp -d) && git clone https://github.com/user/repo.
 
 ```
 # Create worktrees
-terminal(command="git worktree add -b fix/issue-78 ${HERMES_HOME:-~/.hermes}/cache/scratch/issue-78 main", workdir="~/project")
-terminal(command="git worktree add -b fix/issue-99 ${HERMES_HOME:-~/.hermes}/cache/scratch/issue-99 main", workdir="~/project")
+terminal(command="git worktree add -b fix/issue-78 ${HOMINEM_HOME:-~/.hominem}/cache/scratch/issue-78 main", workdir="~/project")
+terminal(command="git worktree add -b fix/issue-99 ${HOMINEM_HOME:-~/.hominem}/cache/scratch/issue-99 main", workdir="~/project")
 
 # Launch Codex in each
-terminal(command="codex --sandbox workspace-write exec 'Fix issue #78: <description>. Commit when done.'", workdir="${HERMES_HOME:-~/.hermes}/cache/scratch/issue-78", background=true, pty=true)
-terminal(command="codex --sandbox workspace-write exec 'Fix issue #99: <description>. Commit when done.'", workdir="${HERMES_HOME:-~/.hermes}/cache/scratch/issue-99", background=true, pty=true)
+terminal(command="codex --sandbox workspace-write exec 'Fix issue #78: <description>. Commit when done.'", workdir="${HOMINEM_HOME:-~/.hominem}/cache/scratch/issue-78", background=true, pty=true)
+terminal(command="codex --sandbox workspace-write exec 'Fix issue #99: <description>. Commit when done.'", workdir="${HOMINEM_HOME:-~/.hominem}/cache/scratch/issue-99", background=true, pty=true)
 
 # Monitor
 process(action="list")
 
 # After completion, push and create PRs
-terminal(command="cd ${HERMES_HOME:-~/.hermes}/cache/scratch/issue-78 && git push -u origin fix/issue-78")
+terminal(command="cd ${HOMINEM_HOME:-~/.hominem}/cache/scratch/issue-78 && git push -u origin fix/issue-78")
 terminal(command="gh pr create --repo user/repo --head fix/issue-78 --title 'fix: ...' --body '...'")
 
 # Cleanup
-terminal(command="git worktree remove ${HERMES_HOME:-~/.hermes}/cache/scratch/issue-78", workdir="~/project")
+terminal(command="git worktree remove ${HOMINEM_HOME:-~/.hominem}/cache/scratch/issue-78", workdir="~/project")
 ```
 
 ## Batch PR Reviews

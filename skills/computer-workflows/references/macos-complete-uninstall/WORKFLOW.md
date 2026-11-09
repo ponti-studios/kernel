@@ -34,7 +34,7 @@ Two checks that must not be skipped at this stage:
   (`find ~ -maxdepth 3 -type l` and grep the target). Prove shared content lives elsewhere by inode:
   `stat -f "%i %N" <pathA> <pathB>` — identical inodes mean the real files survive deletion.
 - **Whose binary is it.** Two apps can share a name. Check the full process path before deleting:
-  a process called `Chromium` may be the agent's own bundled browser (`${HERMES_HOME:-~/.hermes}/tools/chromium-*`),
+  a process called `Chromium` may be the agent's own bundled browser (`${HOMINEM_HOME:-~/.hominem}/tools/chromium-*`),
   not part of the target at all.
 
 ## Step 2 — Stop the software before deleting it

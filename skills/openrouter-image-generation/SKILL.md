@@ -83,7 +83,7 @@ aspects, and cost. Choose on those, and let the user judge the output.
 
 ## Procedure: generate
 
-1. Source `~/.localrc` for `OPENROUTER_API_KEY` (usually not in `${HERMES_HOME:-~/.hermes}/.env`).
+1. Source `~/.localrc` for `OPENROUTER_API_KEY` (usually not in `${HOMINEM_HOME:-~/.hominem}/.env`).
 2. Prefer `scripts/or_image_gen.py` — it builds the payload, saves the image and logs usage in one step.
 3. Extract the image from `data[0].b64_json`; save to a file.
 4. Confirm the log line landed in `~/.hominem/ai_usage/`.
@@ -129,7 +129,7 @@ aspects, and cost. Choose on those, and let the user judge the output.
 - Model ignores masks; use visual markers + spatial prompts.
 - Composite back to original to guarantee preservation of untouched regions.
 - Log every request for cost/speed tracking.
-- Source `~/.localrc` for `OPENROUTER_API_KEY` if it is not set in `${HERMES_HOME:-~/.hermes}/.env` (the key often lives there).
+- Source `~/.localrc` for `OPENROUTER_API_KEY` if it is not set in `${HOMINEM_HOME:-~/.hominem}/.env` (the key often lives there).
 - Pick a free port for the click-to-edit server (check with `lsof -nP -iTCP:<port>`); 8765 is commonly occupied by Switchyard.
 - Image edits that change pose/outfit often drift identity; constrain with "keep face, hair, body identical" and composite the diff back onto the original.
 - **Ask what holds a prop up before rewriting its description.** A prop whose shape is fixed by its own support — a net on ceiling pulleys, a rope pulled taut between two handlers — renders as a flat backdrop in the picture plane and will not deform to a figure, however explicitly the relation is worded. Slackening that support is not enough, because a supported object keeps its own shape: remove the support and make the figure the only thing holding it up (anchor the prop to the body, let its free ends trail on the ground, and negate every other support). Wide-mesh props over an opaque figure are the hard case for per-cord occlusion, so give them a silhouette that depends on the body — tenting, sagging, bunching — and say what shows through the gaps. Full recipe: `references/prompt-geometry.md`.
