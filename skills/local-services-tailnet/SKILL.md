@@ -15,7 +15,7 @@ metadata:
     - localhost
   hermes:
     tags: [services, background, tailscale, mcp, localhost]
-    related_skills: [hermes-agent, app-configuration]
+    related_skills: [app-configuration]
 ---
 
 # Local services and tailnet exposure

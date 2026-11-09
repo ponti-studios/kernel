@@ -8,7 +8,7 @@ platforms: [macos, linux]
 metadata:
   hermes:
     tags: [hermes, gateway, messaging, telegram, whatsapp, imessage, security]
-    related_skills: [hermes-agent]
+    related_skills: []
 ---
 
 # Hermes Gateway Messaging Setup
