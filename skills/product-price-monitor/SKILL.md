@@ -48,11 +48,21 @@ cronjob(action="create",
 
 Pick a cadence that respects rate limits and site terms. Done when the baseline matches the exact item contract and the job exists.
 
+### 3b. History file (append-only)
+
+Each watch keeps `price-watches/<watch-slug>.observations.jsonl` beside its contract — one JSON object per tick, including failed fetches (marked `"status": "failed"` so reliability is analyzable too):
+
+```json
+{"retrieved": "2026-11-09T12:20:00Z", "price": 24.99, "source_currency": "GBP", "availability": "for sale", "status": "ok"}
+```
+
+At 4–6h cadence this is ~2k lines/year — negligible; keep it raw, never downsample in place. Analysis (drop velocity, sale cycles, weekday effects) loads the file into pandas at query time; the store itself stays dependency-free and grep-able.
+
 ## Procedure — Tick (each scheduled run)
 
 ### 4. Fetch and normalize
 
-Re-fetch the source. Convert currency only with a timestamped rate and retain the source currency. Separate base price, mandatory fees, shipping/taxes, total, and availability. Exclude volatile page metadata. A failed fetch means unknown state: report or skip, but never overwrite the last good observation with an error page. Done when the observation is comparable to the baseline or explicitly marked failed.
+Re-fetch the source. Convert currency only with a timestamped rate and retain the source currency. Separate base price, mandatory fees, shipping/taxes, total, and availability. Exclude volatile page metadata. A failed fetch means unknown state: report or skip, but never overwrite the last good observation with an error page. **Append one line per attempt to the observations file** (failed attempts included, with `"status": "failed"` and no price). Done when the observation is comparable to the baseline or explicitly marked failed, and the history line is written.
 
 ### 5. Compare and suppress duplicates
 
@@ -76,4 +86,5 @@ When a condition is met, the alert includes: exact item/variant, observed all-in
 - [ ] One foreground fetch succeeded before any job was created.
 - [ ] Alert decisions replay deterministically from the state file; duplicates suppressed.
 - [ ] Failed fetches never replaced last-known-good state.
+- [ ] Every attempt appended exactly one history line (ok or failed).
 - [ ] Alerts carry all-in price, source currency, timestamp, and source link.
