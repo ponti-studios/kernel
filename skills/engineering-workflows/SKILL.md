@@ -33,6 +33,5 @@ Follow the user's current instructions and the target repository's conventions b
 - [Native iOS Builder](references/native-ios-builder/WORKFLOW.md)
 - [Deployment readiness and execution](references/kernel-ops-ship/WORKFLOW.md)
 - [Agent knowledge loops](references/agent-knowledge-loops/WORKFLOW.md)
-- [Author and maintain agent skills](references/hermes-agent-skill-authoring/WORKFLOW.md)
 
 For security audits, use security-workflows. For interface design and motion, use design-workflows. Writing and revising documents, scripts and interface copy uses writing-workflows.

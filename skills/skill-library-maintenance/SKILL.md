@@ -11,15 +11,15 @@ metadata:
   tags: [skills, library, provenance, merge, audit]
   hermes:
     tags: [skills, library, provenance, merge, audit]
-    related_skills: [hermes-agent-skill-authoring]
+    related_skills: []
 ---
 
 # Skill library maintenance
 
 Operating an installed library rather than authoring one file: proving every skill has provenance, folding
 installed-only edits back into source, merging two skills into one, and reconciling the tiers of a merged
-skill. Frontmatter, size and structure rules for a single SKILL.md live in `hermes-agent-skill-authoring`
-(its pitfalls 20-25 cover provenance, collisions and installed copies); this skill is the library-wide work.
+skill. Frontmatter, size and structure rules for a single SKILL.md live in the repo's AGENTS.md
+and are enforced by `scripts/validate_skills.py`; this skill is the library-wide work.
 
 ## When to Use
 
@@ -27,10 +27,10 @@ skill. Frontmatter, size and structure rules for a single SKILL.md live in `herm
 - a library that installs from git (`npx skills add <repo> --skill <name> -g`) feels stale or duplicates itself
 - two skills enforce the same standards and should become one
 - a merged or imported skill needs its laws checked against its references
-- removing a retired skill from every agent on this Mac (Hermes, Claude, Codex, Gemini, the shared
+- removing a retired skill from every agent on this Mac (Claude, Codex, Gemini, the shared
   store) — that is a multi-store delete, not a library edit; the store inventory and the sweep live in
   `app-configuration` under "Removing one"
-- Don't use for: writing one new skill, or frontmatter details — that is `hermes-agent-skill-authoring`
+- Don't use for: writing one new skill, or frontmatter details — see AGENTS.md
 
 ## Layout to reason about
 
@@ -40,7 +40,7 @@ Three layers, and every fault is a disagreement between two of them:
 | ------ | ---------------------------------- | ----------------------------------------------------- |
 | source | the library repo, `skills/<name>/` | git history, the only copy worth editing              |
 | store  | `~/.agents/skills/<name>`          | what the loader actually reads; overwritten on update |
-| loader | `${HERMES_HOME:-~/.hermes}/skills/<name>`          | symlink the installer creates; never hand-make it     |
+| loader | `${HOMINEM_HOME:-~/.hominem}/skills/<name>`          | symlink the installer creates; never hand-make it     |
 
 `~/.agents/.skill-lock.json` is the only provenance record. A skill absent from it still loads and still
 looks installed, while `skills list` prints `Source: local` — which means "no record", not "installed from
@@ -138,7 +138,7 @@ contradiction pass because nothing in the skill disagrees with it.
 
 ## Pitfalls
 
-- **An installed copy is not where a law is edited.** `~/.agents/skills/<name>` (and the `${HERMES_HOME:-~/.hermes}` symlink
+- **An installed copy is not where a law is edited.** `~/.agents/skills/<name>` (and the `${HOMINEM_HOME:-~/.hominem}` symlink
   through it) is overwritten by the next `skills add`/`update`; a scope change, a deletion or a fix belongs
   in the source repo, committed and pushed, then reinstalled. Editing the store looks like it worked until
   the next machine updates.

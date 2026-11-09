@@ -56,7 +56,6 @@
   "file-organization": "computer-workflows/references/file-organization/WORKFLOW.md",
   "macos-complete-uninstall": "computer-workflows/references/macos-complete-uninstall/WORKFLOW.md",
   "agent-knowledge-loops": "engineering-workflows/references/agent-knowledge-loops/WORKFLOW.md",
-  "hermes-agent-skill-authoring": "engineering-workflows/references/hermes-agent-skill-authoring/WORKFLOW.md",
   "studio-core": "runtime/studio-core/RUNTIME.md",
   "ponti-principles": "ponti-principles/SKILL.md",
   "ship-ios": "ship-ios/SKILL.md",
