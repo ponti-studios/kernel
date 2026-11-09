@@ -9,7 +9,7 @@ metadata:
   hermes:
     tags: [wiki, knowledge-base, research, notes, markdown, rag-alternative]
     category: research
-    related_skills: [obsidian, arxiv]
+    related_skills: [arxiv]
 ---
 
 # Karpathy's LLM Wiki
@@ -442,8 +442,8 @@ For best results:
 - Enable "Wikilinks" in Obsidian settings (usually on by default)
 - Install Dataview plugin for queries like `TABLE tags FROM "entities" WHERE contains(tags, "company")`
 
-If using the Obsidian skill alongside this one, set `OBSIDIAN_VAULT_PATH` to the
-same directory as the wiki path.
+To edit the wiki in Obsidian desktop alongside this skill, point Obsidian at
+the same directory as the wiki path (`WIKI_PATH`).
 
 ### Obsidian Headless (servers and headless machines)
 
