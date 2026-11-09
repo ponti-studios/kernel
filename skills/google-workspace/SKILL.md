@@ -19,7 +19,7 @@ metadata:
 
 # Google Workspace
 
-Gmail, Calendar, Drive, Contacts, Sheets, and Docs — through Hermes-managed OAuth and a thin CLI wrapper. When `gws` is installed, the skill uses it as the execution backend for broader Google Workspace coverage; otherwise it falls back to the bundled Python client implementation.
+Gmail, Calendar, Drive, Contacts, Sheets, and Docs — through Hominem-managed OAuth and a thin CLI wrapper. When `gws` is installed, the skill uses it as the execution backend for broader Google Workspace coverage; otherwise it falls back to the bundled Python client implementation.
 
 ## References
 
@@ -29,17 +29,17 @@ Gmail, Calendar, Drive, Contacts, Sheets, and Docs — through Hermes-managed OA
 ## Scripts
 
 - `scripts/setup.py` — OAuth2 setup (run once to authorize)
-- `scripts/google_api.py` — compatibility wrapper CLI. It prefers `gws` for operations when available, while preserving Hermes' existing JSON output contract.
+- `scripts/google_api.py` — compatibility wrapper CLI. It prefers `gws` for operations when available, while preserving the existing JSON output contract.
 
 ## First-Time Setup
 
 The setup is fully non-interactive — you drive it step by step so it works
 on CLI, Telegram, Discord, or any platform.
 
-Run the setup script with Python from the Hermes environment, not an unrelated
-system Python. `--install-deps` syncs Hermes' declared Google extra through PM;
-after syncing, restart Hermes and rerun the OAuth command. If Hermes is not
-importable, use `hermes setup` first rather than installing packages with pip.
+Run the setup script with a Python that has the Google client libraries
+(`pip install google-auth-oauthlib google-api-python-client`), or
+`scripts/setup.py --install-deps` inside the Hominem environment. Missing
+libraries print the exact install command — no separate setup step needed.
 
 Run from the skill directory — helpers live in `scripts/` beside this file.
 Define a shorthand first:
@@ -107,7 +107,7 @@ Tell the user:
 >    Audience → Test users → Add users
 > 6. Download the JSON file and tell me the file path
 >
-> Important Hermes CLI note: if the file path starts with `/`, do NOT send only the bare path as its own message in the CLI, because it can be mistaken for a slash command. Send it in a sentence instead, like:
+> CLI note: if the file path starts with `/`, do NOT send only the bare path as its own message in the CLI, because it can be mistaken for a slash command. Send it in a sentence instead, like:
 > `The JSON file path is: ~/Downloads/client_secret_....json`
 
 Once they provide the path:
@@ -118,7 +118,7 @@ $GSETUP --client-secret /path/to/client_secret.json
 
 If they paste the raw client ID / client secret values instead of a file path,
 write a valid Desktop OAuth JSON file for them yourself, save it somewhere
-explicit (for example `~/Downloads/hermes-google-client-secret.json`), then run
+explicit (for example `~/Downloads/hominem-google-client-secret.json`), then run
 `--client-secret` against that file.
 
 ### Step 3: Get authorization URL
@@ -136,14 +136,14 @@ needs): `email` (Gmail read/send/modify), `calendar` (events + settings
 read-only, not sharing/ACLs), `contacts` (read-only), `drive` (full drive),
 `docs` (sheets + documents + drive), `all` (historical full set, default).
 `--profile NAME` isolates tokens per Google account
-(`~/.hermes/google_token.<profile>.json`). Secrets at rest are 0600.
+(`~/.hominem/google_token.<profile>.json`). Secrets at rest are 0600.
 
 Prefer `--authorize` over `--auth-url` + `--auth-code` when the agent runs on
 the user's own machine: it prints the URL, captures the localhost redirect
 automatically, and exchanges without a copy-paste step.
 
 This returns JSON with an `auth_url` field and also saves the exact URL to
-`${HERMES_HOME:-~/.hermes}/google_oauth_last_url.txt`.
+`${HOMINEM_HOME:-~/.hominem}/google_oauth_last_url.txt`.
 
 Agent rules for this step:
 
@@ -178,9 +178,9 @@ Should print `AUTHENTICATED`. Setup is complete — token refreshes automaticall
 
 ### Notes
 
-- Token is stored at `${HERMES_HOME:-~/.hermes}/google_token.json` and auto-refreshes.
-- Pending OAuth session state/verifier are stored temporarily at `${HERMES_HOME:-~/.hermes}/google_oauth_pending.json` until exchange completes.
-- If `gws` is installed, `google_api.py` points it at the same `${HERMES_HOME:-~/.hermes}/google_token.json` credentials file. Users do not need to run a separate `gws auth login` flow.
+- Token is stored at `${HOMINEM_HOME:-~/.hominem}/google_token.json` and auto-refreshes.
+- Pending OAuth session state/verifier are stored temporarily at `${HOMINEM_HOME:-~/.hominem}/google_oauth_pending.json` until exchange completes.
+- If `gws` is installed, `google_api.py` points it at the same `${HOMINEM_HOME:-~/.hominem}/google_token.json` credentials file. Users do not need to run a separate `gws auth login` flow.
 - To revoke: `$GSETUP --revoke`
 
 ## Usage

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Google Workspace OAuth2 setup for Hermes Agent.
+"""Google Workspace OAuth2 setup for Hominem.
 
 Fully non-interactive — designed to be driven by the agent via terminal commands.
 The agent mediates between this script and the user (works on CLI, Telegram, Discord, etc.)
@@ -24,9 +24,9 @@ Design notes:
   - Least privilege: --services selects a named scope profile; the default
     profile is the historical full set for backward compatibility.
   - Secrets at rest are 0600 (token, client secret, pending session).
-  - Dependencies resolve without Hermes: google libs are imported directly
-    and a missing import prints the exact pip/uv command instead of a
-    Hermes-only error. `pm` is used opportunistically for --install-deps.
+  - Dependencies resolve without Hominem runtime coupling: google libs are imported
+    directly and a missing import prints the exact pip/uv command. `pm` is
+    used opportunistically for --install-deps.
   - Profiles (--profile NAME) isolate tokens per Google account.
 """
 
@@ -39,27 +39,27 @@ import stat
 import sys
 from pathlib import Path
 
-# Ensure sibling modules (_hermes_home) are importable when run standalone.
+# Ensure sibling modules (_home) are importable when run standalone.
 _SCRIPTS_DIR = str(Path(__file__).resolve().parent)
 if _SCRIPTS_DIR not in sys.path:
     sys.path.insert(0, _SCRIPTS_DIR)
 
-from _hermes_home import display_hermes_home, get_hermes_home
+from _home import display_hominem_home, get_hominem_home
 
-HERMES_HOME = get_hermes_home()
-CLIENT_SECRET_PATH = HERMES_HOME / "google_client_secret.json"
+HOMINEM_HOME = get_hominem_home()
+CLIENT_SECRET_PATH = HOMINEM_HOME / "google_client_secret.json"
 
 
 def _token_path(profile: str) -> Path:
     if profile == "default":
-        return HERMES_HOME / "google_token.json"
-    return HERMES_HOME / f"google_token.{profile}.json"
+        return HOMINEM_HOME / "google_token.json"
+    return HOMINEM_HOME / f"google_token.{profile}.json"
 
 
 def _pending_path(profile: str) -> Path:
     if profile == "default":
-        return HERMES_HOME / "google_oauth_pending.json"
-    return HERMES_HOME / f"google_oauth_pending.{profile}.json"
+        return HOMINEM_HOME / "google_oauth_pending.json"
+    return HOMINEM_HOME / f"google_oauth_pending.{profile}.json"
 
 
 # Named scope profiles. Compose with --services a,b. `all` is the historical
@@ -150,12 +150,12 @@ def _format_missing_scopes(missing_scopes: list[str]) -> str:
     return (
         "Token is valid but missing required Google Workspace scopes:\n"
         f"{bullets}\n"
-        "Run the Google Workspace setup again from this same Hermes profile to refresh consent."
+        "Run the Google Workspace setup again from this same Hominem profile to refresh consent."
     )
 
 
 def install_deps():
-    """Install Google dependencies, via Hermes PM when available, else pip."""
+    """Install Google dependencies, via package-manager shim when available, else pip."""
     try:
         import pm  # type: ignore
 
@@ -164,10 +164,10 @@ def install_deps():
         except Exception as exc:
             print(f"ERROR: Failed to install Google dependencies: {exc}")
             return False
-        print("Google dependencies synced. Restart Hermes, then rerun setup to continue OAuth.")
+        print("Google dependencies synced. Restart the agent, then rerun setup to continue OAuth.")
         return True
     except ImportError:
-        print("Hermes PM not available; installing with pip instead:")
+        print("Package-manager shim not available; installing with pip instead:")
         print("  pip install google-auth-oauthlib google-api-python-client")
         print("or: uv pip install google-auth-oauthlib google-api-python-client")
         return False
@@ -183,7 +183,7 @@ def _ensure_deps():
         print("Install them with one of:")
         print("  pip install google-auth-oauthlib google-api-python-client")
         print("  uv pip install google-auth-oauthlib google-api-python-client")
-        print("or run setup.py --install-deps inside the Hermes environment.")
+        print("or run setup.py --install-deps inside the Hominem environment.")
         sys.exit(1)
 
 
@@ -311,7 +311,7 @@ def _emit(payload: dict, fmt: str, quiet: bool) -> None:
 
 
 def store_client_secret(path: str):
-    """Copy and validate client_secret.json to Hermes home (0600)."""
+    """Copy and validate client_secret.json to Hominem home (0600)."""
     src = Path(path).expanduser().resolve()
     if not src.exists():
         print(f"ERROR: File not found: {src}")
@@ -569,7 +569,7 @@ def exchange_auth_code(code: str, profile: str = "default", fmt: str = "text"):
             print(f"WARNING: Token missing some Google Workspace scopes: {', '.join(missing_scopes)}")
             print("Some services may not be available.")
         print(f"OK: Authenticated. Token saved to {token_path}")
-        print(f"Profile-scoped token location: {display_hermes_home()}/google_token.json")
+        print(f"Profile-scoped token location: {display_hominem_home()}/google_token.json")
 
 
 def revoke(profile: str = "default"):
@@ -616,7 +616,7 @@ def _parse_services(value: str | None) -> list[str] | None:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Google Workspace OAuth setup for Hermes")
+    parser = argparse.ArgumentParser(description="Google Workspace OAuth setup for Hominem")
     parser.add_argument("--profile", default="default", help="Credential profile (default: default)")
     parser.add_argument("--format", choices=["text", "json"], default="text", help="Output format")
     parser.add_argument("--services", metavar="a,b", default=None,
