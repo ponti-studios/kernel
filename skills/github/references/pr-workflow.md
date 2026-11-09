@@ -18,8 +18,8 @@ else
   AUTH="git"
   # Ensure we have a token for API calls
   if [ -z "$GITHUB_TOKEN" ]; then
-    if _hermes_env="${HERMES_HOME:-$HOME/.hermes}/.env"; [ -f "$_hermes_env" ] && grep -q "^GITHUB_TOKEN=" "$_hermes_env"; then
-      GITHUB_TOKEN=$(grep "^GITHUB_TOKEN=" "$_hermes_env" | head -1 | cut -d= -f2 | tr -d '\n\r')
+    if _hominem_env="${HOMINEM_HOME:-$HOME/.hominem}/.env"; [ -f "$_hominem_env" ] && grep -q "^GITHUB_TOKEN=" "$_hominem_env"; then
+      GITHUB_TOKEN=$(grep "^GITHUB_TOKEN=" "$_hominem_env" | head -1 | cut -d= -f2 | tr -d '\n\r')
     elif grep -q "github.com" ~/.git-credentials 2>/dev/null; then
       GITHUB_TOKEN=$(uv run python "$SKILL_DIR/scripts/git-credential-token.py")
     fi
@@ -255,8 +255,8 @@ RUN_ID=<run_id>
 curl -s -L \
   -H "Authorization: token $GITHUB_TOKEN" \
   https://api.github.com/repos/$OWNER/$REPO/actions/runs/$RUN_ID/logs \
-  -o ${HERMES_HOME:-~/.hermes}/cache/scratch/ci-logs.zip
-cd ${HERMES_HOME:-~/.hermes}/cache/scratch && unzip -o ci-logs.zip -d ci-logs && cat ci-logs/*.txt
+  -o ${HOMINEM_HOME:-~/.hominem}/cache/scratch/ci-logs.zip
+cd ${HOMINEM_HOME:-~/.hominem}/cache/scratch && unzip -o ci-logs.zip -d ci-logs && cat ci-logs/*.txt
 ```
 
 ### Step 2: Fix and Push

@@ -161,7 +161,7 @@ python -m pm.build_env --source . --out .venv --group dev --group test
 
 The output must not already exist. Stop its processes and intentionally remove
 only that disposable environment before rebuilding. Keep the same isolated
-`HERMES_HOME` for the debug target. `.venv/bin/python` is this explicitly built
+`HOMINEM_HOME` for the debug target. `.venv/bin/python` is this explicitly built
 debug environment, not a guessed application venv, and the patterns below run
 through it. Do not add debugpy to a running production environment; reproduce
 there only with an already-prepared debug target or arrange a restart in the
@@ -215,7 +215,7 @@ The easiest terminal-side DAP client is VS Code CLI or a small script. From insi
 **Option 1: `debugpy`'s own CLI REPL** — not an official feature, but a tiny DAP client script:
 
 ```python
-# ${HERMES_HOME:-~/.hermes}/cache/scratch/dap_client.py
+# ${HOMINEM_HOME:-~/.hominem}/cache/scratch/dap_client.py
 import socket, json, itertools, time, sys
 
 HOST, PORT = "127.0.0.1", 5678

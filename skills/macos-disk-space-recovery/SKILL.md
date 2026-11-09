@@ -30,7 +30,7 @@ the causes in order of size, and measure after each step rather than trusting an
 
 ```bash
 df -h /System/Volumes/Data
-du -sh ~/Library ~/Developer ~/.ollama ${HERMES_HOME:-$HOME/.hermes} ~/.local ~/.npm ~/.cache 2>/dev/null | sort -rh
+du -sh ~/Library ~/Developer ~/.ollama ${HOMINEM_HOME:-$HOME/.hominem} ~/.local ~/.npm ~/.cache 2>/dev/null | sort -rh
 du -sh ~/Library/* 2>/dev/null | sort -rh | head -12
 ```
 
@@ -45,7 +45,7 @@ Then drill into the leaders. Common large buckets, in the order they usually app
 | `~/Library/Caches/*`                                            | App caches, often multi-GB        | Yes, per app                                       |
 | `~/Library/pnpm`, `~/.npm/_cacache`, `~/.cache/uv`, `~/.gradle` | Package stores                    | Yes — re-downloadable                              |
 | `~/.ollama/models`                                              | Model weights                     | Only models the user no longer wants               |
-| `${HERMES_HOME:-~/.hermes}/models`                                              | Local GGUF weights                | Check the model is not a configured provider       |
+| `${HOMINEM_HOME:-~/.hominem}/models`                                              | Local GGUF weights                | Check the model is not a configured provider       |
 
 Measure a specific app's cache before clearing it — some "caches" are the only copy of real data
 (a private model store inside an app's support dir, for instance).

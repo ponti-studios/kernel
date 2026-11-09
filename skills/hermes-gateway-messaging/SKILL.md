@@ -38,7 +38,7 @@ Prefer iMessage for privacy; Telegram for simplest setup; WhatsApp when the user
 1. Pick the platform and complete its pairing:
    - WhatsApp: `hermes whatsapp` (QR scan in your own terminal).
    - Telegram: create a bot via @BotFather, then `hermes gateway setup` and paste the token.
-   - iMessage: install BlueBubbles Server, sign in with Apple ID, set `BLUEBUBBLES_SERVER_URL` and `BLUEBUBBLES_PASSWORD` in `${HERMES_HOME:-~/.hermes}/.env`, then `hermes gateway setup`.
+   - iMessage: install BlueBubbles Server, sign in with Apple ID, set `BLUEBUBBLES_SERVER_URL` and `BLUEBUBBLES_PASSWORD` in `${HOMINEM_HOME:-~/.hominem}/.env`, then `hermes gateway setup`.
 2. Restrict allowed senders to your own user ID/number/address only.
 3. Lock down the toolset: use the `safe` toolset for the gateway surface; keep `approvals.mode: smart` or `manual`.
 4. Keep `security.redact_secrets: true` (default).
@@ -56,7 +56,7 @@ Prefer iMessage for privacy; Telegram for simplest setup; WhatsApp when the user
 - BlueBubbles' Homebrew cask is disabled by Gatekeeper; download the server from bluebubbles.app and install manually, then sign in with your Apple ID.
 - A messaging bot inherits the agent's full tool access (shell, files, web). Restrict the toolset and keep approvals on; never expose `terminal`/`computer_use` remotely unless needed.
 - Telegram bot messages are not end-to-end encrypted; treat them as readable by Telegram. Don't send secrets.
-- The bot token is a credential; store in `${HERMES_HOME:-~/.hermes}/.env`, rotate via BotFather if leaked.
+- The bot token is a credential; store in `${HOMINEM_HOME:-~/.hominem}/.env`, rotate via BotFather if leaked.
 - WhatsApp requires your phone occasionally online; BlueBubbles requires the Mac running and logged in.
 - Gateway settings are read at process start; restart the gateway after config changes.
 - Prompt injection over a messaging surface is real; keep toolset minimal and approvals on.

@@ -111,7 +111,7 @@ npm i -g chrome-remote-interface        # or project-local
 node --inspect-brk=9229 target.js &
 ```
 
-Driver script (save as `${HERMES_HOME:-~/.hermes}/cache/scratch/cdp-debug.js`):
+Driver script (save as `${HOMINEM_HOME:-~/.hominem}/cache/scratch/cdp-debug.js`):
 
 ```javascript
 const CDP = require("chrome-remote-interface");
@@ -164,14 +164,14 @@ const CDP = require("chrome-remote-interface");
 Run it:
 
 ```bash
-node ${HERMES_HOME:-~/.hermes}/cache/scratch/cdp-debug.js
+node ${HOMINEM_HOME:-~/.hominem}/cache/scratch/cdp-debug.js
 ```
 
 Hermes-specific note: `chrome-remote-interface` is NOT in `ui-tui/package.json`. Install it to a throwaway location if you don't want to dirty the project:
 
 ```bash
-mkdir -p ${HERMES_HOME:-~/.hermes}/cache/scratch/cdp-tools && cd ${HERMES_HOME:-~/.hermes}/cache/scratch/cdp-tools && npm i chrome-remote-interface
-NODE_PATH=${HERMES_HOME:-~/.hermes}/cache/scratch/cdp-tools/node_modules node ${HERMES_HOME:-~/.hermes}/cache/scratch/cdp-debug.js
+mkdir -p ${HOMINEM_HOME:-~/.hominem}/cache/scratch/cdp-tools && cd ${HOMINEM_HOME:-~/.hominem}/cache/scratch/cdp-tools && npm i chrome-remote-interface
+NODE_PATH=${HOMINEM_HOME:-~/.hominem}/cache/scratch/cdp-tools/node_modules node ${HOMINEM_HOME:-~/.hominem}/cache/scratch/cdp-debug.js
 ```
 
 ## Debugging Hermes ui-tui
@@ -246,8 +246,8 @@ await client.Profiler.enable();
 await client.Profiler.start();
 await new Promise((r) => setTimeout(r, 5000));
 const { profile } = await client.Profiler.stop();
-require("fs").writeFileSync("${HERMES_HOME:-~/.hermes}/cache/scratch/cpu.cpuprofile", JSON.stringify(profile));
-// Open ${HERMES_HOME:-~/.hermes}/cache/scratch/cpu.cpuprofile in Chrome DevTools → Performance tab
+require("fs").writeFileSync("${HOMINEM_HOME:-~/.hominem}/cache/scratch/cpu.cpuprofile", JSON.stringify(profile));
+// Open ${HOMINEM_HOME:-~/.hominem}/cache/scratch/cpu.cpuprofile in Chrome DevTools → Performance tab
 ```
 
 ```javascript
@@ -256,7 +256,7 @@ await client.HeapProfiler.enable();
 const chunks = [];
 client.HeapProfiler.addHeapSnapshotChunk(({ chunk }) => chunks.push(chunk));
 await client.HeapProfiler.takeHeapSnapshot({ reportProgress: false });
-require("fs").writeFileSync("${HERMES_HOME:-~/.hermes}/cache/scratch/heap.heapsnapshot", chunks.join(""));
+require("fs").writeFileSync("${HOMINEM_HOME:-~/.hominem}/cache/scratch/heap.heapsnapshot", chunks.join(""));
 ```
 
 ## Common Pitfalls

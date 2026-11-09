@@ -175,7 +175,7 @@ for (const s of slots) {
 
 ## OpenRouter Integration
 
-- API key is in `~/.localrc` (NOT `${HERMES_HOME:-~/.hermes}/.env` which has it commented out)
+- API key is in `~/.localrc` (NOT `${HOMINEM_HOME:-~/.hominem}/.env` which has it commented out)
 - Use configured provider credentials from the environment or documented application configuration; do not source shell startup files to discover a key.
 - Use `response_format: { type: 'json_object' }` for structured output
 - Model configurable via `SEME_EXTRACTOR_MODEL` env var
@@ -193,7 +193,7 @@ for (const s of slots) {
 - **LLM non-determinism in evals** — Tests that depend on LLM extraction behavior (e.g., "hypothetical should not be stored as stated") can be flaky across runs. Don't assert on retrieval output alone. Instead, query the DB directly for modality/source_type and assert on those fields. A hypothetical extracted with modality='hypothetical' is correct behavior even if it appears in retrieval results.
 - **Hypothetical modality** — The LLM sometimes extracts hypotheticals as stated facts despite prompt rules. Test should check modality in the DB, not just value_text. If the LLM tags it as 'hypothetical', that's a pass; only modality='stated' for a hypothetical is a failure.
 - **Async extraction timing** — end_session triggers extraction in the background and returns immediately. Profile may be empty until extraction completes. Tests that depend on extraction should await its completion signal or poll with a bounded timeout; avoid fixed sleeps. Don't block the caller in production; use .then()/.catch() for background processing and log completion/failure.
-- **Eval harness** — create test cases with checks functions. Run across multiple models. Report per-check pass/fail. Use OPENROUTER_API_KEY from ~/.localrc (not ${HERMES_HOME:-~/.hermes}/.env which has it commented out).
+- **Eval harness** — create test cases with checks functions. Run across multiple models. Report per-check pass/fail. Use OPENROUTER_API_KEY from ~/.localrc (not ${HOMINEM_HOME:-~/.hominem}/.env which has it commented out).
 - **value_json must be stringified** before SQLite insert (better-sqlite3 doesn't auto-stringify)
 - **Partial extraction failure** — one candidate failing shouldn't abort the whole batch; wrap per-candidate in try/catch
 - **Async extraction** — end_session triggers extraction but returns immediately; profile may be empty until extraction completes
