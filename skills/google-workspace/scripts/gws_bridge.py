@@ -78,6 +78,7 @@ def refresh_token(token_data: dict) -> dict:
     get_token_path().write_text(
         json.dumps(_normalize_authorized_user_payload(token_data), indent=2), encoding="utf-8"
     )
+    os.chmod(get_token_path(), 0o600)
     return token_data
 
 

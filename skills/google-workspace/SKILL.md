@@ -127,9 +127,20 @@ Use the service set chosen in Step 1. Examples:
 
 ```bash
 $GSETUP --auth-url --services email,calendar --format json
-$GSETUP --auth-url --services calendar,drive,sheets,docs --format json
+$GSETUP --auth-url --services calendar,drive,docs --format json
 $GSETUP --auth-url --services all --format json
 ```
+
+Scope profiles (`--services a,b`, least privilege — request only what the task
+needs): `email` (Gmail read/send/modify), `calendar` (events + settings
+read-only, not sharing/ACLs), `contacts` (read-only), `drive` (full drive),
+`docs` (sheets + documents + drive), `all` (historical full set, default).
+`--profile NAME` isolates tokens per Google account
+(`~/.hermes/google_token.<profile>.json`). Secrets at rest are 0600.
+
+Prefer `--authorize` over `--auth-url` + `--auth-code` when the agent runs on
+the user's own machine: it prints the URL, captures the localhost redirect
+automatically, and exchanges without a copy-paste step.
 
 This returns JSON with an `auth_url` field and also saves the exact URL to
 `${HERMES_HOME:-~/.hermes}/google_oauth_last_url.txt`.
