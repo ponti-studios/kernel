@@ -148,7 +148,6 @@ with every claim attributed to the platform it came from:
 | Blogs / releases / changelogs | `rss-feeds` (`read`, `discover`)                       | dated primary posts, version history          |
 | Video                         | `youtube-content`                                      | walkthroughs, demos, talks                    |
 | Code                          | `terminal` with `gh search repos` / `gh search issues` | implementations, open bugs                    |
-| X/Twitter                     | `xurl` (needs API access)                              | announcements, developer chatter              |
 
 The `reddit-reading` and `rss-feeds` skills are optional. If absent, install with
 `hermes skills install official/social-media/reddit-reading` or
