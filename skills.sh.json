@@ -18,6 +18,7 @@
       "description": "Standing preferences and executable project integrations.",
       "skills": [
         "ai-video-production",
+        "animated-presentation",
         "app-configuration",
         "apple-notes",
         "apple-reminders",
@@ -93,8 +94,6 @@
         "tanstack-start-shadcn",
         "teams-meeting-pipeline",
         "test-driven-development",
-        "tower-bridge",
-        "tower-bridge-tb",
         "typescript-sqlite",
         "weekly-review-planning",
         "xlsx",

@@ -453,17 +453,14 @@ Tiers: **H** = hermetic/local/$0 · **L** = live account/network · **$** = spen
 - Pass: observed RED→GREEN in logs; every new function has test; Verification Checklist all checked.
 - Blockers: behavioral compliance (pre-written code deletion unobservable post-hoc); "watched it fail" needs terminal log evidence.
 
-### tower-bridge [H+L]
-- Test: `tb new → script(+approve) → audio → align → specs(+fixture|command) → stills(+approve) → render`; `tb status <slug> --root <episodes>` shows `specs=pass,manifest=pass,contact-sheet=pass,duration=pass,outputs=pass`; `scripts/demo.sh` smoke fixture; cue/grounding failure messages; MP4 1920×1080/30fps with audio (not `anullsrc`).
-- Prereqs: `~/Developer/tower-bridge` checkout, `pip install -e .` (`tb` on PATH), `ffmpeg`, fixture providers; render needs minutes + background.
-- Pass: all five gates `pass`; MP4 has real audio.
-- Blockers: external repo not in kernel; no scripts bundled; render exceeds foreground timeout; fixture `specs.json` cues known-stale.
+### animated-presentation [H+$] (merged from tower-bridge + tower-bridge-tb)
+- Entrypoints: `tb new|run|approve|status` + stage verbs (`script audio align specs stills render`); `scripts/demo.sh` smoke fixture; `scripts/openrouter_tts.py` TTS provider.
+- Test: fixture build (silent audio sized to `words.json` → new → script/approve → audio → align → specs → stills/approve → render, ~2-3 min for 5400 frames, timeout ≥600s); `tb status` all five gates `pass`; unit suite `python3 -m unittest discover -s tests` (65 tests ~2min); `npx tsc --noEmit` in `remotion/`; choreography eval (example-match ≥80%, beat recall ≥80%, 0 grounding violations, demotes ≤10%); planner eval (baseline 33/35 no regress); cue/grounding failure messages; TTS `TB_AUDIO_CMD` → MP4 with real audio + captions + chapters.
+- Prereqs: tower-bridge repo, Node 20+, Python 3.11+, `ffmpeg/ffprobe`, `pip install -e .`, `cd remotion && npm ci && npx remotion browser ensure`; `OPENROUTER_API_KEY` + `TB_*_CMD` for generative stages; Parakeet model (~1.2GB) for word timestamps.
+- Pass: numeric eval thresholds hold; MP4 1920×1080/30fps with real audio (not `anullsrc`); contact-sheet/duration/manifest gates pass.
+- Blockers: external repo + large models + paid API; gitignored media must regenerate; render exceeds foreground timeout; stale fixture cues fail under stricter validation.
 
-### tower-bridge-tb [H+$]
-- Test: `tb new <slug> --mode idea|essay|episode` + `tb run` + `tb approve script|stills` + `tb status`; unit suite `python3 -m unittest discover -s tests` (65 tests ~2min); `npx tsc --noEmit` in `remotion/`; `bash scripts/demo.sh` 0.25-scale smoke → MP4; choreography eval (example-match ≥80%, beat recall ≥80%, 0 grounding violations, demotes ≤10%); planner eval (baseline 33/35 no regress); TTS `scripts/openrouter_tts.py` (per `references/openrouter-tts.md`).
-- Prereqs: tower-bridge repo, Node 20+, Python 3.11+, `ffmpeg/ffprobe`, `pip install -e .`, `cd remotion && npm ci && npx remotion browser ensure`; `OPENROUTER_API_KEY` + `TB_*_CMD`; Parakeet model (~1.2GB); `parakeet-cli`, `hf` CLI.
-- Pass: numeric thresholds above; MP4 has real audio + captions + chapters.
-- Blockers: heaviest skill — external repo + large models + paid API; gitignored media must regenerate; history repair dangerous.
+
 
 ### typescript-sqlite [H]
 - Test: scratch TS project: insert-order repro (FK fail vs pass); `?`-count error repro; `JSON.stringify` round-trip; `PRAGMA foreign_keys=ON` per connection; FTS5 sanitize (`?*"()` → no `fts5: syntax error`); MCP `initialize→tools/list→tools/call` JSON-RPC over stdio; latency loop `curl …/api/state` under writer load; migration checksum-mismatch abort; `npx tsc` clean.

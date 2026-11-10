@@ -61,5 +61,7 @@
   "ship-ios": "ship-ios/SKILL.md",
   "studio-dev": "studio-dev/SKILL.md",
   "web-designs": "design-workflows/references/web-designs/WORKFLOW.md",
-  "tailwind-cdn-static-page": "design-workflows/references/tailwind-cdn-static-page/WORKFLOW.md"
+  "tailwind-cdn-static-page": "design-workflows/references/tailwind-cdn-static-page/WORKFLOW.md",
+  "tower-bridge": "animated-presentation/SKILL.md",
+  "tower-bridge-tb": "animated-presentation/SKILL.md"
 }
