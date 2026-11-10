@@ -8,7 +8,7 @@ tags: [tailwind, html, cdn, import-map, react, static-site, web]
 metadata:
   hermes:
     tags: [tailwind, html, cdn, import-map, react, static-site, web]
-    related_skills: [popular-web-designs, claude-design]
+    related_skills: [web-designs, claude-design]
 ---
 
 # Single-File HTML Page with Tailwind CDN and CDN-Loaded Dependencies

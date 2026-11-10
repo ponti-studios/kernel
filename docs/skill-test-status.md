@@ -17,6 +17,8 @@ Updated: 2026-11-09. Tested-good commits already on `main` through `118d5eb6`.
 - [x] node-inspect-debugger
 - [x] opencode
 - [x] product-price-monitor
+- [x] web-designs (linear exercise, headless render)
+- [x] tailwind-cdn-static-page (single-file exercise, headless render)
 - [x] python-debugpy
 
 ## Partially tested
@@ -77,7 +79,6 @@ Updated: 2026-11-09. Tested-good commits already on `main` through `118d5eb6`.
 - [ ] p5js
 - [ ] pdf
 - [ ] ponti-principles
-- [ ] popular-web-designs
 - [ ] powerpoint
 - [ ] python-package-release
 - [ ] reference-image-library
@@ -96,7 +97,6 @@ Updated: 2026-11-09. Tested-good commits already on `main` through `118d5eb6`.
 - [ ] subsystem-removal
 - [ ] swift-package-multiplatform-verification
 - [ ] systematic-debugging
-- [ ] tailwind-cdn-static-page
 - [ ] tanstack-start-shadcn
 - [ ] teams-meeting-pipeline
 - [ ] test-driven-development
