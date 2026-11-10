@@ -59,5 +59,7 @@
   "studio-core": "runtime/studio-core/RUNTIME.md",
   "ponti-principles": "ponti-principles/SKILL.md",
   "ship-ios": "ship-ios/SKILL.md",
-  "studio-dev": "studio-dev/SKILL.md"
+  "studio-dev": "studio-dev/SKILL.md",
+  "web-designs": "design-workflows/references/web-designs/WORKFLOW.md",
+  "tailwind-cdn-static-page": "design-workflows/references/tailwind-cdn-static-page/WORKFLOW.md"
 }

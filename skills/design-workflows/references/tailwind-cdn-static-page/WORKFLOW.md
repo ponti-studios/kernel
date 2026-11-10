@@ -1,16 +1,3 @@
----
-name: tailwind-cdn-static-page
-version: 1.0.0
-author: Hermes Agent
-description: "Tailwind CDN static HTML pages. Use for landing pages."
-license: MIT
-tags: [tailwind, html, cdn, import-map, react, static-site, web]
-metadata:
-  hermes:
-    tags: [tailwind, html, cdn, import-map, react, static-site, web]
-    related_skills: [web-designs, claude-design]
----
-
 # Single-File HTML Page with Tailwind CDN and CDN-Loaded Dependencies
 
 ## When to use

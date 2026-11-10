@@ -315,7 +315,7 @@ Tiers: **H** = hermetic/local/$0 · **L** = live account/network · **$** = spen
 - Pass: cites real violations only, no praise filler; behavior preserved; report states verified vs unverified.
 - Blockers: almost entirely judgment (naming, YAGNI, reuse); no harness; "Charles in the moment wins" on conflicts.
 
-### web-designs [H+J]
+### design-workflows: web-designs procedure [H+J]
 - Test: 54 `templates/<site>.md`: each has palette/typography/components/shadows + font `<link>` + Hermes Implementation Notes; generate single HTML (`write_file`) with `:root` custom props + font stack; serve via `generative-widgets` cloudflared tunnel → HTTP 200; `browser_vision` screenshot without missing-font boxes; dashboard uses sidebar/stat-cards not hero.
 - Prereqs: browser; Google Fonts CDN; `generative-widgets` + cloudflared; `browser_vision`.
 - Pass: rendered page matches template tokens (colors/type/spacing); no AI-slop markers.
@@ -429,7 +429,7 @@ Tiers: **H** = hermetic/local/$0 · **L** = live account/network · **$** = spen
 - Pass: loop fails pre-fix on exact symptom, passes post-fix; checklist all checked.
 - Blockers: process skill — behavioral compliance, not script-assertable; flaky bugs need 100× runs.
 
-### tailwind-cdn-static-page [H]
+### design-workflows: tailwind-cdn-static-page procedure [H]
 - Test: `python3 -m http.server 8080` + `google-chrome --headless=new --virtual-time-budget=15000 --dump-dom http://127.0.0.1:8080/` shows rendered `<canvas>`/component; importmap JSON-valid (no trailing comma); `?deps=react@18.3.1` present; `window.onerror` empty; no version-mismatch `useSyncExternalStore` error.
 - Prereqs: `python3`, headless Chrome, network to `cdn.tailwindcss.com` + `esm.sh`; static HTML fixture.
 - Pass: DOM dump contains expected component; console zero errors.

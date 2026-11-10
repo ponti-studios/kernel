@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [design, html, prototype, ux, ui, creative, artifact, deck, motion, design-system]
-    related_skills: [design-md, web-designs, excalidraw, architecture-diagram]
+    related_skills: [design-md, design-workflows, excalidraw, architecture-diagram]
 ---
 
 # Claude Design for CLI/API Agents
@@ -17,25 +17,25 @@ Use this skill when the user asks for design work that would normally fit Claude
 
 The goal is to preserve Claude Design's useful design behavior and taste while removing hosted-tool plumbing that does not exist in normal agent environments.
 
-**Before starting, check for other web-design skills like `web-designs` (ready-to-paste design systems for Stripe, Linear, Vercel, Notion, etc.) and `design-md` (Google's DESIGN.md token spec format).** If the user wants a known brand's look, load `web-designs` alongside this one and let it supply the visual vocabulary. If the deliverable is a token spec file rather than a rendered artifact, use `design-md` instead. Full decision table below.
+**Before starting, check for the `web-designs` procedure in `design-workflows` (ready-to-paste design systems for Stripe, Linear, Vercel, Notion, etc.) and `design-md` (Google's DESIGN.md token spec format).** If the user wants a known brand's look, load the `web-designs` procedure alongside this one and let it supply the visual vocabulary. If the deliverable is a token spec file rather than a rendered artifact, use `design-md` instead. Full decision table below.
 
-## When To Use This Skill vs `web-designs` vs `design-md`
+## When To Use This Skill vs `web-designs` (in `design-workflows`) vs `design-md`
 
 Hermes has three design-related skills under `skills/creative/`. They do different jobs — load the right one (or combine them):
 
 | Skill                        | What it gives you                                                                                                                         | Use when the user wants...                                                                                                                       |
 | ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **claude-design** (this one) | Design _process and taste_ — how to scope a brief, gather context, produce variants, verify a local HTML artifact, avoid AI-design slop   | a from-scratch designed artifact (landing page, prototype, deck, component lab, motion study) with no specific brand or token system dictated    |
-| **web-designs**      | 54 ready-to-paste design systems — exact colors, typography, components, CSS values for sites like Stripe, Linear, Vercel, Notion, Airbnb | "make it look like Stripe / Linear / Vercel", a page styled after a known brand, or a visual starting point pulled from a real product           |
+| **web-designs procedure** | 54 ready-to-paste design systems — exact colors, typography, components, CSS values for sites like Stripe, Linear, Vercel, Notion, Airbnb | "make it look like Stripe / Linear / Vercel", a page styled after a known brand, or a visual starting point pulled from a real product           |
 | **design-md**                | Google's DESIGN.md spec format — author/validate/diff/export design-token files, WCAG contrast checking, Tailwind/DTCG export             | a formal, persistent, machine-readable design-system _spec file_ (tokens + rationale) that lives in a repo and gets consumed by agents over time |
 
 Rule of thumb:
 
 - **Process + taste, one-off artifact** → claude-design
-- **Match a known brand's look** → web-designs (and let claude-design drive the process)
+- **Match a known brand's look** → `design-workflows` `web-designs` procedure (and let claude-design drive the process)
 - **Author the tokens spec itself** → design-md
 
-These compose: use `web-designs` for the visual vocabulary, `claude-design` for how to turn a brief into a thoughtful local HTML file, and `design-md` when the output is the token file rather than a rendered artifact.
+These compose: use the `web-designs` procedure for the visual vocabulary, `claude-design` for how to turn a brief into a thoughtful local HTML file, and `design-md` when the output is the token file rather than a rendered artifact.
 
 ## Runtime Mode
 
@@ -735,5 +735,5 @@ You are running in CLI/API mode, not hosted Claude Design. Ignore references to 
 - Do not produce generic SaaS layouts and call them designed.
 - Do not claim browser verification unless it actually happened.
 - When the user says "that's so lazy" or shows a dashboard reference, they want visual richness — sidebar navigation, stat cards, grid layouts, syntax-highlighted code previews. Do not produce text-heavy pages with just headings and paragraphs. A Monitor surface (dashboard, status page, test index) needs density and glanceable hierarchy, not a centered hero and three feature cards.
-- For dashboard layouts, load `web-designs` and read its `references/dashboard-patterns.md` for the Vercel design system dashboard patterns (sidebar + main, stats grid, test card grid, code previews, responsive breakpoints).
+- For dashboard layouts, load the `web-designs` procedure and read its `references/dashboard-patterns.md` for the Vercel design system dashboard patterns (sidebar + main, stats grid, test card grid, code previews, responsive breakpoints).
 - When documenting API responses or test results, replace placeholder comments like `// Returns: ...` with exact JSON objects showing the full response structure. Placeholders force the reader to guess the shape; exact objects make the documentation self-contained.

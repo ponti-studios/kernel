@@ -13,3 +13,5 @@ Follow the user's current instructions and the target repository's conventions b
 - [Kernel Design — consolidated UI, brand, and personal style skill](references/kernel-design/WORKFLOW.md)
 - [Kernel Animate — consolidated motion skill](references/kernel-animate/WORKFLOW.md)
 - [Brand Asset Sourcing](references/brand-asset-sourcing/WORKFLOW.md)
+- [Web Designs — 54 real design systems as HTML/CSS](references/web-designs/WORKFLOW.md)
+- [Tailwind CDN Static Page](references/tailwind-cdn-static-page/WORKFLOW.md)

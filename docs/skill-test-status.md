@@ -17,8 +17,8 @@ Updated: 2026-11-09. Tested-good commits already on `main` through `118d5eb6`.
 - [x] node-inspect-debugger
 - [x] opencode
 - [x] product-price-monitor
-- [x] web-designs (linear exercise, headless render)
-- [x] tailwind-cdn-static-page (single-file exercise, headless render)
+- [x] design-workflows: web-designs procedure (linear exercise, headless render)
+- [x] design-workflows: tailwind-cdn-static-page procedure (single-file exercise, headless render)
 - [x] python-debugpy
 
 ## Partially tested
