@@ -100,7 +100,7 @@ Updated: 2026-11-09. Tested-good commits already on `main` through `118d5eb6`.
 - [ ] tanstack-start-shadcn
 - [ ] teams-meeting-pipeline
 - [ ] test-driven-development
-- [ ] animated-presentation (merged from tower-bridge + tower-bridge-tb)
+- [x] animated-presentation (demo.sh E2E: all gates pass, MP4+captions+metadata)
 - [ ] typescript-sqlite
 - [ ] weekly-review-planning
 - [ ] xlsx
