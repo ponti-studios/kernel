@@ -14,6 +14,54 @@ import {
 import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { crc32, deflateSync } from "node:zlib";
+
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+/** A real, solid-colour RGB PNG: staging must downscale actual image bytes, not a marker. */
+function solidPng(width, height) {
+  const chunk = (type, data) => {
+    const length = Buffer.alloc(4);
+    length.writeUInt32BE(data.length);
+    const body = Buffer.concat([Buffer.from(type, "ascii"), data]);
+    const crc = Buffer.alloc(4);
+    crc.writeUInt32BE(crc32(body));
+    return Buffer.concat([length, body, crc]);
+  };
+  const header = Buffer.alloc(13);
+  header.writeUInt32BE(width, 0);
+  header.writeUInt32BE(height, 4);
+  header[8] = 8; // bit depth
+  header[9] = 2; // colour type: RGB
+  const row = Buffer.alloc(1 + width * 3);
+  for (let x = 0; x < width; x += 1) row.set([200, 30, 30], 1 + x * 3);
+  const raw = Buffer.concat(Array.from({ length: height }, () => row));
+  return Buffer.concat([
+    Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]),
+    chunk("IHDR", header),
+    chunk("IDAT", deflateSync(raw)),
+    chunk("IEND", Buffer.alloc(0)),
+  ]);
+}
+
+/** Longest edge from a JPEG's SOF marker; enough to prove the resize happened. */
+function jpegSize(bytes) {
+  let offset = 2;
+  while (offset + 9 < bytes.length) {
+    if (bytes[offset] !== 0xff) {
+      offset += 1;
+      continue;
+    }
+    const marker = bytes[offset + 1];
+    const length = bytes.readUInt16BE(offset + 2);
+    const isFrame =
+      marker >= 0xc0 && marker <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(marker);
+    if (isFrame)
+      return { width: bytes.readUInt16BE(offset + 7), height: bytes.readUInt16BE(offset + 5) };
+    offset += 2 + length;
+  }
+  return null;
+}
 
 function bytesResponse(body, status = 200, generationId) {
   const headers = { "Content-Type": "application/json" };
@@ -99,6 +147,38 @@ describe("OpenRouterImageModel", () => {
     });
     assert.equal(result.usage.costUsd, CONTRACT.cost.response_usage);
     assert.equal(CONTRACT.cost.unpriced, null);
+  });
+
+  it("matches the shared fixture's staging and retry contract", async () => {
+    const stager = new RefStager({ cacheDir: join(tmpdir(), "unused-stage-dir") });
+    assert.equal(stager.maxEdge, CONTRACT.staging.max_edge);
+    assert.equal(stager.quality, CONTRACT.staging.quality);
+    assert.equal(new BatchExecutor().concurrency, CONTRACT.batch.concurrency);
+
+    let calls = 0;
+    globalThis.fetch = async (url, init) => {
+      calls += 1;
+      return init && calls === 1
+        ? bytesResponse({}, 500)
+        : bytesResponse({ data: [{ b64_json: Buffer.from([1]).toString("base64") }] });
+    };
+    assert.equal(
+      (await new OpenRouterImageModel("key", "m").generate(INPUT)).attempts,
+      CONTRACT.retry.attempts,
+    );
+
+    for (const never of CONTRACT.retry.never) {
+      const status = Number(never);
+      let attempts = 0;
+      globalThis.fetch = async () => {
+        attempts += 1;
+        return Number.isInteger(status)
+          ? bytesResponse({}, status)
+          : bytesResponse(never === "shape" ? { data: [] } : { data: [{ b64_json: "" }] });
+      };
+      await assert.rejects(new OpenRouterImageModel("key", "m").generate(INPUT));
+      assert.equal(attempts, 1, `${never} must not be retried`);
+    }
   });
 
   it("uses response cost before generation cost, then leaves unpriced output null", async () => {
@@ -218,6 +298,27 @@ describe("OpenRouterImageModel", () => {
     }
   });
 
+  it("STUDIO_LEGS=off restores a single attempt on a retryable failure", async () => {
+    const previous = process.env.STUDIO_LEGS;
+    process.env.STUDIO_LEGS = "off";
+    try {
+      let calls = 0;
+      globalThis.fetch = async () => {
+        calls += 1;
+        return bytesResponse({}, 500);
+      };
+      await assert.rejects(new OpenRouterImageModel("key", "m").generate(INPUT), (error) => {
+        assert.equal(error.code, "http");
+        assert.equal(error.attempts, 1);
+        return true;
+      });
+      assert.equal(calls, 1);
+    } finally {
+      if (previous === undefined) delete process.env.STUDIO_LEGS;
+      else process.env.STUDIO_LEGS = previous;
+    }
+  });
+
   it("does not retry client errors and preserves the typed error", async () => {
     let calls = 0;
     globalThis.fetch = async () => {
@@ -304,6 +405,80 @@ describe("OpenRouterImageModel", () => {
     }
   });
 
+  it("asks the resizer for a 1024px longest edge at quality 88", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "image-stage-params-"));
+    const file = join(dir, "plate.png");
+    try {
+      await writeFile(file, "plate-bytes");
+      let options;
+      const stager = new RefStager({
+        cacheDir: join(dir, "cache"),
+        resizer: async (bytes, given) => {
+          options = given;
+          return Buffer.from("staged");
+        },
+      });
+      const staged = await stager.stage(file);
+      assert.deepEqual(options, { maxEdge: 1024, quality: 88 });
+      assert.equal(staged.stagedBytes.toString(), "staged");
+      assert.equal(staged.passthrough, false);
+      assert.match(staged.dataUrl, /^data:image\/jpeg;base64,/);
+    } finally {
+      await rm(dir, { recursive: true, force: true });
+    }
+  });
+
+  // The plate the model sees is the point of staging, so prove it on real bytes
+  // where a resizer exists. A machine with neither sharp nor ImageMagick reports
+  // passthrough, which the run output already makes visible.
+  it("keeps a real staged plate within 1024px on its longest edge", async (t) => {
+    const dir = await mkdtemp(join(tmpdir(), "image-stage-real-"));
+    const file = join(dir, "plate.png");
+    try {
+      await writeFile(file, solidPng(2048, 1400));
+      const staged = await new RefStager({ cacheDir: join(dir, "cache") }).stage(file);
+      if (staged.passthrough) {
+        t.skip("no sharp or ImageMagick on this machine — staging reports passthrough");
+        return;
+      }
+      const size = jpegSize(staged.stagedBytes);
+      assert.ok(size, "staged plate is a JPEG with a readable frame header");
+      assert.ok(
+        Math.max(size.width, size.height) <= 1024,
+        `longest edge ${Math.max(size.width, size.height)} exceeds 1024`,
+      );
+      assert.ok(staged.stagedBytes.length < 2048 * 1400);
+    } finally {
+      await rm(dir, { recursive: true, force: true });
+    }
+  });
+
+  it("stages one shared plate once when a batch is built from the same bytes", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "image-stage-shared-"));
+    const file = join(dir, "plate.png");
+    let resized = 0;
+    try {
+      await writeFile(file, "shared-plate");
+      const stager = new RefStager({
+        cacheDir: join(dir, "cache"),
+        resizer: async () => {
+          resized += 1;
+          await delay(20);
+          return Buffer.from("staged");
+        },
+      });
+      const results = await Promise.all([
+        stager.stage(file),
+        stager.stage(file),
+        stager.stage(file),
+      ]);
+      assert.equal(resized, 1);
+      assert.equal(new Set(results.map((row) => row.dataUrl)).size, 1);
+    } finally {
+      await rm(dir, { recursive: true, force: true });
+    }
+  });
+
   it("collects batch failures and completion callbacks", async () => {
     const seen = [];
     const result = await new BatchExecutor({
@@ -328,16 +503,49 @@ describe("OpenRouterImageModel", () => {
   it("runs four delayed jobs concurrently and preserves order at concurrency one", async () => {
     const started = Date.now();
     await new BatchExecutor({ concurrency: 4 }).run([1, 2, 3, 4], async (n) => {
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      await delay(500);
       return n;
     });
     assert.ok(Date.now() - started < 1600);
     const order = [];
     await new BatchExecutor({ concurrency: 1 }).run([1, 2, 3], async (n) => {
+      await delay(20);
       order.push(n);
       return n;
     });
     assert.deepEqual(order, [1, 2, 3]);
+  });
+
+  // The batch contract the CLIs rely on, exercised through a fake fetch so the
+  // wall clock and the failure row are measured, not assumed.
+  it("batches real generate calls through a delayed fake fetch", async () => {
+    const model = new OpenRouterImageModel("key", "m", async (_url, init) => {
+      const body = JSON.parse(String(init.body));
+      await delay(500);
+      if (body.prompt === "fails") return bytesResponse({}, 400);
+      return bytesResponse({ data: [{ b64_json: Buffer.from([1, 2]).toString("base64") }] });
+    });
+    const jobs = ["one", "two", "three", "fails"];
+    const seen = [];
+    const started = Date.now();
+    const result = await new BatchExecutor({
+      concurrency: 4,
+      onJobDone: (row) => seen.push(row.job),
+    }).run(jobs, (job) => model.generate({ ...INPUT, prompt: job }));
+    assert.ok(Date.now() - started < 1600, "four jobs at concurrency 4 beat 1.6s");
+    assert.equal(result.done.length, 3);
+    assert.equal(result.failed.length, 1);
+    assert.equal(result.failed[0].job, "fails");
+    assert.equal(result.failed[0].error.code, "http");
+    assert.equal(result.failed[0].error.attempts, 1);
+    assert.equal(batchExitCode(result), 0);
+    assert.deepEqual([...seen].sort(), [...jobs].sort());
+
+    const all = await new BatchExecutor({ concurrency: 4 }).run(jobs, () =>
+      model.generate({ ...INPUT, prompt: "fails" }),
+    );
+    assert.equal(all.failed.length, 4);
+    assert.equal(batchExitCode(all), 1);
   });
 
   it("maps a transport failure to network", async () => {

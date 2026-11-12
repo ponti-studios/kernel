@@ -13,7 +13,8 @@ Written next to the image as `<name>.json`:
 | `model`                                                           | the model actually used                                                  |
 | `aspect_ratio`, `resolution_requested`, `format_returned`, `mime` | request vs reality                                                       |
 | `generation_id`                                                   | provider id (not usable for cost lookup — see below)                     |
-| `bytes`, `cost_usd`, `tokens`                                     | output size and whatever the provider reported                           |
+| `attempts`                                                        | transport attempts; `2` means one retry recovered the render             |
+| `bytes`, `cost_usd`, `cost_source`, `tokens`                      | output size and whatever the provider reported                           |
 
 For a verbatim `--prompt` run the sidecar keeps `prompt_sha256` and the request
 fields, with no spec provenance.

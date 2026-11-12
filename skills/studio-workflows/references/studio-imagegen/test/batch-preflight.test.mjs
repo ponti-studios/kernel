@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdtemp, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, mkdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, describe, it } from "node:test";
@@ -63,4 +63,60 @@ describe("image batch preflight", () => {
     await writeFile(path, '["a.json", "b.json"]');
     assert.deepEqual(readSpecList(path), ["a.json", "b.json"]);
   });
+
+  it("fails a spec whose aspect the model does not support, naming the spec", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "spec-aspect-"));
+    tempDirs.push(dir);
+    const root = join(dir, "universe");
+    await mkdir(root, { recursive: true });
+    const results = await preflightBatch({
+      specs: ["wide.json"],
+      resolution: "4K",
+      root,
+      readSpec: async () => ({ master: { aspect_ratio: "21:9" }, references: [] }),
+      compileSpec: () => "prompt",
+      loadRegistry: () => ({}),
+      fetchCapabilities: async () => ({
+        aspect_ratio: { values: ["4:5", "1:1"] },
+        resolution: { values: ["1K", "2K"] },
+      }),
+    });
+    assert.equal(results[0].ok, false);
+    assert.equal(results[0].spec, "wide.json");
+    const failed = results[0].checks.filter((check) => !check.ok).map((check) => check.label);
+    assert.deepEqual(failed, ["aspect supported", "resolution supported"]);
+    assert.match(
+      results[0].checks.find((check) => check.label === "aspect supported").detail,
+      /21:9 not in 4:5, 1:1/,
+    );
+  });
+
+  it("fails a spec with a missing reference file before any spend", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "spec-refs-"));
+    tempDirs.push(dir);
+    const root = join(dir, "universe");
+    await mkdir(join(root, "bibles"), { recursive: true });
+    await writeFile(join(root, "bibles", "present.png"), "plate");
+    let generationCalls = 0;
+    const results = await preflightBatch({
+      specs: ["frame.json"],
+      root,
+      readSpec: async () => ({
+        master: { aspect_ratio: "4:5" },
+        references: ["bibles/present.png", "bibles/missing.png"],
+      }),
+      compileSpec: () => {
+        generationCalls += 1;
+        return "prompt";
+      },
+      loadRegistry: () => ({}),
+      fetchCapabilities: async () => ({}),
+    });
+    assert.equal(results[0].ok, false);
+    const refs = results[0].checks.find((check) => check.label === "references present");
+    assert.equal(refs.ok, false);
+    assert.match(refs.detail, /bibles\/missing\.png/);
+    assert.ok(generationCalls >= 1, "compilation runs; no provider generation is attempted");
+  });
+
 });
