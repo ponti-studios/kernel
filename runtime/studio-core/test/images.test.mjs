@@ -153,6 +153,7 @@ describe("OpenRouterImageModel", () => {
     const stager = new RefStager({ cacheDir: join(tmpdir(), "unused-stage-dir") });
     assert.equal(stager.maxEdge, CONTRACT.staging.max_edge);
     assert.equal(stager.quality, CONTRACT.staging.quality);
+    assert.equal(new BatchExecutor().concurrency, CONTRACT.batch.concurrency);
 
     let calls = 0;
     globalThis.fetch = async (url, init) => {

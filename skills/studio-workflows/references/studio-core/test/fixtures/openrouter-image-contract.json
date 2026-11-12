@@ -26,5 +26,7 @@
     "retryable": ["network", "429", "5xx"],
     "never": ["402", "400", "401", "403", "404", "shape", "empty"]
   },
+  "batch": { "concurrency": 4, "failure_policy": "collect-per-job; fail only if all fail" },
+  "defaults": { "aspect_ratio": "4:5", "resolution": "2K" },
   "cost": { "response_usage": 0.042, "generation_cost": 0.05, "unpriced": null }
 }
