@@ -6,8 +6,8 @@
 //
 // Ported from studio packages/providers/src/openrouter-images.ts.
 import { normalizeUsage } from "./usage.mjs";
-import { createHash } from "node:crypto";
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { createHash, randomUUID } from "node:crypto";
+import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import { homedir } from "node:os";
 import { extname, join } from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
@@ -49,12 +49,15 @@ async function defaultResizer(bytes, { maxEdge, quality }) {
 const BASE_URL = "https://openrouter.ai/api/v1";
 
 export class OpenRouterImageError extends Error {
-  constructor(code, message) {
+  constructor(code, message, status) {
     super(message);
     this.name = "OpenRouterImageError";
     this.code = code;
+    if (status !== undefined) this.status = status;
   }
 }
+
+const RETRYABLE_STATUS = (status) => status === 429 || (status >= 500 && status <= 599);
 
 export async function withRetry(fn, { attempts = 2, backoffMs = 750 } = {}) {
   let count = 0;
@@ -66,6 +69,7 @@ export async function withRetry(fn, { attempts = 2, backoffMs = 750 } = {}) {
       const retryable =
         error?.code === "network" ||
         error?.code === "rate_limited" ||
+        RETRYABLE_STATUS(error?.status) ||
         (error?.code === "http" && /^image generation 5\d\d$/.test(error.message));
       if (!retryable || count >= attempts || process.env.STUDIO_LEGS === "off") {
         if (error && typeof error === "object") error.attempts = count;
@@ -127,6 +131,8 @@ export function batchExitCode({ done, failed }) {
 }
 
 export class RefStager {
+  #inflight = new Map();
+
   constructor({
     cacheDir = process.env.STUDIO_STAGE_DIR ?? join(homedir(), ".cache", "studio", "refs"),
     resizer = defaultResizer,
@@ -145,6 +151,20 @@ export class RefStager {
       .update(originalBytes)
       .update(`\0${this.maxEdge}\0${this.quality}`)
       .digest("hex");
+    const cached = await this.#readCache(key);
+    if (cached) return { ...cached, originalBytes: originalBytes.length, fromCache: true };
+    // A batch usually shares plates between scenes: stage each content key once.
+    let pending = this.#inflight.get(key);
+    if (!pending) {
+      pending = this.#stageAndCache(key, path, originalBytes).finally(() =>
+        this.#inflight.delete(key),
+      );
+      this.#inflight.set(key, pending);
+    }
+    return pending;
+  }
+
+  async #readCache(key) {
     const cachedPath = join(this.cacheDir, `${key}.stage`);
     try {
       const stagedBytes = await readFile(cachedPath);
@@ -152,18 +172,22 @@ export class RefStager {
       return {
         dataUrl: `data:${metadata.mime};base64,${stagedBytes.toString("base64")}`,
         stagedBytes,
-        originalBytes: originalBytes.length,
-        fromCache: true,
         passthrough: metadata.passthrough,
       };
-    } catch {}
+    } catch {
+      return null;
+    }
+  }
+
+  async #stageAndCache(key, path, originalBytes) {
+    // Another process may have filled the entry while this one was reading bytes.
+    const raced = await this.#readCache(key);
+    if (raced) return { ...raced, originalBytes: originalBytes.length, fromCache: true };
     const resized = this.resizer
       ? await this.resizer(originalBytes, { maxEdge: this.maxEdge, quality: this.quality })
       : null;
     const passthrough = !resized;
     const stagedBytes = resized ?? originalBytes;
-    await mkdir(this.cacheDir, { recursive: true });
-    await writeFile(cachedPath, stagedBytes);
     const mimeByExtension = {
       ".png": "image/png",
       ".jpg": "image/jpeg",
@@ -173,7 +197,15 @@ export class RefStager {
     const mime = passthrough
       ? (mimeByExtension[extname(path).toLowerCase()] ?? "image/jpeg")
       : "image/jpeg";
-    await writeFile(`${cachedPath}.json`, JSON.stringify({ mime, passthrough }));
+    await mkdir(this.cacheDir, { recursive: true });
+    const cachedPath = join(this.cacheDir, `${key}.stage`);
+    // Atomic: a concurrent reader must never see a half-written plate.
+    const temp = `${cachedPath}.${process.pid}.${randomUUID()}.tmp`;
+    await writeFile(temp, stagedBytes);
+    await rename(temp, cachedPath);
+    const metaTemp = `${temp}.json`;
+    await writeFile(metaTemp, JSON.stringify({ mime, passthrough }));
+    await rename(metaTemp, `${cachedPath}.json`);
     return {
       dataUrl: `data:${mime};base64,${stagedBytes.toString("base64")}`,
       stagedBytes,
@@ -233,13 +265,13 @@ export class OpenRouterImageModel {
       );
     }
     if (response.status === 402) {
-      throw new OpenRouterImageError("credits", "openrouter credits insufficient");
+      throw new OpenRouterImageError("credits", "openrouter credits insufficient", 402);
     }
     if (response.status === 429) {
-      throw new OpenRouterImageError("rate_limited", "image generation rate limited");
+      throw new OpenRouterImageError("rate_limited", "image generation rate limited", 429);
     }
     if (!response.ok) {
-      throw new OpenRouterImageError("http", `image generation ${response.status}`);
+      throw new OpenRouterImageError("http", `image generation ${response.status}`, response.status);
     }
     const generationId =
       response.headers.get("X-Generation-Id") ??
