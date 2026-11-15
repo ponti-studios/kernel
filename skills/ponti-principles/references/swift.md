@@ -1,30 +1,22 @@
 # Swift, SwiftUI, native modules, watchOS
 
-The full rules live in Thames's `swift-style` skill — load it when it is installed. This file is the
-review checklist and the structure rules around it, and stands alone when it is not.
+The full style rules live in the `apple-workflows` swift-style procedure
+(`references/swift-style/WORKFLOW.md` in that package); load it before writing or reviewing Swift.
+This file keeps the review checklist and the architecture laws around it.
 
-## Style (from `swift-style`)
+## Style: what a review actually catches
 
-- 2-space indent; `swift-format` decides all other layout. Run it on files you change.
-- **Narrowest access control that works.** A redundant `public` is a defect. Periphery reports it.
-- Nothing unnecessary: no unused parameter, property, function, protocol or option. No wrapper that
-  only forwards. No `self.` unless required. No `return` in single-expression bodies.
-- Names are the documentation. Domain nouns, call sites read as sentences, units in names, no
-  `Manager`/`Helper`/`Util`. Booleans read as assertions.
-- Value types first. `struct` and `enum` with payloads; `final class` for identity or lifecycle;
-  `actor` for shared mutable state. Make illegal states unrepresentable.
-- Namespaces are caseless enums. One main type per file, named after it; `Type+Topic.swift` for
-  extensions.
-- State isolation: value types are `Sendable`; `@MainActor` or an `actor` on purpose;
-  `@unchecked Sendable` needs a one-line comment on what guards the state.
-- Inject what a test must control (clock, file location, client) through `init`; no protocol for a
-  type that will never be faked.
-- `guard` and early exit; no nested ternaries; no `!` or `try!` outside tests and provable static
-  data.
-- Typed errors with readable `errorDescription`.
-- `async`/`await` and `AsyncStream` over callbacks; wrap a callback API once at the edge.
-- DSLs and result builders only where the call site is clearly nicer.
-- Doc comments (`///`) on public API: one sentence, constraints and units. Inline comments say why.
+- A redundant `public`, or an access level wider than the call site needs.
+- Unused parameters, properties, options, or a wrapper that only forwards.
+- A type that hides a state the compiler could have made unrepresentable.
+- Names that describe mechanism (`Manager`, `Helper`, `Util`) rather than the domain.
+- Isolation chosen by accident: `@unchecked Sendable` without a stated guard, or a `final class`
+  where a value type would do.
+- Layout not delegated to `swift-format`; 2-space indent.
+
+Everything else — naming grammar, error types, async shape, doc comments — is in the style
+procedure. Do not restate it here; if the two disagree, the style procedure wins and this file gets
+corrected.
 
 ## Enforcement
 
