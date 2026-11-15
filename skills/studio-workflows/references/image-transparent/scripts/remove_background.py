@@ -24,7 +24,7 @@ from pathlib import Path
 
 from PIL import Image
 
-DEFAULT_MODEL = "isnet-general-use"
+DEFAULT_MODEL = "birefnet-general"
 ALPHA_MATTING_KWARGS = dict(
     alpha_matting=True,
     alpha_matting_foreground_threshold=240,
@@ -97,8 +97,8 @@ def main(argv=None) -> int:
     p.add_argument("input", type=Path)
     p.add_argument("--out", type=Path, default=None)
     p.add_argument("--model", default=DEFAULT_MODEL,
-                   help="rembg model (default: %(default)s; also u2net, "
-                        "u2net_cloth_seg)")
+                   help="rembg model (default: %(default)s; also isnet-general-use, "
+                        "u2net, u2net_cloth_seg)")
     p.add_argument("--no-alpha-matting", action="store_true",
                    help="disable alpha matting (hard-edged subjects)")
     p.add_argument("--trim", action="store_true",

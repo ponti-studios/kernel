@@ -33,28 +33,33 @@ and there is no spend.
 ## Command
 
 ```bash
-# one-time setup: one shared venv for every project, manifest beside it
-python3 -m venv .venv-rembg
-.venv-rembg/bin/pip install -r scripts/requirements-rembg.txt
+# one-time setup: one shared venv (outside the checkout — a venv inside the
+# package breaks scripts/validate_skills.py with symlinks and vendored docs)
+python3 -m venv ~/.venvs/image-transparent-rembg
+~/.venvs/image-transparent-rembg/bin/pip install -r scripts/requirements-rembg.txt
 
 # the cutout (run from this procedure's folder)
-.venv-rembg/bin/python scripts/remove_background.py photo.jpg
+~/.venvs/image-transparent-rembg/bin/python scripts/remove_background.py photo.jpg
 # -> photo-transparent.png beside the input, with the verification line
 
-.venv-rembg/bin/python scripts/remove_background.py photo.jpg --out cutout.png
-.venv-rembg/bin/python scripts/remove_background.py photo.jpg --model u2net
-.venv-rembg/bin/python scripts/remove_background.py photo.jpg --trim --check check.png
+~/.venvs/image-transparent-rembg/bin/python scripts/remove_background.py photo.jpg --out cutout.png
+~/.venvs/image-transparent-rembg/bin/python scripts/remove_background.py photo.jpg --model isnet-general-use
+~/.venvs/image-transparent-rembg/bin/python scripts/remove_background.py photo.jpg --trim --check check.png
 ```
 
-rembg downloads its model weights on first use; after that the run is fully
-local (a 1640×2048 portrait takes ~25 s on CPU).
+rembg downloads its model weights on first use (birefnet-general is ~1GB);
+after that the run is fully local. On a 5318×3655 market scene birefnet kept
+two sellers, all baskets, handles and umbrella where isnet-general-use kept
+only the central figure (opaque fraction 0.449 vs 0.011); expect CPU minutes
+at that size.
 
 ## Models and settings
 
 | Choice | Use |
 |---|---|
-| `isnet-general-use` (default) | People, products, general subjects — the proven default, with alpha matting |
-| `u2net` | Fallback when isnet is unavailable or too heavy for the machine |
+| `birefnet-general` (default) | People, products, multi-subject scenes — the proven default: sharper than isnet on hair, wicker, spokes and crowded frames, with alpha matting |
+| `isnet-general-use` | Fallback when birefnet is unavailable or too heavy for the machine |
+| `u2net` | Lighter fallback, less detail on hair and thin structures |
 | `u2net_cloth_seg` | Garments: returns clothing segments rather than one silhouette |
 
 Alpha matting is on by default with the settings proven on portraits and

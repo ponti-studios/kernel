@@ -1,3 +1,4 @@
 rembg==2.0.86
+onnxruntime
 pillow
 numpy
