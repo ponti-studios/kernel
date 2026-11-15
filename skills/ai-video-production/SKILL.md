@@ -47,6 +47,15 @@ animation (`programmatic-video`).
 | 7   | Lipsync, where a face speaks                           | needs picture and voice both final                      | model-dependent          |
 | 8   | Edit: locked audio, music, SFX, upscale, colour        | sound decided once, at the end                          | cheap                    |
 
+## Final deliverables
+
+The final delivery directory contains exactly two files:
+
+- `audio.mp3` — the approved final audio mix, including narration, music, and SFX as used.
+- `video.mp4` — the finished picture with that audio mix muxed in.
+
+Keep per-shot narration, silent clips, keyframes, aligned segments, contact sheets, and provider logs in a separate working or QA directory, not in the delivery directory.
+
 ## Rules
 
 - **Narration before motion.** Record the voice first and time shots to it. Durations chosen before

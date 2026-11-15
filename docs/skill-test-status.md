@@ -1,9 +1,10 @@
 # Skill test status
 
 Tracks functional testing of each top-level skill. Check off as tested.
+Store generated review artifacts under the gitignored `qa-output/<skill>/` directory.
 Removed skills (`gif-search`, `obsidian`) are not listed.
 
-Updated: 2026-11-09. Tested-good commits already on `main` through `118d5eb6`.
+Updated: 2026-11-15. Tested-good commits already on `main` through `118d5eb6`.
 
 ## Tested — PASS
 
@@ -34,7 +35,18 @@ Updated: 2026-11-09. Tested-good commits already on `main` through `118d5eb6`.
 
 ## Untested — project tools and preferences
 
-- [ ] ai-video-production
+- [ ] ai-video-production (partial; local media checks and one real text-to-video render passed; image-to-video blocked by missing R2 access key ID)
+  - [x] `ffprobe` measured-duration math with `ceil((measured+0.5)*2)/2`
+  - [x] `ffmpeg` pad and concat place narration and silent scenes in their own shot windows
+  - [x] `silencedetect=noise=-35dB:d=0.25` confirms line/silence alignment
+  - [x] Live provider schema exposes `supported_durations`, `supported_frame_images`, and `pricing_skus` on all 32 listed models
+  - [x] SigV4 presign signature matches `aws s3 presign` for the same fixture request
+  - [x] Frame-0/last-frame RMSE logic distinguishes the approved keyframe from later motion on a synthetic clip
+  - [x] Dry run displayed a per-shot quote before submission; provider reported $0.42 for the 5-second render
+  - [x] Generate and assemble one real 5-second video; verify MP4 streams, duration, and `truncated: no` (artifacts in `qa-output/ai-video-production/`)
+  - [x] Add per-scene voiceover, verify audio signal is non-silent, and confirm final assembly is not truncated
+  - [x] Final output directory contains exactly `audio.mp3` and `video.mp4` with audio; no intermediates
+  - [ ] Generate from a keyframe via R2 presigned HTTPS URL and verify real frame-0/last-frame anchoring (blocked: `R2_ACCESS_KEY_ID` missing)
 - [ ] apple-notes
 - [ ] apple-reminders
 - [ ] architecture-diagram

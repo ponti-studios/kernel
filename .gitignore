@@ -41,3 +41,6 @@ oauth-success.html
 
 # Local refactor and verification scratch
 work/
+
+# Local skill QA artifacts
+/qa-output/
