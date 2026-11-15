@@ -14,6 +14,7 @@ All writing belongs here, including Ponti Studios scripts, social derivatives, p
 
 - [Write Docs — consolidated documentation skill](references/write-docs/WORKFLOW.md)
 - [Essay](references/essay/WORKFLOW.md)
+- [Corpus pipeline — essay maps, theses, claims, topic maps](references/corpus-pipeline/WORKFLOW.md)
 - [Write Video Script](references/write-video-script/WORKFLOW.md)
 - [Write Brief](references/write-brief/WORKFLOW.md)
 - [Write Incident Report](references/write-incident-report/WORKFLOW.md)

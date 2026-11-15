@@ -1,0 +1,44 @@
+{
+  "canonSource": "pipeline/essay-map/final-essays.json",
+  "censusRoots": ["drafts", "field-notes", "issues", "data", "audio", "pipeline"],
+  "anchors": [
+    { "id": "essay-1-draft", "label": "Essay 1 draft + narration", "paths": ["drafts/essays/essay-01-the-brain-is-a-generative-model.md", "audio/essay-01-narration-harriet.mp3", "audio/essay-01-narration.txt"] },
+    { "id": "nt01-sources", "label": "NT01 source set behind essays 1-5", "paths": ["drafts/nt01-mind-as-model/MANIFEST.md", "drafts/nt01-mind-as-model"] },
+    { "id": "nt01-production", "label": "Issue-1 production wrappers", "paths": ["issues/nt01-nuggets-pilot.md", "issues/nt01-part1-fights-plain.md", "issues/issue-01-outline.md", "issues/issue-01-candidate-mind-as-model.md", "issues/issue-01-production-outline.md"] },
+    { "id": "essay-7", "label": "LLMs Won't Lead to AGI essay", "paths": ["drafts/llm/llms-wont-lead-to-agi-v1.md"] },
+    { "id": "ai-series-core", "label": "AI series orchestrator thesis", "paths": ["drafts/ai-series/01-the-strawberry-delusion.md", "drafts/ai-series/03-ai-agents-and-action.md"] },
+    { "id": "essay-16", "label": "Beliefs Are Costumes (opinions folded in)", "paths": ["drafts/politics/politics.beliefs-are-costumes.md"] },
+    { "id": "essay-17", "label": "The Hall Monitor", "paths": ["drafts/media/the-hall-monitor.md"] },
+    { "id": "essay-24", "label": "The Romance Premium", "paths": ["drafts/business/the-romance-premium.md"] },
+    { "id": "essay-25", "label": "Five Different Social Machines", "paths": ["drafts/media/five-different-social-machines.md"] },
+    { "id": "essay-57", "label": "The Salmon Tax", "paths": ["drafts/economics/economics.the-salmon-tax.md"] },
+    { "id": "essay-34-zirp", "label": "ZIRP five-file series (Cheap Credit)", "paths": ["drafts/economics/the-price-of-the-future.md", "drafts/economics/the-engine-room.md", "drafts/economics/the-gauge-and-the-pile.md", "drafts/economics/the-math-running-backward.md", "drafts/economics/the-subsidy-and-its-shadow.md"] },
+    { "id": "essay-53-housing", "label": "Housing shelf", "paths": ["drafts/housing", "drafts/economics/two-income-households.md"] },
+    { "id": "startups-merged", "label": "Startups vs incumbents (merged)", "paths": ["drafts/business/ai-startups-vs-incumbents-merged.md"] },
+    { "id": "oss-merged", "label": "Open-source governance (merged)", "paths": ["drafts/technology/open-source-governance-merged.md"] },
+    { "id": "watch-merged", "label": "Hallucination panic (merged, llm/)", "paths": ["drafts/llm/llm-hallucination-panic-merged.md"] },
+    { "id": "thames-thesis", "label": "Thames product philosophy", "paths": ["drafts/thames-thesis"] },
+    { "id": "luxury-blueprint", "label": "Luxury-beliefs blueprint", "paths": ["field-notes/reference/luxury-beliefs-as-public-choice.md"] },
+    { "id": "identityism-map", "label": "Identityism system map", "paths": ["field-notes/reference/theory-identityism-and-motivated-reasoning.md"] },
+    { "id": "belief-machinery", "label": "Belief-machinery 10-essay outline", "paths": ["field-notes/reference/the-machinery-of-belief.md"] },
+    { "id": "notes-app-guide", "label": "Notes-app field guide", "paths": ["field-notes/engineering/next-generation-notes-app.md"] },
+    { "id": "outlines-human", "label": "Human-writing-luxury outlines (6)", "paths": ["drafts/essays/chatgpt-share-index.md"] },
+    { "id": "silver-lake", "label": "Silver Lake fiction + bible", "paths": ["drafts/silver-lake"] },
+    { "id": "street-robbery", "label": "Street-robbery series (separate project)", "paths": ["drafts/street-robbery-series"] },
+    { "id": "money-essays", "label": "Money alignment essays (merged)", "paths": ["drafts/career/how-to-think-about-money.md"] },
+    { "id": "purity-merged", "label": "Purity trio (merged, politics/)", "paths": ["drafts/politics/purity-vacation-mimicry-merged.md"] },
+    { "id": "trans-merged", "label": "Trans debate (merged, politics/)", "paths": ["drafts/politics/trans-rights-debate-merged.md"] }
+  ],
+  "thesisLocks": [
+    "Housing: supply shortage produced by policy; demand subsidies bid up scarce units.",
+    "Craft: no backend where none is needed; tune like an instrument; capture beats organization; async over interruption.",
+    "ZIRP series: five distinct chapters — do not merge.",
+    "Cousins kept separate: essays 57/22, 4/45, 15/46, trust trio, imported-risk/migration-loop."
+  ],
+  "openItems": [
+    "change-requires-patience destination contested (psychology vs self-improvement).",
+    "8 keep-with-move-fit tensions in technology await tie-break.",
+    "money-means-nothing contested merge resolved; how-to-think-about-money contested move resolved to career.",
+    "LA-fires piece needs a timestamp check before publishing."
+  ]
+}
