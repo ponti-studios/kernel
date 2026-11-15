@@ -12,29 +12,40 @@ afterEach(async () => {
 });
 
 describe("image batch preflight", () => {
-  it("names an uncompilable spec and still checks the batch without generation", async () => {
-    let generationCalls = 0;
-    const results = await preflightBatch({
-      specs: ["good.json", "broken.json"],
-      root: "/universe",
-      readSpec: async (path) => ({ path, master: { aspect_ratio: "4:5" }, references: [] }),
-      compileSpec: (spec) => {
-        if (spec.path === "broken.json") throw new Error("invalid canon");
-      },
-      loadRegistry: () => ({}),
-      fetchCapabilities: async () => ({
-        aspect_ratio: { values: ["4:5"] },
-        resolution: { values: ["2K"] },
-      }),
-    });
-    assert.equal(results[0].ok, true);
-    assert.equal(results[1].ok, false);
-    assert.equal(results[1].spec, "broken.json");
-    assert.equal(generationCalls, 0);
-    assert.match(
-      results[1].checks.find((row) => row.label === "spec compiles").detail,
-      /invalid canon/,
-    );
+  it("names an uncompilable spec and spends nothing", async () => {
+    // Preflight spends nothing: a fake transport records any attempt to reach the
+    // provider, so "zero generation calls" is measured rather than asserted.
+    const network = [];
+    const realFetch = globalThis.fetch;
+    globalThis.fetch = async (url) => {
+      network.push(String(url));
+      throw new Error("preflight must not call the provider");
+    };
+    try {
+      const results = await preflightBatch({
+        specs: ["good.json", "broken.json"],
+        root: "/universe",
+        readSpec: async (path) => ({ path, master: { aspect_ratio: "4:5" }, references: [] }),
+        compileSpec: (spec) => {
+          if (spec.path === "broken.json") throw new Error("invalid canon");
+        },
+        loadRegistry: () => ({}),
+        fetchCapabilities: async () => ({
+          aspect_ratio: { values: ["4:5"] },
+          resolution: { values: ["2K"] },
+        }),
+      });
+      assert.equal(results[0].ok, true);
+      assert.equal(results[1].ok, false);
+      assert.equal(results[1].spec, "broken.json");
+      assert.match(
+        results[1].checks.find((row) => row.label === "spec compiles").detail,
+        /invalid canon/,
+      );
+      assert.deepEqual(network, [], "preflight issues no generation request");
+    } finally {
+      globalThis.fetch = realFetch;
+    }
   });
 
   it("fetches capabilities once for five specs", async () => {
@@ -97,7 +108,6 @@ describe("image batch preflight", () => {
     const root = join(dir, "universe");
     await mkdir(join(root, "bibles"), { recursive: true });
     await writeFile(join(root, "bibles", "present.png"), "plate");
-    let generationCalls = 0;
     const results = await preflightBatch({
       specs: ["frame.json"],
       root,
@@ -105,10 +115,7 @@ describe("image batch preflight", () => {
         master: { aspect_ratio: "4:5" },
         references: ["bibles/present.png", "bibles/missing.png"],
       }),
-      compileSpec: () => {
-        generationCalls += 1;
-        return "prompt";
-      },
+      compileSpec: () => "prompt",
       loadRegistry: () => ({}),
       fetchCapabilities: async () => ({}),
     });
@@ -116,7 +123,6 @@ describe("image batch preflight", () => {
     const refs = results[0].checks.find((check) => check.label === "references present");
     assert.equal(refs.ok, false);
     assert.match(refs.detail, /bibles\/missing\.png/);
-    assert.ok(generationCalls >= 1, "compilation runs; no provider generation is attempted");
   });
 
 });
