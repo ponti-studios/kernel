@@ -1,18 +1,7 @@
----
-name: macos-app-distribution
-description: Use when shipping a macOS app outside the App Store.
-license: MIT
-metadata:
-  author: project
-  version: "1.0"
-  hermes:
-    tags: [macos, distribution, dmg, notarization, codesign, licensing]
-    related_skills: [macos-menubar-swift-app, python-package-release]
----
-
 # Shipping a macOS app outside the App Store (DMG + Developer ID + notarization)
 
 > Invoke with: the app to package, or the Gatekeeper/notarization problem.
+> Building the app itself is [macos-app](../macos-app/WORKFLOW.md).
 
 ## When to use
 

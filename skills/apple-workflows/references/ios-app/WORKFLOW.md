@@ -1,6 +1,6 @@
-# Native iOS Builder
+# iOS app work
 
-Use this skill when building or changing a native iOS app. Fit the workflow to the request: a small bug fix does not need a full discovery phase, while a new feature with uncertain interaction may benefit from a quick visual prototype before SwiftUI implementation.
+Use this procedure when building or changing a native iOS app. Fit the workflow to the request: a small bug fix does not need a full discovery phase, while a new feature with uncertain interaction may benefit from a quick visual prototype before SwiftUI implementation.
 
 ## Workflow
 

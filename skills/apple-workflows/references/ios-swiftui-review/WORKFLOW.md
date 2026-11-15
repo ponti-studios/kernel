@@ -1,4 +1,6 @@
-# SwiftUI View Auditor
+# SwiftUI view review
+
+> Invoke with: the views, navigation or design-system code to audit.
 
 ## Definition of done
 
@@ -7,7 +9,7 @@
 
 ## Workflow
 
-Use this skill for review/audit tasks, not implementation by default. Lead with findings, ordered by severity and grounded in file/line references.
+Use this procedure for review and audit tasks, not implementation by default. Lead with findings, ordered by severity and grounded in file/line references.
 
 1. Discover SwiftUI and view-related files.
 2. Inspect representative app entry points, navigation, shared components, view models, and design-system files.

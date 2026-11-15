@@ -1,15 +1,7 @@
----
-name: macos-menubar-swift-app
-description: Use when building a native macOS menu bar app in Swift.
-license: MIT
-metadata:
-  author: project
-  version: "1.0"
----
-
 # Native macOS menu bar apps (SwiftPM + AppKit)
 
 > Invoke with: the app to build, or the bug/permission issue to debug.
+> Shipping it to other people is [macos-distribution](../macos-distribution/WORKFLOW.md).
 
 ## When to use
 
@@ -605,8 +597,8 @@ log show --last 30m --predicate 'subsystem == "com.apple.TCC"' --style compact \
   `references/verifying-a-gui-you-cannot-screenshot.md`.
 
 **All of the above is local signing.** Shipping the same app to other people — Developer ID, the hardened
-runtime, a DMG, notarization, and what a buyer needs on the product page — is its own procedure: see the
-`macos-app-distribution` skill.
+runtime, a DMG, notarization, and what a buyer needs on the product page — is its own procedure: see
+[macOS distribution](../macos-distribution/WORKFLOW.md).
 
 ## Renaming a shipped app
 

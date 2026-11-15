@@ -23,15 +23,13 @@ Follow the user's current instructions and the target repository's conventions b
 - [Kernel Clean Code — consolidated code-health skill](references/kernel-clean-code/WORKFLOW.md)
 - [Monorepo Architect](references/kernel-audit-monorepo/WORKFLOW.md)
 - [Review completed work](references/kernel-audit-review/WORKFLOW.md)
-- [SwiftUI View Auditor](references/kernel-audit-swiftui/WORKFLOW.md)
 - [Trace a feature across boundaries](references/kernel-audit-trace/WORKFLOW.md)
 - [Deep Repo Code Scan](references/deep-repo-code-scan/WORKFLOW.md)
 - [Dependabot batch updates](references/dependabot-batch/WORKFLOW.md)
 - [PR comment triage](references/pr-comments/WORKFLOW.md)
 - [React Doctor](references/react-doctor/WORKFLOW.md)
 - [Configure project quality checks](references/project-quality-gates/WORKFLOW.md)
-- [Native iOS Builder](references/native-ios-builder/WORKFLOW.md)
 - [Deployment readiness and execution](references/kernel-ops-ship/WORKFLOW.md)
 - [Agent knowledge loops](references/agent-knowledge-loops/WORKFLOW.md)
 
-For security audits, use security-workflows. For interface design and motion, use design-workflows. Writing and revising documents, scripts and interface copy uses writing-workflows.
+For Apple platform apps — iOS, macOS, watchOS, Swift and SwiftUI — use apple-workflows. For security audits, use security-workflows. For interface design and motion, use design-workflows. Writing and revising documents, scripts and interface copy uses writing-workflows.

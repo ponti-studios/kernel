@@ -1,17 +1,7 @@
----
-name: swift-package-multiplatform-verification
-description: "Use when a Swift package serves both macOS and iOS."
-version: 1.1.0
-author: Charles Ponti, Hermes Agent
-license: MIT
-platforms: [macos]
-metadata:
-  hermes:
-    tags: [swift, spm, ios, macos, build, verification]
-    related_skills: [macos-menubar-swift-app, kernel-dev-build]
----
-
 # Verifying a Swift package both platforms build
+
+> Invoke with: the shared package you changed, or the "it builds on both platforms" claim you need to prove.
+> Related: [macos-app](../macos-app/WORKFLOW.md). For build and CI failures generally, see engineering-workflows' build procedure.
 
 When one package serves a Mac app and an iPhone app (Ponte and Thames share `charlesponti/waveform`),
 a green macOS build proves nothing about the half wrapped in `#if os(iOS)`.
