@@ -13,7 +13,7 @@ Updated: 2026-11-09. Tested-good commits already on `main` through `118d5eb6`.
 - [x] github
 - [x] hermes-gateway-messaging (mechanical; no paired bot)
 - [x] llm-wiki
-- [x] macos-disk-space-recovery (note: `du ~/Library` times out, needs scoping)
+- [x] computer-workflows — disk-space-recovery (note: `du ~/Library` times out, needs scoping)
 - [x] node-inspect-debugger
 - [x] opencode
 - [x] product-price-monitor
@@ -66,8 +66,8 @@ Updated: 2026-11-09. Tested-good commits already on `main` through `118d5eb6`.
 - [ ] inspecting-hermes-desktop-dom
 - [ ] linear-tickets
 - [ ] local-services-tailnet
-- [ ] macos-app-distribution
-- [ ] macos-menubar-swift-app
+- [ ] apple-workflows — macos-distribution
+- [ ] apple-workflows — macos-app
 - [ ] manim-video
 - [ ] maps
 - [ ] meeting-action-items
@@ -95,13 +95,14 @@ Updated: 2026-11-09. Tested-good commits already on `main` through `118d5eb6`.
 - [ ] studio-dashboard
 - [ ] studio-dev
 - [ ] subsystem-removal
-- [ ] swift-package-multiplatform-verification
+- [ ] apple-workflows — swift-package
 - [ ] systematic-debugging
 - [ ] tanstack-start-shadcn
 - [ ] teams-meeting-pipeline
 - [ ] test-driven-development
 - [x] animated-presentation (demo.sh E2E: all gates pass, MP4+captions+metadata)
 - [ ] typescript-sqlite
+- [ ] uber-eats
 - [ ] weekly-review-planning
 - [ ] xlsx
 - [ ] youtube-content

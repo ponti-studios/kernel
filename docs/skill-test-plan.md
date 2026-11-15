@@ -8,6 +8,12 @@ Tiers: **H** = hermetic/local/$0 · **L** = live account/network · **$** = spen
 
 ## Workflows
 
+### apple-workflows [H+L]
+- Entrypoints: `references/ios-app/WORKFLOW.md`, `references/ios-swiftui-review/WORKFLOW.md`, `references/swift-package/WORKFLOW.md`, `references/swift-style/WORKFLOW.md`, `references/macos-app/WORKFLOW.md`, `references/macos-distribution/WORKFLOW.md`.
+- Test: `ios-app` needs Xcode + simulator (`xcodebuild test -destination 'platform=iOS Simulator,name=…'`) plus a device for permission/sensor claims; `swift-package` and `macos-app` and `macos-distribution` have their own blocks below; `ios-swiftui-review` and `swift-style` are review procedures — validate by rubric coverage, not exit codes.
+- Prereqs: macOS + Xcode; device work needs hardware; distribution needs a paid Developer ID.
+- Blockers: review procedures are judgment-only; simulator green never proves device behaviour.
+
 ### design-workflows [H]
 - Entrypoints: `references/kernel-design/WORKFLOW.md`, `references/kernel-animate/WORKFLOW.md`, `references/brand-asset-sourcing/WORKFLOW.md`.
 - Test: `scripts/contrast.py`, `validate_contrast.py`, `validate_tokens.py`, `lint_hardcodes.py`, `design_systems.py` against `tokens/` fixtures (positive + negative hardcoded-hex fixture); brand-asset 8-step: inventory strings → resolve → download → `logos.json` manifest → `xml.dom.minidom` parse SVGs + raster ≥64px check.
@@ -16,8 +22,8 @@ Tiers: **H** = hermetic/local/$0 · **L** = live account/network · **$** = spen
 - Blockers: animate/design taste is human judgment; brand-asset needs network + real brand source.
 
 ### engineering-workflows [H+L]
-- Entrypoints: 23 `WORKFLOW.md` (`kernel-dev-*`, `kernel-audit-*`, `project-quality-gates`, `dependabot-batch`, `pr-comments`, `native-ios-builder`, `kernel-ops-ship`, `agent-knowledge-loops`, …).
-- Test: quality-gates tiers (`tsc --noEmit`, `oxlint`, `oxfmt`, `vitest`, `knip`, `shellcheck`, `ruff`, `gitleaks`, `osv-scanner`, `semgrep`, `lychee`, `playwright`) with planted-violation probe (fake `ghp_` token must go red→green); `references/kernel-dev-database/scripts/pull-hominem-schema.sh` dry-run; `native-ios-builder`: `xcodebuild test -destination simulator`.
+- Entrypoints: 21 `WORKFLOW.md` (`kernel-dev-*`, `kernel-audit-*`, `project-quality-gates`, `dependabot-batch`, `pr-comments`, `kernel-ops-ship`, `agent-knowledge-loops`, …). Apple platform procedures moved to apple-workflows.
+- Test: quality-gates tiers (`tsc --noEmit`, `oxlint`, `oxfmt`, `vitest`, `knip`, `shellcheck`, `ruff`, `gitleaks`, `osv-scanner`, `semgrep`, `lychee`, `playwright`) with planted-violation probe (fake `ghp_` token must go red→green); `references/kernel-dev-database/scripts/pull-hominem-schema.sh` dry-run.
 - Prereqs: `node/pnpm`, `python3`, `docker`, `git/gh`, quality-gate CLIs; iOS needs Xcode + simulator; DB needs staging creds (never prod).
 - Pass: gates green locally, CI mirrors local order, planted violation caught; DB types regenerate with no diff; simulator tests exit 0.
 - Blockers: needs real target repos; device-only claims unverifiable without hardware; most procedures are audit checklists.
@@ -237,13 +243,13 @@ Tiers: **H** = hermetic/local/$0 · **L** = live account/network · **$** = spen
 - Pass: direct + proxied curl 200-class; `serve status` diff shows add; IPv4 bind confirmed.
 - Blockers: plain `nohup/setsid` rejected; IPv6-only default on macOS Node/Python; Host 400 looks like down server; env vars not inherited across terminal calls.
 
-### macos-app-distribution [L+$]
+### apple-workflows — macos-distribution [L+$]
 - Test: `scripts/check-signature.sh <app> [team]` exit 0 + `team-anchored: yes`; `scripts/verify-distribution.sh dist/<N>-<v>.dmg` 5 checks (image signed, `source=Notarized Developer ID`, staple on dmg, quarantined-copy `accepted`, staple+`spctl`+OU requirement inside mount); `codesign --verify --strict`, `spctl -a -t open`, `stapler validate`; `gh release download`, live product-page + cache-buster, `PlistBuddy/lipo/spctl/stapler`; Sparkle appcast `CFBundleVersion` stamping.
 - Prereqs: macOS + Xcode CLI, paid Apple Developer + `Developer ID Application` cert, `TEAMID`, `notarytool --keychain-profile`, network, `gh`.
 - Pass: both scripts exit 0; `spctl` literally `source=Notarized Developer ID` on quarantined dmg; `stapler validate … worked` for dmg + mounted app.
 - Blockers: cannot fully test without paid cert + notarization; ad-hoc sigs fool `codesign -dv` but fail grants; `dist/` staleness; private-repo assets 404 for buyers.
 
-### macos-menubar-swift-app [H+L]
+### apple-workflows — macos-app [H+L]
 - Test: pure unit tests (`action(mode:state:event)`, `StatusIcon`, chord display/rejection, `Retake.candidate`, settings defaults); CLI oracles `--selftest/--transcribe/--devices/--bench/--window/--status-image/--icon`; `swift scripts/window-id.swift <frag>` → `screencapture -l <id>`; `osascript keystroke` hotkey→record→transcribe→clipboard e2e; log greps (`hotkey: key-up received …`, `Failed to match … kTCCService` =0); `afinfo/ffprobe volumedetect` on kept WAV (1ch 16000Hz Int16, not empty-room −67dB nor clipped 0dB).
 - Prereqs: macOS + Swift toolchain, mic hardware, TCC Mic/Accessibility grants, Apple Silicon for ANE figures, `whisper-cpp` (dev), FluidAudio model fetch (~100s MB), `say`, `screencapture`.
 - Pass: status frame `y≈screenH-24`; WAV spec holds; `--status-image` every state `template=true` centred; window-count `0→1→0` for ⌘,/⌘W; same-identity rebuild keeps grant.
@@ -417,7 +423,7 @@ Tiers: **H** = hermetic/local/$0 · **L** = live account/network · **$** = spen
 - Pass: tag named in removal commit; zero tracked references; all survivors green.
 - Blockers: destructive by design — disposable fixture only; platform-conditional code needs multi-platform runners.
 
-### swift-package-multiplatform-verification [H]
+### apple-workflows — swift-package [H]
 - Test: fixture dual-platform package with `#if os(iOS)` file: macOS `swift build` (expected green, proves nothing) vs `xcodebuild -scheme <Target> -destination generic/platform=iOS -derivedDataPath /tmp/ios-build build CODE_SIGNING_ALLOWED=NO` → `BUILD SUCCEEDED` + `find … -name PhoneMicrophone.o -o -name VoiceOrb.o` exists; link-error repro for missing test-target product; rename coordination; `git merge-base --is-ancestor <tag> main`.
 - Prereqs: macOS only, Xcode, SwiftPM, iOS SDK; sample package.
 - Pass: `BUILD SUCCEEDED` + ≥1 `.o` per iOS-only source; `swift build` green alone = fail.
@@ -467,6 +473,12 @@ Tiers: **H** = hermetic/local/$0 · **L** = live account/network · **$** = spen
 - Prereqs: Node 22.5+ (`node:sqlite`) or ABI-matched `better-sqlite3` (Node 24 ok, Node 26 ABI 137 incompatible — `npm rebuild`); TypeScript/Kysely.
 - Pass: observable SQL behaviors above; MCP echo returns valid JSON-RPC; no `database is locked` kill.
 - Blockers: no bundled scripts/fixtures; native-module ABI fragility; async-extraction timing (20–45s) makes evals slow.
+
+### uber-eats [L+$]
+- Test: live session at the saved address: `/gb/search?diningMode=DELIVERY&q=indian` → parent-card extract (name, rating, review count, fee, ETA) → open a store → `a[href*="mod=quickView"]` full-menu extract with like-rates → choose a vegetarian basket per `references/<cuisine>/WORKFLOW.md` → bundle picker: tag `button[aria-label='Increment']` by row name, `scroll` before clicking (sticky-footer cover), verify the `1` badges in the group's row text → `Add 1 to order` → header cart button → screenshot the side panel (it is not `role=dialog`; `/gb/cart` is a dead end) → checkout screen, quote total + ETA → STOP.
+- Prereqs: real Chrome session via `browsermcp` with saved address, Uber One and a saved card; single-line `eval`.
+- Pass: menu extract returns names, prices and descriptions; cart panel lists every chosen component and the promotion; total and ETA come from checkout, not the store page; report ends "nothing ordered yet".
+- Blockers: spends money if the gate is bypassed — place only on an explicit yes; live menus and ETAs drift; 3-D Secure hands back to the user; `ERR_BLOCKED_BY_CLIENT` in the console is the ad blocker, not a failure.
 
 ### weekly-review-planning [J+L]
 - Test: 7 steps on live week data — systems/window → calendar evidence → clear inboxes → reconcile projects → waiting/commitments → capacity-aware plan → apply approved updates; output 7 sections (wins/overdue/waiting/stalled/plan/proposed-updates/gaps); Verification checklist (both weeks covered or gaps stated; every flag traces to record/event/thread; no unapproved mutation + approved writes read back; deferred work named).
