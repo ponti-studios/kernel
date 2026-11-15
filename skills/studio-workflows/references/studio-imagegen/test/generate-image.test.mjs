@@ -142,6 +142,21 @@ describe("generate-image single-shot CLI", () => {
     assert.doesNotMatch(full.stdout, /staged:/);
   });
 
+  it("reports passthrough when no resizer is on the machine", async () => {
+    const f = await fixture();
+    const plate = join(f.dir, "plate.png");
+    await writeFile(plate, solidPng(16, 16));
+    // No sharp here, and a PATH without ImageMagick: staging must say so rather
+    // than quietly sending full-size bytes.
+    const result = run(
+      f,
+      ["--prompt", "a plate", "--ref", plate, "--stage-refs", "--dry-run"],
+      { PATH: "/usr/bin:/bin" },
+    );
+    assert.equal(result.status, 0, result.stderr);
+    assert.match(result.stdout, /staged: passthrough — .*plate\.png/);
+  });
+
   it("stages the spec's own reference plates too", async () => {
     const f = await fixture();
     const spec = fileURLToPath(

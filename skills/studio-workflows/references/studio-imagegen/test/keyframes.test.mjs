@@ -88,10 +88,11 @@ describe("keyframes batch CLI", () => {
   });
 
   it("exits 1 when every job fails", async () => {
-    const f = await fixture([scene("FAIL"), scene("FAIL2")]);
+    const f = await fixture([scene("FAIL"), scene("FAIL2"), scene("FAIL3"), scene("FAIL4")]);
     const result = run(f, ["--scenes", f.scenesPath, "--out", f.out, "--yes"]);
     assert.equal(result.status, 1);
-    assert.match(result.stdout, /generated: 0\/2/);
+    assert.match(result.stdout, /generated: 0\/4/);
+    assert.match(result.stdout, /failed:\s+4/);
   });
 
   it("completes four delayed jobs at the default concurrency inside 1.6s", async () => {

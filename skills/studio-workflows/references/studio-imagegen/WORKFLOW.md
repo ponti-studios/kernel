@@ -102,9 +102,10 @@ path overrides are required. Environment variables override keys in
 | `STUDIO_LEGS`            | —                    | set to `off` to disable provider retries                        |
 | `STUDIO_STAGE_DIR`       | —                    | staged reference cache (default `~/.cache/studio/refs/`)        |
 
-Reference staging is opt-in with `--stage-refs` for `generate-image`; it caches
-by file content and staging parameters. If neither `sharp` nor ImageMagick is
-available, the original bytes are sent and each run reports `staged: passthrough`.
+Reference staging is opt-in with `--stage-refs` for `generate-image` and
+`keyframes`; it caches by file content and staging parameters. If neither
+`sharp` nor ImageMagick is available, the original bytes are sent and each run
+reports `staged: passthrough`.
 Keep staging opt-in until a staged/full-size canon frame has been compared.
 `--no-stage-refs` explicitly selects full-size references and cannot be combined
 with `--stage-refs`. Keyframes accept `--concurrency` (default 4); set it to 1
