@@ -1,6 +1,6 @@
 # Studio Universe — canon and the prompt compiler
 
-The universe is Chase's cast and the rules that keep it consistent across every
+The universe is the owner's cast and the rules that keep it consistent across every
 generation: **bibles hold every character fact, `registry.json` holds pointers
 and extraction rules, and the compiler turns a frame spec into a prompt.**
 Same inputs, byte-identical output, every time.

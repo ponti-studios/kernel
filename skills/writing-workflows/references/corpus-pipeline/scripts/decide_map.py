@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Apply Wyatt's decisions (Chase's delegation, 'you choose', Oct 16, 2026)
+"""Apply the editor's decisions (the owner's delegation, 'you choose', Oct 16, 2026)
 to the core-essays map: 2 splits, 1 thesis reassignment, drawer resolution.
 Renumber, re-verify coverage (essays + parked + killed == 331 theses),
 and regenerate files/core-essays-map.md + final-essays.json.
@@ -34,7 +34,7 @@ def by_title(t):
 def append_note(e, text):
     e['notes'] = (e['notes'].rstrip() + ' ' + text) if e['notes'] else text
 
-DEC = " (Wyatt, on Chase's delegation, Oct 16, 2026)"
+DEC = " (the editor, on the owner's delegation, Oct 16, 2026)"
 
 # --- 1. Reassignment: two Hollywood theses, Followers -> Streaming
 fol = by_title('Followers Are Not Customers')
@@ -114,7 +114,7 @@ parked = [
 ]
 killed = [
     {'thesis': 'Pick the rendering pattern for the job', 'claims': TH['Pick the rendering pattern for the job']['claims'],
-     'reason': 'Pure reference material (0 keep-verdict files, none of it in Chase\'s own words) — imported guidance, not a position. Killed from the canon.'},
+     'reason': 'Pure reference material (0 keep-verdict files, none of it in the owner\'s own words) — imported guidance, not a position. Killed from the canon.'},
 ]
 
 # --- Renumber within family order, verify
@@ -146,7 +146,7 @@ LOVE_N = next(e['n'] for e in final if e['title'].startswith('Love Burns Steady'
 L = []
 L.append('# The Core Essays — a map of the vault, condensed')
 L.append('')
-L.append("**Status: DECIDED (Oct 16, 2026) — Chase delegated the open calls ('you choose'); Wyatt's decisions are logged below and stand unless vetoed.**")
+L.append("**Status: DECIDED (Oct 16, 2026) — the owner delegated the open calls ('you choose'); the editor's decisions are logged below and stand unless vetoed.**")
 L.append('')
 L.append('The contention: hundreds of notes, the same ideas restated for years, some of them no longer believed. This map is the condensation target — the core essays the vault collapses into, each one a single position arguable in 3,000–4,000 words.')
 L.append('')
@@ -154,17 +154,17 @@ L.append(f"How it was built: 850+ notes -> 4,887 extracted claims -> 331 cluster
 L.append('')
 L.append('## What happens next')
 L.append('')
-L.append("Veto or adjust any decision by essay number; anything unmentioned stands. Drafting then runs one essay at a time in Chase's voice from the source notes — and correcting a draft is the adjudication: the corrected essay becomes the record of what he believes. (Two rulings already made, Oct 16, are baked in: the generative-model essay carries the amended premise — same architecture, differences are lived experience, 'the RLHF' — and trauma is defined as overfitting, the clinical definition folded into it.)")
+L.append("Veto or adjust any decision by essay number; anything unmentioned stands. Drafting then runs one essay at a time in the owner's voice from the source notes — and correcting a draft is the adjudication: the corrected essay becomes the record of what he believes. (Two rulings already made, Oct 16, are baked in: the generative-model essay carries the amended premise — same architecture, differences are lived experience, 'the RLHF' — and trauma is defined as overfitting, the clinical definition folded into it.)")
 L.append('')
-L.append("## Decision log (Wyatt, on Chase's delegation)")
+L.append("## Decision log (the editor, on the owner's delegation)")
 L.append('')
 L.append(f"1. **Merges stand**: 'Beliefs Are Costumes' + 'Opinions Are Uniforms' = essay {num('Beliefs Are Costumes')}; 'Cheap Credit Makes the Billionaires' + 'Capital With Nowhere to Go' = essay {num('Cheap Credit Makes the Billionaires')}. The same positions had been grouped twice in different territories.")
-L.append(f"2. **All four flagged pairs kept separate** — they are cousins, not duplicates: {num('The Salmon Tax')} 'The Salmon Tax' (the concrete coinage: price as product, taste as taught obedience) vs {num('Luxury Is the Purchase of Meaning')} 'Luxury Is the Purchase of Meaning' (the abstract theory, with Chase's first-order refusal inside it); {num('The Brain Is a Forward-Moving Sentence')} (narrative as mechanism) vs {num('We Tell Ourselves Stories to Live')} (narrative as identity); {LOVE_N} (intimate scale) vs {num('Trust Is Built Through Behavior')} (social scale).")
+L.append(f"2. **All four flagged pairs kept separate** — they are cousins, not duplicates: {num('The Salmon Tax')} 'The Salmon Tax' (the concrete coinage: price as product, taste as taught obedience) vs {num('Luxury Is the Purchase of Meaning')} 'Luxury Is the Purchase of Meaning' (the abstract theory, with the owner's first-order refusal inside it); {num('The Brain Is a Forward-Moving Sentence')} (narrative as mechanism) vs {num('We Tell Ourselves Stories to Live')} (narrative as identity); {LOVE_N} (intimate scale) vs {num('Trust Is Built Through Behavior')} (social scale).")
 L.append(f"3. **Boundary fixed instead of a merge**: 'Followers Are Not Customers' ({num('Followers Are Not Customers')}) kept its creator-economics core, but its two Hollywood theses moved to 'The Math That Broke Streaming' ({num('The Math That Broke Streaming')}), where they are core argument rather than case study.")
 L.append(f"4. **Two splits**: 'The Consumer Is the Final Boss' ({num('The Consumer Is the Final Boss')}, was 118 claims) split into demand ({num('The Consumer Is the Final Boss')}) and supply — 'Audience Capture' ({num('Audience Capture')}), what the feedback loop does to makers. 'Equality Is a Conditional Weapon' ({num('Equality Is a Conditional Weapon')}, was 97 claims) shed its morality wing as 'Minimum Viable Morality' ({num('Minimum Viable Morality')}).")
 L.append(f"5. **Not split**: 'Authenticity Is a Byproduct' ({num('Authenticity Is a Byproduct')}) — its two sub-arguments are joined by the claim that selfhood and value are both relational byproducts; that join IS the essay.")
 L.append(f"6. **Fragments drawer resolved**: 'Adaptation Mistaken for Progress' ({num('Adaptation Mistaken for Progress')}) stands as an essay on its title thesis; two fragments parked and one reference item killed (appendix).")
-L.append(f"7. **The count is {len(final)}, not ~50** — and it went UP by two net. The reason: two essays were each carrying two essays' worth of material (118 and 97 claims), while none of the four candidate pairs turned out to be the same position stated twice. Chase's ~50 was the right order of magnitude; forcing it exactly would have meant merging distinct arguments or splitting none of the oversized ones.")
+L.append(f"7. **The count is {len(final)}, not ~50** — and it went UP by two net. The reason: two essays were each carrying two essays' worth of material (118 and 97 claims), while none of the four candidate pairs turned out to be the same position stated twice. the owner's ~50 was the right order of magnitude; forcing it exactly would have meant merging distinct arguments or splitting none of the oversized ones.")
 L.append('')
 L.append('## The canon')
 for fam in FAM_ORDER:
@@ -196,7 +196,7 @@ L.append('**The residue.** 1,468 of the 4,887 claims were never clustered into t
 L.append('')
 L.append('**Relation to NT01.** Essays 1–5 (the generative model, the context window, the hallucination engine, the forward-moving sentence, lossy compression) are the old NT01 core, in order. If Next Token issues happen, they assemble finished essays from this canon; nothing is drafted for the magazine ahead of the essays themselves.')
 L.append('')
-L.append(f"**Already written.** Several of these essays exist in near-finished form in Chase's existing corpus — the anchor files listed per essay are the strongest sources, and keep-verdict counts show how much finished material each essay already has (e.g. the agent-architecture essays behind #{num('The Model Is Only the Engine')}, the LLM-architecture essays behind #{next(e['n'] for e in final if e['title'].startswith('LLMs Won'))}). Drafting those is consolidation and updating, not writing from zero.")
+L.append(f"**Already written.** Several of these essays exist in near-finished form in the owner's existing corpus — the anchor files listed per essay are the strongest sources, and keep-verdict counts show how much finished material each essay already has (e.g. the agent-architecture essays behind #{num('The Model Is Only the Engine')}, the LLM-architecture essays behind #{next(e['n'] for e in final if e['title'].startswith('LLMs Won'))}). Drafting those is consolidation and updating, not writing from zero.")
 
 out = os.path.join(HERE, 'core-essays-map.md')
 open(out, 'w').write('\n'.join(L) + '\n')

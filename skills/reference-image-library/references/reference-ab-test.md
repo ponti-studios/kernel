@@ -13,16 +13,16 @@ second appended after every render so a killed cell loses one image, not the bat
 {
   "scenes": [
     {
-      "scene": "s1-akane",
+      "scene": "s1-character-a",
       "kind": "single",
-      "chars": ["akane"],
+      "chars": ["character-a"],
       "prompt": "...",
       "arm": "turnaround",
-      "code": "s1-akane__X",
-      "refs": ["bibles/akane/turnaround-sheet.webp"]
+      "code": "s1-character-a__X",
+      "refs": ["bibles/character-a/turnaround-sheet.webp"]
     }
   ],
-  "mapping": { "s1-akane": { "s1-akane__X": "turnaround", "s1-akane__Y": "plates" } }
+  "mapping": { "s1-character-a": { "s1-character-a__X": "turnaround", "s1-character-a__Y": "plates" } }
 }
 ```
 
@@ -44,8 +44,8 @@ scene kind (4:5 singles, 16:9 groups), 2K, output named by code:
 
 ```bash
 scripts/generate-image.sh --prompt @plan.prompt.txt \
-  --ref bibles/akane/turnaround-sheet.webp \
-  --aspect 4:5 --resolution 2K --out "$OUT/s1-akane__X.png"
+  --ref bibles/character-a/turnaround-sheet.webp \
+  --aspect 4:5 --resolution 2K --out "$OUT/s1-character-a__X.png"
 ```
 
 Parse `wrote:` and `cost:` from stdout rather than assuming success — a 400 surfaces as

@@ -23,11 +23,11 @@ them out.
 that says:
 
 ```
-STAGING — Akane, in the deep-red wrap dress; never the black cardigan, white
+STAGING — Character A, in the deep-red wrap dress; never the black cardigan, white
   t-shirt and black cargo trousers; never the plain black t-shirt and black jeans
-STAGING — Lucy, in the plain black t-shirt and black jeans; never the
+STAGING — Character B, in the plain black t-shirt and black jeans; never the
   deep-red wrap dress
-STAGING — Wyatt, in the black cardigan, white t-shirt and black cargo trousers;
+STAGING — Character C, in the black cardigan, white t-shirt and black cargo trousers;
   never the deep-red wrap dress
 ```
 
@@ -39,8 +39,8 @@ it gets: N characters produce N×(N-1) forbidden-garment mentions.
 Write it as ownership instead, naming only the owner's own garments:
 
 ```
-STAGING — Akane, wearing the deep-red wrap dress and nothing else: …
-STAGING — Lucy, wearing the plain black t-shirt and black jeans and nothing else: …
+STAGING — Character A, wearing the deep-red wrap dress and nothing else: …
+STAGING — Character B, wearing the plain black t-shirt and black jeans and nothing else: …
 ```
 
 plus one global line that states distinctness without enumerating anyone else's
@@ -65,8 +65,8 @@ wrong subject** is worse than no clause at all.
 
 Two rules for the conversion itself:
 
-- **A prohibition with a positive half keeps the positive half.** "Wyatt wears
-  only his cardigan — never the Passenger's greatcoat" becomes "Wyatt wears only
+- **A prohibition with a positive half keeps the positive half.** "Character C wears
+  only his cardigan — never the costume's greatcoat" becomes "Character C wears only
   his cardigan"; the tail is the part that names another character's clothing.
 - **A constraint you cannot rephrase positively is reported, not deleted.**
   Dropping it silently loses information the author intended. Keep it, flag it,

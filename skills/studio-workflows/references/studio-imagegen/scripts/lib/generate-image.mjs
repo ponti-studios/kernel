@@ -187,7 +187,7 @@ if (values["stage-refs"] && references.length) {
 // these images -- only the user does.
 const outStamp = new Date().toISOString().replace(/[-:]/g, "").replace(/T/, "-").slice(0, 15);
 const modelSlug = modelName.replace(/^[^/]+\//, "").replace(/[^a-z0-9.]+/gi, "-");
-// name the scene, not just the frame number: "scooby-the-trap-f3" reads better in a
+// name the scene, not just the frame number: "set-b-the-trap-f3" reads better in a
 // folder of 100 images than "frame-f3"
 const titleSlug = String(provenance.title ?? "")
   .toLowerCase()

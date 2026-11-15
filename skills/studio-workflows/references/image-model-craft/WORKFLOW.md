@@ -93,7 +93,7 @@ re-run in one afternoon ([evaluation-method.md](references/evaluation-method.md)
 
 ## Model choice, measured (2026-10-24, n=5 per model on one frame)
 
-| Model                               | Speed      | Verified success | Aurora (of 35) | Scooby p1 (of 8) \u2020 | Use it for                                    |
+| Model                               | Speed      | Verified success | Set A (of 35) | Set B p1 (of 8) \u2020 | Use it for                                    |
 | ----------------------------------- | ---------- | ---------------- | -------------- | ----------------------- | --------------------------------------------- |
 | `qwen/qwen-image-2.1-turbo`         | 36-49s     | 11/11            | **35/35**      | 6/8                     | default; `n` up to 6, so it can batch samples |
 | `bytedance-seed/seedream-5-0-flash` | **18-29s** | 11/11            | 34/35          | 6/8                     | fast iteration                                |
@@ -101,12 +101,12 @@ re-run in one afternoon ([evaluation-method.md](references/evaluation-method.md)
 
 All three returned 1640x2048 for a 2K 4:5 request. None reported a per-render cost.
 
-\u2020 **The Scooby column is unreliable and kept only for the record.** It included an
+\u2020 **The Set B column is unreliable and kept only for the record.** It included an
 invented check ("no phone in anyone's hand") that scored a spec-mandated nail file as a
 violation, plus a text check the user could not confirm on the pixels — see the
-corrections in [evidence-log.md](references/evidence-log.md). The Aurora column (qwen 0/35 misses, flash
+corrections in [evidence-log.md](references/evidence-log.md). The Set A column (qwen 0/35 misses, flash
 1/35) is unaffected, since its items produced no false failures. **Do not cite the
-Scooby scores as evidence that one model follows rules better than another.**
+Set B scores as evidence that one model follows rules better than another.**
 
 ## What to read when
 

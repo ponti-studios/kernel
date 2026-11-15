@@ -113,7 +113,7 @@ Provider contract details: `docs/PROVIDERS.md` in the `tower-bridge` repo.
 - **Checkpoints:** `tb run` stops at script and stills. Use `--yes` to skip for a single run (logged). `--force` re-runs a current stage.
 - **Mapping (essay mode):** every essay section (Markdown headings) must map to at least one turn or be cut with a reason. Unmapped sections fail `tb script`. The essay MUST contain `##` headings — title-only fails with "no sections found". Minimum 1500 words; shorter inputs should use idea mode. Idea mode produces `input/outline.md` (5-9 beats) and `input/sources.md` when the writer returns `outline`/`sources` fields.
 - **Turn IDs:** specs reference turn ids like `t01`. Split turns produce `-2` parts (e.g., `t01-2`).
-- **Accent audit:** red (`#E4181B`) only via the sanctioned mechanisms (Monotone mark + one named semantic state per video).
+- **Accent audit:** red (`#E4181B`) only via the sanctioned mechanisms (brand mark + one named semantic state per video).
 - **Git history:** assets must not enter git history. Use `git filter-repo --path-glob '*.mp3' --invert-paths` if they slip in, then force-push (refspec `+branch-name` form if `--force` is blocked). After cleanup, check `git log` — a worker agent may re-add assets in a follow-up commit; reset --hard to the clean commit and force-push again.
 - **Slides must represent the narration:** one section per turn, content grounded in that turn's words (no invented quantities); verify the contact sheet against the audio before approving stills.
 

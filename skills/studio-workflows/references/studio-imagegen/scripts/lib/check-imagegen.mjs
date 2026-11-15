@@ -153,7 +153,7 @@ if (values.spec) {
         "reference images present",
         true,
         // Show the full relative path: two characters' plates share a
-        // basename (bibles/lucy/identity-plate.png vs bibles/akane/...).
+        // basename (bibles/character-b/identity-plate.png vs bibles/character-a/...).
         refs.length
           ? `${refs.length}: ${refs.map((r) => `${r} (${IMAGE_MIME[extname(r).toLowerCase()] ?? "image/png"})`).join(", ")}`
           : "none attached",

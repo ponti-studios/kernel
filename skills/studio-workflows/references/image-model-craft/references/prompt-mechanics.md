@@ -96,7 +96,7 @@ negative surviving in the shared render grade.
 ## 9. Prompt order matters less than you think [I]
 
 No experiment isolated clause order. What is observable: the character blocks sit
-after the scene, and identity drifts (phantom emerging from the screen, hands gaining
+after the scene, and identity drifts (costume emerging from the screen, hands gaining
 tattoos) track _reference plates and resolution_, not block order. Treat block order
 as stable-by-convention, not as a lever.
 
@@ -141,7 +141,7 @@ failure's cause:
   is often a shared scoring error. (Our one attempt at this example was exactly that,
   so the rule stays [U].)
 - **Fails on one model only** → a model quirk; switch for that frame or accept it.
-  (seedream-pro floating the phantom.)
+  (seedream-pro floating the costume.)
 - **Passes on some samples of every model** → ordinary variance; do not "fix" it.
 
 This is cheaper than it sounds: 2 models x 5 samples x 1 frame is 10 renders, well

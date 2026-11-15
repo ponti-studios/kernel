@@ -149,7 +149,7 @@ Three rules keep a rename from breaking the pipeline:
 - **Uniform names cost the filename, so refer to the folder.** Once every character carries
   `turnaround.webp`, a log line, an error message or a grep result that prints the basename prints
   four identical strings and tells you nothing about which character broke. Print and ask for
-  `wyatt/turnaround.webp`, and when a skill logs attached references, log the parent segment too.
+  `character-c/turnaround.webp`, and when a skill logs attached references, log the parent segment too.
 - **An adopted sheet is a registry change, not a copy.** Dropping the chosen render into the folder
   leaves it invisible: the compiler attaches what the registry names. Set the sheet's reference slot
   (`plates.turnaround` here) in the same change, retire the crop or plate that fed it, repoint any

@@ -18,7 +18,7 @@ First stage. Nothing is drafted until the source and canon are set.
 2. Classify the request — the content pipeline (essay-first) or a standalone artifact (doc, dossier, transcript, workshop).
 3. Load the canon before any drafting:
    - [style contract](canon-style-contract.md) for voice rules.
-   - [voice foundation](canon-voice-foundation.md) for the Monotone voice foundation.
+   - [voice foundation](canon-voice-foundation.md) for the brand voice foundation.
 
 ## Gate
 

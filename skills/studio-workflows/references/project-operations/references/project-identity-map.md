@@ -74,7 +74,7 @@ Project state belongs in metadata, not in the path. Every canonical project gets
 | `hominem`            | Hominem            | Omiro, Career, Finance, Florin                       | Product monorepo and data authority     | active    | `projects/hominem/`                                     | high       |
 | `kernel`             | Kernel             | Skills library                                       | Ponti Studios platform                  | active    | `projects/kernel/`                                      | high       |
 | `labs`               | Labs               | Labyrinth, experiments                               | Studio experimentation                  | active    | `projects/labs/`                                        | high       |
-| `monotone`           | Monotone           | Unsolicited, Confractus, Movie Purgatory             | Ponti Studios creative practice         | active    | `projects/monotone/` (`series: unsolicited`)            | high       |
+| `example-brand`      | Example Brand      | Example Series A, Example Series B, Example Series C | Ponti Studios creative practice         | active    | `projects/example-brand/` (`series: example-series-a`)            | high       |
 | `off-the-menu`       | Off the Menu       | —                                                    | Unclassified creative/product concept   | review    | `projects/off-the-menu/`                                | low        |
 | `omiro`              | Omiro              | —                                                    | Hominem product surface                 | active    | `projects/hominem/surfaces/omiro/` (`surface: omiro`)   | high       |
 | `pipeline`           | Pipeline           | —                                                    | Ponti Studios support infrastructure    | active    | `projects/pipeline/`                                    | high       |
@@ -100,9 +100,9 @@ Clothing documents now declare `project: common-goods` and `series: los-angeles`
 
 Hominem is the repository and platform boundary. Omiro and Career are product surfaces under `projects/hominem/surfaces/`, represented by `surface` metadata. They should not be promoted to sibling projects unless they have independent strategy, ownership, and operating cadence.
 
-### Monotone / Unsolicited
+### Example Brand / Example Series A
 
-Monotone is the creative practice. Unsolicited is a `series` within it. Confractus and Movie Purgatory appear to be individual bodies of work or formats, not top-level studio projects.
+Example Brand is the creative practice. Example Series A is a `series` within it. Example Series B and Example Series C appear to be individual bodies of work or formats, not top-level studio projects.
 
 ## Migration gate
 

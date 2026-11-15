@@ -64,9 +64,9 @@ measured ~$0.16. The plate count is the lever, not the prompt length.
 
 | Model                               | Reference plates | Resolutions    | Speed (measured)                  | Verdict                                                                                                                                   |
 | ----------------------------------- | ---------------- | -------------- | --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| `qwen/qwen-image-2.1-turbo`         | **0-4**          | 1K, 2K (no 4K) | 36-49s                            | app default; 0/35 misses on the Aurora rubric; **cannot** hold a 5-character frame with plates; `n` up to 6                               |
+| `qwen/qwen-image-2.1-turbo`         | **0-4**          | 1K, 2K (no 4K) | 36-49s                            | app default; 0/35 misses on the Set A rubric; **cannot** hold a 5-character frame with plates; `n` up to 6                               |
 | `bytedance-seed/seedream-5-0-pro`   | 0-14             | 1K, 2K         | 109-178s, 2/11 transient failures | slowest and least reliable to _run_; its adherence score was built on a rubric later found invalid (see evidence log) — no cost reporting |
-| `bytedance-seed/seedream-5-0-flash` | 0-14             | 1K, 2K         | 18-29s                            | 1/35 misses on the Aurora rubric; fastest; good default for iteration                                                                     |
+| `bytedance-seed/seedream-5-0-flash` | 0-14             | 1K, 2K         | 18-29s                            | 1/35 misses on the Set A rubric; fastest; good default for iteration                                                                     |
 | `google/gemini-3-pro-image`         | 0-14             | 1K/2K/4K       | ~35s                              | accurate, **expensive** — ruled out as a workhorse                                                                                        |
 | `meta/muse-image`                   | none             | —              | ~8s on success                    | unusable: provider content filter on dense scenes                                                                                         |
 

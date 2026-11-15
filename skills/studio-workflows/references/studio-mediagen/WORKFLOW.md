@@ -128,7 +128,7 @@ path overrides are required. Environment variables override keys in
   seeds, so a scene carrying `seed` may be ignored or rejected. Untested (a
   verification clip costs $0.25+) — leave `seed` off until proven.
 - Clip prompts are `scene.prompt` + `CHARACTER_LOCK`, and the lock is the
-  **Wyatt/chibi** design (black oval mask, king and queen neck tattoos, Samba
+  **Character C** design (black oval mask, neck tattoos, sneakers
   sneakers, feet forward). Appending it to a scene whose subject is not that
   character fights the scene prompt. Physical accuracy beats the lock for
   universe characters — use the [studio-universe](../studio-universe/WORKFLOW.md) compiler for prompt text.

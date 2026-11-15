@@ -58,7 +58,7 @@ else
 fi
 LOG="$WORKDIR/render.log"
 
-# "aurora-night-sleeper--frame2-the-empty-case.json" -> "aurora-f2"
+# "set-a--frame2-the-empty-case.json" -> "set-a-f2"
 label_for() {
   local base series frame
   base=$(basename "$1" .json)

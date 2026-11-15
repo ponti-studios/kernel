@@ -74,7 +74,7 @@ Our four principles — Kanso, Ma, Shibui, Wabi-sabi — are not visual abstract
 
 - We prefer direct description over marketing gloss. "In early access" beats "Revolutionizing the future of X."
 - We do not overpromise in headlines what the body cannot support. If the product has rough edges, the copy does not pretend otherwise — it frames them honestly.
-- When we use plain language (as in our Monotone writing), we do not apologize for it. Directness is not a failure of craft — it is a choice that respects the reader's time.
+- When we use plain language (as in our own writing), we do not apologize for it. Directness is not a failure of craft — it is a choice that respects the reader's time.
 - Editing is applied to serve clarity, not to inflate authority. If a word adds no information, it is cut.
 
 **Reference:** Stripe's documentation voice — technical, precise, never condescending. The prose does not sell the product; it explains what the product does, clearly enough that the reader can decide for themselves. We apply the same standard: the reader is intelligent and busy. Write for them.
@@ -123,7 +123,7 @@ Ponti Studios speaks in the first person. "I" and "we" and "you." We do not hide
 | Stripe (documentation)     | Technical clarity without condescension                |
 | Hemingway (essays)         | The iceberg principle — surface only what is necessary |
 | Basecamp (positioning)     | Direct address, plain language, anti-jargon            |
-| Monotone (our own writing) | The voice we use when we are not selling               |
+| Our own writing            | The voice we use when we are not selling               |
 
 ---
 
@@ -139,4 +139,4 @@ Ponti Studios speaks in the first person. "I" and "we" and "you." We do not hide
 - [[mottos]] — Active taglines and positioning
 - [[brand-copy]] — Copy mechanics: naming, headlines, CTAs, context
 - [[brand-editing]] — Editing hierarchy, checklist, and cut list
-- [[../projects/monotone]] — The voice in practice
+- [[../projects/example-brand]] — The voice in practice

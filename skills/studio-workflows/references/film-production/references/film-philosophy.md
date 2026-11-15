@@ -71,7 +71,7 @@ Our four principles — Kanso, Ma, Shibui, Wabi-sabi — are not architectural a
 
 - We prefer real locations over constructed sets. Imperfection — a crack in the wall, an awkward corner, bad wallpaper — is character.
 - We do not overproduce wardrobe or props. A character's clothes should feel lived in, not costumed.
-- When we use iPhone cinematography (as in our Monotone projects), we do not apologize for it. The technical constraints become aesthetic signature — we lean into the honesty of the tool rather than trying to make it look like something it is not.
+- When we use iPhone cinematography (as in our own projects), we do not apologize for it. The technical constraints become aesthetic signature — we lean into the honesty of the tool rather than trying to make it look like something it is not.
 - Grading is applied to serve mood, not to hide mistakes. If a source is warm, we let it be warm. If a shadow crushes, we let it crush.
 
 **Reference:** Anderson's naturalism — "realistic content in fanciful form." The worlds are constructed, the frames are symmetrical, the colors are deliberate — but the performances and emotions are grounded. The artificiality of the container makes the humanity within it more visible. We apply the inverse when appropriate: real containers, heightened intent.
@@ -143,4 +143,4 @@ These are not rules. They are voices in our vocabulary. Every project chooses it
 - [[film-sound]] — Diegetic sound, silence, music
 - [[film-production-design]] — Environments, wardrobe, props
 - [[film-cheatsheet]] — Quick reference cards
-- [[../projects/monotone/plan-distribution-video]] — Video distribution content pillars
+- [[../projects/example-brand/plan-distribution-video]] — Video distribution content pillars

@@ -17,9 +17,9 @@ claim's tag here if a later run contradicts it.
 - Busts with `400 The response was filtered due to the prompt triggering our content
   management policy` + `metadata.provider_name: "Meta"`. Each filtered attempt still
   took ~30-40s and still billed.
-- Every section passed alone. The phantom alone passed. A Halloween crowd alone
-  passed. Phantom + crowd passed. Phantom + crowd + **any single** gang member passed
-  (4 separate runs). Phantom + crowd + **all four** gang members failed.
+- Every section passed alone. The costume alone passed. A Halloween crowd alone
+  passed. Costume + crowd passed. Costume + crowd + **any single** gang member passed
+  (4 separate runs). Costume + crowd + **all four** gang members failed.
 - A child-free rewording of the brief still failed.
 
 **Conclusion [M]:** the filter rejects on the **aggregate density of the scene**, not
@@ -34,8 +34,8 @@ clock. One confirming probe was enough** — see rule 9 in the evaluation method
 **Method:** same frame spec, same 3 reference plates, 1K, one render per model;
 vision-scored against the spec's identity clauses.
 
-**Result [M] [invalid]:** both models appeared to render Wyatt's mask as a _half_
-mask, and qwen appeared to lose Akane's collar/belt while seedream-flash lost the
+**Result [M] [invalid]:** both models appeared to render Character C's mask as a _half_
+mask, and qwen appeared to lose Character A's collar/belt while seedream-flash lost the
 gaze direction. **Then a 2K crop of the qwen render showed the mask correct in every
 detail** (full-face, forehead to chin, two round voids, even the plate's rivets).
 The 1K "half-mask" was a resolution artefact seen twice by a vision model.
@@ -95,7 +95,7 @@ no logos and no watermark"_), 5 per frame, retained deliberately.
 Notable: the compiler's own generated text contained _"and nothing else"_, and its
 outfit logic named **every other character's garments** in each character's line —
 6 forbidden-garment mentions in a 4-character frame, e.g. _"never the deep-red wrap
-dress"_ appearing in Lucy's and Wyatt's lines.
+dress"_ appearing in Character B's and Character C's lines.
 
 ---
 
@@ -114,19 +114,19 @@ dress"_ appearing in Lucy's and Wyatt's lines.
 - **C positive** — rewritten canon/specs, positive structure (`CONSTRAINTS — hold
   every one of these exactly as written:`, no enumerations, `WARDROBE` line).
 
-**Frames:** Aurora f2 (the rock — the frame with the densest anti-sparkle negatives)
-and Scooby f3 (the net — the frame with the geometry problem).
+**Frames:** Set A f2 (the rock — the frame with the densest anti-sparkle negatives)
+and Set B f3 (the net — the frame with the geometry problem).
 
 **Result [M]:**
 
 | Measure                         | A original | B legacy | C positive |
 | ------------------------------- | ---------- | -------- | ---------- |
-| Aurora: panels with >1 rock     | 0/5        | —        | 0/5        |
-| Aurora: any sparkle / gem glint | 0/5        | —        | 0/5        |
-| Aurora: legible text            | 0/5        | —        | 0/5        |
-| Scooby: see-through robe        | **0/5**    | **0/5**  | **2/5**    |
-| Scooby: flat-curtain net        | 4/5        | 3/5      | 3/5        |
-| Scooby: cords pass through body | 0/5        | 2/5      | 0/5        |
+| Set A: panels with >1 rock     | 0/5        | —        | 0/5        |
+| Set A: any sparkle / gem glint | 0/5        | —        | 0/5        |
+| Set A: legible text            | 0/5        | —        | 0/5        |
+| Set B: see-through robe        | **0/5**    | **0/5**  | **2/5**    |
+| Set B: flat-curtain net        | 4/5        | 3/5      | 3/5        |
+| Set B: cords pass through body | 0/5        | 2/5      | 0/5        |
 
 **Conclusions [M]:**
 
@@ -144,7 +144,7 @@ and Scooby f3 (the net — the frame with the geometry problem).
    rocks" did not reproduce (0/5 in both arms), and the "net fix" did not reproduce.
 
 **Open:** isolate C's structure one piece at a time (`CONSTRAINTS` prefix off, then
-`WARDROBE` off, then enumerations back on), 5 samples each on Scooby = 15 renders
+`WARDROBE` off, then enumerations back on), 5 samples each on Set B = 15 renders
 ≈ $0.28. Pending.
 
 ---
@@ -172,20 +172,20 @@ and Scooby f3 (the net — the frame with the geometry problem).
 model) follow the brief better than the app's default qwen?
 
 **Method:** rubric of 14 binary checks locked _before_ rendering (7 per frame: counts,
-sparkle, text, prop state on Aurora; opacity, net geometry, standing, gazes, gore on
-Scooby). 3 models x 2 frames x 5 samples at 1K with 3 plates = 33 renders, plus one
+sparkle, text, prop state on Set A; opacity, net geometry, standing, gazes, gore on
+Set B). 3 models x 2 frames x 5 samples at 1K with 3 plates = 33 renders, plus one
 2K render per model for identity. All frames carry 3 plates, so qwen's 0-4 ceiling
 does not distort this comparison.
 
 **Result [M]:**
 
-| Model                               | Speed (measured) | Success                                 | Aurora f2 (of 35)            | Scooby f3 panel 1 (of 8) |
+| Model                               | Speed (measured) | Success                                 | Set A f2 (of 35)            | Set B f3 panel 1 (of 8) |
 | ----------------------------------- | ---------------- | --------------------------------------- | ---------------------------- | ------------------------ |
 | `qwen-image-2.1-turbo`              | 36-49s           | 11/11                                   | **35/35**                    | 6/8                      |
 | `bytedance-seed/seedream-5-0-flash` | 18-29s           | 11/11                                   | 34/35                        | 6/8                      |
 | `bytedance-seed/seedream-5-0-pro`   | 109-178s         | 9/11 (2 transient failures, retried ok) | not scored (vision timeouts) | 5/8                      |
 
-**Scooby failures were mostly SHARED, not model-specific:**
+**Set B failures were mostly SHARED, not model-specific:**
 
 - ~~Every one of the three models put a phone in the seated woman's hand.~~
   **WITHDRAWN — see the correction at the end of this log.** The specification
@@ -193,7 +193,7 @@ does not distort this comparison.
   The models rendered the specified prop correctly; the scorer invented a check
   ("no phone") and then misread a nail file as a phone. This was a scoring error, not
   a model failure and not a spec gap.
-- **seedream-pro floated the phantom above the carpet** (violating "stands on its own
+- **seedream-pro floated the costume above the carpet** (violating "stands on its own
   feet") and turned its mask to camera. Pro was the _least_ adherent on this frame
   while being 4x slower.
 - Net geometry passed for all three on panel 1 (`sags in a U`, cords not through the
@@ -203,7 +203,7 @@ does not distort this comparison.
 **Conclusions [M]:**
 
 1. **Switching models is not the lever.** qwen and seedream-flash tie on adherence (6/8
-   Scooby, 35/35 vs 34/35 Aurora); seedream-pro is worse on adherence despite 4x the
+   Set B, 35/35 vs 34/35 Set A); seedream-pro is worse on adherence despite 4x the
    latency and no cost reporting.
 2. ~~The failures that persist across all three models are prompt-side.~~ The one
    apparent shared failure was an artefact of the rubric. The _principle_ (a failure
@@ -213,8 +213,8 @@ does not distort this comparison.
 3. Cost per model could not be split: seedream reports no cost and no per-image
    endpoint exists. Today's total for all of this work: **$1.61**.
 
-**Not scored (open):** seedream-pro's Aurora arm, the 2K identity comparison, and
-Scooby samples 2-5 for qwen/pro. Vision compositing timed out repeatedly on wide
+**Not scored (open):** seedream-pro's Set A arm, the 2K identity comparison, and
+Set B samples 2-5 for qwen/pro. Vision compositing timed out repeatedly on wide
 multi-panel strips of this frame; single full-resolution panels score fine.
 
 ---
@@ -226,7 +226,7 @@ a single render from a premium model might land it first try, which would be che
 in money and time.
 
 **Method:** one render only. `openai/gpt-image-2.5-sunburst` (OpenAI's precision tier,
-quality `xhigh`, 16-plate ceiling) on the hardest frame (Scooby f3, the net trap),
+quality `xhigh`, 16-plate ceiling) on the hardest frame (Set B f3, the net trap),
 3 plates attached, compiled prompt verbatim (9,932 chars). Note: no 4:5 aspect offered
 — used 3:4, the closest. No `resolution` param exists on this model; `quality` selects
 the size.
@@ -242,7 +242,7 @@ the size.
 
 **The premium one-shot lost on both axes:** it cost 28% more than a five-sample cheap
 sweep and scored _lower_ than the best cheap panel. It passed the hard geometry items
-(S1 robe opaque, S2 net drapes, S3 cords not through the body, S5 phantom standing on
+(S1 robe opaque, S2 net drapes, S3 cords not through the body, S5 costume standing on
 the floor) — so the geometry wins attributed to prompt work hold up across a fourth
 model.
 
@@ -316,11 +316,11 @@ models rendered the specified geometry correctly.
 **2026-10-24 · qwen/qwen-image-2.1-turbo · 2K · 7 scenes × 2 arms · $0.2576 · judged by Charles, blind**
 
 Same prompt per scene in both arms; only the attached references differed. Arm A attached the
-per-role crops (identity + full-body, Wyatt's combined plate); arm B attached one multi-angle
+per-role crops (identity + full-body, Character C's combined plate); arm B attached one multi-angle
 turnaround sheet per character.
 
 Charles's blind picks: turnaround 5, plates 1, no preference 1. The single plates win was
-Wyatt + Cyndi together — the one pairing where the combined plate packs mask + hands + outfit +
+Character C + Character D together — the one pairing where the combined plate packs mask + hands + outfit +
 proportions into one slot. The tie was the three-character frame.
 
 **Honest limits.** One render per scene, so this is directional, not a measured rate: 5/6 is

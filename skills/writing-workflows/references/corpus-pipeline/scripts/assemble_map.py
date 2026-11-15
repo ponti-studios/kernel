@@ -3,7 +3,7 @@
 Applies the two cross-batch merges, assigns families + final numbering,
 verifies coverage against the 331 theses, and writes:
   - final-essays.json (machine-readable canon proposal)
-  - ../../files/core-essays-map.md (the document Chase approves)
+  - ../../files/core-essays-map.md (the document the owner approves)
 Essay numbers in the prose are computed from the final ordering, never hardcoded.
 """
 import json, collections, os
@@ -45,13 +45,13 @@ m1 = merged(
     find('B', 'Beliefs Are Costumes'), find('D', 'Opinions Are Uniforms'),
     'Beliefs Are Costumes',
     "Beliefs and morals are tribal equipment — costumes worn to signal membership, buy belonging, and hold the group together — and argument is only the tail the wiring wags afterward; minds change when the social cost of the outfit changes, not when the argument improves.",
-    "CROSS-BATCH MERGE (Wyatt, Oct 16): batch B's 'Beliefs Are Costumes' and batch D's 'Opinions Are Uniforms' were the same position grouped twice — costumes/uniforms/status-repair (B) and cohesion/currency/in-out-group/belonging-over-truth (D) are the signal and the machinery of one claim, sharing anchor files. Largest claim pool in the canon; the draft will have to select hard. Natural seam if Chase wants two: 'the costume' (signal, defence, rhetoric) vs 'the wiring' (mechanism, cohesion). Its prescriptive counterpart stays separate: 'Beliefs Are Tools, Not Identities'.",
+    "CROSS-BATCH MERGE (the editor, Oct 16): batch B's 'Beliefs Are Costumes' and batch D's 'Opinions Are Uniforms' were the same position grouped twice — costumes/uniforms/status-repair (B) and cohesion/currency/in-out-group/belonging-over-truth (D) are the signal and the machinery of one claim, sharing anchor files. Largest claim pool in the canon; the draft will have to select hard. Natural seam if the owner wants two: 'the costume' (signal, defence, rhetoric) vs 'the wiring' (mechanism, cohesion). Its prescriptive counterpart stays separate: 'Beliefs Are Tools, Not Identities'.",
 )
 m2 = merged(
     find('E', 'Cheap Credit Makes the Billionaires'), find('C', 'Capital With Nowhere to Go'),
     'Cheap Credit Makes the Billionaires',
     "The economy doesn't lack money, it lacks productive places to put it: cheap credit inflates paper fortunes while capital curdles into rent and gambling, so taxing billionaires attacks the shadow while the dam keeps rising — real wealth is the ability to create, and living standards wait on productivity.",
-    "CROSS-BATCH MERGE (Wyatt, Oct 16): batch E's credit-conditions chain (cheap credit -> valuations -> paper fortunes -> misdirected tax politics, closed by the ZIRP reversal) and batch C's saturation cluster (idle capital, trapped system, structural saturation, crypto as terminal case) are one monetary argument at two altitudes. 'Structural saturation' is the darkest member claim and could anchor its own essay later if Chase wants it split back out.",
+    "CROSS-BATCH MERGE (the editor, Oct 16): batch E's credit-conditions chain (cheap credit -> valuations -> paper fortunes -> misdirected tax politics, closed by the ZIRP reversal) and batch C's saturation cluster (idle capital, trapped system, structural saturation, crypto as terminal case) are one monetary argument at two altitudes. 'Structural saturation' is the darkest member claim and could anchor its own essay later if the owner wants it split back out.",
 )
 
 A = CLUST['A']
@@ -104,7 +104,7 @@ AGI_N = next(e['n'] for e in final if e['title'].startswith('LLMs Won'))
 L = []
 L.append('# The Core Essays — a map of the vault, condensed')
 L.append('')
-L.append("**Status: PROPOSAL, awaiting Chase's approval (Oct 16, 2026).**")
+L.append("**Status: PROPOSAL, awaiting the owner's approval (Oct 16, 2026).**")
 L.append('')
 L.append('The contention: hundreds of notes, the same ideas restated for years, some of them no longer believed. This map is the condensation target — the core essays the vault collapses into, each one a single position arguable in 3,000–4,000 words.')
 L.append('')
@@ -112,19 +112,19 @@ L.append('How it was built: 850+ notes -> 4,887 extracted claims -> 331 clustere
 L.append('')
 L.append('## How to approve')
 L.append('')
-L.append("Reply by number: merge 12+30, split 41, kill 57, retitle 8. Anything unmentioned is approved as drawn. After approval, drafting runs one essay at a time in Chase's voice from the source notes — and correcting a draft is the adjudication: the corrected essay becomes the record of what he believes. (Two rulings already made, Oct 16, are baked in: the generative-model essay carries the amended premise — same architecture, differences are lived experience, 'the RLHF' — and trauma is defined as overfitting, the clinical definition folded into it.)")
+L.append("Reply by number: merge 12+30, split 41, kill 57, retitle 8. Anything unmentioned is approved as drawn. After approval, drafting runs one essay at a time in the owner's voice from the source notes — and correcting a draft is the adjudication: the corrected essay becomes the record of what he believes. (Two rulings already made, Oct 16, are baked in: the generative-model essay carries the amended premise — same architecture, differences are lived experience, 'the RLHF' — and trauma is defined as overfitting, the clinical definition folded into it.)")
 L.append('')
 L.append('## Decisions already made in this pass (veto any of them)')
 L.append('')
 L.append(f"1. **'Beliefs Are Costumes' + 'Opinions Are Uniforms' merged** into essay {num('Beliefs Are Costumes')}. Two territory passes had grouped the same position twice — beliefs/morals as tribal uniform, signal and cohesion machinery, argument as post-hoc tail. Its prescriptive flip side, 'Beliefs Are Tools, Not Identities' ({num('Beliefs Are Tools, Not Identities')}), stays separate.")
 L.append(f"2. **'Cheap Credit Makes the Billionaires' + 'Capital With Nowhere to Go' merged** into essay {num('Cheap Credit Makes the Billionaires')}. One monetary argument at two altitudes: cheap credit manufacturing paper fortunes, and saturated capital with no productive home.")
 L.append('')
-L.append('## Calls left open for Chase')
+L.append('## Calls left open for the owner')
 L.append('')
 L.append(f"- **Pairs not merged** (merge any, and the count drops): {num('Followers Are Not Customers')} 'Followers Are Not Customers' shares its Hollywood material with {num('The Math That Broke Streaming')} 'The Math That Broke Streaming' — a boundary question, not a duplicate; {num('The Salmon Tax')} 'The Salmon Tax' (luxury as status signal) vs {num('Luxury Is the Purchase of Meaning')} 'Luxury Is the Purchase of Meaning' (luxury as meaning) — cousins, kept apart; {num('The Brain Is a Forward-Moving Sentence')} 'The Brain Is a Forward-Moving Sentence' (narrative mechanism) vs {num('We Tell Ourselves Stories to Live')} 'We Tell Ourselves Stories to Live' (narrative identity) — same family, different scale; {LOVE_N} 'Love Burns Steady' vs {num('Trust Is Built Through Behavior')} 'Trust Is Built Through Behavior' — relationships at two scales.")
 L.append(f"- **Splits on the table**: {num('The Consumer Is the Final Boss')} 'The Consumer Is the Final Boss' (the largest media essay — its audience-capture material splits out cleanly); {num('Equality Is a Conditional Weapon')} 'Equality Is a Conditional Weapon' (its morality wing — Minimum Viable Morality, malice/mental illness — could stand alone); {num('Authenticity Is a Byproduct')} 'Authenticity Is a Byproduct' (two sub-arguments joined by a relational claim).")
 L.append(f"- **Essay {num('Adaptation Mistaken for Progress')} is a fragments drawer**, not a full position — one real essay ('Adaptation Mistaken for Progress') plus parked fragments, including one pure-reference item. Kill it outright if the fragments aren't worth keeping.")
-L.append("- **The count**: Chase estimated ~50. The honest count is 57. The gap is exactly the calls above — merging the four flagged pairs and killing the drawer lands at 52; the splits push the other way. No padding was added to hit a number.")
+L.append("- **The count**: the owner estimated ~50. The honest count is 57. The gap is exactly the calls above — merging the four flagged pairs and killing the drawer lands at 52; the splits push the other way. No padding was added to hit a number.")
 L.append('')
 L.append('## The canon')
 for fam, _ in FAMILIES:
@@ -148,7 +148,7 @@ L.append('**The residue.** 1,468 of the 4,887 claims were never clustered into t
 L.append('')
 L.append('**Relation to NT01.** Essays 1–5 (the generative model, the context window, the hallucination engine, the forward-moving sentence, lossy compression) are the old NT01 core, in order. If Next Token issues happen, they assemble finished essays from this canon; nothing is drafted for the magazine ahead of the essays themselves.')
 L.append('')
-L.append(f"**Already written.** Several of these essays exist in near-finished form in Chase's existing corpus — the anchor files listed per essay are the strongest sources, and keep-verdict counts show how much finished material each essay already has (e.g. the agent-architecture essays behind #{num('The Model Is Only the Engine')}, the LLM-architecture essays behind #{AGI_N}). Drafting those is consolidation and updating, not writing from zero.")
+L.append(f"**Already written.** Several of these essays exist in near-finished form in the owner's existing corpus — the anchor files listed per essay are the strongest sources, and keep-verdict counts show how much finished material each essay already has (e.g. the agent-architecture essays behind #{num('The Model Is Only the Engine')}, the LLM-architecture essays behind #{AGI_N}). Drafting those is consolidation and updating, not writing from zero.")
 
 out = os.path.join(HERE, 'core-essays-map.md')
 open(out, 'w').write('\n'.join(L) + '\n')

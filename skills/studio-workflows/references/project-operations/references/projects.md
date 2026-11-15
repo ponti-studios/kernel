@@ -69,8 +69,8 @@ Ponti Studios runs on a four-lane model: **Studio Platform** (compounding intern
 
 ### Content & Media
 
-- **Monotone** — Creative technology art brand. Sub-projects: Form (structure), Matter (artifacts/merchandise with Artwork and Goods sub-projects), Short-Form Video (TikTok/YT Shorts), Dope Shit Studio (media brand/production), Support Local (podcast, planned). Active.
-- **Monotone World** — Art content. Active.
+- **Example Brand** — Creative brand. Sub-projects: Example A (structure), Example B (merchandise), Example C (short-form video). Active.
+- **Example Brand World** — Art content. Active.
 - **Writing** — Content. Sub-project: Little Sheila. Active.
 - **Bideo** — Lab/media/video. Active.
 - **Storyboard** — AI-assisted film/video pre-production. Planned.
@@ -150,7 +150,7 @@ Ponti Studios runs on a four-lane model: **Studio Platform** (compounding intern
 | ---------------- | ------------------ | ------- |
 | Ponti Studios    | ponti.io           | Active  |
 | Hackefeller      | hackefeller.com    | Active  |
-| Chase Ponti      | theponti.com       | Active  |
+| Owner name       | theponti.com      | Active  |
 | Ponti Family     | thepontis.com      | Active  |
 | Dope Shit Studio | dopeshit.studio    | Active  |
 | Los Angels       | losangels.co       | Planned |

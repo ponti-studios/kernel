@@ -40,7 +40,7 @@ a leading `>` blockquote prefix or surrounding double quotes.
 
 | Field                        | Purpose                                                                    |
 | ---------------------------- | -------------------------------------------------------------------------- |
-| `display_name`               | how the prompt prints the name (EUPD. `the phantom`, `the Grey Passenger`) |
+| `display_name`               | how the prompt prints the name (e.g. `the costume`, `the example hero`) |
 | `bible`                      | path relative to the universe root                                         |
 | `identity_block`             | markers for the verbatim identity prose                                    |
 | `mask_negative_block`        | optional second mandatory block (e.g. a mask)                           |

@@ -54,7 +54,7 @@ Closing line: _"Eliminate the unnecessary so that the necessary may speak."_
 
 ## 4. The Content Principles
 
-**Source:** Monotone content design.
+**Source:** the brand's content design.
 
 | Principle              | In Practice                                          |
 | ---------------------- | ---------------------------------------------------- |
