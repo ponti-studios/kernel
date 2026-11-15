@@ -32,8 +32,8 @@ test("the skill carries the fixture baseline", () => {
   assert.equal(fixturesDir(), LOCAL_FIXTURES_DIR);
   assert.ok(existsSync(specDir), "test/fixtures/specs is missing");
   assert.ok(existsSync(expDir), "test/fixtures/expected is missing");
-  assert.equal(specs.length, 9, `expected 9 fixture specs, found ${specs.length}`);
-  assert.equal(readdirSync(expDir).filter((f) => f.endsWith(".prompt.txt")).length, 9);
+  assert.equal(specs.length, 1, `expected 1 fixture spec, found ${specs.length}`);
+  assert.equal(readdirSync(expDir).filter((f) => f.endsWith(".prompt.txt")).length, 1);
 });
 
 for (const file of specs) {
@@ -79,7 +79,7 @@ test("the compiler refuses a spec with a hole in it, with a named code", () => {
 test("an unknown cast member is refused rather than silently dropped", () => {
   const spec = local.loadSpec(join(specDir, specs[0]));
   const broken = structuredClone(spec);
-  broken.cast[0].character = "luci";
+  broken.cast[0].character = "example-her";
   assert.throws(
     () => local.compileSpec(broken, registry, LOCAL_DATA_DIR, { voice: "positive" }),
     (err) =>

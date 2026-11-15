@@ -349,7 +349,7 @@ export function ownershipClauses(spec, chars) {
 // odds of it appearing, whether or not the sentence says "no". The legacy
 // compiler shipped 51 negation words per frame, including handing every
 // character the OTHER characters' garments as prohibitions ("never the deep-red
-// wrap dress" appears in Lucy's and Wyatt's lines) — an invitation, not a
+// wrap dress" appears in two characters' lines) — an invitation, not a
 // prohibition. Positive voice states what IS, attributes garments only to their
 // owner, and expresses absence by omission.
 //
@@ -392,7 +392,7 @@ function convertNegatives(negatives) {
   const dropped = [];
   for (const raw of negatives) {
     // A negative item often carries a positive assertion with a prohibitory
-    // tail: "Wyatt wears only his cardigan — never the Passenger's greatcoat".
+    // tail: "the wearer wears only their own jacket — never the costume's coat".
     // Keep the positive half, drop the tail — the tail is the part that names
     // another character's garment and invites the swap.
     const phrase = raw.replace(/\s*(?:—|-|;)\s*never the [^;]*/gi, "").trim();

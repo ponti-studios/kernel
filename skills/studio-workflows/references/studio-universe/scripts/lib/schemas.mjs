@@ -17,7 +17,7 @@
 
 export class SchemaError extends Error {
   /**
-   * @param {string} path field path, e.g. `characters.lucy.height_cm`
+   * @param {string} path field path, e.g. `characters.example-hero.height_cm`
    * @param {string} message what is wrong and what was found
    */
   constructor(path, message) {

@@ -1,0 +1,27 @@
+FRAME 1 — THE ARRIVAL. The Example Set set, animated-cel register. Master 1640x2048, 4:5 portrait.
+
+SCENE — street level, looking up the pavement toward the station entrance. STATION_DOOR: glass doors at the far end of the frame. KERB: the pavement edge, bottom-left of frame.
+
+STAGING — Example Hero, in the blue raincoat and grey trousers: steps off the kerb holding a closed umbrella [KERB — near, left third; gaze on the station door]
+
+PROP — umbrella: a closed black umbrella [owner: Example Hero; anchor: KERB]
+
+MOMENT — A rainy morning. The hero steps off the kerb with a closed umbrella, eyes on the station door.
+
+ENVIRONMENT INVENTORY: a wet pavement, a station entrance with glass doors at the far end of the street, grey sky.
+
+LIGHTING: soft overcast light, reflections on the wet pavement.
+
+COLOUR: muted grey city with one saturated blue raincoat.
+
+NEGATIVES: no signage or readable text anywhere; clean street with no litter.
+
+EXAMPLE HERO (verbatim block): An adult with short brown hair, freckles and round green glasses. Calm, observant, always in a blue raincoat when outdoors.
+
+EXAMPLE HERO'S OUTFIT — example-hero.raincoat: a blue raincoat, grey trousers and white trainers
+
+SCALE: Example Hero is 170cm — the tallest in this frame; .
+
+The blue raincoat and grey trousers appears exactly once in this frame, on Example Hero.
+
+RENDER GRADE — ANIMATED (verbatim in every frame): Flat painterly animation with bold clean ink outlines and flat colour fills with soft cel shading. Cinematic composition, motivated lighting. 4:5 portrait composition. No text, no lettering, no captions, no logos and no watermark anywhere in the image.

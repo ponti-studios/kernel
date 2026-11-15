@@ -25,12 +25,11 @@ Machine markers wrap prose that gets stitched verbatim:
 <!-- PROMPT-BLOCK-END: <id> -->
 ```
 
-Live ids as of registry v7: `lucy`, `wyatt`, `wyatt-mask`, `akane`, `void`,
-`cyndi`, `ada-bell`, `grey-passenger`, `grey-tail-trap`,
-`grey-tail-unmasking`, `conductor`, `conductor-tail-trap`,
-`conductor-tail-unmasking`, `phantom`, `phantom-tail-trap`,
-`phantom-tail-unmasking`. The retired plate notes and the INTEGRATION/PHOTOREAL files carry
-no blocks — they are documentation, not generation input.
+The ids in your registry are whatever you define; the kernel ships one example
+character, `example-hero`, and one costume, `example-costume`
+(`data/registry/registry.json`). Your own canon lives in your studio folder, and
+`universe_root` points the compiler there. Only files with a block are generation
+input; notes and reference docs carry no blocks.
 
 The compiler strips the marker lines and, where the extraction rule says so,
 a leading `>` blockquote prefix or surrounding double quotes.
@@ -44,7 +43,7 @@ a leading `>` blockquote prefix or surrounding double quotes.
 | `display_name`               | how the prompt prints the name (EUPD. `the phantom`, `the Grey Passenger`) |
 | `bible`                      | path relative to the universe root                                         |
 | `identity_block`             | markers for the verbatim identity prose                                    |
-| `mask_negative_block`        | optional second mandatory block (Wyatt's mask)                             |
+| `mask_negative_block`        | optional second mandatory block (e.g. a mask)                           |
 | `tails`                      | named optional blocks, one per frame at most                               |
 | `height_cm`                  | drives the SCALE clause                                                    |
 | `height_note`, `proportions` | reference for authors, not compiled                                        |
@@ -78,28 +77,24 @@ separately as `<NAME>'S OUTFIT — <outfit_id>: <description>`. Changing what a
 character wears is therefore a registry edit that no bible prose contradicts;
 if you find outfit prose inside an identity block, that is a bug — move it.
 
-A costume character (phantom, grey-passenger, conductor) has no outfits and
-takes `outfit_id: null`. The phantom costume is _worn_ — Void wears it over a
-stilted frame — which is why the costume has its own bible while the wearer
-keeps his.
+A costume character (`example-costume`) has no outfits and takes
+`outfit_id: null`. A costume that someone wears gets its own bible, while the
+wearer keeps theirs.
 
 ## Reference images
 
 `reference_images` is not decoration: a character with reference images should
-have them attached to every generation containing that character. Cyndi's canon
-states it explicitly — the CYNDI BLOCK verbatim plus `cyndi-reference.jpg`, no
-exceptions. Passing the block without the image is how a mixed-breed dog comes
-back as a Shiba.
+have them attached to every generation containing that character. If a bible
+says the image is required, it is required: passing the block without the image
+is how a generation drifts away from the canon look.
 
 ## Naming
 
-`data/UNIVERSE.md` owns who-is-who and is the tiebreaker on identity:
-Wyatt Bose is Chase's public persona; the Masked Chibi is Wyatt stylised;
-Monotone is one entity in two registers. Never infer these from a bible alone,
-and never rename a citizen to suit a frame.
+Your universe document owns who-is-who and is the tiebreaker on identity. Where
+one entity has two registers or names, the document says so. Never infer that
+from a bible alone, and never rename a character to suit a frame.
 
 ## Known gaps
 
-Registry v7 has nine characters. Void and Ada Bell exist but have no outfits
-(Ada has one); costumed characters have tails but no outfits. Check live state
-with `node scripts/registry-report.mjs` rather than trusting this paragraph.
+Check live state with `scripts/registry-report.sh <universe-root>` rather than
+trusting this page.

@@ -44,7 +44,7 @@ function walk(dir) {
 }
 
 test("the skill ships a registry and a bible directory", () => {
-  assert.ok(existsSync(join(data, "registry.json")), "data/registry.json is missing");
+  assert.ok(existsSync(join(data, "registry", "registry.json")), "data/registry/registry.json is missing");
   assert.ok(statSync(join(data, "bibles")).isDirectory(), "data/bibles/ is missing");
 });
 
@@ -114,18 +114,18 @@ test("each character directory under bibles/ is declared in the registry", () =>
 });
 
 test("outfits are look-up-able per character", () => {
-  assert.ok(listOutfits(registry, "lucy").length > 0, "lucy should have outfits");
+  assert.ok(listOutfits(registry, "example-hero").length > 0, "example-hero should have outfits");
   assert.deepEqual(
-    listOutfits(registry, "cyndi"),
+    listOutfits(registry, "example-costume"),
     [],
-    "cyndi is a costume character with no outfits",
+    "example-costume is a costume character with no outfits",
   );
 });
 
 test("an unknown character is refused with the known cast listed", () => {
   assert.throws(
-    () => character(registry, "luci"),
-    (err) => err.message.includes('unknown character "luci"') && err.message.includes("lucy"),
+    () => character(registry, "example-her"),
+    (err) => err.message.includes('unknown character "example-her"') && err.message.includes("example-hero"),
   );
 });
 

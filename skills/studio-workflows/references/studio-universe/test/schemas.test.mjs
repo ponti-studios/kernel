@@ -15,7 +15,7 @@ import {
   validateRegistry,
 } from "../scripts/lib/resolve.mjs";
 
-const registryPath = join(LOCAL_DATA_DIR, "registry.json");
+const registryPath = join(LOCAL_DATA_DIR, "registry", "registry.json");
 const registry = JSON.parse(readFileSync(registryPath, "utf8"));
 const clone = () => structuredClone(registry);
 
@@ -38,14 +38,14 @@ test("the real registry passes", () => {
 
 test("a missing character field names the field and the character", () => {
   const reg = clone();
-  delete reg.characters.lucy.display_name;
-  throwsAt(() => validateRegistry(reg), "registry.characters.lucy.display_name");
+  delete reg.characters["example-hero"].display_name;
+  throwsAt(() => validateRegistry(reg), "registry.characters.example-hero.display_name");
 });
 
 test("a wrongly typed height reports what was found", () => {
   const reg = clone();
-  reg.characters.wyatt.height_cm = "178";
-  throwsAt(() => validateRegistry(reg), "registry.characters.wyatt.height_cm");
+  reg.characters["example-hero"].height_cm = "178";
+  throwsAt(() => validateRegistry(reg), "registry.characters.example-hero.height_cm");
 });
 
 test("an empty cast list is refused — a registry with no characters is broken", () => {
@@ -56,13 +56,13 @@ test("an empty cast list is refused — a registry with no characters is broken"
 
 test("an absolute bible path is refused: canon must travel with its root", () => {
   const reg = clone();
-  reg.characters.lucy.bible = "/Users/someone/studio/universe/bibles/lucy/PROMPT.md";
-  throwsAt(() => validateRegistry(reg), "registry.characters.lucy.bible");
+  reg.characters["example-hero"].bible = "/Users/someone/studio/universe/bibles/example-hero/PROMPT.md";
+  throwsAt(() => validateRegistry(reg), "registry.characters.example-hero.bible");
 });
 
 test("a bible path that exists relative to the root is accepted", () => {
   const reg = clone();
-  reg.characters.lucy.bible = "bibles/lucy/PROMPT.md";
+  reg.characters["example-hero"].bible = "bibles/example-hero/PROMPT.md";
   assert.doesNotThrow(() => validateRegistry(reg));
 });
 
@@ -79,7 +79,7 @@ test("an extraction rule with an empty marker is refused", () => {
 
 test("a plate needs a path and a register, but derived_from is optional", () => {
   assert.doesNotThrow(() =>
-    validatePlate({ path: "bibles/lucy/turnaround.webp", register: "animated-cel" }),
+    validatePlate({ path: "bibles/example-hero/turnaround.webp", register: "animated-cel" }),
   );
   throwsAt(() => validatePlate({ register: "animated-cel" }), "plate.path");
   throwsAt(() => validatePlate({ path: "x.webp" }), "plate.register");
@@ -87,7 +87,7 @@ test("a plate needs a path and a register, but derived_from is optional", () => 
 
 test("a cast entry without outfit_id is refused, even for a character with no outfits", () => {
   const base = {
-    character: "cyndi",
+    character: "example-costume",
     anchor: "stage:left",
     depth: "midground",
     action: "holds a paper cone",
@@ -101,7 +101,7 @@ test("a cast entry without outfit_id is refused, even for a character with no ou
       err.message.includes("null"),
   );
   assert.doesNotThrow(() => validateCastEntry({ ...base, outfit_id: null }));
-  assert.doesNotThrow(() => validateCastEntry({ ...base, outfit_id: "cyndi.costume" }));
+  assert.doesNotThrow(() => validateCastEntry({ ...base, outfit_id: "example-costume.costume" }));
 });
 
 // A minimal spec that satisfies every required field, so each test can break
@@ -116,8 +116,8 @@ function minimalSpec() {
     floorplan: { camera: "eye level", anchors: { stage: "the stage boards" } },
     cast: [
       {
-        character: "lucy",
-        outfit_id: "lucy.tee_jeans",
+        character: "example-hero",
+        outfit_id: "example-hero.raincoat",
         anchor: "stage:centre",
         depth: "foreground",
         action: "stands still",
@@ -158,9 +158,9 @@ test("cast is required and cannot be empty", () => {
 });
 
 test("malformed props and block edits are caught by index and key", () => {
-  const spec = { ...minimalSpec(), props: [{ item: "case", owner: "lucy" }, { item: "tray" }] };
+  const spec = { ...minimalSpec(), props: [{ item: "case", owner: "example-hero" }, { item: "tray" }] };
   throwsAt(() => validateFrameSpec(spec), "spec.props[1].owner");
 
-  const spec2 = { ...minimalSpec(), block_edits: { lucy: { omit_sentences: ["x", 7] } } };
-  throwsAt(() => validateFrameSpec(spec2), "spec.block_edits.lucy.omit_sentences[1]");
+  const spec2 = { ...minimalSpec(), block_edits: { "example-hero": { omit_sentences: ["x", 7] } } };
+  throwsAt(() => validateFrameSpec(spec2), "spec.block_edits.example-hero.omit_sentences[1]");
 });

@@ -8,9 +8,9 @@ Same inputs, byte-identical output, every time.
 ## Hard rule
 
 **Never hand-write a character block into a prompt.** Compile it. The bibles
-exist so an LLM does not re-derive Lucy's freckles or Wyatt's mask from memory
+exist so an LLM does not re-derive a character's freckles or mask from memory
 — that is exactly how a render ends up with hand tattoos the canon forbids or
-a phantom floating inside the screen instead of standing on the stage.
+a costume floating inside the set instead of standing on the stage.
 
 ## Where things live
 
@@ -41,7 +41,7 @@ Image models do not reliably represent negation — naming a thing raises the od
 of it appearing, whether or not the sentence says "no". The legacy compiler
 shipped 40-129 negation words per frame, and its outfit logic told **every**
 character about the **other** characters' garments as prohibitions
-(`never the deep-red wrap dress` appears in Lucy's and Wyatt's lines). In a
+(`never the deep-red wrap dress` appears in two characters' lines). In a
 four-character frame that is six forbidden-garment mentions, which is a
 dress-swap generator — the failure mode is in `output/kit-evidence/`.
 
@@ -155,11 +155,11 @@ The optional Universe compiler override is for parity checks with an external bu
 
   | measure                                | A original | B legacy | C positive |
   | -------------------------------------- | ---------- | -------- | ---------- |
-  | Aurora: panels with >1 rock            | 0/5        | —        | 0/5        |
-  | Aurora: panels with any sparkle/glint  | 0/5        | —        | 0/5        |
-  | Aurora: panels with legible text       | 0/5        | —        | 0/5        |
-  | Scooby: panels with see-through robe   | **0/5**    | **0/5**  | **2/5**    |
-  | Scooby: panels with a flat-curtain net | 4/5        | 3/5      | 3/5        |
+  | Set A: panels with >1 rock            | 0/5        | —        | 0/5        |
+  | Set A: panels with any sparkle/glint  | 0/5        | —        | 0/5        |
+  | Set A: panels with legible text       | 0/5        | —        | 0/5        |
+  | Set B: panels with see-through robe   | **0/5**    | **0/5**  | **2/5**    |
+  | Set B: panels with a flat-curtain net | 4/5        | 3/5      | 3/5        |
 
   Conclusions that the data supports, and the ones it does not:
   1. **On the failures the negatives were written for, the rewrite changes
@@ -197,7 +197,7 @@ The optional Universe compiler override is for parity checks with an external bu
 - Every cast entry needs `outfit_id`. It is required when the character has
   outfits, and must be an explicit `null` when the character has none —
   omitting the key entirely is a `MISSING_FIELD` refusal even for a character
-  with no outfits (Cyndi in, say, a costume-only frame).
+  with no outfits (a costume character in a costume-only frame).
 - Anchors are matched by substring against `floorplan.anchors` keys, so renaming
   an anchor breaks every spec that referenced it.
 - Choice of render model is not this skill's business; identity drift from a
@@ -218,7 +218,7 @@ The optional Universe compiler override is for parity checks with an external bu
 
 One **turnaround sheet** per character (`registry.json` → `plates.turnaround`), holding front,
 three-quarter, profile, back and head views. All four sheets share the filename `turnaround.webp`,
-so a folder is `PROMPT.md` + that one image; refer to a sheet by its folder (`wyatt/turnaround.webp`),
+so a folder is `PROMPT.md` + that one image; refer to a sheet by its folder (`example-hero/turnaround.webp`),
 never by filename alone.
 
 The derived crops (`identity-plate`, `full-body-plate`, `combined-plate`, `mask-plate`) were retired

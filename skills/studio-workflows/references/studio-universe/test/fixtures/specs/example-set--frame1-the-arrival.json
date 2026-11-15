@@ -1,0 +1,50 @@
+{
+  "frame": 1,
+  "title": "THE ARRIVAL",
+  "set": "The Example Set",
+  "set_slug": "example-set",
+  "register": "animated-cel",
+  "master": {
+    "width": 1640,
+    "height": 2048,
+    "aspect_ratio": "4:5"
+  },
+  "floorplan": {
+    "camera": "street level, looking up the pavement toward the station entrance",
+    "anchors": {
+      "STATION_DOOR": "glass doors at the far end of the frame",
+      "KERB": "the pavement edge, bottom-left of frame"
+    }
+  },
+  "cast": [
+    {
+      "character": "example-hero",
+      "outfit_id": "example-hero.raincoat",
+      "anchor": "KERB",
+      "depth": "near, left third",
+      "action": "steps off the kerb holding a closed umbrella",
+      "gaze_target": "the station door"
+    }
+  ],
+  "moment": "A rainy morning. The hero steps off the kerb with a closed umbrella, eyes on the station door.",
+  "environment": "a wet pavement, a station entrance with glass doors at the far end of the street, grey sky.",
+  "lighting": "soft overcast light, reflections on the wet pavement.",
+  "colour": "muted grey city with one saturated blue raincoat.",
+  "props": [
+    {
+      "item": "umbrella",
+      "owner": "example-hero",
+      "anchor": "KERB",
+      "description": "a closed black umbrella"
+    }
+  ],
+  "negatives": [
+    "no signage or readable text anywhere",
+    "clean street with no litter"
+  ],
+  "denylist": [
+    "in the middle of it"
+  ],
+  "references": [],
+  "block_overrides": {}
+}

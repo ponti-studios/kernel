@@ -52,7 +52,7 @@ test("a STUDIO_UNIVERSE_ROOT that holds no registry falls back to the skill data
 test("a valid STUDIO_UNIVERSE_ROOT is honoured", async () => {
   const root = join(scratch, "checkout-universe");
   mkdirSync(root, { recursive: true });
-  copyFileSync(join(LOCAL_DATA_DIR, "registry.json"), join(root, "registry.json"));
+  copyFileSync(join(LOCAL_DATA_DIR, "registry", "registry.json"), join(root, "registry.json"));
   await withEnv(
     { STUDIO_CONFIG: join(scratch, "absent.yml"), STUDIO_UNIVERSE_ROOT: root },
     async () => {
@@ -65,7 +65,7 @@ test("a valid STUDIO_UNIVERSE_ROOT is honoured", async () => {
 test("a config-file universe_root is honoured only when it holds canon", async () => {
   const root = join(scratch, "configured-universe");
   mkdirSync(join(root, "registry"), { recursive: true });
-  copyFileSync(join(LOCAL_DATA_DIR, "registry.json"), join(root, "registry", "registry.json"));
+  copyFileSync(join(LOCAL_DATA_DIR, "registry", "registry.json"), join(root, "registry", "registry.json"));
 
   const good = join(scratch, "good.yml");
   writeFileSync(good, `universe_root: ${root}\n`);
@@ -122,8 +122,9 @@ test("the config parser handles comments, quotes and ~ expansion", async () => {
 });
 
 test("the fixture baseline resolves inside the skill", async () => {
-  await withEnv({ STUDIO_CONFIG: join(scratch, "absent.yml") }, () => {
-    assert.equal(universeRoot(), LOCAL_DATA_DIR);
+  await withEnv({ STUDIO_CONFIG: join(scratch, "absent.yml") }, async () => {
+    const mod = await freshResolve();
+    assert.equal(mod.universeRoot(), LOCAL_DATA_DIR);
     assert.ok(LOCAL_FIXTURES_DIR.startsWith(LOCAL_DATA_DIR.replace(/\/data$/, "")));
   });
 });
