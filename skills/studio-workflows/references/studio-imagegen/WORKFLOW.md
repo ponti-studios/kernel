@@ -114,6 +114,16 @@ images are kept; the command exits unsuccessfully only when every job fails.
 per line. It compiles each spec, checks its references and requested aspect and
 resolution, and fetches model capabilities once for the batch.
 
+## Transport semantics
+
+The provider retries once, after 750ms, and only on a network error, HTTP 429 or
+HTTP 5xx. `402` (credits), `400/401/403/404`, a malformed response and empty
+image bytes fail immediately with their typed error. Every record and usage log
+carries `attempts`, so a recovered retry is visible rather than folklore.
+`STUDIO_LEGS=off` disables the retry for a run. The same table is pinned in
+`studio-core/test/fixtures/openrouter-image-contract.json`, which the provider
+tests assert against.
+
 ## Pitfalls
 
 - Asking for `webp` and getting `png` is normal, not a failure. The script
