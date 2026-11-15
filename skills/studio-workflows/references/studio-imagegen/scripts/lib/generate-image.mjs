@@ -17,12 +17,13 @@ import { homedir } from "node:os";
 import { basename, dirname, extname, join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { setting } from "./resolve.mjs";
+import { outputDir } from "../../../studio-core/scripts/lib/config.mjs";
 
 import { recordRender } from "./ledger-bridge.mjs";
 import { IMAGE_MIME, apiKey, load, readSpec, universeRoot } from "./resolve.mjs";
 
 const INBOX = setting("STUDIO_INBOX", "inbox", () =>
-  join(homedir(), "Pictures", "imagegen", "_inbox"),
+  outputDir("images"),
 );
 const USAGE_DIR = setting("STUDIO_USAGE_DIR", "usage_dir", () =>
   join(homedir(), ".hominem", "ai_usage"),

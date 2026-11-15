@@ -16,7 +16,7 @@ re-run in one afternoon ([evaluation-method.md](references/evaluation-method.md)
 
 ## Hard rules (non-negotiable)
 
-1. **Every generated image goes to `~/Pictures/imagegen/_inbox`**, named
+1. **Every generated image goes to `~/Documents/studio/output/images`**, named
    `<YYYYMMDD-HHMMSS>_<model>_<what>.<ext>` — **timestamp first so the folder sorts
    chronologically** — with `_index.md` listing them. Never leave
    renders in `/tmp`, a scratch dir, or a per-experiment folder — one inbox, so a human

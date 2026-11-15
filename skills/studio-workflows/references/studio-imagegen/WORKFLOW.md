@@ -1,6 +1,6 @@
 # Studio Imagegen — frame spec to image
 
-> **HARD RULES.** Every generated image goes to `$STUDIO_INBOX` (default `~/Pictures/imagegen/_inbox`), named
+> **HARD RULES.** Every generated image goes to `$STUDIO_INBOX` (default `~/Documents/studio/output/images`), named
 > `<timestamp>_<model>_<what>` (timestamp first, so the inbox sorts) — the renderer does this by default. And **no model
 > judges an image**: never run image analysis, scoring or quality checks on generated
 > output. Report model, prompt hash, size and cost; the user judges quality.
@@ -28,7 +28,7 @@ scripts/check-imagegen.sh --specs frames.json --resolution 2K
 scripts/generate-image.sh --spec frame3.json --dry-run
 
 # the real thing
-scripts/generate-image.sh --spec frame3.json --out ~/Pictures/imagegen/_inbox/frame3.png --meta
+scripts/generate-image.sh --spec frame3.json --out ~/Documents/studio/output/images/frame3.png --meta
 
 # cheaper iteration: 1K, and a verbatim prompt when no spec applies
 scripts/generate-image.sh --spec frame3.json --resolution 1K

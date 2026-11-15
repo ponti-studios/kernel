@@ -14,7 +14,8 @@ import { spawnSync } from "node:child_process";
 import { existsSync, mkdirSync, readdirSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { setting } from "./resolve.mjs";
-import { dirname, extname, join } from "node:path";
+import { outputDir } from "../../../studio-core/scripts/lib/config.mjs";
+import { basename, dirname, extname, join } from "node:path";
 import { parseArgs } from "node:util";
 
 import { load, readScenes } from "./resolve.mjs";
@@ -35,10 +36,11 @@ const { values } = parseArgs({
   },
 });
 
-if (!values.clips || !values.voiceover || !values.out) {
-  console.error("usage: assemble.mjs --clips <dir> --voiceover <file.mp3> --out <file.mp4>");
+if (!values.clips || !values.voiceover || (!values.out && !process.env.STUDIO_OUTPUT_DIR)) {
+  console.error("usage: assemble.mjs --clips <dir> --voiceover <file.mp3> [--out <file.mp4>]\n(--out is required unless STUDIO_OUTPUT_DIR is set)");
   process.exit(2);
 }
+values.out ??= outputDir("video", basename(values.clips).replace(/\/+$/, "") + ".mp4");
 if (!existsSync(values.clips)) {
   console.error(`error: clips directory not found: ${values.clips}`);
   process.exit(2);

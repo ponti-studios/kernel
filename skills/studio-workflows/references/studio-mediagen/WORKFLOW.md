@@ -50,14 +50,14 @@ video alone, and an iteration that regenerates a set five times is real money.
 scripts/check-media.sh --scenes scenes.json
 
 # 0b. exact timings — measure the narration, set the shot lengths (needs step 1 audio)
-scripts/timings.sh --scenes scenes.json --voiceover ~/Documents/studio-media/voiceover
+scripts/timings.sh --scenes scenes.json --voiceover ~/Documents/studio/output/voiceover
 
 # 0c. the animatic gate — stills cut to narration, free, watch it before buying motion
 scripts/animatic.sh --scenes scenes.timed.json --keyframes <keyframes dir> \
-                    --voiceover ~/Documents/studio-media/voiceover --out animatic.mp4
+                    --voiceover ~/Documents/studio/output/voiceover --out animatic.mp4
 
 # 1. narration (skips scenes with no voiceover)
-scripts/voiceover.sh --scenes scenes.json --out ~/Documents/studio-media/voiceover
+scripts/voiceover.sh --scenes scenes.json --out ~/Documents/studio/output/voiceover
 
 # 2. clips — dry run first, always. Pass --keyframes for image-to-video:
 #    each still is published to R2 and anchors its shot's first frame.
@@ -67,9 +67,9 @@ scripts/clips.sh --scenes scenes.json --only scene-2 --yes # iterate one scene
 scripts/clips.sh --scenes scenes.json --yes                # the whole set
 
 # 3. assemble
-scripts/assemble.sh --clips ~/Documents/studio-media/clips \
-                    --voiceover ~/Documents/studio-media/voiceover \
-                    --out ~/Documents/studio-media/final.mp4 \
+scripts/assemble.sh --clips ~/Documents/studio/output/clips \
+                    --voiceover ~/Documents/studio/output/voiceover \
+                    --out ~/Documents/studio/output/final.mp4 \
                     --scenes scenes.json --contact-sheet
 ```
 

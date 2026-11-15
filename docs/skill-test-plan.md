@@ -299,7 +299,7 @@ Tiers: **H** = hermetic/local/$0 · **L** = live account/network · **$** = spen
 
 ### openrouter-image-generation [$]
 - Test: scripts `or_image_gen.py <out.png> "<prompt>" [model] [aspect] [resolution]` (or `@file.txt`); `GET /api/v1/images/models` enum check; `--dry-run` spends $0; output naming `<YYYYMMDD-HHMMSS>_<model>_<what>.<ext>` + `_index.md`; `sips -g pixelWidth` real-size; negation audit `grep -oiE '\b(no|never|not|none|without|…)\b'`; log line in `~/.hominem/ai_usage/<ts>.json` (model/prompt-sha/elapsed/status/cost/path); edit flow pins→annotated→composite diff; `render_sweep.sh` resume-safe.
-- Prereqs: `OPENROUTER_API_KEY`; network; `~/Pictures/imagegen/_inbox` writable; Python stdlib.
+- Prereqs: `OPENROUTER_API_KEY`; network; `~/Documents/studio/output/images` writable; Python stdlib.
 - Pass: file exists at quoted path (read back off disk); JSON log with `usage.cost`; pixels match request; cost line reported.
 - Blockers: paid + latency (18–178s); provider 400 content-filters (don't bisect, switch model); no-model-judges-image — only params/cost/paths assertable; `google/gemini-3-pro-image` banned.
 

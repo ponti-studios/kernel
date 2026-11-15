@@ -15,6 +15,7 @@
 import { mkdirSync, readdirSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { setting } from "./resolve.mjs";
+import { outputDir } from "../../../studio-core/scripts/lib/config.mjs";
 import { extname, join } from "node:path";
 import { parseArgs } from "node:util";
 
@@ -82,7 +83,7 @@ if (values.only && selected.length === 0) {
   process.exit(2);
 }
 
-const outDir = values.out ?? join(homedir(), "Documents", "studio-media", "clips");
+const outDir = values.out ?? outputDir("clips");
 const clipModel = values.model ?? env.OPENROUTER_VIDEO_MODEL;
 const timeoutMs = values["timeout-ms"] ? Number(values["timeout-ms"]) : 10 * 60 * 1000;
 

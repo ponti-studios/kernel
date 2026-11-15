@@ -10,8 +10,9 @@
 import { spawnSync } from "node:child_process";
 import { existsSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { extname, join } from "node:path";
+import { basename, extname, join } from "node:path";
 import { parseArgs } from "node:util";
+import { outputDir } from "../../../studio-core/scripts/lib/config.mjs";
 
 const { values } = parseArgs({
   options: {
@@ -23,12 +24,13 @@ const { values } = parseArgs({
   },
 });
 
-if (!values.scenes || !values.keyframes || !values.out) {
+if (!values.scenes || !values.keyframes || (!values.out && !process.env.STUDIO_OUTPUT_DIR)) {
   console.error(
-    "usage: animatic.mjs --scenes <scenes.timed.json> --keyframes <dir> [--voiceover <dir>] --out <file.mp4>",
+    "usage: animatic.mjs --scenes <scenes.timed.json> --keyframes <dir> [--voiceover <dir>] [--out <file.mp4>]\n(--out is required unless STUDIO_OUTPUT_DIR is set)",
   );
   process.exit(2);
 }
+values.out ??= outputDir("video", basename(values.scenes).replace(/\.[^.]+$/, "") + "-animatic.mp4");
 
 // A still held for six seconds reads as frozen, which hides whether a shot carries.
 // Apply the intended camera move as real motion over the still, so the animatic tests

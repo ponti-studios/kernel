@@ -16,11 +16,11 @@
 #
 # env:
 #   RENDERER  renderer to invoke (default: the studio imagegen script)
-#   INBOX     output directory   (default: ~/Pictures/imagegen/_inbox)
+#   INBOX     output directory   (default: $STUDIO_OUTPUT_DIR/images, else ~/Documents/studio/output/images)
 set -uo pipefail
 
 RENDERER="${RENDERER:-$HOME/.agents/skills/studio-imagegen/scripts/generate-image.sh}"
-INBOX="${INBOX:-$HOME/Pictures/imagegen/_inbox}"
+INBOX="${INBOX:-${STUDIO_OUTPUT_DIR:-$HOME/Documents/studio/output}/images}"
 SAMPLES=5
 RESOLUTION=1K
 WORKDIR=""

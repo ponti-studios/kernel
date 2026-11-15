@@ -10,6 +10,7 @@ import { spawnSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { setting } from "./resolve.mjs";
+import { outputDir } from "../../../studio-core/scripts/lib/config.mjs";
 import { join } from "node:path";
 import { parseArgs } from "node:util";
 
@@ -50,7 +51,7 @@ if (values.only && selected.length === 0) {
   process.exit(2);
 }
 
-const outDir = values.out ?? join(homedir(), "Documents", "studio-media", "voiceover");
+const outDir = values.out ?? outputDir("voiceover");
 const speechModel = env.OPENROUTER_SPEECH_MODEL;
 const work = selected.filter((s) => s.voiceover?.trim());
 

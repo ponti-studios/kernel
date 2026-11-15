@@ -15,7 +15,7 @@ import { homedir } from "node:os";
 import { dirname, extname, join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 
-import { apiKey, setting } from "../../../studio-core/scripts/lib/config.mjs";
+import { apiKey, outputDir, setting } from "../../../studio-core/scripts/lib/config.mjs";
 import {
   batchExitCode,
   BatchExecutor,
@@ -68,7 +68,7 @@ if (!Array.isArray(scenes) || scenes.length === 0) {
 
 const model =
   values.model ?? setting("OPENROUTER_IMAGE_MODEL", "model_image", "qwen/qwen-image-2.1-turbo");
-const outDir = values.out ?? join(homedir(), "Pictures", "imagegen", "keyframes");
+const outDir = values.out ?? outputDir("keyframes");
 const selected = values.only ? scenes.filter((s) => s.id === values.only) : scenes;
 if (values.only && selected.length === 0) {
   console.error(

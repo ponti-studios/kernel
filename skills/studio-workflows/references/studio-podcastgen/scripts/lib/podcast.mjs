@@ -19,11 +19,12 @@
 // array.
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { homedir, tmpdir } from "node:os";
-import { dirname, join, resolve } from "node:path";
+import { basename, dirname, join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { spawnSync } from "node:child_process";
 
 import { apiKey, load, readPodcastSource, speechPricePerToken, setting } from "./resolve.mjs";
+import { outputDir } from "../../../studio-core/scripts/lib/config.mjs";
 
 const USAGE_DIR = setting("STUDIO_USAGE_DIR", "usage_dir", () =>
   join(homedir(), ".hominem", "ai_usage"),
@@ -45,12 +46,13 @@ const { values } = parseArgs({
   },
 });
 
-if (!values.source || !values.out) {
+if (!values.source || (!values.out && !process.env.STUDIO_OUTPUT_DIR)) {
   console.error(
-    "usage: podcast.mjs --source <script.json|notes.md> --out <episode.mp3> [--voice <id> | --voices <a,b>]",
+    "usage: podcast.mjs --source <script.json|notes.md> [--out <episode.mp3>] [--voice <id> | --voices <a,b>]\n(--out is required unless STUDIO_OUTPUT_DIR is set)",
   );
   process.exit(2);
 }
+values.out ??= outputDir("podcasts", basename(values.source).replace(/\.[^.]+$/, "") + ".mp3");
 if (!existsSync(values.source)) {
   console.error(`error: source not found: ${values.source}`);
   process.exit(2);

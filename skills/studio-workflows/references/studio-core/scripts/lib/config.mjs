@@ -39,6 +39,7 @@ const USER_CONFIG_TO_ENV = {
   press_root: "STUDIO_PRESS_ROOT",
   usage_dir: "STUDIO_USAGE_DIR",
   inbox: "STUDIO_INBOX",
+  output_dir: "STUDIO_OUTPUT_DIR",
   drafts_dir: "STUDIO_DRAFTS_DIR",
   openrouter_api_key: "OPENROUTER_API_KEY",
   model_text: "OPENROUTER_TEXT_MODEL",
@@ -62,6 +63,15 @@ export function applyUserConfig(path = userConfigPath) {
 // Same import-time side effect as the original module: the file fills any
 // OPENROUTER_*/STUDIO_* variable the environment has not already set.
 applyUserConfig();
+
+/**
+ * The one root for every generated media file (images, keyframes, voiceover,
+ * clips, video, podcasts). Override with STUDIO_OUTPUT_DIR or `output_dir` in the
+ * user config. Each kind of output is a subfolder: outputDir("images").
+ */
+export function outputDir(...parts) {
+  return join(setting("STUDIO_OUTPUT_DIR", "output_dir", () => join(homedir(), "Documents", "studio", "output")), ...parts);
+}
 
 /** Raw config-file contents (flat keys), for callers that need several at once. */
 export function fileConfig(path = userConfigPath) {
