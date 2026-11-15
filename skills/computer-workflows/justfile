@@ -1,0 +1,96 @@
+# macOS app cleanup helpers. Install the `computer-workflows` command with:
+#   just --justfile ~/Developer/kernel/skills/computer-workflows/justfile install
+# Then run commands like: computer-workflows inventory Cartograph
+skill_dir := justfile_directory()
+inventory_script := skill_dir + "/references/macos-complete-uninstall/scripts/inventory.sh"
+
+default:
+    @just --justfile {{ justfile() }} --list
+
+# Install the command-line entry point under /usr/local/bin.
+install:
+    "{{ skill_dir }}/scripts/install.sh"
+
+# Clear Xcode caches (DerivedData, old iOS DeviceSupport, unavailable simulators).
+# Dry run by default. `just clean-xcode --yes` applies. Items go to the Trash.
+clean-xcode *args:
+    bash "{{ skill_dir }}/references/disk-space-recovery/scripts/clean-xcode.sh" {{ args }}
+
+# Read-only disk space inventory: home sizes, caches, build dirs, files older than 180 days.
+disk-inventory:
+    bash "{{ skill_dir }}/references/disk-space-recovery/scripts/inventory.sh"
+
+# Run the evidence-based uninstall inventory for an app or binary name.
+inventory term:
+    "{{ inventory_script }}" {{ quote(term) }}
+
+# Search common user app/support locations for matching filenames (not file contents).
+find term:
+    find /Applications "$HOME/Applications" "$HOME/Library" "$HOME/.local" "$HOME/.config" -iname {{ quote("*" + term + "*") }} -print 2>/dev/null
+
+# Open Full Disk Access so entries can be reviewed.
+fda:
+    open 'x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension?Privacy_AllFiles'
+
+# Remove a uniquely named Full Disk Access row only; the app itself is not uninstalled.
+fda-remove name:
+    "{{ skill_dir }}/scripts/remove-fda-entry.sh" {{ quote(name) }}
+
+# Remove a specific matching row after previewing duplicates; row is rechecked before removal.
+fda-remove-row row name:
+    "{{ skill_dir }}/scripts/remove-fda-entry.sh" --row {{ quote(row) }} {{ quote(name) }}
+
+# Preview matching Full Disk Access rows without changing them.
+fda-remove-preview name:
+    "{{ skill_dir }}/scripts/remove-fda-entry.sh" --dry-run {{ quote(name) }}
+
+# Open the Login Items / Allow in Background controls.
+login-items:
+    open 'x-apple.systempreferences:com.apple.LoginItems-Settings.extension'
+
+# Show matching Background Task Management records; this only inspects the registry.
+btm term:
+    #!/usr/bin/env bash
+    set -o pipefail
+    sfltool dumpbtm | grep -i -C 5 -- {{ quote(term) }} || true
+
+# Preview the exact Allow in Background item without changing it.
+btm-disable-preview name:
+    "{{ skill_dir }}/scripts/set-background-entry.sh" --dry-run {{ quote(name) }}
+
+# Turn off one exact Allow in Background item; never edits the BTM database directly.
+btm-disable name:
+    "{{ skill_dir }}/scripts/set-background-entry.sh" {{ quote(name) }}
+
+# Report an app bundle's path, bundle identity, version, signature and size, or inspect a command.
+app-info target:
+    python3 "{{ skill_dir }}/scripts/app-info.py" {{ quote(target) }}
+
+# Check common paths, PATH, processes, launchd and BTM for remaining traces; read-only.
+verify-removed term:
+    python3 "{{ skill_dir }}/scripts/verify-removed.py" {{ quote(term) }}
+
+# Copy .log files to a new destination, preserving their relative paths.
+# Skips browser-profile logs because they are browser database artifacts, not app diagnostics.
+preserve-logs source dest:
+    #!/usr/bin/env python3
+    import shutil
+    from pathlib import Path
+
+    source = Path({{ quote(source) }}).expanduser()
+    dest = Path({{ quote(dest) }}).expanduser()
+    if not source.is_dir():
+        raise SystemExit(f"Source directory does not exist: {source}")
+    if dest.exists():
+        raise SystemExit(f"Destination already exists; refusing to overwrite: {dest}")
+
+    copied = 0
+    for path in source.rglob("*.log"):
+        relative = path.relative_to(source)
+        if "browser-profile" in relative.parts or not path.is_file():
+            continue
+        target = dest / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(path, target)
+        copied += 1
+    print(f"Preserved {copied} log files under {dest}")

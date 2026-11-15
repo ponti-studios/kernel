@@ -1,6 +1,6 @@
 ---
 name: computer-workflows
-description: Organize files or completely uninstall macOS software using an evidence-based inventory and reversible cleanup where possible.
+description: Organize files, reclaim disk space, or completely uninstall macOS software using an evidence-based inventory and reversible cleanup where possible.
 license: MIT
 ---
 
@@ -12,3 +12,4 @@ Current user instructions and repository conventions take precedence over defaul
 
 - [File Organization](references/file-organization/WORKFLOW.md)
 - [Complete macOS uninstall](references/macos-complete-uninstall/WORKFLOW.md)
+- [Reclaiming disk space on macOS](references/disk-space-recovery/WORKFLOW.md)

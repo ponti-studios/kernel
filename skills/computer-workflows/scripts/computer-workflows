@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if ! command -v just >/dev/null 2>&1; then
+    echo "computer-workflows: 'just' is required but was not found on PATH." >&2
+    exit 127
+fi
+
+source_path=$(python3 -c 'import os, sys; print(os.path.realpath(sys.argv[1]))' "$0")
+skill_dir=$(cd "$(dirname "$source_path")/.." && pwd -P)
+exec just --justfile "$skill_dir/justfile" "$@"
