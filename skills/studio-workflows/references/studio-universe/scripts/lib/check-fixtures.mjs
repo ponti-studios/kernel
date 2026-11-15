@@ -5,8 +5,10 @@
 //
 //   check-fixtures.mjs [--universe <dir>] [--fixtures <dir>]
 //
-// Canon comes from the skill's own data/ (see resolve.mjs); the fixtures travel
-// with the compiler under test/fixtures/. Neither needs a studio checkout.
+// Canon comes from the skill's own data/ by default, not from the user's config,
+// so the baseline means the same thing on every machine. --universe checks a
+// different canon (e.g. a studio folder) against this baseline; expect drift there.
+// The fixtures travel with the compiler under test/fixtures/.
 //
 // App parity is checked WHEN a TypeScript build is present: the port must agree
 // with the original in legacy voice. When no build exists that comparison is
@@ -18,12 +20,12 @@ import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 
 import {
+  LOCAL_DATA_DIR,
   distCompilerEntry,
   fixturesDir,
   loadCompiler,
   loadLocalCompiler,
   loadRegistry,
-  universeRoot,
 } from "./resolve.mjs";
 
 const argv = process.argv.slice(2);
@@ -31,7 +33,7 @@ const flag = (name) => {
   const at = argv.indexOf(name);
   return at === -1 ? undefined : argv[at + 1];
 };
-const UNIVERSE = flag("--universe") ?? universeRoot();
+const UNIVERSE = flag("--universe") ?? LOCAL_DATA_DIR;
 const FIXTURES = flag("--fixtures") ?? fixturesDir();
 
 let registry;
