@@ -130,6 +130,21 @@ state clearing is `MemoryAccount.clearProblem()`. Copy the pattern for new error
 in any app, and test with fake timers (enter, stays during exit, removed after, calm
 does not tint).
 
+### Transaction ledgers use layered motion
+
+Give transaction ledgers a lively sequence across page entry, controls, the
+first few rows, selection feedback, and the detail drawer. Keep transaction
+values still after entry, keep interaction responses quick, and provide a
+reduced-motion version without positional movement.
+
+**Why:** Charles wants the transactions experience to feel more alive while
+keeping the ledger easy to scan and act on.
+
+**How to apply:** stage brief opacity and transform feedback for the ledger's
+initial state changes, limit row staggering to the first five rows, and keep
+the detail drawer spatially connected to its right edge. Preserve the shared
+motion tokens and reduced-motion behavior.
+
 ## Styling mechanics
 
 - No inline styles in React Native: every style lives in a
