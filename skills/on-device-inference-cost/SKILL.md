@@ -8,7 +8,7 @@ platforms: [macos]
 metadata:
   hermes:
     tags: [performance, benchmarking, latency, asr, coreml]
-    related_skills: [swift-package-multiplatform-verification, macos-menubar-swift-app]
+    related_skills: [apple-workflows]
 ---
 
 # Pricing an on-device model pass
@@ -83,7 +83,7 @@ microphone.
 carrying signal yet because the person had not started. Separate them by running the same path over a fixture that
 begins speaking at t=0 — one pipeline reported 0.51 s from speech to first output there, against 2.1-2.3 s on real
 sessions whose first second was the speaker drawing breath. When the fast case is fine, the fix is feedback during
-the gap (see `macos-menubar-swift-app`), not a faster model, and reporting it as engine latency sends the next
+the gap (see `apple-workflows` → macOS menu bar app), not a faster model, and reporting it as engine latency sends the next
 session optimising the wrong stage.
 
 Field-by-field table, the log contract, the fixture recipe and the real-time replay recipe:
