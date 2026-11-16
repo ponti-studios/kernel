@@ -1,8 +1,6 @@
 # Media pipeline internals
 
-Mirrors the app's `runAudioStage`, `runVideoStage` and `assembleProjectVideo`
-(`apps/web/src/lib/server/api.ts`) so the terminal path produces the same
-artifacts as the dashboard path.
+Provider and assembly details for the installed Studio video workflow.
 
 ## Voiceover
 
@@ -30,20 +28,19 @@ artifacts as the dashboard path.
   `expired` are terminal errors. Then download `unsigned_urls[0]`.
 - Poll interval 15s; timeout 10 minutes (both overridable in code).
 - Model: `OPENROUTER_VIDEO_MODEL`, default `kwaivgi/kling-v3.0-std`.
-- Request: `{model, prompt: scene.prompt + "\n\n" + CHARACTER_LOCK, duration:
-  round(duration_seconds ?? 8), aspect_ratio: '16:9', resolution: '720p',
-  generate_audio: false, seed?}`.
+- Request: `{model, prompt: scene.prompt (or the spec compiled from canon), duration:
+  ceil(duration_seconds ?? 8), aspect_ratio: '16:9' (or '9:16' with --vertical),
+  resolution: '720p', generate_audio: false, seed?}`.
 - Kling v3.0 std supports durations 3-15s, 720p only, aspect ratios 16:9, 9:16,
   1:1, and advertises `generate_audio: true` (we keep it off), `seed: false`,
   with `negative_prompt` and `cfg_scale` as allowed passthrough parameters.
 - `pricing_skus` on the model record: `duration_seconds` $0.084,
   `duration_seconds_with_audio` $0.126.
-- Per-scene failures are collected and the loop continues; the stage only throws
-  when _every_ scene failed.
+- Per-scene failures are collected while the loop continues; any failure makes the stage exit nonzero.
 
 ## Assembly
 
-`assembleVideo` (packages/providers/src/media.ts):
+The bundled `assembleVideo` helper:
 
 1. `probeDuration` (ffprobe) on the voiceover and each clip.
 2. Write a concat list file (`file '<path>'` per line) into tmpdir.
@@ -51,12 +48,11 @@ artifacts as the dashboard path.
    input, `-filter_complex "[1:a]adelay=<delay>|<delay>,apad[a]"`, map `0:v` and
    `[a]`, `-c:v copy`, `-c:a aac`, `-shortest`.
 4. Return `{videoSeconds, voiceoverSeconds, truncated}` where
-   `truncated = voiceoverSeconds > videoSeconds`.
+   `truncated` includes the audio delay and a small encoding tolerance.
 
 Consequences worth remembering:
 
-- Video is stream-copied, so clips must share codec/parameters to concat
-  cleanly — mixed sources may produce a broken join rather than an error.
+- Video is stream-copied; the assembly command checks codec, profile, level, dimensions, pixel format, frame rate and time base before concatenation.
 - The narration starts after `voDelayMs` (800ms default) and is padded
   (`apad`), so a short narration does not end the video early.
 - `-shortest` ends the output when the shorter stream ends: a long narration on
@@ -68,5 +64,4 @@ Consequences worth remembering:
 
 Tested with synthetic media (no API spend): two 3s clips plus a 4s narration
 produced a 6.00s h264+aac mp4 with `truncated: no` and a contact sheet; the same
-clips with a 9s narration produced `truncated: YES`, a 6.00s output and exit 1 —
-the narration's final 3s is genuinely cut.
+clips with a 9s narration is now refused before encoding.

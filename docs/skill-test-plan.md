@@ -36,11 +36,17 @@ Tiers: **H** = hermetic/local/$0 · **L** = live account/network · **$** = spen
 - Blockers: entirely LLM-judgment, no oracle; full exploit validation needs auth scope.
 
 ### studio-workflows [$+H]
-- Entrypoints: 12 `WORKFLOW.md` (`studio-universe`, `studio-imagegen`, `studio-upscale`, `image-transparent`, `studio-mediagen`, `studio-podcastgen`, `studio-ledger`, `film-production`, `image-model-craft`, `programmatic-video`, `kernel-ops-production`, `project-operations`).
-- Test (free, hermetic first): `studio-universe/scripts/check-fixtures.sh` → "9 byte-exact, 0 failed"; `test.sh` exit 0; `compile-frame.sh <spec> --out /tmp/x.prompt.txt` byte-identical to `test/fixtures/expected/`; refusal exits 1/2 with named field. Ledger: `cli.mjs emit|asset|index|report|verify|backfill|gc|reprice` round-trip (delete + rebuild identical). Imagegen/podcastgen/mediagen: `--dry-run` / `check-*.sh` exit 0 with $0 spend. `image-transparent`: `pytest tests/test_remove_background.py`; corners alpha 0 / centre 255, overwrite refused. `upscale.py`: output dims = `--outscale 2`.
+- Entrypoints: 12 `WORKFLOW.md` (`studio-universe`, `studio-imagegen`, `studio-upscale`, `image-transparent`, `studio-videogen`, `studio-podcastgen`, `studio-ledger`, `film-production`, `image-model-craft`, `programmatic-video`, `kernel-ops-production`, `project-operations`).
+- Test (free, hermetic first): `studio-universe/scripts/check-fixtures.sh` → "9 byte-exact, 0 failed"; `test.sh` exit 0; `compile-frame.sh <spec> --out /tmp/x.prompt.txt` byte-identical to `test/fixtures/expected/`; refusal exits 1/2 with named field. Ledger: `cli.mjs emit|asset|index|report|verify|backfill|gc|reprice` round-trip (delete + rebuild identical). Imagegen/podcastgen/videogen: `--dry-run` / `check-*.sh` exit 0 with $0 spend. `image-transparent`: `pytest tests/test_remove_background.py`; corners alpha 0 / centre 255, overwrite refused. `upscale.py`: output dims = `--outscale 2`.
 - Prereqs: Node 24; `OPENROUTER_API_KEY`, `STUDIO_UNIVERSE_ROOT`, `STUDIO_INBOX`, `STUDIO_USAGE_DIR`; `ffmpeg/ffprobe`; rembg venv + model weights; upscale external venv + `weights/*.pth`.
 - Pass: universe byte-exact; ledger `verify` pure function of JSONL; dry-runs print prompt hash + cost upper bound with no spend; episode mp3 duration = Σsegments + gap×(n−1).
 - Blockers: any non-dry-run image/speech/video spends real money (~$0.018/image 2K, ~$0.084/s video); weights are GBs; quality assertions are dimensional/file-based only.
+
+### studio-workflows: studio-videogen procedure [H+$]
+- Test: `ffprobe` duration math (`ceil((measured+0.5)*2)/2`); `ffmpeg -af apad` pad + concat; `silencedetect=noise=-35dB:d=0.25` alignment check; `curl openrouter.ai/api/v1/videos/models` schema (`supported_durations`, `supported_frame_images`, `pricing_skus`); SigV4 presign vs `aws s3 presign` differential; frame-0/last-frame RMSE anchoring; final delivery contains only `audio.mp3` and `video.mp4` with non-silent audio.
+- Prereqs: `ffmpeg/ffprobe`, `OPENROUTER_API_KEY`, R2 creds, `aws` CLI.
+- Pass: numeric duration; models JSON has listed fields; signatures match; cost printed before submit.
+- Blockers: no key → provider check untestable; full e2e ~$3–9; `frame_images` needs public HTTPS URL.
 
 ### writing-workflows [H partial — `llm-structured-extraction` tested]
 - Entrypoints: 18 `WORKFLOW.md` (`write-docs`, `essay`, `write-video-script`, `write-brief`, `write-incident-report`, `phrase-audit`, `plan-to-tasks`, `workshop-design`, `studio-script|scenes|clips|social|video|documents`, `interface-copy`, …).
@@ -50,12 +56,6 @@ Tiers: **H** = hermetic/local/$0 · **L** = live account/network · **$** = spen
 - Blockers: essay/brief/incident/workshop are taste checklists (human-judged); generators cost small $ and are non-deterministic.
 
 ## Project tools
-
-### ai-video-production [H+$]
-- Test: `ffprobe` duration math (`ceil((measured+0.5)*2)/2`); `ffmpeg -af apad` pad + concat; `silencedetect=noise=-35dB:d=0.25` alignment check; `curl openrouter.ai/api/v1/videos/models` schema (`supported_durations`, `supported_frame_images`, `pricing_skus`); SigV4 presign vs `aws s3 presign` differential; frame-0/last-frame RMSE anchoring.
-- Prereqs: `ffmpeg/ffprobe`, `OPENROUTER_API_KEY`, R2 creds, `aws` CLI.
-- Pass: numeric duration; models JSON has listed fields; signatures match; cost printed before submit.
-- Blockers: no key → provider check untestable; full e2e ~$3–9; `frame_images` needs public HTTPS URL.
 
 ### apple-notes [L]
 - Test: `memo notes`, `-f`, `-s` (seeded note found), `-ex`, `-a`, `-e`, `-d`, `-m`; export produces HTML/Markdown.
@@ -406,7 +406,7 @@ Tiers: **H** = hermetic/local/$0 · **L** = live account/network · **$** = spen
 - Blockers: intentionally throwaway — no durable assertions; open topic means no fixed oracle; over-engineering defeats purpose.
 
 ### studio-dashboard [H]
-- Test: tombstone compliance — dashboard request routes to `studio-editorial/studio-imagegen/studio-mediagen/studio-podcastgen`, deletions to `subsystem-removal`; refuses to re-introduce `apps/web`, `packages/database`, `@studio/contracts`, `pnpm dev:web`; cites `web-app-final`. Archival only (needs `studio` repo at tag): `cd apps/web && pnpm build`; `PORT=4408 ORIGIN=… node --import ./otel.mjs build/index.js`; `curl -w %{http_code} /`→200 + `/usage`→200; logs contain `otel.started`+`otel.tracer_ready`, no `level:error`; href/tab sweep.
+- Test: tombstone compliance — dashboard request routes to `studio-editorial/studio-imagegen/studio-videogen/studio-podcastgen`, deletions to `subsystem-removal`; refuses to re-introduce `apps/web`, `packages/database`, `@studio/contracts`, `pnpm dev:web`; cites `web-app-final`. Archival only (needs `studio` repo at tag): `cd apps/web && pnpm build`; `PORT=4408 ORIGIN=… node --import ./otel.mjs build/index.js`; `curl -w %{http_code} /`→200 + `/usage`→200; logs contain `otel.started`+`otel.tracer_ready`, no `level:error`; href/tab sweep.
 - Prereqs: none for tombstone; archival needs old checkout + Node/pnpm pin.
 - Pass: no app edits; if archival present, two-route 200 + log assertions hold; 200≠correct warning honored.
 - Blockers: app deleted — live dashboard untestable; `observability.md` describes removed `apps/web/otel.mjs`.

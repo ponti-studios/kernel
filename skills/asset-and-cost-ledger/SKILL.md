@@ -8,7 +8,7 @@ platforms: [macos]
 metadata:
   hermes:
     tags: [ponti-studios, cost, assets, provenance, ledger]
-    related_skills: [image-model-craft, studio-imagegen, studio-mediagen, studio-ledger]
+    related_skills: [image-model-craft, studio-imagegen, studio-workflows, studio-ledger]
 ---
 
 # Asset + cost ledger

@@ -11,14 +11,16 @@
 // runs longer than the footage the END OF THE NARRATION IS CUT. The result
 // reports `truncated` when that happens.
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, readdirSync, writeFileSync } from "node:fs";
-import { homedir } from "node:os";
+import { existsSync, mkdirSync, mkdtempSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
+import { homedir, tmpdir } from "node:os";
 import { setting } from "./resolve.mjs";
 import { outputDir } from "../../../studio-core/scripts/lib/config.mjs";
-import { basename, dirname, extname, join } from "node:path";
+import { basename, dirname, extname, join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 
 import { load, readScenes } from "./resolve.mjs";
+import { concatLine } from "../../../studio-core/scripts/lib/media.mjs";
+import { selectClips } from "./select-clips.mjs";
 
 const USAGE_DIR = setting("STUDIO_USAGE_DIR", "usage_dir", () =>
   join(homedir(), ".hominem", "ai_usage"),
@@ -33,6 +35,7 @@ const { values } = parseArgs({
     "delay-ms": { type: "string" },
     "contact-sheet": { type: "boolean", default: false },
     "dry-run": { type: "boolean", default: false },
+    "allow-test-clips": { type: "boolean", default: false },
   },
 });
 
@@ -40,7 +43,14 @@ if (!values.clips || !values.voiceover || (!values.out && !process.env.STUDIO_OU
   console.error("usage: assemble.mjs --clips <dir> --voiceover <file.mp3> [--out <file.mp4>]\n(--out is required unless STUDIO_OUTPUT_DIR is set)");
   process.exit(2);
 }
+if (values["delay-ms"] !== undefined && (!Number.isSafeInteger(Number(values["delay-ms"])) || Number(values["delay-ms"]) < 0)) {
+  console.error("error: --delay-ms must be a non-negative integer");
+  process.exit(2);
+}
 values.out ??= outputDir("video", basename(values.clips).replace(/\/+$/, "") + ".mp4");
+values.clips = resolve(values.clips);
+values.voiceover = resolve(values.voiceover);
+values.out = resolve(values.out);
 if (!existsSync(values.clips)) {
   console.error(`error: clips directory not found: ${values.clips}`);
   process.exit(2);
@@ -50,79 +60,37 @@ if (!existsSync(values.voiceover)) {
   process.exit(2);
 }
 
-// A directory is the natural output of voiceover.sh (one mp3 per scene). Join it in
-// scene order — or alphabetically when no --scenes was given — into one narration file.
+// A narration directory needs scene order to align individual lines.
 let voiceoverPath = values.voiceover;
-if (
-  readdirSync(values.voiceover, { withFileTypes: true }).some((e) => e.isFile() === false) ||
-  extname(values.voiceover) === ""
-) {
-  const dir = values.voiceover;
-  const files = readdirSync(dir).filter((f) =>
-    [".mp3", ".wav", ".m4a"].includes(extname(f).toLowerCase()),
-  );
-  if (files.length === 0) {
-    console.error(`error: no audio files in ${dir}`);
-    process.exit(2);
-  }
-  let ordered = files;
-  if (values.scenes) {
-    const scenes = await readScenes(values.scenes);
-    const byId = new Map(files.map((f) => [f.replace(/\.[^.]+$/, ""), f]));
-    ordered = scenes.map((s) => byId.get(s.id)).filter(Boolean);
-  }
-  const listPath = join(dir, "concat.txt");
-  writeFileSync(listPath, ordered.map((f) => `file '${join(dir, f)}'`).join("\n") + "\n");
-  voiceoverPath = join(dir, "joined.mp3");
-  const res = spawnSync(
-    "ffmpeg",
-    ["-y", "-f", "concat", "-safe", "0", "-i", listPath, "-c", "copy", voiceoverPath],
-    { encoding: "utf8" },
-  );
-  if (res.status !== 0) {
-    console.error(
-      `error: could not join narration: ${(res.stderr ?? "").trim().split("\n").slice(-1)[0]}`,
-    );
-    process.exit(1);
-  }
-  console.log(`voiceover: joined ${ordered.length} track(s) -> ${voiceoverPath}`);
+if (statSync(values.voiceover).isDirectory() && !values.scenes) {
+  console.error("error: --scenes is required when --voiceover is a directory");
+  process.exit(2);
 }
 
 const { assembleVideo, contactSheet, probeDuration } = await load("providers");
 
-const inDir = values.clips;
-let clips = readdirSync(inDir)
-  .filter((f) => [".mp4", ".mov", ".mkv", ".webm"].includes(extname(f).toLowerCase()))
-  .map((f) => join(inDir, f));
-
-if (clips.length === 0) {
-  console.error(`error: no video files in ${inDir}`);
+const scenes = values.scenes ? await readScenes(values.scenes) : null;
+let clips;
+try {
+  clips = selectClips(values.clips, scenes, { allowTestClips: values["allow-test-clips"] });
+} catch (err) {
+  console.error(`error: ${err.message}`);
   process.exit(2);
 }
+if (scenes) console.log(`ordering by scenes: ${clips.length} selected clip(s)`);
 
-if (values.scenes) {
-  // Order by the scenes draft so clip order matches the story, not the alphabet.
-  const scenes = await readScenes(values.scenes);
-  const byId = new Map(clips.map((p) => [p.replace(/^.*\//, "").replace(/\.[^.]+$/, ""), p]));
-  const ordered = [];
-  for (const scene of scenes) {
-    const hit = byId.get(scene.id);
-    if (hit) {
-      ordered.push(hit);
-      byId.delete(scene.id);
-    }
+// The concat demuxer stream-copies the pictures. Reject mismatched streams before
+// encoding rather than producing a broken join or a file with corrupt timestamps.
+let clipFormat;
+for (const clip of clips) {
+  const probe = spawnSync("ffprobe", ["-v", "error", "-select_streams", "v:0", "-show_entries", "stream=codec_name,profile,level,width,height,pix_fmt,time_base,r_frame_rate", "-of", "json", clip], { encoding: "utf8" });
+  if (probe.status !== 0) throw new Error(`cannot probe video stream: ${clip}`);
+  const format = JSON.parse(probe.stdout).streams?.[0];
+  if (!format?.codec_name || !format.width || !format.height) throw new Error(`missing video stream: ${clip}`);
+  if (clipFormat && JSON.stringify(format) !== JSON.stringify(clipFormat)) {
+    throw new Error(`incompatible clip format: ${clip}; normalize all clips before assembly`);
   }
-  for (const leftover of byId.values()) ordered.push(leftover);
-  const matchedClips = clips.length - byId.size;
-  const missing = scenes
-    .filter((s) => !clips.some((c) => c.endsWith(`/${s.id}.mp4`)))
-    .map((s) => s.id);
-  console.log(
-    `ordering by scenes: ${matchedClips} of ${clips.length} clip(s) matched a scene` +
-      (missing.length ? `; no clip for ${missing.join(", ")}` : "") +
-      (byId.size ? `; ${byId.size} clip(s) not named after a scene, appended last` : ""),
-  );
-  clips = ordered;
+  clipFormat = format;
 }
 
 // Per-scene alignment. One continuous track starting 800ms in makes the narration
@@ -132,7 +100,7 @@ if (values.scenes) {
 let aligned = false;
 if (
   values.scenes &&
-  readdirSync(values.voiceover, { withFileTypes: true }).some((e) => e.isDirectory() === false)
+  statSync(values.voiceover).isDirectory()
 ) {
   const dir = values.voiceover;
   const scenes = await readScenes(values.scenes);
@@ -141,10 +109,24 @@ if (
   );
   const byId = new Map(files.map((f) => [f.replace(/\.[^.]+$/, ""), join(dir, f)]));
   const segments = [];
-  for (const scene of scenes) {
-    const seconds = Number(scene.duration_seconds) || 8;
-    const source = byId.get(scene.id);
-    const segment = join(dir, `.seg-${scene.id}.mp3`);
+  const work = values["dry-run"] ? null : mkdtempSync(join(tmpdir(), "videogen-audio-"));
+  if (work) process.on("exit", () => rmSync(work, { recursive: true, force: true }));
+  for (const [index, scene] of scenes.entries()) {
+    const seconds = await probeDuration(clips[index]);
+    const source = scene.voiceover?.trim() ? byId.get(scene.id) : undefined;
+    if (scene.voiceover && !source) {
+      console.error(`error: missing narration for ${scene.id}`);
+      process.exit(2);
+    }
+    if (source && (await probeDuration(source)) > seconds + 0.03) {
+      console.error(`error: narration for ${scene.id} exceeds its ${seconds.toFixed(2)}s clip; no audio was cut`);
+      process.exit(2);
+    }
+    if (values["dry-run"]) {
+      console.log(`  ${scene.id}: ${seconds.toFixed(2)}s clip; narration ${source ? "present" : "silent"}`);
+      continue;
+    }
+    const segment = join(work, `scene-${scene.id}.wav`);
     const args = source
       ? [
           "-y",
@@ -159,9 +141,9 @@ if (
           "-ar",
           "44100",
           "-c:a",
-          "libmp3lame",
-          "-q:a",
-          "4",
+          "pcm_s16le",
+          "-ac",
+          "1",
           segment,
         ]
       : [
@@ -175,9 +157,9 @@ if (
           "-t",
           String(seconds),
           "-c:a",
-          "libmp3lame",
-          "-q:a",
-          "4",
+          "pcm_s16le",
+          "-ac",
+          "1",
           segment,
         ];
     const res = spawnSync("ffmpeg", args, { encoding: "utf8" });
@@ -189,9 +171,14 @@ if (
     }
     segments.push(segment);
   }
-  const list = join(dir, "aligned.txt");
-  writeFileSync(list, segments.map((f) => `file '${f}'`).join("\n") + "\n");
-  const track = join(dir, "aligned.mp3");
+  if (values["dry-run"]) {
+    console.log("Dry run — scene alignment validated; nothing written.");
+    process.exit(0);
+  }
+  const list = join(work, "aligned.txt");
+  writeFileSync(list, segments.map(concatLine).join("\n") + "\n");
+  mkdirSync(dirname(values.out), { recursive: true });
+  const track = values.out.replace(/\.[^/.]+$/, "") + ".mix.wav";
   const res = spawnSync(
     "ffmpeg",
     ["-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", list, "-c", "copy", track],
@@ -223,11 +210,12 @@ const totalClipSeconds = (await Promise.all(clips.map((c) => probeDuration(c))))
 console.log(`voiceover: ${voSeconds.toFixed(2)}s`);
 console.log(`footage:   ${totalClipSeconds.toFixed(2)}s`);
 console.log(`delay:     ${delayMs}ms before narration starts`);
-if (voSeconds > totalClipSeconds) {
+if (voSeconds + delayMs / 1000 > totalClipSeconds + 0.03) {
   console.log(
     `WARNING: narration runs ${(voSeconds - totalClipSeconds).toFixed(2)}s longer than the footage — ` +
-      `the ending will be CUT. Trim the voiceover or add clips.`,
+      `the ending would be cut. Trim the voiceover or add clips.`,
   );
+  process.exit(2);
 }
 
 if (values["dry-run"]) {

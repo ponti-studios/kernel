@@ -8,7 +8,7 @@
 | `id`                            | `evt_…`                                                                         |
 | `ts`                            | ISO 8601; determines the monthly segment                                        |
 | `kind`                          | `generation` (others may extend)                                                |
-| `tool`                          | `studio-imagegen`, `studio-editorial`, `studio-mediagen`, `studio-dashboard`, … |
+| `tool`                          | `studio-imagegen`, `studio-editorial`, `studio-videogen` (older records may use `studio-mediagen`), `studio-dashboard`, … |
 | `surface`                       | `cli` or `app`                                                                  |
 | `stage`                         | `render`, `script`, `essay`, `voiceover`, `clip`, `assemble`, …                 |
 | `provider`, `model`             | `openrouter`, `qwen/qwen-image-2.1-turbo`, …                                    |

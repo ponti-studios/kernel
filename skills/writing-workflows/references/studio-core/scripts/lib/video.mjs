@@ -18,23 +18,6 @@ export class OpenRouterVideoError extends Error {
   }
 }
 
-// Prompt-text character lock. Kept for text-to-video fallback; a keyframe makes it
-// redundant, because the picture carries the character instead of the prose.
-export const CHARACTER_LOCK = `Character lock — match exactly:
-3D chibi cartoon boy, soft Pixar-like render.
-- Hair: voluminous black curly hair, medium length, covers forehead and ears.
-- Mask: matte black OVAL mask covering the full face. Two ROUND symmetric eye
-  holes. Small dark strap buckles at both sides and one at top center.
-  No mouth, no nose detail. NEVER change the mask shape.
-  Real eyes NEVER visible; eye holes are dark empty voids.
-- Neck tattoos: TWO portraits, always this pairing — a crowned KING (bearded
-  man in profile) on one side of the neck, a crowned QUEEN (woman in profile)
-  on the other side. Never two kings, never two queens.
-- Outfit: black knit button cardigan (patch pockets) over plain white crew
-  t-shirt; black cargo pants with side flap pockets; black Adidas Samba
-  sneakers (white side stripes, gum-brown soles, small blue heel tab).
-- Feet point forward, never splayed outward.`;
-
 export class OpenRouterVideoModel {
   #apiKey;
   #fetchImpl;
@@ -51,12 +34,13 @@ export class OpenRouterVideoModel {
     };
   }
 
-  async submit(input) {
+  async submit(input, { signal } = {}) {
     let response;
     try {
       response = await this.#fetchImpl(`${BASE_URL}/videos`, {
         method: "POST",
         headers: this.#headers,
+        signal,
         body: JSON.stringify({
           model: input.model,
           prompt: input.prompt,
@@ -65,6 +49,9 @@ export class OpenRouterVideoModel {
           resolution: input.resolution,
           generate_audio: input.generateAudio ?? false,
           ...(input.seed !== undefined ? { seed: input.seed } : {}),
+          // Kling takes a short negative prompt. Models without the field never see it
+          // (clips.mjs checks the catalogue first).
+          ...(input.negativePrompt ? { negative_prompt: input.negativePrompt } : {}),
           // Image-to-video: an approved keyframe anchors the first frame, so the
           // shot inherits a locked look instead of re-inventing it from text.
           // Accepts [{ type: 'first_frame' | 'last_frame', url }] — the provider
@@ -115,11 +102,11 @@ export class OpenRouterVideoModel {
     return { id: body.id, pollingUrl: body.polling_url, ...(usage ? { usage } : {}) };
   }
 
-  async poll(pollingUrl) {
+  async poll(pollingUrl, { signal } = {}) {
     const url = pollingUrl.startsWith("/") ? `${BASE_URL}${pollingUrl}` : pollingUrl;
     let response;
     try {
-      response = await this.#fetchImpl(url, { headers: this.#headers });
+      response = await this.#fetchImpl(url, { headers: this.#headers, signal });
     } catch (cause) {
       throw new OpenRouterVideoError(
         "network",
@@ -145,10 +132,10 @@ export class OpenRouterVideoModel {
     };
   }
 
-  async download(url) {
+  async download(url, { signal } = {}) {
     let response;
     try {
-      response = await this.#fetchImpl(url, { headers: this.#headers });
+      response = await this.#fetchImpl(url, { headers: this.#headers, signal });
     } catch (cause) {
       throw new OpenRouterVideoError(
         "network",
@@ -169,26 +156,44 @@ export class OpenRouterVideoModel {
    * signature for existing callers.
    */
   async generateClipWithUsage(input, options = {}) {
-    const submitted = await this.submit(input);
     const interval = options.pollIntervalMs ?? 15000;
-    const deadline = Date.now() + (options.timeoutMs ?? 10 * 60 * 1000);
-    let usage = submitted.usage;
-    for (;;) {
-      const job = await this.poll(submitted.pollingUrl);
-      usage = mergeUsage(usage, job.usage);
-      if (job.status === "completed") {
-        const url = job.unsignedUrls[0];
-        if (!url) throw new OpenRouterVideoError("shape", "completed job has no output url");
-        const bytes = await this.download(url);
-        return { bytes, ...(usage ? { usage } : {}), jobId: submitted.id };
+    const timeoutMs = options.timeoutMs ?? 10 * 60 * 1000;
+    if (!Number.isSafeInteger(timeoutMs) || timeoutMs <= 0) {
+      throw new OpenRouterVideoError("timeout", "video timeout must be a positive integer");
+    }
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    let submitted;
+    try {
+      submitted = await this.submit(input, { signal: controller.signal });
+      let usage = submitted.usage;
+      for (;;) {
+        const job = await this.poll(submitted.pollingUrl, { signal: controller.signal });
+        usage = mergeUsage(usage, job.usage);
+        if (job.status === "completed") {
+          const url = job.unsignedUrls[0];
+          if (!url) throw new OpenRouterVideoError("shape", "completed job has no output url");
+          const bytes = await this.download(url, { signal: controller.signal });
+          return { bytes, ...(usage ? { usage } : {}), jobId: submitted.id };
+        }
+        if (job.status === "failed" || job.status === "cancelled" || job.status === "expired") {
+          throw new OpenRouterVideoError(job.status, job.error ?? `video job ${job.status}`);
+        }
+        await new Promise((resolve, reject) => {
+          if (controller.signal.aborted) return reject(controller.signal.reason);
+          const onAbort = () => { clearTimeout(wait); reject(controller.signal.reason); };
+          const wait = setTimeout(() => { controller.signal.removeEventListener("abort", onAbort); resolve(); }, interval);
+          controller.signal.addEventListener("abort", onAbort, { once: true });
+        });
       }
-      if (job.status === "failed" || job.status === "cancelled" || job.status === "expired") {
-        throw new OpenRouterVideoError(job.status, job.error ?? `video job ${job.status}`);
+    } catch (cause) {
+      if (controller.signal.aborted) {
+        const detail = submitted ? `job ${submitted.id}` : "submission";
+        throw new OpenRouterVideoError("timeout", `${detail} timed out; check provider status and usage before retrying`);
       }
-      if (Date.now() > deadline) {
-        throw new OpenRouterVideoError("timeout", `still ${job.status} after timeout`);
-      }
-      await new Promise((resolve) => setTimeout(resolve, interval));
+      throw cause;
+    } finally {
+      clearTimeout(timer);
     }
   }
 

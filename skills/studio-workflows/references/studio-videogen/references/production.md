@@ -1,28 +1,12 @@
----
-name: ai-video-production
-description: "Use when building video with generative AI models."
-version: 1.0.0
-author: Charles Ponti
-license: MIT
-metadata:
-  author: ponti-studios
-  category: Creative
-  tags:
-    - video
-    - generative-ai
-    - cost-control
-  hermes:
-    tags: [video, generative-ai, cost-control]
-    related_skills: [studio-mediagen, studio-imagegen, studio-scenes, film-production]
----
-
 # AI video production
+
+Use this procedure to plan generative video, select models, time narration, host keyframes, and verify the final audio/video handoff.
 
 Generating a video with models is a production pipeline, not a prompt. The quality difference
 between a polished result and a pile of unrelated clips is almost entirely **order of operations**:
 every cheap decision is settled before the expensive one is bought.
 
-The Ponti Studio implementation of steps 2, 6 and 8 is `studio-mediagen` (voiceover, clips, assemble);
+The bundled scripts implement steps 2, 6 and 8 (voiceover, clips, assemble);
 steps 1, 3 and 4 are `studio-script`, `studio-scenes` and `studio-imagegen`.
 
 ## When to use
@@ -62,8 +46,7 @@ Keep per-shot narration, silent clips, keyframes, aligned segments, contact shee
   the audio exists get paid for twice: once in generated footage, once in re-cutting it.
 - **Stills before video.** Settle the look on keyframes. Three iterations of a six-shot piece is
   roughly $0.32 in stills against $9 in video.
-- **Image-to-video, not text-to-video.** Text-to-video re-invents the subject in every shot — that is
-  the mechanism behind character drift, not prompt wording. Animate an approved still instead.
+- **Use image-to-video for continuity.** Text-to-video can reinvent the subject in every shot. Animate an approved still for character consistency; text-to-video is an explicit alternative when continuity is not required.
 - **Duration is measured, never estimated.** Probe each shot's narration file (`ffprobe -v error -show_entries format=duration -of csv=p=0 line.mp3`) and set the shot to that plus half a second. A characters-per-second constant is still a guess, and it drifts per voice and per line. A shot the model "feels" should be 10s while carrying a 5.6s line is 4.4s of dead air; the same shot carrying a 2.9s line wastes 5.1s.
 - **Silent shots are a decision, not a default.** Decide how many shots speak; discovering it at
   assembly means the pacing was never authored.
@@ -72,10 +55,7 @@ Keep per-shot narration, silent clips, keyframes, aligned segments, contact shee
   locked for six seconds reads as frozen and cannot tell you whether the shot carries, which is the
   one judgement the gate exists for. A push-in differs ~10% frame-to-frame across its shot; a static
   hold ~0.1%. That requires a shot list carrying `framing` and `camera` per shot, not just a prompt.
-- **Every stage that bills is a dry run until told otherwise.** Print the per-shot estimate from the
-  model's published rate before submitting, require an explicit `--yes` to spend, and offer `--only
-  <shot>` so one shot can be iterated without paying for the set. A pipeline that can spend by
-  accident gets run less often than one that cannot.
+- **Paid stages default to dry runs.** Require `--yes` to spend and offer `--only <shot>`. Video submission requires a model rate and a per-shot estimate. Speech prints character counts; check its published price before approving because the script does not estimate token-priced speech.
 
 ## Check the provider before promising a shot
 
@@ -95,7 +75,7 @@ split by resolution and by audio on/off).
 is rejected, so keyframe conditioning needs an asset-serving path before any of it can be promised.
 The cheapest path that needs no public bucket is a **presigned GET**: upload the still to S3-compatible
 storage (Cloudflare R2), hand the provider a time-limited signed URL, keep the object private. Recipe,
-credential shapes and the differential test that proves the signer: `references/keyframe-hosting-and-alignment.md`.
+credential shapes and the differential test that proves the signer: `keyframe-hosting-and-alignment.md`.
 
 ## Pitfalls
 
@@ -130,7 +110,7 @@ credential shapes and the differential test that proves the signer: `references/
 - **A clip that "worked" may not be anchored.** Confirm image-to-video actually conditioned the shot
   before judging the take: extract frame 0 and the last frame and compare both against the keyframe.
   Anchored looks like a few percent RMSE at frame 0 and a large divergence by the end — recipe in
-  `references/keyframe-hosting-and-alignment.md`.
+  `keyframe-hosting-and-alignment.md`.
 - **A video probe that returns a bare status hides the real failure.** Provider 4xx bodies carry the
   schema complaint; a swallowed body turns a wrong field name into an afternoon of guessing at a
   payload that was already correct.
@@ -139,8 +119,8 @@ credential shapes and the differential test that proves the signer: `references/
 
 ## References
 
-- `references/model-and-price-notes.md` — measured model table, billing behaviour, iteration
+- `model-and-price-notes.md` — measured model table, billing behaviour, iteration
   economics, and the sources this order is distilled from.
-- `references/keyframe-hosting-and-alignment.md` — presigned-URL keyframe hosting (SigV4 without an
+- `keyframe-hosting-and-alignment.md` — presigned-URL keyframe hosting (SigV4 without an
   SDK, verified against the AWS CLI), audio-derived shot timing, per-shot narration alignment, and
   the free animatic recipe.

@@ -1,0 +1,1436 @@
+{
+  "version": 1,
+  "count": 143,
+  "rules": [
+    {
+      "id": "R01",
+      "section": "first-frame",
+      "enforcement": "process",
+      "applies_to": "all",
+      "text": "The first frame is the film set: composition, wardrobe, light and style must be right in the still. The model adds motion only.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R02",
+      "section": "first-frame",
+      "enforcement": "process",
+      "applies_to": "all",
+      "text": "Generate the still natively at delivery aspect (9:16, 1080x1920). Never crop 16:9 later.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R03",
+      "section": "first-frame",
+      "enforcement": "na",
+      "applies_to": "sora",
+      "text": "Match the still's exact resolution to the target video size (Sora).",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R04",
+      "section": "first-frame",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "Use a sharp still, at least 1080px on the long edge.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R05",
+      "section": "first-frame",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "One main subject, clearly separated from the background, with visible depth.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R06",
+      "section": "first-frame",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "Start from a pose the action can plausibly begin from. Mid-action only if that action continues.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R07",
+      "section": "first-frame",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "Face large enough, front or three-quarter, unoccluded. Sunglasses, hair over eyes and extreme profiles hide the identity anchor.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R08",
+      "section": "first-frame",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "Leave headroom and motion room in the direction of travel. Never start at the edge the subject exits toward.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R09",
+      "section": "first-frame",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "Keep critical content in the middle 60-70%. Keep bottom ~20%, right ~15%, top ~10% clear for platform UI.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R10",
+      "section": "first-frame",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "Remove or blur readable text, logos and busy signage from the still before animating.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R11",
+      "section": "prompt",
+      "enforcement": "process",
+      "applies_to": "i2v",
+      "text": "In image-to-video, prompt only the delta: subject movement, background movement, camera. Do not re-describe what is visible.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R12",
+      "section": "prompt",
+      "enforcement": "na",
+      "applies_to": "t2v",
+      "text": "Text-to-video slot order: Subject, Action, Setting, Camera, Lighting/Style, Audio.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R13",
+      "section": "prompt",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "One dominant action per clip, expressed in beats or counts.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R14",
+      "section": "prompt",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "Concrete visible nouns and verbs over abstract adjectives. Flag words like beautiful, cinematic, stunning, epic.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R15",
+      "section": "prompt",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "Specify speed, direction and body mechanics for every motion.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R16",
+      "section": "prompt",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "No hedge stacking. Flag subtle, gently, slightly, drifting: one hedge at most.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R17",
+      "section": "prompt",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "Phrase outcomes positively. Flag negated phrasing (no, not, without) in the prompt body.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R18",
+      "section": "prompt",
+      "enforcement": "param",
+      "applies_to": "kling",
+      "text": "Use a negative-prompt field only where the model has one (Kling does). Keep it short.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R19",
+      "section": "prompt",
+      "enforcement": "lint",
+      "applies_to": "kling",
+      "text": "Minimise negatives on Kling. State preserves positively.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R20",
+      "section": "prompt",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "Never ask for exact counts the model must create. Flag numbers before nouns.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R21",
+      "section": "prompt",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "Keep I2V prompts under about 60 words. T2V prompts describe one shootable moment.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R22",
+      "section": "prompt",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "Separate layers into separate sentences: subject action, camera, scene motion, style and pacing, audio.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R23",
+      "section": "camera",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "One named camera move per shot, including locked-off. Flag none or several.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R24",
+      "section": "camera",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "Prefer reliable moves: locked-off, slow push-in, slow pull-back, slow pan, lateral tracking.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R25",
+      "section": "camera",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "High-risk moves (orbit, 360, crane, whip pan, FPV, dolly-zoom) only when the reveal is the point.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R26",
+      "section": "camera",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "Do not move subject and camera maximally at once. One primary motion.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R27",
+      "section": "camera",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "Dolly is not zoom, and pan is not truck. Use the precise term.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R28",
+      "section": "camera",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "Name shot size, angle and lens feel with the move.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R29",
+      "section": "camera",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "Add a stability cue when steadiness matters. Avoid handheld unless documentary shake is wanted.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R30",
+      "section": "camera",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "In 9:16, avoid fast lateral pans and trucks. Prefer push-in or forward tracking.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R31",
+      "section": "camera",
+      "enforcement": "na",
+      "applies_to": "hailuo-legacy",
+      "text": "Bracket camera commands at the start, max three, in order.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R32",
+      "section": "camera",
+      "enforcement": "na",
+      "applies_to": "hailuo-h3",
+      "text": "Hailuo H3 takes no bracket commands. Write camera in plain film language.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R33",
+      "section": "motion",
+      "enforcement": "process",
+      "applies_to": "all",
+      "text": "Start at low-to-moderate motion. Raise only after a clean test.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R34",
+      "section": "motion",
+      "enforcement": "na",
+      "applies_to": "kling-runway",
+      "text": "Motion Brush strokes: short, one element at a time. Stroke length is intensity.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R35",
+      "section": "motion",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "Low motion for dialogue, close-ups and identity shots. High motion only for wide, face-small action.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R36",
+      "section": "motion",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "Describe an endpoint or settle. Warn if the prompt has no end state.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R37",
+      "section": "motion",
+      "enforcement": "process",
+      "applies_to": "all",
+      "text": "If motion is too fast or slow, change the parameter before rewriting the prompt.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R38",
+      "section": "motion",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "Prefer slow motion for hand and object interactions.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R39",
+      "section": "motion",
+      "enforcement": "na",
+      "applies_to": "kling",
+      "text": "Kling creativity versus relevance slider. Not exposed through our API.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R40",
+      "section": "motion",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "Lock the camera when using motion controls on the subject.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R41",
+      "section": "motion",
+      "enforcement": "param",
+      "applies_to": "all",
+      "text": "Shortest duration that fits the action for tests. Longer only for keepers.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R42",
+      "section": "direction",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "State screen direction explicitly and keep it consistent across cuts.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R43",
+      "section": "direction",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "Name heading relative to camera: toward, away, profile, over-the-shoulder, behind, or POV. One per shot.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R44",
+      "section": "direction",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "For a passing landmark, use lateral tracking at walking height with the landmark in the background plane.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R45",
+      "section": "direction",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "Plan entrances and exits as the action beat. Do not start mid-crossing.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R46",
+      "section": "direction",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "No 180-degree turns, circling the camera, or walk-away-and-return in one clip. Split with a cut.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R47",
+      "section": "direction",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "Keep the horizon level. Dutch angle only when deliberate.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R48",
+      "section": "direction",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "No passage through doors, crowds, mirrors or narrow gaps as one continuous move. Cut to the other side.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R49",
+      "section": "direction",
+      "enforcement": "manual",
+      "applies_to": "9:16",
+      "text": "In vertical, stage travel vertically or toward the camera rather than across the frame.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R50",
+      "section": "direction",
+      "enforcement": "manual",
+      "applies_to": "last-frame",
+      "text": "With a first and last frame pair, keep the angle change under about 30 degrees.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R51",
+      "section": "identity",
+      "enforcement": "process",
+      "applies_to": "all",
+      "text": "Build a character pack before any clip: neutral head close-up, three-quarter, profile, full-body outfit.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R52",
+      "section": "identity",
+      "enforcement": "param",
+      "applies_to": "all",
+      "text": "One verbatim character-lock paragraph, pasted unchanged into every prompt. The spec compiler does this.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R53",
+      "section": "identity",
+      "enforcement": "param",
+      "applies_to": "multi-ref",
+      "text": "Label each reference by role. Blocked until the adapter sends multiple references.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R54",
+      "section": "identity",
+      "enforcement": "param",
+      "applies_to": "multi-ref",
+      "text": "Put the most important reference first. Blocked until the adapter sends multiple references.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R55",
+      "section": "identity",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "Keep faces out of fast motion. No rapid head turns in identity shots.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R56",
+      "section": "identity",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "Hide or simplify hands by default. Flag finger-level action.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R57",
+      "section": "identity",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "If hands must act: one simple action, hands fully in frame, budget retakes.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R58",
+      "section": "identity",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "One character per scene where possible, two at most. Checked against the spec cast.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R59",
+      "section": "identity",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "Two characters: name and tag each in every sentence, and keep them spatially separated.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R60",
+      "section": "identity",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "Normalise lighting across identity references. No mixed colour temperatures.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R61",
+      "section": "identity",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "Give each character one hard-to-lose distinctive feature and name it in the lock.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R62",
+      "section": "identity",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "State allowed variation explicitly. Without a boundary, any change is allowed.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R63",
+      "section": "scene",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "One lighting logic per clip: source, direction, colour.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R64",
+      "section": "scene",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "Keep backgrounds simple and softly out of focus. Avoid detailed architecture on moving shots.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R65",
+      "section": "scene",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "Do not prompt crowds. Use a few blurred passers-by in deep background.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R66",
+      "section": "scene",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "Avoid mirrors, reflective shopfronts, water reflections and screens as central elements.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R67",
+      "section": "scene",
+      "enforcement": "process",
+      "applies_to": "all",
+      "text": "For real locations, supply the location as a reference still.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R68",
+      "section": "scene",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "Keep signage blank or generic: blank shop sign, unmarked awning.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R69",
+      "section": "scene",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "State what stays still: background static, same buildings, same light throughout.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R70",
+      "section": "scene",
+      "enforcement": "process",
+      "applies_to": "all",
+      "text": "Add all readable text, captions, prices and logos in post. Leave space for them.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R71",
+      "section": "scene",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "In-scene text only if unavoidable: one to three words, very large, high contrast, front-on, locked camera.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R72",
+      "section": "scene",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "Feet planted on the ground. Avoid long full-body walks if sliding appears.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R73",
+      "section": "style",
+      "enforcement": "param",
+      "applies_to": "all",
+      "text": "One verbatim style-lock sentence, reused across a series. The studio style lock supplies it.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R74",
+      "section": "style",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "Stylised characters in real locations: state the compositing rule explicitly.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R75",
+      "section": "style",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "Establish style early in the prompt, not as a trailing tag.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R76",
+      "section": "style",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "At most two or three style cues. Flag stacked cinematic, premium, dramatic, epic, beautiful.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R77",
+      "section": "style",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "Anchor the palette with three to five named colours.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R78",
+      "section": "style",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "Use film and grain terms deliberately. Add grain in post when it must match across clips.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R79",
+      "section": "style",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "Do not mix lighting eras or styles in one prompt.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R80",
+      "section": "style",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "Match the grade and character design of any end frame to the start frame.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R80A",
+      "section": "photoreal",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "Never send a stylised character on a bare action request. Flag real-footage priors: dance, concert, interview, vlog, documentary.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R80B",
+      "section": "photoreal",
+      "enforcement": "process",
+      "applies_to": "all",
+      "text": "Pass a face-scale identity reference for every character: crop the face from the approved still and upscale 2x.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R80C",
+      "section": "photoreal",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "Motion amplitude is the price of style. Keep style-critical clips to one small beat. Flag run, jump, fight, flip, spin.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R80D",
+      "section": "photoreal",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "Lock the background explicitly and keep it plain when style matters.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R80E",
+      "section": "photoreal",
+      "enforcement": "process",
+      "applies_to": "all",
+      "text": "If a take comes back photoreal, rebuild the call. Do not patch it.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R80F",
+      "section": "photoreal",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "Name hairline, parting, fringe and makeup in every identity spec. They drift first.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R80G",
+      "section": "photoreal",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "Fill every count of the duration and state the end pose.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R80H",
+      "section": "photoreal",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "Single-point contact holds. Grappling, embracing and hand-to-hand passing are untested. Flag them.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R80I",
+      "section": "photoreal",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "No free variables: specify makeup, hairline, expression, background and endings.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R80J",
+      "section": "photoreal",
+      "enforcement": "process",
+      "applies_to": "all",
+      "text": "Glam intensity creeps upward. Check the late frames of glam characters.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R80K",
+      "section": "photoreal",
+      "enforcement": "process",
+      "applies_to": "all",
+      "text": "The end state is the most reliable element. A correct final frame is not evidence the middle happened. Check the middle frames.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R80L",
+      "section": "photoreal",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "Naming a set fixture does not lock its geography. Anything the action touches starts within the actor's reach.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R80M",
+      "section": "photoreal",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "A character who leaves the frame is re-cast on re-entry. Keep everyone in frame for the whole take.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R80N",
+      "section": "photoreal",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "Travelling action drags the camera. When the set matters, state that the camera does not follow.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R80O",
+      "section": "photoreal",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "Occluded transfers cannot be staged. Stage every transfer in open profile.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R80P",
+      "section": "photoreal",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "Multi-beat sequences are the default. Beyond one beat, build from a still per beat.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R80Q",
+      "section": "photoreal",
+      "enforcement": "process",
+      "applies_to": "all",
+      "text": "An unheld prop is a deleted prop. Lock continuing props into every beat.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R80R",
+      "section": "photoreal",
+      "enforcement": "process",
+      "applies_to": "all",
+      "text": "Chaining: generate each beat from the previous clip's last frame, with the references riding along.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R80S",
+      "section": "photoreal",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "Mood propagates to nested faces such as portraits. Spec a nested face's expression explicitly.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R80T",
+      "section": "photoreal",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "Chained framing wanders. Leave margin, or plan a conform pass.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R80U",
+      "section": "photoreal",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "Asymmetric features need their negative in the end pose too.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R80V",
+      "section": "photoreal",
+      "enforcement": "process",
+      "applies_to": "all",
+      "text": "Lock every prop the story needs, in every beat's still, world lock and end pose.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R80W",
+      "section": "photoreal",
+      "enforcement": "process",
+      "applies_to": "all",
+      "text": "Chaining corollaries: spec nested expressions, and schedule identity resets at act boundaries.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "G1",
+      "section": "gold",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "No free variables. Anything unspecified is filled from model defaults.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "G2",
+      "section": "gold",
+      "enforcement": "process",
+      "applies_to": "all",
+      "text": "The still is the shot. Design the start geometry as a verified still before animating.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "G3",
+      "section": "gold",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "One beat per take. Cuts do the transitions. State changes happen in the cut, never inside a take.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "G4",
+      "section": "gold",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "End-state gravity: name the end pose exactly. Judge a take by its middle frames.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "G5",
+      "section": "gold",
+      "enforcement": "param",
+      "applies_to": "all",
+      "text": "Style lock verbatim, plus head references for every character.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "G6",
+      "section": "gold",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "Geography within reach. Fixtures never move and never duplicate.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "G7",
+      "section": "gold",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "Nobody exits. Crossings stay shallow and inside the shot.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "G8",
+      "section": "gold",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "Camera nailed down. Default is a fully fixed frame; the action moves inside it.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "G9",
+      "section": "gold",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "Hands transfer, bodies don't. One visible contact point per beat. Stage transfers in open profile.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "G10",
+      "section": "gold",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "Fill every count and end in a named pose.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "G11",
+      "section": "gold",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "Hairline, makeup and expression are written specs.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "G12",
+      "section": "gold",
+      "enforcement": "process",
+      "applies_to": "all",
+      "text": "Verify by frames, fix by prompt. Extract and check start, middle and end frames of every clip.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R81",
+      "section": "duration",
+      "enforcement": "process",
+      "applies_to": "all",
+      "text": "Default to single-take, short clips. Build longer reels from two or three clips cut in the editor.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R82",
+      "section": "duration",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "Respect the model's per-generation duration range. Script beats that fit.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R83",
+      "section": "duration",
+      "enforcement": "manual",
+      "applies_to": "multi-shot",
+      "text": "Each shot block has one camera, one action, one lighting recipe, and a timestamp.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R84",
+      "section": "duration",
+      "enforcement": "process",
+      "applies_to": "all",
+      "text": "Prefer the model's native extend. Extend once, review, then extend again.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R85",
+      "section": "duration",
+      "enforcement": "process",
+      "applies_to": "all",
+      "text": "Manual last-frame chaining: drop the duplicate first frame and match fps and codec before joining.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R86",
+      "section": "duration",
+      "enforcement": "process",
+      "applies_to": "all",
+      "text": "Trim the deceleration tail: generate 1-2s longer than needed and cut the slowing frames.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R87",
+      "section": "duration",
+      "enforcement": "process",
+      "applies_to": "all",
+      "text": "Hide unavoidable joins with a motivated cut, fade-through-black or a hard cut on action. Strip generated audio.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R88",
+      "section": "duration",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "Loop only for ambient, endless motion.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R89",
+      "section": "duration",
+      "enforcement": "process",
+      "applies_to": "all",
+      "text": "One global grade, grain and audio pass after assembly.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R90",
+      "section": "sound",
+      "enforcement": "lint",
+      "applies_to": "audio-native",
+      "text": "Prompt audio only on audio-native models. Flag sound words on silent clips.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R91",
+      "section": "sound",
+      "enforcement": "manual",
+      "applies_to": "audio-native",
+      "text": "Write audio as labelled lines: dialogue, SFX, ambience, music. State no music if wanted.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R92",
+      "section": "sound",
+      "enforcement": "na",
+      "applies_to": "veo",
+      "text": "Veo dialogue: name the speaker, keep lines short. Not used.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R93",
+      "section": "sound",
+      "enforcement": "na",
+      "applies_to": "veo",
+      "text": "Veo dialogue punctuation: test the documented form for the surface. Not used.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R94",
+      "section": "sound",
+      "enforcement": "na",
+      "applies_to": "sora",
+      "text": "Sora dialogue in its own labelled block. Not used.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R95",
+      "section": "sound",
+      "enforcement": "model",
+      "applies_to": "seedance",
+      "text": "Seedance: dialogue in curly braces, SFX in angle brackets, music in parentheses. Name the language before non-Chinese dialogue.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R96",
+      "section": "sound",
+      "enforcement": "lint",
+      "applies_to": "all",
+      "text": "Specify music as genre, instrumentation, energy and start point, or say no score.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R97",
+      "section": "qa",
+      "enforcement": "param",
+      "applies_to": "all",
+      "text": "Lock the seed once a take is structurally good. Change one variable per regeneration.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R98",
+      "section": "qa",
+      "enforcement": "manual",
+      "applies_to": "all",
+      "text": "A fixed seed is not an identity lock. Identity comes from references.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R99",
+      "section": "qa",
+      "enforcement": "process",
+      "applies_to": "all",
+      "text": "Diagnose before rewriting: a bad still needs a new still, not a new prompt.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R100",
+      "section": "qa",
+      "enforcement": "process",
+      "applies_to": "all",
+      "text": "When a shot misfires, strip it back, get it working, then layer complexity.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R101",
+      "section": "qa",
+      "enforcement": "process",
+      "applies_to": "all",
+      "text": "Review frame by frame: start, middle, end, and every join.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R102",
+      "section": "qa",
+      "enforcement": "param",
+      "applies_to": "all",
+      "text": "Test cheap: shortest duration, lower resolution first. Full quality only for the approved take.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R103",
+      "section": "qa",
+      "enforcement": "process",
+      "applies_to": "all",
+      "text": "Log the full recipe for every keeper: model, still, prompt, negatives, seed, settings, duration, aspect.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R104",
+      "section": "model",
+      "enforcement": "model",
+      "applies_to": "kling",
+      "text": "Kling: use the I2V formula, give every reference a job, minimise negatives, use motion control for choreography.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R105",
+      "section": "model",
+      "enforcement": "na",
+      "applies_to": "hailuo",
+      "text": "Hailuo: chronological beat order. Not used.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R106",
+      "section": "model",
+      "enforcement": "na",
+      "applies_to": "runway",
+      "text": "Runway: control in the UI, refer to the subject generically. Not used.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R107",
+      "section": "model",
+      "enforcement": "na",
+      "applies_to": "luma",
+      "text": "Luma: keyframes for destinations, Loop, Extend. Not used.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    },
+    {
+      "id": "R108",
+      "section": "model",
+      "enforcement": "model",
+      "applies_to": "seedance",
+      "text": "Seedance: strongest multi-reference consistency if references are role-tagged and the lock is verbatim. Some surfaces block photoreal face anchors; stylised anchors are fine.",
+      "source": "rulebook-2026-11-14",
+      "evidence": "literature",
+      "status": "untested"
+    }
+  ]
+}

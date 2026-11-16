@@ -25,7 +25,7 @@ const which = (bin) => {
   return undefined;
 };
 
-for (const bin of ["ffmpeg", "ffprobe", "filekit"]) {
+for (const bin of ["ffmpeg", "ffprobe"]) {
   const p = which(bin);
   check(`${bin} on PATH`, Boolean(p), p ?? "required for assembly");
 }

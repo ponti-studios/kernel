@@ -7,12 +7,14 @@
 // already paid for, the audio is already paid for, and ffmpeg costs nothing. Watch it
 // end to end; fix framing and pacing here rather than in generated footage.
 
-import { spawnSync } from "node:child_process";
-import { existsSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import { spawnSync, execFileSync } from "node:child_process";
+import { existsSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { basename, extname, join } from "node:path";
 import { parseArgs } from "node:util";
 import { outputDir } from "../../../studio-core/scripts/lib/config.mjs";
+import { readScenes } from "./resolve.mjs";
+import { concatLine } from "../../../studio-core/scripts/lib/media.mjs";
 
 const { values } = parseArgs({
   options: {
@@ -21,6 +23,7 @@ const { values } = parseArgs({
     voiceover: { type: "string" },
     out: { type: "string" },
     fps: { type: "string", default: "24" },
+    aspect: { type: "string", default: "16:9" },
   },
 });
 
@@ -28,6 +31,10 @@ if (!values.scenes || !values.keyframes || (!values.out && !process.env.STUDIO_O
   console.error(
     "usage: animatic.mjs --scenes <scenes.timed.json> --keyframes <dir> [--voiceover <dir>] [--out <file.mp4>]\n(--out is required unless STUDIO_OUTPUT_DIR is set)",
   );
+  process.exit(2);
+}
+if (!["16:9", "9:16"].includes(values.aspect)) {
+  console.error("error: --aspect must be 16:9 or 9:16");
   process.exit(2);
 }
 values.out ??= outputDir("video", basename(values.scenes).replace(/\.[^.]+$/, "") + "-animatic.mp4");
@@ -51,13 +58,16 @@ export function motionFor(camera) {
   return "static";
 }
 
-export function motionFilter(camera, seconds, fps = 30) {
+export function motionFilter(camera, seconds, fps = 30, aspect = "16:9") {
   const frames = Math.max(2, Math.round(seconds * fps));
   // 1080p working frame: enough headroom to move inside, a third of the pixels to
   // push around. The animatic is a timing gate, not a delivery master.
-  const base = "scale=1920:1080:force_original_aspect_ratio=increase,crop=1920:1080";
+  const portrait = aspect === "9:16";
+  const [width, height] = portrait ? [1080, 1920] : [1920, 1080];
+  const size = portrait ? "720x1280" : "1280x720";
+  const base = `scale=${width}:${height}:force_original_aspect_ratio=increase,crop=${width}:${height}`;
   const zoompan = (z, x, y) =>
-    `${base},zoompan=z='${z}':x='${x}':y='${y}':d=${frames}:s=1280x720:fps=${fps},setsar=1`;
+    `${base},zoompan=z='${z}':x='${x}':y='${y}':d=${frames}:s=${size}:fps=${fps},setsar=1`;
   const centreX = "iw/2-(iw/zoom/2)";
   const centreY = "ih/2-(ih/zoom/2)";
   const move = motionFor(camera);
@@ -73,14 +83,29 @@ export function motionFilter(camera, seconds, fps = 30) {
     case "tilt down":
       return zoompan("1.07", centreX, `(ih-ih/zoom)*on/${frames}`);
     case "static":
-      return `${base},zoompan=z='1.02':x='${centreX}':y='${centreY}':d=${frames}:s=1280x720:fps=${fps},setsar=1`;
+      return `${base},zoompan=z='1.02':x='${centreX}':y='${centreY}':d=${frames}:s=${size}:fps=${fps},setsar=1`;
     default:
       return zoompan(`1.04+0.01*sin(on/9)`, `${centreX}+10*sin(on/11)`, `${centreY}+6*cos(on/13)`);
   }
 }
 
-const scenes = JSON.parse(readFileSync(values.scenes, "utf8"));
+const scenes = await readScenes(values.scenes);
+if (values.voiceover) {
+  for (const scene of scenes) {
+    const path = join(values.voiceover, `${scene.id}.mp3`);
+    if (!scene.voiceover?.trim()) continue;
+    if (!existsSync(path)) {
+      if (scene.voiceover) throw new Error(`missing narration for ${scene.id}: ${path}`);
+      continue;
+    }
+    const seconds = Number(execFileSync("ffprobe", ["-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", path], {encoding:"utf8"}).trim());
+    if (!Number.isFinite(seconds) || seconds > (Number(scene.duration_seconds) || 3) + 0.03) {
+      throw new Error(`narration for ${scene.id} exceeds scene duration or cannot be measured`);
+    }
+  }
+}
 const work = mkdtempSync(join(tmpdir(), "animatic-"));
+process.on("exit", () => rmSync(work, { recursive: true, force: true }));
 const ff = (args) => {
   const res = spawnSync("ffmpeg", ["-y", "-loglevel", "error", ...args], { encoding: "utf8" });
   if (res.status !== 0) {
@@ -110,7 +135,7 @@ scenes.forEach((scene, index) => {
     "-i",
     still,
     "-vf",
-    `${motionFilter(scene.camera, seconds, fps)}`,
+    `${motionFilter(scene.camera, seconds, fps, values.aspect)}`,
     "-frames:v",
     String(Math.round(seconds * fps)),
     "-c:v",
@@ -125,37 +150,22 @@ scenes.forEach((scene, index) => {
 });
 
 const list = join(work, "segments.txt");
-writeFileSync(list, segments.map((s) => `file '${s}'`).join("\n") + "\n");
+writeFileSync(list, segments.map(concatLine).join("\n") + "\n");
 const silent = join(work, "silent.mp4");
 ff(["-f", "concat", "-safe", "0", "-i", list, "-c", "copy", silent]);
 
 let narration = null;
 if (values.voiceover) {
-  // Reuse the same alignment rule as the final cut: each line padded to its own shot.
-  const args = [
-    "node",
-    join(import.meta.dirname, "..", "..", "lib", "assemble.mjs"),
-    "--clips",
-    values.keyframes,
-    "--voiceover",
-    values.voiceover,
-    "--scenes",
-    values.scenes,
-    "--out",
-    values.out,
-    "--dry-run",
-  ];
-  void args;
   const stems = scenes.map((scene) => {
     const audio = join(values.voiceover, `${scene.id}.mp3`);
-    return existsSync(audio) ? audio : null;
+    return scene.voiceover?.trim() && existsSync(audio) ? audio : null;
   });
   const padded = join(work, "narration");
   spawnSync("mkdir", ["-p", padded]);
   const parts = [];
   stems.forEach((audio, index) => {
     const seconds = Number(scenes[index].duration_seconds) || 3;
-    const part = join(padded, `${String(index).padStart(3, "0")}.mp3`);
+    const part = join(padded, `${String(index).padStart(3, "0")}.wav`);
     if (audio) {
       ff([
         "-i",
@@ -167,9 +177,9 @@ if (values.voiceover) {
         "-ar",
         "44100",
         "-c:a",
-        "libmp3lame",
-        "-q:a",
-        "4",
+        "pcm_s16le",
+        "-ac",
+        "1",
         part,
       ]);
     } else {
@@ -181,17 +191,17 @@ if (values.voiceover) {
         "-t",
         String(seconds),
         "-c:a",
-        "libmp3lame",
-        "-q:a",
-        "4",
+        "pcm_s16le",
+        "-ac",
+        "1",
         part,
       ]);
     }
     parts.push(part);
   });
   const alist = join(work, "audio.txt");
-  writeFileSync(alist, parts.map((p) => `file '${p}'`).join("\n") + "\n");
-  narration = join(work, "narration.mp3");
+  writeFileSync(alist, parts.map(concatLine).join("\n") + "\n");
+  narration = join(work, "narration.wav");
   ff(["-f", "concat", "-safe", "0", "-i", alist, "-c", "copy", narration]);
 }
 

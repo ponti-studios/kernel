@@ -35,18 +35,33 @@ Updated: 2026-11-15. Tested-good commits already on `main` through `118d5eb6`.
 
 ## Untested — project tools and preferences
 
-- [ ] ai-video-production (partial; local media checks and one real text-to-video render passed; image-to-video blocked by missing R2 access key ID)
-  - [x] `ffprobe` measured-duration math with `ceil((measured+0.5)*2)/2`
-  - [x] `ffmpeg` pad and concat place narration and silent scenes in their own shot windows
-  - [x] `silencedetect=noise=-35dB:d=0.25` confirms line/silence alignment
-  - [x] Live provider schema exposes `supported_durations`, `supported_frame_images`, and `pricing_skus` on all 32 listed models
-  - [x] SigV4 presign signature matches `aws s3 presign` for the same fixture request
-  - [x] Frame-0/last-frame RMSE logic distinguishes the approved keyframe from later motion on a synthetic clip
-  - [x] Dry run displayed a per-shot quote before submission; provider reported $0.42 for the 5-second render
-  - [x] Generate and assemble one real 5-second video; verify MP4 streams, duration, and `truncated: no` (artifacts in `qa-output/ai-video-production/`)
-  - [x] Add per-scene voiceover, verify audio signal is non-silent, and confirm final assembly is not truncated
-  - [x] Final output directory contains exactly `audio.mp3` and `video.mp4` with audio; no intermediates
-  - [ ] Generate from a keyframe via R2 presigned HTTPS URL and verify real frame-0/last-frame anchoring (blocked: `R2_ACCESS_KEY_ID` missing)
+- [ ] studio-workflows
+  - [x] studio-videogen procedure (live image-to-video and narration generated; user reviewed the video)
+    - [x] `ffprobe` measured-duration math with `ceil((measured+0.5)*2)/2`
+    - [x] `ffmpeg` pad and concat place narration and silent scenes in their own shot windows
+    - [x] `silencedetect=noise=-35dB:d=0.25` confirms line/silence alignment
+    - [x] Live provider schema exposes `supported_durations`, `supported_frame_images`, and `pricing_skus` on all 32 listed models
+    - [x] SigV4 presign signature matches `aws s3 presign` for the same fixture request
+    - [x] Frame-0/last-frame RMSE logic distinguishes the approved keyframe from later motion on a synthetic clip
+    - [x] Dry run displayed a per-shot quote before submission; provider reported $0.42 for the 5-second render
+    - [x] Generate and assemble one real 5-second video; verify MP4 streams, duration, and `truncated: no` (artifacts in `qa-output/studio-workflows/ai-video-production/`)
+    - [x] Add per-scene voiceover, verify audio signal is non-silent, and confirm final assembly is not truncated
+    - [x] Final output directory contains exactly `audio.mp3` and `video.mp4` with audio; no intermediates
+    - [x] Generate from a keyframe via R2 presigned HTTPS URL and compare first and last frames (RMS 3.34 and 17.20; provider reported $0.42)
+    - [x] Generate real narration, assemble and verify non-silent audio and two-file delivery under `qa-output/studio-workflows/studio-videogen/delivery/`; decoded audio and video tracks correlate at 0.997
+    - [x] Check that speech and clip generation default to dry runs
+    - [x] Refuse unpriced or unsupported paid clip requests, ambiguous modes and missing animatic approval
+    - [x] Submit a mocked image-to-video request with a keyframe and save a selectable take
+    - [x] Reject shortened test takes in final assembly and allow them for previews
+    - [x] Assemble selected takes with both absolute and relative paths
+    - [x] Reject missing scenes, overlong narration and an existing delivery directory
+    - [x] Abort a stalled provider request and report its job ID for cost reconciliation
+    - [x] Verify animatic camera motion, portrait framing and captions timed to actual selected clips
+    - [x] Refuse an approved animatic whose aspect ratio differs from the requested clips
+    - [x] Preserve scene wrappers and spec paths during timing; reject missing narration and source overwrites
+    - [x] Verify a silent first scene and correctly aligned narration in a later scene
+    - [x] Render an animatic and a captioned cut with video and audio streams; captions use measured clip durations
+    - [x] User reviewed the generated video
 - [ ] apple-notes
 - [ ] apple-reminders
 - [ ] architecture-diagram

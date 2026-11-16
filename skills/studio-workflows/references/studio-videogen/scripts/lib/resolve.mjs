@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { homedir } from "node:os";
-import { join } from "node:path";
+import { dirname, join, resolve } from "node:path";
 
 // Every studio skill sits beside the others; there is no repo checkout and no build
 // step. Config parsing, providers and usage handling all come from studio-core.
@@ -61,9 +61,23 @@ export async function readScenes(path) {
   const { scenesDraftSchema } = await load("editorial");
   const raw = JSON.parse(readFileSync(path, "utf8"));
   const candidate = Array.isArray(raw) ? raw : (raw.scenes ?? raw.draft);
+  let scenes;
   try {
-    return scenesDraftSchema.parse(candidate);
+    scenes = scenesDraftSchema.parse(candidate);
   } catch (err) {
     throw new Error(`${path} is not a scenes draft: ${err.message}`);
   }
+  const base = dirname(resolve(path));
+  const ids = new Set();
+  scenes.forEach((scene) => {
+    if (!/^[a-zA-Z0-9][a-zA-Z0-9_-]*$/.test(scene.id) || ids.has(scene.id)) {
+      throw new Error(`${path}: scene id must be unique and contain only letters, numbers, underscores or hyphens: ${scene.id}`);
+    }
+    ids.add(scene.id);
+    if (Boolean(scene.prompt) === Boolean(scene.spec)) {
+      throw new Error(`${path}: scene '${scene.id}' needs exactly one of prompt or spec`);
+    }
+    if (scene.spec) scene.specPath = resolve(base, scene.spec);
+  });
+  return scenes;
 }

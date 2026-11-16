@@ -2,7 +2,6 @@ import assert from "node:assert/strict";
 import { afterEach, describe, it } from "node:test";
 
 import {
-  CHARACTER_LOCK,
   OpenRouterVideoError,
   OpenRouterVideoModel,
 } from "../scripts/lib/video.mjs";
@@ -147,6 +146,16 @@ describe("OpenRouterVideoModel", () => {
   });
 
   // The whole point of generateClipWithUsage: the price arrives on the poll.
+  it("aborts a stalled poll and reports the provider job id", async () => {
+    let calls = 0;
+    const fetch = async (_url, options) => {
+      if (++calls === 1) return Response.json({ id: "stalled-job", polling_url: "/videos/stalled-job" }, { status: 202 });
+      return new Promise((_resolve, reject) => options.signal.addEventListener("abort", () => reject(options.signal.reason), { once: true }));
+    };
+    await assert.rejects(new OpenRouterVideoModel("key", fetch).generateClip(CLIP, { timeoutMs: 25 }),
+      (error) => error.code === "timeout" && error.message.includes("stalled-job") && error.message.includes("before retrying"));
+  });
+
   it("surfaces the reported cost when it completes", async () => {
     globalThis.fetch = scripted([
       { status: 202, body: { id: "job-9", polling_url: "/api/v1/videos/job-9" } },
@@ -223,10 +232,5 @@ describe("OpenRouterVideoModel", () => {
     await assert.rejects(new OpenRouterVideoModel("key").download("https://cdn/x.mp4"), {
       code: "empty",
     });
-  });
-
-  it("ships the character lock text", () => {
-    assert.match(CHARACTER_LOCK, /Character lock/);
-    assert.match(CHARACTER_LOCK, /Never two kings, never two queens/);
   });
 });

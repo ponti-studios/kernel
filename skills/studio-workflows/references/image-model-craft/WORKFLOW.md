@@ -123,7 +123,7 @@ Set B scores as evidence that one model follows rules better than another.**
 - `openrouter-image-generation` — API mechanics, endpoints, the logging convention.
 - [studio-universe](../studio-universe/WORKFLOW.md) — the deterministic prompt compiler and the canon.
 - [studio-imagegen](../studio-imagegen/WORKFLOW.md) — rendering a frame spec end to end, with provenance sidecars.
-- [studio-mediagen](../studio-mediagen/WORKFLOW.md) — video clips and voiceover, where the money actually goes.
+- [studio-videogen](../studio-videogen/WORKFLOW.md) — video clips and voiceover, where the money actually goes.
 
 ## Extending this
 

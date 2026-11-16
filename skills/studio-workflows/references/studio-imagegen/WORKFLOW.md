@@ -69,7 +69,7 @@ Per the spec, mirroring the app's image stage:
   Reference count did not move the price on qwen across 1–3 refs.
 - qwen accepts at most **4** references; 6 returns HTTP 400. For a three-character
   frame, attach one reference per character.
-- For scale: video clips are $0.084/second ([studio-mediagen](../studio-mediagen/WORKFLOW.md)), so an 8s clip ≈ $0.67.
+- For scale: video clips are $0.084/second ([studio-videogen](../studio-videogen/WORKFLOW.md)), so an 8s clip ≈ $0.67.
 
 Check the key before a batch:
 `curl -H "Authorization: Bearer $OPENROUTER_API_KEY" https://openrouter.ai/api/v1/key`

@@ -9,10 +9,11 @@
 // deliberate choice rather than a miscalculation.
 
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
-import { join, resolve } from "node:path";
+import { dirname, join, relative, resolve } from "node:path";
 import { parseArgs } from "node:util";
 
 import { probeDuration } from "../../../studio-core/scripts/lib/media.mjs";
+import { readScenes } from "./resolve.mjs";
 
 const { values } = parseArgs({
   options: {
@@ -30,19 +31,37 @@ if (!values.scenes || !values.voiceover) {
   process.exit(2);
 }
 
-const scenes = JSON.parse(readFileSync(values.scenes, "utf8"));
+const raw = JSON.parse(readFileSync(values.scenes, "utf8"));
+const scenes = Array.isArray(raw) ? raw : (raw.scenes ?? raw.draft);
+await readScenes(values.scenes); // Validate IDs and required fields without discarding extra authored fields.
 const tail = Number(values.tail);
-const out = values.out ?? resolve(values.scenes).replace(/\.json$/, ".timed.json");
+if (!Number.isFinite(tail) || tail < 0) {
+  console.error("error: --tail must be a non-negative number of seconds");
+  process.exit(2);
+}
+const input = resolve(values.scenes);
+const out = resolve(values.out ?? (input.endsWith(".json") ? input.slice(0, -5) + ".timed.json" : input + ".timed.json"));
+if (out === input) {
+  console.error("error: timed output must not overwrite the source scenes file");
+  process.exit(2);
+}
 
 const report = [];
 const timed = [];
 for (const scene of scenes) {
   const audio = join(values.voiceover, `${scene.id}.mp3`);
+  if (scene.spec && !scene.spec.startsWith("/")) {
+    scene.spec = relative(dirname(out), resolve(dirname(input), scene.spec));
+  }
   const asked = Number(scene.duration_seconds) || undefined;
-  if (!existsSync(audio)) {
+  if (!scene.voiceover?.trim()) {
     timed.push({ ...scene });
     report.push({ id: scene.id, spoken: null, duration: asked, note: "silent" });
     continue;
+  }
+  if (!existsSync(audio)) {
+    console.error(`error: missing narration for scene '${scene.id}': ${audio}`);
+    process.exit(2);
   }
   const measured = await probeDuration(audio);
   // Round up to the next half second and add the air after the line.
@@ -60,7 +79,8 @@ for (const scene of scenes) {
   });
 }
 
-writeFileSync(out, JSON.stringify(timed, null, 2));
+const output = Array.isArray(raw) ? timed : { ...raw, [raw.scenes ? "scenes" : "draft"]: timed };
+writeFileSync(out, JSON.stringify(output, null, 2) + "\n");
 
 const total = timed.reduce((a, s) => a + (Number(s.duration_seconds) || 0), 0);
 console.log(`scenes:   ${timed.length}`);

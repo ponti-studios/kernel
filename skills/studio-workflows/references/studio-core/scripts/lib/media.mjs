@@ -49,6 +49,13 @@ export async function contactSheet(clipPath, outPath, run = defaultRun) {
   ]);
 }
 
+// FFmpeg concat files use single-quoted tokens; an embedded apostrophe must
+// close the quote, be backslash-escaped, then reopen it.
+export function concatLine(path) {
+  if (/[\r\n]/.test(path)) throw new Error("clip paths may not contain newlines");
+  return `file '${path.replace(/'/g, "'\\''")}'`;
+}
+
 export async function assembleVideo(input, run = defaultRun) {
   if (input.clips.length === 0) throw new Error("no clips to assemble");
   const voiceoverSeconds = await probeDuration(input.voiceover, run);
@@ -59,7 +66,7 @@ export async function assembleVideo(input, run = defaultRun) {
   const listPath = join(input.listDir ?? tmpdir(), `assemble-${Date.now()}.txt`);
   const write = input.writeList ?? writeFileSync;
   const remove = input.removeList ?? unlinkSync;
-  write(listPath, input.clips.map((c) => `file '${c}'`).join("\n") + "\n");
+  write(listPath, input.clips.map(concatLine).join("\n") + "\n");
   try {
     const delay = input.voDelayMs ?? 800;
     await run("ffmpeg", [
@@ -95,5 +102,5 @@ export async function assembleVideo(input, run = defaultRun) {
     }
   }
   // True when the narration outruns the footage and gets cut.
-  return { videoSeconds, voiceoverSeconds, truncated: voiceoverSeconds > videoSeconds };
+  return { videoSeconds, voiceoverSeconds, truncated: voiceoverSeconds + (input.voDelayMs ?? 800) / 1000 > videoSeconds + 0.03 };
 }

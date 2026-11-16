@@ -1,5 +1,6 @@
 {
   "agent-knowledge-loops": "engineering-workflows/references/agent-knowledge-loops/WORKFLOW.md",
+  "ai-video-production": "studio-workflows/references/studio-videogen/WORKFLOW.md",
   "brand-asset-sourcing": "design-workflows/references/brand-asset-sourcing/WORKFLOW.md",
   "deep-repo-code-scan": "engineering-workflows/references/deep-repo-code-scan/WORKFLOW.md",
   "dependabot-batch": "engineering-workflows/references/dependabot-batch/WORKFLOW.md",
@@ -50,7 +51,8 @@
   "studio-essay": "writing-workflows/references/essay/WORKFLOW.md",
   "studio-imagegen": "studio-workflows/references/studio-imagegen/WORKFLOW.md",
   "studio-ledger": "studio-workflows/references/studio-ledger/WORKFLOW.md",
-  "studio-mediagen": "studio-workflows/references/studio-mediagen/WORKFLOW.md",
+  "studio-mediagen": "studio-workflows/references/studio-videogen/WORKFLOW.md",
+  "studio-videogen": "studio-workflows/references/studio-videogen/WORKFLOW.md",
   "studio-podcastgen": "studio-workflows/references/studio-podcastgen/WORKFLOW.md",
   "studio-scenes": "writing-workflows/references/studio-scenes/WORKFLOW.md",
   "studio-script": "writing-workflows/references/studio-script/WORKFLOW.md",

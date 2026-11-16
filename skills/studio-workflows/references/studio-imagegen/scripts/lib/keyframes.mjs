@@ -6,7 +6,7 @@
 //
 // This is the cheap stage of the video pipeline: a still costs a fraction of a clip,
 // so the look is settled here before any motion is bought. Named <scene-id>.png so
-// studio-mediagen can pair stills with shots without a manifest.
+// studio-videogen can pair stills with shots without a manifest.
 //
 // Dry run until --yes, same contract as the clip stage.
 

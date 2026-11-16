@@ -19,7 +19,7 @@ skills-only. There is no dev server, no route map, no `pnpm dev:web`. The last c
 the app is tagged `web-app-final` in the `studio` repo.
 
 Do not re-introduce app instructions here. If the work is "drive the pipeline", load
-`studio-editorial` / `studio-imagegen` / `studio-mediagen` / `studio-podcastgen`; if it is
+`studio-editorial` / `studio-imagegen` / `studio-workflows` (the `studio-videogen` procedure) / `studio-podcastgen`; if it is
 "delete another surface", load `subsystem-removal`.
 
 ## What survives from it

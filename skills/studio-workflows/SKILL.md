@@ -15,7 +15,7 @@ For any writing or revision of text, use writing-workflows. Production consumes 
 - [Studio Imagegen — frame spec to image](references/studio-imagegen/WORKFLOW.md)
 - [Studio Upscale — Real-ESRGAN image upscaling](references/studio-upscale/WORKFLOW.md)
 - [Image Transparent — image to transparent-background PNG](references/image-transparent/WORKFLOW.md)
-- [Studio Mediagen — scenes to voiceover to clips to a cut](references/studio-mediagen/WORKFLOW.md)
+- [Studio Videogen — plan, generate and deliver video](references/studio-videogen/WORKFLOW.md)
 - [Studio Podcastgen — a script becomes one audio file](references/studio-podcastgen/WORKFLOW.md)
 - [Studio ledger](references/studio-ledger/WORKFLOW.md)
 - [Studio Universe — canon and the prompt compiler](references/studio-universe/WORKFLOW.md)

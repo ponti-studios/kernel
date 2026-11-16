@@ -6,7 +6,7 @@ documented with a manifest.
 
 ## Not this skill
 
-[studio-mediagen](../studio-mediagen/WORKFLOW.md) speaks **per scene, for video** (`<sceneId>.mp3`, one file
+[studio-videogen](../studio-videogen/WORKFLOW.md) speaks **per scene, for video** (`<sceneId>.mp3`, one file
 each, no splicing, no tags). This skill produces **one episode file** for
 listening. Both use the same speech model and voice routing.
 

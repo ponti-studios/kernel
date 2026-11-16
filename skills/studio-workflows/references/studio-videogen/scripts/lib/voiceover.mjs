@@ -6,7 +6,6 @@
 //
 // Mirrors the app's audio stage: scenes with an empty/absent voiceover are
 // skipped, everything else gets one file named <sceneId>.mp3.
-import { spawnSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { setting } from "./resolve.mjs";
@@ -28,6 +27,7 @@ const { values } = parseArgs({
     voice: { type: "string" },
     "dry-run": { type: "boolean", default: false },
     force: { type: "boolean", default: false },
+    yes: { type: "boolean", default: false },
   },
 });
 
@@ -70,18 +70,23 @@ let spoken = 0;
 let bytes = 0;
 const failures = [];
 const calls = [];
-let charactersBilled = 0;
+let charactersSubmitted = 0;
 
 for (const scene of work) {
   const voice = values.voice
     ? { id: values.voice, why: "--voice override" }
     : voiceIdForScene(scene, env);
   const chars = scene.voiceover.length;
-  if (values["dry-run"]) {
+  if (values["dry-run"] || !values.yes) {
     console.log(`  ${scene.id.padEnd(12)} ${String(chars).padStart(5)} chars  voice ${voice.id}`);
     continue;
   }
   try {
+    const existing = join(outDir, `${scene.id}.mp3`);
+    if (existsSync(existing) && !values.force) {
+      failures.push(`${scene.id}: output exists; pass --force to replace it`);
+      continue;
+    }
     const speech = new OpenRouterSpeechModel(apiKey());
     const res = await speech.synthesize({
       model: speechModel,
@@ -93,7 +98,7 @@ for (const scene of work) {
     writeFileSync(path, res.audio);
     bytes += res.byteLength;
     spoken += 1;
-    charactersBilled += res.characters;
+    charactersSubmitted += res.characters;
     calls.push({
       id: scene.id,
       characters: res.characters,
@@ -109,31 +114,9 @@ for (const scene of work) {
   }
 }
 
-if (values["dry-run"]) {
-  console.log("\nDry run — nothing was synthesized or written.");
+if (values["dry-run"] || !values.yes) {
+  console.log("\nDry run — nothing was synthesized or written. Pass --yes to generate; check provider speech pricing before approval.");
   process.exit(0);
-}
-
-// assemble.sh takes ONE narration file; this stage writes one per scene so a single
-// line can be re-recorded. Join them in scene order here, so the handoff is complete.
-const ordered = work.map((s) => join(outDir, `${s.id}.mp3`)).filter((f) => existsSync(f));
-let joined;
-if (ordered.length > 0) {
-  const listPath = join(outDir, "concat.txt");
-  writeFileSync(listPath, ordered.map((f) => `file '${f}'`).join("\n") + "\n");
-  const joinedPath = join(outDir, "vo.mp3");
-  const res = spawnSync(
-    "ffmpeg",
-    ["-y", "-f", "concat", "-safe", "0", "-i", listPath, "-c", "copy", joinedPath],
-    {
-      encoding: "utf8",
-    },
-  );
-  if (res.status === 0) joined = joinedPath;
-  else
-    console.error(
-      `warn: could not join narration: ${(res.stderr ?? "").trim().split("\n").slice(-1)[0]}`,
-    );
 }
 
 mkdirSync(USAGE_DIR, { recursive: true });
@@ -153,8 +136,8 @@ writeFileSync(
       spoken,
       failed: failures,
       bytes_written: bytes,
-      // Measured from the request text, not guessed: speech is billed per character.
-      characters_billed: charactersBilled,
+      // Input size is measured locally; provider billing is not inferred from it.
+      characters_submitted: charactersSubmitted,
       calls,
     },
     null,
@@ -164,9 +147,8 @@ writeFileSync(
 
 console.log(`\nspoken:  ${spoken}/${work.length} mp3 (${(bytes / 1024).toFixed(0)} KiB)`);
 console.log(
-  `chars:   ${charactersBilled} billed (provider id on ${calls.filter((c) => c.provider_request_id).length}/${calls.length} calls)`,
+  `chars:   ${charactersSubmitted} submitted (provider id on ${calls.filter((c) => c.provider_request_id).length}/${calls.length} calls)`,
 );
-if (joined) console.log(`narration: ${joined}`);
 console.log(`log:     ${logPath}`);
 if (failures.length) console.log(`failed:  ${failures.length}\n  ${failures.join("\n  ")}`);
 process.exit(failures.length === 0 ? 0 : 1);

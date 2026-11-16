@@ -32,7 +32,7 @@ def main():
                 if invalid.returncode != 2 or 'usage: podcast.mjs' not in invalid.stderr:
                     raise SystemExit('Podcast CLI argument handling failed:\n' + invalid.stderr)
                 # Dynamic production dependencies must resolve within this package.
-                for module in ('studio-imagegen', 'studio-mediagen', 'studio-podcastgen'):
+                for module in ('studio-imagegen', 'studio-videogen', 'studio-podcastgen'):
                     source = package / 'references' / module / 'scripts/lib/resolve.mjs'
                     subprocess.run(['node', '--input-type=module', '-e',
                                     f"const m=await import({str(source.as_uri())!r}); await m.load('providers');"],

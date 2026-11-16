@@ -22,7 +22,7 @@ file, or the ffmpeg assembly helpers.
 | `scripts/lib/usage.mjs`  | `normalizeUsage`, `mergeUsage`, `hasReportedCost`                                                                                                       |
 | `scripts/lib/text.mjs`   | `OpenRouterTextModel`, `OpenRouterError`                                                                                                                |
 | `scripts/lib/images.mjs` | `OpenRouterImageModel`, `OpenRouterImageError`                                                                                                          |
-| `scripts/lib/video.mjs`  | `OpenRouterVideoModel`, `OpenRouterVideoError`, `CHARACTER_LOCK`                                                                                        |
+| `scripts/lib/video.mjs`  | `OpenRouterVideoModel`, `OpenRouterVideoError`                                                                                        |
 | `scripts/lib/speech.mjs` | `OpenRouterSpeechModel`, `OpenRouterSpeechError`                                                                                                        |
 | `scripts/lib/media.mjs`  | `probeDuration`, `contactSheet`, `assembleVideo`, `defaultRun`                                                                                          |
 
