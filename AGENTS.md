@@ -40,13 +40,12 @@ python3 scripts/bundle_runtime.py --check
 python3 scripts/validate_skills.py
 python3 -m unittest discover -s tests
 python3 scripts/check_isolated_packages.py
-muse skills validate skills/<changed-package> --json
 ```
 
 The structure validator checks catalog parity, names, metadata limits, links,
-nested entrypoints and symlinks. The format validator checks packaging. Isolated
-checks copy each generation package outside the repository, exercise its runtime
-tests and entrypoints, and use mocked providers rather than paid generation.
+nested entrypoints and symlinks. Isolated checks copy each generation package
+outside the repository, exercise its runtime tests and entrypoints, and use
+mocked providers rather than paid generation.
 These checks do not replace review of instruction quality or intended routing.
 
 Keep README, skills.sh.json and docs/refactor-map.json consistent with moves.

@@ -1,11 +1,8 @@
 #!/usr/bin/env python3
 """Validate the installable-skill contract and catalog parity.
 
-Format ownership belongs to `muse skills validate`: this script checks only
-what that tool cannot — that every skill has a parseable frontmatter block
-with a usable name and description, that the name matches its directory,
-that local links resolve, and that the skills.sh.json catalog lists exactly
-the skills on disk.
+Checks frontmatter, names, local links, package safety, and parity between
+the skills.sh.json catalog and the skills on disk.
 """
 
 from __future__ import annotations
