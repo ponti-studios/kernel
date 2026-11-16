@@ -102,9 +102,10 @@ path overrides are required. Environment variables override keys in
 | `STUDIO_LEGS`            | —                    | set to `off` to disable provider retries                        |
 | `STUDIO_STAGE_DIR`       | —                    | staged reference cache (default `~/.cache/studio/refs/`)        |
 
-Reference staging is opt-in with `--stage-refs` for `generate-image`; it caches
-by file content and staging parameters. If neither `sharp` nor ImageMagick is
-available, the original bytes are sent and each run reports `staged: passthrough`.
+Reference staging is opt-in with `--stage-refs` for `generate-image` and
+`keyframes`; it caches by file content and staging parameters. If neither
+`sharp` nor ImageMagick is available, the original bytes are sent and each run
+reports `staged: passthrough`.
 Keep staging opt-in until a staged/full-size canon frame has been compared.
 `--no-stage-refs` explicitly selects full-size references and cannot be combined
 with `--stage-refs`. Keyframes accept `--concurrency` (default 4); set it to 1
@@ -113,6 +114,16 @@ images are kept; the command exits unsuccessfully only when every job fails.
 `check-imagegen --specs` accepts either a JSON array of spec paths or one path
 per line. It compiles each spec, checks its references and requested aspect and
 resolution, and fetches model capabilities once for the batch.
+
+## Transport semantics
+
+The provider retries once, after 750ms, and only on a network error, HTTP 429 or
+HTTP 5xx. `402` (credits), `400/401/403/404`, a malformed response and empty
+image bytes fail immediately with their typed error. Every record and usage log
+carries `attempts`, so a recovered retry is visible rather than folklore.
+`STUDIO_LEGS=off` disables the retry for a run. The same table is pinned in
+`studio-core/test/fixtures/openrouter-image-contract.json`, which the provider
+tests assert against.
 
 ## Pitfalls
 
