@@ -18,6 +18,13 @@ import { basename, dirname, extname, join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { setting } from "./resolve.mjs";
 import { outputDir } from "../../../studio-core/scripts/lib/config.mjs";
+import { withJob } from "../../../studio-core/scripts/lib/progress.mjs";
+import {
+  imageCost,
+  OpenRouterImageError,
+  OpenRouterImageModel,
+  RefStager,
+} from "../../../studio-core/scripts/lib/images.mjs";
 
 import { recordRender } from "./ledger-bridge.mjs";
 import { IMAGE_MIME, apiKey, load, readSpec, universeRoot } from "./resolve.mjs";
@@ -68,6 +75,13 @@ if (values["stage-refs"] && values["no-stage-refs"]) {
 
 const config = await load("config");
 const env = config.loadEnv();
+const root = universeRoot();
+let prompt;
+let aspect = values.aspect ?? "4:5";
+let references = [];
+// --prompt carries no spec, so references are named explicitly. Bible art (a new
+// turnaround sheet, say) needs the character's own canon attached or the design drifts.
+const refPaths = values.ref ?? [];
 let provenance;
 
 if (values.spec) {
@@ -234,14 +248,18 @@ if (values["dry-run"]) {
 const model = new OpenRouterImageModel(apiKey(), modelName);
 let res;
 try {
-  res = await model.generate({
-    model: modelName,
-    prompt,
-    references: references.map((r) => ({ dataUrl: r.dataUrl })),
-    aspectRatio: aspect,
-    resolution: values.resolution,
-    outputFormat: values.format === "png" ? "png" : "webp",
-  });
+  res = await withJob(
+    { kind: "image", label: provenance.title ?? "prompt image", model: modelName },
+    () =>
+      model.generate({
+        model: modelName,
+        prompt,
+        references: references.map((r) => ({ dataUrl: r.dataUrl })),
+        aspectRatio: aspect,
+        resolution: values.resolution,
+        outputFormat: values.format === "png" ? "png" : "webp",
+      }),
+  );
 } catch (err) {
   const kind = err instanceof OpenRouterImageError ? err.code : "error";
   console.error(`\nimage failed (${kind}): ${err.message}`);
