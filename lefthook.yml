@@ -1,0 +1,4 @@
+pre-commit:
+  jobs:
+    - name: validate-skills
+      run: python3 scripts/validate_skills.py

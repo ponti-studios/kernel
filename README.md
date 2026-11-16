@@ -73,4 +73,11 @@ See the [refactor review](docs/refactor.md) for migration evidence, validation a
 ## House rules
 
 See [AGENTS.md](AGENTS.md) for validation and publication rules.
+
+## Local commit gate
+
+Run `lefthook install` once in a checkout to install the pre-commit hook. It runs
+`python3 scripts/validate_skills.py` and blocks commits when the skill structure,
+links, or catalog are invalid.
+
 Licensed under MIT; vendored material retains its attribution and license notes.
