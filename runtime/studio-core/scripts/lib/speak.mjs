@@ -31,6 +31,7 @@ export async function speak(payload, { apiKey, defaults, fetchImpl = globalThis.
     voice,
     text,
     responseFormat: payload.responseFormat,
+    instructions: payload.instructions,
   });
   await writeFile(payload.out, result.audio);
 

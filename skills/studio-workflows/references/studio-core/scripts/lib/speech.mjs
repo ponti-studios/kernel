@@ -104,6 +104,7 @@ export class OpenRouterSpeechModel {
           input: text,
           voice: input.voice,
           response_format: requested,
+          ...(input.instructions ? { instructions: input.instructions } : {}),
         }),
       });
     } catch (cause) {
@@ -151,21 +152,33 @@ export class OpenRouterSpeechModel {
 }
 
 /**
- * Real cost of one speech generation, from OpenRouter's generation record. Never
- * throws: a record that is not ready yet returns undefined, and the ledger keeps the
- * call as unpriced instead of estimating it.
+ * Real cost of one speech generation, from OpenRouter's generation record. The record
+ * can lag the audio by a few seconds, so this retries before giving up. Never throws:
+ * a record that never arrives returns undefined, and the ledger keeps the call
+ * unpriced rather than estimating it.
  */
-export async function generationCost(generationId, apiKey, fetchImpl = globalThis.fetch) {
+export async function generationCost(
+  generationId,
+  apiKey,
+  fetchImpl = globalThis.fetch,
+  { attempts = 5, delayMs = 1500, sleep = (ms) => new Promise((done) => setTimeout(done, ms)) } = {},
+) {
   if (!generationId) return undefined;
-  try {
-    const response = await fetchImpl(`${BASE_URL}/generation?id=${encodeURIComponent(generationId)}`, {
-      headers: { Authorization: `Bearer ${apiKey}` },
-    });
-    if (!response.ok) return undefined;
-    const body = await response.json();
-    const total = body?.data?.total_cost;
-    return typeof total === "number" ? total : undefined;
-  } catch {
-    return undefined;
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    try {
+      const response = await fetchImpl(
+        `${BASE_URL}/generation?id=${encodeURIComponent(generationId)}`,
+        { headers: { Authorization: `Bearer ${apiKey}` } },
+      );
+      if (response.ok) {
+        const body = await response.json();
+        const total = body?.data?.total_cost;
+        if (typeof total === "number") return total;
+      }
+    } catch {
+      // fall through to the retry
+    }
+    if (attempt < attempts) await sleep(delayMs);
   }
+  return undefined;
 }

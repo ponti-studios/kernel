@@ -6,6 +6,7 @@ import {
   OpenRouterSpeechError,
   OpenRouterSpeechModel,
   checkVoice,
+  generationCost,
   pcmToMp3,
 } from "../scripts/lib/speech.mjs";
 
@@ -192,5 +193,30 @@ describe("speech hardening", () => {
     } finally {
       process.env.PATH = saved;
     }
+  });
+});
+
+describe("generationCost retries until the record is ready", () => {
+  it("returns the cost once the record appears", async () => {
+    let calls = 0;
+    const fetchImpl = async () => {
+      calls += 1;
+      if (calls < 3) return new Response("{}", { status: 404 });
+      return new Response(JSON.stringify({ data: { total_cost: 0.000868 } }), { status: 200 });
+    };
+    const cost = await generationCost("gen-x", "key", fetchImpl, { delayMs: 0, sleep: async () => {} });
+    assert.equal(cost, 0.000868);
+    assert.equal(calls, 3);
+  });
+
+  it("gives up after the attempts and returns undefined", async () => {
+    let calls = 0;
+    const fetchImpl = async () => {
+      calls += 1;
+      return new Response("{}", { status: 404 });
+    };
+    const cost = await generationCost("gen-y", "key", fetchImpl, { attempts: 3, delayMs: 0, sleep: async () => {} });
+    assert.equal(cost, undefined);
+    assert.equal(calls, 3);
   });
 });

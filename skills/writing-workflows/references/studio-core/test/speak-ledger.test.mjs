@@ -118,4 +118,20 @@ describe("speak() records each generation in the ledger", () => {
     );
     assert.equal(network.calls.length, 0);
   });
+
+  it("sends instructions to the provider so a voice can be steered toward an accent", async () => {
+    let body;
+    const fetchImpl = async (url, init) => {
+      if (String(url).includes("/audio/speech")) {
+        body = JSON.parse(init.body);
+        return new Response(MP3, { status: 200, headers: { "x-generation-id": "gen-instr" } });
+      }
+      return new Response("{}", { status: 404 });
+    };
+    await speak(
+      { text: "Accent check.", out: join(dir, "accent.mp3"), instructions: "British English accent." },
+      { apiKey: "key", defaults: { model: "google/gemini-3.8-flash-lite-tts", voice: "Despina" }, fetchImpl },
+    );
+    assert.equal(body.instructions, "British English accent.");
+  });
 });
