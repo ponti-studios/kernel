@@ -202,6 +202,17 @@ switch (command) {
     break;
   }
 
+  case "reprice-speech": {
+    // Real costs for speech calls that were recorded before their generation record was ready.
+    const { repriceSpeech } = await import("./reprice-speech.mjs");
+    const { apiKey } = await import("./config.mjs");
+    const result = await repriceSpeech({ apiKey: apiKey(), dryRun: Boolean(flags["dry-run"]) });
+    console.log(
+      `${flags["dry-run"] ? "would price" : "priced"} ${result.priced} of ${result.checked} unpriced speech call(s); ${result.stillUnpriced.length} still have no record`,
+    );
+    break;
+  }
+
   case "verify": {
     const result = verifyIndex();
     console.log(

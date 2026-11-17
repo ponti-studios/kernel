@@ -30,6 +30,7 @@ file, or the ffmpeg assembly helpers.
 | `scripts/lib/backfill.mjs` | imports usage logs into the ledger |
 | `scripts/lib/cli.mjs` | `studio-ledger` CLI: emit, asset, index, report, verify, backfill, gc. See LEDGER.md |
 | `scripts/lib/ledger-bridge.mjs` | `recordRender({tool, ...})`: records a generated render; never throws, so bookkeeping cannot stop a render |
+| `scripts/lib/reprice-speech.mjs` | `repriceSpeech`: prices speech calls that were recorded before their generation record existed; each price is a repricing event, and reruns add nothing |
 | `scripts/lib/media.mjs`  | `probeDuration`, `contactSheet`, `assembleVideo`, `defaultRun`                                                                                          |
 
 Speech defaults to `google/gemini-3.8-flash-lite-tts` and DEFAULT_VOICE_ID to `Despina`. Gemini only returns PCM, so `speech.mjs` converts it to mp3 for the caller unless `responseFormat: "pcm"` is passed.

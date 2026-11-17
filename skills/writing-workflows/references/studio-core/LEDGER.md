@@ -32,6 +32,7 @@ node scripts/lib/cli.mjs verify  # check the index agrees with the facts
 node scripts/lib/cli.mjs backfill # import legacy usage logs
 node scripts/lib/cli.mjs gc      # drop unreferenced blobs
 node scripts/lib/cli.mjs reprice # re-price historical events with a newer price book
+node scripts/lib/cli.mjs reprice-speech [--dry-run] # real cost for speech calls whose generation record was not ready when they ran
 ```
 
 ## Rules

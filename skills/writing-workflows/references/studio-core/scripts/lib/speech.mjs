@@ -161,7 +161,7 @@ export async function generationCost(
   generationId,
   apiKey,
   fetchImpl = globalThis.fetch,
-  { attempts = 5, delayMs = 1500, sleep = (ms) => new Promise((done) => setTimeout(done, ms)) } = {},
+  { attempts = 8, delayMs = 2000, sleep = (ms) => new Promise((done) => setTimeout(done, ms)) } = {},
 ) {
   if (!generationId) return undefined;
   for (let attempt = 1; attempt <= attempts; attempt += 1) {
