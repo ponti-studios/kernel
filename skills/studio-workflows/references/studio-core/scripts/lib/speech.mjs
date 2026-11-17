@@ -149,3 +149,23 @@ export class OpenRouterSpeechModel {
     };
   }
 }
+
+/**
+ * Real cost of one speech generation, from OpenRouter's generation record. Never
+ * throws: a record that is not ready yet returns undefined, and the ledger keeps the
+ * call as unpriced instead of estimating it.
+ */
+export async function generationCost(generationId, apiKey, fetchImpl = globalThis.fetch) {
+  if (!generationId) return undefined;
+  try {
+    const response = await fetchImpl(`${BASE_URL}/generation?id=${encodeURIComponent(generationId)}`, {
+      headers: { Authorization: `Bearer ${apiKey}` },
+    });
+    if (!response.ok) return undefined;
+    const body = await response.json();
+    const total = body?.data?.total_cost;
+    return typeof total === "number" ? total : undefined;
+  } catch {
+    return undefined;
+  }
+}
