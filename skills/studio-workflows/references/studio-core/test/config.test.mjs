@@ -246,10 +246,10 @@ describe("loadEnv", () => {
         const env = loadEnv();
         assert.equal(env.OPENROUTER_TEXT_MODEL, "deepseek/deepseek-chat-v3-0324");
         assert.equal(env.OPENROUTER_VIDEO_MODEL, "kwaivgi/kling-v3.0-std");
-        assert.equal(env.OPENROUTER_SPEECH_MODEL, "elevenlabs/eleven-multilingual-v2");
+        assert.equal(env.OPENROUTER_SPEECH_MODEL, "google/gemini-3.8-flash-lite-tts");
         assert.equal(env.OPENROUTER_IMAGE_MODEL, "qwen/qwen-image-2.1-turbo");
         assert.equal(env.OPENROUTER_API_KEY, "");
-        assert.equal(env.DEFAULT_VOICE_ID, "pNInz6obpgDQGcFmaJgB");
+        assert.equal(env.DEFAULT_VOICE_ID, "Despina");
         assert.equal(env.NODE_ENV, "development");
       },
     );

@@ -24,7 +24,10 @@ file, or the ffmpeg assembly helpers.
 | `scripts/lib/images.mjs` | `OpenRouterImageModel`, `OpenRouterImageError`                                                                                                          |
 | `scripts/lib/video.mjs`  | `OpenRouterVideoModel`, `OpenRouterVideoError`                                                                                        |
 | `scripts/lib/speech.mjs` | `OpenRouterSpeechModel`, `OpenRouterSpeechError`                                                                                                        |
+| `scripts/speak.mjs` | CLI: one utterance; JSON on stdin, audio file out. The single speech entrypoint (tower-bridge calls it per turn). |
 | `scripts/lib/media.mjs`  | `probeDuration`, `contactSheet`, `assembleVideo`, `defaultRun`                                                                                          |
+
+Speech defaults to `google/gemini-3.8-flash-lite-tts` and DEFAULT_VOICE_ID to `Despina`. Gemini only returns PCM, so `speech.mjs` converts it to mp3 for the caller unless `responseFormat: "pcm"` is passed.
 
 Every model takes an injectable fetch as its last constructor argument, so a
 caller (or a test) can pass a stub: `new OpenRouterImageModel(key, model, fakeFetch)`.

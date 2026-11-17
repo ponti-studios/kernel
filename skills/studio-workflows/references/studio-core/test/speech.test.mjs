@@ -110,3 +110,43 @@ describe("OpenRouterSpeechModel", () => {
     assert.equal(result.providerRequestId, "gen-speech-1");
   });
 });
+
+describe("Gemini default", () => {
+  it("requests pcm for a google model and returns mp3 to the caller", async () => {
+    let body;
+    globalThis.fetch = async (_url, init) => {
+      body = JSON.parse(init.body);
+      return new Response(new Uint8Array(4800), {
+        status: 200,
+        headers: { "content-type": "audio/pcm;rate=24000;channels=1" },
+      });
+    };
+    const result = await new OpenRouterSpeechModel("key").synthesize({
+      model: "google/gemini-3.8-flash-lite-tts",
+      voice: "Despina",
+      text: "Hello.",
+    });
+    assert.equal(body.response_format, "pcm");
+    assert.equal(result.format, "mp3");
+    const isMp3 =
+      (result.audio[0] === 0x49 && result.audio[1] === 0x44 && result.audio[2] === 0x33) ||
+      (result.audio[0] === 0xff && (result.audio[1] & 0xe0) === 0xe0);
+    assert.ok(isMp3, "expected mp3 bytes back");
+  });
+
+  it("keeps raw pcm when the caller asks for it explicitly", async () => {
+    globalThis.fetch = async () =>
+      new Response(new Uint8Array(4800), {
+        status: 200,
+        headers: { "content-type": "audio/pcm;rate=24000;channels=1" },
+      });
+    const result = await new OpenRouterSpeechModel("key").synthesize({
+      model: "google/gemini-3.8-flash-lite-tts",
+      voice: "Despina",
+      text: "Hello.",
+      responseFormat: "pcm",
+    });
+    assert.equal(result.format, "pcm");
+    assert.equal(result.byteLength, 4800);
+  });
+});

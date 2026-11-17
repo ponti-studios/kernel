@@ -124,11 +124,11 @@ const ENV_DEFAULTS = {
   OPENROUTER_API_KEY: "",
   OPENROUTER_TEXT_MODEL: "deepseek/deepseek-chat-v3-0324",
   OPENROUTER_VIDEO_MODEL: "kwaivgi/kling-v3.0-std",
-  OPENROUTER_SPEECH_MODEL: "elevenlabs/eleven-multilingual-v2",
+  OPENROUTER_SPEECH_MODEL: "google/gemini-3.8-flash-lite-tts",
   OPENROUTER_IMAGE_MODEL: "qwen/qwen-image-2.1-turbo",
   PETER_VOICE_ID: "",
   STEWIE_VOICE_ID: "",
-  DEFAULT_VOICE_ID: "pNInz6obpgDQGcFmaJgB",
+  DEFAULT_VOICE_ID: "Despina",
   STUDIO_PRESS_ROOT: "",
 };
 
