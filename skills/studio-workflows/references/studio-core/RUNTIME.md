@@ -25,6 +25,11 @@ file, or the ffmpeg assembly helpers.
 | `scripts/lib/video.mjs`  | `OpenRouterVideoModel`, `OpenRouterVideoError`                                                                                        |
 | `scripts/lib/speech.mjs` | `OpenRouterSpeechModel`, `OpenRouterSpeechError`                                                                                                        |
 | `scripts/speak.mjs` | CLI: one utterance; JSON on stdin, audio file out. The single speech entrypoint (tower-bridge calls it per turn). |
+| `scripts/lib/ledger.mjs` | `appendEvent`, `registerAsset`, `readEvents`, `readAssets`: the append-only spend and asset ledger (~/.studio) |
+| `scripts/lib/prices.mjs` | `PRICE_BOOK`, `estimateImage`, `estimateText`: list prices, used only for backfilled logs |
+| `scripts/lib/backfill.mjs` | imports usage logs into the ledger |
+| `scripts/lib/cli.mjs` | `studio-ledger` CLI: emit, asset, index, report, verify, backfill, gc. See LEDGER.md |
+| `scripts/lib/ledger-bridge.mjs` | `recordRender({tool, ...})`: records a generated render; never throws, so bookkeeping cannot stop a render |
 | `scripts/lib/media.mjs`  | `probeDuration`, `contactSheet`, `assembleVideo`, `defaultRun`                                                                                          |
 
 Speech defaults to `google/gemini-3.8-flash-lite-tts` and DEFAULT_VOICE_ID to `Despina`. Gemini only returns PCM, so `speech.mjs` converts it to mp3 for the caller unless `responseFormat: "pcm"` is passed.
