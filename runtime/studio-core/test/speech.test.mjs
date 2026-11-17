@@ -1,7 +1,13 @@
 import assert from "node:assert/strict";
 import { afterEach, describe, it } from "node:test";
 
-import { OpenRouterSpeechError, OpenRouterSpeechModel } from "../scripts/lib/speech.mjs";
+import {
+  GEMINI_VOICES,
+  OpenRouterSpeechError,
+  OpenRouterSpeechModel,
+  checkVoice,
+  pcmToMp3,
+} from "../scripts/lib/speech.mjs";
 
 function audioResponse(bytes, status = 200) {
   return new Response(new Uint8Array(bytes), { status });
@@ -148,5 +154,43 @@ describe("Gemini default", () => {
     });
     assert.equal(result.format, "pcm");
     assert.equal(result.byteLength, 4800);
+  });
+});
+
+describe("speech hardening", () => {
+  const gemini = "google/gemini-3.8-flash-lite-tts";
+  const pcmResponse = (bytes, type = "audio/pcm;rate=24000;channels=1") =>
+    new Response(new Uint8Array(bytes), { status: 200, headers: { "content-type": type } });
+
+  it("refuses a voice that does not fit the model", () => {
+    assert.throws(() => checkVoice("elevenlabs/eleven-v3", "Despina"), (error) => error.code === "voice");
+    assert.throws(() => checkVoice(gemini, "pNInz6obpgDQGcFmaJgB"), (error) => error.code === "voice");
+    assert.doesNotThrow(() => checkVoice(gemini, "Despina"));
+  });
+
+  it("accepts every listed Gemini voice", () => {
+    for (const voice of GEMINI_VOICES) assert.doesNotThrow(() => checkVoice(gemini, voice));
+    assert.equal(GEMINI_VOICES.length, 30);
+  });
+
+  it("fails loudly on a pcm body that is not whole 16-bit samples", async () => {
+    globalThis.fetch = async () => pcmResponse(4801);
+    await assert.rejects(
+      new OpenRouterSpeechModel("key").synthesize({ model: gemini, voice: "Despina", text: "Hi." }),
+      (error) => error.code === "format",
+    );
+  });
+
+  it("reports a missing ffmpeg as its own error, not a raw ENOENT", () => {
+    const saved = process.env.PATH;
+    process.env.PATH = "";
+    try {
+      assert.throws(
+        () => pcmToMp3(new Uint8Array(4), { rate: 24000, channels: 1 }),
+        (error) => error.code === "ffmpeg" && /ffmpeg is not on PATH/.test(error.message),
+      );
+    } finally {
+      process.env.PATH = saved;
+    }
   });
 });

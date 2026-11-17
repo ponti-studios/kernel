@@ -29,6 +29,8 @@ file, or the ffmpeg assembly helpers.
 
 Speech defaults to `google/gemini-3.8-flash-lite-tts` and DEFAULT_VOICE_ID to `Despina`. Gemini only returns PCM, so `speech.mjs` converts it to mp3 for the caller unless `responseFormat: "pcm"` is passed.
 
+Speech errors carry a `code`: `empty`, `voice` (a voice that does not fit the model; Gemini names only work with `google/*` models and the reverse), `format` (a pcm body that is not whole 16-bit samples), `ffmpeg` (not on PATH, needed to convert Gemini PCM), `network`, `credits`, `http`. `scripts/speak.mjs` prints `{"error": {"code", "message"}}` to stderr and exits 1, with `usage` for bad input and `config` for a missing key. The voice-model check runs in `scripts/speak.mjs` (the entrypoint for tower-bridge and other tools); library callers pass voices through unchanged. Set the speech model and `DEFAULT_VOICE_ID` together.
+
 Every model takes an injectable fetch as its last constructor argument, so a
 caller (or a test) can pass a stub: `new OpenRouterImageModel(key, model, fakeFetch)`.
 Defaults are `globalThis.fetch`.

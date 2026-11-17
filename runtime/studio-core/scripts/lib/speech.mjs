@@ -10,6 +10,15 @@ import { execFileSync } from "node:child_process";
 
 const BASE_URL = "https://openrouter.ai/api/v1";
 
+// The voices Gemini TTS accepts, from the OpenRouter models API (supported_voices).
+export const GEMINI_VOICES = Object.freeze([
+  "Zephyr", "Puck", "Charon", "Kore", "Fenrir", "Leda", "Orus", "Aoede", "Callirrhoe",
+  "Autonoe", "Enceladus", "Iapetus", "Umbriel", "Algieba", "Despina", "Erinome",
+  "Algenib", "Rasalgethi", "Laomedeia", "Achernar", "Alnilam", "Schedar", "Gacrux",
+  "Pulcherrima", "Achird", "Zubenelgenubi", "Vindemiatrix", "Sadachbia", "Sadaltager",
+  "Sulafat",
+]);
+
 const isGemini = (model) => String(model).startsWith("google/");
 
 /** Sample rate and channel count from Content-Type, e.g. audio/pcm;rate=24000;channels=1. */
@@ -19,30 +28,45 @@ export function pcmFormat(contentType = "") {
   return { rate, channels };
 }
 
-/** Raw 16-bit little-endian PCM to mp3, through ffmpeg on PATH. */
+/**
+ * Raw 16-bit little-endian PCM to mp3, through ffmpeg on PATH. Synchronous on
+ * purpose: it runs once per utterance in a CLI, not in a hot loop.
+ */
 export function pcmToMp3(pcm, { rate, channels }) {
-  return new Uint8Array(
-    execFileSync(
-      "ffmpeg",
-      [
-        "-hide_banner",
-        "-loglevel",
-        "error",
-        "-f",
-        "s16le",
-        "-ar",
-        String(rate),
-        "-ac",
-        String(channels),
-        "-i",
-        "pipe:0",
-        "-f",
-        "mp3",
-        "pipe:1",
-      ],
-      { input: pcm, maxBuffer: 256 * 1024 * 1024 },
-    ),
-  );
+  try {
+    return new Uint8Array(
+      execFileSync(
+        "ffmpeg",
+        ["-hide_banner", "-loglevel", "error", "-f", "s16le", "-ar", String(rate), "-ac", String(channels), "-i", "pipe:0", "-f", "mp3", "pipe:1"],
+        { input: pcm, maxBuffer: 256 * 1024 * 1024 },
+      ),
+    );
+  } catch (cause) {
+    if (cause?.code === "ENOENT") {
+      throw new OpenRouterSpeechError(
+        "ffmpeg",
+        "ffmpeg is not on PATH; Gemini speech needs it to convert to mp3 (or pass responseFormat: \"pcm\")",
+      );
+    }
+    throw new OpenRouterSpeechError("ffmpeg", `ffmpeg failed: ${cause?.message ?? cause}`);
+  }
+}
+
+/** A voice name must fit the model: Gemini names for google/*, anything else for the rest. */
+export function checkVoice(model, voice) {
+  if (isGemini(model)) {
+    if (!GEMINI_VOICES.includes(voice)) {
+      throw new OpenRouterSpeechError(
+        "voice",
+        `"${voice}" is not a Gemini voice for ${model}; use one of: ${GEMINI_VOICES.join(", ")}`,
+      );
+    }
+  } else if (GEMINI_VOICES.includes(voice)) {
+    throw new OpenRouterSpeechError(
+      "voice",
+      `"${voice}" is a Gemini voice but the model is ${model}; set the speech model and DEFAULT_VOICE_ID together`,
+    );
+  }
 }
 
 export class OpenRouterSpeechError extends Error {
@@ -104,6 +128,13 @@ export class OpenRouterSpeechModel {
     }
     let format = requested;
     if (requested === "pcm" && !input.responseFormat) {
+      // 16-bit samples are two bytes each, so an odd length is not the format we asked for.
+      if (audio.length % 2 !== 0) {
+        throw new OpenRouterSpeechError(
+          "format",
+          `pcm length ${audio.length} is not a whole number of 16-bit samples`,
+        );
+      }
       audio = pcmToMp3(audio, pcmFormat(response.headers.get("content-type") ?? ""));
       format = "mp3";
     }
