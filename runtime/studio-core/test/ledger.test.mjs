@@ -1,5 +1,5 @@
 // Invariants the rest of the system relies on. Run: node --test test/
-import { mkdtempSync, readFileSync, readdirSync, rmSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, beforeEach, test } from "node:test";
@@ -73,12 +73,31 @@ test("the read model is a pure function of the log", async () => {
   assert.equal(JSON.stringify(report()), before);
 });
 
-test("events split into monthly segments by their own timestamp", async () => {
-  const { appendEvent } = await load();
+test("events are rows in the sqlite store, not files", async () => {
+  const { appendEvent, readEvents } = await load();
   appendEvent(event({ provider_request_id: "oct" }));
   appendEvent(event({ ts: "2026-09-30T23:00:00.000Z", provider_request_id: "sep" }));
-  const files = readdirSync(join(root, "ledger")).filter((f) => f.startsWith("events-"));
-  assert.deepEqual(files.sort(), ["events-2026-09.jsonl", "events-2026-10.jsonl"]);
+  const { DatabaseSync } = await import("node:sqlite");
+  const db = new DatabaseSync(join(root, "index.sqlite"), { readOnly: true });
+  assert.equal(db.prepare("select count(*) c from ledger_events").get().c, 2);
+  db.close();
+  assert.equal(readEvents().length, 2);
+  assert.equal(readdirSync(root).includes("ledger"), false);
+});
+
+test("legacy JSONL segments are imported once and left in place", async () => {
+  const legacy = join(root, "ledger");
+  mkdirSync(legacy, { recursive: true });
+  writeFileSync(
+    join(legacy, "events-2026-10.jsonl"),
+    JSON.stringify({ ...event({ provider_request_id: "old-1" }), dedupe_key: "req:old-1", id: "evt_old1" }) + "\n",
+  );
+  const { readEvents, appendEvent } = await load();
+  assert.equal(readEvents().length, 1);
+  assert.equal(readEvents()[0].provider_request_id, "old-1");
+  assert.equal(appendEvent(event({ provider_request_id: "old-1" })).duplicate, true);
+  assert.equal(readEvents().length, 1);
+  assert.equal(readFileSync(join(legacy, "events-2026-10.jsonl"), "utf8").trim().split("\n").length, 1);
 });
 
 test("assets dedupe by content hash and keep every display path", async () => {
@@ -97,11 +116,8 @@ test("assets dedupe by content hash and keep every display path", async () => {
   assert.deepEqual(latest.display_paths.sort(), [a, b].sort());
 });
 
-test("the log is one JSON object per line and nothing else", async () => {
-  const { appendEvent } = await load();
-  appendEvent(event({ provider_request_id: "fmt" }));
-  const file = join(root, "ledger", "events-2026-10.jsonl");
-  const lines = readFileSync(file, "utf8").trim().split("\n");
-  assert.equal(lines.length, 1);
-  assert.equal(JSON.parse(lines[0]).provider_request_id, "fmt");
+test("an event round-trips through sqlite unchanged", async () => {
+  const { appendEvent, readEvents } = await load();
+  const { event: written } = appendEvent(event({ provider_request_id: "fmt" }));
+  assert.deepEqual(readEvents()[0], written);
 });
