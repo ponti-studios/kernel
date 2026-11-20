@@ -160,3 +160,18 @@ test("rebuilding the read model keeps the facts and is repeatable", async () => 
   assert.deepEqual(buildIndex(), buildIndex());
   assert.equal(readEvents().length, 1);
 });
+
+test("a repricing keeps the cost source it reports", async () => {
+  const { appendEvent, buildIndex, report } = await load();
+  const { event: call } = appendEvent(event({ provider_request_id: "req-gap", cost: { usd: null, source: "unknown" } }));
+  appendEvent({
+    kind: "repricing",
+    ref: call.id,
+    tool: call.tool,
+    model: call.model,
+    cost: { usd: 0.0007, source: "reported" },
+  });
+  buildIndex({ quiet: true });
+  const totals = JSON.stringify(report());
+  assert.match(totals, /"reported_calls":1/);
+});

@@ -430,10 +430,10 @@ function rebuildReadModel(db, { quiet }) {
   // Repricings only ever fill a gap; they never overwrite a cost the provider reported.
   let repriced = 0;
   const fillGap = db.prepare(
-    "update runs set cost_usd = ?, cost_source = 'estimated', price_book = ?, basis = ? where id = ? and cost_usd is null",
+    "update runs set cost_usd = ?, cost_source = ?, price_book = ?, basis = ? where id = ? and cost_usd is null",
   );
   for (const e of events.filter((row) => row.kind === "repricing")) {
-    const result = fillGap.run(e.cost?.usd ?? null, e.cost?.price_book ?? null, e.cost?.basis ?? null, e.ref);
+    const result = fillGap.run(e.cost?.usd ?? null, e.cost?.source ?? "estimated", e.cost?.price_book ?? null, e.cost?.basis ?? null, e.ref);
     if (result.changes) repriced += 1;
   }
 

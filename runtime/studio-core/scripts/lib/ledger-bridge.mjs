@@ -4,7 +4,7 @@
 // the same way and no skill reaches across folders. The ledger is loaded lazily and
 // inside the try: a missing or broken ledger is reported, and the render goes on.
 // Set STUDIO_LEDGER_LIB to point at another copy (tests use this).
-import { createHash } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { join } from "node:path";
 
 const libDir = () => process.env.STUDIO_LEDGER_LIB ?? import.meta.dirname;
@@ -79,7 +79,7 @@ export async function recordSpeech({ tool, model, voice, text, generationId, cos
       params: { voice },
       units: { count: text.length, unit: "character" },
       cost,
-      idem: generationId ?? null,
+      idem: generationId ?? `local-${randomUUID()}`,
       provider_request_id: generationId ?? null,
     });
     const { asset } = registerAsset(
