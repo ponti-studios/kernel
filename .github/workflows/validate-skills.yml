@@ -34,6 +34,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "24"
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg
       - run: python3 scripts/bundle_runtime.py --check
       - run: python3 scripts/validate_skills.py
       - run: python3 -m unittest discover -s tests
