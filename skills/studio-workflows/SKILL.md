@@ -17,7 +17,7 @@ For any writing or revision of text, use writing-workflows. Production consumes 
 - [Image Transparent — image to transparent-background PNG](references/image-transparent/WORKFLOW.md)
 - [Studio Videogen — plan, generate and deliver video](references/studio-videogen/WORKFLOW.md)
 - [Studio Podcastgen — a script becomes one audio file](references/studio-podcastgen/WORKFLOW.md)
-- [Studio ledger](references/studio-ledger/WORKFLOW.md)
+- [Studio ledger](references/studio-core/LEDGER.md)
 - [Studio Universe — canon and the prompt compiler](references/studio-universe/WORKFLOW.md)
 - [Film Production](references/film-production/WORKFLOW.md)
 - [Image model craft — what works, what doesn't, and how we know](references/image-model-craft/WORKFLOW.md)

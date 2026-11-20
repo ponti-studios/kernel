@@ -1,36 +1,36 @@
 #!/usr/bin/env node
-// One utterance, one audio file. The single speech entrypoint for every studio
-// tool, including tower-bridge, which calls it once per turn.
+// One utterance, one audio file, one ledger event. The speech entrypoint for every
+// studio tool, including tower-bridge, which calls it once per turn.
 //
 // stdin:  {"text": "...", "out": "/path/file.mp3", "voice": "Despina", "model": "...", "responseFormat": "pcm"}
 //         model, voice and responseFormat are optional; they default to the
 //         configured speech model and DEFAULT_VOICE_ID.
-// stdout: {"out", "format", "voice", "model", "bytes", "characters"}
-import { writeFileSync } from "node:fs";
+// stdout: {"out", "format", "voice", "model", "bytes", "characters", "ledger", "sha256"}
+// stderr: {"error": {"code", "message"}} and exit 1 on any failure.
 import { apiKey, loadEnv } from "./lib/config.mjs";
-import { OpenRouterSpeechModel } from "./lib/speech.mjs";
+import { speak } from "./lib/speak.mjs";
 
-const payload = JSON.parse(await readStdin());
-const env = loadEnv();
-const model = payload.model ?? env.OPENROUTER_SPEECH_MODEL;
-const voice = payload.voice ?? env.DEFAULT_VOICE_ID;
-const result = await new OpenRouterSpeechModel(apiKey()).synthesize({
-  model,
-  voice,
-  text: payload.text,
-  responseFormat: payload.responseFormat,
+main().catch((error) => {
+  const code = error?.code ?? "unexpected";
+  process.stderr.write(JSON.stringify({ error: { code, message: error?.message ?? String(error) } }) + "\n");
+  process.exitCode = 1;
 });
-writeFileSync(payload.out, result.audio);
-process.stdout.write(
-  JSON.stringify({
-    out: payload.out,
-    format: result.format,
-    voice,
-    model,
-    bytes: result.byteLength,
-    characters: result.characters,
-  }) + "\n",
-);
+
+async function main() {
+  const payload = JSON.parse(await readStdin());
+  const env = loadEnv();
+  let key;
+  try {
+    key = apiKey();
+  } catch (cause) {
+    throw Object.assign(new Error(cause.message), { code: "config" });
+  }
+  const result = await speak(payload, {
+    apiKey: key,
+    defaults: { model: env.OPENROUTER_SPEECH_MODEL, voice: env.DEFAULT_VOICE_ID },
+  });
+  process.stdout.write(JSON.stringify(result) + "\n");
+}
 
 function readStdin() {
   return new Promise((resolve, reject) => {

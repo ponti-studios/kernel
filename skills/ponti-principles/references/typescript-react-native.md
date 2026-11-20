@@ -17,6 +17,11 @@
 - `Record<Key, Value>` lookup tables replace if/else and ternary ladders.
 - Async: `async`/`await`, errors handled where they can be acted on, no floating promises.
 - No barrel files that only re-export unless the repo already uses them.
+- **Stateless functions go in a module file with named exports, not a namespace object.** No
+  `const Token = { access, refresh }`. A file is already a namespace; if a call site reads better
+  with a prefix, `import * as Token from './token'`. An object literal is only for passing a whole
+  bundle around as a value (injecting an implementation). Dependencies (`fetch`, clock, `save`) come
+  in as parameters, not globals or `this`. _(word)_
 
 ## React and React Native
 

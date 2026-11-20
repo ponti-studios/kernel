@@ -50,7 +50,7 @@
   "studio-dev": "studio-dev/SKILL.md",
   "studio-essay": "writing-workflows/references/essay/WORKFLOW.md",
   "studio-imagegen": "studio-workflows/references/studio-imagegen/WORKFLOW.md",
-  "studio-ledger": "studio-workflows/references/studio-ledger/WORKFLOW.md",
+  "studio-ledger": "runtime/studio-core/LEDGER.md",
   "studio-mediagen": "studio-workflows/references/studio-videogen/WORKFLOW.md",
   "studio-videogen": "studio-workflows/references/studio-videogen/WORKFLOW.md",
   "studio-podcastgen": "studio-workflows/references/studio-podcastgen/WORKFLOW.md",

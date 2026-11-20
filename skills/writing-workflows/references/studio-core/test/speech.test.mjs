@@ -1,7 +1,15 @@
 import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
 import { afterEach, describe, it } from "node:test";
 
-import { OpenRouterSpeechError, OpenRouterSpeechModel } from "../scripts/lib/speech.mjs";
+import {
+  GEMINI_VOICES,
+  OpenRouterSpeechError,
+  OpenRouterSpeechModel,
+  checkVoice,
+  generationCost,
+  pcmToMp3,
+} from "../scripts/lib/speech.mjs";
 
 function audioResponse(bytes, status = 200) {
   return new Response(new Uint8Array(bytes), { status });
@@ -112,27 +120,44 @@ describe("OpenRouterSpeechModel", () => {
 });
 
 describe("Gemini default", () => {
-  it("requests pcm for a google model and returns mp3 to the caller", async () => {
+  const fakeMp3 = new Uint8Array([0xff, 0xfb, 0x90, 0x00]);
+
+  it("requests pcm for a google model and hands it to the converter", async () => {
     let body;
+    let converted;
     globalThis.fetch = async (_url, init) => {
       body = JSON.parse(init.body);
       return new Response(new Uint8Array(4800), {
         status: 200,
-        headers: { "content-type": "audio/pcm;rate=24000;channels=1" },
+        headers: { "content-type": "audio/pcm;rate=16000;channels=2" },
       });
     };
-    const result = await new OpenRouterSpeechModel("key").synthesize({
+    const toMp3 = (pcm, format) => {
+      converted = { length: pcm.length, format };
+      return fakeMp3;
+    };
+    const result = await new OpenRouterSpeechModel("key", globalThis.fetch, toMp3).synthesize({
       model: "google/gemini-3.8-flash-lite-tts",
       voice: "Despina",
       text: "Hello.",
     });
     assert.equal(body.response_format, "pcm");
+    assert.deepEqual(converted, { length: 4800, format: { rate: 16000, channels: 2 } });
     assert.equal(result.format, "mp3");
-    const isMp3 =
-      (result.audio[0] === 0x49 && result.audio[1] === 0x44 && result.audio[2] === 0x33) ||
-      (result.audio[0] === 0xff && (result.audio[1] & 0xe0) === 0xe0);
-    assert.ok(isMp3, "expected mp3 bytes back");
+    assert.deepEqual(result.audio, fakeMp3);
   });
+
+  it(
+    "converts real pcm to mp3 bytes with ffmpeg",
+    { skip: spawnSync("ffmpeg", ["-version"]).error ? "ffmpeg is not installed" : false },
+    () => {
+      const audio = pcmToMp3(new Uint8Array(4800), { rate: 24000, channels: 1 });
+      const isMp3 =
+        (audio[0] === 0x49 && audio[1] === 0x44 && audio[2] === 0x33) ||
+        (audio[0] === 0xff && (audio[1] & 0xe0) === 0xe0);
+      assert.ok(isMp3, "expected mp3 bytes back");
+    },
+  );
 
   it("keeps raw pcm when the caller asks for it explicitly", async () => {
     globalThis.fetch = async () =>
@@ -148,5 +173,68 @@ describe("Gemini default", () => {
     });
     assert.equal(result.format, "pcm");
     assert.equal(result.byteLength, 4800);
+  });
+});
+
+describe("speech hardening", () => {
+  const gemini = "google/gemini-3.8-flash-lite-tts";
+  const pcmResponse = (bytes, type = "audio/pcm;rate=24000;channels=1") =>
+    new Response(new Uint8Array(bytes), { status: 200, headers: { "content-type": type } });
+
+  it("refuses a voice that does not fit the model", () => {
+    assert.throws(() => checkVoice("elevenlabs/eleven-v3", "Despina"), (error) => error.code === "voice");
+    assert.throws(() => checkVoice(gemini, "pNInz6obpgDQGcFmaJgB"), (error) => error.code === "voice");
+    assert.doesNotThrow(() => checkVoice(gemini, "Despina"));
+  });
+
+  it("accepts every listed Gemini voice", () => {
+    for (const voice of GEMINI_VOICES) assert.doesNotThrow(() => checkVoice(gemini, voice));
+    assert.equal(GEMINI_VOICES.length, 30);
+  });
+
+  it("fails loudly on a pcm body that is not whole 16-bit samples", async () => {
+    globalThis.fetch = async () => pcmResponse(4801);
+    await assert.rejects(
+      new OpenRouterSpeechModel("key").synthesize({ model: gemini, voice: "Despina", text: "Hi." }),
+      (error) => error.code === "format",
+    );
+  });
+
+  it("reports a missing ffmpeg as its own error, not a raw ENOENT", () => {
+    const saved = process.env.PATH;
+    process.env.PATH = "";
+    try {
+      assert.throws(
+        () => pcmToMp3(new Uint8Array(4), { rate: 24000, channels: 1 }),
+        (error) => error.code === "ffmpeg" && /ffmpeg is not on PATH/.test(error.message),
+      );
+    } finally {
+      process.env.PATH = saved;
+    }
+  });
+});
+
+describe("generationCost retries until the record is ready", () => {
+  it("returns the cost once the record appears", async () => {
+    let calls = 0;
+    const fetchImpl = async () => {
+      calls += 1;
+      if (calls < 3) return new Response("{}", { status: 404 });
+      return new Response(JSON.stringify({ data: { total_cost: 0.000868 } }), { status: 200 });
+    };
+    const cost = await generationCost("gen-x", "key", fetchImpl, { delayMs: 0, sleep: async () => {} });
+    assert.equal(cost, 0.000868);
+    assert.equal(calls, 3);
+  });
+
+  it("gives up after the attempts and returns undefined", async () => {
+    let calls = 0;
+    const fetchImpl = async () => {
+      calls += 1;
+      return new Response("{}", { status: 404 });
+    };
+    const cost = await generationCost("gen-y", "key", fetchImpl, { attempts: 3, delayMs: 0, sleep: async () => {} });
+    assert.equal(cost, undefined);
+    assert.equal(calls, 3);
   });
 });

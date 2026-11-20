@@ -1,53 +1,44 @@
 // The studio ledger.
 //
-// Write side: append-only JSONL, one segment per month. Nothing is ever edited;
-// a correction is a new event. Cheap to append from a CLI, safe when two skills
-// run at once, greppable when something goes wrong.
+// One store: a SQLite file at ~/.studio/index.sqlite (STUDIO_LEDGER_ROOT moves the
+// whole folder). Two fact tables hold everything that happened and are append-only:
+// ledger_events (one row per call: generation or repricing) and ledger_assets (one
+// row per registration; the latest row per sha256 is the current record). A
+// correction is a new row, never an edit.
 //
-// Read side: a disposable SQLite read model (node:sqlite) rebuilt from the JSONL.
-// If the schema changes, drop it and rebuild — the facts are not in there.
+// The other tables in that file (runs, assets, asset_links, v_cost_by_tool) are a
+// read model rebuilt from the facts by buildIndex(). Drop them and they come back.
 //
-// Media side: content-addressed blobs keyed by sha256, with the friendly path
-// recorded as a display path. Existing files are catalogued in place; new files
-// may also be copied (or hardlinked) into the blob store for dedupe.
+// Media bytes stay on disk as content-addressed blobs under ~/.studio/blobs. The
+// database holds the record of a file, not the file itself.
+//
+// Legacy: the JSONL segments from the earlier design (ledger/events-*.jsonl and
+// ledger/assets-*.jsonl) are imported once, on first open. They are left in place.
 import { createHash } from "node:crypto";
 import {
-  appendFileSync,
+  copyFileSync,
   existsSync,
   mkdirSync,
   readFileSync,
   readdirSync,
-  copyFileSync,
 } from "node:fs";
 import { homedir } from "node:os";
-import { dirname, extname, join, resolve } from "node:path";
+import { extname, join, resolve } from "node:path";
 import { DatabaseSync } from "node:sqlite";
 
 export const LEDGER_VERSION = 1;
-// Bump when the read model's shape changes: withIndex() rebuilds an older index
-// instead of querying tables that did not exist when it was built.
-export const INDEX_SCHEMA_VERSION = 2;
+// Bump when the read model's shape changes; it is stamped into the file.
+export const INDEX_SCHEMA_VERSION = 3;
 
 export function roots() {
   const root = resolve(process.env.STUDIO_LEDGER_ROOT ?? join(homedir(), ".studio"));
   return {
     root,
-    ledgerDir: join(root, "ledger"),
+    legacyDir: join(root, "ledger"),
     blobDir: join(root, "blobs"),
     indexPath: join(root, "index.sqlite"),
   };
 }
-
-function ensureDirs() {
-  const r = roots();
-  mkdirSync(r.ledgerDir, { recursive: true });
-  mkdirSync(r.blobDir, { recursive: true });
-  return r;
-}
-
-const monthOf = (iso) => iso.slice(0, 7);
-const eventsPath = (iso) => join(roots().ledgerDir, `events-${monthOf(iso)}.jsonl`);
-const assetsPath = (iso) => join(roots().ledgerDir, `assets-${monthOf(iso)}.jsonl`);
 
 export function sha256File(path) {
   return createHash("sha256").update(readFileSync(path)).digest("hex");
@@ -55,13 +46,44 @@ export function sha256File(path) {
 
 export const sha256 = (value) => createHash("sha256").update(value).digest("hex");
 
-function appendJsonl(path, record) {
-  ensureDirs();
-  appendFileSync(path, JSON.stringify(record) + "\n", { flag: "a" });
+// ── store ────────────────────────────────────────────────────────────────────
+
+const STORE_SCHEMA = `
+  create table if not exists ledger_meta(key text primary key, value text);
+  create table if not exists ledger_events(
+    seq integer primary key autoincrement,
+    id text not null unique,
+    dedupe_key text not null unique,
+    ts text not null,
+    kind text not null,
+    body text not null
+  );
+  create table if not exists ledger_assets(
+    seq integer primary key autoincrement,
+    sha256 text not null,
+    created_ts text,
+    body text not null
+  );
+  create index if not exists ledger_assets_sha on ledger_assets(sha256);
+`;
+
+let open = null; // { path, db } — one connection per process and root
+
+function openStore() {
+  const r = roots();
+  if (open && open.path === r.indexPath) return open.db;
+  if (open) open.db.close();
+  mkdirSync(r.root, { recursive: true });
+  mkdirSync(r.blobDir, { recursive: true });
+  const db = new DatabaseSync(r.indexPath);
+  db.exec("pragma journal_mode = wal; pragma busy_timeout = 5000;");
+  db.exec(STORE_SCHEMA);
+  open = { path: r.indexPath, db };
+  importLegacy(db, r.legacyDir);
+  return db;
 }
 
-function readJsonlDir(prefix) {
-  const dir = roots().ledgerDir;
+function readLegacy(dir, prefix) {
   if (!existsSync(dir)) return [];
   const rows = [];
   for (const name of readdirSync(dir).sort()) {
@@ -71,15 +93,86 @@ function readJsonlDir(prefix) {
       try {
         rows.push(JSON.parse(line));
       } catch {
-        // a torn line is a torn line: skip it rather than fail the whole read
+        // a torn line is a torn line: skip it rather than fail the whole import
       }
     }
   }
   return rows;
 }
 
-export const readEvents = () => readJsonlDir("events-");
-export const readAssets = () => readJsonlDir("assets-");
+const legacyImported = (db) =>
+  Boolean(db.prepare("select 1 from ledger_meta where key = 'legacy_jsonl_imported'").get());
+
+function importLegacy(db, dir) {
+  if (legacyImported(db)) return;
+  const events = readLegacy(dir, "events-");
+  const assets = readLegacy(dir, "assets-");
+  // "immediate" takes the write lock up front, so a second process opening a fresh
+  // store waits here, then sees the marker below and skips. Without it both import
+  // and every legacy asset row is doubled (assets have no unique key).
+  db.exec("begin immediate");
+  try {
+    if (legacyImported(db)) {
+      db.exec("rollback");
+      return;
+    }
+    const insertEvent = db.prepare(
+      "insert or ignore into ledger_events (id, dedupe_key, ts, kind, body) values (?,?,?,?,?)",
+    );
+    for (const e of events) {
+      insertEvent.run(
+        e.id,
+        e.dedupe_key ?? dedupeKey(e),
+        e.ts,
+        e.kind ?? "generation",
+        JSON.stringify(e),
+      );
+    }
+    const insertAsset = db.prepare(
+      "insert into ledger_assets (sha256, created_ts, body) values (?,?,?)",
+    );
+    for (const a of assets) insertAsset.run(a.sha256, a.created_ts ?? null, JSON.stringify(a));
+    db.prepare("insert into ledger_meta (key, value) values ('legacy_jsonl_imported', ?)").run(
+      new Date().toISOString(),
+    );
+    db.exec("commit");
+  } catch (err) {
+    db.exec("rollback");
+    throw err;
+  }
+}
+
+export function readEvents() {
+  return openStore()
+    .prepare("select body from ledger_events order by seq")
+    .all()
+    .map((row) => JSON.parse(row.body));
+}
+
+// Every registration, oldest first. The current record of an asset is its last row.
+export function readAssets() {
+  return openStore()
+    .prepare("select body from ledger_assets order by seq")
+    .all()
+    .map((row) => JSON.parse(row.body));
+}
+
+function latestAsset(db, digest) {
+  const row = db
+    .prepare("select body from ledger_assets where sha256 = ? order by seq desc limit 1")
+    .get(digest);
+  return row ? JSON.parse(row.body) : null;
+}
+
+function insertAsset(db, asset) {
+  db.prepare("insert into ledger_assets (sha256, created_ts, body) values (?,?,?)").run(
+    asset.sha256,
+    asset.created_ts ?? null,
+    JSON.stringify(asset),
+  );
+}
+
+// ── events ───────────────────────────────────────────────────────────────────
 
 // A provider request id is the strongest identity; otherwise the caller's
 // idempotency key plus the attempt number. Two skills logging the same call must
@@ -140,30 +233,56 @@ export function normalizeEvent(input) {
 
 export function appendEvent(input, { dryRun = false } = {}) {
   const event = normalizeEvent(input);
-  const existing = readEvents().find((row) => row.dedupe_key === event.dedupe_key);
-  if (existing) return { event: existing, duplicate: true };
-  if (!dryRun) appendJsonl(eventsPath(event.ts), event);
+  if (dryRun && !existsSync(roots().indexPath)) {
+    // no store yet: a dry run must not create one (or run the legacy import), but
+    // it still has to report a duplicate that only exists in the old JSONL
+    const seen = readLegacy(roots().legacyDir, "events-").find(
+      (row) => (row.dedupe_key ?? dedupeKey(row)) === event.dedupe_key,
+    );
+    return seen ? { event: seen, duplicate: true } : { event, duplicate: false };
+  }
+  const db = openStore();
+  const existing = db
+    .prepare("select body from ledger_events where dedupe_key = ?")
+    .get(event.dedupe_key);
+  if (existing) return { event: JSON.parse(existing.body), duplicate: true };
+  if (dryRun) return { event, duplicate: false };
+  // insert-or-ignore keeps two processes racing on the same call from both writing
+  const result = db
+    .prepare("insert or ignore into ledger_events (id, dedupe_key, ts, kind, body) values (?,?,?,?,?)")
+    .run(event.id, event.dedupe_key, event.ts, event.kind, JSON.stringify(event));
+  if (result.changes === 0) {
+    const winner = db
+      .prepare("select body from ledger_events where dedupe_key = ?")
+      .get(event.dedupe_key);
+    if (!winner) throw new Error(`ledger id already used by another event: ${event.id}`);
+    return { event: JSON.parse(winner.body), duplicate: true };
+  }
   return { event, duplicate: false };
 }
+
+// ── assets ───────────────────────────────────────────────────────────────────
 
 export function registerAsset(input, { copyBlob = false } = {}) {
   if (!existsSync(input.path)) throw new Error(`asset file not found: ${input.path}`);
   const digest = input.sha256 ?? sha256File(input.path);
-  const existing = readAssets().find((asset) => asset.sha256 === digest);
-  const ts = input.created_ts ?? new Date().toISOString();
+  const db = openStore();
+  const existing = latestAsset(db, digest);
 
   if (existing) {
     const display = new Set(existing.display_paths ?? []);
     if (!display.has(input.path)) {
       display.add(input.path);
-      appendJsonl(assetsPath(ts), { ...existing, display_paths: [...display] });
+      const merged = { ...existing, display_paths: [...display] };
+      insertAsset(db, merged);
+      return { asset: merged, duplicate: true };
     }
-    return { asset: { ...existing, display_paths: [...display] }, duplicate: true };
+    return { asset: existing, duplicate: true };
   }
 
   let blobPath = null;
   if (copyBlob) {
-    const r = ensureDirs();
+    const r = roots();
     const dir = join(r.blobDir, digest.slice(0, 2), digest.slice(2, 4));
     mkdirSync(dir, { recursive: true });
     blobPath = join(dir, digest);
@@ -180,14 +299,14 @@ export function registerAsset(input, { copyBlob = false } = {}) {
     duration_s: input.duration_s ?? null,
     blob: blobPath,
     display_paths: [input.path],
-    created_ts: ts,
+    created_ts: input.created_ts ?? new Date().toISOString(),
     run_id: input.run_id ?? null,
     model: input.model ?? null,
     source_asset_ids: input.source_asset_ids ?? [],
     prompt_sha256: input.prompt_sha256 ?? null,
     tags: input.tags ?? [],
   };
-  appendJsonl(assetsPath(ts), asset);
+  insertAsset(db, asset);
   return { asset, duplicate: false };
 }
 
@@ -221,18 +340,30 @@ export function guessMime(path) {
 
 // ── read model ───────────────────────────────────────────────────────────────
 
+// One transaction: a reader in another process sees the old read model or the new
+// one, never a half-dropped one ("no such table"). DDL is transactional in SQLite.
 export function buildIndex({ quiet = true } = {}) {
-  const r = ensureDirs();
-  if (existsSync(r.indexPath)) {
-    // rebuild from scratch: the index holds no facts of its own
-    readdirSync(dirname(r.indexPath));
+  const db = openStore();
+  db.exec("begin immediate");
+  try {
+    const result = rebuildReadModel(db, { quiet });
+    db.exec("commit");
+    return result;
+  } catch (err) {
+    db.exec("rollback");
+    throw err;
   }
-  const db = new DatabaseSync(r.indexPath);
+}
+
+function rebuildReadModel(db, { quiet }) {
+  const r = roots();
+  // rebuild from scratch: the read model holds no facts of its own
   db.exec(`
+    drop table if exists repricings;
+    drop view if exists v_cost_by_tool;
     drop table if exists runs;
     drop table if exists assets;
     drop table if exists asset_links;
-    drop table if exists repricings;
     create table runs(
       id text primary key, dedupe_key text unique, ts text, kind text, tool text,
       surface text, stage text, provider text, model text, project_id text, job_id text,
@@ -247,10 +378,11 @@ export function buildIndex({ quiet = true } = {}) {
       model text, prompt_sha256 text, source_asset_ids text, tags text
     );
     create table asset_links(asset_sha text, run_id text, role text);
-    create table repricings(event_id text primary key, ref text, cost_usd real, price_book text, basis text, ts text);
-    create view if not exists v_cost_by_tool as
+    create view v_cost_by_tool as
       select tool, count(*) calls, sum(cost_usd) usd
       from runs where cost_usd is not null group by tool order by usd desc;
+    create index runs_ts on runs(ts);
+    create index runs_model on runs(model);
   `);
 
   const insertRun = db.prepare(`
@@ -259,9 +391,10 @@ export function buildIndex({ quiet = true } = {}) {
       status,error,cost_usd,cost_source,price_book,basis,attempt,provider_request_id,params,tags)
     values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
   `);
-  let events = 0;
+  const events = readEvents();
+  let runCount = 0;
   // repricing events are facts about other facts — they must not appear as runs
-  for (const e of readEvents().filter((row) => (row.kind ?? "generation") === "generation")) {
+  for (const e of events.filter((row) => (row.kind ?? "generation") === "generation")) {
     insertRun.run(
       e.id,
       e.dedupe_key ?? dedupeKey(e),
@@ -291,42 +424,27 @@ export function buildIndex({ quiet = true } = {}) {
       JSON.stringify(e.params ?? {}),
       JSON.stringify(e.tags ?? []),
     );
-    events += 1;
+    runCount += 1;
   }
 
-  // Repricings are appended facts of their own: they only ever fill a gap, they
-  // never overwrite a cost the provider actually reported.
+  // Repricings only ever fill a gap; they never overwrite a cost the provider reported.
   let repriced = 0;
-  const insertRepricing = db.prepare(
-    "insert or replace into repricings (event_id, ref, cost_usd, price_book, basis, ts) values (?,?,?,?,?,?)",
+  const fillGap = db.prepare(
+    "update runs set cost_usd = ?, cost_source = ?, price_book = ?, basis = ? where id = ? and cost_usd is null",
   );
-  const gaps = db.prepare("select id from runs where cost_usd is null and units_unit = 'image'");
-  for (const e of readEvents().filter((row) => row.kind === "repricing")) {
-    insertRepricing.run(
-      e.id,
-      e.ref,
-      e.cost?.usd ?? null,
-      e.cost?.price_book ?? null,
-      e.cost?.basis ?? null,
-      e.ts,
-    );
-    const result = db
-      .prepare(
-        "update runs set cost_usd = ?, cost_source = 'estimated', price_book = ?, basis = ? where id = ? and cost_usd is null",
-      )
-      .run(e.cost?.usd ?? null, e.cost?.price_book ?? null, e.cost?.basis ?? null, e.ref);
+  for (const e of events.filter((row) => row.kind === "repricing")) {
+    const result = fillGap.run(e.cost?.usd ?? null, e.cost?.source ?? "estimated", e.cost?.price_book ?? null, e.cost?.basis ?? null, e.ref);
     if (result.changes) repriced += 1;
   }
-  void gaps;
 
-  const insertAsset = db.prepare(`
+  const insertAssetRow = db.prepare(`
     insert or replace into assets (sha256,kind,mime,bytes,w,h,duration_s,blob,display_paths,
       created_ts,run_id,model,prompt_sha256,source_asset_ids,tags)
     values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
   `);
-  let assets = 0;
-  for (const a of readAssets()) {
-    insertAsset.run(
+  const assetRows = readAssets();
+  for (const a of assetRows) {
+    insertAssetRow.run(
       a.sha256,
       a.kind ?? null,
       a.mime ?? null,
@@ -343,37 +461,19 @@ export function buildIndex({ quiet = true } = {}) {
       JSON.stringify(a.source_asset_ids ?? []),
       JSON.stringify(a.tags ?? []),
     );
-    assets += 1;
   }
-
-  db.exec(
-    "create index if not exists runs_ts on runs(ts); create index if not exists runs_model on runs(model);",
-  );
-  db.exec(`pragma user_version = ${INDEX_SCHEMA_VERSION}`);
   const distinctAssets = db.prepare("select count(*) c from assets").get().c;
-  db.close();
+  db.exec(`pragma user_version = ${INDEX_SCHEMA_VERSION}`);
   if (!quiet)
     console.log(
-      `indexed ${events} events, ${distinctAssets} distinct assets (${assets} rows), ${repriced} repriced → ${r.indexPath}`,
+      `indexed ${runCount} calls, ${distinctAssets} distinct assets (${assetRows.length} rows), ${repriced} repriced → ${r.indexPath}`,
     );
-  return { events, assets: distinctAssets };
-}
-
-function withIndex() {
-  const r = roots();
-  let stale = !existsSync(r.indexPath);
-  if (!stale) {
-    const probe = new DatabaseSync(r.indexPath, { readOnly: true });
-    const version = Number(probe.prepare("pragma user_version").get().user_version ?? 0);
-    probe.close();
-    stale = version < INDEX_SCHEMA_VERSION;
-  }
-  if (stale) buildIndex({ quiet: true });
-  return new DatabaseSync(r.indexPath, { readOnly: true });
+  return { events: runCount, assets: distinctAssets };
 }
 
 export function report({ since = null, tool = null } = {}) {
-  const db = withIndex();
+  buildIndex({ quiet: true });
+  const db = openStore();
   const where = [];
   const args = [];
   if (since) {
@@ -392,12 +492,11 @@ export function report({ since = null, tool = null } = {}) {
               sum(case when cost_source='reported' then 1 else 0 end) reported_calls,
               sum(case when cost_source='estimated' then 1 else 0 end) estimated_calls,
               sum(case when cost_usd is null then 1 else 0 end) unpriced_calls,
-              (select count(*) from repricings) repriced_calls,
+              (select count(*) from ledger_events where kind = 'repricing') repriced_calls,
               sum(case when status!='succeeded' then 1 else 0 end) failed_calls
        from runs ${clause}`,
     )
     .get(...args);
-
   const byTool = db
     .prepare(
       `select tool, count(*) calls, coalesce(sum(cost_usd),0) usd,
@@ -429,11 +528,10 @@ export function report({ since = null, tool = null } = {}) {
       `select kind, count(*) n, coalesce(sum(bytes),0) bytes from assets group by kind order by bytes desc`,
     )
     .all();
-  db.close();
   return { totals, byTool, byModel, byUnit, coverage, byKind };
 }
 
-// Determinism check: the read model must be reproducible from the log alone.
+// Determinism check: the read model must be reproducible from the facts alone.
 export function verifyIndex() {
   const before = report();
   buildIndex({ quiet: true });
