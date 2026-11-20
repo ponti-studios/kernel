@@ -14,9 +14,9 @@ export function usage(message) {
 
 /**
  * payload: { text, out, voice?, model?, responseFormat? }
- * deps:    { apiKey, defaults: { model, voice }, fetchImpl?, record? }
+ * deps:    { apiKey, defaults: { model, voice }, fetchImpl?, record?, toMp3? }
  */
-export async function speak(payload, { apiKey, defaults, fetchImpl = globalThis.fetch, record = recordSpeech }) {
+export async function speak(payload, { apiKey, defaults, fetchImpl = globalThis.fetch, record = recordSpeech, toMp3 }) {
   if (!payload.out) throw usage("out is required");
   if (payload.responseFormat === "pcm" && !/\.pcm$/i.test(payload.out)) {
     throw usage("responseFormat pcm writes raw PCM; give it a .pcm path");
@@ -25,7 +25,7 @@ export async function speak(payload, { apiKey, defaults, fetchImpl = globalThis.
   const voice = payload.voice ?? defaults.voice;
   checkVoice(model, voice);
   const text = (payload.text ?? "").trim();
-  const speechModel = new OpenRouterSpeechModel(apiKey, fetchImpl);
+  const speechModel = new OpenRouterSpeechModel(apiKey, fetchImpl, toMp3);
   const result = await speechModel.synthesize({
     model,
     voice,

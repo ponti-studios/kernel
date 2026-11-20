@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
 import { afterEach, describe, it } from "node:test";
 
 import {
@@ -119,27 +120,44 @@ describe("OpenRouterSpeechModel", () => {
 });
 
 describe("Gemini default", () => {
-  it("requests pcm for a google model and returns mp3 to the caller", async () => {
+  const fakeMp3 = new Uint8Array([0xff, 0xfb, 0x90, 0x00]);
+
+  it("requests pcm for a google model and hands it to the converter", async () => {
     let body;
+    let converted;
     globalThis.fetch = async (_url, init) => {
       body = JSON.parse(init.body);
       return new Response(new Uint8Array(4800), {
         status: 200,
-        headers: { "content-type": "audio/pcm;rate=24000;channels=1" },
+        headers: { "content-type": "audio/pcm;rate=16000;channels=2" },
       });
     };
-    const result = await new OpenRouterSpeechModel("key").synthesize({
+    const toMp3 = (pcm, format) => {
+      converted = { length: pcm.length, format };
+      return fakeMp3;
+    };
+    const result = await new OpenRouterSpeechModel("key", globalThis.fetch, toMp3).synthesize({
       model: "google/gemini-3.8-flash-lite-tts",
       voice: "Despina",
       text: "Hello.",
     });
     assert.equal(body.response_format, "pcm");
+    assert.deepEqual(converted, { length: 4800, format: { rate: 16000, channels: 2 } });
     assert.equal(result.format, "mp3");
-    const isMp3 =
-      (result.audio[0] === 0x49 && result.audio[1] === 0x44 && result.audio[2] === 0x33) ||
-      (result.audio[0] === 0xff && (result.audio[1] & 0xe0) === 0xe0);
-    assert.ok(isMp3, "expected mp3 bytes back");
+    assert.deepEqual(result.audio, fakeMp3);
   });
+
+  it(
+    "converts real pcm to mp3 bytes with ffmpeg",
+    { skip: spawnSync("ffmpeg", ["-version"]).error ? "ffmpeg is not installed" : false },
+    () => {
+      const audio = pcmToMp3(new Uint8Array(4800), { rate: 24000, channels: 1 });
+      const isMp3 =
+        (audio[0] === 0x49 && audio[1] === 0x44 && audio[2] === 0x33) ||
+        (audio[0] === 0xff && (audio[1] & 0xe0) === 0xe0);
+      assert.ok(isMp3, "expected mp3 bytes back");
+    },
+  );
 
   it("keeps raw pcm when the caller asks for it explicitly", async () => {
     globalThis.fetch = async () =>

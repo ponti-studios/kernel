@@ -130,7 +130,12 @@ describe("speak() records each generation in the ledger", () => {
     };
     await speak(
       { text: "Accent check.", out: join(dir, "accent.mp3"), instructions: "British English accent." },
-      { apiKey: "key", defaults: { model: "google/gemini-3.8-flash-lite-tts", voice: "Despina" }, fetchImpl },
+      {
+        apiKey: "key",
+        defaults: { model: "google/gemini-3.8-flash-lite-tts", voice: "Despina" },
+        fetchImpl,
+        toMp3: () => MP3,
+      },
     );
     assert.equal(body.instructions, "British English accent.");
   });

@@ -80,10 +80,12 @@ export class OpenRouterSpeechError extends Error {
 export class OpenRouterSpeechModel {
   #apiKey;
   #fetchImpl;
+  #toMp3;
 
-  constructor(apiKey, fetchImpl = globalThis.fetch) {
+  constructor(apiKey, fetchImpl = globalThis.fetch, toMp3 = pcmToMp3) {
     this.#apiKey = apiKey;
     this.#fetchImpl = fetchImpl;
+    this.#toMp3 = toMp3;
   }
 
   async synthesize(input) {
@@ -136,7 +138,7 @@ export class OpenRouterSpeechModel {
           `pcm length ${audio.length} is not a whole number of 16-bit samples`,
         );
       }
-      audio = pcmToMp3(audio, pcmFormat(response.headers.get("content-type") ?? ""));
+      audio = this.#toMp3(audio, pcmFormat(response.headers.get("content-type") ?? ""));
       format = "mp3";
     }
     return {
