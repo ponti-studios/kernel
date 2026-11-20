@@ -100,13 +100,22 @@ function readLegacy(dir, prefix) {
   return rows;
 }
 
+const legacyImported = (db) =>
+  Boolean(db.prepare("select 1 from ledger_meta where key = 'legacy_jsonl_imported'").get());
+
 function importLegacy(db, dir) {
-  const done = db.prepare("select value from ledger_meta where key = 'legacy_jsonl_imported'").get();
-  if (done) return;
+  if (legacyImported(db)) return;
   const events = readLegacy(dir, "events-");
   const assets = readLegacy(dir, "assets-");
-  db.exec("begin");
+  // "immediate" takes the write lock up front, so a second process opening a fresh
+  // store waits here, then sees the marker below and skips. Without it both import
+  // and every legacy asset row is doubled (assets have no unique key).
+  db.exec("begin immediate");
   try {
+    if (legacyImported(db)) {
+      db.exec("rollback");
+      return;
+    }
     const insertEvent = db.prepare(
       "insert or ignore into ledger_events (id, dedupe_key, ts, kind, body) values (?,?,?,?,?)",
     );
@@ -224,6 +233,14 @@ export function normalizeEvent(input) {
 
 export function appendEvent(input, { dryRun = false } = {}) {
   const event = normalizeEvent(input);
+  if (dryRun && !existsSync(roots().indexPath)) {
+    // no store yet: a dry run must not create one (or run the legacy import), but
+    // it still has to report a duplicate that only exists in the old JSONL
+    const seen = readLegacy(roots().legacyDir, "events-").find(
+      (row) => (row.dedupe_key ?? dedupeKey(row)) === event.dedupe_key,
+    );
+    return seen ? { event: seen, duplicate: true } : { event, duplicate: false };
+  }
   const db = openStore();
   const existing = db
     .prepare("select body from ledger_events where dedupe_key = ?")
@@ -323,9 +340,23 @@ export function guessMime(path) {
 
 // ── read model ───────────────────────────────────────────────────────────────
 
+// One transaction: a reader in another process sees the old read model or the new
+// one, never a half-dropped one ("no such table"). DDL is transactional in SQLite.
 export function buildIndex({ quiet = true } = {}) {
-  const r = roots();
   const db = openStore();
+  db.exec("begin immediate");
+  try {
+    const result = rebuildReadModel(db, { quiet });
+    db.exec("commit");
+    return result;
+  } catch (err) {
+    db.exec("rollback");
+    throw err;
+  }
+}
+
+function rebuildReadModel(db, { quiet }) {
+  const r = roots();
   // rebuild from scratch: the read model holds no facts of its own
   db.exec(`
     drop table if exists repricings;

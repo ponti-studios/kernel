@@ -121,3 +121,42 @@ test("an event round-trips through sqlite unchanged", async () => {
   const { event: written } = appendEvent(event({ provider_request_id: "fmt" }));
   assert.deepEqual(readEvents()[0], written);
 });
+
+test("a dry run does not create the store", async () => {
+  const { appendEvent } = await load();
+  const result = appendEvent(event({ provider_request_id: "dry-1" }), { dryRun: true });
+  assert.equal(result.duplicate, false);
+  assert.deepEqual(readdirSync(root), []);
+});
+
+test("a dry run still reports a duplicate that only exists in legacy JSONL", async () => {
+  const legacy = join(root, "ledger");
+  mkdirSync(legacy, { recursive: true });
+  writeFileSync(
+    join(legacy, "events-2026-10.jsonl"),
+    JSON.stringify({ ...event({ provider_request_id: "old-2" }), dedupe_key: "req:old-2", id: "evt_old2" }) + "\n",
+  );
+  const { appendEvent } = await load();
+  assert.equal(appendEvent(event({ provider_request_id: "old-2" }), { dryRun: true }).duplicate, true);
+  assert.equal(readdirSync(root).includes("index.sqlite"), false);
+});
+
+test("legacy assets are imported once, even when a second process opens the store", async () => {
+  const legacy = join(root, "ledger");
+  mkdirSync(legacy, { recursive: true });
+  writeFileSync(
+    join(legacy, "assets-2026-10.jsonl"),
+    JSON.stringify({ sha256: "a".repeat(64), kind: "image", display_paths: ["/x.png"], created_ts: "2026-10-01T00:00:00.000Z" }) + "\n",
+  );
+  const first = await load();
+  assert.equal(first.readAssets().length, 1);
+  const second = await load(); // a fresh module is a fresh connection, like a second process
+  assert.equal(second.readAssets().length, 1);
+});
+
+test("rebuilding the read model keeps the facts and is repeatable", async () => {
+  const { appendEvent, buildIndex, readEvents } = await load();
+  appendEvent(event({ provider_request_id: "idx-1" }));
+  assert.deepEqual(buildIndex(), buildIndex());
+  assert.equal(readEvents().length, 1);
+});
