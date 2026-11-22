@@ -329,7 +329,7 @@ Tiers: **H** = hermetic/local/$0 · **L** = live account/network · **$** = spen
 
 ### powerpoint [H]
 - Test: `python -m pytest tests/ -q`; CLIs JSON round-trips: create → `pptx_read --outline` slide-count/texts/tables/chart values; `--images DIR` sizes; `--replace-text/--move-slide/--set-footer/--set-notes` then re-read; `--render-overlay`/render JSON lists PNGs or `{"rendered":false,"missing":[...]}` exit 0; template `{{token}}` fill — all replaced; duplicate deep-copies rels.
-- Prereqs: Python 3.10+ `python-pptx` + pytest; optional `soffice` + `pdftoppm`/`pdftocairo` (graceful degrade).
+- Prereqs: Python 3.10+; `python-pptx` via the skill's own `scripts/setup.py --check` / `--install-deps` (no ad-hoc pip installs) + pytest; optional `soffice` + `pdftoppm`/`pdftocairo` (graceful degrade).
 - Pass: outline matches spec; chart values exact; PNGs show no overlap/truncation.
 - Blockers: `.ppt` legacy needs conversion; chart-slide duplication refused by design; footer/hyperlink placeholder limits.
 

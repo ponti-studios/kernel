@@ -12,9 +12,15 @@ import json
 import os
 import sys
 
-from pptx import Presentation
-from pptx.enum.shapes import MSO_SHAPE_TYPE
-from pptx.util import Emu
+try:
+    from pptx import Presentation
+    from pptx.enum.shapes import MSO_SHAPE_TYPE
+    from pptx.util import Emu
+except ImportError:
+    sys.exit(
+        f"python-pptx is missing from {sys.executable}. "
+        f"Install via the powerpoint skill: python3 skills/powerpoint/scripts/setup.py --install-deps"
+    )
 
 
 def iter_shapes(shapes):

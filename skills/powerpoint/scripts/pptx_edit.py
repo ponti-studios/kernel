@@ -45,11 +45,17 @@ import json
 import sys
 
 from lxml import etree
-from pptx import Presentation
-from pptx.chart.data import CategoryChartData
-from pptx.dml.color import RGBColor
-from pptx.enum.shapes import MSO_SHAPE_TYPE
-from pptx.oxml.ns import qn
+try:
+    from pptx import Presentation
+    from pptx.chart.data import CategoryChartData
+    from pptx.dml.color import RGBColor
+    from pptx.enum.shapes import MSO_SHAPE_TYPE
+    from pptx.oxml.ns import qn
+except ImportError:
+    sys.exit(
+        f"python-pptx is missing from {sys.executable}. "
+        f"Install via the powerpoint skill: python3 skills/powerpoint/scripts/setup.py --install-deps"
+    )
 
 R_EMBED = "{http://schemas.openxmlformats.org/officeDocument/2006/relationships}"
 

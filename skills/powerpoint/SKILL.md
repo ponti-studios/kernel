@@ -33,8 +33,12 @@ and slide rendering — all offline, no PowerPoint installation required.
 
 ## Prerequisites
 
-- Python 3.10+ with `python-pptx` installed
-  (`pip install python-pptx`).
+- Python 3.10+. The skill owns its dependency: check with
+  `python3 scripts/setup.py --check` and install with
+  `python3 scripts/setup.py --install-deps` — this installs `python-pptx` into
+  the interpreter you will run the scripts with. Do not `pip install` it ad
+  hoc; a package scattered across interpreters is the most common cause of a
+  failing battery.
 - Optional: LibreOffice (`soffice`) plus poppler (`pdftoppm` or
   `pdftocairo`) for rendering slides to PNGs and for PDF export.
   `pptx_render.py` detects both with `shutil.which` and degrades

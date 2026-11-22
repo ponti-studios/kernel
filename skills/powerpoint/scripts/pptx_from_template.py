@@ -16,7 +16,13 @@ import argparse
 import json
 import sys
 
-from pptx import Presentation
+try:
+    from pptx import Presentation
+except ImportError:
+    sys.exit(
+        f"python-pptx is missing from {sys.executable}. "
+        f"Install via the powerpoint skill: python3 skills/powerpoint/scripts/setup.py --install-deps"
+    )
 
 
 def fill_tokens(prs, values):
