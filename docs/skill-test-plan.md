@@ -486,6 +486,12 @@ Tiers: **H** = hermetic/local/$0 · **L** = live account/network · **$** = spen
 - Pass: each claim cites an ID/URL; assignees/dates/links read back match.
 - Blockers: no scripts; needs live user data + OAuth; quality is judgment-based.
 
+### wide-research [J]
+- Test: 6-input fan-out (PyPI latest-version/license/requires-python for `pypdf reportlab pdfplumber pdfminer.six pypdfium2` + one nonexistent package): contracts exercised — dedupe/normalize inputs, minimal schema, one worker per input, failed input retried once and still counted `failure_count`, final report states coverage `5/6` and the gap; degraded mode (sequential in-process, no subagent facility) validates the contracts without parallelism. Verified live 2026-11.
+- Prereqs: none for in-process mode; a subagent facility only speeds it up. Network for web-input variants.
+- Pass: every success carries the identical schema shape; coverage stated; blank source fields marked unknown, never guessed.
+- Blockers: no scripts; value is judgment in schema design and honest coverage.
+
 ### xlsx [H]
 - Test: `xlsx_create.py` → `xlsx_read.py --sheets --json --formulas --notes --names` round-trip matches spec (names/dims/merges/chart counts); `xlsx_edit.py --set/--append/--copy-sheet/--add-table/--protect`; `xlsx_restructure.py --insert-rows 3:2` shifts refs on ALL sheets (report + re-dump, empty `not_shifted` or documented exceptions); `xlsx_recalc` prints `{"recalculated": true/false}`; `csv_to_xlsx.py` type inference (int/float/bool/ISO-date); `xlsx_to_csv.py --sheet`; per `references/restructuring.md`.
 - Prereqs: Python 3.10+, `openpyxl`; optional `soffice` for recalc/PDF (graceful `recalculated:false` exit 0).
