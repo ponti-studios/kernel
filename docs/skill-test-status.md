@@ -127,7 +127,7 @@ Updated: 2026-11-15. Tested-good commits already on `main` through `118d5eb6`.
 - [ ] tanstack-start-shadcn
 - [ ] teams-meeting-pipeline
 - [ ] test-driven-development
-- [x] animated-presentation (demo.sh E2E: all gates pass, MP4+captions+metadata)
+- [x] create-presentation (demo.sh E2E: all gates pass, MP4+captions+metadata)
 - [ ] typescript-sqlite
 - [ ] uber-eats
 - [ ] weekly-review-planning

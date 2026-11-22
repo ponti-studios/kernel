@@ -1,5 +1,5 @@
 ---
-name: animated-presentation
+name: create-presentation
 description: "Build an animated video with the tb CLI: idea, essay, or episode to captioned MP4."
 version: 1.0.0
 author: Charles Ponti

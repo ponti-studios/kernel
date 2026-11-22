@@ -459,7 +459,7 @@ Tiers: **H** = hermetic/local/$0 · **L** = live account/network · **$** = spen
 - Pass: observed RED→GREEN in logs; every new function has test; Verification Checklist all checked.
 - Blockers: behavioral compliance (pre-written code deletion unobservable post-hoc); "watched it fail" needs terminal log evidence.
 
-### animated-presentation [H+$] (merged from tower-bridge + tower-bridge-tb)
+### create-presentation [H+$] (merged from tower-bridge + tower-bridge-tb)
 - Entrypoints: `tb new|run|approve|status` + stage verbs (`script audio align specs stills render`); `scripts/demo.sh` smoke fixture; `scripts/openrouter_tts.py` TTS provider.
 - Test: fixture build (silent audio sized to `words.json` → new → script/approve → audio → align → specs → stills/approve → render, ~2-3 min for 5400 frames, timeout ≥600s); `tb status` all five gates `pass`; unit suite `python3 -m unittest discover -s tests` (65 tests ~2min); `npx tsc --noEmit` in `remotion/`; choreography eval (example-match ≥80%, beat recall ≥80%, 0 grounding violations, demotes ≤10%); planner eval (baseline 33/35 no regress); cue/grounding failure messages; TTS `TB_AUDIO_CMD` → MP4 with real audio + captions + chapters.
 - Prereqs: tower-bridge repo, Node 20+, Python 3.11+, `ffmpeg/ffprobe`, `pip install -e .`, `cd remotion && npm ci && npx remotion browser ensure`; `OPENROUTER_API_KEY` + `TB_*_CMD` for generative stages; Parakeet model (~1.2GB) for word timestamps.
