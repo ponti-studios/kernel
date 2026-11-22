@@ -12,7 +12,7 @@ metadata:
 
 # Ponti principles
 
-How Charles wants code written, in one place. Twenty-five laws, ordered inside each section by how often he
+How Charles wants code written, in one place. Twenty-six laws, ordered inside each section by how often he
 has had to _correct_ an agent into them — the top of a section is what agents most reliably get wrong.
 
 **The laws are code craft, not work management.** Branches, PRs, merges, deploys, tickets and voice are not
@@ -130,6 +130,10 @@ overrules both.
 25. **Prove with evidence.** Logs and measurements before rebuilds; run it, test it, read it back. "Done"
     means verified — never claim a state you did not check.
 
+26. **Verify the contract before claiming absence.** A claim that something is missing, broken, unsupported or
+    fixed carries the live check behind it — schema confirmed, filters widened, a control probe, a read-back —
+    or it is reported as unverified ([verify-before-asserting.md](references/verify-before-asserting.md)).
+
 ## How to run a review
 
 1. Read the file, diff or PR in full before judging it.
@@ -149,6 +153,7 @@ overrules both.
 | Screens, copy, motion, errors, PRDs, design files                   | [product-and-design.md](references/product-and-design.md)           |
 | Secrets, user data, telemetry, auth, databases, APIs                | [data-and-trust.md](references/data-and-trust.md)                   |
 | Branches, commits, PRs, merges, deploys, tickets, debugging, checks | [workflow.md](references/workflow.md)                               |
+| Claims that something is missing, broken, unsupported or fixed    | [verify-before-asserting.md](references/verify-before-asserting.md) |
 | Reports, summaries and how to talk to Charles                       | [communication.md](references/communication.md)                     |
 
 ## Final checklist
@@ -172,4 +177,5 @@ overrules both.
 - [product-and-design.md](references/product-and-design.md) — product framing, screens, copy, motion, PRDs, design laws.
 - [data-and-trust.md](references/data-and-trust.md) — secrets, personal data, telemetry, auth, databases, APIs.
 - [workflow.md](references/workflow.md) — scope, branches, commits, tickets, PRs, merges, deploys, checks.
+- [verify-before-asserting.md](references/verify-before-asserting.md) — proving absence, breakage and fix claims against the live surface.
 - [communication.md](references/communication.md) — how to talk to Charles, reports and summaries.

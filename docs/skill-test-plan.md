@@ -316,7 +316,7 @@ Tiers: **H** = hermetic/local/$0 · **L** = live account/network · **$** = spen
 - Blockers: scanned PDFs need OCR; borderless-table heuristics; rotated-stamp scramble (use pypdf); compression 0–20% on image PDFs.
 
 ### ponti-principles [J]
-- Test: review runner on a fixture diff: read full diff → repo checks → open only touched refs → violations as `file:line:rule:fix`; Final checklist 10 boxes (schema validation, ternary lint, unused scan, formatter/lint/typecheck clean, no secrets via grep, tests run with skipped-named); 25 laws spot-check (plan-first/YAGNI/blast-radius, API-owns-logic, mock-before-integrate, price-before-pick).
+- Test: review runner on a fixture diff: read full diff → repo checks → open only touched refs → violations as `file:line:rule:fix`; Final checklist 10 boxes (schema validation, ternary lint, unused scan, formatter/lint/typecheck clean, no secrets via grep, tests run with skipped-named); 26 laws spot-check (plan-first/YAGNI/blast-radius, API-owns-logic, mock-before-integrate, price-before-pick, verify-before-asserting).
 - Prereqs: repo with `AGENT.md`/lint/type/test tooling; none external.
 - Pass: cites real violations only, no praise filler; behavior preserved; report states verified vs unverified.
 - Blockers: almost entirely judgment (naming, YAGNI, reuse); no harness; "Charles in the moment wins" on conflicts.
