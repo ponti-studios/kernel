@@ -15,6 +15,10 @@ export const sceneSchema = object({
   // canon and is the default for character scenes; a prompt is used verbatim.
   prompt: optional(string({ min: 1 })),
   spec: optional(string({ min: 1 })),
+  // Image references for a verbatim-prompt keyframe (paths relative to scenes.json).
+  references: optional(array(string({ min: 1 }))),
+  // Legacy alias retained for existing scene drafts.
+  refs: optional(array(string({ min: 1 }))),
   duration_seconds: optional(number({ positive: true })),
   // Cinematography the shot is built around. The animatic uses `camera` to move the
   // still, so a shot's intended motion is judged before any footage is bought.

@@ -35,8 +35,6 @@ scripts/generate-image.sh --spec frame3.json --resolution 1K
 scripts/generate-image.sh --prompt "…" --aspect 4:5 --resolution 1K --format png
 # opt in to cached JPEG reference plates (≤1024px, quality 88)
 scripts/generate-image.sh --spec frame3.json --stage-refs --dry-run
-# keyframe batches default to four concurrent renders; use 1 for sequential output
-scripts/keyframes.sh --scenes scenes.json --yes --concurrency 1
 ```
 
 `--meta` writes a sidecar JSON next to the image: spec path, frame, title,
@@ -107,12 +105,14 @@ by file content and staging parameters. If neither `sharp` nor ImageMagick is
 available, the original bytes are sent and each run reports `staged: passthrough`.
 Keep staging opt-in until a staged/full-size canon frame has been compared.
 `--no-stage-refs` explicitly selects full-size references and cannot be combined
-with `--stage-refs`. Keyframes accept `--concurrency` (default 4); set it to 1
-for sequential generation. Partial keyframe failures are listed while successful
-images are kept; the command exits unsuccessfully only when every job fails.
+with `--stage-refs`.
 `check-imagegen --specs` accepts either a JSON array of spec paths or one path
 per line. It compiles each spec, checks its references and requested aspect and
 resolution, and fetches model capabilities once for the batch.
+
+Scene-based video keyframes are orchestrated by
+[studio-videogen](../studio-videogen/WORKFLOW.md); this skill owns generic still
+generation and reference handling.
 
 ## Pitfalls
 

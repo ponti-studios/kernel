@@ -20,6 +20,12 @@ export function studioRoot() {
   return setting("STUDIO_ROOT", "studio_root", () => SKILLS);
 }
 
+export function universeRoot() {
+  return setting("STUDIO_UNIVERSE_ROOT", "universe_root", () =>
+    join(SKILLS, "studio-universe", "data"),
+  );
+}
+
 const MODULES = {
   config: () => import(join(CORE, "config.mjs")),
   providers: async () => ({

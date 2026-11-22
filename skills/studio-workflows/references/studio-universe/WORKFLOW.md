@@ -62,10 +62,11 @@ dress-swap generator — the failure mode is in `output/kit-evidence/`.
    `--compiler dist` to run the monorepo build itself (legacy only — asking for
    positive voice with the dist compiler is refused rather than silently
    downgraded).
-5. Feed the compiled prompt to the renderer verbatim (see the
-   `openrouter-image-generation` skill for the model choice and cost rules).
-6. If the render still drifts, the fault is in the canon or the spec — fix it
-   there and recompile. Never patch the prompt text by hand.
+5. Use the compiled prompt through the relevant production procedure. For still
+   images, see [studio-imagegen](../studio-imagegen/WORKFLOW.md); for video,
+   see [studio-videogen](../studio-videogen/WORKFLOW.md).
+6. If a compiled prompt exposes a canon or spec inconsistency, fix it at its
+   source and recompile. Never patch the prompt text by hand.
 
 ## Procedure: after ANY canon edit
 
@@ -147,43 +148,17 @@ The optional Universe compiler override is for parity checks with an external bu
 
 ## Pitfalls
 
-- **Measured evidence on the positive-voice rewrite (3 arms x 5 samples x 2 frames).**
-  Arms: A original wording + legacy structure; B rewritten wording + legacy
-  structure (`NEGATIVES:` label, garment enumerations); C rewritten wording +
-  positive structure (`CONSTRAINTS`, no enumerations, `WARDROBE`). 1K with
-  character turnaround sheets, ~$0.018 per render:
-
-  | measure                                | A original | B legacy | C positive |
-  | -------------------------------------- | ---------- | -------- | ---------- |
-  | Set A: panels with >1 rock            | 0/5        | —        | 0/5        |
-  | Set A: panels with any sparkle/glint  | 0/5        | —        | 0/5        |
-  | Set A: panels with legible text       | 0/5        | —        | 0/5        |
-  | Set B: panels with see-through robe   | **0/5**    | **0/5**  | **2/5**    |
-  | Set B: panels with a flat-curtain net | 4/5        | 3/5      | 3/5        |
-
-  Conclusions that the data supports, and the ones it does not:
-  1. **On the failures the negatives were written for, the rewrite changes
-     nothing measurable** — the sparkle/gem failure did not occur in either arm,
-     so the "negatives invite what they forbid" effect is not observable on the
-     rock frame at 1K. Do not cite the rewrite as a quality win.
-  2. **The one directional signal is robe opacity** (0/5, 0/5, 2/5). Note this
-     argues AGAINST "negative content protects opacity": arm B carries the same
-     _positive_ wording as C yet holds opacity like A. The suspect is therefore
-     the positive _structure_ — the `CONSTRAINTS — hold every one of these
-     exactly as written:` prefix, the dropped garment enumerations, or the added
-     `WARDROBE` line — not the absence of negatives.
-  3. **Single renders are not evidence.** Three separate single-sample claims of
-     mine (an "invented magnifying glass", "two rocks", "the rewrite fixed the
-     net") all failed to reproduce under 5 samples. The loupe was specified in
-     the spec all along. Score with >=5 samples per arm, or not at all.
-  4. The net-geometry differences (4/5 vs 3/5 vs 3/5) are noise, not an effect.
+- Comparative image-model experiments and render-quality evidence live in
+  [image-model-craft](../image-model-craft/WORKFLOW.md). Universe records the
+  canon and compiler contracts those experiments evaluate.
 
 - **The shared render grade stays negative on purpose.** It contributes 5
   negations to every frame ("Absolutely no text, no lettering, no captions, no
   logos and no watermark"), and text/watermark suppression is the one place a
   negative earns its keep: the training signal is unusually strong there, and
-  across every render inspected it worked — no text, lettering or logo appeared
-  in any of them. Leave it; revisit only if an image actually ships with text.
+  across the inspected renders it worked — no text, lettering or logo appeared.
+  Leave it; revisit only if an image actually ships with text. See the
+  [image-model-craft evidence](../image-model-craft/references/prompt-mechanics.md).
 - An unmatched negative in a spec's `negatives` list is **kept and reported**
   rather than dropped, because silently discarding a constraint loses
   information. Prohibitory garment tails (`— never the X`) are stripped while
@@ -216,15 +191,11 @@ The optional Universe compiler override is for parity checks with an external bu
 
 ## Reference images
 
-One **turnaround sheet** per character (`registry.json` → `plates.turnaround`), holding front,
-three-quarter, profile, back and head views. All four sheets share the filename `turnaround.webp`,
-so a folder is `PROMPT.md` + that one image; refer to a sheet by its folder (`example-hero/turnaround.webp`),
-never by filename alone.
-
-The derived crops (`identity-plate`, `full-body-plate`, `combined-plate`, `mask-plate`) were retired
-after a blind test (October 2026, 7 scenes, 2 variants): the sheet was preferred in 5 of 6 decisions.
-Record of that test: `image-model-craft/references/evidence-log.md`. Crop the sheet per job when a
-frame genuinely needs a face-only or mask-only reference — never store a derived plate in the library.
+The registry's `plates.turnaround` entry identifies the authoritative character
+turnaround reference. Keep the canon path and register here; how a renderer
+attaches or stages reference images belongs to
+[studio-imagegen](../studio-imagegen/WORKFLOW.md). Comparative reference tests
+are recorded in [image-model-craft](../image-model-craft/WORKFLOW.md).
 
 Register policy: **animated-cel only**. Photoreal is paused; no photoreal reference is held, and
 photoreal prose in the bibles is history, not guidance.

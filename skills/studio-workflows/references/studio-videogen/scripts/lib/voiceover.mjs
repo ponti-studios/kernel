@@ -131,7 +131,7 @@ writeFileSync(
       scenes: work.map((s) => ({
         id: s.id,
         chars: s.voiceover.length,
-        voice: voiceIdForScene(s, env).id,
+        voice: values.voice ?? voiceIdForScene(s, env).id,
       })),
       spoken,
       failed: failures,

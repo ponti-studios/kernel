@@ -6,7 +6,7 @@
 //
 // This is the cheap stage of the video pipeline: a still costs a fraction of a clip,
 // so the look is settled here before any motion is bought. Named <scene-id>.png so
-// studio-videogen can pair stills with shots without a manifest.
+// Videogen pairs stills with shots by scene id, without a manifest.
 //
 // Dry run until --yes, same contract as the clip stage.
 
@@ -14,6 +14,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { dirname, extname, join, resolve } from "node:path";
 import { parseArgs } from "node:util";
+import { createHash } from "node:crypto";
 
 import { apiKey, outputDir, setting } from "../../../studio-core/scripts/lib/config.mjs";
 import {
@@ -25,6 +26,7 @@ import {
   RefStager,
 } from "../../../studio-core/scripts/lib/images.mjs";
 import { recordRender } from "./ledger-bridge.mjs";
+import { load, readScenes, universeRoot } from "./resolve.mjs";
 
 const USAGE_DIR = setting("STUDIO_USAGE_DIR", "usage_dir", () =>
   join(homedir(), ".hominem", "ai_usage"),
@@ -60,22 +62,82 @@ if (!Number.isInteger(concurrency) || concurrency < 1) {
   process.exit(2);
 }
 
-const scenes = JSON.parse(readFileSync(values.scenes, "utf8"));
-if (!Array.isArray(scenes) || scenes.length === 0) {
-  console.error(`error: ${values.scenes} is not a shot list (expected an array of scenes)`);
+let scenes;
+try {
+  scenes = await readScenes(values.scenes);
+} catch (err) {
+  console.error(`error: ${err.message}`);
   process.exit(2);
+}
+
+const root = universeRoot();
+let registry;
+let compileSpec;
+if (scenes.some((scene) => scene.spec)) {
+  try {
+    const universe = await load("universe");
+    compileSpec = universe.compileSpec;
+    registry = universe.loadRegistry(root);
+  } catch (err) {
+    console.error(`error: cannot load Universe canon from ${root}: ${err.message}`);
+    process.exit(2);
+  }
+}
+
+const selectedRaw = values.only ? scenes.filter((scene) => scene.id === values.only) : scenes;
+if (values.only && selectedRaw.length === 0) {
+  console.error(`error: no scene with id '${values.only}' (have: ${scenes.map((s) => s.id).join(", ")})`);
+  process.exit(2);
+}
+
+const prepared = [];
+for (const scene of selectedRaw) {
+  if (scene.prompt) {
+    prepared.push({
+      ...scene,
+      renderPrompt: scene.prompt,
+      refPaths: scene.references ?? scene.refs ?? [],
+      aspect: values.aspect ?? "16:9",
+    });
+  } else {
+    try {
+      const raw = JSON.parse(readFileSync(scene.specPath, "utf8"));
+      const spec = raw?.frameSpec ?? raw?.draft ?? raw;
+      const prompt = compileSpec(spec, registry, root);
+      prepared.push({
+        ...scene,
+        renderPrompt: prompt,
+        refPaths: spec.references ?? [],
+        aspect: values.aspect ?? "16:9",
+        fromSpec: true,
+      });
+    } catch (err) {
+      console.error(`COMPILE REFUSED — ${scene.id}: ${err.code ?? "error"}`);
+      console.error(err.message);
+      process.exit(1);
+    }
+  }
+}
+
+for (const scene of prepared) {
+  scene.references = scene.refPaths.map((ref) => {
+    const path = ref.startsWith("/")
+      ? ref
+      : scene.fromSpec
+        ? resolve(root, ref)
+        : resolve(dirname(resolve(values.scenes)), ref);
+    if (!existsSync(path)) {
+      console.error(`error: reference image missing for ${scene.id}: ${ref}`);
+      process.exit(2);
+    }
+    return path;
+  });
 }
 
 const model =
   values.model ?? setting("OPENROUTER_IMAGE_MODEL", "model_image", "qwen/qwen-image-2.1-turbo");
 const outDir = values.out ?? outputDir("keyframes");
-const selected = values.only ? scenes.filter((s) => s.id === values.only) : scenes;
-if (values.only && selected.length === 0) {
-  console.error(
-    `error: no scene with id '${values.only}' (have: ${scenes.map((s) => s.id).join(", ")})`,
-  );
-  process.exit(2);
-}
+const selected = prepared;
 
 console.log(`scenes:  ${selected.length} of ${scenes.length}`);
 console.log(`model:   ${model}`);
@@ -86,7 +148,7 @@ console.log("");
 
 for (const scene of selected) {
   const file = join(outDir, `${scene.id}.png`);
-  const length = String(scene.prompt ?? "").length;
+  const length = String(scene.renderPrompt ?? "").length;
   console.log(
     `  ${String(scene.id).padEnd(18)} ${String(scene.duration_seconds ?? "?").padStart(4)}s  ${length} char prompt  -> ${file}`,
   );
@@ -109,11 +171,8 @@ const stager = values["stage-refs"] ? new RefStager() : null;
 const results = await executor.run(selected, async (scene) => {
   const file = join(outDir, `${scene.id}.png`);
   try {
-    const refPaths = scene.references ?? scene.refs ?? [];
     const references = [];
-    for (const ref of refPaths) {
-      const path = resolve(dirname(resolve(values.scenes)), ref);
-      if (!existsSync(path)) throw new Error(`reference image missing: ${ref}`);
+    for (const path of scene.references) {
       const ext = extname(path).toLowerCase();
       const mime =
         ext === ".png"
@@ -129,9 +188,9 @@ const results = await executor.run(selected, async (scene) => {
     }
     const res = await image.generate({
       model,
-      prompt: scene.prompt,
+      prompt: scene.renderPrompt,
       references,
-      aspectRatio: values.aspect,
+      aspectRatio: scene.aspect,
       resolution: values.resolution,
       outputFormat: "png",
     });
@@ -146,6 +205,9 @@ const results = await executor.run(selected, async (scene) => {
       requestId: res.generationId,
       attempts: res.attempts ?? 1,
       references: references.length,
+      aspect: scene.aspect,
+      spec: scene.specPath ?? null,
+      promptSha256: createHash("sha256").update(scene.renderPrompt).digest("hex"),
     };
     calls.push(record);
     console.log(
@@ -165,13 +227,13 @@ const failures = results.failed.map(
 
 mkdirSync(USAGE_DIR, { recursive: true });
 const stamp = new Date().toISOString().replace(/[:.]/g, "-");
-const logPath = join(USAGE_DIR, `${stamp}-imagegen-keyframes.json`);
+const logPath = join(USAGE_DIR, `${stamp}-videogen-keyframes.json`);
 const reported = calls.filter((c) => c.costUsd !== undefined);
 writeFileSync(
   logPath,
   JSON.stringify(
     {
-      kind: "imagegen-keyframes",
+      kind: "videogen-keyframes",
       model,
       shape: { aspect: values.aspect, resolution: values.resolution },
       scenes: calls,
@@ -191,12 +253,13 @@ for (const call of calls) {
   await recordRender({
     model,
     resolution: values.resolution,
-    promptSha256: null,
+    promptSha256: call.promptSha256,
     params: {
-      aspect: values.aspect,
+      aspect: call.aspect,
       resolution: values.resolution,
       references: call.references,
       scene: call.id,
+      ...(call.spec ? { spec: call.spec } : {}),
     },
     generationId: call.requestId ?? null,
     costUsd: call.costUsd ?? null,

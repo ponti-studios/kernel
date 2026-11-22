@@ -291,7 +291,7 @@ def check_auth(profile: str = "default", services: list[str] | None = None, quie
                     "    5. If the OAuth client is disabled, create a new one in Google Cloud Console"
                 )
             elif "token_revoked" in err_str or "invalid_grant" in err_str:
-                detail = f"TOKEN_REVOKED: {e}\n  Re-run setup to re-authenticate."
+                detail = f"TOKEN_REVOKED: {e}\n  Run `hominem auth google` (from any directory) to re-authenticate."
             else:
                 detail = f"REFRESH_FAILED: {e}"
             _emit({"authenticated": False, "reason": detail, "profile": profile}, fmt, quiet)

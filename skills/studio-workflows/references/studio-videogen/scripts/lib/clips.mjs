@@ -3,7 +3,13 @@
 //
 //   clips.mjs --scenes <scenes.json> [--out <dir>] [--only <sceneId>]
 //             [--model <id>] [--aspect 16:9|9:16] [--vertical]
-//             [--resolution 720p] [--max-seconds 10] [--yes] [--dry-run]
+//             [--resolution 720p] [--max-seconds 10] [--budget 5.00]
+//             [--yes] [--dry-run]
+//
+// --budget <usd> is a ceiling for this batch. Before each clip the script estimates its
+// cost (per-second rate, or the most expensive earlier run of the same model in the
+// ledger) and skips the clip if it would take the batch over. With no estimate at all,
+// a budgeted batch refuses the clip rather than guess.
 //
 // Video clips are the expensive stage of this pipeline, so this script is a
 // DRY RUN until --yes is passed. Use --only <sceneId> to spend on a single
@@ -26,7 +32,7 @@ import { parseArgs } from "node:util";
 import { apiKey, load, readScenes } from "./resolve.mjs";
 import { lintPrompt } from "./rules-lint.mjs";
 import { withJob } from "../../../studio-core/scripts/lib/progress.mjs";
-import { LEDGER, appendLine } from "./runs.mjs";
+import { LEDGER, appendLine, readLedger } from "./runs.mjs";
 
 // Sibling skills live beside this one.
 const SKILLS = join(import.meta.dirname, "..", "..", "..");
@@ -49,6 +55,7 @@ const { values } = parseArgs({
     vertical: { type: "boolean", default: false },
     resolution: { type: "string" },
     "max-seconds": { type: "string" },
+    budget: { type: "string" },
     strict: { type: "boolean", default: false },
     "text-to-video": { type: "boolean", default: false },
     animatic: { type: "string" },
@@ -68,6 +75,13 @@ const clipSeconds = (scene) => {
   const wanted = Math.ceil(scene.duration_seconds ?? 8);
   return maxSeconds === undefined ? wanted : Math.min(wanted, maxSeconds);
 };
+
+// Batch ceiling in USD. Parsed here so a typo fails before anything is priced.
+const budgetUsd = values.budget === undefined ? undefined : Number(values.budget);
+if (budgetUsd !== undefined && !(Number.isFinite(budgetUsd) && budgetUsd > 0)) {
+  console.error(`error: --budget must be a positive dollar amount, got ${values.budget}`);
+  process.exit(2);
+}
 
 // Vertical is a preset for TikTok/Reels: 9:16. Explicit --aspect wins over it.
 const ASPECTS = ["16:9", "9:16"];
@@ -126,7 +140,11 @@ async function perSecondUsd(model, { withAudio }) {
     const suffix = resolution.toLowerCase();
     const raw = withAudio
       ? (skus[`duration_seconds_with_audio_${suffix}`] ?? skus.duration_seconds_with_audio)
-      : (skus[`${mode}_duration_seconds_${suffix}`] ?? skus[`duration_seconds_${suffix}`] ?? skus.duration_seconds);
+      : (skus[`${mode}_duration_seconds_${suffix}`] ??
+        skus[`duration_seconds_without_audio_${suffix}`] ??
+        skus[`duration_seconds_${suffix}`] ??
+        skus.duration_seconds_without_audio ??
+        skus.duration_seconds);
     const value = Number(raw);
     return Number.isFinite(value) && value > 0 ? value : undefined;
   } catch {
@@ -404,7 +422,30 @@ const done = [];
 const failures = [];
 let reportedUsd = 0;
 let unpricedClips = 0;
+
+// Best guess at one clip's cost before it is bought: the per-second rate if the catalogue
+// has one, else the priciest earlier run of this model in the ledger, per second, scaled
+// to this clip's length. Undefined means we have no basis, and a budgeted batch refuses it.
+const estimateClip = (scene) => {
+  const seconds = clipSeconds(scene);
+  if (rate) return rate * seconds;
+  const priced = readLedger().filter(
+    (l) => l.kind === "run" && l.model === clipModel && typeof l.cost_usd === "number" && l.duration_seconds > 0,
+  );
+  if (!priced.length) return undefined;
+  return Math.max(...priced.map((l) => l.cost_usd / l.duration_seconds)) * seconds;
+};
+
 for (const scene of selected) {
+  if (budgetUsd !== undefined) {
+    const est = estimateClip(scene);
+    if (est === undefined || reportedUsd + est > budgetUsd) {
+      const why = est === undefined ? "no cost estimate yet" : `estimate ${usd(est)} would pass the budget`;
+      console.log(`  ${scene.id.padEnd(12)} skipped: ${why} (spent ${usd(reportedUsd)} of ${usd(budgetUsd)})`);
+      failures.push(`${scene.id} (budget): ${why}`);
+      continue;
+    }
+  }
   process.stdout.write(`  ${scene.id.padEnd(12)} submitting… `);
   try {
     const runId = `${new Date().toISOString().replace(/[:.]/g, "-")}-${scene.id}`;
@@ -491,6 +532,7 @@ if (done.length > 0) {
       : `cost:      ${done.length - unpricedClips} reported ($${reportedUsd.toFixed(4)}), ${unpricedClips} unpriced`,
   );
 }
+if (budgetUsd !== undefined) console.log(`budget:    ${usd(reportedUsd)} of ${usd(budgetUsd)} used this batch`);
 console.log(`log:       ${logPath}`);
 if (failures.length) console.log(`failed:    ${failures.length}\n  ${failures.join("\n  ")}`);
 if (failures.length) {

@@ -187,3 +187,19 @@ test('timing preserves scene wrappers and relative specs, and refuses missing sp
     assert.equal(r.status, 2); assert.deepEqual(JSON.parse(readFileSync(scenes, 'utf8')), draft);
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });
+
+test('voiceover usage records the voice actually sent to the provider', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'videogen-voice-log-'));
+  try {
+    const scenes = join(dir, 'scenes.json');
+    writeFileSync(scenes, JSON.stringify([{id:'one',prompt:'still',voiceover:'hello',voice_id:'scene-voice'}]));
+    const preload = join(dir, 'speech.mjs');
+    writeFileSync(preload, `import {writeFileSync} from 'node:fs'; globalThis.fetch = async (_url, options) => { writeFileSync(process.env.REQUEST_CAPTURE, options.body); return new Response(new Uint8Array([1,2,3,4]), {status:200}); };`);
+    const usage = join(dir, 'usage'); const capture = join(dir, 'request.json');
+    const result = run(join(scripts, 'voiceover.sh'), ['--scenes',scenes,'--out',join(dir,'audio'),'--voice','override-voice','--yes'], {NODE_OPTIONS:`--import=${preload}`,OPENROUTER_API_KEY:'test',STUDIO_USAGE_DIR:usage,REQUEST_CAPTURE:capture});
+    assert.equal(result.status,0,result.stderr+result.stdout);
+    const request = JSON.parse(readFileSync(capture,'utf8'));
+    const log = JSON.parse(readFileSync(join(usage,readdirSync(usage)[0]),'utf8'));
+    assert.equal(request.voice,'override-voice'); assert.equal(log.scenes[0].voice,request.voice);
+  } finally { rmSync(dir,{recursive:true,force:true}); }
+});
