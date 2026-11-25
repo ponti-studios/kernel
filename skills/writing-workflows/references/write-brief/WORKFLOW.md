@@ -11,7 +11,7 @@ Read [transcript.md](references/transcript.md) and [document-contract.md](refere
 
 ## Canon (inlined)
 
-Migrated from `Documents/agents/canon/` — read the applicable file before acting:
+Read the applicable canon file before acting:
 
 - [canon-brand-editing.md](references/canon-brand-editing.md)
 - [canon-maintenance-contract.md](references/canon-maintenance-contract.md)

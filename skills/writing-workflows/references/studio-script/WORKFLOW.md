@@ -19,8 +19,7 @@ scripts/run.sh --brief "x" --dry-run
 
 `--brief` — the idea or rough draft; `@path` reads a file.
 
-A master script looks like `{ "title": "…", "sections": [{ "title": "…", "body": "…" }] }`.
-Produce one with the [studio-script](WORKFLOW.md) skill.
+This procedure writes a master script shaped like `{ "title": "…", "sections": [{ "title": "…", "body": "…" }] }`.
 
 ## Output
 

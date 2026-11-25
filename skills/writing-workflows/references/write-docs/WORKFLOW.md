@@ -29,6 +29,8 @@ Say the fact first, then the reason if the reason is non-obvious. Don't warm up.
 - No case-study narration, no "the hardest fixes were..." retrospectives. A doc
   is either a map of the system as it stands or a proposal for the next change
   to it — never a story about how it got here.
+- State exactly what exists today. No aspirational or "planned" behavior
+  unless the doc is a `proposal`.
 
 ## Repository document contracts
 
@@ -90,17 +92,3 @@ instead of re-authoring the format:
    the reader check the claim; use appropriate primary sources for other claims.
 4. Validate the artifact: frontmatter keys, enum values, kebab-case tags,
    `related`/internal links resolving, ISO dates.
-
-## Cross-cutting rules
-
-- **Evidence.** Support checkable claims with the relevant code or source;
-  do not fabricate citations or require code citations for non-code material.
-- **Smallest true claim.** State exactly what exists today. Never pad with
-  aspirational behavior or "planned for next quarter" unless the doc is a
-  `proposal`.
-- **Bump dates on every substantive edit.** Stale `active` docs are worse than
-  no docs.
-- **Delete, don't archive.** When a doc stops being true and nothing depends on
-  the history, remove it. Git history is the archive.
-- **Don't pad, don't sycophancy.** No "overall the docs are well-structured"
-  filler. If a section has nothing material, say so in one line and move on.

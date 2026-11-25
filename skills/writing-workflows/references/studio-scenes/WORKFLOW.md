@@ -1,6 +1,6 @@
 # Shot list
 
-The handoff to video generation: `studio-workflows` and `studio-workflows` both read this shape, so the field names here are a contract.
+The handoff to video generation: the studio-workflows procedures `studio-videogen`, `studio-imagegen` and `studio-podcastgen` all read this shape through the shared scene schema, so the field names here are a contract.
 
 ## Use it
 
@@ -12,7 +12,7 @@ scripts/run.sh --stage scenes --script <script>.json
 `--dry-run` resolves config and prints what would be sent, with no key and no network:
 
 ```bash
-scripts/run.sh --brief "x" --dry-run
+scripts/run.sh --stage scenes --script <script>.json --dry-run
 ```
 
 ## Input

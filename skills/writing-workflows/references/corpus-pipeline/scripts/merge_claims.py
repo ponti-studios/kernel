@@ -4,9 +4,14 @@ Dedup by normalized statement (claims-all wins). ID collisions: the claims-all
 row keeps the bare ID; side-pass rows are renamed '<id>--sd' etc. and tagged
 with merged_from. Verifies: row count, unique IDs, unique statements, every
 source statement survives, thesis claim_id -> statement integrity.
-Run from vault-parse/out. Writes claims.merged.jsonl (caller moves it).
+Usage: merge_claims.py <claims-dir>. Reads and writes inside that directory;
+writes claims.merged.jsonl (caller moves it).
 """
-import json, re, collections, sys
+import json, os, re, collections, sys
+
+if len(sys.argv) != 2:
+    sys.exit('usage: merge_claims.py <claims-dir>')
+os.chdir(sys.argv[1])
 
 def norm(s): return re.sub(r'\s+', ' ', s.strip().lower())
 

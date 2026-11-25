@@ -1,13 +1,3 @@
----
-title: Plan-to-Tasks Conversion Prompt (original)
-knowledge_type: process
-domain: vault/tasks/planning
-scope: breaking-plans-into-task-files
-status: active
-updated: 2026-08-25
-applies_to:
----
-
 Convert the implementation plan into a set of separate Markdown task files. Each file must represent exactly one independently actionable task and must follow the format below without deviation.
 
 ## File naming

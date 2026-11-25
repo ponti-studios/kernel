@@ -11,6 +11,6 @@ Read [full-playbook.md](references/full-playbook.md). Keep the Hook / Point / Wr
 
 ## Canon (inlined)
 
-Migrated from `Documents/agents/canon/` — read the applicable file before acting:
+Read the applicable canon file before acting:
 
-- [canon-voice-foundation.md](references/canon-voice-foundation.md)
+- [canon-voice-foundation.md](../essay/canon-voice-foundation.md)

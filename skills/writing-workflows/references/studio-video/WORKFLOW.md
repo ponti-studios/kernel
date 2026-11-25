@@ -13,7 +13,7 @@ scripts/run.sh --stage short-video --script <script>.json
 `--dry-run` resolves config and prints what would be sent, with no key and no network:
 
 ```bash
-scripts/run.sh --stage youtube --dry-run
+scripts/run.sh --stage youtube --script <script>.json --dry-run
 ```
 
 ## Input

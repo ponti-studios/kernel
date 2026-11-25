@@ -4,7 +4,7 @@ Strips: YAML frontmatter (kept as metadata), source boilerplate, ChatGPT citatio
 junk tokens. Keeps every turn verbatim otherwise.
 Flags per turn: word_count, likely_pasted (user turn >300 words = imported draft,
 not a spontaneous prompt)."""
-import glob, json, os, re, sys
+import argparse, json, os, re
 
 CITE = re.compile(r'\ue200cite\ue202[^\ue201]*\ue201')  # cite...
 TURN = re.compile(r'\n## (User|Assistant)\n')
@@ -42,9 +42,12 @@ def parse(path):
         'turns': turns,
     }
 
-files = sorted(glob.glob(os.path.expanduser('~/workspace/token-count/vault-notes/*chatgpt-share*')))
-files.append(os.path.expanduser('~/workspace/vault-parse/chatgpt-share-6a7a2ef1-orphan.md'))
-outdir = os.path.expanduser('~/workspace/vault-parse/out'); os.makedirs(outdir, exist_ok=True)
+ap = argparse.ArgumentParser(description=__doc__)
+ap.add_argument('files', nargs='+', help='chatgpt-share markdown exports')
+ap.add_argument('--out', required=True, help='output directory for turns.jsonl and user-turns-only.md')
+args = ap.parse_args()
+files = sorted(args.files)
+outdir = args.out; os.makedirs(outdir, exist_ok=True)
 all_turns, user_md = [], []
 for f in files:
     d = parse(f)
@@ -59,4 +62,4 @@ for f in files:
 with open(f'{outdir}/turns.jsonl', 'w') as fh:
     for t in all_turns: fh.write(json.dumps(t, ensure_ascii=False) + '\n')
 open(f'{outdir}/user-turns-only.md', 'w').write('\n\n---\n\n'.join(user_md))
-print(f"\nWrote {len(all_turns)} turns -> out/turns.jsonl")
+print(f"\nWrote {len(all_turns)} turns -> {outdir}/turns.jsonl")

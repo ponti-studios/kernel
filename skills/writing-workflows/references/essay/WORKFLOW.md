@@ -12,7 +12,7 @@ For a raw thought-to-camera script, use [write-video-script](../write-video-scri
 
 ## Canon (inlined)
 
-Migrated from `Documents/agents/canon/` — read the applicable file before acting:
+Read the applicable canon file before acting:
 
 - [canon-brand-copy.md](canon-brand-copy.md)
 - [canon-style-contract.md](canon-style-contract.md)

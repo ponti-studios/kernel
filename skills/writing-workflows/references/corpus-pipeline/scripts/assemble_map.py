@@ -8,7 +8,9 @@ Essay numbers in the prose are computed from the final ordering, never hardcoded
 """
 import json, collections, os
 
-HERE = os.path.expanduser(os.environ.get('CORPUS_DATA', '~/Documents/wiki/writing/pipeline/essay-map'))
+if not os.environ.get('CORPUS_DATA'):
+    raise SystemExit('error: set CORPUS_DATA to the essay-map data directory')
+HERE = os.path.expanduser(os.environ['CORPUS_DATA'])
 BATCH = {b: json.load(open(os.path.join(HERE, f'batch-{b}.json'))) for b in 'ABCDE'}
 CLUST = {b: json.load(open(os.path.join(HERE, f'clusters-{b}.json'))) for b in 'ABCDE'}
 THESIS_BY_NAME = {t['name']: t for b in 'ABCDE' for t in BATCH[b]}

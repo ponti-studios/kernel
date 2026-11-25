@@ -9,18 +9,6 @@ applies_to:
   - "notes/**"
 ---
 
-***
-
-title: Producer Contract
-knowledge_type: contract
-domain: vault/content/video
-scope: planning-production-from-finished-scripts
-status: active
-updated: 2026-08-25
-applies_to:
-
-- "notes/**"
-
 # Producer Contract
 
 Use this contract to turn finished script docs into per-video production plans.

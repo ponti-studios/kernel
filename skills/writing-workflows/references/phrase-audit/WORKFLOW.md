@@ -7,7 +7,7 @@ watchlist, and concept rollups (paraphrase variants counted under one master).
 ## Use it
 
 ```bash
-cd skills/phrase-audit/scripts/phrase-audit
+cd scripts/phrase-audit
 uv sync --group dev   # once; creates the project-local .venv
 uv run phrase-audit <corpus-roots…> [--top N] [--json results.json]
 ```

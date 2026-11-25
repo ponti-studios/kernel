@@ -1,9 +1,6 @@
-## Definition of done
+# Physical production dossiers and certificates
 
-- Output matches the relevant production reference
-- Physical production language is technically and archivally aligned
-
-Enforce the physical production and archival documentation standards. This skill exists to stop the LLM from improvising print, conservation, or certification language outside the approved production references.
+Write physical production and archival documentation to the approved standard. Print, conservation and certification language comes from the production references, never improvised.
 
 ## Non-Negotiables
 
@@ -23,3 +20,8 @@ Load only the references needed for the task:
 - Never improvise archival or conservation terminology.
 - Never write edition or authentication language without checking the source reference.
 - Never mix brand storytelling with technical production facts when precision is required.
+
+## Definition of done
+
+- Output matches the relevant production reference
+- Physical production language is technically and archivally aligned

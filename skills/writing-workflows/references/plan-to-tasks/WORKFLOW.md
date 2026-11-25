@@ -11,6 +11,6 @@ Read [original-prompt.md](references/original-prompt.md) before creating task fi
 
 ## Canon (inlined)
 
-Migrated from `Documents/agents/canon/` — read the applicable file before acting:
+Read the applicable canon file before acting:
 
-- [canon-maintenance-contract.md](references/canon-maintenance-contract.md)
+- [canon-maintenance-contract.md](../write-brief/references/canon-maintenance-contract.md)

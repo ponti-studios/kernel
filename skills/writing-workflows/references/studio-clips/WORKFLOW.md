@@ -12,7 +12,7 @@ scripts/run.sh --stage social-clips --script <script>.json
 `--dry-run` resolves config and prints what would be sent, with no key and no network:
 
 ```bash
-scripts/run.sh --brief "x" --dry-run
+scripts/run.sh --stage social-clips --script <script>.json --dry-run
 ```
 
 ## Input

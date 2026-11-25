@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
 """Stage 1 prep: body-only metrics for root notes. Frontmatter STRIPPED (untrusted);
 only the filename is identity. Detects transcript format and near-duplicate text pairs."""
-import json, re, os, glob
+import argparse, json, re, os, glob
 from collections import defaultdict
-man=json.load(open('/tmp/vault_notes_md.json'))
+ap=argparse.ArgumentParser(description=__doc__)
+ap.add_argument('--manifest', required=True, help='notes manifest JSON (list of {id, name, _path})')
+ap.add_argument('--mirror', required=True, help='directory holding the exported note files')
+ap.add_argument('--out', required=True, help='pilot output directory (gets notes.jsonl and bodies/)')
+args=ap.parse_args()
+man=json.load(open(args.manifest))
 root=[f for f in man if len(f['_path'].split('/'))==2]
-mirror='/home/hatch/workspace/token-count/vault-notes'
+mirror=args.mirror
 def local(fid):
     g=glob.glob(os.path.join(mirror, fid+"__*"))
     if g: return g[0]
@@ -54,10 +59,11 @@ for r in recs:
     r=dict(r); body=r.pop('body')
     r['text_dup_links']=dups.get(r['file'],[])
     out.append(r)
-with open('/home/hatch/workspace/vault-parse/pilot/notes.jsonl','w') as fh:
+os.makedirs(args.out, exist_ok=True)
+with open(os.path.join(args.out,'notes.jsonl'),'w') as fh:
     for r in out: fh.write(json.dumps(r,ensure_ascii=False)+'\n')
 # also write body-only copies for batch workers
-bdir='/home/hatch/workspace/vault-parse/pilot/bodies'; os.makedirs(bdir, exist_ok=True)
+bdir=os.path.join(args.out,'bodies'); os.makedirs(bdir, exist_ok=True)
 for f,r in zip(root,recs): pass
 for f in root:
     p=local(f['id']) or os.path.join(mirror,f['name'])

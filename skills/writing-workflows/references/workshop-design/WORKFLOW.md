@@ -59,32 +59,15 @@ context, analytics, design files, technical constraints, decider input. Every
 pre-work item names an owner and a deadline. If critical pre-work is missing
 on the day, reschedule — do not improvise the foundation live.
 
-Bake the whole plan into slides or a whiteboard before the day: a section
-per activity, including breaks and recap sections, so the plan lives outside
-the facilitator's head. Show up early to test A/V, set out materials, and
-check the room for noise, temperature, and wall space.
-
 ### 4. Build the agenda
 
 Plan backwards from the outcomes: list what each goal needs, turn each need
 into an activity, then assign time estimates with buffer — activities always
 run long, and transitions after breaks eat minutes. Never overstuff the day.
 
-- **Open with a warm-up.** Participants arrive distracted from other work;
-  jumping cold into brainstorming burns time and momentum. Start with a
-  short, fun, unrelated exercise — an improv game (alphabet, sound ball,
-  three things, word-at-a-time proverb, with virtual variants) or a quick
-  sketch task — and explain its purpose up front to disarm the skeptics.
 - **Diverge, then converge, per block.** Generate options silently and
   individually first (notes, sketches, HMWs); evaluate and rank together
   after. Silent generation beats brainstorming out loud.
-- **Run brainstorms under IDEO's rules:** defer judgment, encourage wild
-  ideas, build on the ideas of others, stay focused on the topic, one
-  conversation at a time, be visual, go for quantity. Quantity first —
-  the "bad" and unfeasible ideas get pared later, and their fragments
-  regularly survive into the winner. Seed the room with two or three
-  example ideas and constraint prompts ("what if we had a week / a
-  million dollars?") for stuck groups.
 - **Share out loud, then narrow.** Every sketch goes on the wall or board
   where all ideas are equally visible; each author walks through theirs
   with buffer for discussion. Narrow with dot-voting so every voice counts
@@ -96,8 +79,6 @@ run long, and transitions after breaks eat minutes. Never overstuff the day.
 - **Timebox with a light touch.** Announce the time up front, keep one eye
   on the clock, hold the box — but skip the visible countdown timer, which
   creates pressure that kills generative thinking.
-- **Manage energy.** Hard thinking in the morning; breaks at least every
-  90 minutes with water and snacks; alternate solo, pair, and group modes.
 - **Surface disagreement early.** Treat it as signal. Design exercises that
   force differences onto the wall (heat-map voting, speed critique) before
   converging, never after.
@@ -154,7 +135,7 @@ Default to this order:
 8. Follow-up plan plus named unresolved decisions and risks
 
 For client-facing copy, keep it polished and concise and follow the voice in
-[canon-brand-copy.md](references/canon-brand-copy.md). For internal facilitation, make it practical
+[canon-brand-copy.md](../essay/canon-brand-copy.md). For internal facilitation, make it practical
 and detailed enough that a different facilitator could run the session cold.
 
 ## Quality bar

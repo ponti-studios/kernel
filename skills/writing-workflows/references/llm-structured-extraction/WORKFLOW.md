@@ -61,9 +61,9 @@ interface ExtractOutput {
 
 | Model                        | Score (13 cases, 31 checks) | Long Message (20+ facts) | Input /1M | Output /1M | Notes                                                                         |
 | ---------------------------- | --------------------------- | ------------------------ | --------- | ---------- | ----------------------------------------------------------------------------- |
-| `anthropic/claude-haiku-5.5` | 31/31 (100%)                | 33/31 (100%+)            | $0.10     | $0.50      | Only supported model. 7.5x cheaper than Gemini, more reliable, more thorough. |
+| `anthropic/claude-haiku-5.5` | 31/31 (100%)                | 33/31 (100%+)            | $0.10     | $0.50      | Only supported model.                                                         |
 
-**Recommendation:** Use Haiku 5.5 exclusively. Gemini has been removed — it was 7.5x more expensive and less reliable. Make model configurable via `SEME_EXTRACTOR_MODEL` env var for testing only.
+**Recommendation:** Use Haiku 5.5 exclusively. `SEME_EXTRACTOR_MODEL` may override it for testing only; never as a production fallback.
 
 ## Validation Gate (deterministic, no LLM)
 
@@ -175,10 +175,9 @@ for (const s of slots) {
 
 ## OpenRouter Integration
 
-- API key is in `~/.localrc` (NOT `${HOMINEM_HOME:-~/.hominem}/.env` which has it commented out)
 - Use configured provider credentials from the environment or documented application configuration; do not source shell startup files to discover a key.
 - Use `response_format: { type: 'json_object' }` for structured output
-- Model configurable via `SEME_EXTRACTOR_MODEL` env var
+- `SEME_EXTRACTOR_MODEL` overrides the model for testing only
 
 ## Pitfalls
 
@@ -193,14 +192,14 @@ for (const s of slots) {
 - **LLM non-determinism in evals** — Tests that depend on LLM extraction behavior (e.g., "hypothetical should not be stored as stated") can be flaky across runs. Don't assert on retrieval output alone. Instead, query the DB directly for modality/source_type and assert on those fields. A hypothetical extracted with modality='hypothetical' is correct behavior even if it appears in retrieval results.
 - **Hypothetical modality** — The LLM sometimes extracts hypotheticals as stated facts despite prompt rules. Test should check modality in the DB, not just value_text. If the LLM tags it as 'hypothetical', that's a pass; only modality='stated' for a hypothetical is a failure.
 - **Async extraction timing** — end_session triggers extraction in the background and returns immediately. Profile may be empty until extraction completes. Tests that depend on extraction should await its completion signal or poll with a bounded timeout; avoid fixed sleeps. Don't block the caller in production; use .then()/.catch() for background processing and log completion/failure.
-- **Eval harness** — create test cases with checks functions. Run across multiple models. Report per-check pass/fail. Use OPENROUTER_API_KEY from ~/.localrc (not ${HOMINEM_HOME:-~/.hominem}/.env which has it commented out).
+- **Eval harness** — create test cases with checks functions. Run across multiple models. Report per-check pass/fail. Read OPENROUTER_API_KEY from the environment.
 - **value_json must be stringified** before SQLite insert (better-sqlite3 doesn't auto-stringify)
 - **Partial extraction failure** — one candidate failing shouldn't abort the whole batch; wrap per-candidate in try/catch
 - **Async extraction** — end_session triggers extraction but returns immediately; profile may be empty until extraction completes
 - **Model version stamping** — stamp extractor_version on every candidate for auditability
-- **Entity extractor default model availability** — The entity extractor defaults to `anthropic/claude-haiku-5.5`, which may not be available on OpenRouter. If entity extraction fails with "Entity extractor unavailable", switch to `google/gemini-3.8-flash` via `SEME_EXTRACTOR_MODEL` env var. The memory extractor and entity extractor use the same model env var, so setting it once fixes both. Memory extraction may succeed (Haiku) while entity extraction fails (Haiku unavailable) — they are separate LLM calls.
+- **Entity extractor default model availability** — The entity extractor defaults to `anthropic/claude-haiku-5.5`, which may not be available on OpenRouter. If entity extraction fails with "Entity extractor unavailable", treat it as `unavailable` and defer; do not swap in another model. The memory extractor and entity extractor read the same model env var. Memory extraction may succeed (Haiku) while entity extraction fails (Haiku unavailable) — they are separate LLM calls.
 - **Wiki compilation from entity-linked memories** — After entities and memories are created, link them via `entity_memory_links` (many-to-many). The WikiCompiler generates per-entity markdown pages by grouping linked memories by kind. Maturity: draft (default), stable (≥3 memories, ≥0.9 avg confidence), canonical (manual promotion). Each compile creates a version record for audit. Conflict detection: same slot, different value_text → conflict pair.
-- **Long rambling messages (20+ facts)** — The LLM can extract all facts from long messages (31/31 with Haiku). Don't truncate or chunk the input — the LLM handles full messages well. The atomicity rule ("one candidate = one claim") is critical for completeness. Gemini Flash misses ~40% of facts from middle/later paragraphs; Haiku is strongly preferred for long messages. Wait sufficient time for async extraction (45s+ for long messages).
+- **Long rambling messages (20+ facts)** — The LLM can extract all facts from long messages (31/31 with Haiku). Don't truncate or chunk the input — the LLM handles full messages well. The atomicity rule ("one candidate = one claim") is critical for completeness. Wait sufficient time for async extraction (45s+ for long messages).
 - **FTS5 query sanitization** — FTS5 MATCH queries throw syntax errors on special characters (?, *, ", (), etc.). Sanitize the query by replacing special chars with spaces before passing to FTS5. Without this, retrieval fails on natural language queries like "What is my name?" (the ? causes "fts5: syntax error near '?'").
 - **Keyword matching punctuation stripping** — When doing fallback keyword matching (FTS5 fails), strip non-alphanumeric characters from query words before matching. "name?" won't match "name" in the memory text. Use `userMessage.toLowerCase().replace(/[^a-z0-9\s]/g, '').split(/\s+/)` to normalize.
 - **RetrievalEngine needs graphStore** — The RetrievalEngine constructor must receive a GraphStore instance to perform graph-aware retrieval. Pass it via the MemoryService constructor. Without it, graph_summary is never populated and graph traversal is skipped.
