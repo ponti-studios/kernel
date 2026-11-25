@@ -48,7 +48,7 @@ Tiers: **H** = hermetic/local/$0 · **L** = live account/network · **$** = spen
 - Pass: numeric duration; models JSON has listed fields; signatures match; cost printed before submit.
 - Blockers: no key → provider check untestable; full e2e ~$3–9; `frame_images` needs public HTTPS URL.
 
-### writing-workflows [H partial — `llm-structured-extraction` tested]
+### writing-workflows [H partial — `llm-structured-extraction` tested before it moved to engineering-workflows]
 - Entrypoints: 18 `WORKFLOW.md` (`write-docs`, `essay`, `write-video-script`, `write-brief`, `write-incident-report`, `phrase-audit`, `plan-to-tasks`, `workshop-design`, `studio-script|scenes|clips|social|video|documents`, `interface-copy`, …).
 - Test: `phrase-audit/scripts/phrase-audit/` — `uv run --group dev pytest` exit 0; CLI on fixture corpus emits top n-grams/openers/rollups, `--json` parses; `write-docs/scripts/check_frontmatter.py` exit 0 on valid docs, non-zero on bad keys/enums/links. Studio generators: schema validation dry-run exit 0.
 - Prereqs: `uv` + `uv sync --group dev`; Node + `OPENROUTER_API_KEY` for generators.

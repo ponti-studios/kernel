@@ -31,6 +31,7 @@ Follow the user's current instructions and the target repository's conventions b
 - [Configure project quality checks](references/project-quality-gates/WORKFLOW.md): setting up lint, coverage, security and CI gates
 - [Deployment readiness and execution](references/kernel-ops-ship/WORKFLOW.md): preflight, deploy, verify and roll back a release
 - [Agent knowledge loops](references/agent-knowledge-loops/WORKFLOW.md): turning agent task evidence into checked repo rules
+- [LLM-based structured data extraction](references/llm-structured-extraction/WORKFLOW.md): designing LLM extraction of memories, entities and relationships into a validated store
 
 For root-cause debugging, use systematic-debugging. For test-first implementation, use test-driven-development. For iOS releases and TestFlight, use ship-ios. For the engineering laws behind Charles's code, use ponti-principles; they take precedence over defaults here.
 

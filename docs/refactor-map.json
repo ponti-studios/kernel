@@ -30,7 +30,7 @@
   "kernel-git-commit": "engineering-workflows/references/kernel-git-commit/WORKFLOW.md",
   "kernel-ops-production": "writing-workflows/references/kernel-ops-production/WORKFLOW.md",
   "kernel-ops-ship": "engineering-workflows/references/kernel-ops-ship/WORKFLOW.md",
-  "llm-structured-extraction": "writing-workflows/references/llm-structured-extraction/WORKFLOW.md",
+  "llm-structured-extraction": "engineering-workflows/references/llm-structured-extraction/WORKFLOW.md",
   "macos-app-distribution": "apple-workflows/references/macos-distribution/WORKFLOW.md",
   "macos-complete-uninstall": "computer-workflows/references/macos-complete-uninstall/WORKFLOW.md",
   "macos-disk-space-recovery": "computer-workflows/references/disk-space-recovery/WORKFLOW.md",

@@ -24,7 +24,7 @@ Updated: 2026-11-15. Tested-good commits already on `main` through `118d5eb6`.
 
 ## Partially tested
 
-- [ ] writing-workflows (only `llm-structured-extraction` procedure tested; rest untested)
+- [ ] writing-workflows (untested; `llm-structured-extraction` moved to engineering-workflows)
 
 ## Untested — workflows
 

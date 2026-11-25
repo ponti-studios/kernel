@@ -21,7 +21,6 @@ All writing belongs here, including Ponti Studios scripts, social derivatives, p
 - [Phrase Audit](references/phrase-audit/WORKFLOW.md) — use to find stock phrases and their rates across a Markdown corpus.
 - [Plan to Tasks](references/plan-to-tasks/WORKFLOW.md) — use to split a plan, spec or PRD into dependency-ordered task files.
 - [Workshop Design](references/workshop-design/WORKFLOW.md) — use to design a workshop agenda with deciders, outcomes and a playbook.
-- [LLM-Based Structured Data Extraction](references/llm-structured-extraction/WORKFLOW.md) — use when designing LLM extraction of memories, entities and relationships into a validated store.
 - [Master script](references/studio-script/WORKFLOW.md) — use to write the master script JSON that Studio derivatives consume.
 - [Shot list](references/studio-scenes/WORKFLOW.md) — use to turn an approved master script into the scene array for video generation.
 - [Social clips](references/studio-clips/WORKFLOW.md) — use to derive clip metadata (moment, visual, caption) from a master script.
