@@ -27,16 +27,11 @@ Consolidate files of one kind that are scattered across a tree into a single des
 - Content keyword scans false-positive on documents that contain words like "education" or "skills"; choose strong criteria appropriate to the requested document type plus supporting evidence.
 - Filename scans false-positive on tokens embedded in other words (`cv` in CVS/CVG, `resume` in essay titles); inspect matches and filter by content before moving.
 - Exact-hash dedup catches byte-identical duplicates only; near-duplicate PDFs can differ in metadata or wording and need manual review.
-- Moving files breaks any references or scripts that pointed at the old paths; check before moving shared assets. When relocating a directory that apps or scripts reference, leave a symlink at the original path so existing references keep resolving.
-- Before deleting or relocating a config file, verify something actually reads it (`lsof`, app `--help`/`config`, or grep the codebase). A config that references nonexistent paths and has no reader is leftover; archive it instead of deleting.
-- When a data directory holds mixed kinds (databases, data, scripts, backups, logs), split them into canonical homes and leave symlinks at the original paths so apps and scripts keep resolving.
-- Stop writers before relocating SQLite databases. Prefer SQLite’s backup API or a verified backup/checkpoint procedure; copying a live database and sidecars independently is not a consistent snapshot. Reopen and verify the destination before switching consumers.
-- When relocating a logging directory, keep the original path as a symlink so producers writing to the old path still land in the new location. Organize loose logs into year/month subfolders as you move them.
-- iCloud/CloudStorage paths can be dataless placeholders; `stat` may fail while `du` reports logical size. Verify files are materialized before hashing or moving.
+- Moving files breaks any references or scripts that pointed at the old paths; check before moving shared assets, and leave a symlink at the original path when apps or scripts still reference it.
+- iCloud/CloudStorage paths can be dataless placeholders; verify files are materialized before hashing or moving. See [iCloud containers](../disk-space-recovery/WORKFLOW.md#4-icloud-containers).
 - macOS `Documents` and other TCC-protected folders require terminal access; if a scan returns nothing, confirm permissions rather than assuming no files.
 - When the destination lives inside the source tree, exclude it from candidate scans to avoid reprocessing moved files.
 - Filenames with spaces and parentheses need careful quoting in shell commands.
-- Near-duplicate PDFs (same text, different metadata or wording) are not caught by hash dedup; review them before deciding which to keep.
 
 ## Verification
 

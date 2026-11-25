@@ -10,8 +10,9 @@
 - You need to reclaim space without destroying user data (models, photos, source, credentials).
 - An app's leftover data is suspected of hogging space (caches, VM images, private model stores).
 
-Not for: a full app uninstall — use `macos-complete-uninstall` for that. This skill covers disk
-pressure and storage mechanics; the two overlap when an uninstall frees nothing.
+Not for: a full app uninstall — use the [macOS complete uninstall](../macos-complete-uninstall/WORKFLOW.md)
+procedure for that. This procedure covers disk pressure and storage mechanics; the two overlap when an
+uninstall frees nothing.
 
 A Mac that reports "no space freed" after a large deletion usually has **two** problems, not one:
 the files are gone but their blocks are still referenced, and something else large is hiding. Work
@@ -31,7 +32,7 @@ measure them again before and after any deletion.
 
 ```bash
 df -h /System/Volumes/Data
-du -sh ~/Library ~/Developer ~/.ollama ${HOMINEM_HOME:-$HOME/.hominem} ~/.local ~/.npm ~/.cache 2>/dev/null | sort -rh
+du -sh ~/Library ~/.ollama ~/.local ~/.npm ~/.cache 2>/dev/null | sort -rh
 du -sh ~/Library/* 2>/dev/null | sort -rh | head -12
 ```
 
@@ -46,7 +47,6 @@ Then drill into the leaders. Common large buckets, in the order they usually app
 | `~/Library/Caches/*`                                            | App caches, often multi-GB        | Yes, per app                                       |
 | `~/Library/pnpm`, `~/.npm/_cacache`, `~/.cache/uv`, `~/.gradle` | Package stores                    | Yes — re-downloadable                              |
 | `~/.ollama/models`                                              | Model weights                     | Only models the user no longer wants               |
-| `${HOMINEM_HOME:-~/.hominem}/models`                                              | Local GGUF weights                | Check the model is not a configured provider       |
 
 Measure a specific app's cache before clearing it — some "caches" are the only copy of real data
 (a private model store inside an app's support dir, for instance).
@@ -123,8 +123,6 @@ result. Stop whatever holds the database open (a `KeepAlive` launchd job, for in
 before and after. `VACUUM INTO` writes a new file and works while a reader is attached, but the
 service still needs restarting to pick it up.
 
-Known instance: `~/.local/share/opencode/opencode.db` grew to 4.3 GB with 0.88 GB of live data.
-
 ## 4. iCloud containers
 
 `~/Library/Mobile Documents` holds one container per app that used iCloud. Removing one requires
@@ -152,17 +150,19 @@ directory is gone, so iCloud still lists the app on this Mac.
 
 ## 5. Distinguish vendor files from Apple built-ins
 
-Names can belong to the OS rather than the app you are cleaning. `com.apple.pixelmator.*` and
-`4R6749AYRE.com.pixelmator` are **macOS 27.2's own Photos components** (Apple's team id) — the
-third-party app's own paths use `com.pixelmatorteam.*`. Deleting the `com.apple.*` ones breaks the
-system image pipeline. Check the owning team's id and the container metadata before deleting.
+Names can belong to the OS rather than the app you are cleaning: Apple can ship components that
+carry a third-party product's name under `com.apple.*` ids or Apple's team id, while the vendor's own
+paths use the vendor's bundle prefix. Deleting the Apple-owned ones breaks system features. Check the
+owning team's id and the container metadata before deleting.
 
 ## 6. Report honestly
 
 Separate the three outcomes and say which is which:
 
 - **freed** — measured by `df` after the change
-- **inert residue** — present but harmless (a tombstone, an override row, a text mention)
-- **blocked** — needs the user's action (a foreign worktree pinning objects, an immutable PR ref)
+- **inert residue** — present but harmless; see
+  [Inert residue](../macos-complete-uninstall/references/macos-residue-locations.md#8-inert-residue--report-dont-fight)
+- **blocked** — needs the user's action (a snapshot they have not approved deleting, a file another
+  process holds open)
 
 Do not report a deleted-file size as reclaimed space. Re-run `df` at the end and quote it.

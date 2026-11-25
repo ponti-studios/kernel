@@ -1,6 +1,6 @@
 # macOS app cleanup helpers. Install the `computer-workflows` command with:
-#   just --justfile ~/Developer/kernel/skills/computer-workflows/justfile install
-# Then run commands like: computer-workflows inventory Cartograph
+#   just --justfile <skill-dir>/justfile install
+# Then run commands like: computer-workflows inventory ExampleApp
 skill_dir := justfile_directory()
 inventory_script := skill_dir + "/references/macos-complete-uninstall/scripts/inventory.sh"
 
@@ -24,10 +24,6 @@ disk-inventory:
 # Run the evidence-based uninstall inventory for an app or binary name.
 inventory term:
     "{{ inventory_script }}" {{ quote(term) }}
-
-# Search common user app/support locations for matching filenames (not file contents).
-find term:
-    find /Applications "$HOME/Applications" "$HOME/Library" "$HOME/.local" "$HOME/.config" -iname {{ quote("*" + term + "*") }} -print 2>/dev/null
 
 # Open Full Disk Access so entries can be reviewed.
 fda:
@@ -73,28 +69,3 @@ app-info target:
 # Check common paths, PATH, processes, launchd and BTM for remaining traces; read-only.
 verify-removed term:
     python3 "{{ skill_dir }}/scripts/verify-removed.py" {{ quote(term) }}
-
-# Copy .log files to a new destination, preserving their relative paths.
-# Skips browser-profile logs because they are browser database artifacts, not app diagnostics.
-preserve-logs source dest:
-    #!/usr/bin/env python3
-    import shutil
-    from pathlib import Path
-
-    source = Path({{ quote(source) }}).expanduser()
-    dest = Path({{ quote(dest) }}).expanduser()
-    if not source.is_dir():
-        raise SystemExit(f"Source directory does not exist: {source}")
-    if dest.exists():
-        raise SystemExit(f"Destination already exists; refusing to overwrite: {dest}")
-
-    copied = 0
-    for path in source.rglob("*.log"):
-        relative = path.relative_to(source)
-        if "browser-profile" in relative.parts or not path.is_file():
-            continue
-        target = dest / relative
-        target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(path, target)
-        copied += 1
-    print(f"Preserved {copied} log files under {dest}")

@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
 # Inventory a macOS app/CLI's complete footprint BEFORE uninstalling it.
-# Usage: ./inventory.sh <term>        e.g. ./inventory.sh openclaw
+# Usage: ./inventory.sh <term>        e.g. ./inventory.sh exampleapp
 # Read-only: reports locations, deletes nothing.
 # Targets macOS /bin/bash 3.2: no ${var,,}, no associative arrays, no mapfile.
 # Every name match uses find -iname or grep -i: pathname globs are case-sensitive and would
-# silently miss a capitalized target name (e.g. "Cartograph").
+# silently miss a capitalized target name (e.g. "ExampleApp").
 set -u
 
 TERM_Q="${1:?usage: inventory.sh <search-term>}"
-# Lowercased at runtime so the process sweep never matches this script's own command line.
+# Lowercased for the in-script comparisons; every match is case-insensitive anyway. The process
+# sweep's self-match guard is the ancestor walk below, not this lowercasing.
 NEEDLE=$(printf '%s' "$TERM_Q" | tr '[:upper:]' '[:lower:]')
 HOME_DIR="$HOME"
 
@@ -46,7 +47,7 @@ hr "application bundles"
 # Bundle ids carry vendor suffixes ("com.tinyapp.TablePlus-setapp"), so a name-only glob misses them.
 NAME_MATCHES=$(find /Applications "$HOME_DIR/Applications" -maxdepth 3 -name "*.app" 2>/dev/null \
                | grep -i "$NEEDLE")
-ID_MATCHES=$(mdfind "kMDItemCFBundleIdentifier == '*$NEEDLE*'" 2>/dev/null | grep '\.app$')
+ID_MATCHES=$(mdfind "kMDItemCFBundleIdentifier == '*$NEEDLE*'c" 2>/dev/null | grep '\.app$')
 ALL_APPS=$(printf '%s\n%s\n' "$NAME_MATCHES" "$ID_MATCHES" | grep -v '^$' | sort -u)
 if [ -z "$ALL_APPS" ]; then
   echo "  (none)"
@@ -66,7 +67,8 @@ PLISTS=$( { find "$HOME_DIR/Library/LaunchAgents" /Library/LaunchAgents /Library
                  -maxdepth 1 -iname "*$NEEDLE*" 2>/dev/null; } | sort -u )
 if [ -z "$PLISTS" ]; then echo "  (no plists)"; else printf '%s\n' "$PLISTS" | sed 's/^/  /'; fi
 echo "-- login/background item registry:"
-sfltool dumpbtm 2>/dev/null | grep -i -B3 -A3 "$NEEDLE" | head -30 || echo "  (none)"
+BTM_HITS=$(sfltool dumpbtm 2>/dev/null | grep -i -B3 -A3 "$NEEDLE" | head -30)
+if [ -z "$BTM_HITS" ]; then echo "  (none)"; else printf '%s\n' "$BTM_HITS"; fi
 
 hr "processes"
 python3 - "$NEEDLE" <<'PY'
@@ -123,7 +125,8 @@ find /Library/Preferences /Library/Logs /Library/Application\ Support /var/log \
      -maxdepth 1 -iname "*$NEEDLE*" 2>/dev/null | sed 's/^/  /'
 
 hr "keychain"
-security dump-keychain 2>/dev/null | grep -E "\"[sl]vce\"<blob>=\"[^\"]*$NEEDLE" | sort -u || echo "  (none)"
+KEYCHAIN_HITS=$(security dump-keychain 2>/dev/null | grep -i -E "\"[sl]vce\"<blob>=\"[^\"]*$NEEDLE" | sort -u)
+if [ -z "$KEYCHAIN_HITS" ]; then echo "  (none)"; else printf '%s\n' "$KEYCHAIN_HITS"; fi
 
 hr "browser integrations"
 echo "-- native messaging manifests:"

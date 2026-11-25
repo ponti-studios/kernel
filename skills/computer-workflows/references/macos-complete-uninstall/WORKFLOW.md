@@ -34,8 +34,7 @@ Two checks that must not be skipped at this stage:
   (`find ~ -maxdepth 3 -type l` and grep the target). Prove shared content lives elsewhere by inode:
   `stat -f "%i %N" <pathA> <pathB>` — identical inodes mean the real files survive deletion.
 - **Whose binary is it.** Two apps can share a name. Check the full process path before deleting:
-  a process called `Chromium` may be the agent's own bundled browser (`${HOMINEM_HOME:-~/.hominem}/tools/chromium-*`),
-  not part of the target at all.
+  a process called `Chromium` may be the agent's own bundled runtime, not part of the target at all.
 
 ## Step 2 — Stop the software before deleting it
 
@@ -43,10 +42,14 @@ Order matters: a `KeepAlive` launchd job resurrects a binary you delete undernea
 app rewrites the files you just removed.
 
 ```bash
+just btm <term>                     # login/background items that would relaunch it (read-only)
 launchctl bootout gui/$(id -u)/<label> || launchctl unload -w ~/Library/LaunchAgents/<label>.plist
 sleep 2; launchctl list | grep -i <term>            # bootout can report success while still listed
 # then kill survivors by runtime path, excluding your own pid/ppid
 ```
+
+Run the `just` recipes from the computer-workflows skill folder (or through the installed
+`computer-workflows` command).
 
 ## Step 3 — Delete, in this order
 
@@ -67,52 +70,40 @@ line is usually duplicated across all of them.
 Each check must be able to fail. Run them all and report actual output.
 
 ```bash
-which -a <binary>                                       # expect: not found
+just verify-removed <term>          # named paths, which -a, processes, launchctl list, BTM records
+just fda-remove-preview <name>      # Full Disk Access rows still naming it (preview only)
 env -i HOME="$HOME" USER="$USER" TERM=xterm /bin/zsh -lic 'echo $PATH' | tr ':' '\n' | grep -i <term>
-launchctl list | grep -i <term>                         # expect: nothing
-ps -eo pid=,command= | grep <runtime-path>              # self-match proof: see pitfall 2
 lsof -nP -iTCP:<port>                                   # expect: nothing listening
 security dump-keychain | grep -i <term>                 # expect: 0
-find ~/Library/Application\ Support -maxdepth 4 -iname "*<term>*"
-sfltool dumpbtm | grep -i <term>                        # background/login-item registry
 ```
 
-Then state plainly which residue is **inert but present** (tombstones, override rows, text mentions in
-unrelated configs) instead of claiming a perfect zero. Inert residue the owning process manages is
-correct to leave — say so and say why.
+Report inert residue instead of claiming a perfect zero; see
+[Inert residue](references/macos-residue-locations.md#8-inert-residue--report-dont-fight).
 
 ## Pitfalls
 
 1. **Case matters in path matching.** Shell globs (`ls dir/*term*`) and bash's `[[ ]]` are
-   case-sensitive, so a target named `Cartograph` is invisible to a sweep for `cartograph` — the
+   case-sensitive, so a target named `ExampleApp` is invisible to a sweep for `exampleapp` — the
    inventory reports a clean machine while the residue sits there. Use `find -iname` or `grep -i` for
    every name match; never rely on pathname expansion for the search term.
 2. **Inherited PATH looks like failed cleanup.** After deleting a PATH line from the rc files, the
    current shell _and the agent's own process_ still show the old PATH, because children inherit it.
    Only `env -i … zsh -lic 'echo $PATH'` proves rc-file cleanup. Tell the user new terminals are clean
    and that restarting the host app clears its own process env.
-3. **Process greps match themselves.** `ps aux | grep -c '[O]penClaw'` matches the verification
-   command's own command line — a false positive that makes a clean machine look dirty. Build the
-   needle at runtime (`needle = 'open' + 'claw'`) or exclude the current pid and any `bash -c` wrapper.
-4. **Browser extensions installed by another program have a separate install trigger.** A
-   third-party-installed Chrome extension (Manifest `location: 6`, `EXTERNAL_PREF_DOWNLOAD`) is
-   listed in `~/Library/Application Support/Google/Chrome/External Extensions/<ext-id>.json` with an
-   `external_update_url` and often a vendor-ownership marker. Delete only the extension directory and
-   Chrome re-downloads it from the webstore on the next launch. Remove, in one pass: that JSON, plus
-   `Profile */Extensions/<ext-id>/`, plus `Profile */Local Extension Settings/<ext-id>/`. Chrome then
-   uninstalls it itself and leaves a byte-empty tombstone.
-5. **Do not edit Chrome `Secure Preferences` by hand.** `protection.macs.extensions` is a single HMAC
-   over the whole extension tree; removing one child invalidates it and Chrome can reset _all_
-   extension settings. The tombstone an uninstall leaves behind is byte-empty and harmless.
-6. **Chrome scratch files are not footprint.** `.com.google.Chrome.XXXXXX` files in a profile are
-   stale JSON temp leftovers and match any residue grep (they contain the whole content-settings
-   blob, i.e. every site the user ever visited). Check the mtime and leave them alone.
-7. **launchd keeps the label after you delete the plist.** `launchctl print gui/$(id -u)` and
-   `print-disabled` still list `<label> => enabled`; the DB is root-owned and the row is inert once no
-   plist exists. Report it rather than doing surgery on launchd state.
-8. **Each browser inspects its own native-messaging directory.** Manifests exist per variant (Chrome,
-   Chromium, Chrome for Testing, ChromeForTesting, Edge, Brave, Arc, Vivaldi, Opera, Firefox/Mozilla),
-   so sweep `find ~/Library/Application\ Support -maxdepth 4 -name "*.json" -path "*NativeMessaging*"`.
+3. **Process greps match themselves.** A `ps | grep <term>` check can match the verification
+   command's own command line (or its `bash -c` wrapper) — a false positive that makes a clean
+   machine look dirty. Exclude the current pid and its ancestors, as `scripts/inventory.sh` does.
+4. **Browser extensions installed by another program have a separate install trigger** (`External
+   Extensions/<ext-id>.json`). Remove it with the extension in one pass; see
+   [Browsers](references/macos-residue-locations.md#5-browsers).
+5. **Do not edit Chrome `Secure Preferences` by hand**; it is HMAC-protected. See
+   [Browsers](references/macos-residue-locations.md#5-browsers).
+6. **Chrome scratch files (`.com.google.Chrome.XXXXXX`) are not footprint.** See
+   [Browsers](references/macos-residue-locations.md#5-browsers).
+7. **launchd keeps the label after you delete the plist.** The row is inert; see
+   [Launchd](references/macos-residue-locations.md#2-launchd--background-execution).
+8. **Each browser variant has its own native-messaging directory.** Sweep all of them; see
+   [Browsers](references/macos-residue-locations.md#5-browsers).
 9. **`rm -rf /Applications/Foo.app` needs no sudo** when the bundle is user-owned — check ownership
    before reaching for elevated privileges.
 10. **Credentials in the deleted tree must be flagged for rotation.** An uninstall removes a token's
