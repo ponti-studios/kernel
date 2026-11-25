@@ -67,7 +67,7 @@ Updated: 2026-11-15. Tested-good commits already on `main` through `118d5eb6`.
 - [ ] architecture-diagram
 - [ ] arxiv
 - [ ] ascii-video
-- [ ] asset-and-cost-ledger
+- [x] asset-and-cost-ledger (retired into studio-workflows: studio-core/LEDGER.md)
 - [ ] baoyu-infographic
 - [ ] blocked-page-recovery
 - [ ] box

@@ -1,6 +1,7 @@
 {
   "agent-knowledge-loops": "engineering-workflows/references/agent-knowledge-loops/WORKFLOW.md",
   "ai-video-production": "studio-workflows/references/studio-videogen/WORKFLOW.md",
+  "asset-and-cost-ledger": "studio-workflows/references/studio-core/LEDGER.md",
   "brand-asset-sourcing": "design-workflows/references/brand-asset-sourcing/WORKFLOW.md",
   "deep-repo-code-scan": "engineering-workflows/references/deep-repo-code-scan/WORKFLOW.md",
   "dependabot-batch": "engineering-workflows/references/dependabot-batch/WORKFLOW.md",

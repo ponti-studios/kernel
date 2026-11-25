@@ -87,7 +87,7 @@ Tiers: **H** = hermetic/local/$0 · **L** = live account/network · **$** = spen
 - Pass: single test frame renders; output MP4 non-zero + playable; one invented palette/effect/transition present.
 - Blockers: no bundled runner — harness must be authored; full renders slow (80–150ms/frame); "cinematic" is subjective.
 
-### asset-and-cost-ledger [H]
+### asset-and-cost-ledger [retired, merged into studio-workflows]
 - Test: schema — `cost.source ∈ {reported,estimated,unknown}`, `usd=null` counted not summed, retries as separate attempts, `run_id:null` unattributed; SQL probes (spend-by-tool, per-unit cost, provenance join); normaliser rules (`mergeUsage` first-wins, no `??0`); cut-over proof (count old store → cheapest call → count unchanged + `report` shows event).
 - Prereqs: Node.js (`node:sqlite`), sibling `studio-ledger` + `ledger-bridge.mjs`, `~/.studio` writable, `$STUDIO_USAGE_DIR`.
 - Pass: `emit` appends one JSONL line; `report --json` sums match SQL; `verify` proves index is pure function of JSONL (delete + rebuild identical).

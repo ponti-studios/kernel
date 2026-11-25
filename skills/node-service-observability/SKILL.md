@@ -7,7 +7,7 @@ license: MIT
 metadata:
   hermes:
     tags: [observability, logging, opentelemetry, apm, node, sveltekit]
-    related_skills: [asset-and-cost-ledger, kernel-ops-ship, studio-dashboard]
+    related_skills: [studio-workflows, kernel-ops-ship, studio-dashboard]
 ---
 
 # Node service observability
@@ -82,8 +82,7 @@ instrumentation). It needs no Node patching and lands in the same place.
 
 Attributes beat log parsing: tool, operation, model, `cost_usd`, `cost_source`, units, tokens,
 latency, status, project id. One span per model call makes "spend and latency by operation" a query
-instead of a grep. Cost semantics (reported vs estimated vs unpriced) belong to the ledger — see
-`asset-and-cost-ledger`.
+instead of a grep. Cost semantics (reported vs estimated vs unpriced) belong to the ledger — see the studio ledger in studio-workflows (`studio-core/LEDGER.md`).
 
 ## 4. Prove it with one real request
 

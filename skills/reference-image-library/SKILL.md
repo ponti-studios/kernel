@@ -8,7 +8,7 @@ platforms: [macos]
 metadata:
   hermes:
     tags: [images, assets, canon, dedupe, generation]
-    related_skills: [studio-universe, asset-and-cost-ledger, image-model-craft]
+    related_skills: [studio-universe, studio-workflows, image-model-craft]
 ---
 
 # Reference image libraries

@@ -46,3 +46,42 @@ node scripts/lib/cli.mjs reprice-speech [--dry-run] # real cost for speech calls
 - **The read tables are disposable, the file is not.** Rebuild `runs`/`assets` with `index` rather than
   repairing them. Never delete `index.sqlite`: the fact tables live in it.
 - **Bookkeeping never breaks a generation.** A ledger failure is reported, not thrown.
+
+## Cost sources
+
+`cost.source` is exactly one of:
+
+| Source      | Meaning                                                                                       |
+| ----------- | --------------------------------------------------------------------------------------------- |
+| `reported`  | the provider returned a price in the response (chat, image, video), or in the generation record (speech) |
+| `estimated` | from `prices.mjs`, carrying `price_book` and `basis` so the number is explainable later       |
+| `unknown`   | no measured rate: `usd` stays `null`, and reports count it separately                         |
+
+Read the response for cost. Don't call a second endpoint to guess it. `/generation` returns 404 for
+image generations, so a path that calls it leaves every render unpriced while looking correct.
+Provider shapes and the one reader are in [PROVIDER-USAGE.md](PROVIDER-USAGE.md).
+
+## Pitfalls
+
+- **The minimum billable unit sets the price, not the duration you asked for.** A short clip can be
+  billed at the provider's minimum. Price each item at `max(requested, provider minimum) × rate`, and
+  when the budget is tight, cut the number of items rather than their length.
+- **Video reports usage on the completed poll, not the submit.** Merge the blocks and keep the first
+  reported value per field, or a finished job looks unpriced.
+- **Speech has no price in its body.** Record measured characters as the unit and the generation id
+  for reconciliation. Cost stays `reported` only when the generation record supplied it. Otherwise
+  `reprice-speech` fills it in later, and an estimate keeps its basis.
+- **Repricing needs its own identity.** Key each repricing event `repricing:<original ref>`, or a batch
+  collapses into one row. `buildIndex` must count only generation rows, or every correction doubles the
+  run count it was meant to fix.
+- **One reader.** Every skill uses `studio-core`'s usage normaliser. A hand-rolled `usage.cost ?? 0`
+  elsewhere quietly records free renders, and nothing fails.
+- **Timestamps differ by store.** Filenames use hyphenated times that `Number()` reads as `NaN`, and some
+  database rows hold unix seconds. Both land in the wrong month on import. Check one round-trip date
+  against its source row before importing the rest.
+- **Catalogue old media in place.** A backfill should cost no disk, so copy into the blob store only for
+  new writes.
+- **Unattributed assets are honest.** `run_id: null` on files that predate the ledger beats a guessed link.
+- **Keep the per-tool logs during migration.** They live at `$STUDIO_USAGE_DIR`, and every reader and writer
+  resolves that variable, not a literal home path. Don't delete a source before its import is verified.
+- **Reads must notice staleness.** Run `index` after new events; never let a read trust a stale index.
