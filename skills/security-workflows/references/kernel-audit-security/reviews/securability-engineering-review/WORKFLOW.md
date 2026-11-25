@@ -2,7 +2,7 @@
 
 Analyze code for securable engineering qualities and produce a structured SSEM scorecard. This file is **authoritative** for the rubric, weights, severity classification, and report shape. The play at [plays/securability-engineering-review.md](../../plays/securability-engineering-review.md) is the step-by-step runbook; consult it for _when_ to do each step, not for _what_ the rubric says.
 
-Aligned with [FIASSE v1.0.4](https://github.com/OWASP/FIASSE/blob/v1.0.4/docs/securable_framework.md). Per-attribute measurement guidance in `data/fiasse/SA.*.md` (Appendix A).
+Aligned with [FIASSE v1.0.4](https://github.com/OWASP/FIASSE/blob/v1.0.4/docs/securable_framework.md). Per-attribute measurement guidance in `../../data/fiasse/SA.*.md` (Appendix A).
 
 ## When to Invoke
 
@@ -74,15 +74,7 @@ Every report MUST produce a numeric 0-10 score for each of these:
 
 ### Severity Classification (for individual findings)
 
-Severity is an **engineering-impact** judgment, not a CVSS or CWE score. FIASSE does not borrow assurance-tool severity scales. Classify each finding by its effect on SSEM scores and on the system's ability to remain securable.
-
-| Severity     | Criteria                                                                                                                                                                                                                            |
-| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **CRITICAL** | A pillar score is held ≤4 because of this finding _alone_; or an attribute scores ≤2 due to systemic absence (e.g., no input validation anywhere, no audit trail, ambient client-trust). Remediation requires architectural change. |
-| **HIGH**     | A single attribute scores ≤4 due to this finding; or the finding reduces a pillar score by ≥1.5 points. Localized but pervasive (e.g., string-built SQL across one service).                                                        |
-| **MEDIUM**   | Reduces a single attribute by ~1 point; specific module or pattern. Remediation contained to one module.                                                                                                                            |
-| **LOW**      | Localized engineering improvement; ≤0.5 score impact.                                                                                                                                                                               |
-| **INFO**     | Best-practice observation; no measurable score impact.                                                                                                                                                                              |
+Finding severity uses the likelihood x impact scale in [audit-methodology/WORKFLOW.md](../../audit-methodology/WORKFLOW.md#severity-requires-impact), the single source for every procedure here. SSEM score impact is a separate prioritization signal: record which attribute and pillar a finding moves and by roughly how much, but do not derive CRITICAL/HIGH/MEDIUM/LOW from the score drop. Engineering-quality gaps without a demonstrated exploit are hardening notes, not findings.
 
 ## Required Inputs
 
@@ -259,11 +251,11 @@ When invoked:
 ## FIASSE & OWASP References
 
 - [FIASSE Framework v1.0.4](https://github.com/OWASP/FIASSE/blob/v1.0.4/docs/securable_framework.md)
-- FIASSE v1.0.4 SA.* — Appendix A (per-attribute measurement guidance) in `data/fiasse/SA.*.md`
+- FIASSE v1.0.4 SA.* — Appendix A (per-attribute measurement guidance) in `../../data/fiasse/SA.*.md`
 - ISO/IEC 25010:2011 — Software quality models
 - RFC 4949 — Internet Security Glossary
 - OWASP Code Review Guide
-- OWASP ASVS v5.0 — `data/asvs/`
+- OWASP ASVS v5.0 — `../../data/asvs/`
 - Step-by-step runbook: [plays/securability-engineering-review.md](../../plays/securability-engineering-review.md)
 - Finding format: [templates/finding.md](../../templates/finding.md)
 - Report scaffold: [templates/report.md](../../templates/report.md)

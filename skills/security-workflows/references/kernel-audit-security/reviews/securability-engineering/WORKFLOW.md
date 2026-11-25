@@ -4,7 +4,7 @@ This skill augments the built-in code generation capability by applying FIASSE v
 
 The end-to-end PRD-enhance → generate → review → enhance → report loop is **opt-in**, not the default. See "Full Loop Mode" below.
 
-Reference data: `data/fiasse/` (especially S2.1–S2.6 foundational principles, S3.2.1–S3.2.3 SSEM attributes including S3.2.1.4 Observability, S2.5 Transparency, S4.3 Boundary Control, S4.4 Resilient Coding, S4.4.1 Canonical Input Handling, S4.6 Dependency Stewardship) and `data/asvs/` for feature-level requirements.
+Reference data: `../../data/fiasse/` (especially S2.1–S2.6 foundational principles, S3.2.1–S3.2.3 SSEM attributes including S3.2.1.4 Observability, S2.5 Transparency, S4.3 Boundary Control, S4.4 Resilient Coding, S4.4.1 Canonical Input Handling, S4.6 Dependency Stewardship) and `../../data/asvs/` for feature-level requirements.
 
 ## When to Invoke
 
@@ -30,11 +30,10 @@ Run the full PRD-enhance → generate → review → enhance → report workflow
 
 - Passes the `--full-loop` flag or argument
 - Says "end-to-end securable" or "full securability loop"
-- Explicitly references the play (e.g., "follow the securable-generation play")
 
 Otherwise stay in Default Mode. Do not invent a PRD for a small one-shot generation request.
 
-When Full Loop Mode is active, follow [plays/securable-generation.md](../../plays/securable-generation.md). When Default Mode is active, follow this file alone.
+When Full Loop Mode is active, run [prd-securability-enhancement](../prd-securability-enhancement/WORKFLOW.md) on the requirements, generate with this file, score the result with [securability-engineering-review](../securability-engineering-review/WORKFLOW.md), then fix what the review flags. When Default Mode is active, follow this file alone.
 
 ## Foundational Constraints
 
@@ -52,7 +51,7 @@ Before generating any code, apply these FIASSE v1.0.4 principles:
 
 ## SSEM Attribute Enforcement
 
-Every code generation output must satisfy these ten attributes. Read `data/fiasse/` sections for definitions when context is needed.
+Every code generation output must satisfy these ten attributes. Read `../../data/fiasse/` sections for definitions when context is needed.
 
 ### Maintainability
 
@@ -105,8 +104,8 @@ Don't enumerate all of these in code — pick the ones that _matter for this bou
 ## Steps (Default Mode)
 
 1. **Identify Context** — Language, framework, system type, data sensitivity, exposure level, trust boundaries, feature category.
-2. **Map Feature Requirements to ASVS** — Use `data/asvs/README.md` and the relevant `data/asvs/V*.md` chapters to identify the security requirements applying to the feature being generated.
-3. **Apply SSEM Constraints** — Enforce the attribute rules in the tables above. Consult `data/fiasse/S3.2.1.md`–`S3.2.3.md` for umbrella definitions.
+2. **Map Feature Requirements to ASVS** — Use `../../data/asvs/README.md` and the relevant `../../data/asvs/V*.md` chapters to identify the security requirements applying to the feature being generated.
+3. **Apply SSEM Constraints** — Enforce the attribute rules in the tables above. Consult `../../data/fiasse/S3.2.1.md`–`S3.2.3.md` for umbrella definitions.
 4. **Handle Trust Boundaries** — Identify where generated code crosses trust boundaries. Apply FIASSE v1.0.4 S4.3 (Boundary Control) and S4.4 (Resilient Coding).
 5. **Select Dependencies Deliberately** (FIASSE v1.0.4 S4.5, S4.6):
    - Latest stable versions unless a compatibility constraint is known
@@ -286,17 +285,16 @@ If you catch yourself emitting one of these, stop and rewrite.
 ## FIASSE References
 
 - [FIASSE Framework v1.0.4](https://github.com/OWASP/FIASSE/blob/v1.0.4/docs/securable_framework.md)
-- `data/asvs/README.md` — ASVS chapter index
-- `data/asvs/V*.md` — ASVS 5.0 feature requirements by chapter
-- `data/fiasse/S2.1.md`–`S2.6.md` — Foundational Principles (incl. Transparency S2.5 and Least Astonishment S2.6)
-- `data/fiasse/S3.2.1.md`–`S3.2.3.md` — SSEM attribute umbrellas (Maintainability, Trustworthiness, Reliability)
-- `data/fiasse/S3.2.1.4.md` — Observability
-- `data/fiasse/S4.3.md` — Boundary Control Principle
-- `data/fiasse/S4.4.md` — Resilient Coding
-- `data/fiasse/S4.4.1.md` — Canonical Input Handling
-- `data/fiasse/S4.4.1.1.md` — Request Surface Minimization Principle
-- `data/fiasse/S4.4.1.2.md` — Derived Integrity Principle
-- `data/fiasse/S4.5.md` / `S4.6.md` — Dependency Management and Stewardship
-- Full Loop Mode runbook: [plays/securable-generation.md](../../plays/securable-generation.md)
+- `../../data/asvs/README.md` — ASVS chapter index
+- `../../data/asvs/V*.md` — ASVS 5.0 feature requirements by chapter
+- `../../data/fiasse/S2.1.md`–`S2.6.md` — Foundational Principles (incl. Transparency S2.5 and Least Astonishment S2.6)
+- `../../data/fiasse/S3.2.1.md`–`S3.2.3.md` — SSEM attribute umbrellas (Maintainability, Trustworthiness, Reliability)
+- `../../data/fiasse/S3.2.1.4.md` — Observability
+- `../../data/fiasse/S4.3.md` — Boundary Control Principle
+- `../../data/fiasse/S4.4.md` — Resilient Coding
+- `../../data/fiasse/S4.4.1.md` — Canonical Input Handling
+- `../../data/fiasse/S4.4.1.1.md` — Request Surface Minimization Principle
+- `../../data/fiasse/S4.4.1.2.md` — Derived Integrity Principle
+- `../../data/fiasse/S4.5.md` / `S4.6.md` — Dependency Management and Stewardship
 - ISO/IEC 25010:2011 — Software quality models
 - RFC 4949 — Internet Security Glossary

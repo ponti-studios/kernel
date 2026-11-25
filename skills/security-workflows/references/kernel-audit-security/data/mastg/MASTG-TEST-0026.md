@@ -15,7 +15,7 @@ masvs_v2_id:
 
 ## Overview
 
-When testing for [implicit intents](../../../Document/0x05h-Testing-Platform-Interaction.md#implicit-intents) you need to check if they are vulnerable to injection attacks or potentially leaking sensitive data.
+When testing for implicit intents you need to check if they are vulnerable to injection attacks or potentially leaking sensitive data.
 
 ## Static Analysis
 

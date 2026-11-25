@@ -17,7 +17,7 @@ profiles:
 
 ## Overview
 
-Since Android 9 (API level 28) cleartext HTTP traffic is blocked by default (thanks to the [default Network Security Configuration](../../../Document/0x05g-Testing-Network-Communication.md#default-configurations)) but there are multiple ways in which an application can still send it:
+Since Android 9 (API level 28) cleartext HTTP traffic is blocked by default (thanks to the default Network Security Configuration) but there are multiple ways in which an application can still send it:
 
 - **AndroidManifest.xml**: Setting the [`android:usesCleartextTraffic`](https://developer.android.com/guide/topics/manifest/application-element#usesCleartextTraffic) attribute of the `<application>` tag. Note that this flag is ignored in case the Network Security Configuration is configured.
 - **Network Security Configuration**: Setting the [`cleartextTrafficPermitted`](https://developer.android.com/privacy-and-security/security-config#CleartextTrafficPermitted) attribute to `true` on `<base-config>` or `<domain-config>` elements.

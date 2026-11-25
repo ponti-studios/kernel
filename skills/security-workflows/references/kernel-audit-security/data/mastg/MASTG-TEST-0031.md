@@ -16,7 +16,7 @@ status_note: V1 test; no V2 successor authored upstream yet — content may be o
 
 ## Overview
 
-To test for [JavaScript execution in WebViews](../../../Document/0x05h-Testing-Platform-Interaction.md#javascript-execution-in-webviews "JavaScript Execution in WebViews") check the app for WebView usage and evaluate whether or not each WebView should allow JavaScript execution. If JavaScript execution is required for the app to function normally, then you need to ensure that the app follows the all best practices.
+To test for JavaScript execution in WebViews check the app for WebView usage and evaluate whether or not each WebView should allow JavaScript execution. If JavaScript execution is required for the app to function normally, then you need to ensure that the app follows the all best practices.
 
 ## Static Analysis
 
@@ -49,7 +49,7 @@ Devices running platforms older than Android 4.4 (API level 19) use a version of
 Dynamic Analysis depends on operating conditions. There are several ways to inject JavaScript into an app's WebView:
 
 - Stored Cross-Site Scripting vulnerabilities in an endpoint; the exploit will be sent to the mobile app's WebView when the user navigates to the vulnerable function.
-- Attacker takes a [Machine-in-the-Middle (MITM)](../../../Document/0x04f-Testing-Network-Communication.md#intercepting-network-traffic-through-mitm) position and tampers with the response by injecting JavaScript.
+- Attacker takes a Machine-in-the-Middle (MITM) position and tampers with the response by injecting JavaScript.
 - Malware tampering with local files that are loaded by the WebView.
 
 To address these attack vectors, check the following:

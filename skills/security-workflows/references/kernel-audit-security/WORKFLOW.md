@@ -19,12 +19,12 @@ Every finding must include file and line evidence, a concrete attack scenario ("
 
 Use the vendored specialist skills under `reviews/` with their procedures under `plays/`:
 
-- [WORKFLOW.md](reviews/api-security-review/WORKFLOW.md) — REST/GraphQL/gRPC, auth mechanisms, gateways (Hominem: `services/api`)
+- [WORKFLOW.md](reviews/api-security-review/WORKFLOW.md) — REST/GraphQL/gRPC, auth mechanisms, gateways
 - [WORKFLOW.md](reviews/code-review-security/WORKFLOW.md) — shared packages and web code
 - [WORKFLOW.md](reviews/web-security-review/WORKFLOW.md) — classic OWASP Top 10 web review
 - [WORKFLOW.md](reviews/mobile-code-review/WORKFLOW.md) — native Android/iOS source (MASVS)
 - [WORKFLOW.md](reviews/iac-security-review/WORKFLOW.md) — Terraform, Kubernetes, CloudFormation
-- [WORKFLOW.md](reviews/sca-audit/WORKFLOW.md) — CVEs, unmaintained packages, lockfiles (pnpm workspace)
+- [WORKFLOW.md](reviews/sca-audit/WORKFLOW.md) — CVEs, unmaintained packages, lockfiles
 - [WORKFLOW.md](reviews/secrets-scan/WORKFLOW.md) — source and Git history credential exposure
 - [WORKFLOW.md](reviews/security-guidance/WORKFLOW.md) — ASVS-grounded guidance while writing new code
 - [WORKFLOW.md](reviews/prd-securability-enhancement/WORKFLOW.md) — embed ASVS/FIASSE coverage in PRDs and specs

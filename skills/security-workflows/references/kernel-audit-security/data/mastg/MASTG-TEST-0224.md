@@ -20,7 +20,7 @@ Not using newer APK signing schemes means that the app lacks the enhanced securi
 
 This test checks if the outdated v1 signature scheme is enabled. The v1 scheme is vulnerable to certain attacks, such as the "Janus" vulnerability ([CVE-2017-13156](https://nvd.nist.gov/vuln/detail/CVE-2017-13156)), because it does not cover all parts of the APK file, allowing malicious actors to potentially **modify parts of the APK without invalidating the signature**. Relying solely on v1 signing therefore increases the risk of tampering and compromises app security.
 
-To learn more about APK Signing Schemes, see ["Signing Process"](../../../Document/0x05a-Platform-Overview.md#signing-process).
+To learn more about APK Signing Schemes, see "Signing Process".
 
 ## Steps
 

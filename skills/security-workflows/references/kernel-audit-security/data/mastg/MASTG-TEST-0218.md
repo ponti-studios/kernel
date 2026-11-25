@@ -34,4 +34,4 @@ The output should contain the TLS version actually used during the connection.
 
 ## Evaluation
 
-The test case fails if any [insecure TLS version](../../../Document/0x04f-Testing-Network-Communication.md#recommended-tls-settings) is used.
+The test case fails if any insecure TLS version is used.

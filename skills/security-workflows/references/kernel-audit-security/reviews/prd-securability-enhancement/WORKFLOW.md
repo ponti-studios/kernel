@@ -60,7 +60,7 @@ Default to Level 2 unless evidence pushes lower or higher. Document:
 
 ### Step 3 — Map each feature to ASVS
 
-For every feature, use `data/asvs/README.md` (chapter index) and the `when_to_use` frontmatter in `data/asvs/V*.md` to identify applicable chapters. Common mappings:
+For every feature, use `../../data/asvs/README.md` (chapter index) and the `when_to_use` frontmatter in `../../data/asvs/V*.md` to identify applicable chapters. Common mappings:
 
 - Auth flows → V2 (Authentication), V3 (Session Management)
 - Authorization, ownership, multi-tenant scoping → V4 (Access Control)
@@ -273,10 +273,9 @@ This is the level of specificity the output should hit — concrete, testable, a
 
 ## Reference Material
 
-- Step-by-step runbook: [plays/prd-fiasse-asvs-enhancement.md](../../plays/prd-fiasse-asvs-enhancement.md)
-- ASVS chapter index: `data/asvs/README.md`
-- ASVS requirements (per chapter): `data/asvs/V*.md`
-- FIASSE v1.0.4 foundational principles: `data/fiasse/S2.1.md`–`S2.6.md` (Transparency S2.5, Least Astonishment S2.6)
-- FIASSE v1.0.4 SSEM attribute umbrellas: `data/fiasse/S3.2.1.md`–`S3.2.3.md`; leaf files (e.g. `S3.2.1.4.md` Observability) for attribute-specific guidance
-- FIASSE v1.0.4 Boundary Control and Resilient Coding: `data/fiasse/S4.3.md`, `S4.4.md`, and the canonical-input-handling leaves `S4.4.1.md`, `S4.4.1.1.md`, `S4.4.1.2.md`
-- FIASSE v1.0.4 Dependency Management and Stewardship: `data/fiasse/S4.5.md`, `S4.6.md`
+- ASVS chapter index: `../../data/asvs/README.md`
+- ASVS requirements (per chapter): `../../data/asvs/V*.md`
+- FIASSE v1.0.4 foundational principles: `../../data/fiasse/S2.1.md`–`S2.6.md` (Transparency S2.5, Least Astonishment S2.6)
+- FIASSE v1.0.4 SSEM attribute umbrellas: `../../data/fiasse/S3.2.1.md`–`S3.2.3.md`; leaf files (e.g. `S3.2.1.4.md` Observability) for attribute-specific guidance
+- FIASSE v1.0.4 Boundary Control and Resilient Coding: `../../data/fiasse/S4.3.md`, `S4.4.md`, and the canonical-input-handling leaves `S4.4.1.md`, `S4.4.1.1.md`, `S4.4.1.2.md`
+- FIASSE v1.0.4 Dependency Management and Stewardship: `../../data/fiasse/S4.5.md`, `S4.6.md`

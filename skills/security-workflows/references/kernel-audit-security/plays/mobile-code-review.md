@@ -1,6 +1,6 @@
 # Play: Mobile Code Review
 
-Source-only security review of native Android and iOS mobile application source code against all 8 [OWASP MASVS v2.1.0](https://mas.owasp.org/MASVS/) control groups, using extracted [MASTG](https://mas.owasp.org/MASTG/) Static Analysis content from `data/mastg/` as the per-control verification recipe. MASVS-RESILIENCE findings carry a static-only notice; MASVS-PRIVACY-2/3 findings carry a runtime-data-flow caveat.
+Source-only security review of native Android and iOS mobile application source code against all 8 [OWASP MASVS v2.1.0](https://mas.owasp.org/MASVS/) control groups, using extracted [MASTG](https://mas.owasp.org/MASTG/) Static Analysis content from `../data/mastg/` as the per-control verification recipe. MASVS-RESILIENCE findings carry a static-only notice; MASVS-PRIVACY-2/3 findings carry a runtime-data-flow caveat.
 
 ## Trigger Conditions
 
@@ -44,10 +44,10 @@ If only a cross-platform shell is detected and no native module exists, declare 
 
 ### 3. Systematic Review by MASVS Group
 
-Walk the 8 groups in priority order. For each group, load the group overview from `data/masvs/MASVS-<GROUP>.md` and the individual controls (`MASVS-<GROUP>-<N>.md`). For each control:
+Walk the 8 groups in priority order. For each group, load the group overview from `../data/masvs/MASVS-<GROUP>.md` and the individual controls (`MASVS-<GROUP>-<N>.md`). For each control:
 
 1. Read the `mastg_tests:` list in the MASVS file.
-2. For each MASTG test ID, load `data/mastg/MASTG-TEST-####.md`.
+2. For each MASTG test ID, load `../data/mastg/MASTG-TEST-####.md`.
 3. Apply the test's Static Analysis content (V1) or Steps/Observation/Evaluation (V2) to the source tree.
 4. Emit findings citing the MASVS control + the MASTG test ID + version (annotate `[V1 — no V2 successor]` when the test's `upstream_version: v1-fallback`).
 
@@ -55,7 +55,7 @@ Walk the 8 groups in priority order. For each group, load the group overview fro
 
 **Play rule — PRIVACY runtime caveat:** Findings against `MASVS-PRIVACY-2` or `MASVS-PRIVACY-3` (the data-handling-in-practice controls) cannot be fully assessed from source — they require runtime data-flow tracing. Cap confidence at LOW for any such finding that depends on data-flow inference. Append to the dynamic-test follow-up list.
 
-**Play rule — MASTG cross-references in findings:** Each MASTG test you load may cite other MASTG entities via `@MASTG-<KIND>-####` strings in its body (e.g. `@MASTG-TECH-0056`, `@MASTG-TOOL-0073`). `data/mastg/` extracts only `MASTG-TEST-*` — the other entities (TECH, TOOL, APP, KNOW, BEST, DEMO, …) live upstream only. Surface them per-finding so the reader can follow them at the OWASP MASTG source:
+**Play rule — MASTG cross-references in findings:** Each MASTG test you load may cite other MASTG entities via `@MASTG-<KIND>-####` strings in its body (e.g. `@MASTG-TECH-0056`, `@MASTG-TOOL-0073`). `../data/mastg/` extracts only `MASTG-TEST-*` — the other entities (TECH, TOOL, APP, KNOW, BEST, DEMO, …) live upstream only. Surface them per-finding so the reader can follow them at the OWASP MASTG source:
 
 1. While walking the MASTG tests that inform a finding, extract every `@MASTG-([A-Z]+)-(\d+)` from each test body.
 2. Discard any match where `KIND == TEST` — already cited in `OWASP Ref`.
@@ -80,16 +80,9 @@ OWASP MASWE (Mobile Application Security Weakness Enumeration) is the bridge bet
 
 Do not invent CWE mappings or pick CWEs by visual similarity to the bug — always go through MASWE so the resulting CWE is the OWASP-blessed mapping.
 
-**OpenCRE handling for mobile findings:**
-
-OpenCRE does not currently treat MASVS as a first-class linked standard the way it treats ASVS, and its mobile-domain coverage is thin. For mobile findings:
-
-- If the CWE cited has an existing pre-mapped entry in `data/opencre/CWE-XXX.md` (13 CWEs pre-mapped today), populate `OpenCRE:` from that file as usual.
-- Otherwise, write `OpenCRE: N/A for mobile scan — OpenCRE's MASVS coverage is limited` in the finding. Do **not** instruct reviewers to add new OpenCRE mapping files solely to satisfy a mobile finding — that's contributor overhead with little reader benefit until OpenCRE expands its mobile coverage upstream.
-
 #### A. MASVS-STORAGE
 
-MASVS refs: `data/masvs/MASVS-STORAGE.md`, `MASVS-STORAGE-1.md`, `MASVS-STORAGE-2.md`
+MASVS refs: `../data/masvs/MASVS-STORAGE.md`, `MASVS-STORAGE-1.md`, `MASVS-STORAGE-2.md`
 MASTG forward refs: MASTG-TEST-0001, MASTG-TEST-0003 (and per control)
 
 | Check                      | Android signal                                             | iOS signal                                               |
@@ -102,7 +95,7 @@ MASTG forward refs: MASTG-TEST-0001, MASTG-TEST-0003 (and per control)
 
 #### B. MASVS-CRYPTO
 
-MASVS refs: `data/masvs/MASVS-CRYPTO.md`, `MASVS-CRYPTO-1.md`, `MASVS-CRYPTO-2.md`
+MASVS refs: `../data/masvs/MASVS-CRYPTO.md`, `MASVS-CRYPTO-1.md`, `MASVS-CRYPTO-2.md`
 MASTG forward refs: MASTG-TEST-0011, MASTG-TEST-0013
 
 | Check                  | Android signal                                          | iOS signal                                                             |
@@ -115,7 +108,7 @@ MASTG forward refs: MASTG-TEST-0011, MASTG-TEST-0013
 
 #### C. MASVS-AUTH
 
-MASVS refs: `data/masvs/MASVS-AUTH.md`, `MASVS-AUTH-1.md`, `MASVS-AUTH-2.md`, `MASVS-AUTH-3.md`
+MASVS refs: `../data/masvs/MASVS-AUTH.md`, `MASVS-AUTH-1.md`, `MASVS-AUTH-2.md`, `MASVS-AUTH-3.md`
 MASTG forward refs: MASTG-TEST-0017, MASTG-TEST-0021
 
 | Check               | Android signal                           | iOS signal                                                                   |
@@ -127,7 +120,7 @@ MASTG forward refs: MASTG-TEST-0017, MASTG-TEST-0021
 
 #### D. MASVS-NETWORK
 
-MASVS refs: `data/masvs/MASVS-NETWORK.md`, `MASVS-NETWORK-1.md`, `MASVS-NETWORK-2.md`
+MASVS refs: `../data/masvs/MASVS-NETWORK.md`, `MASVS-NETWORK-1.md`, `MASVS-NETWORK-2.md`
 MASTG forward refs: MASTG-TEST-0024, MASTG-TEST-0026
 
 | Check             | Android signal                                                       | iOS signal                                                    |
@@ -139,7 +132,7 @@ MASTG forward refs: MASTG-TEST-0024, MASTG-TEST-0026
 
 #### E. MASVS-PLATFORM
 
-MASVS refs: `data/masvs/MASVS-PLATFORM.md`, `MASVS-PLATFORM-1.md`, `MASVS-PLATFORM-2.md`, `MASVS-PLATFORM-3.md`
+MASVS refs: `../data/masvs/MASVS-PLATFORM.md`, `MASVS-PLATFORM-1.md`, `MASVS-PLATFORM-2.md`, `MASVS-PLATFORM-3.md`
 MASTG forward refs: MASTG-TEST-0030, MASTG-TEST-0033, MASTG-TEST-0035
 
 | Check               | Android signal                                   | iOS signal                                              |
@@ -152,7 +145,7 @@ MASTG forward refs: MASTG-TEST-0030, MASTG-TEST-0033, MASTG-TEST-0035
 
 #### F. MASVS-CODE
 
-MASVS refs: `data/masvs/MASVS-CODE.md`, `MASVS-CODE-1.md`, `MASVS-CODE-2.md`, `MASVS-CODE-3.md`, `MASVS-CODE-4.md`
+MASVS refs: `../data/masvs/MASVS-CODE.md`, `MASVS-CODE-1.md`, `MASVS-CODE-2.md`, `MASVS-CODE-3.md`, `MASVS-CODE-4.md`
 MASTG forward refs: MASTG-TEST-0040, MASTG-TEST-0042
 
 | Check           | Android signal                                                   | iOS signal                                              |
@@ -167,7 +160,7 @@ Cross-reference: defer detailed library CVE analysis to `sca-audit`.
 
 #### G. MASVS-RESILIENCE (static signals only)
 
-MASVS refs: `data/masvs/MASVS-RESILIENCE.md`, `MASVS-RESILIENCE-1..4.md`
+MASVS refs: `../data/masvs/MASVS-RESILIENCE.md`, `MASVS-RESILIENCE-1..4.md`
 MASTG entry points: `MASTG-TEST-0044` through `MASTG-TEST-0055` (load the test files referenced from each control's `mastg_tests:` list and apply their Static Analysis sections).
 
 Useful starting-point signals while reading the MASTG content:
@@ -183,7 +176,7 @@ The RESILIENCE play rule at the top of §3 governs confidence and the dynamic-te
 
 #### H. MASVS-PRIVACY (partial — data-flow controls deferred)
 
-MASVS refs: `data/masvs/MASVS-PRIVACY.md`, `MASVS-PRIVACY-1..4.md`
+MASVS refs: `../data/masvs/MASVS-PRIVACY.md`, `MASVS-PRIVACY-1..4.md`
 MASTG entry points: `MASTG-TEST-0260` through `MASTG-TEST-0263` (load the test files referenced from each control's `mastg_tests:` list and apply their Static Analysis sections).
 
 Useful starting-point signals while reading the MASTG content:
@@ -213,7 +206,6 @@ Populate [finding.md](../templates/finding.md) exactly. The one mobile-specific 
 
 - **`CWE`** — mandatory; resolved via the MASWE chain (see §3). Verify MASWE IDs at <https://mas.owasp.org/MASWE/>.
 - **`CVE`** — N/A for source-code weaknesses unless an exploited library is a direct trigger.
-- **`OpenCRE`** — defaults to `N/A for mobile scan — OpenCRE's MASVS coverage is limited`; populate from `data/opencre/CWE-XXX.md` only if a pre-mapped entry exists.
 - **`OWASP Ref`** — `MASVS-<GROUP>-<N>, MASWE-<NNNN>, MASTG-TEST-<NNNN> (dynamic verification recommended)` plus any overlapping `ASVS V#.#.#` or `Top 10 A##`.
 - **`ID`** — assigned at report generation; leave as a placeholder during the review.
 - **`Location`, `Impact`, `Evidence`, `Remediation`, `Confidence`** — per the standard template.
@@ -242,7 +234,7 @@ Report-level rules:
 
 ### Findings
 
-[Standard finding template for each issue, sorted by severity. CWE resolved via the MASWE chain; OpenCRE N/A for mobile unless pre-mapped in `data/opencre/`; `OWASP Ref` carries `MASVS-<GROUP>-<N>, MASWE-<NNNN>, MASTG-TEST-<NNNN>`; each finding carries a `MASTG references:` bullet listing any non-TEST `@MASTG-<KIND>-####` cross-refs cited in the informing tests (omit when empty).]
+[Standard finding template for each issue, sorted by severity. CWE resolved via the MASWE chain; `OWASP Ref` carries `MASVS-<GROUP>-<N>, MASWE-<NNNN>, MASTG-TEST-<NNNN>`; each finding carries a `MASTG references:` bullet listing any non-TEST `@MASTG-<KIND>-####` cross-refs cited in the informing tests (omit when empty).]
 
 ### Positive Observations
 

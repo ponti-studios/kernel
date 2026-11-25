@@ -21,7 +21,7 @@ This test evaluates whether an Android app has WebViews that ignore SSL/TLS cert
 
 The method `onReceivedSslError(...)` is triggered when a `WebView` encounters an SSL certificate error while loading a page. By default, the `WebView` cancels the request to protect users from insecure connections. Overriding this method and calling [`SslErrorHandler.proceed()`](https://developer.android.com/reference/android/webkit/SslErrorHandler#proceed%28%29) without proper validation disables these protection.
 
-This effectively bypasses SSL certificate checks in the `WebView`, exposing the app to [MITM attacks](../../../Document/0x04f-Testing-Network-Communication.md#intercepting-network-traffic-through-mitm) using invalid, expired, or self-signed certificates.
+This effectively bypasses SSL certificate checks in the `WebView`, exposing the app to MITM attacks using invalid, expired, or self-signed certificates.
 
 ## Steps
 

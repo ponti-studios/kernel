@@ -5,9 +5,9 @@ Review infrastructure-as-code for security risks by following the full procedure
 ## Steps
 
 1. **Detect IaC Type** — Identify the infrastructure technology from file extensions and content:
-   - `.tf` / `.tofu` files → Terraform/OpenTofu (reference `data/secure-code-prompts/terraform.md`)
-   - Kubernetes manifests (apiVersion, kind: Deployment/Pod/Service) → Kubernetes (reference `data/secure-code-prompts/kubernetes.md`)
-   - CloudFormation templates (AWSTemplateFormatVersion, Resources with AWS::) → CloudFormation (reference `data/secure-code-prompts/cloudformation.md`)
+   - `.tf` / `.tofu` files → Terraform/OpenTofu (reference `../../data/secure-code-prompts/terraform.md`)
+   - Kubernetes manifests (apiVersion, kind: Deployment/Pod/Service) → Kubernetes (reference `../../data/secure-code-prompts/kubernetes.md`)
+   - CloudFormation templates (AWSTemplateFormatVersion, Resources with AWS::) → CloudFormation (reference `../../data/secure-code-prompts/cloudformation.md`)
    - Helm charts (`Chart.yaml`, templates/) → Kubernetes review with Helm-specific checks
 
 2. **Systematic Review by Security Domain** (priority order):

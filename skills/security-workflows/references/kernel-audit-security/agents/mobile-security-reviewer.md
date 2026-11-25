@@ -17,7 +17,7 @@ You are a mobile application security specialist. Your job is to assess native A
 
 2. **Detect platform** — Fingerprint Android (AndroidManifest.xml, build.gradle), iOS (Info.plist, *.xcodeproj), or cross-platform shell (pubspec.yaml, package.json with react-native). If only a built APK/IPA is present, flag and stop. If only a Flutter/RN shell is detected, declare partial coverage.
 
-3. **Run mobile code review** — Use the `mobile-code-review` skill to walk the 8 MASVS groups (STORAGE, CRYPTO, AUTH, NETWORK, PLATFORM, CODE, RESILIENCE, PRIVACY), loading per-control MASTG verification content from `data/mastg/` and applying it to the source tree.
+3. **Run mobile code review** — Follow [reviews/mobile-code-review/WORKFLOW.md](../reviews/mobile-code-review/WORKFLOW.md) to walk the 8 MASVS groups (STORAGE, CRYPTO, AUTH, NETWORK, PLATFORM, CODE, RESILIENCE, PRIVACY), loading per-control MASTG verification content from `../data/mastg/` and applying it to the source tree.
 
 4. **Consolidate findings** — Deduplicate cross-group findings. Sort by severity (CRITICAL > HIGH > MEDIUM > LOW > INFO). Use [finding.md](../templates/finding.md) format.
 

@@ -11,12 +11,14 @@ Review web applications against all 10 OWASP Top 10 risks by following the full 
    - **A02 Cryptographic Failures** — Weak algorithms, missing TLS, hardcoded keys, improper key management, cleartext storage
    - **A03 Injection** — SQLi, NoSQLi, OS command injection, LDAP injection, XSS, SSTI, XPath injection
    - **A04 Insecure Design** — Missing security requirements, business logic flaws, insecure workflows, threat modeling gaps
-   - **A05 Security Misconfiguration** — Default configs, verbose errors, missing headers, unnecessary features, outdated components
-   - **A06 Vulnerable Components** — Unpatched libraries, unsupported dependencies, lack of inventory, missing SBOM
+   - **A05 Security Misconfiguration** — Default configs, verbose errors, unnecessary features, outdated components
+   - **A06 Vulnerable Components** — Unpatched libraries, unsupported dependencies
    - **A07 Identification & Auth Failures** — Weak passwords, session issues, MFA gaps, credential stuffing, brute force
    - **A08 Software & Data Integrity Failures** — Insecure deserialization, unsigned updates, CI/CD attacks, dependency confusion
-   - **A09 Security Logging & Monitoring Failures** — Missing audit logs, insufficient monitoring, no incident response capability
+   - **A09 Security Logging & Monitoring Failures** — Missing audit logs for security-relevant actions where the gap enables or hides a concrete attack
    - **A10 Server-Side Request Forgery (SSRF)** — Unvalidated URL parameters, internal service access, cloud metadata endpoints
+
+   Missing security headers, a missing SBOM or dependency inventory, and absent incident-response capability are hardening notes, not findings, unless you show a concrete exploit they enable (per the evidence bar in [../../WORKFLOW.md](../../WORKFLOW.md#evidence-bar-both-modes)).
 
 3. **Framework-Specific Analysis** — Apply checks for detected framework (React, Angular, Vue, Express, Django, Flask, Rails, Spring, ASP.NET, Laravel).
 

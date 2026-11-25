@@ -17,9 +17,9 @@ profiles:
 
 ## Overview
 
-Android apps sometimes use an insecure [pseudorandom number generator (PRNG)](../../../Document/0x05e-Testing-Cryptography.md#random-number-generation), such as [`java.util.Random`](https://developer.android.com/reference/java/util/Random), which is a linear congruential generator and produces a predictable sequence for any given seed value. As a result, `java.util.Random` and `Math.random()` ([the latter](https://franklinta.com/2014/08/31/predicting-the-next-math-random-in-java/) simply calls `nextDouble()` on a static `java.util.Random` instance) generate reproducible sequences across all Java implementations whenever the same seed is used. This predictability makes them unsuitable for cryptographic or other security-sensitive contexts.
+Android apps sometimes use an insecure pseudorandom number generator (PRNG), such as [`java.util.Random`](https://developer.android.com/reference/java/util/Random), which is a linear congruential generator and produces a predictable sequence for any given seed value. As a result, `java.util.Random` and `Math.random()` ([the latter](https://franklinta.com/2014/08/31/predicting-the-next-math-random-in-java/) simply calls `nextDouble()` on a static `java.util.Random` instance) generate reproducible sequences across all Java implementations whenever the same seed is used. This predictability makes them unsuitable for cryptographic or other security-sensitive contexts.
 
-In general, if a PRNG is not explicitly documented as being cryptographically secure, it should not be used where randomness must be unpredictable. Refer to the [Android Documentation](https://developer.android.com/privacy-and-security/risks/weak-prng) and the ["random number generation" guide](../../../Document/0x05e-Testing-Cryptography.md#random-number-generation) for further details.
+In general, if a PRNG is not explicitly documented as being cryptographically secure, it should not be used where randomness must be unpredictable. Refer to the [Android Documentation](https://developer.android.com/privacy-and-security/risks/weak-prng) and the "random number generation" guide for further details.
 
 ## Steps
 

@@ -204,12 +204,6 @@ Document all auth mechanisms in use:
 
 > **Risk**: Attackers access other users' data by manipulating object IDs
 
-**Real-World Impact**:
-
-- **2019**: First American Financial exposed 885 million records via IDOR
-- **2020**: Twitter API IDOR allowed viewing protected tweets
-- **2021**: Facebook IDOR exposed private posts
-
 **Attack Scenarios:**
 
 1. **Sequential ID Manipulation**
@@ -284,11 +278,6 @@ def get_order(order_id, user):
 #### API2: Broken Authentication
 
 > **Risk**: Weak authentication allows account takeover
-
-**Real-World Impact**:
-
-- **2022**: Uber breach via compromised contractor account
-- **2023**: 23andMe breach via credential stuffing
 
 **Attack Scenarios:**
 
@@ -387,11 +376,6 @@ JWT_SETTINGS = {
 #### API3: Broken Object Property Level Authorization
 
 > **Risk**: Mass assignment and data over-exposure
-
-**Real-World Impact**:
-
-- **2012**: GitHub mass assignment allowed unauthorized repo access
-- **2019**: Facebook mass assignment exposed user data
 
 **Attack Scenarios:**
 
@@ -497,11 +481,6 @@ class UserSerializer(serializers.ModelSerializer):
 #### API4: Unrestricted Resource Consumption
 
 > **Risk**: DoS via resource exhaustion, financial drain
-
-**Real-World Impact**:
-
-- **2023**: OpenAI API abuse cost companies thousands
-- **2022**: GraphQL query DoS attacks on multiple platforms
 
 **Attack Scenarios:**
 
@@ -617,11 +596,6 @@ REQUEST_TIMEOUT = 30  # seconds
 
 > **Risk**: Access to admin/sensitive functions without proper authorization
 
-**Real-World Impact**:
-
-- **2020**: Twitter admin tool breach
-- **2021**: Parler admin API exposed
-
 **Attack Scenarios:**
 
 1. **Admin Endpoint Discovery**
@@ -713,12 +687,6 @@ class AdminAuthorizationMiddleware:
 
 > **Risk**: Automated abuse of business logic
 
-**Real-World Impact**:
-
-- **Ticket scalping**: Bots buying all concert tickets
-- **E-commerce**: Inventory hoarding, price scraping
-- **Crypto**: Flash loan attacks via API manipulation
-
 **Attack Scenarios:**
 
 1. **Inventory Exhaustion**
@@ -804,11 +772,6 @@ class PurchaseForm(forms.Form):
 #### API7: Server-Side Request Forgery (SSRF)
 
 > **Risk**: Server makes requests to attacker-controlled or internal resources
-
-**Real-World Impact**:
-
-- **2019**: Capital One breach via SSRF (100M records)
-- **2021**: Multiple cloud metadata service exploits
 
 **Attack Scenarios:**
 
@@ -927,11 +890,6 @@ def fetch_url(request):
 
 > **Risk**: Insecure default configurations expose APIs to attacks
 
-**Real-World Impact**:
-
-- **2018**: Tesla Kubernetes API exposed (cryptomining)
-- **2020**: Multiple Elasticsearch instances exposed without auth
-
 **Attack Scenarios:**
 
 1. **CORS Misconfiguration**
@@ -1038,11 +996,6 @@ def custom_error_handler(request, exception=None):
 
 > **Risk**: Shadow APIs and undocumented endpoints create attack surface
 
-**Real-World Impact**:
-
-- **2021**: Facebook API exposed user data via undocumented endpoint
-- **2022**: Twitter API v1.1 endpoints still accessible after v2 launch
-
 **Attack Scenarios:**
 
 1. **Shadow API Discovery**
@@ -1119,11 +1072,6 @@ plugins:
 #### API10: Unsafe Consumption of APIs
 
 > **Risk**: Trusting third-party API responses leads to injection attacks
-
-**Real-World Impact**:
-
-- **2020**: Multiple XXE attacks via external API responses
-- **2021**: Deserialization attacks from webhook payloads
 
 **Attack Scenarios:**
 
@@ -1522,11 +1470,11 @@ Resources:
 | API1          | BOLA                 | HIGH     | Finding | /api/orders/{id} lacks ownership check |
 | API2          | Broken Auth          | MEDIUM   | Finding | JWT alg=none accepted                  |
 | API3          | BOPA                 | HIGH     | Finding | Mass assignment on /api/users          |
-| API4          | Resource Consumption | LOW      | Finding | No rate limiting on search             |
+| API4          | Resource Consumption | N/A      | Hardening note | No app-level rate limit on search; CDN limit covers it |
 | API5          | BFLA                 | MEDIUM   | Finding | Admin endpoints accessible to users    |
 | API6          | Business Flows       | N/A      | N/A     | Not applicable                         |
 | API7          | SSRF                 | CRITICAL | Finding | Cloud metadata accessible              |
-| API8          | Misconfiguration     | MEDIUM   | Finding | Debug mode enabled                     |
+| API8          | Misconfiguration     | N/A      | Hardening note | Debug flag set; no exploitable exposure shown |
 | API9          | Inventory            | LOW      | Finding | Undocumented /api/internal endpoints   |
 | API10         | Unsafe Consumption   | HIGH     | Finding | Webhooks lack signature validation     |
 
@@ -1559,16 +1507,16 @@ Response: 200 OK with IAM role credentials
 #### Immediate (Critical/High - 1 week)
 1. Fix SSRF vulnerability (API7)
 2. Implement BOLA checks on all object endpoints (API1)
-3. Disable debug mode (API8)
+3. Add webhook signature validation (API10)
 
 #### Short-term (High/Medium - 1 month)
-4. Implement comprehensive rate limiting (API4)
+4. Reject alg=none JWTs (API2)
 5. Add field-level authorization (API3)
 6. Secure admin endpoints (API5)
 
 #### Long-term (Medium/Low - 3 months)
 7. Implement API inventory management (API9)
-8. Add webhook signature validation (API10)
+8. Hardening notes: turn off the debug flag (API8), add app-level rate limiting on search (API4)
 9. Conduct regular security testing
 
 ### Testing Artifacts

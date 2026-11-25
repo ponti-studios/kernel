@@ -1,15 +1,16 @@
+# Third-Party Browser Integration Security
+
 ## Definition of done
 
-- External resource includes SRI hash or is self-hosted
+- External resources follow the SRI rule below
 - CSP expectations are configured and tested
-- No secret API keys are embedded in the frontend bundle
 
 Treat every external frontend resource as untrusted until proven otherwise. This skill exists to stop the LLM from casually adding third-party scripts, embeds, fonts, or public credentials without a security review.
 
 ## Non-Negotiables
 
 - Prefer self-hosting over browser-loading a third-party asset when practical.
-- If a CDN asset is loaded directly, it must be version-pinned and integrity-protected when the source supports it.
+- A directly loaded CDN asset must be version-pinned, and should carry SRI (`integrity` plus `crossorigin`) or be self-hosted. Exception: when the provider cannot serve a stable hash (for example a vendor script it updates in place), document why and confine it with a narrow CSP origin instead.
 - Secret keys never belong in the frontend bundle.
 - Frontend integrations must respect the project's CSP and embed policy.
 - External widgets and scripts are allowed only with explicit scope and review.
@@ -17,7 +18,6 @@ Treat every external frontend resource as untrusted until proven otherwise. This
 Forbidden behavior:
 
 - Do not add `@latest` or floating CDN references.
-- Do not embed server-side secrets or unrestricted credentials in browser code.
 - Do not use wildcard CSP or CORS settings as a shortcut for integration pain.
 - Do not add iframe or script permissions more broadly than the integration needs.
 - Do not normalize risky third-party code just because it is common or convenient.
@@ -45,7 +45,6 @@ Before approving the integration, answer:
 
 ## Enforcement Rules
 
-- CDN scripts and styles should use `integrity` and `crossorigin` when supported.
 - CSP should start narrow and expand only to the exact required origins and capabilities.
 - Public frontend keys must be restricted by origin or equivalent provider controls.
 - CORS decisions belong on the server boundary; never pretend the browser can secure an unsafe backend allowlist.
@@ -56,7 +55,6 @@ Before approving the integration, answer:
 - [ ] version pinning is explicit
 - [ ] SRI or self-hosting decision is documented
 - [ ] CSP changes are specific and tested
-- [ ] no secret keys are present in the frontend bundle
 - [ ] public keys are restricted appropriately
 - [ ] iframe or widget permissions are minimal
 - [ ] data access and transmission risks are understood

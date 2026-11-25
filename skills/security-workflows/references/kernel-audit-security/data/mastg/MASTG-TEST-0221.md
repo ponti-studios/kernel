@@ -18,7 +18,7 @@ profiles:
 
 ## Overview
 
-To test for the [use of broken encryption algorithms](../../../Document/0x04g-Testing-Cryptography.md#identifying-insecure-andor-deprecated-cryptographic-algorithms) in Android apps, we need to focus on methods from cryptographic frameworks and libraries that are used to perform encryption and decryption operations.
+To test for the use of broken encryption algorithms in Android apps, we need to focus on methods from cryptographic frameworks and libraries that are used to perform encryption and decryption operations.
 
 - [`Cipher.getInstance`](<https://developer.android.com/reference/javax/crypto/Cipher#getInstance(java.lang.String)>): Initializes a Cipher object for encryption or decryption. The `algorithm` parameter can be one of the [supported algorithms](https://docs.oracle.com/javase/8/docs/technotes/guides/security/StandardNames.html#Cipher).
 - [`SecretKeyFactory.getInstance`](<https://developer.android.com/reference/javax/crypto/SecretKeyFactory#getInstance(java.lang.String)>): Returns a SecretKeyFactory object that converts keys into key specifications and vice versa. The `algorithm` parameter can be one of the [supported algorithms](https://docs.oracle.com/javase/8/docs/technotes/guides/security/StandardNames.html#SecretKeyFactory).
@@ -43,4 +43,4 @@ The output should contain a list of locations where insecure symmetric encryptio
 
 ## Evaluation
 
-The test case fails if you can find [insecure or deprecated](../../../Document/0x04g-Testing-Cryptography.md#identifying-insecure-andor-deprecated-cryptographic-algorithms) encryption algorithms being used.
+The test case fails if you can find insecure or deprecated encryption algorithms being used.

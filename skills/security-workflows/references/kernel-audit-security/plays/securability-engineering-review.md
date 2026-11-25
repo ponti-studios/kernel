@@ -102,7 +102,7 @@ Show the math in the report.
 
 ### 11. Classify each finding's severity
 
-Use the severity table in the skill — engineering-impact based, not CVSS. Severities are CRITICAL / HIGH / MEDIUM / LOW / INFO.
+Use the likelihood x impact scale in [audit-methodology/WORKFLOW.md](../audit-methodology/WORKFLOW.md#severity-requires-impact), as the review's severity section directs. Record SSEM score impact separately; it does not set severity.
 
 ### 12. Assemble the three-part report
 

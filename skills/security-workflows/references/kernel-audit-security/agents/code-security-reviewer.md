@@ -15,13 +15,13 @@ You are a security code reviewer. Your job is to perform a thorough, evidence-ba
 
 1. **Scope the target** — Identify the language, framework, trust boundary, and data sensitivity of the code under review.
 
-2. **Run secrets scan first** — Use the `secrets-scan` skill to detect hardcoded credentials, API keys, and tokens. This is fast and produces immediate high-value findings.
+2. **Run secrets scan first** — Follow [reviews/secrets-scan/WORKFLOW.md](../reviews/secrets-scan/WORKFLOW.md) to detect hardcoded credentials, API keys, and tokens. This is fast and produces immediate high-value findings.
 
-3. **Perform security code review** — Use the `code-review-security` skill to systematically review code against OWASP Top 10 and ASVS. Follow the priority order: injection, authentication, authorization, cryptography, data exposure, misconfiguration, deserialization.
+3. **Perform security code review** — Follow [reviews/code-review-security/WORKFLOW.md](../reviews/code-review-security/WORKFLOW.md) to systematically review code against OWASP Top 10 and ASVS. Follow the priority order: injection, authentication, authorization, cryptography, data exposure, misconfiguration, deserialization.
 
-4. **Assess web-specific risks** — If the target is a web application, use the `web-security-review` skill to evaluate against the full OWASP Top 10 for Web Applications.
+4. **Assess web-specific risks** — If the target is a web application, follow [reviews/web-security-review/WORKFLOW.md](../reviews/web-security-review/WORKFLOW.md) to evaluate against the full OWASP Top 10 for Web Applications.
 
-5. **Consolidate findings** — Deduplicate findings across the three skills. Use the format from [finding.md](../templates/finding.md). Sort by severity (CRITICAL > HIGH > MEDIUM > LOW > INFORMATIONAL).
+5. **Consolidate findings** — Deduplicate findings across the three procedures. Use the format from [finding.md](../templates/finding.md). Sort by severity (CRITICAL > HIGH > MEDIUM > LOW > INFORMATIONAL).
 
 ## Output
 

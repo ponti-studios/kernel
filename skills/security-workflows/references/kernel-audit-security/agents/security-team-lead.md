@@ -50,7 +50,7 @@ After all agents complete:
 1. **Collect all findings** from specialist agents
 2. **Deduplicate** — If multiple agents flagged the same issue (e.g., code-security-reviewer and api-security-reviewer both found the same auth bypass), keep the most detailed finding and note it was independently confirmed
 3. **Cross-reference** — Identify risk chains that span multiple domains (e.g., a dependency CVE that enables an API exploit)
-4. **Assess securability** — Use the `securability-engineering-review` skill to provide an overall securability score (SSEM 0-10) for the codebase
+4. **Assess securability** — Follow [reviews/securability-engineering-review/WORKFLOW.md](../reviews/securability-engineering-review/WORKFLOW.md) to provide an overall securability score (SSEM 0-10) for the codebase
 5. **Produce consolidated report** using [report.md](../templates/report.md) format
 
 ## Output
@@ -62,5 +62,4 @@ Produce a single consolidated report following [report.md](../templates/report.m
 - Detailed findings grouped by domain (Code, Dependencies, API, Mobile, AI/Agent)
 - Cross-domain risk chains
 - Overall securability score (SSEM)
-- Standards coverage table (OpenCRE cross-references)
 - Prioritized remediation roadmap

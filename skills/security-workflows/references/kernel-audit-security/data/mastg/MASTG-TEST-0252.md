@@ -27,7 +27,7 @@ When these settings are combined, they can enable an attack in which a malicious
 
 Even though these methods have secure defaults and are **deprecated in Android 10 (API level 29) and later**, they can still be explicitly set to `true` or their insecure defaults may be used in apps that run on older versions of Android (due to their `minSdkVersion`).
 
-Refer to [Android WebView Local File Access Settings](../../../Document/0x05h-Testing-Platform-Interaction.md#webview-local-file-access-settings) for more information on these methods (default values, deprecation status, security implications), the specific files that can be accessed, and the conditions under which they can be accessed.
+Refer to Android WebView Local File Access Settings for more information on these methods (default values, deprecation status, security implications), the specific files that can be accessed, and the conditions under which they can be accessed.
 
 **Example Attack Scenario**:
 
@@ -72,7 +72,7 @@ The output should contain a list of WebView instances where the abovementioned m
 
 ## Evaluation
 
-The test case fails if all of the following applies (based on the [API behavior across different Android versions](../../../Document/0x05h-Testing-Platform-Interaction.md#webview-local-file-access-settings)):
+The test case fails if all of the following applies (based on the API behavior across different Android versions):
 
 - `setJavaScriptEnabled` is explicitly set to `true`.
 - `setAllowFileAccess` is explicitly set to `true` (or not used at all when `minSdkVersion` < 30, inheriting the default value, `true`).

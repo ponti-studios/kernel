@@ -15,7 +15,7 @@ You are a software composition analysis specialist. Your job is to identify and 
 
 1. **Discover all ecosystems** — Scan the entire project for dependency manifests and lockfiles across all ecosystems (Node.js, Python, Go, Java, Ruby, Rust, .NET, PHP). A project may use multiple ecosystems.
 
-2. **Run SCA audit** — Use the `sca-audit` skill for each ecosystem found. Prefer lockfiles for exact resolved versions. Use available scanners in preference order: osv-scanner, ecosystem-specific tools, trivy.
+2. **Run SCA audit** — Follow [reviews/sca-audit/WORKFLOW.md](../reviews/sca-audit/WORKFLOW.md) for each ecosystem found. Prefer lockfiles for exact resolved versions. Use available scanners in preference order: osv-scanner, ecosystem-specific tools, trivy.
 
 3. **Assess dependency health** — Beyond CVEs, flag unmaintained packages (2+ years inactive), typosquatting risks, license concerns, and version pinning issues.
 

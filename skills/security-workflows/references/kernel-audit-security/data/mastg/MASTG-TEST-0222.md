@@ -16,7 +16,7 @@ profiles:
 
 ## Overview
 
-This test case checks if the [native libraries](../../../Document/0x04h-Testing-Code-Quality.md#binary-protection-mechanisms) of the app are compiled without enabling [Position Independent Code (PIC)](../../../Document/0x04h-Testing-Code-Quality.md#position-independent-code), a common mitigation technique against memory corruption attacks.
+This test case checks if the native libraries of the app are compiled without enabling Position Independent Code (PIC), a common mitigation technique against memory corruption attacks.
 
 Since Android 5.0 (API level 21), Android requires [all dynamically linked executables to support PIE](https://source.android.com/docs/security/enhancements/#android-5).
 

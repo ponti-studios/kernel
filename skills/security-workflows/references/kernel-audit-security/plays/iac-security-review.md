@@ -53,9 +53,9 @@ checkov -d .                     # Policy-as-code scanning
 
 Review each domain systematically. Reference the corresponding prompt data file for the detected IaC type:
 
-- Terraform → `data/secure-code-prompts/terraform.md`
-- Kubernetes → `data/secure-code-prompts/kubernetes.md`
-- CloudFormation → `data/secure-code-prompts/cloudformation.md`
+- Terraform → `../data/secure-code-prompts/terraform.md`
+- Kubernetes → `../data/secure-code-prompts/kubernetes.md`
+- CloudFormation → `../data/secure-code-prompts/cloudformation.md`
 
 #### 3.1 Identity & Access Management
 
