@@ -85,11 +85,8 @@ Writing rules live in writing-workflows (interface-copy procedure). Draft and
 revise text there; the points below are the design-side checks a layout must
 leave room for, and writing-workflows wins if they ever disagree.
 
-- Use short, direct sentences with plain verbs and concrete nouns.
-- State the action, result, or error first.
-- Present suggestions as options.
-- Do not use hype, cheerleading, theatrical reassurance, or vague claims.
-- Do not make an instruction sound mandatory unless it is required.
+- Give every string room for its longest approved version, including translation and wrapping.
+- Keep one name per action across a flow, so a control and its result use the same words.
 
 Preferred examples: `This looks overdue.`, `I found three related notes.`,
 and `Want to move this to tomorrow?`
