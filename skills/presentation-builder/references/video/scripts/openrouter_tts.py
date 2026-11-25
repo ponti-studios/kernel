@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""tb audio provider: OpenRouter gpt-audio-mini TTS + Parakeet word timestamps."""
+"""presentation-builder audio provider: OpenRouter gpt-audio-mini TTS + Parakeet word timestamps."""
 import base64
 import json
 import os

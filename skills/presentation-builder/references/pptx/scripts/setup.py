@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Dependency setup for the powerpoint skill.
+"""Dependency setup for the pptx procedure.
 
 The skill owns its dependency. Do not `pip install python-pptx` ad hoc:
 that lands the package in whatever interpreter happens to be first on PATH

@@ -21,7 +21,7 @@ try:
 except ImportError:
     sys.exit(
         f"python-pptx is missing from {sys.executable}. "
-        f"Install via the powerpoint skill: python3 skills/powerpoint/scripts/setup.py --install-deps"
+        f"Install dependencies: python3 scripts/setup.py --install-deps (from this procedure folder)"
     )
 
 

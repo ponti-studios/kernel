@@ -9,6 +9,7 @@
         "computer-workflows",
         "design-workflows",
         "engineering-workflows",
+        "presentation-builder",
         "security-workflows",
         "studio-workflows",
         "writing-workflows"
@@ -18,7 +19,6 @@
       "title": "Project tools and preferences",
       "description": "Standing preferences and executable project integrations.",
       "skills": [
-        "create-presentation",
         "app-configuration",
         "apple-notes",
         "apple-reminders",
@@ -67,7 +67,6 @@
         "p5js",
         "pdf",
         "ponti-principles",
-        "powerpoint",
         "product-price-monitor",
         "python-debugpy",
         "python-package-release",

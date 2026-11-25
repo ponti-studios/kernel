@@ -1,4 +1,4 @@
-# OpenRouter TTS Provider for `tb`
+# OpenRouter TTS Provider for `presentation-builder`
 
 OpenRouter's `openai/gpt-audio-mini` is the only audio-output model available.
 Gemini Flash Lite is text-only on OpenRouter (no TTS). The audio endpoint
@@ -8,7 +8,7 @@ Streaming audio is PCM16 at 24 kHz (mp3 format is not supported when streaming).
 
 ## Provider contract
 
-`tb` calls the audio provider with JSON on stdin:
+`presentation-builder` calls the audio provider with JSON on stdin:
 
 ```json
 {
@@ -53,7 +53,7 @@ and print a JSON summary on stdout.
 ## Environment
 
 ```sh
-export TB_AUDIO_CMD="python3 /path/to/openrouter_tts.py"
+export PRESENTATION_BUILDER_AUDIO_CMD="python3 /path/to/openrouter_tts.py"
 export OPENROUTER_API_KEY="sk-or-..."
-tb audio <slug> --provider command
+presentation-builder audio <slug> --provider command
 ```

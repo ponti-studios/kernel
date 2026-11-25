@@ -1,4 +1,4 @@
-"""End-to-end tests for the powerpoint skill helper scripts.
+"""End-to-end tests for the pptx procedure helper scripts.
 
 Runs entirely offline. Exercises create, read, template-fill (with
 non-ASCII values), and edit (text + chart data + remove/move slide).

@@ -1,18 +1,5 @@
----
-name: powerpoint
-description: Create, read, edit .pptx decks with python-pptx.
-version: 1.1.0
-author: Nous Research
-license: MIT
-platforms: [linux, macos, windows]
-metadata:
-  hermes:
-    tags: [pptx, powerpoint, presentations, slides, office, python-pptx]
-    category: productivity
-    related_skills: [docx, xlsx, pdf]
----
 
-# Powerpoint Skill
+# PowerPoint (.pptx) procedure
 
 Create, inspect, and edit PowerPoint (.pptx) presentations using the
 python-pptx library. Five helper scripts cover deck creation from a JSON
