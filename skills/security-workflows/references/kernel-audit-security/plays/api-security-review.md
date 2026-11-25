@@ -22,8 +22,17 @@ Use this play when:
 - Authentication implementation details (JWT, OAuth, API keys)
 - Environment information (production, staging, development)
 - Previous security assessment reports (if available)
+- **Target and authorization.** Named target and the owner's go-ahead for active testing (see the gate below)
 
 ## Procedure
+
+**Authorization gate.** Static review (reading specs, code, and configs) needs no gate. Any step marked
+**[ACTIVE]** sends traffic to a live API: brute force, ID sweeps, rate-limit floods, active scanners,
+and exploit requests. Run those only when the user has confirmed, in chat, that they own or are
+authorized to test the target. The target must be a named non-production environment (or the user's own
+test accounts). Keep volume small (a handful of requests, not thousands), and stop at the first clear
+result. Never run [ACTIVE] steps against production. If the gate is not met, report the step as
+"requires authorized testing" rather than running it.
 
 ### Phase 1: Discovery & Reconnaissance
 
@@ -247,14 +256,12 @@ Document all auth mechanisms in use:
    - Attempt to access with User B's credentials
 3. **Batch Testing**: Test if batch endpoints filter by ownership
 4. **File Access**: Test file download endpoints with different IDs
-5. **IDOR Automation**:
+5. **IDOR check [ACTIVE]**: gated (see Authorization gate). Use only the test accounts' own IDs and a few
+   neighbors, not a sweep:
    ```bash
-   # Use Burp Intruder or custom script
-   # Iterate through IDs and check for 200 responses
-   for i in {1..1000}; do
-     curl -H "Authorization: Bearer $TOKEN" \
-          "https://api.example.com/orders/$i" | grep -q "order_id" && echo "Found: $i"
-   done
+   # Requires authorization. Token belongs to User B; order 1001 belongs to User A.
+   curl -s -o /dev/null -w "%{http_code}\n" -H "Authorization: Bearer $TOKEN_B" \
+        "https://<authorized-staging-host>/orders/1001"   # expect 403/404
    ```
 
 **Remediation:**
@@ -321,15 +328,14 @@ def get_order(order_id, user):
 
 **Testing Approach:**
 
-1. **Brute Force Testing**:
-
+1. **Brute force / lockout check [ACTIVE]**: gated. Use a throwaway test account on an authorized
+   staging host, and send a handful of bad logins, not a dictionary attack:
    ```bash
-   # Test login endpoint rate limiting
-   for i in {1..100}; do
-     curl -X POST https://api.example.com/login \
-          -d "username=admin&password=wrong$i"
+   # Requires authorization. Confirm lockout or throttling after ~5 failures, then stop.
+   for i in 1 2 3 4 5; do
+     curl -s -o /dev/null -w "%{http_code}\n" -X POST https://<authorized-staging-host>/login \
+          -d "username=<test-account>&password=wrong$i"
    done
-   # Check if account locks or IP is blocked
    ```
 
 2. **Token Security**:
@@ -548,18 +554,14 @@ class UserSerializer(serializers.ModelSerializer):
 
 **Testing Approach:**
 
-1. **Rate Limit Testing**:
-
+1. **Rate Limit Testing [ACTIVE]**: gated. Stay under the limit by a small margin on an authorized staging
+   host. Never flood, and never test distributed or header-rotation bypasses from the user's machine without
+   explicit approval for that exact test:
    ```bash
-   # Test from single IP
-   for i in {1..1000}; do
-     curl https://api.example.com/data
+   # Requires authorization. Send a small burst and watch for 429s.
+   for i in $(seq 1 20); do
+     curl -s -o /dev/null -w "%{http_code}\n" https://<authorized-staging-host>/data
    done
-
-   # Test bypass methods:
-   # - Different API keys
-   # - Rotating User-Agents
-   # - Distributed requests
    ```
 
 2. **GraphQL DoS**:
@@ -1254,13 +1256,16 @@ def verify_webhook(request):
 
 ### Phase 4: Automated Security Testing
 
-#### 4.1 API Security Scanning
+#### 4.1 API Security Scanning [ACTIVE]
+
+Everything in this section sends attack traffic. It is gated (see Authorization gate). Run only against an
+authorized non-production host, and never against production.
 
 **OWASP ZAP**:
 
 ```bash
-# Automated API scan
-zap-api-scan.py -t https://api.example.com/openapi.json -f openapi
+# Requires authorization. Passive or spec-only checks first; active scans only when approved.
+zap-api-scan.py -t https://<authorized-staging-host>/openapi.json -f openapi
 
 # With authentication
 zap-api-scan.py -t https://api.example.com/openapi.json \
@@ -1275,7 +1280,7 @@ zap-api-scan.py -t https://api.example.com/openapi.json \
 **Burp Suite**:
 
 - Import OpenAPI spec
-- Run active scan on all endpoints
+- [ACTIVE, gated] Run an active scan on an authorized non-production host only
 - Test for BOLA, authentication bypasses
 
 **Postman Security Tests**:

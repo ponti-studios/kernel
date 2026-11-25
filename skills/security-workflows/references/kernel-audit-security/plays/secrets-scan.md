@@ -26,9 +26,13 @@ Use available tools in order of preference:
 1. **trufflehog** (recommended — scans current files + git history):
 
    ```bash
-   trufflehog filesystem --directory=<path> --json
-   trufflehog git file://<repo_path> --json  # includes git history
+   trufflehog filesystem --directory=<path> --json --no-verification
+   trufflehog git file://<repo_path> --json --no-verification  # includes git history
    ```
+
+   Always pass `--no-verification`. Without it, TruffleHog sends each found credential to its provider's
+   API to test whether it works, which leaks the secret to a third party. Checking whether a key is live is a
+   separate step and needs the user's approval first.
 
 2. **gitleaks** (git-aware scanning):
 

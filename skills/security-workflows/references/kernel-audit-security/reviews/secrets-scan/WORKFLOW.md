@@ -5,8 +5,8 @@ Detect hardcoded secrets by following the full procedure in [secrets-scan.md](..
 ## Steps
 
 1. **Run Automated Scanner** — Use available tools in preference order:
-   - `trufflehog filesystem --directory=<path> --json` (recommended)
-   - `trufflehog git file://<repo> --json` (includes git history)
+   - `trufflehog filesystem --directory=<path> --json --no-verification` (recommended; keep `--no-verification`, or the found secrets get sent to providers)
+   - `trufflehog git file://<repo> --json --no-verification` (includes git history)
    - `gitleaks detect --source=<path> --report-format=json`
    - `detect-secrets scan <path> --all-files`
    - If no scanner available, proceed with manual pattern analysis.
@@ -17,7 +17,7 @@ Detect hardcoded secrets by following the full procedure in [secrets-scan.md](..
    - Private keys (PEM headers), JWT secrets, database credentials
    - High-risk files: `.env`, `docker-compose*.yml`, `*.tfvars`, `terraform.tfstate`, `kubeconfig`, `.npmrc`, `.pypirc`
 
-3. **Contextual Analysis** — For each detection: Is it real (not a placeholder/test fixture)? Is it active? What's the blast radius (service, permissions, prod vs dev, exposure duration)?
+3. **Contextual Analysis** — For each detection: Is it real (not a placeholder/test fixture)? Is it active? (Testing a key against its provider counts as an outbound action: ask the user first.) What's the blast radius (service, permissions, prod vs dev, exposure duration)?
 
 4. **Check Preventive Controls** — Verify: `.gitignore` covers sensitive files, pre-commit hooks for secret scanning, CI pipeline scanning, secrets management documentation.
 

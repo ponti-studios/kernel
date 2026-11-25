@@ -3,7 +3,8 @@
 #
 # Rules every cleanup script follows:
 #   - Dry run by default. Pass --yes to act.
-#   - Nothing is permanently deleted. Removals move to ~/.Trash.
+#   - Removals move to ~/.Trash. The one exception is simulator deletion (`simctl`),
+#     which is permanent and needs its own flag: --include-simulators.
 #   - Every run appends to a log under ~/.local/state/computer-workflows/logs.
 
 set -uo pipefail
@@ -15,6 +16,7 @@ CW_SCRIPT="${CW_SCRIPT:-cleanup}"
 CW_LOG="$CW_LOG_DIR/$CW_RUN_ID-$CW_SCRIPT.log"
 CW_TRASH="$HOME/.Trash"
 CW_YES=0
+CW_INCLUDE_SIMULATORS=0
 
 mkdir -p "$CW_LOG_DIR"
 
@@ -27,6 +29,7 @@ cw_parse_flags() {
   for arg in "$@"; do
     case "$arg" in
       --yes) CW_YES=1 ;;
+      --include-simulators) CW_INCLUDE_SIMULATORS=1 ;;
       *) log "unknown argument: $arg"; exit 2 ;;
     esac
   done

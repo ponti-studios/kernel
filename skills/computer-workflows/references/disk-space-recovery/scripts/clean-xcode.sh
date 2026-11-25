@@ -2,8 +2,9 @@
 # Clears Xcode's rebuildable caches:
 #   - DerivedData: all of it (Xcode rebuilds it)
 #   - iOS DeviceSupport: keeps the newest build per device model, trashes older ones
-#   - Simulators: deletes runtimes and devices that are unavailable (via simctl)
-# Usage: clean-xcode.sh [--yes]
+#   - Simulators: lists unavailable runtimes and devices. Deleting them with simctl is
+#     PERMANENT (not Trash), so it runs only with --yes AND --include-simulators.
+# Usage: clean-xcode.sh [--yes] [--include-simulators]
 CW_SCRIPT=clean-xcode
 source "$(dirname "$0")/lib.sh"
 cw_parse_flags "$@"
@@ -48,10 +49,12 @@ fi
 
 log "== Simulators (unavailable runtimes and devices)"
 if command -v xcrun >/dev/null 2>&1; then
-  if [ "$CW_YES" = 1 ]; then
+  if [ "$CW_YES" = 1 ] && [ "$CW_INCLUDE_SIMULATORS" = 1 ]; then
+    log "PERMANENT: deleting unavailable simulators (simctl does not use the Trash)"
     xcrun simctl delete unavailable 2>&1 | tee -a "$CW_LOG"
   else
-    log "would run: xcrun simctl delete unavailable"
+    log "skipped. Listing unavailable simulators only. Deleting them is permanent;"
+    log "to delete, pass --yes --include-simulators."
     xcrun simctl list devices unavailable 2>/dev/null | tee -a "$CW_LOG" >/dev/null
   fi
 else

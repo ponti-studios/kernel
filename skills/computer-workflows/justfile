@@ -11,8 +11,9 @@ default:
 install:
     "{{ skill_dir }}/scripts/install.sh"
 
-# Clear Xcode caches (DerivedData, old iOS DeviceSupport, unavailable simulators).
-# Dry run by default. `just clean-xcode --yes` applies. Items go to the Trash.
+# Clear Xcode caches (DerivedData, old iOS DeviceSupport). Dry run by default.
+# `just clean-xcode --yes` applies; items go to the Trash.
+# Unavailable simulators are only deleted with `--yes --include-simulators`, which is permanent.
 clean-xcode *args:
     bash "{{ skill_dir }}/references/disk-space-recovery/scripts/clean-xcode.sh" {{ args }}
 
@@ -33,12 +34,14 @@ fda:
     open 'x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension?Privacy_AllFiles'
 
 # Remove a uniquely named Full Disk Access row only; the app itself is not uninstalled.
-fda-remove name:
-    "{{ skill_dir }}/scripts/remove-fda-entry.sh" {{ quote(name) }}
+# Preview by default. `just fda-remove <name> --yes` applies.
+fda-remove name confirm="":
+    "{{ skill_dir }}/scripts/remove-fda-entry.sh" {{ if confirm == "--yes" { "" } else { "--dry-run" } }} {{ quote(name) }}
 
 # Remove a specific matching row after previewing duplicates; row is rechecked before removal.
-fda-remove-row row name:
-    "{{ skill_dir }}/scripts/remove-fda-entry.sh" --row {{ quote(row) }} {{ quote(name) }}
+# Preview by default. `just fda-remove-row <row> <name> --yes` applies.
+fda-remove-row row name confirm="":
+    "{{ skill_dir }}/scripts/remove-fda-entry.sh" {{ if confirm == "--yes" { "" } else { "--dry-run" } }} --row {{ quote(row) }} {{ quote(name) }}
 
 # Preview matching Full Disk Access rows without changing them.
 fda-remove-preview name:
@@ -59,8 +62,9 @@ btm-disable-preview name:
     "{{ skill_dir }}/scripts/set-background-entry.sh" --dry-run {{ quote(name) }}
 
 # Turn off one exact Allow in Background item; never edits the BTM database directly.
-btm-disable name:
-    "{{ skill_dir }}/scripts/set-background-entry.sh" {{ quote(name) }}
+# Preview by default. `just btm-disable <name> --yes` applies.
+btm-disable name confirm="":
+    "{{ skill_dir }}/scripts/set-background-entry.sh" {{ if confirm == "--yes" { "" } else { "--dry-run" } }} {{ quote(name) }}
 
 # Report an app bundle's path, bundle identity, version, signature and size, or inspect a command.
 app-info target:

@@ -12,7 +12,9 @@ Consolidate files of one kind that are scattered across a tree into a single des
 
 4. **Review false positives manually.** Content scans produce false positives. Inspect borderline files before moving anything.
 
-5. **Dedupe by exact hash.** Compute MD5/SHA-256 for each candidate. Group byte-identical files; keep one per group and record duplicate paths. Remove duplicates only within an authorized deduplication scope; otherwise retain or archive them. Do not delete near-duplicates (same text, different PDF metadata or wording) without checking content.
+5. **Dedupe by exact hash.** Compute MD5/SHA-256 for each candidate. Group byte-identical files; keep one per group and record duplicate paths. Remove duplicates only within an authorized deduplication scope; otherwise retain or archive them. Removals go to `~/.Trash`, never `rm`. Do not delete near-duplicates (same text, different PDF metadata or wording) without checking content.
+
+5a. **Confirm the plan before touching files.** List every planned move and every duplicate to be trashed, with paths and counts. Get the user's go-ahead in chat before running any of it. Dry-run output counts as the plan, not as the approval.
 
 6. **Move, don't copy.** Move the chosen unique files into the destination. Preserve original basenames where they are meaningful; rename generic or colliding names (e.g. `resume.pdf`, `resume (1).pdf`) so each file is identifiable, and record the mapping.
 

@@ -54,16 +54,22 @@ Measure a specific app's cache before clearing it — some "caches" are the only
 ### Clearing Xcode caches
 
 `clean-xcode.sh` clears the rebuildable Xcode caches. It keeps the newest iOS DeviceSupport build for each
-device model, and deletes unavailable simulators through `xcrun simctl`. It is a dry run unless you pass `--yes`,
-and it refuses to apply while Xcode is open.
+device model. It is a dry run unless you pass `--yes`, and it refuses to apply while Xcode is open.
 
 ```bash
 just clean-xcode          # dry run
-just clean-xcode --yes    # apply
+just clean-xcode --yes    # apply: DerivedData and older DeviceSupport builds go to ~/.Trash
 ```
 
-Items move to `~/.Trash`. They take no space on disk until the Trash is emptied. Report the `df` figure after
-emptying the Trash, not the size the script moved.
+Unavailable simulators are listed but **not** deleted by default. `xcrun simctl delete` is permanent and skips
+the Trash, so it runs only when you pass both flags and have confirmed with the user:
+
+```bash
+just clean-xcode --yes --include-simulators   # PERMANENT: ask the user first
+```
+
+Trashed items take no space on disk until the Trash is emptied. Report the `df` figure after emptying the
+Trash, not the size the script moved.
 
 ## 2. The snapshot trap — check this before believing your deletion did nothing
 
@@ -83,8 +89,9 @@ A snapshot may be annotated _"This snapshot limits the minimum size of APFS Cont
 tmutil deletelocalsnapshots <yyyy-mm-dd-hhmmss>
 ```
 
-Deleting a **local** snapshot releases the blocks of everything already deleted — one snapshot
-freed ~110 GB in one step, alongside a 3.7 GB SQLite vacuum. Independent backup restore points
+Deleting a **local** snapshot releases the blocks of everything already deleted, but it cannot be undone.
+Before running `deletelocalsnapshots`, **ask the user**: name the snapshot date, say what it pins, and say that
+it cannot be restored. Independent backup restore points
 (`/Volumes/com.apple.TimeMachine.localsnapshots/Backups.backupdb/<host>/<date>/`) are separate and
 survive; only the _snapshots_ pin space.
 
@@ -108,7 +115,9 @@ print('file %.2f GB, live %.2f GB, reclaimable %.2f GB' % (
 " <path/to.db>
 ```
 
-To reclaim: stop whatever holds the database open (a `KeepAlive` launchd job, for instance —
+To reclaim: **ask the user first** (in-place `VACUUM` rewrites the live database). Then take a backup you
+can restore from, for example `VACUUM INTO '<backup path>'`, and keep it until the user confirms the
+result. Stop whatever holds the database open (a `KeepAlive` launchd job, for instance —
 `launchctl bootout gui/$(id -u)/<label>`), then `VACUUM` in place, then restore the job with
 `launchctl bootstrap gui/$(id -u) <plist>`. Verify with `pragma integrity_check` and a row count
 before and after. `VACUUM INTO` writes a new file and works while a reader is attached, but the
@@ -119,7 +128,8 @@ Known instance: `~/.local/share/opencode/opencode.db` grew to 4.3 GB with 0.88 G
 ## 4. iCloud containers
 
 `~/Library/Mobile Documents` holds one container per app that used iCloud. Removing one requires
-write permission on the **parent**, which is `dr-x------` by design:
+write permission on the **parent**, which is `dr-x------` by design. The `rm -rf` below is **permanent**
+(no Trash), so **ask the user first**, name the container, and confirm it is not the only copy of their data:
 
 ```bash
 chmod u+w ~/Library/Mobile\ Documents
