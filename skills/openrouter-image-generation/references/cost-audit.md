@@ -19,9 +19,10 @@ Use when the user asks "how many images did that generate / what did it cost".
    find it before reporting a number.
 
 4. **Prefer exact costs over derived ones.** Per-call `usage.cost` comes back in
-   the response and lands in `~/.hominem/ai_usage/*.json`; sum those for the
+   the response and lands in the usage dir (`$OPENROUTER_IMAGE_USAGE_DIR`, else
+   `${HOMINEM_HOME:-~/.hominem}/ai_usage`) as `*.json`; sum those for the
    models in play. If the calls were not logged, say so, and derive from (5).
-   Enumerate that tree with `find ~/.hominem/ai_usage -type f -name '*.json'`
+   Enumerate that tree with `find "${OPENROUTER_IMAGE_USAGE_DIR:-${HOMINEM_HOME:-$HOME/.hominem}/ai_usage}" -type f -name '*.json'`
    rather than a flat glob: an external archiver reorganises the directory into
    `YYYY/MM/` subdirectories, and a flat glob then returns nothing — which reads
    as "the logs were deleted" when they were merely moved.

@@ -60,12 +60,13 @@ aspects, and cost. Choose on those, and let the user judge the output.
 
 ## Logging convention
 
-- Scripts are bundled in this skill under `scripts/` (symlinks to the live copies in `~/.hominem/`, so there is one canonical file and no drift). Read them from the skill dir; run them from anywhere.
+- Scripts are bundled in this skill under `scripts/`. Read them from the skill dir; run them from anywhere.
 - `scripts/or_image_gen.py <out.png> "<prompt>" [model] [aspect] [resolution]` — or `@file.txt` as the prompt arg. Use it instead of hand-rolling a script; pass `resolution`/`aspect_ratio` only for models that support them.
 - `scripts/gen_and_log.py <out.png> "<prompt>" [model]` — older chat-completions variant, same logging.
 - `scripts/image_edit_server.py` — click-to-edit server (port 8811).
 - `scripts/render_sweep.sh` — resume-safe model x spec x N-sample sweep. Every image lands in the inbox with the required naming, one log line per attempt, and a rendered/skipped/failed summary. Output names are stable per sweep, so re-running the SAME command after a kill renders only what is missing. Run it as a tracked background job; override `RENDERER=` / `INBOX=` if you are not using the studio renderer.
-- Logs one `~/.hominem/ai_usage/<timestamp>.json` per attempt (model, prompt size, elapsed, status, cost, output path). Every attempt is billed whether or not it returns an image, so the filtered ones must be logged too — an unlogged session makes its own spend unaccountable.
+- Logs one `<usage dir>/<timestamp>.json` per attempt (model, prompt size, elapsed, status, cost, output path). Every attempt is billed whether or not it returns an image, so the filtered ones must be logged too — an unlogged session makes its own spend unaccountable.
+- The usage dir is `$OPENROUTER_IMAGE_USAGE_DIR` if set, else `${HOMINEM_HOME:-~/.hominem}/ai_usage`.
 
 ## Prompt voice: state what IS, never what to exclude
 
@@ -86,7 +87,7 @@ aspects, and cost. Choose on those, and let the user judge the output.
 1. Source `~/.localrc` for `OPENROUTER_API_KEY` (usually not in `${HOMINEM_HOME:-~/.hominem}/.env`).
 2. Prefer `scripts/or_image_gen.py` — it builds the payload, saves the image and logs usage in one step.
 3. Extract the image from `data[0].b64_json`; save to a file.
-4. Confirm the log line landed in `~/.hominem/ai_usage/`.
+4. Confirm the log line landed in the usage dir.
 5. **Never judge the render — file it and hand it over.** No vision inspection, no scoring, no "does it match the brief" verdict on generated output. Report model, prompt sha256, aspect, resolution, real pixel size, cost and file path, then let Charles judge. This is absolute, and it is not a shortcut: model reads of small objects and downscaled panels are unreliable and a leading question is answered affirmatively — two fabricated findings came out of one image that way and were caught only by the user's eye.
 6. **Deliver into the inbox and read the path back off disk before quoting it.** `~/Documents/studio/output/images/<YYYYMMDD-HHMMSS>_<model>_<what>.<ext>` (the studio renderer's default; timestamp first so the folder sorts), keep `_index.md` current. A path written from memory rather than from the filesystem is a dead link; if you use a `MEDIA:` line, the path in it must already exist.
 7. **Let the user set the sample count, and ask before a sweep.** Run the smallest experiment that answers the question — usually one render. A multi-arm sweep is a separate, explicit request even at ~$0.09. When a sweep is warranted, skip outputs that already exist so an interrupted run resumes instead of re-billing, and run it as a tracked background job rather than a shell you sit and poll.

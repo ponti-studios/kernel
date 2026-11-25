@@ -46,7 +46,7 @@ Multilingual trigger examples (not exhaustive):
 
 ## Prerequisites
 
-Before using the pipeline, verify these are set in `${HOMINEM_HOME:-~/.hominem}/.env`:
+Before using the pipeline, verify these are set in `<agent-home>/.env` (`<agent-home>` = your agent runtime's home dir):
 
 ```bash
 MSGRAPH_TENANT_ID=...

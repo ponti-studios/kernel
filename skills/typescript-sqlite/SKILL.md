@@ -450,7 +450,7 @@ const TOOLS = [
 - **Async tool handlers:** `tools/call` must handle async operations. Use an IIFE `(async () => { ... })()` to await the tool handler, since `handleRequest` itself is synchronous (called from readline 'line' event).
 - **stdout only for JSON-RPC:** All logging must go to stderr (`console.error`), never stdout. stdout is reserved for JSON-RPC responses. A stray `console.log` will corrupt the protocol.
 - **One response per request:** Every request with an `id` must get exactly one response. Notifications (no `id`) get no response.
-- **Storage path:** Use `SEME_STORAGE_DIR` env var or default to `~/.hominem`. The MCP server should use the same storage as the HTTP API.
+- **Storage path:** Use the `SEME_STORAGE_DIR` env var, falling back to a default directory under `$HOME`. The MCP server should use the same storage as the HTTP API.
 - **Entity extractor model:** If entity extraction fails ("Entity extractor unavailable"), set `SEME_EXTRACTOR_MODEL=google/gemini-3.8-flash` env var. The default model `anthropic/claude-haiku-5.5` may not be available on OpenRouter.
 - **Graceful shutdown:** Handle `rl.on('close')` to close the database connection and exit cleanly.
 
@@ -495,11 +495,11 @@ When using Bruno for API testing, ensure all `.bru` files use `{{baseUrl}}` (not
 
 ## Storage Default Pattern
 
-For persistent data (like `~/.hominem/memory.db`), use a user-home directory as the default storage location. The demo/seed script should use a temp directory to avoid deleting user data.
+For persistent data (like `$HOME/.my-app/memory.db`), use a user-home directory as the default storage location. The demo/seed script should use a temp directory to avoid deleting user data.
 
 ```typescript
 // server.ts — default to user home
-const STORAGE_DIR = process.env.SEME_STORAGE_DIR || `${process.env.HOME}/.hominem`;
+const STORAGE_DIR = process.env.SEME_STORAGE_DIR || `${process.env.HOME}/.my-app`;
 
 // index.ts (demo) — use temp dir to avoid deleting user data
 const STORAGE_DIR = process.env.SEME_STORAGE_DIR || "/tmp/scratchpad/seme-demo";

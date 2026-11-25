@@ -5,7 +5,8 @@ Usage:
     or_image_gen.py <output_path> "<prompt>" [model] [aspect_ratio] [resolution]
     or_image_gen.py <output_path> @prompt_file.txt [model] [aspect_ratio] [resolution]
 
-Logs every attempt (including filtered/failed ones) to ~/.hominem/ai_usage/<ts>.json.
+Logs every attempt (including filtered/failed ones) to <usage dir>/<ts>.json, where the
+usage dir is $OPENROUTER_IMAGE_USAGE_DIR, else ${HOMINEM_HOME:-~/.hominem}/ai_usage.
 """
 import base64
 import json
@@ -17,7 +18,7 @@ import urllib.error
 import urllib.request
 from datetime import datetime, timezone
 
-USAGE_DIR = os.path.expanduser("~/.hominem/ai_usage")
+USAGE_DIR = os.environ.get("OPENROUTER_IMAGE_USAGE_DIR") or os.path.join(os.environ.get("HOMINEM_HOME") or os.path.expanduser("~/.hominem"), "ai_usage")
 DEFAULT_MODEL = "bytedance-seed/seedream-5-0-flash"
 
 

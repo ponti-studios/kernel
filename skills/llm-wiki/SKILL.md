@@ -36,7 +36,7 @@ Use this skill when the user:
 
 ## Wiki Location
 
-**Location:** Set via `WIKI_PATH` environment variable (e.g. in `${HOMINEM_HOME:-~/.hominem}/.env`).
+**Location:** Set via `WIKI_PATH` environment variable (e.g. in `<agent-home>/.env`, where `<agent-home>` is your agent runtime's home dir).
 
 If unset, defaults to `~/wiki`.
 

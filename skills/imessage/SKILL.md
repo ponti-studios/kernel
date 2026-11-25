@@ -97,8 +97,8 @@ imsg-export export ~/imessage-export    # export only
 imsg-export verify ~/imessage-export    # audit only
 ```
 
-Installed as a uv tool (`~/.local/bin/imsg-export`), source `~/Developer/imsg-export`,
-published as `imsg-export` from `charlesponti/imsg-export`. On a machine without it:
+Installed as a uv tool (`~/.local/bin/imsg-export`), source `<imsg-export-repo>`,
+published as `imsg-export`. On a machine without it:
 `uvx imsg-export all <dir>`. Flags: `--db PATH` for a copied or mounted database,
 `--no-contacts` to skip the optional `imsg` lookup for contact names. Stdlib only.
 

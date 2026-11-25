@@ -39,10 +39,10 @@ when:
 
 - **Backend**: Hono + SQLite (better-sqlite3) + TypeScript. Runs on port 3000.
 - **Frontend**: TanStack Start (React + Tailwind v4 + shadcn/ui). Runs on port 5173.
-- **Storage**: `~/.hominem/memory.db` (override with `SEME_STORAGE_DIR`).
+- **Storage**: `<storage-dir>/memory.db`, where `<storage-dir>` is `SEME_STORAGE_DIR` or the app's default under `$HOME`.
 - **LLM**: OpenRouter, default model is `anthropic/claude-haiku-5.5` (7.5x cheaper than Gemini Flash, more reliable).
 - **Monorepo**: `apps/api` (backend) + `apps/web` (frontend) + `docs/` (HTML pages + essays).
-- **Essays**: `~/Developer/soapbox/src/pages/essays/` — 9 Astro pages (7 long-form + 2 animated: Knowledge Graph, Hybrid Search). Converted from standalone HTML to proper Astro pages using BaseLayout. Topics: Knowledge Graph, Hybrid Search, Entity Extraction, Auto-Deprecation, Source Ingestion, KB Intelligence, Temporal Queries, Animated Knowledge Graph, Animated Hybrid Search.
+- **Essays**: `<soapbox-repo>/src/pages/essays/` (the separate soapbox site repo) — 9 Astro pages (7 long-form + 2 animated: Knowledge Graph, Hybrid Search). Converted from standalone HTML to proper Astro pages using BaseLayout. Topics: Knowledge Graph, Hybrid Search, Entity Extraction, Auto-Deprecation, Source Ingestion, KB Intelligence, Temporal Queries, Animated Knowledge Graph, Animated Hybrid Search.
 - **Feature analysis**: `docs/feature-analysis.md` — lists all 24 features not on the original website.
 - **Status**: all tracked issues resolved; 201/201 evals passing (7 suites).
 - **Modules**: storage, extraction (memory + entity), resolver, profile, retrieval, ingest, validation, sleep, review, deletion, adaptation, graph, wiki, mcp, ingestion, search, kb, tasks, procedures, deprecation, import, integrations.

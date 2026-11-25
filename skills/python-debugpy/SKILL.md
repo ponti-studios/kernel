@@ -215,7 +215,7 @@ The easiest terminal-side DAP client is VS Code CLI or a small script. From insi
 **Option 1: `debugpy`'s own CLI REPL** — not an official feature, but a tiny DAP client script:
 
 ```python
-# ${HOMINEM_HOME:-~/.hominem}/cache/scratch/dap_client.py
+# ${AGENT_SCRATCH_DIR:-$HOME/.cache/agent-scratch}/dap_client.py
 import socket, json, itertools, time, sys
 
 HOST, PORT = "127.0.0.1", 5678

@@ -136,7 +136,7 @@ needs): `email` (Gmail read/send/modify), `calendar` (events + settings
 read-only, not sharing/ACLs), `contacts` (read-only), `drive` (full drive),
 `docs` (sheets + documents + drive), `all` (historical full set, default).
 `--profile NAME` isolates tokens per Google account
-(`~/.hominem/google_token.<profile>.json`). Secrets at rest are 0600.
+(`${HOMINEM_HOME:-~/.hominem}/google_token.<profile>.json`). Secrets at rest are 0600.
 
 Prefer `--authorize` over `--auth-url` + `--auth-code` when the agent runs on
 the user's own machine: it prints the URL, captures the localhost redirect

@@ -40,7 +40,7 @@ Three layers, and every fault is a disagreement between two of them:
 | ------ | ---------------------------------- | ----------------------------------------------------- |
 | source | the library repo, `skills/<name>/` | git history, the only copy worth editing              |
 | store  | `~/.agents/skills/<name>`          | what the loader actually reads; overwritten on update |
-| loader | `${HOMINEM_HOME:-~/.hominem}/skills/<name>`          | symlink the installer creates; never hand-make it     |
+| loader | `<agent-home>/skills/<name>`          | symlink the installer creates; never hand-make it     |
 
 `~/.agents/.skill-lock.json` is the only provenance record. A skill absent from it still loads and still
 looks installed, while `skills list` prints `Source: local` — which means "no record", not "installed from
@@ -138,7 +138,7 @@ contradiction pass because nothing in the skill disagrees with it.
 
 ## Pitfalls
 
-- **An installed copy is not where a law is edited.** `~/.agents/skills/<name>` (and the `${HOMINEM_HOME:-~/.hominem}` symlink
+- **An installed copy is not where a law is edited.** `~/.agents/skills/<name>` (and the `<agent-home>` symlink
   through it) is overwritten by the next `skills add`/`update`; a scope change, a deletion or a fix belongs
   in the source repo, committed and pushed, then reinstalled. Editing the store looks like it worked until
   the next machine updates.

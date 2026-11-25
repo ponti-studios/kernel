@@ -1,5 +1,8 @@
 import json, os, base64, urllib.request, time, sys, datetime
 
+# Where per-attempt cost logs land. Override with OPENROUTER_IMAGE_USAGE_DIR.
+USAGE_DIR = os.environ.get("OPENROUTER_IMAGE_USAGE_DIR") or os.path.join(os.environ.get("HOMINEM_HOME") or os.path.expanduser("~/.hominem"), "ai_usage")
+
 def main():
     if len(sys.argv) < 3:
         print("usage: gen_and_log.py <output_path> <prompt> [model]")
@@ -50,7 +53,7 @@ def main():
             "cost": usage.get("cost"),
         },
     }
-    log_path = os.path.join(os.path.expanduser("~/.hominem/ai_usage"), ts + ".json")
+    log_path = os.path.join(USAGE_DIR, ts + ".json")
     with open(log_path, "w") as f:
         json.dump(log, f, indent=2)
     print(json.dumps({"output": out_path, "duration_seconds": round(elapsed, 3), "cost": usage.get("cost"), "total_tokens": usage.get("total_tokens"), "log": log_path}, indent=2))

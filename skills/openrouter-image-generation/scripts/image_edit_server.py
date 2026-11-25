@@ -1,5 +1,8 @@
 import http.server, json, os, base64, urllib.request, time, datetime, socketserver
 
+# Where per-attempt cost logs land. Override with OPENROUTER_IMAGE_USAGE_DIR.
+USAGE_DIR = os.environ.get("OPENROUTER_IMAGE_USAGE_DIR") or os.path.join(os.environ.get("HOMINEM_HOME") or os.path.expanduser("~/.hominem"), "ai_usage")
+
 PORT = 8811
 API_KEY = os.environ.get("OPENROUTER_API_KEY", "")
 MODEL = "bytedance-seed/seedream-5-0-flash"
@@ -285,7 +288,7 @@ class Handler(http.server.BaseHTTPRequestHandler):
                 "cost": usage.get("cost"),
             },
         }
-        log_path = os.path.join(os.path.expanduser("~/.hominem/ai_usage"), ts + ".json")
+        log_path = os.path.join(USAGE_DIR, ts + ".json")
         with open(log_path, "w") as f:
             json.dump(log, f, indent=2)
 
@@ -309,7 +312,7 @@ class Handler(http.server.BaseHTTPRequestHandler):
         pass
 
 if __name__ == "__main__":
-    os.makedirs(os.path.expanduser("~/.hominem/ai_usage"), exist_ok=True)
+    os.makedirs(USAGE_DIR, exist_ok=True)
     with socketserver.TCPServer(("127.0.0.1", PORT), Handler) as httpd:
         print(f"Serving on http://127.0.0.1:{PORT}")
         httpd.serve_forever()
