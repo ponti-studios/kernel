@@ -1,7 +1,9 @@
 # UI Voice and Tone
 
-Use this as the default interface-copy contract. A product may override it only
-with a documented product profile.
+Design-side checklist for reviewing interface copy in a layout. Drafting and
+revising copy belongs to writing-workflows (interface-copy procedure), which
+wins if the two disagree. A product may override this only with a documented
+product profile.
 
 ## Voice
 

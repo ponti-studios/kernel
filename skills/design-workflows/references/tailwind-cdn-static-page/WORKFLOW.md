@@ -6,6 +6,8 @@
 - When the user wants Tailwind styling without a Vite/Webpack setup.
 - When embedding a React component (from npm) into a static page via CDN.
 
+This procedure covers CDN mechanics only (Tailwind Play CDN, import maps, local verification). For the design process and taste (brief, variants, visual direction) use the `claude-design` skill; for a known brand's visual language use [web-designs](../web-designs/WORKFLOW.md); for a project with a shared design system use [kernel-design](../kernel-design/WORKFLOW.md).
+
 ## Setup
 
 1. Add Tailwind Play CDN in `<head>`:
@@ -64,50 +66,3 @@ For React (or any npm package) loaded from a CDN in a static page:
 - Serve locally: `python3 -m http.server 8080` in the site directory.
 - Check with headless Chrome: `google-chrome --headless=new --virtual-time-budget=15000 --dump-dom http://127.0.0.1:8080/` — look for rendered `<canvas>` or component output.
 - If a component fails to render, check `data-status` attributes or `window.onerror` handlers added temporarily.
-
-## Animated back-and-forth demo pattern
-
-For a "fuzzy text → structured output" demo (e.g., showing extraction results), use CSS animations + JS:
-
-```css
-.msg-enter {
-  animation: msgSlideIn 0.4s ease-out forwards;
-  opacity: 0;
-  transform: translateY(12px);
-}
-@keyframes msgSlideIn {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-.mem-enter {
-  animation: memFadeIn 0.5s ease-out forwards;
-  opacity: 0;
-  transform: scale(0.95);
-}
-@keyframes memFadeIn {
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-```
-
-JS pattern:
-
-- Define a `conversation` array with `{role, text, delay, memories: [...]}` entries
-- `runAnimation()`: iterate turns, `setTimeout` for each message, then `setTimeout` for each memory card (staggered 300ms)
-- `clearAll()`: clear timeouts, empty containers, reset stats
-- Replay button calls `runAnimation()`
-- Auto-start with `setTimeout(runAnimation, 1000)` on page load
-- Track stats (counts) that update as items appear
-
-**Pitfall:** Always clear existing timeouts before re-running — otherwise multiple animation chains overlap and produce duplicate cards.
-
-- Dark themes make canvas-based components (orbs, charts) pop. Use `bg-black` with a radial gradient accent: `bg-[radial-gradient(circle_at_50%_0%,rgba(22,199,132,0.15),transparent_60%)]`.
-- **Single-orb scroll-driven pattern**: Render one interactive element (orb, chart, 3D object) once, position it fixed/sticky on desktop (inline on mobile), and use `IntersectionObserver` to change its state as content sections scroll into view. Fade it out on sections where it would overlap (e.g. download CTA). This avoids rendering the same component multiple times and creates a cohesive narrative. Mobile: switch from `position: fixed` to `position: relative` with centered layout.
-- **User design preference**: Think from first principles — don't just restyle existing layouts. Push creative bounds. The orb/hero element is the centerpiece, not decoration.
-- Use `bg-black/95` with `border border-white/10` for glassy card surfaces on dark backgrounds.
-- Pill buttons: `rounded-full` with `bg-white text-black` for primary CTAs on dark.
-- Font: Inter for body, JetBrains Mono for labels/captions.

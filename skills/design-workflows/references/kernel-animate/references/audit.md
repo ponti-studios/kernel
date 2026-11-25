@@ -1,6 +1,6 @@
 # Animation Audit Playbook
 
-The eight audit categories, what to look for in each, and the exact target values to cite in findings and plans. Distilled from Emil Kowalski's design engineering philosophy ([emilkowal.ski](https://emilkowal.ski/)). Never approximate a value that appears here — copy it.
+The eight audit categories, what to look for in each, and the target values to cite in findings and plans. Distilled from Emil Kowalski's design engineering philosophy ([emilkowal.ski](https://emilkowal.ski/)). Curves and durations come from the project's shared motion tokens (kernel-design owns them; fixture: [`tokens/motion.json`](../../kernel-design/tokens/motion.json)) and the single table in [standards.md](standards.md). Cite those values; don't approximate them.
 
 ## 1. Purpose & frequency
 
@@ -19,29 +19,15 @@ Hunt for: animations on keyboard-initiated actions, command palettes with open/c
 
 Decision order for easing:
 
-- Entering or exiting → **`ease-out`** (starts fast, feels responsive)
-- Moving / morphing on screen → **`ease-in-out`**
-- Hover / color change → **`ease`**
-- Constant motion (marquee, progress) → **`linear`**
-- Default → **`ease-out`**
+- Entering or exiting → ease-out family → **`easing.standard`** = `cubic-bezier(0.2, 0, 0, 1)`
+- Moving / morphing on screen → `easing.standard`, unless the project defines an ease-in-out token
+- Hover / color change → `easing.standard` at a short duration
+- Constant motion (marquee, progress) → **`easing.linear`**
+- Default → **`easing.standard`**
 
-**`ease-in` on UI is always a finding** — it starts slow, delaying the exact moment the user is watching. Built-in CSS easings are too weak for deliberate motion; plans should introduce strong custom curves (as tokens, matching repo conventions):
+**`ease-in` on UI is always a finding** — it starts slow, delaying the exact moment the user is watching. Built-in CSS keywords are too weak for deliberate motion; plans should point at the shared easing tokens, and propose a new token in the shared source when a needed curve is missing (candidates in [standards.md](standards.md#easing)).
 
-```css
---ease-out: cubic-bezier(0.23, 1, 0.32, 1); /* strong ease-out for UI */
---ease-in-out: cubic-bezier(0.77, 0, 0.175, 1); /* strong ease-in-out for on-screen movement */
---ease-drawer: cubic-bezier(0.32, 0.72, 0, 1); /* iOS-like drawer curve */
-```
-
-Duration budgets — **UI animations stay under 300ms**:
-
-| Element                  | Duration      |
-| ------------------------ | ------------- |
-| Button press feedback    | 100–160ms     |
-| Tooltips, small popovers | 125–200ms     |
-| Dropdowns, selects       | 150–250ms     |
-| Modals, drawers          | 200–500ms     |
-| Marketing / explanatory  | Can be longer |
+Duration budgets — **UI animations stay at or under 300ms (`duration.slow`)**; use the duration table in [standards.md](standards.md#duration) (modals and drawers 200–300ms).
 
 Hunt for: `ease-in` anywhere, bare `ease`/`linear` on entrances, durations > 300ms on UI elements, tooltip delay + animation on every tooltip in a toolbar (after the first, they should be instant).
 
@@ -55,7 +41,7 @@ Hunt for: `ease-in` anywhere, bare `ease`/`linear` on entrances, durations > 300
   } /* Base UI */
   ```
   **Modals are exempt** — they appear centered; `transform-origin: center` is correct there. Do not report it.
-- **Press feedback**: `transform: scale(0.97)` on `:active` with `transition: transform 160ms ease-out`. Keep it subtle (0.95–0.98).
+- **Press feedback**: `transform: scale(0.97)` on `:active` with `transition: transform 160ms cubic-bezier(0.2, 0, 0, 1)`. Keep it subtle (0.95–0.98).
 
 Hunt for: `scale(0)`, pure-fade entrances with no initial transform, `transform-origin: center` (or none) on trigger-anchored elements, pressable elements with no press feedback.
 
@@ -86,7 +72,7 @@ Hunt for: `transition: all`, animated layout properties, Framer Motion shorthand
 ```css
 @media (prefers-reduced-motion: reduce) {
   .element {
-    animation: fade 0.2s ease;
+    animation: fade 200ms cubic-bezier(0.2, 0, 0, 1);
   } /* keep opacity/color, drop movement */
 }
 @media (hover: hover) and (pointer: fine) {

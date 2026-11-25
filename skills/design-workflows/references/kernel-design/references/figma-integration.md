@@ -18,4 +18,4 @@ Figma Variables mirror it.
   orphan hex in designs).
 - One authoritative direction; the generated side has zero hand edits.
 - Variant sets cover all 8 states; Code Connect points to the right `components/*` file.
-- After any token import: `python3 scripts/validate_tokens.py` passes.
+- After any token import: `python3 ../scripts/validate_tokens.py` passes.

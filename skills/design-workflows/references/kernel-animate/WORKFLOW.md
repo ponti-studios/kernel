@@ -33,9 +33,17 @@ Pick the reference that matches the task and follow it end-to-end.
 - **Frequency gates everything.** Keyboard-initiated and 100+/day actions never
   animate; delight is reserved for rare/first-time moments.
 - **`transform` and `opacity` only**, origin-aware entrances, never `scale(0)`.
-- **UI stays under 300ms** with strong custom easing tokens — never built-in
-  curves or `ease-in`.
+- **UI stays at or under 300ms** with the shared easing tokens (see
+  [standards.md](references/standards.md#easing)) — never built-in curves or
+  `ease-in`.
 - **Transitions and springs over keyframes** for anything triggered rapidly or
   reversible mid-motion.
 - **Reduced motion and hover gating ship with the animation**, not as a
   follow-up.
+- **Exception: Charles's recorded personal rules.** In Charles's own projects,
+  a motion rule recorded in kernel-design's
+  [personal-style-rules.md](../kernel-design/references/personal-style-rules.md)
+  wins over the rules above where they conflict (for example the "Settle"
+  form-message motion, which animates height and exits with a 250ms ease-in).
+  Apply it only where it speaks to the task, and only in his projects; everywhere
+  else these rules stand.

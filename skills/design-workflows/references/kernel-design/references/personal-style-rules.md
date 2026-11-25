@@ -1,12 +1,13 @@
 # Personal Style Rules
 
-Rules Charles has stated while building. This reference is sourced from the
-kernel repo (`skills/kernel-design/references/personal-style-rules.md`) and
-installed on this machine, so every agent follows the same rules. Follow them
+Rules Charles has stated while building. This reference ships in the Kernel
+design-workflows skill, so every agent follows the same rules. Follow them
 in every design and layout change, and do not re-litigate them. When Charles
-states a new design preference or corrects a layout, add it here right away,
-with the reason, so it applies to future work. Edit this reference; do not
-copy rules into a consuming repo.
+states a new design preference or corrects a layout, add it right away, with
+the reason, so it applies to future work. Edit it in the Kernel source repo
+(`skills/design-workflows/references/kernel-design/references/personal-style-rules.md`),
+not an installed copy, which a reinstall overwrites. Do not copy rules into a
+consuming repo.
 
 ## How to add a rule
 
@@ -57,7 +58,9 @@ asks otherwise.
 
 Copied from the Thames review notes, now folded into `ponti-principles`. Charles's preferences as inferred
 from how he steered that work, not a style guide he wrote; what he says in the
-moment wins, and this file should be updated.
+moment wins, and this file should be updated. Drafting and revising the strings
+themselves goes through writing-workflows (interface-copy procedure); feed it
+these preferences as inputs.
 
 ### UI says less
 

@@ -6,7 +6,7 @@ Audit-first redesign that preserves behavior.
 
 1. Read `../workflows/redesign-audit.md` (the full Scan → Diagnose → Direct → Apply → Verify sequence + Output Completeness).
 2. **Scan** the codebase: framework, styling method, token reality, components, what must be preserved.
-3. **Diagnose** with the Banned Defaults checklist (`../taste/design-taste.md`) + the rubric in `component-philosophy-audit.md`. Produce a prioritized findings table.
+3. **Diagnose** with the Anti-Defaults list (`../taste/design-taste.md`) + the rubric in `component-philosophy-audit.md`. Produce a prioritized findings table.
 4. **Direct**: choose an archetype from `../taste/aesthetic-systems.md` (checked against `../taste/design-taste.md`) that fits the brand.
 5. **Apply** in order — tokens first, then typography/spacing, then component states, then motion — without changing routes/data/markup semantics (except a11y fixes).
 6. **Verify**: re-run `component-philosophy-audit.md` + `a11y-audit.md`; smoke-test every previously working flow; dark mode + responsive spot-check. Run `../scripts/validate_contrast.py` on the token source and `../scripts/lint_hardcodes.py` over the changed code.

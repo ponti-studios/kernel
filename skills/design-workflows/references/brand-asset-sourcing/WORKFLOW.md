@@ -4,7 +4,7 @@ Source logos/icons for the brands named in a project's data, place them in the r
 
 ## Prerequisites
 
-- `git`, `curl`, `python3` available via `terminal`.
+- `git`, `curl`, `python3` available in the shell.
 - Network access to the chosen source.
 - A target directory in the project, conventionally `logos/` or `assets/logos/`.
 

@@ -17,37 +17,38 @@ Valid purposes for motion: spatial consistency, state indication, explanation, f
 
 ## Easing
 
-Decision order:
+Curves come from the project's shared motion tokens; kernel-design owns those values. Its fixture [`tokens/motion.json`](../../kernel-design/tokens/motion.json) defines `easing.standard` = `cubic-bezier(0.2, 0, 0, 1)` (a strong ease-out) and `easing.linear`. The examples on this page use those values. Built-in CSS keywords (`ease`, `ease-out`) are too weak, and a one-off local curve forks the token system.
 
-- Entering or exiting → **`ease-out`** (starts fast, feels responsive)
-- Moving / morphing on screen → **`ease-in-out`**
-- Hover / color change → **`ease`**
-- Constant motion (marquee, progress) → **`linear`**
-- Default → **`ease-out`**
+Decision order (curve family → token):
 
-**Never `ease-in` on UI.** It starts slow, delaying the exact moment the user is watching. `ease-out` at 200ms _feels_ faster than `ease-in` at 200ms.
+- Entering or exiting → ease-out family → **`easing.standard`** (starts fast, feels responsive)
+- Moving / morphing on screen → ease-in-out family → `easing.standard`, unless the project defines an ease-in-out token
+- Hover / color change → **`easing.standard`** at a short duration
+- Constant motion (marquee, progress) → **`easing.linear`**
+- Default → **`easing.standard`**
 
-Built-in CSS easings are too weak. Use strong custom curves:
+**Never `ease-in` on UI.** It starts slow, delaying the exact moment the user is watching. An ease-out at 200ms _feels_ faster than an ease-in at 200ms.
+
+If the project needs a curve its tokens lack, propose it as a new token in the shared source rather than inlining it. Candidates:
 
 ```css
---ease-out: cubic-bezier(0.23, 1, 0.32, 1); /* strong ease-out for UI */
 --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1); /* strong ease-in-out for on-screen movement */
 --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1); /* iOS-like drawer curve (Ionic) */
 ```
 
-Find curves at [easing.dev](https://easing.dev/) or [easings.co](https://easings.co/) — don't hand-roll from scratch.
-
 ## Duration
 
-| Element                  | Duration                                        |
-| ------------------------ | ----------------------------------------------- |
-| Button press feedback    | 100–160ms                                       |
-| Tooltips, small popovers | 125–200ms                                       |
-| Dropdowns, selects       | 150–250ms                                       |
-| Modals, drawers          | 200–300ms (up to 500 only with a stated reason) |
-| Marketing / explanatory  | Can be longer                                   |
+This is the one duration table; [audit.md](audit.md) uses it too. Token anchors: `duration.fast` 100ms, `duration.normal` 200ms, `duration.slow` 300ms.
 
-**Rule: UI animations stay under 300ms.** A 180ms dropdown feels more responsive than a 400ms one. Faster spinners make load feel faster (same actual time). Instant tooltips after the first (skip delay + animation) make a toolbar feel faster.
+| Element                  | Duration      |
+| ------------------------ | ------------- |
+| Button press feedback    | 100–160ms     |
+| Tooltips, small popovers | 125–200ms     |
+| Dropdowns, selects       | 150–250ms     |
+| Modals, drawers          | 200–300ms     |
+| Marketing / explanatory  | Can be longer |
+
+**Rule: UI animations stay at or under 300ms (`duration.slow`).** A 180ms dropdown feels more responsive than a 400ms one. Faster spinners make load feel faster (same actual time). Instant tooltips after the first (skip delay + animation) make a toolbar feel faster.
 
 ## Physicality
 
@@ -59,7 +60,7 @@ Find curves at [easing.dev](https://easing.dev/) or [easings.co](https://easings
   } /* Base UI */
   ```
   **Modals are exempt** — they appear centered in the viewport, keep `transform-origin: center`.
-- **Button press feedback.** `transform: scale(0.97)` on `:active`, `transition: transform 160ms ease-out`. Subtle (0.95–0.98). Applies to any pressable element.
+- **Button press feedback.** `transform: scale(0.97)` on `:active`, `transition: transform 160ms cubic-bezier(0.2, 0, 0, 1)`. Subtle (0.95–0.98). Applies to any pressable element.
 
 ## Springs
 
@@ -84,7 +85,7 @@ CSS **transitions** can be interrupted and retargeted mid-animation; **keyframes
 ```css
 /* Interruptible — good for dynamic UI */
 .toast {
-  transition: transform 400ms ease;
+  transition: transform 200ms cubic-bezier(0.2, 0, 0, 1); /* duration.normal + easing.standard */
 }
 
 /* Not interruptible — avoid for dynamic UI */
@@ -105,8 +106,8 @@ Use `@starting-style` for entry without JS:
   opacity: 1;
   transform: translateY(0);
   transition:
-    opacity 400ms ease,
-    transform 400ms ease;
+    opacity 200ms cubic-bezier(0.2, 0, 0, 1),
+    transform 200ms cubic-bezier(0.2, 0, 0, 1);
   @starting-style {
     opacity: 0;
     transform: translateY(100%);
@@ -122,7 +123,7 @@ Slow where the user is deciding, fast where the system responds.
 
 ```css
 .overlay {
-  transition: clip-path 200ms ease-out;
+  transition: clip-path 200ms cubic-bezier(0.2, 0, 0, 1);
 } /* release: fast */
 .button:active .overlay {
   transition: clip-path 2s linear;
@@ -179,7 +180,7 @@ Stagger group entrances; 30–80ms between items. Longer delays feel slow. Stagg
 .item {
   opacity: 0;
   transform: translateY(8px);
-  animation: fadeIn 300ms ease-out forwards;
+  animation: fadeIn 300ms cubic-bezier(0.2, 0, 0, 1) forwards;
 }
 .item:nth-child(2) {
   animation-delay: 50ms;
@@ -200,7 +201,7 @@ Stagger group entrances; 30–80ms between items. Longer delays feel slow. Stagg
 ```css
 @media (prefers-reduced-motion: reduce) {
   .element {
-    animation: fade 0.2s ease;
+    animation: fade 200ms cubic-bezier(0.2, 0, 0, 1);
   } /* keep opacity/color, drop transform-based motion */
 }
 @media (hover: hover) and (pointer: fine) {
@@ -226,4 +227,4 @@ Reduced motion means fewer and gentler animations, not zero — keep transitions
 
 ## Cohesion
 
-Match motion to the component's personality: playful can be bouncier; a professional dashboard should be crisp and fast. Sonner feels right partly because easing, duration, design, and even the name are in harmony — slightly slower, `ease` rather than `ease-out`, to feel elegant. Opacity + height in entering/exiting lists is trial and error; there's no formula — adjust until it feels right.
+Match motion to the component's personality: playful can be bouncier; a professional dashboard should be crisp and fast. Sonner feels right partly because easing, duration, design, and even the name are in harmony — slightly slower, with a softer curve than a strong ease-out, to feel elegant. Opacity + height in entering/exiting lists is trial and error; there's no formula — adjust until it feels right.

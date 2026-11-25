@@ -4,7 +4,7 @@ Stand up the _foundation_ (one token system everything renders from) before any 
 
 ## Steps
 
-1. **Brief Inference (mandatory)** — name the industry, audience, the one mood adjective, and motion depth (`../taste/design-taste.md` → Brief Inference). Pick an anchoring archetype from `../taste/aesthetic-systems.md`.
+1. **Brief Inference (mandatory)** — name the industry, audience, the one mood adjective, and motion depth, checked against `../taste/design-taste.md` → Default Posture and Variance Mandate. Pick an anchoring archetype from `../taste/aesthetic-systems.md`.
 2. **Primitives** — generate the brand color ramp in **OKLCH** (11 shades, consistent chroma) + a neutral ramp; verify the 500 shade ≥ 4.5:1 on white (text) and 600 ≥ 3:1 (UI).
 3. **Semantic layer** — map roles to primitives: `action.primary`/`-hover`/`destructive`, `text.{primary,secondary,on-action,link}`, `surface.{page,card,raised}`, `border.{default,strong}`, `feedback.{success,warning,error,info}` — and the **dark** overrides (designed, not inverted).
 4. **Scales** — Major Third type scale + composite text styles, 4px spacing scale, radius tiers, elevation, and `../tokens/motion.json`-style durations/easings.

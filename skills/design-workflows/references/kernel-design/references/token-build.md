@@ -16,6 +16,6 @@ generated.
 
 ## Verification (definition of done)
 
-- `python3 scripts/validate_tokens.py` passes (no unresolved aliases).
+- `python3 ../scripts/validate_tokens.py` passes (no unresolved aliases).
 - Regenerating produces no diff vs. committed artifacts.
 - Dark/brand/density outputs contain only deltas, not full duplicates.

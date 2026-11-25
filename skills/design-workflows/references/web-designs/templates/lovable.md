@@ -1,6 +1,6 @@
 # Design System: Lovable
 
-> **Hermes Agent — Implementation Notes**
+> **Implementation Notes — CDN font substitutes**
 >
 > The original site uses proprietary fonts. For self-contained HTML output, use these CDN substitutes:
 >
@@ -14,9 +14,6 @@
 >   rel="stylesheet"
 > />
 > ```
->
-> Use `write_file` to create HTML, serve via `generative-widgets` skill (cloudflared tunnel).
-> Verify visual accuracy with `browser_vision` after generating.
 
 ## 1. Visual Theme & Atmosphere
 

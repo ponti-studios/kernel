@@ -81,6 +81,10 @@ of truth.
 
 ### Copy Rules
 
+Writing rules live in writing-workflows (interface-copy procedure). Draft and
+revise text there; the points below are the design-side checks a layout must
+leave room for, and writing-workflows wins if they ever disagree.
+
 - Use short, direct sentences with plain verbs and concrete nouns.
 - State the action, result, or error first.
 - Present suggestions as options.
@@ -111,15 +115,17 @@ Charles's recorded preferences live in [personal-style-rules.md](references/pers
 Load it before designing, changing, or reviewing any screen, header, list, or
 layout. Where a recorded rule speaks to the task, it wins over a generic
 default — do not re-litigate it. When Charles states a new preference or
-corrects a layout, record it there right away with the rule, the why, and how
-to apply, so it governs future work.
+corrects a layout, record it with the rule, the why, and how to apply, so it
+governs future work. Make that edit in the Kernel source repo
+(`skills/design-workflows/references/kernel-design/references/personal-style-rules.md`),
+not in an installed copy, which a reinstall overwrites; if the source repo is
+not available, give Charles the entry to add.
 
 ## References
 
 | Task                                                    | Reference                                                                 |
 | ------------------------------------------------------- | ------------------------------------------------------------------------- |
 | Charles's recorded style rules, headers, copy, canvas   | [personal-style-rules.md](references/personal-style-rules.md)             |
-| ------------------------------------------------------- | ------------------------------------------                                |
 | Apple-style fluid motion, springs, gesture UI           | [apple.md](references/apple.md)                                           |
 | Distinctive visual direction, typography, layout        | [frontend-design.md](references/frontend-design.md)                       |
 | Component audit against product philosophy + code style | [component-philosophy-audit.md](references/component-philosophy-audit.md) |
@@ -133,10 +139,10 @@ to apply, so it governs future work.
 | Audit-first redesign, single-theme                      | [redesign.md](references/redesign.md)                                     |
 | Token build pipeline + CI                               | [token-build.md](references/token-build.md)                               |
 | UI copy, errors, empty states                           | [ux-writing.md](references/ux-writing.md)                                 |
-| Voice principles, tone, pre-ship checklist              | `content/voice-tone.md`                                                   |
-| Design taste, variance mandate, banned defaults         | `taste/design-taste.md`                                                   |
-| Visual direction archetypes                             | `taste/aesthetic-systems.md`                                              |
-| Motion choreography, reduced motion                     | `taste/motion-choreography.md`                                            |
+| Voice principles, tone, pre-ship checklist              | [voice-tone.md](content/voice-tone.md)                                    |
+| Design taste, variance mandate, anti-defaults           | [design-taste.md](taste/design-taste.md)                                  |
+| Visual direction archetypes                             | [aesthetic-systems.md](taste/aesthetic-systems.md)                        |
+| Motion choreography, reduced motion                     | [motion-choreography.md](taste/motion-choreography.md)                    |
 | Pick the right library for a frontend task              | [ui-libraries.md](references/ui-libraries.md)                             |
 
 ## Cross-cutting rules
