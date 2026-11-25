@@ -56,21 +56,24 @@ Voice resolution per segment: an explicit `voice` on the segment wins, then
 - `<out>.manifest.json` — episode metadata (title, duration, bytes, gap, model)
   plus every segment with its voice, `voice_source` (which rule chose it),
   character count and byte size, and any failures.
-- A log entry in `~/.hominem/ai_usage/<timestamp>-podcastgen.json`.
+- An entry in `$STUDIO_USAGE_DIR` (`<timestamp>-podcastgen.json`). Podcastgen
+  writes no ledger event yet.
 
 ## Cost
 
-- Speech is listed at **$0.00008 per prompt token** on this model. The script
-  prints an estimate using character count as a token proxy, which **overstates
-  it** — treat the number as an upper bound.
-- Measured example: a 4-segment, 329-character episode (21.2s of audio) did not
-  move the key's counter within seconds of finishing, which means the counter
-  **settles late**; it must be bracketed over minutes to read anything.
-- Triangulated across the whole session, speech is the cheapest stage by a wide
-  margin: two images plus two text calls plus this episode moved the key by
-  about $0.20, and the image with reference plates was the large majority of it.
-  Audio is the stage to iterate on freely; video ($0.084/second) and referenced
-  images are the ones to guard.
+- Speech is priced per model and the response carries no price. The script
+  fetches the model's published `pricing.prompt` rate at run time and prints
+  `characters × rate` as an **estimate** (`estimated_cost_usd` in the log).
+  Characters overcount tokens, so treat it as an upper bound. No published rate
+  means no estimate, not free.
+- The real per-call figure lives in the provider's generation record, which can
+  land after the call ends. The studio-core `reprice-speech` flow
+  (`node ../studio-core/scripts/lib/cli.mjs reprice-speech [--dry-run]`) fills it
+  in later as repricing events, but only for ledger speech calls made through
+  `studio-core/scripts/speak.mjs`. Podcastgen runs stay estimates; the
+  per-segment `provider_request_id` in the log is what a later lookup would need.
+- Key counters settle late, so a counter bracket around a short episode reads
+  nothing for minutes.
 - `--dry-run` prints the plan and estimate for nothing — use it before a long
   script.
 
@@ -114,5 +117,4 @@ user-supplied names cannot escape the working directory or overwrite another seg
 - A failure on one segment does not stop the episode: the rest still assemble,
   the failed segment is listed in the manifest, and the script exits 1. Read the
   manifest rather than trusting the file's existence.
-
-Speech has no price field: record measured `characters` and the provider's generation id (`X-Generation-Id`) in the usage log, and keep cost an explicit estimate with its basis written down. Never label an estimate `reported`.
+- Never label a speech estimate `reported` (see Cost).

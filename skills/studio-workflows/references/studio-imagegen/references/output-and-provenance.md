@@ -13,7 +13,7 @@ Written next to the image as `<name>.json`:
 | `model`                                                           | the model actually used                                                  |
 | `aspect_ratio`, `resolution_requested`, `format_returned`, `mime` | request vs reality                                                       |
 | `generation_id`                                                   | provider id (not usable for cost lookup — see below)                     |
-| `bytes`, `cost_usd`, `tokens`                                     | output size and whatever the provider reported                           |
+| `bytes`, `cost_usd`, `cost_source`, `image_tokens`, `tokens`      | output size and the response's `usage` block; `null` when it had none    |
 
 For a verbatim `--prompt` run the sidecar keeps `prompt_sha256` and the request
 fields, with no spec provenance.
@@ -33,17 +33,20 @@ same — do not "fix" this by forcing the extension.
 | 4:5 @ 2K, 3 reference plates | 1640×2048 PNG, ~4.9 MB, 54s | the reference-bearing pass |
 | 4:5 @ 1K, no references      | 820×1024 PNG, ~1.1 MB, 29s  | the cheap iteration pass   |
 
-## Why cost is measured twice
+## Where cost comes from
 
-1. `model.generationCost(generationId)` — the provider path, used by the app.
-   **It does not work for images**: `GET /api/v1/generation?id=gen-img-…`
-   returns `404 Generation … not found`, so both the app's usage rows and this
-   script's `cost_usd` come back empty. Do not read "cost: not reported" as
-   zero spend.
-2. The key's own counters — `GET /api/v1/key` (`usage_daily`, `usage`) and
-   `GET /api/v1/credits` (`total_usage`). These are the only reliable measure.
-   They update coarsely and can settle late, so bracket a run rather than
-   expecting an exact per-image figure.
+1. The response's own `usage` block — `POST /api/v1/images` returns `cost` and
+   image tokens beside the bytes. When present, the sidecar, the usage log and
+   the ledger all record it as `reported`. This is the per-image figure.
+2. When the response carries no `usage.cost`, the script falls back to
+   `model.generationCost(generationId)`. **That does not work for images**:
+   `GET /api/v1/generation?id=gen-img-…` returns `404 Generation … not found`, so
+   `cost_usd` is `null` and the ledger source is `unknown`. Do not read
+   "cost: not reported by the provider" as zero spend.
+3. The key's own counters — `GET /api/v1/key` (`usage_daily`, `usage`) and
+   `GET /api/v1/credits` (`total_usage`) — are the cross-check for an unpriced
+   render or a whole batch. They update coarsely and can settle late, so bracket
+   a run rather than expecting an exact per-image figure.
 
 Recipe:
 
@@ -52,7 +55,7 @@ curl -s -H "Authorization: Bearer $OPENROUTER_API_KEY" https://openrouter.ai/api
   | python3 -c 'import json,sys; d=json.load(sys.stdin)["data"]; print(d["usage_daily"], d["usage"], d["limit_remaining"])'
 ```
 
-Note the key-level guardrail too: this key has a lifetime limit ($20) separate
+Note the key-level guardrail too: a key can carry a lifetime limit separate
 from any daily budget, and a nearly exhausted key fails mid-batch.
 
 ## Relationship to the app

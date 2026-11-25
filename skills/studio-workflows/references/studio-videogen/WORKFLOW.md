@@ -121,13 +121,11 @@ scripts/deliver.sh --video ~/Documents/studio/output/final.mp4 \
 | `voice_id`         | no       | an explicit provider voice id; wins over `voice`                 |
 | `duration_seconds` | no       | clip length, defaulted to 8s when absent                         |
 | `seed`             | no       | passed through when set — see Pitfalls                           |
-| `dog`              | no       | editorial flag, unused here                                      |
 
 ## Rules, checks and the run log
 
 The video rules live in `rules/video-rules.json` (143 entries, IDs as in the rulebook:
-R01–R108, addenda R80A–W, gold rules G1–G12). Standing orders and the character evidence
-are private, in the studio folder `rules/video-standing-orders.md`.
+R01–R108, addenda R80A–W, gold rules G1–G12).
 
 - **Before any spend**, `clips.sh` runs the automatic checks (`scripts/lib/rules-lint.mjs`)
   on every scene and checks the model's catalogue: duration, aspect, seed and negative-prompt
@@ -150,8 +148,10 @@ Seedance bills per token; until a reliable estimate is supported, paid submissio
 - `assemble.sh` reports `truncated: no`; if it reports YES, the narration is
   being cut and the cut is not finished — trim the narration or add footage.
 - Check the provider-reported clip costs against the estimate; missing usage is recorded as unpriced, not free.
-- `~/.hominem/ai_usage/` has the entries (`-mediagen-voiceover`, `-mediagen-clips`,
-  `-mediagen-assemble`).
+- `$STUDIO_USAGE_DIR` has the entries (`-mediagen-voiceover`, `-mediagen-clips`,
+  `-mediagen-assemble`), and each keyframe render has a ledger event. Only
+  keyframes go through the ledger bridge today; a bridge failure prints
+  `ledger: …` and does not stop the run.
 
 ## References
 
@@ -190,8 +190,5 @@ path overrides are required. Environment variables override keys in
 - `assemble.sh` orders clips by the scene order when `--scenes` is given,
   otherwise alphabetically — with ids like `scene-10` and `scene-2` alphabetical
   order is wrong, so pass `--scenes`.
-- Two ffmpeg builds exist on this machine (Hermes's bundled 9.0.1 wins on PATH
-  inside Node, Homebrew's 9.0.2 in a login shell). Assembly uses whichever is
-  first on PATH.
 
 Cost comes from the provider: `generateClipWithUsage()` returns `usage.costUsd` when OpenRouter reports it (the poll response carries it). The rate table is only a fallback for a job that finished unpriced — never overwrite a reported cost with an estimate.

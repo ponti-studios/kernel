@@ -17,9 +17,8 @@ a costume floating inside the set instead of standing on the stage.
 | Thing                              | Path                                                              | Authority                                         |
 | ---------------------------------- | ----------------------------------------------------------------- | ------------------------------------------------- |
 | Character facts                    | `data/bibles/<character>/PROMPT.md`                               | sole authority on that character                  |
-| Pointers + rules + structured data | `data/registry.json`                                              | extraction rules, outfits, heights, shared blocks |
-| Naming / who-is-who                | `data/UNIVERSE.md` (+ `data/ledger-history.csv`)                  | names, fold records, citizen list                 |
-| Frame specs                        | `sets/<set>/specs/frame*.json` (fixtures: `test/fixtures/specs/`) | the frame's own geography                         |
+| Pointers + rules + structured data | `data/registry/registry.json`                                     | extraction rules, outfits, heights, shared blocks |
+| Frame specs (fixtures)             | `test/fixtures/specs/`                                            | the frame's own geography                         |
 | Expected prompt output             | `test/fixtures/expected/*.prompt.txt`                             | regression baseline                               |
 
 Everything above is **inside this skill**. A studio checkout is not required to
@@ -43,7 +42,7 @@ shipped 40-129 negation words per frame, and its outfit logic told **every**
 character about the **other** characters' garments as prohibitions
 (`never the deep-red wrap dress` appears in two characters' lines). In a
 four-character frame that is six forbidden-garment mentions, which is a
-dress-swap generator — the failure mode is in `output/kit-evidence/`.
+dress-swap generator.
 
 ## Procedure: compile a frame prompt
 
@@ -58,10 +57,7 @@ dress-swap generator — the failure mode is in `output/kit-evidence/`.
    than emitting a prompt with a hole in it. Exit 1 = spec rejected,
    exit 2 = usage/lookup problem. `--report-negations` lists the canon blocks
    still shipping negation, which is the rewrite workload.
-4. Use `--voice legacy` when you need the app's exact output, and
-   `--compiler dist` to run the monorepo build itself (legacy only — asking for
-   positive voice with the dist compiler is refused rather than silently
-   downgraded).
+4. Use `--voice legacy` when you need the app's exact output.
 5. Use the compiled prompt through the relevant production procedure. For still
    images, see [studio-imagegen](../studio-imagegen/WORKFLOW.md); for video,
    see [studio-videogen](../studio-videogen/WORKFLOW.md).
@@ -109,12 +105,10 @@ implementation is `scripts/lib/*.mjs`. Zero dependencies: ESM on Node 24, no
 | [check-fixtures.mjs](scripts/lib/check-fixtures.mjs)   | CLI: the byte-exact baseline                                                                                                  |
 
 **The skill is self-contained.** Canon lives in `data/`, the fixtures in
-`test/`, and `compile-frame.sh` runs the ported compiler by default — reading a
-bible, compiling a prompt or running the fixtures needs no monorepo, no
-`pnpm build` and no network. `resolve.mjs` still _understands_ a checkout for
-one purpose: `--compiler dist` app-parity runs, which are skipped (and reported
-as skipped) when no build is present. Nothing imports a repo module at load
-time, so a deleted checkout cannot break the skill.
+`test/`, and `compile-frame.sh` runs the ported compiler — reading a bible,
+compiling a prompt or running the fixtures needs no monorepo, no build and no
+network. No dist build ships, so dist parity runs are skipped (and reported as
+skipped).
 
 ## References
 
@@ -124,27 +118,13 @@ time, so a deleted checkout cannot break the skill.
 ## Configuration
 
 Nothing needs configuring: canon ships inside the skill at `data/`, and that is
-the default root. The variables exist for the two cases where something else
-should win — pointing at a live checkout, or pointing at a different canon.
+the default root. Set `STUDIO_UNIVERSE_ROOT` (or `universe_root` in
+`~/.pontistudios.studio.yml`, or the file named by `STUDIO_CONFIG`) to compile
+against a different canon; an environment variable wins over the file.
 
-All of these can be set once in `~/.pontistudios.studio.yml` (key names:
-`studio_root`, `universe_root`) instead of exported; an environment variable
-still wins over the file.
-
-| Variable                | Default                                        | Used for                                                                                                          |
-| ----------------------- | ---------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| `STUDIO_UNIVERSE_ROOT`  | the skill's `data/`                            | registry and bibles; set it to compile against another canon                                                      |
-| `STUDIO_ROOT`           | unset                                          | no longer needed: the canon lives in this skill's `data/`; only a legacy dist build would use it, and none exists |
-| `STUDIO_UNIVERSE_ENTRY` | `$STUDIO_ROOT/packages/universe/dist/index.js` | the built TypeScript compiler, if it lives elsewhere                                                              |
-| `STUDIO_CONFIG`         | `~/.pontistudios.studio.yml`                   | an alternative config file                                                                                        |
-
-Root resolution order: `STUDIO_UNIVERSE_ROOT` → config `universe_root` → the
-skill's `data/` → `$STUDIO_ROOT/universe`. **A candidate only counts if it
-actually holds a registry**, so an environment variable left pointing at a
-deleted checkout falls back to the shipped canon and says so on stderr instead
-of failing the run.
-
-The optional Universe compiler override is for parity checks with an external build. Normal compilation uses the bundled compiler; other production procedures do not support dist-module overrides.
+A root only counts if it actually holds a registry, so a variable left pointing
+at a deleted directory falls back to the shipped canon and says so on stderr
+instead of failing the run.
 
 ## Pitfalls
 

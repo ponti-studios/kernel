@@ -12,11 +12,11 @@ Read the matching reference before changing a project. Project identity, lifecyc
 - Start with [project-frontmatter-contract.md](references/project-frontmatter-contract.md) and [project-identity-map.md](references/project-identity-map.md) for structural changes.
 - Use [work-tracking.md](references/work-tracking.md) for planned, active, and archived change work.
 - Use writing-workflows for project documentation, PRDs, emails and marketing copy. Keep lifecycle and operational decisions here.
-- Load operational references only for the requested activity (discovery, hiring, onboarding, collaboration, marketing, email, or metrics).
+- Load operational references only for the requested activity (discovery, hiring, onboarding, collaboration, or metrics).
 
 ## Canon (inlined)
 
-Migrated from `Documents/agents/canon/` — read the applicable file before acting:
+Read the applicable file before acting:
 
 - [canon-brand-voice.md](references/canon-brand-voice.md)
 - [canon-current-system.md](references/canon-current-system.md)

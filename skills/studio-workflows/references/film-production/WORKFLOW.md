@@ -11,7 +11,7 @@ Load the relevant craft reference only: capture, sound, production design, editi
 
 ## Canon (inlined)
 
-Migrated from `Documents/agents/canon/` — read the applicable file before acting:
+Read the applicable file before acting:
 
 - [canon-design.md](references/canon-design.md)
-- [canon-principles.md](references/canon-principles.md)
+- [canon-principles.md](../project-operations/references/canon-principles.md)

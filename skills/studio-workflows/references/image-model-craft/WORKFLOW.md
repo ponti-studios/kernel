@@ -16,19 +16,12 @@ re-run in one afternoon ([evaluation-method.md](references/evaluation-method.md)
 
 ## Hard rules (non-negotiable)
 
-1. **Every generated image goes to `~/Documents/studio/output/images`**, named
-   `<YYYYMMDD-HHMMSS>_<model>_<what>.<ext>` — **timestamp first so the folder sorts
-   chronologically** — with `_index.md` listing them. Never leave
-   renders in `/tmp`, a scratch dir, or a per-experiment folder — one inbox, so a human
-   can review everything in one place.
-2. **A model never judges an image. Not a vision model, not me, not any other model.**
-   Never call image analysis on generated output. Never score, rank, pass/fail or
-   "check" a render. Never report what an image "looks like" as evidence or as a
-   finding. **Charles judges quality.** My job is to generate, name, file, and report
-   parameters and cost.
-3. **Report what was run, not how it looked:** model, prompt sha256, aspect, resolution,
+The inbox-naming rule and the rule that **no model judges an image** live in
+[studio-imagegen](../studio-imagegen/WORKFLOW.md); they apply to every render here.
+
+1. **Report what was run, not how it looked:** model, prompt sha256, aspect, resolution,
    real pixel size, cost, file path. Quality verdicts belong to the human.
-4. **Because computers cannot be trusted to judge images, every historical scoring claim
+2. **Because computers cannot be trusted to judge images, every historical scoring claim
    in this skill is suspect.** Two fabricated findings (a "phone" and "adidas" text) were
    produced from a single image by model-based scoring and were caught only by the user's
    eye. Treat the retained scoring sections as a record of how the errors happened, not
@@ -41,8 +34,9 @@ re-run in one afternoon ([evaluation-method.md](references/evaluation-method.md)
    and records the prompt hash. If your prompt is generated, the only differences in
    a run are the ones you chose.
 2. **Attach the reference plates, and know the ceiling [M].** `qwen-image-2.1-turbo`
-   accepts **0-4** reference images; `seedream-5-0` and `gemini-3-pro-image` accept
-   **0-14**. A five-character frame exceeds qwen's ceiling structurally — no wording
+   accepts **0-4** reference images; `seedream-5-0` accepts **0-14** (`gemini-3-pro-image`
+   also takes 14 but is ruled out on cost — see
+   [costs-and-capabilities.md](references/costs-and-capabilities.md)). A five-character frame exceeds qwen's ceiling structurally — no wording
    fixes that.
 3. **Judge identity at 2K, judge composition at 1K [M].** At 1K a dark mask against
    dark hair reads as "half-mask" to a careful observer and to a vision model, while
@@ -71,22 +65,14 @@ re-run in one afternoon ([evaluation-method.md](references/evaluation-method.md)
 9. **Diff your arms before you compare them [M].** After a content rewrite, the
    "legacy" arm still says `NEGATIVES:` but contains the _rewritten_ text — so it is
    not the "before". Only git history or a restored copy is.
-10. **Never quote a file path you haven't just written [M].** Twice in one session
-    I gave delivery paths for files I hadn't copied. Copy, then read the path back
-    off disk, then quote it.
-
-11. **Check the spec, then check the pixels, before you record a failure [M].** The
+10. **Check the spec, then check the pixels, before you record a failure [M].** The
     most serious error in this whole body of work was a rubric item invented by the
     scorer — _"no phone in anyone's hand"_ — which scored a **spec-mandated prop** (a
     nail file, written into the action line) as a violation on four models, and then a
     vision model misread the tool as a phone. Two fabricated findings from one image,
     both caught only by the user's eye. A finding built on an invented check is worse
     than no finding, because it justifies work.
-12. **A failure that reproduces on every model is likelier to be a brief or scoring
-    problem than a model problem [U].** Sound as method; our only worked example
-    turned out to be the scoring error above, so treat it as method, not as measured
-    fact. Check the spec and the rubric before concluding anything about models.
-13. **Do not swap models chasing fidelity [M].** Measured on the same rubric: qwen
+11. **Do not swap models chasing fidelity [M].** Measured on the same rubric: qwen
     35/35 and seedream-flash 34/35 on one frame, both 6/8 on the other; seedream-pro
     was the _least_ adherent (5/8) while being 4x slower. Model choice buys speed and
     plate capacity, not rule-following.
@@ -99,7 +85,7 @@ re-run in one afternoon ([evaluation-method.md](references/evaluation-method.md)
 | `bytedance-seed/seedream-5-0-flash` | **18-29s** | 11/11            | 34/35          | 6/8                     | fast iteration                                |
 | `bytedance-seed/seedream-5-0-pro`   | 109-178s   | 9/11             | not scored     | **5/8**                 | avoid unless a long brief demands it          |
 
-All three returned 1640x2048 for a 2K 4:5 request. None reported a per-render cost.
+All three returned 1640x2048 for a 2K 4:5 request. Per-render cost was not captured in this run; the renderer now records the response's `usage.cost` when the provider returns it ([studio-imagegen](../studio-imagegen/WORKFLOW.md)).
 
 \u2020 **The Set B column is unreliable and kept only for the record.** It included an
 invented check ("no phone in anyone's hand") that scored a spec-mandated nail file as a

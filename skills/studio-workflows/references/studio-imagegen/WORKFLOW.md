@@ -57,11 +57,14 @@ Per the spec, mirroring the app's image stage:
 
 ## Cost — measured, with caveats
 
-- **Cost is reported by the provider, in the response body.** `POST /api/v1/images`
-  returns a `usage` block with `cost`, so the script prints e.g. `cost: $0.0184`
-  and the ledger records it as `reported`, not estimated. `/api/v1/generation` does
-  **404** for images — asking it instead of reading the response is what made every
-  render look unpriced. Never fall back to it; absent means unpriced, not free.
+- **Cost comes from the response body.** When `POST /api/v1/images` returns a
+  `usage` block with `cost`, the script prints e.g. `cost: $0.0184`, writes
+  `cost_usd` with `cost_source: "reported"` to the sidecar and usage log, and the
+  ledger event records it as `reported`. Without that block the script asks
+  `/api/v1/generation`, which **404s** for images, so the render is recorded as
+  unpriced (`cost_usd: null`, ledger source `unknown`). Absent means unpriced,
+  not free; bracket the key counters
+  ([output-and-provenance.md](references/output-and-provenance.md)) when it matters.
 - Measured, 2K with 1–3 attached references: `qwen/qwen-image-2.1-turbo` **$0.0184**,
   `bytedance-seed/seedream-5-0-flash` **$0.018**, `seedream-5-0-pro` **$0.051**.
   Reference count did not move the price on qwen across 1–3 refs.
@@ -77,7 +80,8 @@ Check the key before a batch:
 - The image exists, its pixel size matches the requested resolution (2K 4:5
   renders 1640×2048; 1K renders 820×1024), and any sidecar records the prompt
   hash and registry version that produced it.
-- A log entry exists in `~/.hominem/ai_usage/` (`-imagegen.json`).
+- An entry exists in `$STUDIO_USAGE_DIR` (`<timestamp>-imagegen.json`), and the
+  run printed a `ledger:` event line (the bridge reports, not blocks, a ledger failure).
 - Nothing was hand-written into the prompt.
 
 ## References
@@ -125,7 +129,8 @@ generation and reference handling.
   prevents.
 - `qwen/qwen-image-2.1-turbo` supports 4:5 (which universe specs use) but only
   1K/2K; `--resolution 4K` will fail on this model. `google/gemini-3-pro-image`
-  supports 4K — but that model is ruled out on cost (see
-  `openrouter-image-generation`), so prefer a different model or stay at 2K.
+  supports 4K but is ruled out as a workhorse on cost (decision recorded in
+  [costs-and-capabilities.md](../image-model-craft/references/costs-and-capabilities.md)),
+  so stay at 2K or pick another model.
 - The registry version is recorded per image, so a render can be traced back to
   the canon state that produced it — keep the sidecar when a frame matters.

@@ -67,7 +67,7 @@ ffmpeg -y -i a.png -i b.png -i c.png -i d.png -i e.png \
 # 3. one vision call per strip, asking for one short line per panel plus totals
 ```
 
-Montage with `-label` failed on this machine (`unable to read font`); `ffmpeg hstack`
+Montage with `-label` can fail when ImageMagick finds no usable font (`unable to read font`); `ffmpeg hstack`
 with no labels works, and panel order left-to-right is enough if you state it in the
 question.
 

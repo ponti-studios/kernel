@@ -3,19 +3,17 @@
 The studio's upscaler, owned by the kernel. Vendored network architectures —
 **no basicsr dependency** — tiled CPU inference. This is the single home for
 upscaling: projects call this script with this environment; no project grows
-its own upscale venv. (Moved here Nov 8, 2026 from
-`tshirt-designs/finishing/`, where it lived as a project-local tool with a
-1.1 GB project venv.)
+its own upscale venv.
 
 ## Commands
 
 Paths are relative to this procedure's folder; run from here. The Python
 environment lives OUTSIDE the package (the validator rejects env symlinks
-inside a package): `$STUDIO_UPSCALE_PY`, default
-`~/workspace/.venvs/studio-upscale/bin/python`.
+inside a package). Set `$STUDIO_UPSCALE_PY` to that environment's Python;
+there is no default.
 
 ```bash
-${STUDIO_UPSCALE_PY:-~/workspace/.venvs/studio-upscale/bin/python} \
+"$STUDIO_UPSCALE_PY" \
   scripts/upscale.py IN.jpg OUT.png \
   --outscale 2 --arch srvgg --weights weights/realesr-general-x4v3.pth
 ```
@@ -23,16 +21,17 @@ ${STUDIO_UPSCALE_PY:-~/workspace/.venvs/studio-upscale/bin/python} \
 - `--outscale` — the net is 4×; the output is resized to the requested scale
   (2 is the production setting).
 - `--arch srvgg` + `realesr-general-x4v3.pth` — the production path: SRVGG
-  compact net, ~3.5 min per 2048² view on this CPU.
+  compact net.
 - `--arch rrdb` + `RealESRGAN_x4plus.pth` — the reference arch (official
-  xinntao v0.1.0 weights). Correct but ~60 min per 2048² view on this CPU —
-  unusable in production; kept for parity checks.
+  xinntao v0.1.0 weights). Correct but far slower than srvgg on CPU; kept for
+  parity checks.
 
 ## Bootstrap (once per machine)
 
 ```bash
-python3 -m venv ~/workspace/.venvs/studio-upscale
-~/workspace/.venvs/studio-upscale/bin/pip install -r requirements.txt
+python3 -m venv "$VENV_DIR"          # any directory outside this package
+"$VENV_DIR/bin/pip" install -r requirements.txt
+export STUDIO_UPSCALE_PY="$VENV_DIR/bin/python"
 ```
 
 (Run from this folder so `requirements.txt` resolves.)
@@ -54,8 +53,3 @@ for `--arch srvgg`. Validated: DC gain ~1.009; bright-area fraction matches
 source. Do not "fix" washed-out output downstream — if srvgg output looks
 zero-mean, the base add is missing, and the bug is in the script call, not
 the image.
-
-## Known callers
-
-- ShirtBoy print finishing (`~/workspace/tshirt-designs/finishing/`):
-  upscale 2× (this skill) → `finish.py` luminance keying → Printify upload.

@@ -35,8 +35,8 @@ tags: []
 Optional project fields:
 
 ```yaml
-repository: ~/Developer/<repo>
-canonical_docs: ~/Developer/<repo>/README.md
+repository: <path-to-repo>
+canonical_docs: <path-to-repo>/README.md
 owner: charlesponti
 client: <client-or-null>
 start_date: YYYY-MM-DD

@@ -47,17 +47,18 @@ measured ~$0.16. The plate count is the lever, not the prompt length.
 | Operation                                  | Cost                                         | How known                                                          |
 | ------------------------------------------ | -------------------------------------------- | ------------------------------------------------------------------ |
 | Video `kwaivgi/kling-v3.0-std`             | **$0.084/s** silent, **$0.126/s** with audio | published `pricing_skus` [M]; durations 3-15s, 720p, `seed: false` |
-| Speech `elevenlabs/eleven-multilingual-v2` | $0.00008/prompt token                        | published pricing [M]; 329 characters ≈ 21.2s of audio             |
+| Speech                                     | per model; read live from `pricing.prompt`  | estimate only; see [studio-podcastgen](../../studio-podcastgen/WORKFLOW.md) for `reprice-speech` |
 | Text `deepseek-chat-v3-0324`               | $0.0003-$0.0005 per draft                    | provider-reported [M]                                              |
 
 ## What cannot be measured (stop trying)
 
-- `GET /api/v1/generation?id=gen-img-…` → **404 for image generations**, and the same
-  for speech. Cost is not queryable per image or per voiceover.
+- `GET /api/v1/generation?id=gen-img-…` → **404 for image generations**. The
+  per-image figure is the image response's own `usage.cost`, which the renderer
+  records when present ([output-and-provenance.md](../../studio-imagegen/references/output-and-provenance.md)).
 - `GET /api/v1/images/models` returns `pricing: {}` for every image model — no
   published price on the images surface at all.
-- Therefore: **the only reliable image cost measurement is a key-counter bracket.**
-  Record usage, render, sleep ~8s, read usage again. Do the counter read after a
+- When a response carries no `usage.cost`, fall back to a key-counter bracket:
+  record usage, render, sleep ~8s, read usage again. Do the counter read after a
   delay — a finished episode showed a $0.0000 delta seconds later and settled later.
 
 ## Capability matrix (from `/api/v1/images/models`)
@@ -67,8 +68,15 @@ measured ~$0.16. The plate count is the lever, not the prompt length.
 | `qwen/qwen-image-2.1-turbo`         | **0-4**          | 1K, 2K (no 4K) | 36-49s                            | app default; 0/35 misses on the Set A rubric; **cannot** hold a 5-character frame with plates; `n` up to 6                               |
 | `bytedance-seed/seedream-5-0-pro`   | 0-14             | 1K, 2K         | 109-178s, 2/11 transient failures | slowest and least reliable to _run_; its adherence score was built on a rubric later found invalid (see evidence log) — no cost reporting |
 | `bytedance-seed/seedream-5-0-flash` | 0-14             | 1K, 2K         | 18-29s                            | 1/35 misses on the Set A rubric; fastest; good default for iteration                                                                     |
-| `google/gemini-3-pro-image`         | 0-14             | 1K/2K/4K       | ~35s                              | accurate, **expensive** — ruled out as a workhorse                                                                                        |
+| `google/gemini-3-pro-image`         | 0-14             | 1K/2K/4K       | ~35s                              | accurate, **expensive** — ruled out as a workhorse (see decision below)                                                                   |
 | `meta/muse-image`                   | none             | —              | ~8s on success                    | unusable: provider content filter on dense scenes                                                                                         |
+
+**Decision: `google/gemini-3-pro-image` is ruled out on cost [R].** At $0.1390 a
+render it is roughly 7x qwen or seedream-flash, and model choice does not buy
+rule-following ("Do not swap models chasing fidelity" in
+[image-model-craft](../WORKFLOW.md)). It is the only listed model with 4K,
+so a 4K need is a deliberate, priced exception, not a default; otherwise stay at
+2K. Studio-imagegen and image-model-craft defer to this entry.
 
 - **4:5 aspect ratio** is supported by qwen and the seedreams; check the enum before
   assuming.
@@ -97,7 +105,7 @@ SQLite index (`studio-ledger report`). Every image call records `units: {count: 
 unit: "image"}` and a cost whose `source` is `reported`, `estimated` (with the price
 book version and basis) or `unknown` — never an invented number.
 
-Measured over the full history on this machine: **image renders are 99% of spend**
+Measured over the ledger history at the time: **image renders are 99% of spend**
 ($1.06 of $1.07 across 95 calls), text is 0.4%, and 23 renders remain unpriced because
 no measured rate exists for `seedream-5-0-flash` / `seedream-5-0-pro`. Stop optimising
-text cost; count renders. Details: `docs/asset-and-cost-ledger.md` in the studio repo.
+text cost; count renders.
