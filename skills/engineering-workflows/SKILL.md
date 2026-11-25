@@ -10,26 +10,28 @@ Select the procedure matching the user's task from the index below. Read only th
 
 Follow the user's current instructions and the target repository's conventions before Kernel defaults. Treat examples, framework choices, and project adapters as conditional guidance. Match validation to the actual change. Existing authorization persists; ask only when a required decision or permission is missing. Loading a procedure does not authorize publishing, deployment, or other external changes.
 
-- [API routes and validation](references/kernel-dev-api/WORKFLOW.md)
-- [Better Auth integration](references/kernel-dev-auth/WORKFLOW.md)
-- [Build and CI failures](references/kernel-dev-build/WORKFLOW.md)
-- [Production Database Change Protocol](references/kernel-dev-database/WORKFLOW.md)
-- [Docker and Compose](references/kernel-dev-docker/WORKFLOW.md)
-- [React components and state](references/kernel-dev-react/WORKFLOW.md)
-- [React Native boundaries and performance](references/kernel-dev-react-native/WORKFLOW.md)
-- [Test design and flaky tests](references/kernel-dev-testing/WORKFLOW.md)
-- [TypeScript contracts and types](references/kernel-dev-typescript/WORKFLOW.md)
-- [Branches and commit messages](references/kernel-git-commit/WORKFLOW.md)
-- [Kernel Clean Code — consolidated code-health skill](references/kernel-clean-code/WORKFLOW.md)
-- [Monorepo Architect](references/kernel-audit-monorepo/WORKFLOW.md)
-- [Review completed work](references/kernel-audit-review/WORKFLOW.md)
-- [Trace a feature across boundaries](references/kernel-audit-trace/WORKFLOW.md)
-- [Deep Repo Code Scan](references/deep-repo-code-scan/WORKFLOW.md)
-- [Dependabot batch updates](references/dependabot-batch/WORKFLOW.md)
-- [PR comment triage](references/pr-comments/WORKFLOW.md)
-- [React Doctor](references/react-doctor/WORKFLOW.md)
-- [Configure project quality checks](references/project-quality-gates/WORKFLOW.md)
-- [Deployment readiness and execution](references/kernel-ops-ship/WORKFLOW.md)
-- [Agent knowledge loops](references/agent-knowledge-loops/WORKFLOW.md)
+- [API routes and validation](references/kernel-dev-api/WORKFLOW.md): adding or changing an HTTP route, handler or request schema
+- [Better Auth integration](references/kernel-dev-auth/WORKFLOW.md): sign-in, sessions or migration in a Better Auth project
+- [Build and CI failures](references/kernel-dev-build/WORKFLOW.md): typecheck, lint, build or CI is red
+- [Production database changes](references/kernel-dev-database/WORKFLOW.md): schema migrations, expand/contract, live data operations
+- [Docker and Compose](references/kernel-dev-docker/WORKFLOW.md): writing or fixing Dockerfiles and Compose services
+- [React components and state](references/kernel-dev-react/WORKFLOW.md): web React components, state ownership, data fetching
+- [React Native boundaries and performance](references/kernel-dev-react-native/WORKFLOW.md): Expo/RN screens, native deps, mobile performance
+- [Test design and flaky tests](references/kernel-dev-testing/WORKFLOW.md): choosing a test layer, mocks, coverage floors, flaky tests
+- [TypeScript contracts and types](references/kernel-dev-typescript/WORKFLOW.md): type ownership, strictness, schema/type drift
+- [Branches and commit messages](references/kernel-git-commit/WORKFLOW.md): staging and writing a commit under the repo's rules
+- [Code health cleanup](references/kernel-clean-code/WORKFLOW.md): deslop, code smells, or a tech-debt audit
+- [Monorepo architecture audit](references/kernel-audit-monorepo/WORKFLOW.md): auditing or refactoring monorepo package boundaries
+- [Review completed work](references/kernel-audit-review/WORKFLOW.md): reviewing a finished task, PR or directory before sign-off
+- [Trace a feature across boundaries](references/kernel-audit-trace/WORKFLOW.md): following one feature end to end through layers
+- [Deep repo code scan](references/deep-repo-code-scan/WORKFLOW.md): read-only deletion and consolidation inventory
+- [Dependabot batch updates](references/dependabot-batch/WORKFLOW.md): folding all pending Dependabot updates into one PR
+- [PR comment triage](references/pr-comments/WORKFLOW.md): working through review comments on a PR
+- [React Doctor](references/react-doctor/WORKFLOW.md): React health score, regression check, rule tuning
+- [Configure project quality checks](references/project-quality-gates/WORKFLOW.md): setting up lint, coverage, security and CI gates
+- [Deployment readiness and execution](references/kernel-ops-ship/WORKFLOW.md): preflight, deploy, verify and roll back a release
+- [Agent knowledge loops](references/agent-knowledge-loops/WORKFLOW.md): turning agent task evidence into checked repo rules
+
+For root-cause debugging, use systematic-debugging. For test-first implementation, use test-driven-development. For iOS releases and TestFlight, use ship-ios. For the engineering laws behind Charles's code, use ponti-principles; they take precedence over defaults here.
 
 For Apple platform apps — iOS, macOS, watchOS, Swift and SwiftUI — use apple-workflows. For security audits, use security-workflows. For interface design and motion, use design-workflows. Writing and revising documents, scripts and interface copy uses writing-workflows.

@@ -1,14 +1,14 @@
 # Worked example: the Switchyard fleet
 
-The design as built for Charles's agent fleet. Repository: `ponti-studios/switchyard`, design docs under
+The design as built for one agent fleet. Repository: `ponti-studios/switchyard`, design docs under
 `docs/learning-loop/` (overview, signals, knowledge model, retro, retrieval, measurement, rollout,
 risks). Read those before extending it; they are the contract of record.
 
 ## Where knowledge lives
 
-- Global skills repo: `~/Developer/kernel`, skills in `skills/`. Validated by
-  `python3 scripts/validate_skills.py`, `python3 -m unittest discover -s tests`;
-  every skill catalogued in `skills.sh.json`; a push to `main` deploys.
+- Global skills repo: a shared skills repository (resolve its checkout from config, never a fixed
+  path), skills in `skills/`. It has its own validation and catalog checks, and a push to its default
+  branch publishes.
 - One skill per repo (`<project>-conventions`) plus the existing craft tier (`ponti-principles`),
   with `references/map.md` holding the generated repo map.
 - The fleet **opens a PR** there and never merges. That is a deliberate deviation from the repo's own

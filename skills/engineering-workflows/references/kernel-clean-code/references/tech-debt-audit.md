@@ -1,6 +1,6 @@
 # Tech Debt Audit
 
-A code-health skill that conducts a deliberate, opinionated audit of an entire codebase and produces `TECH_DEBT_AUDIT.md` with cited findings.
+A code-health skill that conducts a deliberate, opinionated audit of an entire codebase and produces a report with cited findings.
 
 Follow the protocol below end-to-end when auditing a codebase.
 
@@ -49,7 +49,7 @@ Use `rg`, `ast-grep`, and language-native tooling to find concrete examples. Cit
 
 ## Phase 3: Deliverable
 
-Write to `TECH_DEBT_AUDIT.md` in the repo root with this structure:
+Print the report to stdout, or write it only to a path the user names (do not add files to the audited repo unless asked). Use this structure:
 
 - **Executive summary** — max 10 bullets, ranked by impact.
 - **Architectural mental model** — your understanding of the system as it actually is.
@@ -86,4 +86,4 @@ Each subagent gets: scope (one module), the dimensions list above, the citation 
 
 ## Repeat-run mode
 
-If `TECH_DEBT_AUDIT.md` already exists in the repo, read it first. Mark resolved findings as `RESOLVED`, update stale ones, and tag new findings with `NEW`. This turns the audit into a living document tracked over time.
+If the user points to a previous audit report, read it first. Mark resolved findings as `RESOLVED`, update stale ones, and tag new findings with `NEW`. This turns the audit into a living document tracked over time.

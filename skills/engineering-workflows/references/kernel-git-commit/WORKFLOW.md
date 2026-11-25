@@ -1,23 +1,26 @@
-Every commit must follow the Conventional Commits specification: <https://www.conventionalcommits.org/en/v1.0.0/#specification>.
+Follow the target repository's own commit and branch rules first: its contribution guide, agent instructions, commit hooks, and recent history. The defaults below apply only where the repo states nothing.
 
 ## Definition of done
 
-- A commit is created whose message conforms to the spec
+- A commit is created whose message follows the repo's convention (or the default format below)
 - The staged diff exactly matches the message
 - No unrelated or stray files are staged
 
 ## Branching
 
-Work on a feature branch, not `main` or `master`:
+Use the repository's branch policy. Some repos commit directly to `main`; others require topic branches. Check before creating a branch:
 
 ```bash
 git branch --show-current
-git checkout -b <type>/<short-description>
 ```
 
-Branch name pattern: `<type>/<short-description>` where type matches the commit type (e.g. `feat/add-user-auth`, `fix/null-pointer-error`).
+Default when the repo has no stated policy: work on a topic branch named `<type>/<short-description>` (e.g. `feat/add-user-auth`, `fix/null-pointer-error`).
 
-## Message format
+## Commit format
+
+Use the format the repo already uses. When it uses Conventional Commits, or states no convention, use the Conventional Commits specification: <https://www.conventionalcommits.org/en/v1.0.0/#specification>.
+
+### Message format
 
 ```
 <type>[optional scope]: <description>
@@ -81,17 +84,17 @@ Reason: Caused performance regression in production.
 1. Run `git status` and `git diff` to understand exactly what changed.
 2. Stage the intended files with `git add` (never `git add -A` unless everything is intentionally included and you have confirmed nothing stray is staged).
 3. Read the staged diff with `git diff --cached` and draft the message from it.
-4. Verify the message against the spec above before running the commit.
+4. Verify the message against the repo's convention (or the default format above) before running the commit.
 5. Commit with the single-line message, e.g.:
 
    ```bash
-   git commit -m "feat(api): add finance MCP tools for hominem-owned finance surface"
+   git commit -m "feat(api): add rate limiting to public endpoints"
    ```
 
    For a body and/or footer, pass them as separate `-m` flags:
 
    ```bash
-   git commit -m "fix(api): reconcile MCP scope tests and finance import cancel route" -m "Scopes now come from a single source of truth in services/api/src/scopes.ts."
+   git commit -m "fix(api): reject expired tokens in session middleware" -m "Expiry is now checked before the session lookup, so stale tokens fail fast."
    ```
 
 6. Do not push unless the user asked you to push.
@@ -104,7 +107,7 @@ Push only within the user's authorization. If an approval hook rejects an action
 
 - [ ] Branch follows the target repository’s contribution rules
 - [ ] Change is validated (typecheck, lint, format, tests pass for the affected packages)
-- [ ] Message uses the correct type and optional scope
+- [ ] Message follows the repo's convention (default: correct type and optional scope)
 - [ ] Description is imperative, lowercase, ≤72 chars, no trailing period
 - [ ] Body and `BREAKING CHANGE:`/`Refs:` footers present where needed
 - [ ] Staged diff (`git diff --cached`) matches the message

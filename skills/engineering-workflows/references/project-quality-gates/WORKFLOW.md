@@ -1,5 +1,3 @@
-> Invoke with: the repository root (optional).
-
 ## The one rule
 
 **A gate that is not honest gets fixed or deleted, never muted.**
@@ -38,11 +36,11 @@ imports** (launchd jobs, scripts, route files). That last one decides how `knip`
 | python    | `ruff check` + `ruff format`                       | the scripts and installer tests you forgot were code                  |
 | hooks     | `lefthook`                                         | the drift that happens between CI runs                                |
 
-Configs: [[oxlintrc.json](templates/oxlintrc.json)](templates/oxlintrc.json), [[oxfmtrc.json](templates/oxfmtrc.json)](templates/oxfmtrc.json),
-[[knip.jsonc](templates/knip.jsonc)](templates/knip.jsonc), [[vitest.config.ts](templates/vitest.config.ts)](templates/vitest.config.ts),
-[[lefthook.yml](templates/lefthook.yml)](templates/lefthook.yml).
+Configs: [oxlintrc.json](templates/oxlintrc.json), [oxfmtrc.json](templates/oxfmtrc.json),
+[knip.jsonc](templates/knip.jsonc), [vitest.config.ts](templates/vitest.config.ts),
+[lefthook.yml](templates/lefthook.yml).
 
-Detail and the exact scripts: [[tier-1-foundation.md](references/tier-1-foundation.md)](references/tier-1-foundation.md).
+Detail and the exact scripts: [tier-1-foundation.md](references/tier-1-foundation.md).
 
 ### 2. Tier 2 — the checks that find defects
 
@@ -55,10 +53,11 @@ Detail and the exact scripts: [[tier-1-foundation.md](references/tier-1-foundati
 | links         | `lychee`               | docs that point at deleted files and repositories                                     |
 | mutation      | `Stryker`              | assertions that pass with the feature deleted                                         |
 
-Configs: [[playwright.config.ts](templates/playwright.config.ts)](templates/playwright.config.ts),
-[[jscpd.json](templates/jscpd.json)](templates/jscpd.json), [[lychee.toml](templates/lychee.toml)](templates/lychee.toml).
+Configs: [playwright.config.ts](templates/playwright.config.ts),
+[jscpd.json](templates/jscpd.json), [lychee.toml](templates/lychee.toml),
+[stryker.config.json](templates/stryker.config.json).
 
-Detail: [[tier-2-deep-checks.md](references/tier-2-deep-checks.md)](references/tier-2-deep-checks.md).
+Detail: [tier-2-deep-checks.md](references/tier-2-deep-checks.md).
 
 ### 3. Tier 3 — security and supply chain
 
@@ -70,11 +69,11 @@ Detail: [[tier-2-deep-checks.md](references/tier-2-deep-checks.md)](references/t
 | signatures   | `npm audit signatures`                                | a registry response that was tampered with                   |
 | updates      | `.github/dependabot.yml` with grouping and a cooldown | silent drift; and adopting a compromised release on day zero |
 
-Configs: [[gitleaks.toml](templates/gitleaks.toml)](templates/gitleaks.toml),
-[[dependabot.yml](templates/dependabot.yml)](templates/dependabot.yml),
-[[security-workflow.yml](templates/security-workflow.yml)](templates/security-workflow.yml).
+Configs: [gitleaks.toml](templates/gitleaks.toml),
+[dependabot.yml](templates/dependabot.yml),
+[security-workflow.yml](templates/security-workflow.yml).
 
-Detail: [[tier-3-security.md](references/tier-3-security.md)](references/tier-3-security.md).
+Detail: [tier-3-security.md](references/tier-3-security.md).
 
 ### 4. Prove every gate can fail
 
@@ -91,7 +90,7 @@ npm pkg set dependencies.left-pad=1.0.0 && osv-scanner scan source -r .   # then
 
 Lint → format check → dead code → shell → python → type-check/build → tests with coverage → installer or
 browser suite → security. Cheapest and fastest first, so a formatting mistake fails in ten seconds rather
-than after a five-minute build. Template: [[tests-workflow.yml](templates/tests-workflow.yml)](templates/tests-workflow.yml).
+than after a five-minute build. Template: [tests-workflow.yml](templates/tests-workflow.yml).
 
 ### 6. Report the numbers
 
@@ -102,7 +101,7 @@ vulnerabilities, and the browser-suite count. If a gate is deliberately advisory
 ## Pitfalls that cost real time
 
 The full list, with the measurement that exposed each one, is
-[[pitfalls.md](references/pitfalls.md)](references/pitfalls.md). The six that bite first:
+[pitfalls.md](references/pitfalls.md). The six that bite first:
 
 1. **Coverage of source measures zero** when tests import the build output. Point `coverage.include` at the
    compiled files, or enable source maps and map back.

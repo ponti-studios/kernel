@@ -74,6 +74,10 @@ If a component needs any of those, it belongs in an app or feature package, not 
 
 See [data-fetching.md](references/data-fetching.md) for concrete query, mutation, suspense, pagination, and optimistic update patterns.
 
+## Health check
+
+After React code changes, run the [React Doctor](../react-doctor/WORKFLOW.md) changed-scope scan and fix any score regression before committing.
+
 ## Guardrails
 
 - Never mix fetching, routing, and presentation in a shared component.

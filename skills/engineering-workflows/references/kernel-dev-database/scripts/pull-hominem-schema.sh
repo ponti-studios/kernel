@@ -4,7 +4,12 @@
 set -euo pipefail
 
 HOMINEM_DATABASE_URL="${HOMINEM_DATABASE_URL:-postgresql://postgres:postgres@127.0.0.1:5434/hominem}"
-OUT_DIR="${OUT_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/snapshots}"
+if [[ $# -ne 1 || -z "$1" ]]; then
+  echo "usage: $(basename "$0") <out-dir>" >&2
+  echo "  Writes a timestamped snapshot into <out-dir>. Pick a path outside the skill folder." >&2
+  exit 64
+fi
+OUT_DIR="$1"
 TS="$(date +%Y%m%d_%H%M%S)"
 HOMINEM_SOURCE='<redacted Postgres URL>'
 HOMINEM_OUT="$OUT_DIR/hominem_${TS}.md"

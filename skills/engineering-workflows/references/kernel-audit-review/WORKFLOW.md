@@ -1,6 +1,3 @@
-> Invoke with: task, PR link, or file/directory to review (optional).
-> Explicit invocation only — do not auto-activate on related context; wait for a direct request.
-
 ## Definition of done
 
 - All evaluation dimensions covered

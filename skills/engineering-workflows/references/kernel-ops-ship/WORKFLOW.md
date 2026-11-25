@@ -1,5 +1,3 @@
-> Invoke with: branch, PR, feature, or task to ship.
-> Explicit invocation only — do not auto-activate on related context; wait for a direct request.
 > Related skills: [kernel-audit-review](../kernel-audit-review/WORKFLOW.md).
 
 ## Definition of done
@@ -61,17 +59,9 @@ Choose from the deployment strategies the project actually supports. State the s
 
 ## Phase 3 — Execute
 
-### Deployment order (when migrations are included)
+### Migrations
 
-```
-1. Apply database migrations
-2. Wait for migration to complete successfully
-3. Deploy application code
-4. Smoke-test in the target environment
-5. Monitor error rates and latency for 5–10 minutes
-```
-
-Follow the documented expand/contract sequence. Some releases apply additive migrations first; destructive or contract migrations may require compatible application code to be deployed first.
+Follow the documented expand/contract sequence. Some releases apply additive migrations first; destructive or contract migrations may require compatible application code to be deployed first. See the [database change protocol](../kernel-dev-database/WORKFLOW.md) for expand/contract sequencing.
 
 Use the repo's documented deployment commands and environment-specific runbooks. Do not invent deployment steps from memory when the project already defines them.
 
@@ -106,6 +96,5 @@ a destructive data migration blindly. Diagnose and validate the fix before retry
 - Never deploy without a PASS verdict from Phase 1.
 - Never treat ship readiness as a substitute for code review or product sign-off.
 - Never deploy directly from a local machine to production unless the documented release process explicitly requires it and the user approves it.
-- Follow the documented expand/contract sequence. Some releases apply additive migrations first; destructive or contract migrations may require compatible application code to be deployed first.
 - Choose recovery based on compatibility and the documented incident plan.
 - Monitor error rates after every production deployment — do not walk away immediately.

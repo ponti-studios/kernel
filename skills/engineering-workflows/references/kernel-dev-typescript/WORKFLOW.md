@@ -2,7 +2,7 @@
 
 - Types have a clear single source of truth
 - No unsafe widening or duplicated parallel type definitions remain
-- Boundary types are derived from authoritative schemas or source types
+- Boundary types have one authoritative source, with schemas checked against it
 - Strictness settings and package boundaries remain intact
 
 Enforce full TypeScript strictness and keep types derived, owned, and non-duplicated. This skill exists to stop the LLM from weakening the type system or creating parallel truth.
@@ -25,16 +25,17 @@ Required strictness:
 
 Every important type must have one authoritative source.
 
-Prefer deriving types from:
+For data read from outside the program, the plain TypeScript type is the source of truth and the Zod schema is checked against it with `satisfies z.ZodType<Type>`, so drift fails the type check (see ponti-principles, `references/typescript-react-native.md`). Parse once at the boundary, then trust the typed value.
 
-- Zod schemas
+Otherwise prefer deriving types from:
+
 - generated database or API artifacts
 - existing exported source types
 - function return types or object literals when that preserves a single source of truth
 
 Do not maintain:
 
-- one runtime schema and a second handwritten TypeScript type for the same shape
+- one runtime schema and a second handwritten TypeScript type for the same shape that nothing ties together (`satisfies z.ZodType<Type>` is the tie)
 - one server type and a second manually synchronized client copy when a shared or derived contract exists
 - one generated type and a second "cleaned up" alias that silently drifts
 

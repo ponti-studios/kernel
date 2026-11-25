@@ -9,34 +9,37 @@ Every type has exactly one source of truth. Duplication creates divergence.
 | Type category              | Lives in                                                    |
 | -------------------------- | ----------------------------------------------------------- |
 | Database row types         | `packages/db` — codegen output, never hand-edited           |
-| API request/response types | `packages/api` or `services/api` — derived from Zod schemas |
+| API request/response types | `packages/api` or `services/api` — schemas `satisfies` them |
 | Shared domain types        | A dedicated `packages/types` or `packages/core`             |
 | App-local UI state types   | The app package that owns them                              |
 | Utility types              | The package that uses them — do not hoist unless shared     |
 
 **Import direction:** apps import from packages; packages do not import from apps.
 
-## Zod-First Schemas
+## Type First, Schema Checked
 
-Define schemas with Zod. Derive types from schemas — never maintain parallel type definitions.
+The plain type is the source of truth. End the Zod schema with `satisfies z.ZodType<Type>` so the two cannot drift.
 
 ```typescript
 import { z } from "zod";
 
+export type CreateUserInput = {
+  email: string;
+  name: string;
+  role: "admin" | "standard";
+};
+
 export const CreateUserSchema = z.object({
   email: z.string().email(),
   name: z.string().min(1).max(100),
-  role: z.enum(["admin", "standard"]).default("standard"),
-});
-
-// Derive — do not redeclare
-export type CreateUserInput = z.infer<typeof CreateUserSchema>;
+  role: z.enum(["admin", "standard"]),
+}) satisfies z.ZodType<CreateUserInput>;
 ```
 
 Never write:
 
 ```typescript
-// ❌ schema and type maintained separately — they will diverge
+// ❌ schema and type maintained separately with nothing tying them — they will diverge
 const CreateUserSchema = z.object({ email: z.string() });
 type CreateUserInput = { email: string };
 ```

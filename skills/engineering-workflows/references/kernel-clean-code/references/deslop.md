@@ -1,6 +1,6 @@
 # Remove AI Code Slop
 
-Check the diff against main and remove all AI-generated slop introduced in this branch.
+Check the diff against main and remove all AI-generated slop introduced in this branch. For the `deslop` trigger, broad cleanup, or anything needing a plan or regression tests, use [ai-slop-cleaner.md](ai-slop-cleaner.md).
 
 ## What to Remove
 

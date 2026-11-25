@@ -7,7 +7,7 @@ Always introspect live state. Do not infer the current schema from migration fil
 ## Steps
 
 1. `just db status`: Confirm the intended Postgres environment is available. Do not start containers or services automatically.
-2. `sh scripts/pull-hominem-schema.sh`: Create a timestamped snapshot to `scripts/snapshots/` by default all schemas.
+2. `bash scripts/pull-hominem-schema.sh <out-dir>`: Create a timestamped snapshot of all schemas in `<out-dir>` (required; choose a path outside the skill folder).
 3. Override defaults when needed:
    - `HOMINEM_DATABASE_URL`: Postgres URL; default `postgresql://postgres:postgres@127.0.0.1:5434/hominem`.
    - `OUT_DIR`: snapshot destination; default is the script’s `snapshots/` directory.

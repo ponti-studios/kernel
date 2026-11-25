@@ -1,5 +1,3 @@
-> Invoke with: package name or test filter (optional).
-
 ## Definition of done
 
 - The relevant validation commands succeed with no unreviewed warnings or suppressed errors
