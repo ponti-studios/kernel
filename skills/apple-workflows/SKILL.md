@@ -13,10 +13,10 @@ Follow the user's current instructions and the target repository's conventions b
 - [iOS app work](references/ios-app/WORKFLOW.md) — building or changing a native iOS app: structure, data invariants, test-first, layered verification, shipped-experience review.
 - [SwiftUI review](references/ios-swiftui-review/WORKFLOW.md) — auditing existing views, state and design-system code against a rubric; findings first, file and line references.
 - [Swift package verification](references/swift-package/WORKFLOW.md) — a package shared by a Mac app and an iPhone app, and the false "build complete" that proves nothing about iOS.
-- [macOS menu bar app](references/macos-app/WORKFLOW.md) — SwiftPM + AppKit accessory apps: hotkeys, mic capture, subprocess engines, TCC, and verifying a GUI you cannot screenshot.
+- [macOS app work](references/macos-app/WORKFLOW.md) — building or changing a macOS app, menu bar/accessory apps above all: SwiftPM + AppKit bundles, hotkeys, mic capture, TCC, settings windows, Liquid Glass, and verifying a GUI you cannot screenshot.
 - [macOS distribution](references/macos-distribution/WORKFLOW.md) — Developer ID, hardened runtime, notarization, DMG, Sparkle and licensing for apps sold outside the App Store.
 - [Swift style](references/swift-style/WORKFLOW.md) — Charles's Swift rules: naming, access control, value types, isolation, library-grade API design. Load it before writing or reviewing Swift.
 
 Releasing an iOS app to TestFlight is the executable `ship-ios` package, which project automation installs and pins separately. This router does not restate that pipeline.
 
-Cross-stack engineering laws and watchOS rules live in ponti-principles; its Swift checklist points at the style procedure above. Non-development Apple work — Notes, Reminders, Find My, iPhone control — is not part of this router.
+Cross-stack engineering laws and watchOS rules live in ponti-principles; its Swift checklist points at the style procedure above. watchOS has no procedure in this router: ponti-principles is its only coverage. Non-development Apple work — Notes, Reminders, Find My, iPhone control — is not part of this router.

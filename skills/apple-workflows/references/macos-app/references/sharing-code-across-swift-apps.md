@@ -1,7 +1,7 @@
 # Sharing code across the user's Swift apps
 
 Mechanics for lifting a subsystem out of one of the user's apps into a package two of them depend on.
-Pair this with the rules in SKILL.md ("Sharing code with the user's other apps"): one implementation, the
+Pair this with the rules in [macos-app](../WORKFLOW.md) ("Sharing code with the user's other apps"): one implementation, the
 difference is one value, and — eventually — one presentation, adopted rather than argued about.
 
 ## Find the package before writing one
@@ -9,7 +9,7 @@ difference is one value, and — eventually — one presentation, adopted rather
 A sibling project may already publish what you are about to write, already tested, already versioned:
 
 ```bash
-ls ~/Developer                                   # neighbours
+ls ..                                            # neighbouring projects
 sed -n '1,40p' path/to/Peer/Package.swift        # products? platforms? dependencies?
 cd path/to/Peer && git remote -v && git log --oneline | head -3   # published, and tagged?
 ```
@@ -96,13 +96,13 @@ hard-codes the coupling and invites a fork.
   `swiftSettings: [.swiftLanguageMode(.v5)]` per target. Dependants must raise their floor to match the
   package's — and say so, because it silently drops older OS versions.
 - **Path dependency identity comes from the directory, not the manifest's `name:`.** With
-  `.package(path: "../Waveform")`, products are referenced with `package: "Waveform"` even though that
-  package declares `name: "waveform-ios"`. Getting this wrong is a confusing "product not found" error.
-- **Local path while it settles, URL once tagged.** `.package(path: "../Waveform")` lets both apps and
+  `.package(path: "../Foo")`, products are referenced with `package: "Foo"` even though that
+  package declares `name: "foo-ios"`. Getting this wrong is a confusing "product not found" error.
+- **Local path while it settles, URL once tagged.** `.package(path: "../Foo")` lets both apps and
   the package evolve together during the extraction; switch to the git URL plus a version at the end.
 - **The product identifier changes when the dependency does.** A path dependency resolves products by the
-  _directory_ name (`.package(path: "../Waveform")` → `package: "Waveform"`); a URL dependency resolves
-  them by the _repository_ name (→ `package: "waveform-ios"`). Flipping one means editing every
+  _directory_ name (`.package(path: "../Foo")` → `package: "Foo"`); a URL dependency resolves
+  them by the _repository_ name (→ `package: "foo-ios"`). Flipping one means editing every
   `.product(name:package:)` entry in every consumer, or nothing resolves.
 - **Publishing is the user's call.** Tag and push only with their say-so; until then both apps hold a
   path dependency and the package's commits stay local.
@@ -153,11 +153,8 @@ git ls-remote --tags origin | tail -3  # confirm the tag landed (annotated tags 
 Adding the phone as a second consumer is where a package's macOS-only assumptions surface, and none of them
 fail on the machine you are sitting at.
 
-- **Build for the consumer's platform, and prove the conditional file compiled.** See the rule in SKILL.md:
-  `-Xswiftc -target` does not move SwiftPM off the host, so an iOS-only file can be left out of a "successful"
-  build. `xcodebuild -scheme <Target> -destination 'generic/platform=iOS' -derivedDataPath /tmp/ios-check
-  build CODE_SIGNING_ALLOWED=NO`, then `find /tmp/ios-check -name '<File>.o'`. If the object is absent, nothing
-  you changed for that platform has been checked.
+- **Build for the consumer's platform, and prove the conditional file compiled**: the false pass and the
+  check that is evidence are in [Swift package verification](../../swift-package/WORKFLOW.md).
 - **Platform-only API is the usual first failure.** `AVCaptureAudioDataOutput.audioSettings` exists on macOS and
   not on iOS, so a `CaptureSource` that sets it does not compile for the phone at all — invisible to an app that
   only ever built for the Mac. Guard it `#if os(macOS)`.
@@ -177,13 +174,8 @@ fail on the machine you are sitting at.
   deletion commit in `git log --diff-filter=D` means the older tag is not on `main`'s line:
   `git merge-base --is-ancestor v0.3.0 main || echo diverged`. Nothing was deleted — it was never there. Read
   "the API vanished" that way before rewriting a consumer against a shape that was never published to it.
-- **Renaming a published package is a release.** `gh repo rename <new>` from inside the package directory
-  (there is no `--yes`), fix the local `origin`, change the manifest's `name:` and every `package: "<old>"`
-  product reference in every consumer, then cut a tag for the new name and bump each consumer to it. GitHub's
-  redirect keeps the old URL resolving, which is exactly why a half-finished rename looks finished — grep the
-  tree for the old name instead of trusting the build.
-- **Sweep every `Package.resolved`, including the Xcode project-level one**, and let `xcodebuild -list` do the
-  workspace re-resolve. A pin left behind on the old URL is the rename's only real risk.
+- **Renaming a published package is a release**, including every `Package.resolved`: see
+  [Swift package verification](../../swift-package/WORKFLOW.md) ("Renaming the package").
 - **A sibling repo may carry its own ship skill.** Before committing in the user's other app, read
   `<repo>/.claude/skills/`; a `ship` skill there governs the branch (never `main`), which checks to run, the PR
   body shape and how deployment happens — and it wins over your defaults. Committing to `main` first and
@@ -197,5 +189,5 @@ fail on the machine you are sitting at.
 - **A cross-module test seam must be `internal` and the tests must live in the same module.** A `var
   startEngine` for injecting failures is reachable from the package's own tests and not from a consumer's;
   move the test rather than making the seam public API.
-- **`mv`-ing either repo directory breaks SwiftPM's artifact cache** (absolute paths) — `rm -rf .build`
-  before believing a rename broke the code.
+- **`mv`-ing either repo directory breaks SwiftPM's artifact cache**: see
+  [Swift package verification](../../swift-package/WORKFLOW.md).

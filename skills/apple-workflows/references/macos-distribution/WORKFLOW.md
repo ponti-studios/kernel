@@ -20,12 +20,16 @@ Three signatures, and only one of them ships:
 | `Developer ID Application`   | what a buyer's Mac accepts, and what notarization needs      |
 
 ```bash
-security find-identity -v -p codesigning \
-  | sed -n 's/.*"\(Developer ID Application:[^"]*\)".*/\1/p' | head -1
+security find-identity -v -p codesigning | grep 'Developer ID Application'   # read the name and (TEAMID)
+DEVID="$(security find-identity -v -p codesigning | grep 'Developer ID Application' | head -1 | awk '{print $2}')"
 ```
 
-The `(TEAMID)` in that name is not necessarily the team on the development certificate — read it from
-here and use it for `notarytool`, since that is the identity TCC and notarization key on.
+Sign with `$DEVID`, the certificate's SHA-1 hash, never its display name: passing the name produced ad-hoc
+signatures on nested binaries (see Pitfalls). The `(TEAMID)` in the printed name is not necessarily the team
+on the development certificate — read it from here and use it for `notarytool`, since that is the identity
+TCC and notarization key on.
+
+Why one identity and never ad-hoc or a development certificate: `references/signing-identity-and-tcc-grants.md`.
 
 **The common name is not the team; the OU is, and the CN can carry a person's name for a company team.** A
 Developer ID certificate issued to an org team can still read `Developer ID Application: Jane Doe (TEAMID)`.
@@ -71,7 +75,8 @@ not break a buyer's permissions" a checked claim instead of a hope.
 1. **Build** release for arm64 (or universal), and copy any SwiftPM resource bundles **and dynamically linked
    frameworks** (Sparkle, for updates) into the `.app`. A SwiftPM executable links `@rpath/Sparkle.framework/...`
    but its default rpath is `@loader_path` (`Contents/MacOS`), so the framework lands in `Contents/Frameworks`
-   and is invisible to dyld unless the rpath is fixed (see the Sparkle subsection below).
+   and is invisible to dyld unless the rpath is fixed: `references/sparkle-framework-packaging.md` (rpath,
+   inside-out signing of nested code).
 2. **Sign with the hardened runtime** — not optional, `notarytool` rejects a build without it:
 
 ```bash
@@ -129,7 +134,9 @@ xcrun notarytool store-credentials <profile> --apple-id <id> --team-id <TEAMID>
 
 Check it before relying on it — `xcrun notarytool history --keychain-profile <profile>`, where "No
 submission history." is the success case for a fresh profile. Give the user the exact command and wait;
-this is the one step an agent cannot complete alone. 6. **Print Gatekeeper's verdict — on the image, and do not soften it:**
+this is the one step an agent cannot complete alone.
+
+6. **Print Gatekeeper's verdict — on the image, and do not soften it:**
 
 ```bash
 spctl -a -t open --context context:primary-signature -vvv dist/<Name>-<version>.dmg   # what a download is
@@ -138,7 +145,9 @@ spctl -a -vvv -t install App.app                                                
 
 Read the `source=` line rather than the word `accepted` alone: `Unnotarized Developer ID` means signed but
 not notarized, `no usable signature` means the _image_ is unsigned (sign it, then resubmit), and
-`Notarized Developer ID` is the only verdict that means a buyer can double-click it. 7. **Verify inside the mounted image**, not just the built copy:
+`Notarized Developer ID` is the only verdict that means a buyer can double-click it.
+
+7. **Verify inside the mounted image**, not just the built copy:
 
 ```bash
 MOUNT=$(hdiutil attach dist/<Name>.dmg -nobrowse -readonly | tail -1 | awk '{print $3}')
@@ -215,12 +224,9 @@ marketing site: `gh repo view <owner>/<product>` plus `git ls-tree --name-only o
 repo fails on unrelated histories, and forced, replaces the site. Check the tree, the commit subjects and the
 visibility before adding a remote.
 
-- **Follow the user's own pattern instead of inventing one — unless they ask to consolidate.** The standing
-  pattern is paying products private, shared libraries public (`waveform-ios`, `voice-orb`), and a `<name>-macos`
-  suffix for a macOS app whose bare name is taken by its site. Folding the app into the public site repo is the
-  request that overrides it, and it is a one-way door: say plainly what becomes public (source, history,
-  issues) before pushing, scan the history for keys first, and archive the absorbed repo rather than deleting it
-  so the old discussions stay readable.
+- **Folding a private app into a public repo is a one-way door.** Say plainly what becomes public (source,
+  history, issues) before pushing, scan the history for keys first, and archive the absorbed repo rather than
+  deleting it so the old discussions stay readable.
 - **Never let the app and the site share a name** unless they are one repo on purpose — in that case the bare
   name is the right home for both, `index.html` sitting beside `Sources/`.
 - **A wrong `git fetch` leaves foreign tags behind.** Delete them (`git tag -d <tag>`) so a later
@@ -246,7 +252,7 @@ visibility before adding a remote.
 only by collaborators, so a buyer's link can never point at one; GitHub Pages from a private repository also
 needs a paid plan. For a paid app that leaves exactly two shapes: the public repo carries the site and the
 releases while the private one carries the source, or everything moves into one public repo. Decide before
-writing a download URL — a plausible `releases/download/v1.0/Ponte.dmg` on a private repo 404s for every
+writing a download URL — a plausible `releases/download/v1.0/<Name>.dmg` on a private repo 404s for every
 customer and looks perfectly healthy to the account that owns it. Check with
 `gh repo view <owner>/<repo> --json visibility` rather than assuming the pair splits the obvious way; the site
 repo is often the _public_ one.

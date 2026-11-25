@@ -79,8 +79,6 @@ Names are the main documentation. Spend time on them.
 - Public API gets a `///` summary: one sentence, then parameters/returns only
   when the names do not already say it. Explain constraints and units.
 - Inline: why, not what. Mark invariants and cross-platform contracts.
-- In Thames, keep the `Swift:` teaching comments (project rule); they are the
-  one place a comment may explain the language.
 
 ## 5. Tests
 

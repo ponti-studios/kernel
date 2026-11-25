@@ -3,8 +3,7 @@
 > Invoke with: the shared package you changed, or the "it builds on both platforms" claim you need to prove.
 > Related: [macos-app](../macos-app/WORKFLOW.md). For build and CI failures generally, see engineering-workflows' build procedure.
 
-When one package serves a Mac app and an iPhone app (Ponte and Thames share `charlesponti/waveform`),
-a green macOS build proves nothing about the half wrapped in `#if os(iOS)`.
+When one package serves a Mac app and an iPhone app, a green macOS build proves nothing about the half wrapped in `#if os(iOS)`.
 
 ## When to Use
 
@@ -60,8 +59,10 @@ break on a product that was never meant for them.
 
 The repo name _is_ the package identity, so renaming is a coordinated edit, not a `git mv`:
 
-- `gh repo rename` — GitHub keeps redirects, so **the old URL keeps resolving** and every place you forgot
-  looks fine. Do not read a working build as evidence the rename landed.
+- `gh repo rename <new>` (from inside the package directory, without `--repo`), then fix the local `origin`.
+  GitHub keeps redirects, so **the old URL keeps resolving** and every place you forgot looks fine. Do not
+  read a working build as evidence the rename landed; grep the tree for the old name (manifests, docs,
+  comments, tests).
 - The manifest's `name:` and every `.product(name:package:)` reference in it.
 - Each consumer: the dependency URL, its `package:` references, and `Package.resolved`.
 - An Xcode app holds **two** `Package.resolved` files — the workspace's and the project's. The project-level
@@ -70,6 +71,9 @@ The repo name _is_ the package identity, so renaming is a coordinated edit, not 
 - Docs and code comments that name the package.
 - Tag a release after it. A rename with no new tag leaves consumers pointing at a URL that only works via
   redirect, and the tag is what makes the new identity explicit.
+- **Renaming or moving the package _directory_ breaks SwiftPM's artifact cache**, which stores absolute paths
+  (`There is no XCFramework found at /old/path/...`). `rm -rf .build` and rebuild before concluding the rename
+  broke the code.
 
 ## When an app carries its own copy of a package type
 

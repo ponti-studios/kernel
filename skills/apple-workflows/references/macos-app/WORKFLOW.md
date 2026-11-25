@@ -15,25 +15,19 @@ of the same moment agree, and the motion is unit-testable with no screen. Render
 for a "working" surface, and the `ViewBuilder` branching trap:
 `references/deterministic-hud-verification.md`.
 
-## Build a real `.app` with `swift build` + a small bundle script — no Xcode project needed. Proven path
+## Build a real `.app` with `swift build` + a small bundle script
 
-for background/accessory utilities: dictation, meters, hotkey tools, mic capture.
+No Xcode project needed. Proven path for background/accessory utilities: dictation, meters, hotkey tools,
+mic capture.
 
 ## Package layout
 
-```swift
-// swift-tools-version:5.9   ← 5.9 by default
-```
-
-Use tools-version 5.9 and stay there. Swift 6 language mode turns every AppKit/AVFoundation callback into
-a strict concurrency fight for zero benefit in a single-threaded UI app.
-
-**One exception, and only one: naming a platform newer than the manifest API knows.** `platforms:
-[.macOS(.v15)]` under tools 5.9 fails with `error: 'v15' is unavailable` — the enum case does not exist
-until tools 6.0. Raise the manifest to 6.0 for that and pin the targets back with
-`swiftSettings: [.swiftLanguageMode(.v5)]`, so bumping the manifest does not drag the app into strict
-concurrency. Manifest 6.0 + language mode 5 is the whole fix. This arrives the moment you depend on a
-package whose platform floor is newer than yours.
+**Naming a platform newer than the manifest API knows needs tools 6.0.** `platforms: [.macOS(.v15)]` under
+tools 5.9 fails with `error: 'v15' is unavailable` — the enum case does not exist until tools 6.0. If the
+targets are not ready for strict concurrency, raise the manifest to 6.0 and pin them with
+`swiftSettings: [.swiftLanguageMode(.v5)]`, so bumping the manifest does not drag AppKit/AVFoundation
+callbacks into strict-concurrency errors. This arrives the moment you depend on a package whose platform
+floor is newer than yours.
 
 Declare frameworks explicitly or you get link errors at bundle time:
 
@@ -55,15 +49,16 @@ the engine without a human clicking things.
 mkdir -p App.app/Contents/{MacOS,Resources}
 cp .build/release/MyApp App.app/Contents/MacOS/MyApp
 cp Resources/Info.plist App.app/Contents/Info.plist
-codesign --force --sign - --identifier com.example.myapp App.app
+SIGN_ID="$(security find-identity -v -p codesigning | grep 'Developer ID Application' | head -1 | awk '{print $2}')"
+codesign --force --sign "$SIGN_ID" --identifier com.example.myapp App.app   # the hash, not the name
 ```
 
 Info.plist needs `LSUIElement = true` (no Dock icon), `CFBundleIdentifier`,
 `NSMicrophoneUsageDescription` for mic apps, `LSMinimumSystemVersion`.
 
-**Keep the codesign `--identifier` stable across builds.** TCC keys on identity: a new identifier
-re-prompts for the microphone. With a stable one, rebuild + reinstall keeps the existing grant
-(verified: `record start` still succeeds after reinstall, no new prompt).
+**Sign every build with the team identity, and keep the `--identifier` stable.** TCC binds a grant to the
+designated requirement, so an ad-hoc signature (`--sign -`) loses the microphone and Accessibility grants on
+every rebuild. Use the same certificate the release uses (see "Signing decides whether permissions stick").
 
 ## Global hotkeys without Accessibility
 
@@ -330,7 +325,9 @@ first and only fall back to in-process logging when it genuinely comes back empt
 - **Drive the real hotkey end-to-end**:
   `osascript -e 'tell application "System Events" to keystroke " " using {option down, command down}'`,
   put audio in the room with `say -v Samantha "…"`, then press the hotkey again. Exercises
-  hotkey → record → transcribe → clipboard for real.
+  hotkey → record → transcribe → clipboard for real. A headless replay flag proves the pipeline and timing,
+  not the window, the capture device or the drawing thread — say which one you are claiming:
+  `references/end-to-end-audio-verification.md`.
 - **A paste goes to the frontmost app, so the harness must hold focus, not merely ask for it.** Activating a
   text sink and then running other tooling — or the user working in another window — leaves another app
   front, the transcript lands there, and the document you read back is empty, which reads as a broken paste.
@@ -391,7 +388,7 @@ first and only fall back to in-process logging when it genuinely comes back empt
 ## The app icon and the menu bar mark
 
 **Draw the icon with the app's own renderer.** Add a `--icon <out.png> <mark> [px]` CLI mode and have
-`scripts/make-icon.sh` call it once per size in the `.iconset`; the icon is then the app's own visual
+an icon script in the app's own repo call it once per size in the `.iconset`; the icon is then the app's own visual
 language by construction, and cannot drift from the thing it depicts. Rules that took measurement to find:
 
 - **Render every size AT that size, and grow fine texture as the tile shrinks.** A mark made of dots
@@ -462,10 +459,8 @@ is useful, and reach for `brew install whisper-cpp` only then.
 
 ## Parakeet on the Neural Engine (FluidAudio) — the better ASR engine
 
-Press-to-dictate apps should not ship whisper.cpp if they can run Parakeet on the ANE. Measured on an
-M1 Max, same 8 s WAV: whisper.cpp `large-v3-turbo` **1.76 s warm (4.5× realtime)** vs Parakeet Ultra
-**0.14 s warm (56.8× realtime)**, identical transcript. End to end (hotkey → clipboard) went from
-2.4 s to 0.50 s.
+Press-to-dictate apps should not ship whisper.cpp if they can run Parakeet on the ANE: it is an order of
+magnitude faster warm, for the same transcript. Measure it on the target machine with the `--bench` mode below.
 
 ```swift
 // Package.swift: .package(url: "https://github.com/FluidInference/FluidAudio.git", from: "0.17.0")
@@ -480,7 +475,7 @@ PCM yields _empty transcripts_ with no error), **copy the SwiftPM `*.bundle` res
 model loading fails at runtime), **preload at launch** (the first ANE load specialises the programme for
 ~23 s, cached afterwards at ~0.2 s), and **serialise the load** behind an in-flight `Task` so a launch
 preload and a dictation cannot load models concurrently. Add a `--bench <file.wav>` CLI mode that runs each
-installed engine three times and prints first/warm timings — that is where those numbers came from.
+installed engine three times and prints first/warm timings.
 
 **Treat the first-run download and that first specialisation as a first-run flow, not as a pause inside the
 customer's first dictation.** The model is hundreds of megabytes and the ANE programme compiles for ~23 s once
@@ -515,11 +510,10 @@ invisibly behind the menu:
 ### One engine, unless a second one earns its place
 
 Parakeet on the ANE is the engine; a second one is a liability until it is both _not_ something the buyer must
-install and better on every axis. whisper.cpp lost that argument on measurement: **0.14 s vs 1.76 s warm**,
-1.9 GB resident against ~150 MB, a 1.5 GB model download against FluidAudio's own fetch — and a decoder that
-collapses on repeated audio. Six minutes of _prose_ come back whole (555 of 555 words, closing sentence intact)
-while the same sentence twenty-four times in 76 s returns six of them; neither `-mc 0`, `-nf`, `-bs`, `-et`,
-`-sns` nor a second WAV encoder changes it. So the app ships one engine and keeps the numbers as history.
+install and better on every axis. whisper.cpp lost that argument on speed, resident memory, download size and
+a decoder that collapses on repeated audio (distinct prose comes back whole; one sentence repeated loses most
+of its copies, and no decoder flag fixes it). So the app ships one engine; the measurements belong in the
+repo's docs (last bullet below).
 
 When a capability like that does get removed, sweep it out in one pass — the half-removed version is worse than
 keeping it, because the leftovers are all _user-visible_:
@@ -544,10 +538,10 @@ Model versions, chunking for long audio, the ITN opt-in and progress-callback de
 
 ## Signing decides whether permissions stick
 
-**Never ship an ad-hoc signature (`codesign --sign -`) for an app that needs TCC grants.** Its
-designated requirement is literally `cdhash H"…"`, which changes on every rebuild, so macOS cannot
-match the user's existing Microphone/Accessibility grant and re-prompts after each build. Diagnose
-it from the TCC daemon log, not by guessing:
+**Never ship an ad-hoc signature (`codesign --sign -`) for an app that needs TCC grants.** Its designated
+requirement is a bare `cdhash`, which changes on every rebuild, so macOS cannot match the user's existing
+Microphone/Accessibility grant and re-prompts after each build. Diagnose it from the TCC daemon log, not by
+guessing:
 
 ```bash
 log show --last 30m --predicate 'subsystem == "com.apple.TCC"' --style compact \
@@ -557,53 +551,21 @@ log show --last 30m --predicate 'subsystem == "com.apple.TCC"' --style compact \
 - `Failed to match existing code requirement for subject <id> and service kTCCServiceAccessibility`
   — the grant exists but belongs to a dead build. That is the whole story of "it keeps asking me,
   and it _is_ set".
-- Fix: sign with **one** identity, never switch, and read back what you got: `security find-identity -v -p
-  codesigning`, then `codesign --force --sign "<identity>" --identifier <bundle-id>`, then
-  `codesign -d -r- App.app`. What you want is the **team-anchored** requirement —
-  `identifier "…" and anchor apple generic and certificate leaf[subject.OU] = "<TEAMID>"` — which every
-  build the team ever signs satisfies, so grants survive every rebuild and update. Two near-misses both read
-  as fine in `codesign -dv` output and are not: an ad-hoc signature's requirement is a bare `cdhash` (a new
-  one every build), and a **development certificate's requirement adds
-  `certificate 1[field.1.2.840.113635.100.6.2.12]`, which a Developer ID build does not carry** — so a dev
-  script that prefers `Apple Development` while the release script signs with Developer ID clears every grant
-  each time it flips, in both directions. "`Apple Development` is right for a local app" is only true if you
-  never build the same app with anything else.
-- **Enforce it where the mistake is made, not by care.** Give the project a check that reads the requirement
-  and exits non-zero unless it is team-anchored, wire it into the dev build path as a warning and into the
-  packaging path as a refusal, and never let two scripts prefer different identities. A per-build requirement
-  that cannot be shipped cannot break a buyer's update.
-- **Ship the repair inside the app.** A menu item that runs `tccutil reset Accessibility <bundle-id>` and then
-  asks again (spawn `/usr/bin/tccutil` through `Process` — the hardened runtime does not stop you) rebinds the
-  grant to the running binary in one click. That is the whole fix for a user, and it is the same fix a
-  customer needs when an entry goes stale on their machine.
-- **Prove the stability, not just the repair.** Rebuild, reinstall a _different_ binary with the same identity,
-  and exercise the feature again with no re-granting: that is the difference between "it works for me now"
-  and "an update will not break this".
-- Switching identity invalidates old rows: `tccutil reset Accessibility <bundle-id>` and
-  `tccutil reset Microphone <bundle-id>`, then have the user grant once.
-- Prove the fix with a rebuild: after granting, rebuild, act again, and check the TCC log again for
+- Prove a fix with a rebuild: after granting, rebuild, act again, and check the log again for
   `Failed to match` (should be zero) and `AUTHREQ_PROMPTING` (should be absent after the build time).
-- **The Accessibility row can read ON and be unusable.** A grant belongs to a code signature, so after a
-  rebuild or a re-sign the pane still lists the app with its toggle on while the running binary fails
-  `AXIsProcessTrusted()` — and the user will insist, correctly from what they see, that it is granted. Treat
-  the app's runtime answer as authoritative, and prove the history from the app's own log: group launches by
-  whether the clipboard fallback fired to find the build after which pasting stopped.
-- **Fix order for a stale row: reset, then re-add through the app's own prompt.**
-  `tccutil reset Accessibility <bundle-id>` clears the dead entry (its row disappears from the pane — say so,
-  or it reads as a new problem), then have the user trigger the app's explicit grant action so the new row
-  binds to the current binary. Hand-removing and re-adding the row can re-bind to the same stale requirement.
 - **The TCC database is unreadable without Full Disk Access.** To see what the pane actually shows, capture
   the Settings window and read the image — recipe in
   `references/verifying-a-gui-you-cannot-screenshot.md`.
 
-**All of the above is local signing.** Shipping the same app to other people — Developer ID, the hardened
-runtime, a DMG, notarization, and what a buyer needs on the product page — is its own procedure: see
-[macOS distribution](../macos-distribution/WORKFLOW.md).
+The fix — one team identity forever, the team-anchored requirement, the development-certificate near-miss,
+enforcing it in the scripts, the in-app reset and proving stability across a rebuild — is in
+[macOS distribution](../macos-distribution/WORKFLOW.md) ("Check the identity before promising anything"), and
+applies to local builds as much as shipped ones.
 
 ## Renaming a shipped app
 
 A rename is a data migration, not a string change. Do it in one pass, in this order: derived spellings
-first (a plural folder name before the bare name, or `Notes` becomes `Ponte`+`s`), then the bare name,
+first (a plural folder name before the bare name, or `Notes` becomes `<NewName>`+`s`), then the bare name,
 then the lowercase ids and paths.
 
 1. **Inventory what carries the name**: `Info.plist` (`CFBundleExecutable/Name/DisplayName/Identifier`),
@@ -615,10 +577,11 @@ then the lowercase ids and paths.
 3. **Migrate defaults with a plist round-trip**, not per-key `defaults write`:
    `defaults export <old-id> - > /tmp/old.plist && defaults import <new-id> /tmp/old.plist` preserves value
    types, where writing a bool as the string `"1"` reads back wrong.
-4. **A new bundle id costs the Accessibility grant, and may not cost the microphone one.** Microphone TCC
-   accepted the new id when the app was signed with the same certificate (recording worked with no prompt);
-   Accessibility is keyed to the bundle id and had to be re-granted, and until it was, the app fell back to
-   the clipboard exactly as designed. Say so in the handover, and keep the old `.app` installed as a fallback
+4. **A new bundle id changes the designated requirement, so expect to re-grant.** The requirement embeds
+   `identifier "<bundle-id>"`, so even with the same certificate the old grants no longer match the renamed
+   app: Accessibility had to be re-granted (until it was, the app fell back to the clipboard exactly as
+   designed), while the microphone happened not to re-prompt — do not promise either way. Read the new
+   requirement with `codesign -d -r-`, say so in the handover, and keep the old `.app` installed as a fallback
    rather than deleting it.
 5. **Verify with a real run**, not by reading the plist: dictate, then confirm the note landed in the _new_
    folder and the log shows the models found (`installed=true`) rather than re-downloaded.
@@ -636,15 +599,8 @@ Accessibility category). Prompt only from an explicit user action (a menu item o
 flips); otherwise fall back silently (clipboard instead of paste) and write one log line plus at most
 one notification per launch. A modal dialog the user cannot connect to an action reads as a bug.
 
-Two more traps:
-
-- Writing into `~/Documents` triggers a **`kTCCServiceSystemPolicyDocumentsFolder`** prompt on first
-  write. Keep generated data under `~/Library/Application Support/<App>/` to avoid a third permission.
-- A key code of `0` is a real key (`kVK_ANSI_A`). Reading defaults with `integer(forKey:)` makes 0
-  indistinguishable from "unset" and silently falls back to the default — use `object(forKey:)`.
-- One physical hotkey press can deliver two events (key down + up, or key repeat). Debounce the action
-  and flip the state variable _synchronously_ before any async work (e.g. a permission request),
-  or a second event inside that window starts a second recording and orphans the first.
+Writing into `~/Documents` triggers a **`kTCCServiceSystemPolicyDocumentsFolder`** prompt on first write.
+Keep generated data under `~/Library/Application Support/<App>/` to avoid a third permission.
 
 ## A settings window for an accessory app
 
@@ -886,41 +842,22 @@ about which half is shareable.
 
 ### SwiftPM details that cost time
 
-- **A path dependency's identity is the directory's basename** (`../Waveform` → `package: "Waveform"`),
-  even when the manifest declares another name (`waveform-ios`).
-- **`platforms: [.macOS(.v15)]` needs `swift-tools-version:6.0`** (`.v15` does not exist in the 5.9 manifest
-  API). Bump the manifest, and pin the app's own target to `.swiftLanguageMode(.v5)` with
-  `swiftSettings` so AppKit code is not dragged into strict-concurrency errors.
-- **Renaming the package directory breaks the artifact cache** (absolute paths stored): `rm -rf .build`.
+- **A path dependency's identity is the directory's basename** (`../Foo` → `package: "Foo"`),
+  even when the manifest declares another name (`foo-ios`).
+- **`platforms: [.macOS(.v15)]` needs `swift-tools-version:6.0`** — see "Package layout" above.
 - **A consumer pins a _tag_, so local package edits are invisible to it until you release one.** Edit the package,
   rebuild the app, and the new API simply "does not exist" — `Package.resolved` still names the old version and the
   build is against that revision. Release, then bump: commit the package, `git tag vX.Y.Z`,
   `git push origin main --tags`, raise the consumer's `from:` to the new version, `swift package update <name>`,
   then read `Package.resolved` back to prove the pin moved. Check `git tag` first — re-tagging a version that already
   exists fails, and the fix is the next number, not a forced tag.
-- **Renaming a published package is a release, not an edit, and it touches five places.** In one pass:
-  `gh repo rename <new>` (run from inside the package directory, without `--repo`), fix the local `origin`,
-  change the manifest's `name:`, then in **every** consumer the dependency URL _and_ each
-  `package: "<old>"` product reference, then sweep the docs. Cut a tag for the new name.
-- **Never rely on GitHub's redirect from the old repo URL to paper over a stale dependency line.** It resolves,
-  which is exactly why a half-finished rename looks finished: consumers keep building against a URL that
-  redirects, and nothing in the build output says the name is wrong. Prove it by grepping the tree for the old
-  name — manifests, docs, comments, test files — and expect a couple of hits in prose a comment sweep missed.
 - **One identity word, chosen once: the package name, the directory basename and the dependency URL should all
   match.** They are three separate strings and drift independently; a manifest that declares `foo-ios` in a
   directory called `foo` forces every consumer to write `package: "Foo"` and read the mismatch as a bug. The
-  word should not name a platform either: a package used on macOS and iOS is `waveform`, not `waveform-ios`,
-  and the rename is cheap while the package is private to your own apps.
-- **A green build is only green for the host platform.** `swift build --sdk … -Xswiftc -target -Xswiftc
-  arm64-apple-ios18.0` prints `Build complete!` while SwiftPM plans for the host and leaves every
-  `#if os(iOS)` file out — a pass that never compiled the code you changed. Build for the target platform
-  with `xcodebuild -scheme <Target> -destination 'generic/platform=iOS' -derivedDataPath /tmp/ios-check
-  build CODE_SIGNING_ALLOWED=NO`, and prove the conditional file compiled by finding its `.o` under the
-  derived data. The summary line is not the evidence; the object file is.
-- **A consumer pins `Package.resolved` in more than one place.** An Xcode workspace and its `.xcodeproj` each
-  carry one, and the project-level one is the copy nobody updates — it can sit two minor versions behind, on
-  a URL that only resolves because GitHub still redirects. `xcodebuild -list -workspace …` re-resolves the
-  workspace (it prints `Checking out <version>`); delete the project-level file rather than hand-editing it.
+  word should not name a platform either: a package used on macOS and iOS is `foo`, not `foo-ios`, and the
+  rename is cheap while the package is private to your own apps.
+- **The false iOS pass, renaming a published package (redirects, every `Package.resolved`) and the
+  directory-rename cache:** [Swift package verification](../swift-package/WORKFLOW.md).
 
 ### SwiftUI inside an existing AppKit panel
 
@@ -1027,12 +964,6 @@ glyph drawn in the wrong quadrant — each renders _something_ and looks intenti
   tolerance, and work the expectation out per segment (frames ÷ _that segment's_ rate) — a format change mid-take
   adds segment durations, and five buffers of 4 800 frames at 24 kHz is a full second, not half of one. When the count
   is off by a few hundred the test is usually the thing that is wrong.
-
-## Renaming a package directory
-
-The SwiftPM artifact cache stores **absolute** paths, so `mv`-ing the package directory breaks the build
-with `There is no XCFramework found at /old/path/...`. `rm -rf .build` and rebuild (it re-fetches any
-binary artifacts). Do this _before_ concluding a rename broke the code.
 
 ## Drawing an animated procedural view
 
@@ -1150,8 +1081,8 @@ version, not two copies**. Their instinct is the right one and they will ask for
 abstract X to a shared tested package that both apps can share?" / "doesn't that code already have this?"
 Treat that as a standing requirement, not a suggestion.
 
-**Before you port anything, check whether it already exists as a package.** `ls ~/Developer`, then for the
-candidate: does it declare `products` in its `Package.swift`, and does it have a git remote with tags?
+**Before you port anything, check whether it already exists as a package.** List the neighbouring projects,
+then for the candidate: does it declare `products` in its `Package.swift`, and does it have a git remote with tags?
 A published, tested package beats a port every time — porting is the fallback for a project with no
 library target. A port is also a _debt_: every fix lands twice, and the copy silently rots.
 
@@ -1226,20 +1157,3 @@ live morph. Full recipes, including the peak-sampling rule and what a vision mod
 The two rules that must not be lost: **a 15 % scale change is invisible to the eye and to a vision model,
 so measure it**, and **a pulse peaks at `start + (n + 0.5) * period`, so sampling at period starts labels
 the troughs as peaks**.
-
-## Reference implementation
-
-`~/Developer/ponte` (was `voice-note`) — menu bar dictation: `⌥⌘Space` record → orb HUD that answers the
-voice → Parakeet on the ANE (the only engine; whisper.cpp was removed as unshippable — see "One engine, unless a
-second one earns its place") → paste at cursor (falls back to clipboard without Accessibility). Useful template for any hotkey + audio + engine accessory app. Its capture now comes from
-the shared `WaveformCapture` package in `~/Developer/Waveform`, alongside `WaveformCore` (analysis) and
-`WaveformUI` (the SwiftUI orb) — the sibling `~/Developer/Thames` uses the same packages. Its git remote is `charlesponti/ponte` — one **public** repository holding the source, the landing page
-(`index.html` at the root, published from `main` by GitHub Pages, no build step) and the releases, with the
-engineering notes in `docs/`. The old private `charlesponti/ponte-macos` is **archived**, and an archived
-repository is read-only in a way that catches you out late: its issues cannot be closed, commented on or edited,
-so work tracked there is frozen and an issue number can no longer record an outcome. Record the outcome in the
-repo's own `docs/` instead, and decide deliberately before moving such issues onto a public repo — that publishes
-engineering notes to the page buyers read. GitHub will not transfer issues private→public, so a move means
-recreating them (which does preserve their numbering if the target has none).
-Releases have to be published on this repository: assets on a private repository are downloadable only by
-collaborators.
