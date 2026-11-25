@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // One utterance, one audio file, one ledger event. The speech entrypoint for every
-// studio tool, including tower-bridge, which calls it once per turn.
+// studio tool, including the video pipeline, which calls it once per turn.
 //
 // stdin:  {"text": "...", "out": "/path/file.mp3", "voice": "Despina", "model": "...", "responseFormat": "pcm"}
 //         model, voice and responseFormat are optional; they default to the
