@@ -16,8 +16,8 @@ metadata:
 `tb` turns an idea, an essay, or an existing script+audio episode into a
 finished 1920×1080 / 30 fps video: a Remotion render reconciled to the master
 audio, captions from word timestamps, and YouTube metadata with chapters.
-Two hosts (Harriet Tower, Ted Bridge). Repo: `~/Developer/tower-bridge`
-(CLI installed editable via `pip install -e .`). Contract: `SPEC.md` in the repo.
+Two hosts (Harriet Tower, Ted Bridge). Repo: `${TB_REPO}` (your local
+`tower-bridge` checkout; CLI installed editable via `pip install -e .`). Contract: `SPEC.md` in the repo.
 
 ## When to Use
 

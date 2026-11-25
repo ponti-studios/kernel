@@ -107,22 +107,22 @@ terminal(command="REVIEW=$(mktemp -d) && git clone https://github.com/user/repo.
 
 ```
 # Create worktrees
-terminal(command="git worktree add -b fix/issue-78 ${HOMINEM_HOME:-~/.hominem}/cache/scratch/issue-78 main", workdir="~/project")
-terminal(command="git worktree add -b fix/issue-99 ${HOMINEM_HOME:-~/.hominem}/cache/scratch/issue-99 main", workdir="~/project")
+terminal(command="git worktree add -b fix/issue-78 ${HOMINEM_HOME:-$HOME/.hominem}/cache/scratch/issue-78 main", workdir="~/project")
+terminal(command="git worktree add -b fix/issue-99 ${HOMINEM_HOME:-$HOME/.hominem}/cache/scratch/issue-99 main", workdir="~/project")
 
 # Launch Codex in each
-terminal(command="codex --sandbox workspace-write exec 'Fix issue #78: <description>. Commit when done.'", workdir="${HOMINEM_HOME:-~/.hominem}/cache/scratch/issue-78", background=true, pty=true)
-terminal(command="codex --sandbox workspace-write exec 'Fix issue #99: <description>. Commit when done.'", workdir="${HOMINEM_HOME:-~/.hominem}/cache/scratch/issue-99", background=true, pty=true)
+terminal(command="codex --sandbox workspace-write exec 'Fix issue #78: <description>. Commit when done.'", workdir="${HOMINEM_HOME:-$HOME/.hominem}/cache/scratch/issue-78", background=true, pty=true)
+terminal(command="codex --sandbox workspace-write exec 'Fix issue #99: <description>. Commit when done.'", workdir="${HOMINEM_HOME:-$HOME/.hominem}/cache/scratch/issue-99", background=true, pty=true)
 
 # Monitor
 process(action="list")
 
 # After completion, push and create PRs
-terminal(command="cd ${HOMINEM_HOME:-~/.hominem}/cache/scratch/issue-78 && git push -u origin fix/issue-78")
+terminal(command="cd ${HOMINEM_HOME:-$HOME/.hominem}/cache/scratch/issue-78 && git push -u origin fix/issue-78")
 terminal(command="gh pr create --repo user/repo --head fix/issue-78 --title 'fix: ...' --body '...'")
 
 # Cleanup
-terminal(command="git worktree remove ${HOMINEM_HOME:-~/.hominem}/cache/scratch/issue-78", workdir="~/project")
+terminal(command="git worktree remove ${HOMINEM_HOME:-$HOME/.hominem}/cache/scratch/issue-78", workdir="~/project")
 ```
 
 ## Batch PR Reviews

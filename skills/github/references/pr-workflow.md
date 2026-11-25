@@ -255,8 +255,8 @@ RUN_ID=<run_id>
 curl -s -L \
   -H "Authorization: token $GITHUB_TOKEN" \
   https://api.github.com/repos/$OWNER/$REPO/actions/runs/$RUN_ID/logs \
-  -o ${HOMINEM_HOME:-~/.hominem}/cache/scratch/ci-logs.zip
-cd ${HOMINEM_HOME:-~/.hominem}/cache/scratch && unzip -o ci-logs.zip -d ci-logs && cat ci-logs/*.txt
+  -o ${HOMINEM_HOME:-$HOME/.hominem}/cache/scratch/ci-logs.zip
+cd ${HOMINEM_HOME:-$HOME/.hominem}/cache/scratch && unzip -o ci-logs.zip -d ci-logs && cat ci-logs/*.txt
 ```
 
 ### Step 2: Fix and Push
