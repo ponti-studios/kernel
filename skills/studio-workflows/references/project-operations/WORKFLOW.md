@@ -18,7 +18,7 @@ Read the matching reference before changing a project. Project identity, lifecyc
 
 Read the applicable file before acting:
 
-- [canon-brand-voice.md](references/canon-brand-voice.md)
+- Brand voice lives in writing-workflows (studio-documents procedure); read it there before writing copy.
 - [canon-current-system.md](references/canon-current-system.md)
 - [canon-maintenance-contract.md](references/canon-maintenance-contract.md)
 - [canon-manifesto.md](references/canon-manifesto.md)

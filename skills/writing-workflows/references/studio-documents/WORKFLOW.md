@@ -8,6 +8,7 @@ defaults for projects that use those conventions.
 - [Engineering document contracts](engineering-documentation-contract.md): architecture and implementation documents.
 - [Product email](product-emails.md): product communication copy.
 - [Marketing](marketing.md): positioning and marketing artifacts.
+- [Brand voice](canon-brand-voice.md): how Ponti Studios speaks; read before writing any studio-facing copy.
 - [Idea validation and PRD](idea-validation-prd-studio.md): the idea-validation product concept. Write PRDs themselves with [Write Docs](../write-docs/references/prd.md).
 
 Project lifecycle and operational changes use studio-workflows. Writing an artifact
