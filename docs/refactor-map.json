@@ -10,7 +10,7 @@
   "film-production": "studio-workflows/references/film-production/WORKFLOW.md",
   "image-model-craft": "studio-workflows/references/image-model-craft/WORKFLOW.md",
   "image-transparent": "studio-workflows/references/image-transparent/WORKFLOW.md",
-  "kernel-animate": "design-workflows/references/kernel-animate/WORKFLOW.md",
+  "kernel-animate": "design-workflows/references/animation/WORKFLOW.md",
   "kernel-audit-integration-security": "security-workflows/references/kernel-audit-integration-security/WORKFLOW.md",
   "kernel-audit-monorepo": "engineering-workflows/references/kernel-audit-monorepo/WORKFLOW.md",
   "kernel-audit-review": "engineering-workflows/references/kernel-audit-review/WORKFLOW.md",

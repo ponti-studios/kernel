@@ -1,4 +1,4 @@
-# Kernel Animate — consolidated motion skill
+# Animation — consolidated motion skill
 
 One skill routing across ten references: build, review, audit-and-plan,
 discovery, and language. Invoke with the animation task or motion question.

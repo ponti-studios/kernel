@@ -144,8 +144,8 @@ not available, give Charles the entry to add.
 
 ## Cross-cutting rules
 
-- **Motion boundary with [kernel-animate](../kernel-animate/WORKFLOW.md).** This skill decides motion values,
-  tokens, and reduced-motion behavior; [kernel-animate](../kernel-animate/WORKFLOW.md) implements and audits
+- **Motion boundary with [animation](../animation/WORKFLOW.md).** This skill decides motion values,
+  tokens, and reduced-motion behavior; [animation](../animation/WORKFLOW.md) implements and audits
   animation code. Neither duplicates the other.
 
 - **Reuse the project’s token system.** Prefer existing shared values and avoid

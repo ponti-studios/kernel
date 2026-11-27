@@ -15,7 +15,7 @@ Tiers: **H** = hermetic/local/$0 · **L** = live account/network · **$** = spen
 - Blockers: review procedures are judgment-only; simulator green never proves device behaviour.
 
 ### design-workflows [H]
-- Entrypoints: `references/kernel-design/WORKFLOW.md`, `references/kernel-animate/WORKFLOW.md`, `references/brand-asset-sourcing/WORKFLOW.md`.
+- Entrypoints: `references/kernel-design/WORKFLOW.md`, `references/animation/WORKFLOW.md`, `references/brand-asset-sourcing/WORKFLOW.md`.
 - Test: `scripts/contrast.py`, `validate_contrast.py`, `validate_tokens.py`, `lint_hardcodes.py`, `design_systems.py` against `tokens/` fixtures (positive + negative hardcoded-hex fixture); brand-asset 8-step: inventory strings → resolve → download → `logos.json` manifest → `xml.dom.minidom` parse SVGs + raster ≥64px check.
 - Prereqs: `python3` only (+ `git/curl` + network for brand-asset).
 - Pass: validators exit 0 on good fixtures, non-zero on bad; `logos.json` covers 100% raw strings; all SVGs parse.
